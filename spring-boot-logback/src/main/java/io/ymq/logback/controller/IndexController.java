@@ -20,7 +20,7 @@ public class IndexController {
     private static final Logger LOGGER = LoggerFactory.getLogger(IndexController.class);
 
     /**
-     * http://127.0.0.1:8080/index/?content="我是测试内容"
+     * http://127.0.0.1:/index/?content="我是测试内容"
      *
      * @param content
      * @return
