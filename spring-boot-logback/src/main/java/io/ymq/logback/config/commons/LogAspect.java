@@ -1,8 +1,8 @@
-package io.ymq.logback.config;
+package io.ymq.logback.config.commons;
 
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.serializer.SerializerFeature;
-import io.ymq.logback.config.annotation.*;
+import io.ymq.logback.config.annotation.Log;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -27,7 +27,7 @@ public class LogAspect {
     private static final String STRING_START = "\n>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>\n";
     private static final String STRING_END   = "\n<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<\n";
 
-    @Pointcut("execution(* io.ymq.logback..*(..))")
+    @Pointcut("execution(* io.ymq.logback.controller..*(..))")
     public void serviceLog() {
     }
 

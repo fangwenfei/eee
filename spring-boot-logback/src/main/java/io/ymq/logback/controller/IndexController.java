@@ -30,8 +30,8 @@ public class IndexController {
     public String index(@RequestParam String content) {
         LocalDateTime localDateTime = LocalDateTime.now();
 
-        LOGGER.info("测试 logback：{},content:{}", localDateTime, content);
+        LOGGER.info("请求参数：content:{}", content);
 
-        return "测试 logback：" + localDateTime + ",content:" + content;
+        return localDateTime + ",content:" + content;
     }
 }
