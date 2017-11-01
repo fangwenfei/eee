@@ -30,4 +30,4 @@
 
 ### spring-boot-logback
 
-[Spring Boot 中使用 logback  笔记未更新 ]()
+[Spring Boot 中使用 logback  配置 ](http://www.ymq.io/2017/10/30/spring-boot-logback-example/)

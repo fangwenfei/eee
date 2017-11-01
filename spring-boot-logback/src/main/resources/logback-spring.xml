@@ -2,10 +2,10 @@
 <configuration>
 
     <!-- 日志根目录-->
-    <springProperty scope="context" name="LOG_HOME" source="log.home" defaultValue="/data/logs/spring-boot-logback"/>
+    <springProperty scope="context" name="LOG_HOME" source="logging.path" defaultValue="/data/logs/spring-boot-logback"/>
 
     <!-- 日志级别 -->
-    <springProperty scope="context" name="LOG_ROOT_LEVEL" source="log.level" defaultValue="DEBUG"/>
+    <springProperty scope="context" name="LOG_ROOT_LEVEL" source="logging.level.root" defaultValue="DEBUG"/>
 
     <!--  标识这个"STDOUT" 将会添加到这个logger -->
     <springProperty scope="context" name="STDOUT" source="log.stdout" defaultValue="STDOUT"/>

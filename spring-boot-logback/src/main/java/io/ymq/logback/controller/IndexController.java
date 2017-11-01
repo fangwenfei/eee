@@ -17,10 +17,10 @@ import java.time.LocalDateTime;
 @RequestMapping(value = "/index")
 public class IndexController {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(IndexController.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(this.getClass());
 
     /**
-     * http://127.0.0.1:/index/?content="我是测试内容"
+     * http://127.0.0.1:8080/index/?content="我是测试内容"
      *
      * @param content
      * @return
@@ -30,7 +30,11 @@ public class IndexController {
     public String index(@RequestParam String content) {
         LocalDateTime localDateTime = LocalDateTime.now();
 
+        LOGGER.trace("请求参数：content:{}", content);
+        LOGGER.debug("请求参数：content:{}", content);
         LOGGER.info("请求参数：content:{}", content);
+        LOGGER.warn("请求参数：content:{}", content);
+        LOGGER.error("请求参数：content:{}", content);
 
         return localDateTime + ",content:" + content;
     }
