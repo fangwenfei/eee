@@ -10,9 +10,11 @@ import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.slf4j.MDC;
 import org.springframework.stereotype.Component;
 
 import java.lang.reflect.Method;
+import java.util.UUID;
 
 
 /**
@@ -27,13 +29,22 @@ public class LogAspect {
     private static final String STRING_START = "\n>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>\n";
     private static final String STRING_END   = "\n<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<\n";
 
-    @Pointcut("execution(* io.ymq.logback.controller..*(..))")
+    @Pointcut("execution(* io.ymq.logback..*(..))")
     public void serviceLog() {
     }
 
     @Around("serviceLog()")
     public Object around(ProceedingJoinPoint joinPoint) {
         try {
+
+            String requestUUID = MDC.get("requestUUID");
+            if (requestUUID == null || "".equals(requestUUID)) {
+                String uuid = UUID.randomUUID().toString();
+                uuid = uuid.replaceAll("-", "").toUpperCase();
+                MDC.put("requestUUID", uuid);
+                log.info("around 在请求处理之前生成 logback requestUUID:{}", uuid);
+            }
+
             MethodSignature signature = (MethodSignature) joinPoint.getSignature();
             Method method = signature.getMethod();
             Class<?> targetClass = method.getDeclaringClass();

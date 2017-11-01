@@ -40,15 +40,16 @@ public class ControllerInterceptor extends HandlerInterceptorAdapter {
     @Override
     public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
         /* 线程结束后需要清除,否则当前线程会一直占用这个requestId值 */
-        MDC.remove("requestUUID");
         LOGGER.info("ControllerInterceptor postHandle 请求处理之后清除 logback MDC requestUUID");
+        MDC.remove("requestUUID");
     }
 
     //整个请求处理完毕回调方法
     @Override
     public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
         /*整个请求线程结束后需要清除,否则当前线程会一直占用这个requestId值 */
-        MDC.clear();
         LOGGER.info("ControllerInterceptor afterCompletion 整个请求处理完毕清除 logback MDC requestUUID");
+        MDC.clear();
+
     }
 }
