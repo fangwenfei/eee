@@ -1,10 +1,18 @@
 package io.ymq.example.elasticsearch;
 
 
+import com.alibaba.fastjson.JSONObject;
 import io.ymq.example.elasticsearch.run.Startup;
+import org.elasticsearch.action.ActionFuture;
+
+import org.elasticsearch.action.admin.indices.delete.DeleteIndexRequest;
+import org.elasticsearch.action.admin.indices.delete.DeleteIndexResponse;
+import org.elasticsearch.action.delete.DeleteResponse;
 import org.elasticsearch.action.index.IndexResponse;
 import org.elasticsearch.action.search.SearchRequestBuilder;
 import org.elasticsearch.action.search.SearchResponse;
+import org.elasticsearch.action.update.UpdateRequest;
+import org.elasticsearch.action.update.UpdateResponse;
 import org.elasticsearch.client.transport.TransportClient;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.SearchHit;
@@ -43,6 +51,7 @@ public class BaseTests {
      **/
     @Test
     public void createData() {
+
         Map<String, Object> map = new HashMap<String, Object>();
 
         map.put("name", "鹏磊");
@@ -50,18 +59,60 @@ public class BaseTests {
         map.put("interests", new String[]{"阅读", "学习"});
         map.put("about", "我是鹏磊，认识自己的无知是认识世界的最可靠的方法。");
 
-        /*
-        map.put("name", "鹏磊");
-        map.put("age", 21);
-        map.put("interests", new String[]{"阅读", "学习"});
-        map.put("about", "我是鹏磊，世界上没有优秀的理念，只有脚踏实地的结果");
-        */
-
         IndexResponse response = transportClient.prepareIndex("about_index", "about", UUID.randomUUID().toString()).setSource(map).get();
 
-        System.out.println("写入数据结果=" + response.status().getStatus() + "！id=" + response.getId());
+        System.out.println("写入数据结果=" + response.status().getStatus() + "，id=" + response.getId());
     }
 
+
+    @Test
+    public void deleteData() {
+
+        Map<String, Object> map = new HashMap<String, Object>();
+
+        map.put("name", "鹏磊");
+        map.put("age", 24);
+        map.put("interests", new String[]{"阅读", "学习"});
+        map.put("about", "我是即将要删除的数据");
+
+        IndexResponse indexResponse = transportClient.prepareIndex("about_index", "about", UUID.randomUUID().toString()).setSource(map).get();
+
+        System.out.println("写入数据结果=" + indexResponse.status().getStatus() + "！id=" + indexResponse.getId());
+
+        DeleteResponse deleteResponse = transportClient.prepareDelete("about_index", "about", indexResponse.getId().toString()).execute().actionGet();
+
+        System.out.println("删除数据结果=" + deleteResponse.status().getStatus() + "，id=" + deleteResponse.getId());
+    }
+
+
+    @Test
+    public void updateData() {
+
+        Map<String, Object> map = new HashMap<String, Object>();
+
+        map.put("name", "鹏磊");
+        map.put("age", 24);
+        map.put("interests", new String[]{"阅读", "学习"});
+        map.put("about", "我是更新后的数据!");
+
+        UpdateRequest updateRequest = new UpdateRequest();
+
+        updateRequest.index("about_index").type("about").id("72c7aaac-bdaf-418c-b1bd-185558d2b231").doc(map);
+
+        transportClient.update(updateRequest);
+
+    }
+
+    /**
+     * 删除整个索引
+     */
+    @Test
+    public void deleteIndex() {
+
+        DeleteIndexResponse deleteIndexResponse = transportClient.admin().indices().delete(new DeleteIndexRequest("book_index")).actionGet();
+
+        System.out.println("删除数据结果=" + JSONObject.toJSONString(deleteIndexResponse));
+    }
 
     /**
      * match 使用，会被分词查询
