@@ -59,9 +59,10 @@ public class BaseTests {
         map.put("interests", new String[]{"阅读", "学习"});
         map.put("about", "我是鹏磊，认识自己的无知是认识世界的最可靠的方法。");
 
-        IndexResponse response = transportClient.prepareIndex("about_index", "about", UUID.randomUUID().toString()).setSource(map).get();
+        IndexResponse response = transportClient.prepareIndex("about_index", "about", UUID.randomUUID().toString().replaceAll("-", "").toUpperCase()).setSource(map).get();
 
         System.out.println("写入数据结果=" + response.status().getStatus() + "，id=" + response.getId());
+
     }
 
 
