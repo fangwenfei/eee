@@ -4,11 +4,11 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>io.ymq.example</groupId>
-	<artifactId>elasticsearch</artifactId>
+	<artifactId>spring-boot-elasticsearch-demo</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
-	<name>elasticsearch</name>
+	<name>spring-boot-elasticsearch-demo</name>
 	<description>Demo project for Spring Boot</description>
 
 	<parent>
