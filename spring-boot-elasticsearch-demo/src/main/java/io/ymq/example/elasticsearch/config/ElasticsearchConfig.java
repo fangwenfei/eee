@@ -19,7 +19,6 @@ import java.net.InetAddress;
  * @author yanpenglei
  * @create 2017-11-02 16:41
  **/
-@Component
 @Configuration
 public class ElasticsearchConfig {
 

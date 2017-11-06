@@ -150,7 +150,7 @@ public class ElasticsearchUtilsTest {
      * <p>
      * index          索引名称
      * type           类型名称,可传入多个type逗号分隔
-     * currentPage    起始条数
+     * currentPage    当前页
      * pageSize       每页显示条数
      * startTime      开始时间
      * endTime        结束时间
