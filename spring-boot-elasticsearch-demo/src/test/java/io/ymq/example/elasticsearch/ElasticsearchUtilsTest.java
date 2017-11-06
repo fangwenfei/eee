@@ -137,7 +137,7 @@ public class ElasticsearchUtilsTest {
     @Test
     public void searchListData() {
 
-        List<Map<String, Object>> list = ElasticsearchUtils.searchListData("ymq_index", "about_test", 1509959382607l, 1509959383865l, 0, "", "", false, "", "name=鹏磊");
+        List<Map<String, Object>> list = ElasticsearchUtils.searchListData("ymq_index", "about_test", 0, 0, 0, "", "", false, "", "name=鹏磊");
 
         for (Map<String, Object> item : list) {
 
@@ -163,7 +163,7 @@ public class ElasticsearchUtilsTest {
     @Test
     public void searchDataPage() {
 
-        EsPage esPage = ElasticsearchUtils.searchDataPage("ymq_index", "about_test", 10, 5, 1509943495299l, 1509943497954l, "", "processTime", false, "about", "about=鹏磊");
+        EsPage esPage = ElasticsearchUtils.searchDataPage("ymq_index", "about_test", 10, 5, 0, 0, "", "processTime", false, "about", "about=鹏磊");
 
         for (Map<String, Object> item : esPage.getRecordList()) {
 
