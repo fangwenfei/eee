@@ -146,8 +146,8 @@ public class BaseTests {
      */
     @Test
     public void matchPhrase() {
-        SearchRequestBuilder requestBuilder = transportClient.prepareSearch("about_index").setTypes("about")
-                .setQuery(QueryBuilders.matchPhraseQuery("about", "鹏磊"));
+        SearchRequestBuilder requestBuilder = transportClient.prepareSearch("about_test").setTypes("about_test")
+                .setQuery(QueryBuilders.matchPhraseQuery("name", "鹏磊1"));
         System.out.println(requestBuilder.toString());
 
         SearchResponse response = requestBuilder.execute().actionGet();

@@ -50,7 +50,7 @@ public class ElasticsearchUtilsTest {
     @Test
     public void searchListData() {
 
-        List<Map<String, Object>> list = ElasticsearchUtils.searchListData("about_test", "about_test", 1509943495299l, 1509943497954l,0, "", "processTime", "about", "about=自己");
+        List<Map<String, Object>> list = ElasticsearchUtils.searchListData("about_test", "about_test", 0, "", "", true, "", "name=鹏磊1");
 
         for (Map<String, Object> item : list) {
 
@@ -62,7 +62,7 @@ public class ElasticsearchUtilsTest {
     @Test
     public void searchDataPage() {
 
-        EsPage esPage = ElasticsearchUtils.searchDataPage("about_test", "about_test", 10, 5, 1509943495299l, 1509943497954l, "", "processTime", "about", "about=鹏磊");
+        EsPage esPage = ElasticsearchUtils.searchDataPage("about_test", "about_test", 10, 5, 1509943495299l, 1509943497954l, "", "processTime", false, "about", "about=鹏磊");
 
         for (Map<String, Object> item : esPage.getRecordList()) {
 
