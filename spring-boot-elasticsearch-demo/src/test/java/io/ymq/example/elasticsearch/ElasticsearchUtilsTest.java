@@ -137,13 +137,12 @@ public class ElasticsearchUtilsTest {
     @Test
     public void searchListData() {
 
-        List<Map<String, Object>> list = ElasticsearchUtils.searchListData("ymq_index", "about_test", 1509943495299l, 1509943497954l, 0, "", "", true, "", "name=鹏磊1");
+        List<Map<String, Object>> list = ElasticsearchUtils.searchListData("ymq_index", "about_test", 1509959382607l, 1509959383865l, 0, "", "", false, "", "name=鹏磊");
 
         for (Map<String, Object> item : list) {
 
             System.out.println(JSONObject.toJSONString(item));
         }
-
     }
 
     /**
