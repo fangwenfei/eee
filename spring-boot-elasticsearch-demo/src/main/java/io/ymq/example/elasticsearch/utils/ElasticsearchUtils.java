@@ -12,21 +12,24 @@ import org.elasticsearch.action.get.GetResponse;
 import org.elasticsearch.action.index.IndexResponse;
 import org.elasticsearch.action.search.SearchRequestBuilder;
 import org.elasticsearch.action.search.SearchResponse;
+import org.elasticsearch.action.search.SearchType;
 import org.elasticsearch.action.update.UpdateRequest;
 import org.elasticsearch.client.transport.TransportClient;
+import org.elasticsearch.common.text.Text;
 import org.elasticsearch.index.query.BoolQueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.SearchHit;
+import org.elasticsearch.search.SearchHits;
+import org.elasticsearch.search.fetch.subphase.highlight.HighlightBuilder;
+import org.elasticsearch.search.fetch.subphase.highlight.HighlightField;
 import org.elasticsearch.search.sort.SortOrder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 
 /**
@@ -35,6 +38,7 @@ import java.util.UUID;
  * @author yanpenglei
  * @create 2017-11-04 11:20
  **/
+@Component
 public class ElasticsearchUtils {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ElasticsearchUtils.class);
@@ -190,45 +194,64 @@ public class ElasticsearchUtils {
      * @return
      */
     public static List<Map<String, Object>> searchListData(String index, String type, String fields, String matchStr) {
-        return searchListData(index, type, null, fields, matchStr);
+        return searchListData(index, type, 0, 0, null, fields, null, null, matchStr);
     }
-
-
-    /**
-     * 使用分词查询
-     *
-     * @param index    索引名称
-     * @param type     类型名称,可传入多个type逗号分隔
-     * @param size     文档大小限制
-     * @param fields   需要的字段，逗号分隔（缺省为全部字段）
-     * @param matchStr 过滤条件（xxx=111,aaa=222）
-     * @return
-     */
-    public static List<Map<String, Object>> searchListData(String index, String type, Integer size, String fields, String matchStr) {
-        return searchListData(index, type, 0, 0, size, fields, matchStr);
-    }
-
 
     /**
      * 使用分词查询
      *
      * @param index     索引名称
      * @param type      类型名称,可传入多个type逗号分隔
-     * @param startTime 开始时间
-     * @param endTime   结束时间
-     * @param size      文档大小限制
      * @param fields    需要的字段，逗号分隔（缺省为全部字段）
+     * @param sortField 排序字段
      * @param matchStr  过滤条件（xxx=111,aaa=222）
      * @return
      */
-    public static List<Map<String, Object>> searchListData(String index, String type, long startTime, long endTime, Integer size, String fields, String matchStr) {
-        SearchRequestBuilder searchRequest = client.prepareSearch(index);
+    public static List<Map<String, Object>> searchListData(String index, String type, String fields, String sortField, String matchStr) {
+        return searchListData(index, type, 0, 0, null, fields, sortField, null, matchStr);
+    }
+
+
+    /**
+     * 使用分词查询
+     *
+     * @param index          索引名称
+     * @param type           类型名称,可传入多个type逗号分隔
+     * @param size           文档大小限制
+     * @param fields         需要的字段，逗号分隔（缺省为全部字段）
+     * @param sortField      排序字段
+     * @param highlightField 高亮字段
+     * @param matchStr       过滤条件（xxx=111,aaa=222）
+     * @return
+     */
+    public static List<Map<String, Object>> searchListData(String index, String type, Integer size, String fields, String sortField, String highlightField, String matchStr) {
+        return searchListData(index, type, 0, 0, size, fields, sortField, highlightField, matchStr);
+    }
+
+
+    /**
+     * 使用分词查询
+     *
+     * @param index          索引名称
+     * @param type           类型名称,可传入多个type逗号分隔
+     * @param startTime      开始时间
+     * @param endTime        结束时间
+     * @param size           文档大小限制
+     * @param fields         需要的字段，逗号分隔（缺省为全部字段）
+     * @param sortField      排序字段
+     * @param highlightField 高亮字段
+     * @param matchStr       过滤条件（xxx=111,aaa=222）
+     * @return
+     */
+    public static List<Map<String, Object>> searchListData(String index, String type, long startTime, long endTime, Integer size, String fields, String sortField, String highlightField, String matchStr) {
+
+        SearchRequestBuilder searchRequestBuilder = client.prepareSearch(index);
         if (StringUtils.isNotEmpty(type)) {
-            searchRequest.setTypes(type.split(","));
+            searchRequestBuilder.setTypes(type.split(","));
         }
         BoolQueryBuilder boolQuery = QueryBuilders.boolQuery();
 
-        if (startTime >= 0 && endTime >= 0) {
+        if (startTime > 0 && endTime > 0) {
             boolQuery.must(QueryBuilders.rangeQuery("processTime")
                     .format("epoch_millis")
                     .from(startTime)
@@ -237,6 +260,7 @@ public class ElasticsearchUtils {
                     .includeUpper(true));
         }
 
+        //搜索的的字段
         if (StringUtils.isNotEmpty(matchStr)) {
             for (String s : matchStr.split(",")) {
                 String[] ss = s.split("=");
@@ -246,49 +270,171 @@ public class ElasticsearchUtils {
             }
         }
 
-        searchRequest.setQuery(boolQuery);
-        if (StringUtils.isNotEmpty(fields)) {
-            searchRequest.setFetchSource(fields.split(","), null);
+        // 高亮（xxx=111,aaa=222）
+        if (StringUtils.isNotEmpty(highlightField)) {
+            HighlightBuilder highlightBuilder = new HighlightBuilder();
+
+            //highlightBuilder.preTags("<span style='color:red' >");//设置前缀
+            //highlightBuilder.postTags("</span>");//设置后缀
+
+            // 设置高亮字段
+            highlightBuilder.field(highlightField);
+            searchRequestBuilder.highlighter(highlightBuilder);
         }
-        searchRequest.setFetchSource(true);
-        List<Map<String, Object>> listSource = new ArrayList<Map<String, Object>>();
-        try {
-            SearchResponse searchResponse = null;
 
-            if (size != null || size > 0) {
-                searchRequest
-                        .addSort("timestamp", SortOrder.DESC)
-                        .setSize(size)
-                        .execute()
-                        .actionGet();
-            } else {
-                searchRequest
-                        .addSort("timestamp", SortOrder.DESC)
-                        .execute()
-                        .actionGet();
-            }
+        searchRequestBuilder.setQuery(boolQuery);
 
-            long totalHits = searchResponse.getHits().totalHits;
-            long length = searchResponse.getHits().getHits().length;
+        if (StringUtils.isNotEmpty(fields)) {
+            searchRequestBuilder.setFetchSource(fields.split(","), null);
+        }
+        searchRequestBuilder.setFetchSource(true);
 
-            LOGGER.debug("共查询到[{}]条数据,处理数据条数[{}]", totalHits, length);
+        if (StringUtils.isNotEmpty(sortField)) {
+            searchRequestBuilder.addSort(sortField, SortOrder.DESC);
+        }
 
-            if (searchResponse.status().getStatus() == 200) {
+        if (size != null && size > 0) {
+            searchRequestBuilder.setSize(size);
+        }
 
+        SearchResponse searchResponse = searchRequestBuilder.execute().actionGet();
 
-                for (SearchHit searchHitFields : searchResponse.getHits().getHits()) {
-                    searchHitFields.getSource().put("id", searchHitFields.getId());
-                    listSource.add(searchHitFields.getSource());
+        long totalHits = searchResponse.getHits().totalHits;
+        long length = searchResponse.getHits().getHits().length;
+
+        LOGGER.debug("共查询到[{}]条数据,处理数据条数[{}]", totalHits, length);
+
+        if (searchResponse.status().getStatus() == 200) {
+            // 解析对象
+            return setSearchResponse(searchResponse, highlightField);
+        }
+
+        return null;
+
+    }
+
+    /**
+     * 使用分词查询,并分页
+     *
+     * @param index          索引名称
+     * @param type           类型名称,可传入多个type逗号分隔
+     * @param currentPage    起始条数
+     * @param pageSize       每页显示条数
+     * @param startTime      开始时间
+     * @param endTime        结束时间
+     * @param fields         需要的字段，逗号分隔（缺省为全部字段）
+     * @param sortField      排序字段
+     * @param highlightField 高亮字段
+     * @param matchStr       过滤条件（xxx=111,aaa=222）
+     * @return
+     */
+    public static EsPage searchDataPage(String index, String type, int currentPage, int pageSize, long startTime, long endTime, String fields, String sortField, String highlightField, String matchStr) {
+        SearchRequestBuilder searchRequestBuilder = client.prepareSearch(index);
+        if (StringUtils.isNotEmpty(type)) {
+            searchRequestBuilder.setTypes(type.split(","));
+        }
+        searchRequestBuilder.setSearchType(SearchType.QUERY_THEN_FETCH);
+
+        if (StringUtils.isNotEmpty(fields)) {
+            searchRequestBuilder.setFetchSource(fields.split(","), null);
+        }
+
+        if (StringUtils.isNotEmpty(sortField)) {
+            searchRequestBuilder.addSort(sortField, SortOrder.DESC);
+        }
+
+        BoolQueryBuilder boolQuery = QueryBuilders.boolQuery();
+
+        if (startTime > 0 && endTime > 0) {
+            boolQuery.must(QueryBuilders.rangeQuery("processTime")
+                    .format("epoch_millis")
+                    .from(startTime)
+                    .to(endTime)
+                    .includeLower(true)
+                    .includeUpper(true));
+        }
+
+        // 查询字段
+        if (StringUtils.isNotEmpty(matchStr)) {
+            for (String s : matchStr.split(",")) {
+                String[] ss = s.split("=");
+                if (ss.length > 1) {
+                    boolQuery.must(QueryBuilders.matchQuery(s.split("=")[0], s.split("=")[1]));
                 }
             }
-
-        } catch (Exception e) {
-            e.printStackTrace();
         }
 
-        LOGGER.info("searchListData response size:{}", listSource.size());
+        // 高亮（xxx=111,aaa=222）
+        if (StringUtils.isNotEmpty(highlightField)) {
+            HighlightBuilder highlightBuilder = new HighlightBuilder();
 
-        return listSource;
+            //highlightBuilder.preTags("<span style='color:red' >");//设置前缀
+            //highlightBuilder.postTags("</span>");//设置后缀
+
+            // 设置高亮字段
+            highlightBuilder.field(highlightField);
+            searchRequestBuilder.highlighter(highlightBuilder);
+        }
+
+        searchRequestBuilder.setQuery(QueryBuilders.matchAllQuery());
+        searchRequestBuilder.setQuery(boolQuery);
+
+        // 分页应用
+        searchRequestBuilder.setFrom(currentPage).setSize(pageSize);
+
+        // 设置是否按查询匹配度排序
+        searchRequestBuilder.setExplain(true);
+
+        // 执行搜索,返回搜索响应信息
+        SearchResponse searchResponse = searchRequestBuilder.execute().actionGet();
+
+        long totalHits = searchResponse.getHits().totalHits;
+        long length = searchResponse.getHits().getHits().length;
+
+        LOGGER.debug("共查询到[{}]条数据,处理数据条数[{}]", totalHits, length);
+
+        if (searchResponse.status().getStatus() == 200) {
+            // 解析对象
+            List<Map<String, Object>> sourceList = setSearchResponse(searchResponse, highlightField);
+
+            return new EsPage(currentPage, pageSize, (int) totalHits, sourceList);
+        }
+
+        return null;
+
     }
+
+    /**
+     * 高亮结果集 特殊处理
+     *
+     * @param searchResponse
+     * @param highlightField
+     */
+    private static List<Map<String, Object>> setSearchResponse(SearchResponse searchResponse, String highlightField) {
+        List<Map<String, Object>> sourceList = new ArrayList<Map<String, Object>>();
+        StringBuffer stringBuffer = new StringBuffer();
+
+        for (SearchHit searchHit : searchResponse.getHits().getHits()) {
+            searchHit.getSource().put("id", searchHit.getId());
+
+            if (StringUtils.isNotEmpty(highlightField)) {
+
+                System.out.println("遍历 高亮结果集，覆盖 正常结果集" + searchHit.getSource());
+                Text[] text = searchHit.getHighlightFields().get(highlightField).getFragments();
+
+                if (text != null) {
+                    for (Text str : text) {
+                        stringBuffer.append(str.string());
+                    }
+                    //遍历 高亮结果集，覆盖 正常结果集
+                    searchHit.getSource().put(highlightField, stringBuffer.toString());
+                }
+            }
+            sourceList.add(searchHit.getSource());
+        }
+
+        return sourceList;
+    }
+
 
 }

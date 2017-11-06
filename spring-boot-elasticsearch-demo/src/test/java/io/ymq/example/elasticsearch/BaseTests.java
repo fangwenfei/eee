@@ -120,8 +120,9 @@ public class BaseTests {
      */
     @Test
     public void match() {
-        SearchRequestBuilder requestBuilder = transportClient.prepareSearch("about_index").setTypes("about")
-                .setQuery(QueryBuilders.matchQuery("about", "鹏磊"));
+
+        SearchRequestBuilder requestBuilder = transportClient.prepareSearch("about_test").setTypes("about_test")
+                .setQuery(QueryBuilders.matchQuery("name", "1"));
         System.out.println(requestBuilder.toString());
 
         SearchResponse response = requestBuilder.execute().actionGet();
@@ -164,7 +165,7 @@ public class BaseTests {
     }
 
     /**
-     * 高亮显示
+     * 高亮显示HighlightBuilder
      */
     @Test
     public void highlight() {
@@ -174,8 +175,8 @@ public class BaseTests {
         highlightBuilder.field("about");
         // highlightBuilder.fragmenter(FragmentSettings.SPAN)
         // .fragmentSize(FragmentSettings.HIGHLIGHT_MAX_WORDS).numOfFragments(5);
-        SearchRequestBuilder requestBuilder = transportClient.prepareSearch("about_index").setTypes("about")
-                .setQuery(QueryBuilders.matchPhraseQuery("about", "鹏磊")).highlighter(highlightBuilder);
+        SearchRequestBuilder requestBuilder = transportClient.prepareSearch("about_test").setTypes("about_test")
+                .setQuery(QueryBuilders.matchPhraseQuery("about", "鹏")).highlighter(highlightBuilder);
         System.out.println(requestBuilder.toString());
 
         SearchResponse response = requestBuilder.execute().actionGet();
