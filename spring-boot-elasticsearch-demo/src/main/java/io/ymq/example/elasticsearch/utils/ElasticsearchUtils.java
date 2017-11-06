@@ -3,17 +3,20 @@ package io.ymq.example.elasticsearch.utils;
 
 import com.alibaba.fastjson.JSONObject;
 import org.apache.commons.lang3.StringUtils;
+import org.elasticsearch.action.ActionFuture;
 import org.elasticsearch.action.admin.indices.create.CreateIndexResponse;
 import org.elasticsearch.action.admin.indices.delete.DeleteIndexResponse;
 import org.elasticsearch.action.admin.indices.exists.indices.IndicesExistsRequest;
 import org.elasticsearch.action.admin.indices.exists.indices.IndicesExistsResponse;
 import org.elasticsearch.action.delete.DeleteResponse;
+import org.elasticsearch.action.get.GetRequestBuilder;
 import org.elasticsearch.action.get.GetResponse;
 import org.elasticsearch.action.index.IndexResponse;
 import org.elasticsearch.action.search.SearchRequestBuilder;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.action.search.SearchType;
 import org.elasticsearch.action.update.UpdateRequest;
+import org.elasticsearch.action.update.UpdateResponse;
 import org.elasticsearch.client.transport.TransportClient;
 import org.elasticsearch.common.text.Text;
 import org.elasticsearch.index.query.BoolQueryBuilder;
@@ -105,7 +108,7 @@ public class ElasticsearchUtils {
     }
 
     /**
-     * 单个数据添加
+     * 数据添加，正定ID
      *
      * @param jsonObject 要增加的数据
      * @param index      索引，类似数据库
@@ -113,24 +116,24 @@ public class ElasticsearchUtils {
      * @param id         数据ID
      * @return
      */
-    public static Integer addData(JSONObject jsonObject, String index, String type, String id) {
+    public static String addData(JSONObject jsonObject, String index, String type, String id) {
 
         IndexResponse response = client.prepareIndex(index, type, id).setSource(jsonObject).get();
 
         LOGGER.info("addData response status:{},id:{}", response.status().getStatus(), response.getId());
 
-        return response.status().getStatus();
+        return response.getId();
     }
 
     /**
-     * 单个数据添加
+     * 数据添加
      *
      * @param jsonObject 要增加的数据
      * @param index      索引，类似数据库
      * @param type       类型，类似表
      * @return
      */
-    public static Integer addData(JSONObject jsonObject, String index, String type) {
+    public static String addData(JSONObject jsonObject, String index, String type) {
         return addData(jsonObject, index, type, UUID.randomUUID().toString().replaceAll("-", "").toUpperCase());
     }
 
@@ -178,8 +181,14 @@ public class ElasticsearchUtils {
      */
     public static Map<String, Object> searchDataById(String index, String type, String id, String fields) {
 
-        GetResponse getResponse = client.prepareGet(index, type, id).setFetchSource(fields.split(","), null).get();
-        LOGGER.info("searchDataById response :{}", getResponse.getSourceAsString());
+        GetRequestBuilder getRequestBuilder = client.prepareGet(index, type, id);
+
+        if (StringUtils.isNotEmpty(fields)) {
+            getRequestBuilder.setFetchSource(fields.split(","), null);
+        }
+
+        GetResponse getResponse =  getRequestBuilder.execute().actionGet();
+
         return getResponse.getSource();
     }
 
