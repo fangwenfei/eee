@@ -181,7 +181,7 @@ public class ElasticsearchUtils {
 
 
     /**
-     * 使用分词查询,默认10条
+     * 使用分词查询
      *
      * @param index    索引名称
      * @param type     类型名称,可传入多个type逗号分隔
@@ -190,7 +190,7 @@ public class ElasticsearchUtils {
      * @return
      */
     public static List<Map<String, Object>> searchListData(String index, String type, String fields, String matchStr) {
-        return searchListData(index, type, 10, fields, matchStr);
+        return searchListData(index, type, null, fields, matchStr);
     }
 
 
@@ -204,7 +204,7 @@ public class ElasticsearchUtils {
      * @param matchStr 过滤条件（xxx=111,aaa=222）
      * @return
      */
-    public static List<Map<String, Object>> searchListData(String index, String type, int size, String fields, String matchStr) {
+    public static List<Map<String, Object>> searchListData(String index, String type, Integer size, String fields, String matchStr) {
         return searchListData(index, type, 0, 0, size, fields, matchStr);
     }
 
@@ -221,7 +221,7 @@ public class ElasticsearchUtils {
      * @param matchStr  过滤条件（xxx=111,aaa=222）
      * @return
      */
-    public static List<Map<String, Object>> searchListData(String index, String type, long startTime, long endTime, int size, String fields, String matchStr) {
+    public static List<Map<String, Object>> searchListData(String index, String type, long startTime, long endTime, Integer size, String fields, String matchStr) {
         SearchRequestBuilder searchRequest = client.prepareSearch(index);
         if (StringUtils.isNotEmpty(type)) {
             searchRequest.setTypes(type.split(","));
@@ -251,23 +251,31 @@ public class ElasticsearchUtils {
             searchRequest.setFetchSource(fields.split(","), null);
         }
         searchRequest.setFetchSource(true);
-        List<Map<String, Object>> listSource = null;
+        List<Map<String, Object>> listSource = new ArrayList<Map<String, Object>>();
         try {
+            SearchResponse searchResponse = null;
 
-            SearchResponse searchResponse = searchRequest
-                    .addSort("timestamp", SortOrder.DESC)
-                    .setSize(size)
-                    .execute()
-                    .actionGet();
+            if (size != null || size > 0) {
+                searchRequest
+                        .addSort("timestamp", SortOrder.DESC)
+                        .setSize(size)
+                        .execute()
+                        .actionGet();
+            } else {
+                searchRequest
+                        .addSort("timestamp", SortOrder.DESC)
+                        .execute()
+                        .actionGet();
+            }
 
             long totalHits = searchResponse.getHits().totalHits;
             long length = searchResponse.getHits().getHits().length;
 
             LOGGER.debug("共查询到[{}]条数据,处理数据条数[{}]", totalHits, length);
 
-            listSource = new ArrayList<Map<String, Object>>();
-
             if (searchResponse.status().getStatus() == 200) {
+
+
                 for (SearchHit searchHitFields : searchResponse.getHits().getHits()) {
                     searchHitFields.getSource().put("id", searchHitFields.getId());
                     listSource.add(searchHitFields.getSource());
@@ -277,6 +285,8 @@ public class ElasticsearchUtils {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+        LOGGER.info("searchListData response size:{}", listSource.size());
 
         return listSource;
     }
