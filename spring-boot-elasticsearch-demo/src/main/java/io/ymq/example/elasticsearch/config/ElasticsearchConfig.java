@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component;
 import java.net.InetAddress;
 
 /**
- * 描述:
+ * 描述: elasticsearch 配置
  *
  * @author yanpenglei
  * @create 2017-11-02 16:41
