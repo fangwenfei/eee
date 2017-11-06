@@ -85,7 +85,7 @@ public class ElasticsearchUtilsTest {
 
 
     /**
-     * 通过ID 更新数据
+     * 通过ID更新数据
      * <p>
      * jsonObject 要增加的数据
      * index      索引，类似数据库
@@ -163,7 +163,7 @@ public class ElasticsearchUtilsTest {
     @Test
     public void searchDataPage() {
 
-        EsPage esPage = ElasticsearchUtils.searchDataPage("ymq_index", "about_test", 10, 5, 0, 0, "", "processTime", false, "about", "about=鹏磊");
+        EsPage esPage = ElasticsearchUtils.searchDataPage("ymq_index", "about_test", 10, 5, 0, 0, "", "processTime", false, "name", "name=鹏磊");
 
         for (Map<String, Object> item : esPage.getRecordList()) {
 
