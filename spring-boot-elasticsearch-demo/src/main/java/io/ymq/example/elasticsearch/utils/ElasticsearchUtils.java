@@ -306,12 +306,15 @@ public class ElasticsearchUtils {
             searchRequestBuilder.setSize(size);
         }
 
+        //打印的内容 可以在 Elasticsearch head 和 Kibana  上执行查询
+        LOGGER.info("\n{}", searchRequestBuilder);
+
         SearchResponse searchResponse = searchRequestBuilder.execute().actionGet();
 
         long totalHits = searchResponse.getHits().totalHits;
         long length = searchResponse.getHits().getHits().length;
 
-        LOGGER.debug("共查询到[{}]条数据,处理数据条数[{}]", totalHits, length);
+        LOGGER.info("共查询到[{}]条数据,处理数据条数[{}]", totalHits, length);
 
         if (searchResponse.status().getStatus() == 200) {
             // 解析对象
@@ -398,6 +401,9 @@ public class ElasticsearchUtils {
 
         // 设置是否按查询匹配度排序
         searchRequestBuilder.setExplain(true);
+
+        //打印的内容 可以在 Elasticsearch head 和 Kibana  上执行查询
+        LOGGER.info("\n{}", searchRequestBuilder);
 
         // 执行搜索,返回搜索响应信息
         SearchResponse searchResponse = searchRequestBuilder.execute().actionGet();
