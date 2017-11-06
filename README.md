@@ -31,3 +31,12 @@
 ### spring-boot-logback
 
 [Spring Boot 中使用 logback  配置 ](http://www.ymq.io/2017/10/30/spring-boot-logback-example/)
+
+### spring-boot-elasticsearch
+
+[Spring Boot 中使用 elasticsearch  笔记未更新 ]()
+
+### spring-boot-elasticsearch-demo
+
+[Spring Boot 中使用 Java API 调用 Elasticsearch](http://www.ymq.io/2017/11/06/ElasticSearch-example/)
+
