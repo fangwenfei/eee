@@ -33,6 +33,7 @@ public class BaseTest2 {
 
     private IndexSearcher indexSearcher;
 
+
     @Before
     public void setUp() throws IOException {
         //索引存放的位置，设置在当前目录中
@@ -44,6 +45,7 @@ public class BaseTest2 {
         //创建一个索引的查找器，来检索索引库
         indexSearcher = new IndexSearcher(indexReader);
     }
+
 
 
     /**
@@ -165,7 +167,7 @@ public class BaseTest2 {
         //上面添加过的内容：  i am peng lei, 世界上没有优秀的理念，只有脚踏实地的结果
         String searchField1 = "title";
         String searchField2 = "content";
-        Query query1 = new TermQuery(new Term(searchField1, "我是鹏磊"));
+        Query query1 = new TermQuery(new Term(searchField1, "我是鹏磊啊"));
         Query query2 = new TermQuery(new Term(searchField2, "peng"));
         BooleanQuery.Builder builder = new BooleanQuery.Builder();
 
