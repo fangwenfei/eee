@@ -13,10 +13,7 @@ import org.apache.lucene.queryparser.classic.MultiFieldQueryParser;
 import org.apache.lucene.queryparser.classic.ParseException;
 import org.apache.lucene.queryparser.classic.QueryParser;
 import org.apache.lucene.search.*;
-import org.apache.lucene.search.highlight.Formatter;
-import org.apache.lucene.search.highlight.Highlighter;
-import org.apache.lucene.search.highlight.QueryScorer;
-import org.apache.lucene.search.highlight.SimpleHTMLFormatter;
+import org.apache.lucene.search.highlight.*;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
 import org.apache.lucene.util.Version;
@@ -38,13 +35,11 @@ import java.nio.file.Paths;
  **/
 public class BaseTest {
 
-
     private Directory directory;
 
     private IndexReader indexReader;
 
     private IndexSearcher indexSearcher;
-
 
     @Before
     public void setUp() throws IOException {
@@ -79,9 +74,12 @@ public class BaseTest {
         //在 6.6 以上版本中 version 不再是必要的，并且，存在无参构造方法，可以直接使用默认的 StandardAnalyzer 分词器。
         Version version = Version.LUCENE_7_1_0;
 
-        //创建lucene的分词器，主要用于进行分词，比如识别,我是中国人，甚至一些以前没有，但现在出先的词
         //Analyzer analyzer = new StandardAnalyzer(); // 标准分词器，适用于英文
-        Analyzer analyzer = new SmartChineseAnalyzer();//中文分词
+        //Analyzer analyzer = new SmartChineseAnalyzer();//中文分词
+        //Analyzer analyzer = new ComplexAnalyzer();//中文分词
+        //Analyzer analyzer = new IKAnalyzer();//中文分词
+
+        Analyzer analyzer = new IKAnalyzer();//中文分词
 
         //创建索引写入配置
         IndexWriterConfig indexWriterConfig = new IndexWriterConfig(analyzer);
@@ -97,19 +95,60 @@ public class BaseTest {
 
         //将字段加入到doc中
         doc.add(new IntPoint("id", id));
-        doc.add(new StringField("title", "我是鹏磊", Field.Store.YES));
-        doc.add(new TextField("content", "i am peng lei, 世界上没有优秀的理念，只有脚踏实地的结果", Field.Store.YES));
+        doc.add(new StringField("title", "Spark", Field.Store.YES));
+        doc.add(new TextField("content", "Apache Spark 是专为大规模数据处理而设计的快速通用的计算引擎", Field.Store.YES));
         doc.add(new StoredField("id", id));
 
         //将doc对象保存到索引库中
         indexWriter.addDocument(doc);
 
+        indexWriter.commit();
         //关闭流
         indexWriter.close();
 
         long end = System.currentTimeMillis();
         System.out.println("索引花费了" + (end - start) + " 毫秒");
     }
+
+
+    /**
+     * 删除文档
+     *
+     * @throws IOException
+     */
+    @Test
+    public void deleteDocumentsTest() throws IOException {
+        //Analyzer analyzer = new StandardAnalyzer(); // 标准分词器，适用于英文
+        //Analyzer analyzer = new SmartChineseAnalyzer();//中文分词
+        //Analyzer analyzer = new ComplexAnalyzer();//中文分词
+        //Analyzer analyzer = new IKAnalyzer();//中文分词
+
+        Analyzer analyzer = new IKAnalyzer();//中文分词
+
+        //创建索引写入配置
+        IndexWriterConfig indexWriterConfig = new IndexWriterConfig(analyzer);
+
+        //创建索引写入对象
+        IndexWriter indexWriter = new IndexWriter(directory, indexWriterConfig);
+
+        // 删除title中含有关键词“Spark”的文档
+        long count = indexWriter.deleteDocuments(new Term("title", "Spark"));
+
+        //  除此之外IndexWriter还提供了以下方法：
+        // DeleteDocuments(Query query):根据Query条件来删除单个或多个Document
+        // DeleteDocuments(Query[] queries):根据Query条件来删除单个或多个Document
+        // DeleteDocuments(Term term):根据Term来删除单个或多个Document
+        // DeleteDocuments(Term[] terms):根据Term来删除单个或多个Document
+        // DeleteAll():删除所有的Document
+
+        //使用IndexWriter进行Document删除操作时，文档并不会立即被删除，而是把这个删除动作缓存起来，当IndexWriter.Commit()或IndexWriter.Close()时，删除操作才会被真正执行。
+
+        indexWriter.commit();
+        indexWriter.close();
+
+        System.out.println("删除完成" + count);
+    }
+
 
     /**
      * 测试更新
@@ -118,11 +157,13 @@ public class BaseTest {
      * @throws IOException
      */
     @Test
-    public void testUpdate() throws IOException {
-
-        //创建lucene的分词器，主要用于进行分词，比如识别,我是中国人，甚至一些以前没有，但现在出先的词
+    public void updateDocumentTest() throws IOException {
         //Analyzer analyzer = new StandardAnalyzer(); // 标准分词器，适用于英文
-        Analyzer analyzer = new SmartChineseAnalyzer();//中文分词
+        //Analyzer analyzer = new SmartChineseAnalyzer();//中文分词
+        //Analyzer analyzer = new ComplexAnalyzer();//中文分词
+        //Analyzer analyzer = new IKAnalyzer();//中文分词
+
+        Analyzer analyzer = new IKAnalyzer();//中文分词
 
         //创建索引写入配置
         IndexWriterConfig indexWriterConfig = new IndexWriterConfig(analyzer);
@@ -135,8 +176,8 @@ public class BaseTest {
         int id = 1;
 
         doc.add(new IntPoint("id", id));
-        doc.add(new StringField("title", "我是鹏磊啊", Field.Store.YES));
-        doc.add(new TextField("content", "i am peng lei, 世界上没有优秀的理念，只有脚踏实地的结果", Field.Store.YES));
+        doc.add(new StringField("title", "Spark", Field.Store.YES));
+        doc.add(new TextField("content", "Apache Spark 是专为大规模数据处理而设计的快速通用的计算引擎", Field.Store.YES));
         doc.add(new StoredField("id", id));
 
         long count = indexWriter.updateDocument(new Term("id", "1"), doc);
@@ -160,12 +201,10 @@ public class BaseTest {
 
         String searchField = "title";
         //这是一个条件查询的api，用于添加条件
-        TermQuery query = new TermQuery(new Term(searchField, "我是鹏磊啊"));
+        TermQuery query = new TermQuery(new Term(searchField, "Spark"));
 
-        //返回符合条件的前100条记录
-        TopDocs topDocs = indexSearcher.search(query, 100);
-
-        printScoreDoc(topDocs, indexSearcher);
+        //执行查询，并打印查询到的记录数
+        executeQuery(query);
     }
 
 
@@ -173,7 +212,6 @@ public class BaseTest {
      * “多条件查询”搜索—BooleanQuery
      * BooleanQuery也是实际开发过程中经常使用的一种Query。
      * 它其实是一个组合的Query，在使用时可以把各种Query对象添加进去并标明它们之间的逻辑关系。
-     * 在本节中所讨论的所有查询类型都可以使用BooleanQuery综合起来。
      * BooleanQuery本身来讲是一个布尔子句的容器，它提供了专门的API方法往其中添加子句，
      * 并标明它们之间的关系，以下代码为BooleanQuery提供的用于添加子句的API接口：
      *
@@ -182,14 +220,18 @@ public class BaseTest {
     @Test
     public void BooleanQueryTest() throws IOException {
 
-        //上面添加过的内容：  i am peng lei, 世界上没有优秀的理念，只有脚踏实地的结果
         String searchField1 = "title";
         String searchField2 = "content";
-        Query query1 = new TermQuery(new Term(searchField1, "我是鹏磊啊"));
-        Query query2 = new TermQuery(new Term(searchField2, "peng"));
+        Query query1 = new TermQuery(new Term(searchField1, "Spark"));
+        Query query2 = new TermQuery(new Term(searchField2, "Apache"));
         BooleanQuery.Builder builder = new BooleanQuery.Builder();
 
-        // BooleanClause用于表示布尔查询子句关系的类，包 括：BooleanClause.Occur.MUST，BooleanClause.Occur.MUST_NOT，BooleanClause.Occur.SHOULD。 必须包含,不能包含,可以包含三种.有以下6种组合：
+        // BooleanClause用于表示布尔查询子句关系的类，
+        // 包 括：
+        // BooleanClause.Occur.MUST，
+        // BooleanClause.Occur.MUST_NOT，
+        // BooleanClause.Occur.SHOULD。
+        // 必须包含,不能包含,可以包含三种.有以下6种组合：
         //
         // 1．MUST和MUST：取得连个查询子句的交集。
         // 2．MUST和MUST_NOT：表示查询结果中不能包含MUST_NOT所对应得查询子句的检索结果。
@@ -198,37 +240,30 @@ public class BaseTest {
         // 5．SHOULD与SHOULD：表示“或”关系，最终检索结果为所有检索子句的并集。
         // 6．MUST_NOT和MUST_NOT：无意义，检索无结果。
 
+        builder.add(query1, BooleanClause.Occur.SHOULD);
+        builder.add(query2, BooleanClause.Occur.SHOULD);
 
-        builder.add(query1, BooleanClause.Occur.MUST);
-        builder.add(query2, BooleanClause.Occur.MUST);
-        BooleanQuery booleanQuery = builder.build();
+        BooleanQuery query = builder.build();
 
-        //返回符合条件的前100条记录
-        TopDocs topDocs = indexSearcher.search(booleanQuery, 100);
-
-        printScoreDoc(topDocs, indexSearcher);
+        //执行查询，并打印查询到的记录数
+        executeQuery(query);
     }
 
 
     /**
      * PrefixQuery用于匹配其索引开始以指定的字符串的文档。就是文档中存在xxx%
      * <p>
-     * 对中文 支持不太好，只支持一个汉字， 最好是英文开头
      *
      * @throws IOException
      */
     @Test
     public void prefixQueryTest() throws IOException {
-
-        String searchField = "content";
-
-        //上面添加过的内容：  i am peng lei, 世界上没有优秀的理念，只有脚踏实地的结果
-        Term term = new Term(searchField, "peng");
+        String searchField = "title";
+        Term term = new Term(searchField, "Spar");
         Query query = new PrefixQuery(term);
 
-        TopDocs topDocs = indexSearcher.search(query, 100);
-
-        printScoreDoc(topDocs, indexSearcher);
+        //执行查询，并打印查询到的记录数
+        executeQuery(query);
     }
 
 
@@ -244,22 +279,18 @@ public class BaseTest {
     @Test
     public void phraseQueryTest() throws IOException {
 
-        //上面添加过的内容：  i am peng lei, 世界上没有优秀的理念，只有脚踏实地的结果
         String searchField = "content";
-        String query1 = "peng";
-        String query2 = "lei";
-        Term t1 = new Term(searchField, query1);
-        Term t2 = new Term(searchField, query2);
+        String query1 = "apache";
+        String query2 = "spark";
 
         PhraseQuery.Builder builder = new PhraseQuery.Builder();
-        builder.add(t1);
-        builder.add(t2);
+        builder.add(new Term(searchField, query1));
+        builder.add(new Term(searchField, query2));
         builder.setSlop(0);
-        PhraseQuery query = builder.build();
+        PhraseQuery phraseQuery = builder.build();
 
-        TopDocs topDocs = indexSearcher.search(query, 100);
-
-        printScoreDoc(topDocs, indexSearcher);
+        //执行查询，并打印查询到的记录数
+        executeQuery(phraseQuery);
     }
 
     /**
@@ -272,14 +303,11 @@ public class BaseTest {
     public void fuzzyQueryTest() throws IOException {
 
         String searchField = "content";
-        //上面添加过的内容：  i am peng lei, 世界上没有优秀的理念，只有脚踏实地的结果
-        Term t = new Term(searchField, "优秀");
+        Term t = new Term(searchField, "大规模");
         Query query = new FuzzyQuery(t);
 
-        TopDocs topDocs = indexSearcher.search(query, 100);
-
-        //打印查询到的记录数
-        printScoreDoc(topDocs, indexSearcher);
+        //执行查询，并打印查询到的记录数
+        executeQuery(query);
     }
 
 
@@ -292,36 +320,115 @@ public class BaseTest {
      */
     @Test
     public void wildcardQueryTest() throws IOException {
-
-        //上面添加过的内容：  i am peng lei, 世界上没有优秀的理念，只有脚踏实地的结果
         String searchField = "content";
-        Term term = new Term(searchField, "p*g");
+        Term term = new Term(searchField, "大*规模");
         Query query = new WildcardQuery(term);
 
-        TopDocs topDocs = indexSearcher.search(query, 100);
-
-        //打印查询到的记录数
-        printScoreDoc(topDocs, indexSearcher);
+        //执行查询，并打印查询到的记录数
+        executeQuery(query);
     }
 
 
     /**
-     * 解析查询表达式
-     * QueryParser实际上就是一个解析用户输入的工具，可以通过扫描用户输入的字符串，生成Query对象，以下是一个代码示例：
+     * 分词查询
      *
+     * @throws IOException
      * @throws ParseException
      */
     @Test
     public void queryParserTest() throws IOException, ParseException {
-
-        //创建lucene的分词器，主要用于进行分词，比如识别,我是中国人，甚至一些以前没有，但现在出先的词
         //Analyzer analyzer = new StandardAnalyzer(); // 标准分词器，适用于英文
-        Analyzer analyzer = new SmartChineseAnalyzer();//中文分词
+        //Analyzer analyzer = new SmartChineseAnalyzer();//中文分词
+        //Analyzer analyzer = new ComplexAnalyzer();//中文分词
+        //Analyzer analyzer = new IKAnalyzer();//中文分词
 
-        //上面添加过的内容：  i am peng lei, 世界上没有优秀的理念，只有脚踏实地的结果
+        Analyzer analyzer = new IKAnalyzer();//中文分词
 
         String searchField = "content";
-        String text = "世界上";
+
+        //指定搜索字段和分析器
+        QueryParser parser = new QueryParser(searchField, analyzer);
+
+        //用户输入内容
+        Query query = parser.parse("计算引擎");
+
+        //执行查询，并打印查询到的记录数
+        executeQuery(query);
+    }
+
+    /**
+     * 多个 Field 查询
+     *
+     * @throws IOException
+     * @throws ParseException
+     */
+    @Test
+    public void multiFieldQueryParserTest() throws IOException, ParseException {
+        //Analyzer analyzer = new StandardAnalyzer(); // 标准分词器，适用于英文
+        //Analyzer analyzer = new SmartChineseAnalyzer();//中文分词
+        //Analyzer analyzer = new ComplexAnalyzer();//中文分词
+        //Analyzer analyzer = new IKAnalyzer();//中文分词
+
+        Analyzer analyzer = new IKAnalyzer();//中文分词
+
+        String[] filedStr = new String[]{"title", "content"};
+
+        //指定搜索字段和分析器
+        QueryParser queryParser = new MultiFieldQueryParser(filedStr, analyzer);
+
+        //用户输入内容
+        Query query = queryParser.parse("Spark");
+
+        //执行查询，并打印查询到的记录数
+        executeQuery(query);
+    }
+
+
+    /**
+     * IKAnalyzer  中文分词器
+     * SmartChineseAnalyzer  smartcn分词器 需要lucene依赖 且和lucene版本同步
+     *
+     * @throws IOException
+     */
+    @Test
+    public void AnalyzerTest() throws IOException {
+        //Analyzer analyzer = new StandardAnalyzer(); // 标准分词器，适用于英文
+        //Analyzer analyzer = new SmartChineseAnalyzer();//中文分词
+        //Analyzer analyzer = new ComplexAnalyzer();//中文分词
+        //Analyzer analyzer = new IKAnalyzer();//中文分词
+
+        Analyzer analyzer = null;
+        String text = "Apache Spark 是专为大规模数据处理而设计的快速通用的计算引擎";
+
+        analyzer = new IKAnalyzer();//中文分词
+        printAnalyzerDoc(analyzer, text);
+        System.out.println();
+
+        analyzer = new ComplexAnalyzer();//中文分词
+        printAnalyzerDoc(analyzer, text);
+        System.out.println();
+
+        analyzer = new SmartChineseAnalyzer();//中文分词
+        printAnalyzerDoc(analyzer, text);
+    }
+
+
+    /**
+     * 数据高亮查询
+     *
+     * @throws IOException
+     */
+    @Test
+    public void HighlighterTest() throws IOException, ParseException, InvalidTokenOffsetsException {
+        //Analyzer analyzer = new StandardAnalyzer(); // 标准分词器，适用于英文
+        //Analyzer analyzer = new SmartChineseAnalyzer();//中文分词
+        //Analyzer analyzer = new ComplexAnalyzer();//中文分词
+        //Analyzer analyzer = new IKAnalyzer();//中文分词
+
+        Analyzer analyzer = new IKAnalyzer();//中文分词
+
+        String searchField = "content";
+        String text = "Apache Spark 是专为大规模数据处理而设计的快速通用的计算引擎";
 
         //指定搜索字段和分析器
         QueryParser parser = new QueryParser(searchField, analyzer);
@@ -331,84 +438,54 @@ public class BaseTest {
 
         TopDocs topDocs = indexSearcher.search(query, 100);
 
-        //打印查询到的记录数
-        printScoreDoc(topDocs, indexSearcher);
+        // 关键字高亮显示的html标签，需要导入lucene-highlighter-xxx.jar
+        SimpleHTMLFormatter simpleHTMLFormatter = new SimpleHTMLFormatter("<span style='color:red'>", "</span>");
+        Highlighter highlighter = new Highlighter(simpleHTMLFormatter, new QueryScorer(query));
+
+        for (ScoreDoc scoreDoc : topDocs.scoreDocs) {
+
+            //取得对应的文档对象
+            Document document = indexSearcher.doc(scoreDoc.doc);
+
+            // 内容增加高亮显示
+            TokenStream tokenStream = analyzer.tokenStream("content", new StringReader(document.get("content")));
+            String content = highlighter.getBestFragment(tokenStream, document.get("content"));
+
+            System.out.println(content);
+        }
+
     }
 
+
     /**
-     * 在不同的Field上进行查询
+     * 执行查询，并打印查询到的记录数
      *
+     * @param query
      * @throws IOException
-     * @throws ParseException
      */
-    @Test
-    public void multiFieldQueryParserTest() throws IOException, ParseException {
-
-        //创建lucene的分词器，主要用于进行分词，比如识别,我是中国人，甚至一些以前没有，但现在出先的词
-        //Analyzer analyzer = new StandardAnalyzer(); // 标准分词器，适用于英文
-        Analyzer analyzer = new SmartChineseAnalyzer();//中文分词
-
-        //上面添加过的内容：  i am peng lei, 世界上没有优秀的理念，只有脚踏实地的结果
-
-        String[] filedStr = new String[]{"title", "content"};
-
-        //指定搜索字段和分析器
-        QueryParser queryParser = new MultiFieldQueryParser(filedStr, analyzer);
-
-        //用户输入内容
-        Query query = queryParser.parse("没有");
+    public void executeQuery(Query query) throws IOException {
 
         TopDocs topDocs = indexSearcher.search(query, 100);
 
         //打印查询到的记录数
-        printScoreDoc(topDocs, indexSearcher);
+        System.out.println("总共查询到" + topDocs.totalHits + "个文档");
+        for (ScoreDoc scoreDoc : topDocs.scoreDocs) {
 
+            //取得对应的文档对象
+            Document document = indexSearcher.doc(scoreDoc.doc);
+            System.out.println("id：" + document.get("id"));
+            System.out.println("title：" + document.get("title"));
+            System.out.println("content：" + document.get("content"));
+        }
     }
 
     /**
-     * smartcn  中文分词器 SmartChineseAnalyzer  smartcn分词器 需要lucene依赖 且和lucene版本同步
+     * 分词打印
      *
+     * @param analyzer
+     * @param text
      * @throws IOException
      */
-    @Test
-    public void smartcnTest() throws IOException {
-        //创建lucene的分词器，主要用于进行分词，比如识别,我是中国人，甚至一些以前没有，但现在出先的词
-        //Analyzer analyzer = new StandardAnalyzer(); // 标准分词器，适用于英文
-        Analyzer analyzer = new SmartChineseAnalyzer();//中文分词
-        String text = "i am peng lei, 世界上没有优秀的理念，只有脚踏实地的结果";
-        printAnalyzerDoc(analyzer, text);
-    }
-
-
-    /**
-     * IKAnalyzer  中文分词器
-     *
-     * @throws IOException
-     */
-    @Test
-    public void IKAnalyzerTest() throws IOException {
-        //创建lucene的分词器，主要用于进行分词，比如识别,我是中国人，甚至一些以前没有，但现在出先的词
-        //Analyzer analyzer = new StandardAnalyzer(); // 标准分词器，适用于英文
-        Analyzer analyzer = new IKAnalyzer();//中文分词
-        String text = "i am peng lei, 世界上没有优秀的理念，只有脚踏实地的结果";
-        printAnalyzerDoc(analyzer, text);
-    }
-
-
-    /**
-     * MMSeg4j  中文分词器
-     *
-     * @throws IOException
-     */
-    @Test
-    public void MMSegAnalyzerTest() throws IOException {
-        //创建lucene的分词器，主要用于进行分词，比如识别,我是中国人，甚至一些以前没有，但现在出先的词
-        //Analyzer analyzer = new StandardAnalyzer(); // 标准分词器，适用于英文
-        Analyzer analyzer = new ComplexAnalyzer();//中文分词
-        String text = "i am peng lei, 世界上没有优秀的理念，只有脚踏实地的结果";
-        printAnalyzerDoc(analyzer, text);
-    }
-
     public void printAnalyzerDoc(Analyzer analyzer, String text) throws IOException {
 
         TokenStream tokenStream = analyzer.tokenStream("content", new StringReader(text));
@@ -422,24 +499,6 @@ public class BaseTest {
         } finally {
             tokenStream.close();
             analyzer.close();
-        }
-    }
-
-    public void search(String queryString, int firstResult, int maxResult) {
-
-    }
-
-
-    public void printScoreDoc(TopDocs topDocs, IndexSearcher indexSearcher) throws IOException {
-        //打印查询到的记录数
-        System.out.println("总共查询到" + topDocs.totalHits + "个文档");
-        for (ScoreDoc scoreDoc : topDocs.scoreDocs) {
-
-            //取得对应的文档对象
-            Document document = indexSearcher.doc(scoreDoc.doc);
-            System.out.println("id：" + document.get("id"));
-            System.out.println("title：" + document.get("title"));
-            System.out.println("content：" + document.get("content"));
         }
     }
 
