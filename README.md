@@ -40,3 +40,6 @@
 
 [Spring Boot 中使用 Java API 调用 Elasticsearch](http://www.ymq.io/2017/11/06/ElasticSearch-example/)
 
+### spring-boot-lucene-demo
+
+[Spring Boot 中使用 Java API 调用 lucene](http://www.ymq.io/2017/11/06/lucene-example/)
