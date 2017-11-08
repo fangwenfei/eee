@@ -25,10 +25,11 @@ import org.wltea.analyzer.lucene.IKAnalyzer;
 
 import java.io.IOException;
 import java.io.StringReader;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 
 /**
- * 描述:
+ * 描述: 单元测试
  *
  * @author yanpenglei
  * @create 2017-11-07 17:59
@@ -43,9 +44,9 @@ public class BaseTest {
 
     @Before
     public void setUp() throws IOException {
+
         //索引存放的位置，设置在当前目录中
         directory = FSDirectory.open(Paths.get("indexDir/"));
-
         //创建索引的读取器
         indexReader = DirectoryReader.open(directory);
 
@@ -55,12 +56,14 @@ public class BaseTest {
 
     @After
     public void tearDown() throws Exception {
-        indexReader.close();
+        if (indexReader != null) {
+            indexReader.close();
+        }
     }
 
 
     /**
-     * 写索引
+     * 创建索引
      *
      * @throws IOException
      */
@@ -146,7 +149,7 @@ public class BaseTest {
         indexWriter.commit();
         indexWriter.close();
 
-        System.out.println("删除完成" + count);
+        System.out.println("删除完成:" + count);
     }
 
 
@@ -177,18 +180,18 @@ public class BaseTest {
 
         doc.add(new IntPoint("id", id));
         doc.add(new StringField("title", "Spark", Field.Store.YES));
-        doc.add(new TextField("content", "Apache Spark 是专为大规模数据处理而设计的快速通用的计算引擎", Field.Store.YES));
+        doc.add(new TextField("content", "Apache Spark 是专为大规模数据处理而设计的快速通用的计算引擎!", Field.Store.YES));
         doc.add(new StoredField("id", id));
 
         long count = indexWriter.updateDocument(new Term("id", "1"), doc);
-        System.out.println(count);
+        System.out.println("更新文档:" + count);
         indexWriter.close();
     }
 
 
     /**
-     * 对特定项搜索
-     * 按词条搜索—TermQuery
+     * 按词条搜索
+     * <p>
      * TermQuery是最简单、也是最常用的Query。TermQuery可以理解成为“词条搜索”，
      * 在搜索引擎中最基本的搜索就是在索引中搜索某一词条，而TermQuery就是用来完成这项工作的。
      * 在Lucene中词条是最基本的搜索单位，从本质上来讲一个词条其实就是一个名/值对。
@@ -209,7 +212,8 @@ public class BaseTest {
 
 
     /**
-     * “多条件查询”搜索—BooleanQuery
+     * 多条件查询
+     * <p>
      * BooleanQuery也是实际开发过程中经常使用的一种Query。
      * 它其实是一个组合的Query，在使用时可以把各种Query对象添加进去并标明它们之间的逻辑关系。
      * BooleanQuery本身来讲是一个布尔子句的容器，它提供了专门的API方法往其中添加子句，
@@ -251,6 +255,8 @@ public class BaseTest {
 
 
     /**
+     * 匹配前缀
+     * <p>
      * PrefixQuery用于匹配其索引开始以指定的字符串的文档。就是文档中存在xxx%
      * <p>
      *
@@ -268,6 +274,8 @@ public class BaseTest {
 
 
     /**
+     * 短语搜索
+     * <p>
      * 所谓PhraseQuery，就是通过短语来检索，比如我想查“big car”这个短语，
      * 那么如果待匹配的document的指定项里包含了"big car"这个短语，
      * 这个document就算匹配成功。可如果待匹配的句子里包含的是“big black car”，
@@ -294,7 +302,8 @@ public class BaseTest {
     }
 
     /**
-     * 相近词语的搜索—FuzzyQuery
+     * 相近词语搜索
+     * <p>
      * FuzzyQuery是一种模糊查询，它可以简单地识别两个相近的词语。
      *
      * @throws IOException
@@ -312,7 +321,8 @@ public class BaseTest {
 
 
     /**
-     * 使用通配符搜索—WildcardQuery
+     * 通配符搜索
+     * <p>
      * Lucene也提供了通配符的查询，这就是WildcardQuery。
      * 通配符“?”代表1个字符，而“*”则代表0至多个字符。
      *
@@ -357,7 +367,7 @@ public class BaseTest {
     }
 
     /**
-     * 多个 Field 查询
+     * 多个 Field 分词查询
      *
      * @throws IOException
      * @throws ParseException
@@ -400,21 +410,21 @@ public class BaseTest {
         Analyzer analyzer = null;
         String text = "Apache Spark 是专为大规模数据处理而设计的快速通用的计算引擎";
 
-        analyzer = new IKAnalyzer();//中文分词
+        analyzer = new IKAnalyzer();//IKAnalyzer 中文分词
         printAnalyzerDoc(analyzer, text);
         System.out.println();
 
-        analyzer = new ComplexAnalyzer();//中文分词
+        analyzer = new ComplexAnalyzer();//MMSeg4j 中文分词
         printAnalyzerDoc(analyzer, text);
         System.out.println();
 
-        analyzer = new SmartChineseAnalyzer();//中文分词
+        analyzer = new SmartChineseAnalyzer();//Lucene 中文分词器
         printAnalyzerDoc(analyzer, text);
     }
 
 
     /**
-     * 数据高亮查询
+     * 高亮处理
      *
      * @throws IOException
      */
@@ -428,7 +438,7 @@ public class BaseTest {
         Analyzer analyzer = new IKAnalyzer();//中文分词
 
         String searchField = "content";
-        String text = "Apache Spark 是专为大规模数据处理而设计的快速通用的计算引擎";
+        String text = "Apache Spark 大规模数据处理";
 
         //指定搜索字段和分析器
         QueryParser parser = new QueryParser(searchField, analyzer);

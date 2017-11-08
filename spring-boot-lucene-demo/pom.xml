@@ -60,28 +60,28 @@
             <version>7.1.0</version>
         </dependency>
 
-        <!-- 高亮 -->
+        <!--高亮 -->
         <dependency>
             <groupId>org.apache.lucene</groupId>
             <artifactId>lucene-highlighter</artifactId>
             <version>7.1.0</version>
         </dependency>
 
-        <!-- smartcn  中文分词器 SmartChineseAnalyzer  smartcn分词器 需要lucene依赖 且和lucene版本同步-->
+        <!--smartcn 中文分词器 SmartChineseAnalyzer  smartcn分词器 需要lucene依赖 且和lucene版本同步-->
         <dependency>
             <groupId>org.apache.lucene</groupId>
             <artifactId>lucene-analyzers-smartcn</artifactId>
             <version>7.1.0</version>
         </dependency>
 
-        <!--  ik-analyzer  中文分词器-->
+        <!--ik-analyzer 中文分词器-->
         <dependency>
             <groupId>cn.bestwu</groupId>
             <artifactId>ik-analyzers</artifactId>
             <version>5.1.0</version>
         </dependency>
 
-        <!-- MMSeg4j 分词器 -->
+        <!--MMSeg4j 分词器-->
         <dependency>
             <groupId>com.chenlb.mmseg4j</groupId>
             <artifactId>mmseg4j-solr</artifactId>
