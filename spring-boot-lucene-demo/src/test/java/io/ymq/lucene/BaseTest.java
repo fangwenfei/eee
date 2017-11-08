@@ -1,6 +1,7 @@
 package io.ymq.lucene;
 
 import com.chenlb.mmseg4j.analysis.ComplexAnalyzer;
+import io.ymq.lucene.utils.LuceneUtils;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.TokenStream;
 import org.apache.lucene.analysis.cn.smart.SmartChineseAnalyzer;
@@ -12,6 +13,10 @@ import org.apache.lucene.queryparser.classic.MultiFieldQueryParser;
 import org.apache.lucene.queryparser.classic.ParseException;
 import org.apache.lucene.queryparser.classic.QueryParser;
 import org.apache.lucene.search.*;
+import org.apache.lucene.search.highlight.Formatter;
+import org.apache.lucene.search.highlight.Highlighter;
+import org.apache.lucene.search.highlight.QueryScorer;
+import org.apache.lucene.search.highlight.SimpleHTMLFormatter;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
 import org.apache.lucene.util.Version;
@@ -419,6 +424,11 @@ public class BaseTest {
             analyzer.close();
         }
     }
+
+    public void search(String queryString, int firstResult, int maxResult) {
+
+    }
+
 
     public void printScoreDoc(TopDocs topDocs, IndexSearcher indexSearcher) throws IOException {
         //打印查询到的记录数
