@@ -6,6 +6,7 @@ import io.ymq.example.elasticsearch.run.Startup;
 import io.ymq.example.elasticsearch.utils.ElasticsearchUtils;
 
 import io.ymq.example.elasticsearch.utils.EsPage;
+import org.apache.commons.lang3.time.DateUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
@@ -14,10 +15,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.text.ParseException;
+import java.util.*;
 
 /**
  * 单元测试
@@ -135,14 +134,81 @@ public class ElasticsearchUtilsTest {
      * matchStr       过滤条件（xxx=111,aaa=222）
      */
     @Test
-    public void searchListData() {
+    public void searchListData( ) throws ParseException {
 
-        List<Map<String, Object>> list = ElasticsearchUtils.searchListData("ymq_index", "about_test", 0, 0, 0, "", "", false, "", "name=鹏磊");
+        long startTime = DateUtils.parseDate("2017-11-22 00:00:00", "yyyy-MM-dd HH:mm:ss").getTime();
+        long endTime = DateUtils.parseDate("2017-11-23 00:00:00", "yyyy-MM-dd HH:mm:ss").getTime();
 
-        for (Map<String, Object> item : list) {
+        String index = "all_assignservice-*";
+        String type = "all_assignservice";
+        String matchStr = "message=C000211171122024601";
+        int size = 1000;
 
-            System.out.println(JSONObject.toJSONString(item));
+        List<Map<String, Object>> mapList = ElasticsearchUtils.searchListData(index, type, startTime, endTime, size, "", "", false, "", matchStr);
+
+        Set<String> guidList = new HashSet<String>() {
+        };
+
+        Set<String> requestIdList = new HashSet<String>() {
+        };
+
+        for (Map<String, Object> guid : mapList) {
+
+            String message = guid.get("message").toString();
+
+            Integer guidIndex = message.indexOf("guid");
+
+            if (message.indexOf("guid") > 1 && message.indexOf("action=>insertWorkOrder") > 1) {
+
+                guidList.add(message.substring(guidIndex + 7, guidIndex + 26));
+            }
         }
+
+        for (String guid : guidList) {
+
+            matchStr = "message=" + guid;
+
+            List<Map<String, Object>> tmpMap2 = ElasticsearchUtils.searchListData(index, type, startTime, endTime, size, "", "", false, "", matchStr);
+
+            for (Map<String, Object> requestId : tmpMap2) {
+
+                String message = requestId.get("message").toString();
+
+                if (message.indexOf("crm自动推荐入参:{\"bigClassId") > 1) {
+                    requestIdList.add(requestId.get("requestId").toString());
+                }
+            }
+        }
+
+        for (String requestId : requestIdList) {
+
+            matchStr = "requestId=" + requestId;
+            List<Map<String, Object>> tmpMap3 = ElasticsearchUtils.searchListData(index, type, startTime, endTime, size, "", "", false, "", matchStr);
+
+            for (Map<String, Object> item : tmpMap3) {
+
+                String message = item.get("message").toString();
+
+                Integer startIndex = message.indexOf("crm自动推荐时间-->派工RPC调用-->返回结果为：{");
+                Integer endIndex = message.lastIndexOf("}");
+
+                if (startIndex > 1) {
+
+                    String resultData = message.substring(startIndex + 28, endIndex + 1);
+
+                    JSONObject jsonObject = JSONObject.parseObject(resultData);
+
+                    jsonObject = JSONObject.parseObject(jsonObject.get("data").toString());
+
+
+                    System.out.println(jsonObject.get("recommendDabi").toString() + " " + jsonObject.get("startTime").toString());
+                    System.out.println(jsonObject.get("recommendDabi").toString() + " " + jsonObject.get("endTime").toString());
+                }
+
+            }
+
+        }
+
     }
 
     /**

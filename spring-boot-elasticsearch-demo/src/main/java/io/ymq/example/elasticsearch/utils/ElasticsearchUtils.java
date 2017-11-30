@@ -183,23 +183,38 @@ public class ElasticsearchUtils {
             getRequestBuilder.setFetchSource(fields.split(","), null);
         }
 
-        GetResponse getResponse =  getRequestBuilder.execute().actionGet();
+        GetResponse getResponse = getRequestBuilder.execute().actionGet();
 
         return getResponse.getSource();
     }
 
+    /**
+     * 使用分词查询
+     *
+     * @param index     索引名称
+     * @param type      类型名称,可传入多个type逗号分隔
+     * @param startTime 开始时间
+     * @param endTime   结束时间
+     * @param size      文档大小限制
+     * @param matchStr  过滤条件（xxx=111,aaa=222）
+     * @return
+     */
+    public static List<Map<String, Object>> searchListData(String index, String type, long startTime, long endTime, Integer size, String matchStr) {
+        return searchListData(index, type, startTime, endTime, size, null, null, false, null, matchStr);
+    }
 
     /**
      * 使用分词查询
      *
      * @param index    索引名称
      * @param type     类型名称,可传入多个type逗号分隔
+     * @param size     文档大小限制
      * @param fields   需要显示的字段，逗号分隔（缺省为全部字段）
      * @param matchStr 过滤条件（xxx=111,aaa=222）
      * @return
      */
-    public static List<Map<String, Object>> searchListData(String index, String type, String fields, String matchStr) {
-        return searchListData(index, type, 0, 0, null, fields, null, false, null, matchStr);
+    public static List<Map<String, Object>> searchListData(String index, String type, Integer size, String fields, String matchStr) {
+        return searchListData(index, type, 0, 0, size, fields, null, false, null, matchStr);
     }
 
     /**
@@ -207,14 +222,15 @@ public class ElasticsearchUtils {
      *
      * @param index       索引名称
      * @param type        类型名称,可传入多个type逗号分隔
+     * @param size        文档大小限制
      * @param fields      需要显示的字段，逗号分隔（缺省为全部字段）
      * @param sortField   排序字段
      * @param matchPhrase true 使用，短语精准匹配
      * @param matchStr    过滤条件（xxx=111,aaa=222）
      * @return
      */
-    public static List<Map<String, Object>> searchListData(String index, String type, String fields, String sortField, boolean matchPhrase, String matchStr) {
-        return searchListData(index, type, 0, 0, null, fields, sortField, matchPhrase, null, matchStr);
+    public static List<Map<String, Object>> searchListData(String index, String type, Integer size, String fields, String sortField, boolean matchPhrase, String matchStr) {
+        return searchListData(index, type, 0, 0, size, fields, sortField, matchPhrase, null, matchStr);
     }
 
 
@@ -260,7 +276,7 @@ public class ElasticsearchUtils {
         BoolQueryBuilder boolQuery = QueryBuilders.boolQuery();
 
         if (startTime > 0 && endTime > 0) {
-            boolQuery.must(QueryBuilders.rangeQuery("processTime")
+            boolQuery.must(QueryBuilders.rangeQuery("timestamp")
                     .format("epoch_millis")
                     .from(startTime)
                     .to(endTime)
@@ -366,7 +382,7 @@ public class ElasticsearchUtils {
         BoolQueryBuilder boolQuery = QueryBuilders.boolQuery();
 
         if (startTime > 0 && endTime > 0) {
-            boolQuery.must(QueryBuilders.rangeQuery("processTime")
+            boolQuery.must(QueryBuilders.rangeQuery("timestamp")
                     .format("epoch_millis")
                     .from(startTime)
                     .to(endTime)
