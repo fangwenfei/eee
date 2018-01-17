@@ -7,7 +7,7 @@
 
 ### spring-boot-rabbitmq
 
-[Spring Boot 中使用 RabbitMQ](http://www.ymq.io/2017/10/16/rabbitmq-spring-boot-example/)
+[Spring Boot 中使用 RabbitMQ](http://www.ymq.io/2017/10/26/rabbitmq-spring-boot-example/)
 
 ### spring-boot-kafka
 [Spring Boot 中使用 kafka](http://www.ymq.io/2017/10/17/kafka-spring-boot-example/)
