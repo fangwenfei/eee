@@ -1,6 +1,10 @@
 
 # 一些笔记，测试代码
 
+### spring-boot-rocketmq
+
+[Spring Boot 中使用 RocketMQ](http://www.ymq.io/2018/02/02/spring-boot-rocketmq-example/)
+
 ### spring-boot-redis
 
 [Spring Boot 中使用 Redis](http://www.ymq.io/2017/10/16/redis-jedis-spring-boot-example/)
