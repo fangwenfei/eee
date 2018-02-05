@@ -1,5 +1,8 @@
 # Spring Boot 学习教程，示例代码
 
+**spring-boot-mongodb**  
+- [Spring Boot 中使用 MongoDB 增删改查](http://www.ymq.io/2018/02/05/spring-boot-mongodb-example/)
+
 **spring-boot-rocketmq**  
 - [Spring Boot 中使用 RocketMQ](http://www.ymq.io/2018/02/02/spring-boot-rocketmq-example/)
 
