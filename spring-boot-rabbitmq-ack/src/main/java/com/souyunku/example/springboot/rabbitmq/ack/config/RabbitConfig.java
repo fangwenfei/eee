@@ -9,7 +9,8 @@ public class RabbitConfig {
 
     @Bean
     public Queue QueueA() {
-        return new Queue("hello");
+        // boolean durable = true 持久化
+        return new Queue("hello", true);
     }
 
 }

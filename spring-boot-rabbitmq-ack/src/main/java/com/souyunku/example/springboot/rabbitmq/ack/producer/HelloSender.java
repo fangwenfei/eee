@@ -16,7 +16,12 @@ public class HelloSender implements RabbitTemplate.ReturnCallback {
     public void sendMessage(String context) {
         System.out.println("HelloReceiver发送内容: " + context + "，发送时间:" + new Date());
 
+
+        // 消息发送失败返回到队列中, application.properties 配置 spring.rabbitmq.publisher-returns=true
+        rabbitTemplate.setMandatory(true);
+
         this.rabbitTemplate.setReturnCallback(this);
+
         this.rabbitTemplate.setConfirmCallback((correlationData, ack, cause) -> {
             if (!ack) {
                 System.out.println("sendMessage 发送失败" + cause + correlationData.toString());
