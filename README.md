@@ -41,5 +41,4 @@
 
 **spring-boot-lucene-demo**
 [Spring Boot 中使用 Java API 调用 lucene](http://www.ymq.io/2017/11/06/lucene-example/)
- 
-![关注公众号-搜云库技术团队](http://www.ymq.io/images/souyunku.png "搜云库技术团队")
+
