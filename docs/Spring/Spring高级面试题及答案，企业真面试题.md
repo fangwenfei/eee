@@ -8,155 +8,125 @@
 
 
 
-### 1、SpringBoot 的核心配置文件有哪几个？它们的区别是什么？
+### 1、Spring Cloud OpenFeign
 
-**1、** SpringBoot 的核心配置文件是 application 和 bootstrap 配置文件。
+基于Ribbon和Hystrix的声明式服务调用组件，可以动态创建基于Spring MVC注解的接口实现用于服务调用，在Spring Cloud 2.0中已经取代Feign成为了一等公民。
 
-**2、** application 配置文件这个容易了解，主要用于 SpringBoot 项目的自动化配置。
+Spring Cloud的版本关系
 
-**3、** bootstrap 配置文件有以下几个应用场景。
+Spring Cloud是一个由许多子项目组成的综合项目，各子项目有不同的发布节奏。为了管理Spring Cloud与各子项目的版本依赖关系，发布了一个清单，其中包括了某个Spring Cloud版本对应的子项目版本。
 
-**4、** 使用 Spring Cloud Config 配置中心时，这时需要在 bootstrap 配置文件中增加连接到配置中心的配置属性来加载外部配置中心的配置信息；
+为了避免Spring Cloud版本号与子项目版本号混淆，Spring Cloud版本采用了名称而非版本号的命名，这些版本的名字采用了伦敦地铁站的名字，根据字母表的顺序来对应版本时间顺序，例如Angel是第一个版本，Brixton是第二个版本。
 
-**5、** 少量固定的不能被覆盖的属性；
-
-**6、** 少量加密/解密的场景；
+当Spring Cloud的发布内容积累到临界点或者一个重大BUG被解决后，会发布一个"service releases"版本，简称SRX版本，比如Greenwich.SR2就是Spring Cloud发布的Greenwich版本的第2个SRX版本。目前Spring Cloud的最新版本是Hoxton。
 
 
-### 2、什么是通知（Advice）？
+### 2、可以在SpringBoot application中禁用默认的Web服务器吗？
 
-特定 JoinPoint 处的 Aspect 所采取的动作称为 Advice。Spring AOP 使用一个 Advice 作为拦截器，在 JoinPoint “周围”维护一系列的拦截器。
-
-
-### 3、spring 支持集中 bean scope？
-
-Spring bean 支持 5 种 scope：
-
-**Singleton**
-
-**1、** 每个 Spring IoC 容器仅有一个单实例。Prototype
-
-**2、** 每次请求都会产生一个新的实例。Request
-
-**3、** 每一次 HTTP 请求都会产生一个新的实例，并且该 bean 仅在当前 HTTP 请求内有效。Session
-
-**4、** 每一次 HTTP 请求都会产生一个新的 bean，同时该 bean 仅在当前 HTTP session 内有效。Global-session
-
-**5、** 类似于标准的 HTTP Session 作用域，不过它仅仅在基于 portlet 的 web 应用中才有意义。Portlet 规范定义了全局 Session 的概念，它被所有构成某个 portlet web 应用的各种不同的 portlet 所共享。在 global session 作用域中定义的 bean 被限定于全局 portlet Session 的生命周期范围内。如果你在 web 中使用 global session 作用域来标识 bean，那么 web 会自动当成 session 类型来使用。
-
-仅当用户使用支持 Web 的 ApplicationContext 时，最后三个才可用。
+Spring的主要优势是提供灵活性来构建松散耦合的应用程序。Spring提供了在快速配置中禁用网络服务器的功能。可以使用应用程序属性来配置网络应用程序类型，例如 spring.main.web-application-type=none.
 
 
-### 4、SpringBoot 中如何解决跨域问题 ?
+### 3、SpringCloud限流：
 
-跨域可以在前端通过 JSONP 来解决，但是 JSONP 只可以发送 GET 请求，无法发送其他类型的请求，在 RESTful 风格的应用中，就显得非常鸡肋，因此我们推荐在后端通过 （CORS，Cross-origin resource sharing） 来解决跨域问题。这种解决方案并非 SpringBoot 特有的，在传统的 SSM 框架中，就可以通过 CORS 来解决跨域问题，只不过之前我们是在 XML 文件中配置 CORS ，现在可以通过实现WebMvcConfigurer接口然后重写addCorsMappings方法解决跨域问题。
+**1、** 我们可以通过semaphore.maxConcurrentRequests,coreSize,maxQueueSize和queueSizeRejectionThreshold设置信号量模式下的最⼤并发量、线程池⼤⼩、缓冲区⼤⼩和缓冲区降级阈值。
 
 ```
-  @Configuration
-  public class CorsConfig implements WebMvcConfigurer {
-
-  @Override
-  public void addCorsMappings(CorsRegistry registry) {
-  registry、addMapping("/**")
-  、allowedOrigins("*")
-  、allowCredentials(true)
-  、allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
-  、maxAge(3600);
-  }
-
-  }
+#不设置缓冲区，当请求数超过coreSize时直接降级
+hystrix.threadpool.userThreadPool.maxQueueSize=-1超时时间⼤于我们的timeout接⼝返回时间
+hystrix.command.userCommandKey.execution.isolation.thread.timeoutInMilliseconds=15000
 ```
 
+这个时候我们连续多次请求/user/command/timeout接⼝，在第⼀个请求还没有成功返回时，查看输出⽇志可以发现只有第⼀个请求正常的进⼊到user-service的接⼝中，其它请求会直接返回降级信息。这样我们就实现了对服务请求的限流。
 
-### 5、什么是 WebSockets？
+**2、** 漏桶算法：⽔（请求）先进⼊到漏桶⾥，漏桶以⼀定的速度出⽔，当⽔流⼊速度过⼤会直接溢出，可以看出漏桶算法能强⾏限制数据的传输速率。
 
-WebSocket 是一种计算机通信协议，通过单个 TCP 连接提供全双工通信信道。
+![](https://gitee.com/souyunkutech/souyunku-home/raw/master/images/souyunku-web/2020/5/2/01/44/45_7.png#alt=45%5C_7.png)
 
-**1、** WebSocket 是双向的 -使用 WebSocket 客户端或服务器可以发起消息发送。
+**3、** 令牌桶算法：除了要求能够限制数据的平均传输速率外，还要求允许某种程度的突发传输。这时候漏桶算法可能就不合适了，令牌桶算法更为适合。 如图所示，令牌桶算法的原理是系统会以⼀个恒定的速度往桶⾥放⼊令牌，⽽如果请求需要被处理，则需要先从桶⾥获取⼀个令牌，当桶⾥没有令牌可取时，则拒绝服务。
 
-**2、** WebSocket 是全双工的 -客户端和服务器通信是相互独立的。
-
-**3、** 单个 TCP 连接 -初始连接使用 HTTP，然后将此连接升级到基于套接字的连接。然后这个单一连接用于所有未来的通信
-
-**4、** Light -与 http 相比，WebSocket 消息数据交换要轻得多。
+![](https://gitee.com/souyunkutech/souyunku-home/raw/master/images/souyunku-web/2020/5/2/01/44/45_8.png#alt=45%5C_8.png)
 
 
-### 6、什么是 AOP 通知
+### 4、MVC是什么？MVC设计模式的好处有哪些
 
-通知是个在方法执行前或执行后要做的动作，实际上是程序执行时要通过SpringAOP框架触发的代码段。
+mvc是一种设计模式（设计模式就是日常开发中编写代码的一种好的方法和经验的总结）。模型（model）-视图（view）-控制器（controller），三层架构的设计模式。用于实现前端页面的展现与后端业务数据处理的分离。
 
-**Spring切面可以应用五种类型的通知：**
+**mvc设计模式的好处**
 
-before：前置通知，在一个方法执行前被调用。
+**1、** 分层设计，实现了业务系统各个组件之间的解耦，有利于业务系统的可扩展性，可维护性。
 
-after: 在方法执行之后调用的通知，无论方法执行是否成功。
-
-after-returning: 仅当方法成功完成后执行的通知。
-
-after-throwing: 在方法抛出异常退出时执行的通知。
-
-around: 在方法执行之前和之后调用的通知。
+**2、** 有利于系统的并行开发，提升开发效率。
 
 
-### 7、什么是基于Java的Spring注解配置? 给一些注解的例子.
+### 5、JPA 和 Hibernate 有哪些区别？JPA 可以支持动态 SQL 吗？
 
-基于Java的配置，允许你在少量的Java注解的帮助下，进行你的大部分Spring配置而非通过XML文件。
+JPA本身是一种规范，它的本质是一种ORM规范（不是ORM框架，因为JPA并未提供ORM实现，只是制定了规范）因为JPA是一种规范，所以，只是提供了一些相关的接口，但是接口并不能直接使用，JPA底层需要某种JPA实现，Hibernate 是 JPA 的一个实现集。
 
-以[@Configuration ](/Configuration ) 注解为例，它用来标记类可以当做一个bean的定义，被Spring IOC容器使用。另一个例子是@Bean注解，它表示此方法将要返回一个对象，作为一个bean注册进Spring应用上下文。
-
-
-### 8、SpringBoot如何配置log4j？
-
-在引用log4j之前，需要先排除项目创建时候带的日志，因为那个是Logback，然后再引入log4j的依赖，引入依赖之后，去src/main/resources目录下的log4j-spring.properties配置文件，就可以开始对应用的日志进行配置使用。
+JPA 是根据实体类的注解来创建对应的表和字段，如果需要动态创建表或者字段，需要动态构建对应的实体类，再重新调用Jpa刷新整个Entity。动态SQL，mybatis支持的最好，jpa也可以支持，但是没有Mybatis那么灵活。
 
 
-### 9、SpringBoot 还提供了其它的哪些 Starter Project Options？
+### 6、Spring Cloud的版本关系
 
-SpringBoot 也提供了其它的启动器项目包括，包括用于开发特定类型应用程序的典型依赖项。
-
-**1、** spring-boot-starter-web-services - SOAP Web Services；
-
-**2、** spring-boot-starter-web - Web 和 RESTful 应用程序；
-
-**3、** spring-boot-starter-test - 单元测试和集成测试；
-
-**4、** spring-boot-starter-jdbc - 传统的 JDBC；
-
-**5、** spring-boot-starter-hateoas - 为服务添加 HATEOAS 功能；
-
-**6、** spring-boot-starter-security - 使用 SpringSecurity 进行身份验证和授权；
-
-**7、** spring-boot-starter-data-jpa - 带有 Hibeernate 的 Spring Data JPA；
-
-**8、** spring-boot-starter-data-rest - 使用 Spring Data REST 公布简单的 REST 服务；
+Spring Cloud是一个由许多子项目组成的综合项目，各子项目有不同的发布节奏。 为了管理Spring Cloud与各子项目的版本依赖关系，发布了一个清单，其中包括了某个Spring Cloud版本对应的子项目版本。 为了避免Spring Cloud版本号与子项目版本号混淆，Spring Cloud版本采用了名称而非版本号的命名，这些版本的名字采用了伦敦地铁站的名字，根据字母表的顺序来对应版本时间顺序，例如Angel是第一个版本，Brixton是第二个版本。 当Spring Cloud的发布内容积累到临界点或者一个重大BUG被解决后，会发布一个"service releases"版本，简称SRX版本，比如Greenwich.SR2就是Spring Cloud发布的Greenwich版本的第2个SRX版本。目前Spring Cloud的最新版本是Hoxton。
 
 
-### 10、怎样开启注解装配？
+### 7、什么是 AOP 连接点
 
-注解装配在默认情况下是不开启的，为了使用注解装配，我们必须在Spring配置文件中配置 [context:annotation-config/]()元素。
+连接点代表一个应用程序的某个位置，在这个位置我们可以插入一个AOP切面，它实际上是个应用程序执行Spring AOP的位置。
 
 
-### 11、您将如何在微服务上执行安全测试？
-### 12、介绍一下 WebApplicationContext
-### 13、什么是领域驱动设计？
-### 14、怎么样把ModelMap里面的数据放入Session里面？
-### 15、如何解决POST请求中文乱码问题，GET的又如何处理呢？
-### 16、您使用了哪些starter maven依赖项？
-### 17、BeanFactory – BeanFactory 实现举例。
-### 18、自动装配有哪些局限性 ?
-### 19、什么是 Spring Framework？
-### 20、什么是 AOP Aspect 切面
-### 21、为什么要使用 Spring Cloud 熔断器？
-### 22、[@RequestMapping ](/RequestMapping ) 注解有什么用？
-### 23、如何使用 SpringBoot 生成一个 WAR 文件？
-### 24、使用 Spring 访问 Hibernate 的方法有哪些？
-### 25、SpringCloud有几种调用接口方式
-### 26、SpringBoot支持哪些嵌入式容器？
-### 27、SpringBoot运行项目的几种方式？
-### 28、什么是 Swagger？你用 SpringBoot 实现了它吗？
-### 29、什么是FreeMarker模板？
-### 30、使用 SpringBoot 开发分布式微服务时，我们面临什么问题
-### 31、什么是消费者驱动的合同（CDC）？
+### 8、@SpringBootApplication注释在内部有什么用处?
+
+作为Spring引导文档，@SpringBootApplication注释等同于同时使用@Configuration、@EnableAutoConfiguration和@ComponentScan及其默认属性。SpringBoot允许开发人员使用单个注释而不是多个注释。但是，众所周知，Spring提供了松散耦合的特性，我们可以根据项目需要为每个注释使用这些特性。
+
+
+### 9、SpringBoot 常用的 Starter 有哪些？
+
+**1、** spring-boot-starter-web ：提供 Spring MVC + 内嵌的 Tomcat 。
+
+**2、** spring-boot-starter-data-jpa ：提供 Spring JPA + Hibernate 。
+
+**3、** spring-boot-starter-data-Redis ：提供 Redis 。
+
+**4、** mybatis-spring-boot-starter ：提供 MyBatis 。
+
+
+### 10、SpringBoot 的核心配置文件有哪几个？它们的区别是什么？
+
+SpringBoot 的核心配置文件是 application 和 bootstrap 配置文件。
+
+application 配置文件这个容易理解，主要用于 SpringBoot 项目的自动化配置。
+
+bootstrap 配置文件有以下几个应用场景。
+
+使用 Spring Cloud Config 配置中心时，这时需要在 bootstrap 配置文件中添加连接到配置中心的配置属性来加载外部配置中心的配置信息；
+
+一些固定的不能被覆盖的属性；
+
+一些加密/解密的场景；
+
+
+### 11、@RestController和@Controller的区别
+### 12、SpringBoot 日志框架：
+### 13、Spring Cloud Task
+### 14、如何在 SpringBoot 启动的时候运行一些特定的代码？
+### 15、SpringBoot的核心注解是哪个？它主要由哪几个注解组成的？
+### 16、什么是执行器停机？
+### 17、什么是双因素身份验证？
+### 18、SpringBoot有哪些优点？
+### 19、ZuulFilter常用有那些方法
+### 20、什么是自动配置？
+### 21、@LoadBalanced注解的作用
+### 22、可以通过多少种方式完成依赖注入？
+### 23、eureka的缺点：
+### 24、Spring MVC里面拦截器是怎么写的
+### 25、什么是REST / RESTful以及它的用途是什么？
+### 26、SpringBoot的配置文件有哪几种格式？区别是什么？
+### 27、使用Spring通过什么方式访问Hibernate?
+### 28、SpringBoot 2.X 有什么新特性？与 1.X 有什么区别？
+### 29、微服务限流 dubbo限流：dubbo提供了多个和请求相关的filter：ActiveLimitFilter ExecuteLimitFilter TPSLimiterFilter
+### 30、负载均衡的意义是什么?
+### 31、如何实现 SpringBoot 应用程序的安全性？
 
 
 
@@ -168,12 +138,8 @@ SpringBoot 也提供了其它的启动器项目包括，包括用于开发特定
 ### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/?p=67)
 
 
-## 其他，高清PDF：172份，7701页，最新整理
+## 最新，高清PDF：172份，7701页，最新整理
 
-[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/mst.png "大厂面试题")](https://souyunku.lanzous.com/b0alp9b9g "大厂面试题")
+[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/mst.png "大厂面试题")](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png"大厂面试题")
 
-## 关注公众号：架构师专栏，回复：“面试题”，即可
-
-[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/jiagoushi.png "架构师专栏")](https://souyunku.lanzous.com/b0alp9b9g "架构师专栏")
-
-## 关注公众号：架构师专栏，回复：“面试题”，即可
+[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png "架构师专栏")](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png "架构师专栏")

@@ -8,120 +8,135 @@
 
 
 
-### 1、什么是 CSRF 攻击？
+### 1、Zookeeper如何 保证CP
 
-CSRF 代表跨站请求伪造。这是一种攻击，迫使最终用户在当前通过身份验证的Web 应用程序上执行不需要的操作。CSRF 攻击专门针对状态改变请求，而不是数据窃取，因为攻击者无法查看对伪造请求的响应。
-
-
-### 2、什么是Spring Profiles？
-
-Spring Profiles允许用户根据配置文件（dev，test，prod等）来注册bean。因此，当应用程序在开发中运行时，只有某些bean可以加载，而在PRODUCTION中，某些其他bean可以加载。假设我们的要求是Swagger文档仅适用于QA环境，并且禁用所有其他文档。这可以使用配置文件来完成。SpringBoot使得使用配置文件非常简单。
+当向注册中⼼查询服务列表时，我们可以容忍注册中⼼返回的是⼏分钟以前的注册信息，但不能接受服务直接down掉不可⽤。也就是说，服务注册功能对可⽤性的要求要⾼于⼀致性。但是zk会出现这样⼀种情况，当master节点因为⽹络故障与其他节点失去联系时，剩余节点会重新进⾏leader选举。问题在于，选举leader的时间太⻓，30 ~ 120s, 且选举期间整个zk集群都是不可⽤的，这就导致在选举期间注册服务瘫痪。在云部署的环境下，因⽹络问题使得zk集群失去master节点是较⼤概率会发⽣的事，虽然服务能够最终恢复，但是漫⻓的选举时间导致的注册⻓期不可⽤是不能容忍的。
 
 
-### 3、什么是 Spring Batch?
+### 2、什么是Spring Actuator？它有什么优势？
 
-`SpringBoot Batch`提供可重用的函数，这些函数在处理大量记录时非常重要；包括日志/跟踪，事务管理，作业处理统计信息，作业重新启动，跳过和资源管理。它还提供了更先进的技术服务和功能，通过优化和分区技术，可以实现极高批量和高性能批处理作业。简单以及复杂的大批量批处理作业可以高度可扩展的方式利用框架处理重要大量的信息。
+这是SpringBoot中最常见的面试问题之一。根据Spring文件：
 
+执行器是一个制造术语，指的是移动或控制某物的机械装置。执行机构可以从一个小的变化中产生大量的运动。
 
+众所周知，SpringBoot提供了许多自动配置特性，帮助开发人员快速开发生产组件。但是，当考虑调试和如何调试，如果出现问题，总是需要分析日志并挖掘应用程序的数据流，检查问题出在何处。因此，Spring Actuator提供了方便的访问这些类型的途径。它提供了许多特性，例如创建了什么样的bean、控制器中的映射、CPU使用情况等等。它还可以将自动收集和审计健康状况和指标应用到应用程序中。
 
-### 4、什么是starter?
-
-Starter主要是用来简化maven依赖
-
-
-### 5、Spring MVC 框架有什么用？
-
-Spring Web MVC 框架提供 模型-视图-控制器 架构和随时可用的组件，用于开发灵活且松散耦合的 Web 应用程序。MVC 模式有助于分离应用程序的不同方面，如输入逻辑，业务逻辑和 UI 逻辑，同时在所有这些元素之间提供松散耦合。
+它提供了一种非常简单的方法来访问少数生产就绪的REST端点，并从Web获取各种信息。但是通过使用这些端点，你可以做很多事情来查看端点文档。没有必要担心安全问题;如果存在Spring Security，则默认使用Spring Security的内容协商策略保护这些端点。或者，可以在RequestMatcher的帮助下配置自定义安全性。
 
 
-### 6、描述一下 DispatcherServlet 的工作流程
+### 3、Spring Cloud Task
 
-DispatcherServlet 的工作流程可以用一幅图来说明：
-
-![](https://gitee.com/souyunkutech/souyunku-home/raw/master/images/souyunku-web/2019/08/0816/02/img_7.png#alt=img%5C_7.png)
-
-**1、** 向服务器发送 HTTP 请求，请求被前端控制器 `DispatcherServlet` 捕获。
-
-**2、**  `DispatcherServlet` 根据 -servlet.xml  中的配置对请求的 URL 进行解析，得到请求资源标识符（URI）。然后根据该 URI，调用 `HandlerMapping` 获得该 Handler 配置的所有相关的对象（包括 Handler 对象以及 Handler 对象对应的拦截器），最后以 `HandlerExecutionChain` 对象的形式返回。
-
-**3、**  `DispatcherServlet` 根据获得的 `Handler`，选择一个合适的 `HandlerAdapter`。（附注：如果成功获得 `HandlerAdapter`后，此时将开始执行拦截器的 preHandler(...)方法）。
-
-**4、** 提取 `Request`中的模型数据，填充 `Handler`入参，开始执行 `Handler`（ `Controller`)。在填充 `Handler`的入参过程中，根据你的配置，Spring 将帮你做一些额外的工作：
-
-**1、** HttpMessageConveter：将请求消息（如 Json、xml 等数据）转换成一个对象，将对象转换为指定的响应信息。
-
-**2、** 数据转换：对请求消息进行数据转换。如 `String`转换成 `Integer`、 `Double`等。
-
-**3、** 数据根式化：对请求消息进行数据格式化。如将字符串转换成格式化数字或格式化日期等。
-
-**4、** 数据验证：验证数据的有效性（长度、格式等），验证结果存储到 `BindingResult`或 `Error`中。
-
-**5、** Handler(Controller)执行完成后，向 `DispatcherServlet` 返回一个 `ModelAndView` 对象；
-
-**6、** 根据返回的 `ModelAndView`，选择一个适合的 `ViewResolver`（必须是已经注册到 Spring 容器中的 `ViewResolver`)返回给 `DispatcherServlet`。
-
-**7、**  `ViewResolver` 结合 `Model`和 `View`，来渲染视图。
-
-**8、** 视图负责将渲染结果返回给客户端。
+Spring Cloud Task的目标是为SpringBoot应用程序提供创建短运行期微服务的功能。在Spring Cloud Task中，我们可以灵活地动态运行任何任务，按需分配资源并在任务完成后检索结果。Tasks是Spring Cloud Data Flow中的一个基础项目，允许用户将几乎任何SpringBoot应用程序作为一个短期任务执行。
 
 
-### 7、什么是微服务
+### 4、Docker的目的是什么？
 
-**1、** 微服务是⼀种架构⻛格，也是⼀种服务；
+Docker提供了一个可用于托管任何应用程序的容器环境。在此，软件应用程序和支持它的依赖项紧密打包在一起。
 
-**2、** 微服务的颗粒⽐较⼩，⼀个⼤型复杂软件应⽤由多个微服务组成，⽐如Netflix⽬前由500多的微服务组成；
-
-**3、** 它采⽤UNIX设计的哲学，每种服务只做⼀件事，是⼀种松耦合的能够被独⽴开发和部署的⽆状态化服务（独⽴扩展、升级和可替换）。
+因此，这个打包的产品被称为Container，因为它是由Docker完成的，所以它被称为Docker容器！
 
 
-### 8、你如何理解 SpringBoot 配置加载顺序？
+### 5、能否举一个例子来解释更多 Staters 的内容？
 
-在 SpringBoot 里面，可以使用以下几种方式来加载配置。
+让我们来思考一个 Stater 的例子 -SpringBoot Stater Web。
 
-**1、** properties文件；
+如果你想开发一个 web 应用程序或者是公开 REST 服务的应用程序。SpringBoot Start Web 是首选。让我们使用 Spring Initializr 创建一个 SpringBoot Start Web 的快速项目。
 
-**2、** YAML文件；
+**依赖项可以被分为：**
 
-**3、** 系统环境变量；
+**1、** Spring - core，beans，context，aop
 
-**4、** 命令行参数；
+**2、** Web MVC - （Spring MVC）
 
+**3、** Jackson - for JSON Binding
 
-### 9、SOA和微服务架构之间的主要区别是什么？
+**4、** Validation - Hibernate,Validation API
 
-SOA和微服务之间的主要区别如下：
+**5、** Enbedded Servlet Container - Tomcat
 
-![](https://gitee.com/souyunkutech/souyunku-home/raw/master/images/souyunku-web/2019/08/0816/01/img_8.png#alt=img%5C_8.png)
+**6、** Logging - logback,slf4j
 
+任何经典的 Web 应用程序都会使用所有这些依赖项。SpringBoot Starter Web 预先打包了这些依赖项。
 
-### 10、什么是Spring beans?
-
-Spring beans 是那些形成Spring应用的主干的java对象。它们被Spring IOC容器初始化，装配，和管理。这些beans通过容器中配置的元数据创建。比如，以XML文件中 的形式定义。
-
-Spring 框架定义的beans都是单件beans。在bean tag中有个属性”singleton”，如果它被赋为TRUE，bean 就是单件，否则就是一个 prototype bean。默认是TRUE，所以所有在Spring框架中的beans 缺省都是单件。
+作为一个开发者，我不需要再担心这些依赖项和它们的兼容版本。
 
 
-### 11、运行 SpringBoot 有哪几种方式？
-### 12、什么是 JavaConfig？
-### 13、REST 和RPC对比
-### 14、为什么人们会犹豫使用微服务？
-### 15、什么是织入。什么是织入应用的不同点？
-### 16、如何实现 SpringBoot应用程序的安全性?
-### 17、什么是Eureka
-### 18、SpringBoot 需要独立的容器运行吗？
-### 19、不同版本的 Spring Framework 有哪些主要功能？
-### 20、保护 SpringBoot 应用有哪些方法？
-### 21、微服务架构的优缺点是什么？
-### 22、如何实现SpringBoot应用程序的安全性？
-### 23、为什么要选择微服务架构？
-### 24、网关的作用是什么
-### 25、微服务中如何实现 session 共享 ?
-### 26、Web，RESTful API在微服务中的作用是什么？
-### 27、在 Spring中如何注入一个java集合？
-### 28、SpringBoot 最大的优势是什么呢？
-### 29、RequestMapping 和 GetMapping 的不同之处在哪里？
-### 30、微服务有哪些特点？
-### 31、开启SpringBoot特性有哪几种方式？（创建SpringBoot项目的两种方式）
+### 6、SpringCloud的优缺点
+
+**优点：**
+
+**1、** 耦合度比较低。不会影响其他模块的开发。
+
+**2、** 减轻团队的成本，可以并行开发，不用关注其他人怎么开发，先关注自己的开发。
+
+**3、** 配置比较简单，基本用注解就能实现，不用使用过多的配置文件。
+
+**4、** 微服务跨平台的，可以用任何一种语言开发。
+
+**5、** 每个微服务可以有自己的独立的数据库也有用公共的数据库。
+
+**6、** 直接写后端的代码，不用关注前端怎么开发，直接写自己的后端代码即可，然后暴露接口，通过组件进行服务通信。
+
+**缺点：**
+
+1、部署比较麻烦，给运维工程师带来一定的麻烦。
+
+2、针对数据的管理比麻烦，因为微服务可以每个微服务使用一个数据库。
+
+3、系统集成测试比较麻烦
+
+4、性能的监控比较麻烦。【最好开发一个大屏监控系统】
+
+总的来说优点大过于缺点，目前看来Spring Cloud是一套非常完善的分布式框架，目前很多企业开始用微服务、Spring Cloud的优势是显而易见的。因此对于想研究微服务架构的同学来说，学习Spring Cloud是一个不错的选择。
+
+
+### 7、如何使用SpringBoot实现异常处理?
+
+`SpringControllerAdvice`提供了一种使用处理异常的非常有用的方法。通过实现一个 `ControllerAdvice`类，来处理控制器类抛出的所有异常。
+
+
+### 8、Spring MVC怎么和AJAX相互调用的？
+
+通过Jackson框架就可以把Java里面的对象直接转化成Js可以识别的Json对象。具体步骤如下 ：
+
+**1、** 加入Jackson.jar
+
+**2、** 在配置文件中配置json的映射
+
+**3、** 在接受Ajax方法里面可以直接返回Object,List等,但方法前面要加上@ResponseBody注解。
+
+
+### 9、Spring Cloud Bus
+
+用于传播集群状态变化的消息总线，使用轻量级消息代理链接分布式系统中的节点，可以用来动态刷新集群中的服务配置。
+
+
+### 10、什么是代理?
+
+代理是通知目标对象后创建的对象。从客户端的角度看，代理对象和目标对象是一样的。
+
+
+### 11、Spring 、SpringBoot 和 Spring Cloud 的关系?
+### 12、开启 SpringBoot 特性有哪几种方式？
+### 13、SpringBoot 中如何实现定时任务 ?
+### 14、使用 SpringBoot 启动连接到内存数据库 H2 的 JPA 应用程序需要哪些依赖项？
+### 15、什么是Spring的MVC框架？
+### 16、AOP 有哪些实现方式？
+### 17、SpringBoot的缺点
+### 18、什么是Spring引导的执行器？
+### 19、eureka和zookeeper都可以提供服务注册与发现的功能，请说说两个的区别？
+### 20、[@RequestMapping ](/RequestMapping ) 注解
+### 21、SpringData 项目所支持的关系数据存储技术：
+### 22、SpringBoot 的核心注解是哪个？它主要由哪几个注解组成的？
+### 23、[@RequestMapping ](/RequestMapping ) 注解有什么用？
+### 24、如何覆盖SpringBoot项目的默认属性？
+### 25、spring JDBC API 中存在哪些类？
+### 26、SpringBoot 有哪些优点？
+### 27、什么是基于注解的容器配置
+### 28、什么是Semantic监控？
+### 29、什么是 SpringBoot 启动类注解：
+### 30、如何使用SpringBoot实现分页和排序？
+### 31、SpringCloud由什么组成
 
 
 
@@ -133,12 +148,8 @@ Spring 框架定义的beans都是单件beans。在bean tag中有个属性”sing
 ### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/?p=67)
 
 
-## 其他，高清PDF：172份，7701页，最新整理
+## 最新，高清PDF：172份，7701页，最新整理
 
-[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/mst.png "大厂面试题")](https://souyunku.lanzous.com/b0alp9b9g "大厂面试题")
+[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/mst.png "大厂面试题")](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png"大厂面试题")
 
-## 关注公众号：架构师专栏，回复：“面试题”，即可
-
-[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/jiagoushi.png "架构师专栏")](https://souyunku.lanzous.com/b0alp9b9g "架构师专栏")
-
-## 关注公众号：架构师专栏，回复：“面试题”，即可
+[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png "架构师专栏")](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png "架构师专栏")

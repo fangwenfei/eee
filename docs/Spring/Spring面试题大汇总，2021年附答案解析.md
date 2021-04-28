@@ -8,128 +8,137 @@
 
 
 
-### 1、@SpringBootApplication注释在内部有什么用处?
+### 1、访问RESTful微服务的方法是什么？
 
-作为Spring引导文档，@SpringBootApplication注释等同于同时使用@Configuration、@EnableAutoConfiguration和@ComponentScan及其默认属性。SpringBoot允许开发人员使用单个注释而不是多个注释。但是，众所周知，Spring提供了松散耦合的特性，我们可以根据项目需要为每个注释使用这些特性。
+另一个经常被问到的微服务面试问题是如何访问RESTful微服务？你可以通过两种方法做到这一点：
 
+**1、** 使用负载平衡的REST模板。
 
-### 2、SpringBoot 打成的 jar 和普通的 jar 有什么区别 ?
-
-SpringBoot 项目最终打包成的 jar 是可执行 jar ，这种 jar 可以直接通过 java -jar xxx.jar 命令来运行，这种 jar 不可以作为普通的 jar 被其他项目依赖，即使依赖了也无法使用其中的类。
-
-SpringBoot 的 jar 无法被其他项目依赖，主要还是他和普通 jar 的结构不同。普通的 jar 包，解压后直接就是包名，包里就是我们的代码，而 SpringBoot 打包成的可执行 jar 解压后，在 \BOOT-INF\classes 目录下才是我们的代码，因此无法被直接引用。如果非要引用，可以在 pom.xml 文件中增加配置，将 SpringBoot 项目打包成两个 jar ，一个可执行，一个可引用。
+**2、** 使用多个微服务。
 
 
-### 3、SpringBoot Starter的工作原理
+### 2、康威定律是什么？
 
-`我个人理解SpringBoot就是由各种Starter组合起来的，我们自己也可以开发Starter`
-
-在sprinBoot启动时由@SpringBootApplication注解会自动去maven中读取每个starter中的spring、factories文件,该文件里配置了所有需要被创建spring容器中的bean，并且进行自动配置把bean注入SpringContext中 //（SpringContext是Spring的配置文件）
+康威定律指出，“设计系统的组织，其产生的设计等同于组织之内、组织之间的沟通结构。” 面试官可能会问反微服务面试问题，比如康威定律与微服务的关系。一些松散耦合的api形成了微服务的体系结构。这种结构非常适合小团队实现自治组件的方式。这种体系结构使组织在重组其工作流程时更加灵活。
 
 
-### 4、SpringBoot 支持哪些日志框架？推荐和默认的日志框架是哪个？
+### 3、运行 SpringBoot 有哪几种方式？
 
-SpringBoot 支持 Java Util Logging, Log4j2, Lockback 作为日志框架，如果你使用 Starters 启动器，SpringBoot 将使用 Logback 作为默认日志框架。
+打包用命令或者放到容器中运行
 
+用 Maven/ Gradle 插件运行
 
-### 5、Spring由哪些模块组成?
-
-以下是Spring 框架的基本模块：
-
-**1、** Core module
-
-**2、** Bean module
-
-**3、** Context module
-
-**4、** Expression Language module
-
-**5、** JDBC module
-
-**6、** ORM module
-
-**7、** OXM module
-
-**8、** Java Messaging Service(JMS) module
-
-**9、** Transaction module
-
-**10、** Web module
-
-**11、** Web-Servlet module
-
-**12、** Web-Struts module
-
-**13、** Web-Portlet module
+直接执行 main 方法运行
 
 
-### 6、为什么需要学习Spring Cloud
+### 4、什么是 spring 装配
 
-**1、** 首先springcloud基于spingboot的优雅简洁，可还记得我们被无数xml支配的恐惧？可还记得springmvc，mybatis错综复杂的配置，有了spingboot，这些东西都不需要了，spingboot好处不再赘诉，springcloud就基于SpringBoot把市场上优秀的服务框架组合起来，通过SpringBoot风格进行再封装屏蔽掉了复杂的配置和实现原理
-
-**2、** 什么叫做开箱即用？即使是当年的黄金搭档dubbo+zookeeper下载配置起来也是颇费心神的！而springcloud完成这些只需要一个jar的依赖就可以了！
-
-**3、** springcloud大多数子模块都是直击痛点，像zuul解决的跨域，fegin解决的负载均衡，hystrix的熔断机制等等等等
+当 bean 在 Spring 容器中组合在一起时，它被称为装配或 bean 装配。Spring 容器需要知道需要什么 bean 以及容器应该如何使用依赖注入来将 bean 绑定在一起，同时装配 bean。
 
 
-### 7、如何集成 SpringBoot 和 ActiveMQ？
+### 5、我们如何监视所有 SpringBoot 微服务？
 
-对于集成 SpringBoot 和 ActiveMQ，我们使用依赖关系。它只需要很少的配置，并且不需要样板代码。
-
-
-### 8、SpringBoot 实现热部署有哪几种方式？
-
-主要有两种方式：
-
-**1、** Spring Loaded
-
-**2、** Spring-boot-devtools
+SpringBoot 提供监视器端点以监控各个微服务的度量。这些端点对于获取有关应用程序的信息（如它们是否已启动）以及它们的组件（如数据库等）是否正常运行很有帮助。但是，使用监视器的一个主要缺点或困难是，我们必须单独打开应用程序的知识点以了解其状态或健康状况。想象一下涉及 50 个应用程序的微服务，管理员将不得不击中所有 50 个应用程序的执行终端。为了帮助我们处理这种情况，我们将使用位于的开源项目。它建立在 SpringBoot Actuator 之上，它提供了一个 Web UI，使我们能够可视化多个应用程序的度量。
 
 
-### 9、解释Spring框架中bean的生命周期。
+### 6、SpringBoot 中的 starter 到底是什么 ?
 
-**1、** Spring容器 从XML 文件中读取bean的定义，并实例化bean。
-
-**2、** Spring根据bean的定义填充所有的属性。
-
-**3、** 如果bean实现了BeanNameAware 接口，Spring 传递bean 的ID 到 setBeanName方法。
-
-**4、** 如果Bean 实现了 BeanFactoryAware 接口， Spring传递beanfactory 给setBeanFactory 方法。
-
-**5、** 如果有任何与bean相关联的BeanPostProcessors，Spring会在postProcesserBeforeInitialization()方法内调用它们。
-
-**6、** 如果bean实现IntializingBean了，调用它的afterPropertySet方法，如果bean声明了初始化方法，调用此初始化方法。
-
-**7、** 如果有BeanPostProcessors 和bean 关联，这些bean的postProcessAfterInitialization() 方法将被调用。
-
-**8、** 如果bean实现了 DisposableBean，它将调用destroy()方法。
+首先，这个 Starter 并非什么新的技术点，基本上还是基于 Spring 已有功能来实现的。首先它提供了一个自动化配置类，一般命名为 `XXXAutoConfiguration` ，在这个配置类中通过条件注解来决定一个配置是否生效（条件注解就是 Spring 中原本就有的），然后它还会提供一系列的默认配置，也允许开发者根据实际情况自定义相关配置，然后通过类型安全的属性(spring、factories)注入将这些配置属性注入进来，新注入的属性会代替掉默认属性。正因为如此，很多第三方框架，我们只需要引入依赖就可以直接使用了。当然，开发者也可以自定义 Starter
 
 
-### 10、服务注册和发现是什么意思？Spring Cloud 如何实现？
+### 7、如何给Spring 容器提供配置元数据?
 
-当我们开始一个项目时，我们通常在属性文件中进行所有的配置。随着越来越多的服务开发和部署，添加和修改这些属性变得更加复杂。有些服务可能会下降，而某些位置可能会发生变化。手动更改属性可能会产生问题。 Eureka 服务注册和发现可以在这种情况下提供帮助。由于所有服务都在 Eureka 服务器上注册并通过调用 Eureka 服务器完成查找，因此无需处理服务地点的任何更改和处理。
+这里有三种重要的方法给Spring 容器提供配置元数据。
+
+XML配置文件。
+
+基于注解的配置。
+
+基于java的配置。
 
 
-### 11、什么是Netflix Feign？它的优点是什么？
-### 12、什么是Spring Cloud？
-### 13、什么是 AOP 切点
-### 14、[@Qualifier ](/Qualifier ) 注解有什么用？
-### 15、eureka和zookeeper都可以提供服务注册与发现的功能，请说说两个的区别？
-### 16、什么是金丝雀释放？
-### 17、缓存机制：
-### 18、你怎样定义类的作用域?
-### 19、什么是spring?
-### 20、可以在SpringBoot application中禁用默认的Web服务器吗？
-### 21、列举 spring 支持的事务管理类型
-### 22、Spring Cloud解决了哪些问题？
-### 23、什么是Spring Cloud Config?
-### 24、Docker的目的是什么？
-### 25、SpringBoot、Spring MVC 和 Spring 有什么区别？
-### 26、什么是持续监测？
-### 27、如何在SpringBoot应用程序中实现Spring安全性？
-### 28、一个Spring的应用看起来象什么？
-### 29、什么是Spring的内部bean？
-### 30、如何使用 SpringBoot 部署到不同的服务器？
+### 8、服务网关的作用
+
+**1、** 简化客户端调用复杂度，统一处理外部请求。
+
+**2、** 数据裁剪以及聚合，根据不同的接口需求，对数据加工后对外。
+
+**3、** 多渠道支持，针对不同的客户端提供不同的网关支持。
+
+**4、** 遗留系统的微服务化改造，可以作为新老系统的中转组件。
+
+**5、** 统一处理调用过程中的安全、权限问题。
+
+
+### 9、SpringBoot 支持哪些日志框架？推荐和默认的日志框架是哪个？
+
+SpringBoot 支持 Java Util Logging, Log4j2, Lockback 作为日志框架，如果你使用 Starters 启动器，SpringBoot 将使用 Logback 作为默认日志框架
+
+
+### 10、spring 提供了哪些配置方式？
+
+基于 xml 配置
+
+bean 所需的依赖项和服务在 XML 格式的配置文件中指定。这些配置文件通常包含许多 bean 定义和特定于应用程序的配置选项。它们通常以 bean 标签开头。例如：
+
+```
+<bean id="studentbean" class="org.edureka.firstSpring.StudentBean">
+ <property name="name" value="Edureka"></property>
+</bean>
+```
+
+基于注解配置
+
+您可以通过在相关的类，方法或字段声明上使用注解，将 bean 配置为组件类本身，而不是使用 XML 来描述 bean 装配。默认情况下，Spring 容器中未打开注解装配。因此，您需要在使用它之前在 Spring 配置文件中启用它。例如：
+
+```
+<beans>
+<context:annotation-config/>
+<!-- bean definitions go here -->
+</beans>
+```
+
+基于 Java API 配置
+
+Spring 的 Java 配置是通过使用 [@Bean ](/Bean ) 和 [@Configuration ](/Configuration ) 来实现。
+
+**1、**   [@Bean ](/Bean ) 注解扮演与 `<bean/>` 元素相同的角色。
+
+**2、**   [@Configuration ](/Configuration ) 类允许通过简单地调用同一个类中的其他 [@Bean ](/Bean ) 方法来定义 bean 间依赖关系。
+
+例如：
+
+```
+@Configuration
+public class StudentConfig {
+    @Bean
+    public StudentBean myStudent() {
+        return new StudentBean();
+    }
+}
+```
+
+
+### 11、spring DAO 有什么用？
+### 12、多个消费者调⽤同⼀接⼝，eruka默认的分配⽅式是什么？
+### 13、什么是微服务
+### 14、链路跟踪Sleuth
+### 15、SpringBoot和springcloud认识
+### 16、PACT如何运作？
+### 17、SpringBoot多数据源事务如何管理
+### 18、什么是Spring Cloud？
+### 19、SpringBoot 中如何解决跨域问题 ?
+### 20、spring boot扫描流程?
+### 21、微服务中如何实现 session 共享 ?
+### 22、运行 SpringBoot 有哪几种方式？
+### 23、什么是不同类型的双因素身份认证？
+### 24、什么是YAML?
+### 25、如何启用/禁用执行器？
+### 26、你如何理解 SpringBoot 配置加载顺序？
+### 27、SpringBoot的自动配置原理是什么
+### 28、什么是SpringBoot ？
+### 29、YAML 配置的优势在哪里 ?
+### 30、如何重新加载SpringBoot上的更改，而无需重新启动服务器？
 
 
 
@@ -141,12 +150,8 @@ SpringBoot 支持 Java Util Logging, Log4j2, Lockback 作为日志框架，如�
 ### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/?p=67)
 
 
-## 其他，高清PDF：172份，7701页，最新整理
+## 最新，高清PDF：172份，7701页，最新整理
 
-[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/mst.png "大厂面试题")](https://souyunku.lanzous.com/b0alp9b9g "大厂面试题")
+[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/mst.png "大厂面试题")](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png"大厂面试题")
 
-## 关注公众号：架构师专栏，回复：“面试题”，即可
-
-[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/jiagoushi.png "架构师专栏")](https://souyunku.lanzous.com/b0alp9b9g "架构师专栏")
-
-## 关注公众号：架构师专栏，回复：“面试题”，即可
+[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png "架构师专栏")](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png "架构师专栏")

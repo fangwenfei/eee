@@ -8,159 +8,129 @@
 
 
 
-### 1、Dubbo 和 Dubbox 之间的区别？
+### 1、RPC和SOA、SOAP、REST的区别
 
-dubbox 基于 dubbo 上做了一些扩展，如加了服务可 restful 调用，更新了开源组件等。
+**REST**
 
+可以看着是HTTP协议的一种直接应用，默认基于JSON作为传输格式,使用简单,学习成本低效率高,但是安全性较低。
 
-### 2、服务调用是阻塞的吗？
+**SOAP**
 
-默认是阻塞的，可以异步调用，没有返回值的可以这么做。
+SOAP是一种数据交换协议规范,是一种轻量的、简单的、基于XML的协议的规范。而SOAP可以看着是一个重量级的协议，基于XML、SOAP在安全方面是通过使用XML-Security和XML-Signature两个规范组成了WS-Security来实现安全控制的,当前已经得到了各个厂商的支持 。
 
+**它有什么优点？简单总结为：易用、灵活、跨语言、跨平台。**
 
-### 3、Dubbo 的默认集群容错方案？
+**SOA**
 
-Failover Cluster
+面向服务架构，它可以根据需求通过网络对松散耦合的粗粒度应用组件进行分布式部署、组合和使用。服务层是SOA的基础，可以直接被应用调用，从而有效控制系统中与软件代理交互的人为依赖性。
 
+SOA是一种粗粒度、松耦合服务架构，服务之间通过简单、精确定义接口进行通讯，不涉及底层编程接口和通讯模型。SOA可以看作是B/S模型、XML（标准通用标记语言的子集）/Web Service技术之后的自然延伸。
 
-### 4、Dubbo 支持哪些协议，每种协议的应用场景，优缺点？
+**REST 和 SOAP、RPC 有何区别呢?**
 
-**1、** dubbo：单一长连接和 NIO 异步通讯，适合大并发小数据量的服务调用，以及消费者远大于提供者。传输协议 TCP，异步， Hessian 序列化；
-
-**2、** rmi：采用 JDK 标准的 rmi 协议实现，传输参数和返回参数对象需要实现Serializable 接口，使用 java 标准序列化机制，使用阻塞式短连接，传输数据包大小混合，消费者和提供者个数差不多，可传文件，传输协议 TCP。多个短连接， TCP 协议传输，同步传输，适用常规的远程服务调用和 rmi 互操作。在依赖低版本的 Common-Collections 包， java 序列化存在安全漏洞；
-
-**3、** http：基于 Http 表单提交的远程调用协议，使用 Spring 的 HttpInvoke 实现。多个短连接，传输协议 HTTP，传入参数大小混合，提供者个数多于消费者，需要给应用程序和浏览器 JS 调用；
-
-**4、** webservice：基于 WebService 的远程调用协议，集成 CXF 实现，提供和原生 WebService 的互操作。多个短连接，基于 HTTP 传输，同步传输，适用系统集成和跨语言调用；
-
-**5、** hessian：集成 Hessian 服务，基于 HTTP 通讯，采用 Servlet 暴露服务，Dubbo 内嵌 Jetty 作为服务器时默认实现，提供与 Hession 服务互操作。多个短连接，同步 HTTP 传输， Hessian 序列化，传入参数较大，提供者大于消费者，提供者压力较大，可传文件；
-
-**6、** Redis：基于 Redis 实现的 RPC 协议
+没什么太大区别，他们的本质都是提供可支持分布式的基础服务，最大的区别在于他们各自的的特点所带来的不同应用场景
 
 
-### 5、Dubbo 必须依赖的包有哪些？
-
-Dubbo 必须依赖 JDK，其他为可选。
+### 2、RPC使用了哪些关键技术，主流RPC框架有哪些
 
 
-### 6、dubbo 服务集群配置（集群容错模式）
+### 3、Dubbo支持服务多协议吗？
 
-在集群调用失败时， Dubbo 提供了多种容错方案，缺省为 failover 重试。可以自行扩展集群容错策略
-
-l Failover Cluster(默认)
-
-失败自动切换，当出现失败，重试其它服务器。(缺省)通常用于读操作，
-
-但重试会带来更长延迟。可通过 retries="2"来设置重试次数(不含第一次)。
-
-```
-<dubbo:service retries="2" cluster="failover"/>或：<dubbo:reference retries="2" cluster="failover"/>cluster="failover"可以不用写,因为默认就是 failover
-```
-
-**Failfast Cluster**
-
-快速失败，只发起一次调用，失败立即报错。通常用于非幂等性的写操作，
-
-比如新增记录。
-
-```
-dubbo:service cluster="failfast" />
-```
-
-或：
-
-```
-<dubbo:reference cluster="failfast" />
-
-cluster="failfast"和 把 cluster="failover"、 retries="0"是一样的效果,retries="0"就是不重
-```
-
-Failsafe Cluster失败安全，出现异常时，直接忽略。通常用于写入审计日志等操作。
-
-```
-<dubbo:service cluster="failsafe" />
-```
-
-或：
-
-```
-<dubbo:reference cluster="failsafe" />
-```
-
-**Failback Cluster**
-
-失败自动恢复，后台记录失败请求，定时重发。通常用于消息通知操作。
-
-```
-<dubbo:service cluster="failback" />
-```
-
-或：
-
-```
-<dubbo:reference cluster="failback" />
-```
-
-Forking Cluster并行调用多个服务器，只要一个成功即返回。通常用于实时性要求较高的读
-
-操作，但需要浪费更多服务资源。可通过 forks="2"来设置最大并行数。
-
-```
-<dubbo:service cluster=“forking" forks="2"/>
-```
-
-或：
-
-```
-<dubbo:reference cluster=“forking" forks="2"/>
-```
+Dubbo 允许配置多协议，在不同服务上支持不同协议或者同一服务上同时支持多种协议。
 
 
-### 7、Dubbo 默认采用注册中心？
+### 4、Dubbo 集群提供了哪些负载均衡策略？
 
-采用 Zookeeper
+**1、** Random LoadBalance: 随机选取提供者策略，有利于动态调整提供者权重。截面碰撞率高，调用次数越多，分布越均匀；
 
+**2、** RoundRobin LoadBalance: 轮循选取提供者策略，平均分布，但是存在请求累积的问题；
 
-### 8、说说 Dubbo 服务暴露的过程。
+**3、** LeastActive LoadBalance: 最少活跃调用策略，解决慢提供者接收更少的请求；
 
-Dubbo 会在 Spring 实例化完 bean 之后，在刷新容器最后一步发布 ContextRefreshEvent 事件的时候，通知实现了 ApplicationListener 的 ServiceBean 类进行回调 onApplicationEvent 事件方法，Dubbo 会在这个方法中调用 ServiceBean 父类 ServiceConfig 的 export 方法，而该方法真正实现了服务的（异步或者非异步）发布。
+**4、** ConstantHash LoadBalance: 一致性 Hash 策略，使相同参数请求总是发到同一提供者，一台机器宕机，可以基于虚拟节点，分摊至其他提供者，避免引起提供者的剧烈变动；
 
-
-### 9、Dubbo必须依赖的包有哪些？
-
-Dubbo 必须依赖 JDK，其他为可选。
+**5、** 缺省时为 Random 随机调用
 
 
-### 10、一般使用什么注册中心？还有别的选择吗？
+### 5、默认使用什么序列化框架，你知道的还有哪些？
 
-推荐使用 zookeeper 注册中心，还有 Multicast注册中心, Redis注册中心, Simple注册中心。
+默认使用 Hessian 序列化，还有 Duddo、FastJson、Java 自带序列化。 hessian是一个采用二进制格式传输的服务框架，相对传统soap web service，更轻量，更快速。
 
-ZooKeeper的节点是通过像树一样的结构来进行维护的，并且每一个节点通过路径来标示以及访问。
+**Hessian原理与协议简析：**
 
-除此之外，每一个节点还拥有自身的一些信息，包括：数据、数据长度、创建时间、修改时间等等。
+http的协议约定了数据传输的方式，hessian也无法改变太多：
+
+**1、** hessian中client与server的交互，基于http-post方式。
+
+**2、** hessian将辅助信息，封装在http header中，比如“授权token”等，我们可以基于http-header来封装关于“安全校验”“meta数据”等。hessian提供了简单的”校验”机制。
+
+**3、** 对于hessian的交互核心数据，比如“调用的方法”和参数列表信息，将通过post请求的body体直接发送，格式为字节流。
+
+**4、** 对于hessian的server端响应数据，将在response中通过字节流的方式直接输出。
+
+hessian的协议本身并不复杂，在此不再赘言；所谓协议(protocol)就是约束数据的格式，client按照协议将请求信息序列化成字节序列发送给server端，server端根据协议，将数据反序列化成“对象”，然后执行指定的方法，并将方法的返回值再次按照协议序列化成字节流，响应给client，client按照协议将字节流反序列话成”对象”。
 
 
-### 11、Dubbo 的架构设计
-### 12、RPC使用了哪些关键技术，建立通信
-### 13、Dubbo 集群容错有几种方案？
-### 14、说说核心的配置有哪些？
-### 15、Dubbo的集群容错方案有哪些？
-### 16、dubbo 通信协议 dubbo 协议适用范围和适用场景
-### 17、Dubbo 类似的分布式框架还有哪些？
-### 18、默认使用什么序列化框架，你知道的还有哪些？
-### 19、服务调用是阻塞的吗？
-### 20、Dubbo 推荐用什么协议？
-### 21、Dubbo 支持哪些序列化方式？
-### 22、RPC使用了哪些关键技术，序列化和反序列化
-### 23、Dubbo可以对结果进行缓存吗？
-### 24、RPC使用了哪些关键技术，服务注册中心
-### 25、Dubbo 的使用场景有哪些？
-### 26、Dubbo 使用过程中都遇到了些什么问题？
-### 27、服务上线怎么不影响旧版本？
-### 28、Dubbo 在安全方面有哪些措施？
-### 29、什么是RPC
-### 30、Dubbo 服务降级，失败重试怎么做？
-### 31、集群容错怎么做？
+### 6、RPC使用了哪些关键技术，反序列化
+
+当B机器接收到A机器的应用发来的请求之后，又需要对接收到的参数等信息进行反序列化操作（序列化的逆操作），即将二进制信息恢复为内存中的表达方式，然后再找到对应的方法（寻址的一部分）进行本地调用（一般是通过生成代理Proxy去调用, 通常会有JDK动态代理、CGLIB动态代理、Javassist生成字节码技术等），之后得到调用的返回值。
+
+
+### 7、Dubbo 核心组件有哪些？
+
+**1、** Provider：暴露服务的服务提供方
+
+**2、** Consumer：调用远程服务消费方
+
+**3、** Registry：服务注册与发现注册中心
+
+**4、** Monitor：监控中心和访问调用统计
+
+**5、** Container：服务运行容器
+
+
+### 8、dubbo 通信协议 dubbo 协议为什么采用异步单一长连接
+
+因为服务的现状大都是服务提供者少，通常只有几台机器，而服务的消费者多，可能整个网站都在访问该服务，比如 Morgan 的提供者只有 6 台提供者，却有上百台消费者，每天有 1.5 亿次调用，如果采用常规的 hessian 服务，服务提供者很容易就被压跨，通过单一连接，保证单一消费者不会压死提供者，长连接，减少连接握手验证等，并使用异步 IO，复用线程池，防止 C10K 问题。
+
+
+### 9、你还了解别的分布式框架吗？
+
+别的还有spring的spring cloud，facebook的thrift，twitter的finagle等。
+
+
+### 10、Dubbo有哪几种负载均衡策略，默认是哪种？
+
+**1、** Random LoadBalance 随机。按权重设置随机概率(默认)
+
+**2、** RoundRobin LoadBalance 轮训，按公约后的权重设置轮序比率
+
+**3、** LeastActive LoadBalance 最少活跃调用数，相同活跃数的随机
+
+**4、** ConsistentHash LoadBalance 一致性，相同参数的请求总是发到同意提供者
+
+
+### 11、Dubbo 使用的是什么通信框架?
+### 12、一般使用什么注册中心？还有别的选择吗？
+### 13、在使用过程中都遇到了些什么问题？ 如何解决的？
+### 14、RPC使用了哪些关键技术，动态代理
+### 15、Dubbo 的整体架构设计有哪些分层?
+### 16、Dubbo 支持哪些协议，它们的优缺点有哪些？
+### 17、Dubbo 必须依赖的包有哪些？
+### 18、为什么要用 Dubbo？
+### 19、Dubbo 有些哪些注册中心？
+### 20、服务上线怎么兼容旧版本？
+### 21、服务调用超时会怎么样？
+### 22、Dubbo 有哪些注册中心？
+### 23、RPC使用了哪些关键技术，服务寻址
+### 24、Dubbo SPI 和 Java SPI 区别？
+### 25、dubbo是什么
+### 26、dubbo 服务集群配置（集群容错模式）
+### 27、说说核心的配置有哪些？
+### 28、Dubbo 的架构设计
+### 29、Dubbo 和 Dubbox 之间的区别？
+### 30、Dubbo 配置文件是如何加载到 Spring 中的？
+### 31、同一个服务多个注册的情况下可以直连某一个服务吗？
 
 
 
@@ -172,12 +142,8 @@ ZooKeeper的节点是通过像树一样的结构来进行维护的，并且每�
 ### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/?p=67)
 
 
-## 其他，高清PDF：172份，7701页，最新整理
+## 最新，高清PDF：172份，7701页，最新整理
 
-[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/mst.png "大厂面试题")](https://souyunku.lanzous.com/b0alp9b9g "大厂面试题")
+[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/mst.png "大厂面试题")](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png"大厂面试题")
 
-## 关注公众号：架构师专栏，回复：“面试题”，即可
-
-[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/jiagoushi.png "架构师专栏")](https://souyunku.lanzous.com/b0alp9b9g "架构师专栏")
-
-## 关注公众号：架构师专栏，回复：“面试题”，即可
+[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png "架构师专栏")](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png "架构师专栏")

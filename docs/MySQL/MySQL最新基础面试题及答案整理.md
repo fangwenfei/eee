@@ -8,171 +8,244 @@
 
 
 
-### 1、创建索引的三种方式
+### 1、MySQL中in 和exists的区别。
 
-**在执行CREATE TABLE时创建索引**
+这个，跟一下demo来看更刺激吧，啊哈哈
 
-```
-CREATE TABLE `employee` (
-  `id` int(11) NOT NULL,
-  `name` varchar(255) DEFAULT NULL,
-  `age` int(11) DEFAULT NULL,
-  `date` datetime DEFAULT NULL,
-  `sex` int(1) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `idx_name` (`name`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-```
-
-**使用ALTER TABLE命令添加索引**
+假设表A表示某企业的员工表，表B表示部门表，查询所有部门的所有员工，很容易有以下SQL:
 
 ```
-ALTER TABLE table_name ADD INDEX index_name (column);
+select * from A where deptId in (select deptId from B);
 ```
 
-**使用CREATE INDEX命令创建**
+**这样写等价于：**
+
+**1、** 先查询部门表B
+
+**2、** select deptId from B
+
+**3、** 再由部门deptId，查询A的员工
+
+**4、** select * from A where A.deptId = B.deptId
+
+可以抽象成这样的一个循环：
 
 ```
-CREATE INDEX index_name ON table_name (column);
+List<> resultSet ;
+ for(int i=0;i<B.length;i++) {
+       for(int j=0;j<A.length;j++) {
+       if(A[i].id==B[j].id) {
+          resultSet.add(A[i]);
+          break;
+       }
+    }
+ }
 ```
 
+显然，除了使用in，我们也可以用exists实现一样的查询功能，如下：
 
-### 2、对MySQL的锁了解吗
+```
+select * from A where exists (select 1 from B where A.deptId = B.deptId);
+```
 
-当数据库有并发事务的时候，可能会产生数据的不一致，这时候需要一些机制来保证访问的次序，锁机制就是这样的一个机制。
+因为exists查询的理解就是，先执行主查询，获得数据后，再放到子查询中做条件验证，根据验证结果（true或者false），来决定主查询的数据结果是否得意保留。
 
-就像酒店的房间，如果大家随意进出，就会出现多人抢夺同一个房间的情况，而在房间上装上锁，申请到钥匙的人才可以入住并且将房间锁起来，其他人只有等他使用完毕才可以再次使用。
+那么，这样写就等价于：
 
+> select * from A,先从A表做循环
 
-### 3、读写分离有哪些解决方案？
+> select * from B where A.deptId = B.deptId,再从B表做循环.
 
-读写分离是依赖于主从复制，而主从复制又是为读写分离服务的。因为主从复制要求`slave`不能写只能读（如果对`slave`执行写操作，那么`show slave status`将会呈现`Slave_SQL_Running=NO`，此时你需要按照前面提到的手动同步一下`slave`）。
 
-**方案一**
+同理，可以抽象成这样一个循环：
 
-使用MySQL-proxy代理
+```
+   List<> resultSet ;
+    for(int i=0;i<A.length;i++) {
+          for(int j=0;j<B.length;j++) {
+          if(A[i].deptId==B[j].deptId) {
+             resultSet.add(A[i]);
+             break;
+          }
+       }
+    }
+```
 
-**优点：**
+数据库最费劲的就是跟程序链接释放。假设链接了两次，每次做上百万次的数据集查询，查完就走，这样就只做了两次；相反建立了上百万次链接，申请链接释放反复重复，这样系统就受不了了。即MySQL优化原则，就是小表驱动大表，小的数据集驱动大的数据集，从而让性能更优。
 
-直接实现读写分离和负载均衡，不用修改代码，master和slave用一样的帐号，MySQL官方不建议实际生产中使用
+因此，我们要选择最外层循环小的，也就是，如果**B的数据量小于A，适合使用in，如果B的数据量大于A，即适合选择exists**，这就是in和exists的区别。
 
-**缺点：**
 
-降低性能， 不支持事务
+### 2、创建索引时需要注意什么？
 
-**方案二**
+**1、** 非空字段：应该指定列为NOT NULL，除非你想存储NULL。在MySQL中，含有空值的列很难进行查询优化，因为它们使得索引、索引的统计信息以及比较运算更加复杂。你应该用0、一个特殊的值或者一个空串代替空值；
 
-**1、** 使用AbstractRoutingDataSource+aop+annotation在dao层决定数据源。
+**2、** 取值离散大的字段：（变量各个取值之间的差异程度）的列放到联合索引的前面，可以通过count()函数查看字段的差异值，返回值越大说明字段的唯一值越多字段的离散程度高；
 
-**2、** 如果采用了mybatis， 可以将读写分离放在ORM层，比如mybatis可以通过mybatis plugin拦截sql语句，所有的insert/update/delete都访问master库，所有的select 都访问salve库，这样对于dao层都是透明。 plugin实现时可以通过注解或者分析语句是读写方法来选定主从库。不过这样依然有一个问题， 也就是不支持事务， 所以我们还需要重写一下DataSourceTransactionManager， 将read-only的事务扔进读库， 其余的有读有写的扔进写库。
+**3、** 索引字段越小越好：数据库的数据存储以页为单位一页存储的数据越多一次IO操作获取的数据越大效率越高。
 
-**方案三**
 
-**1、** 使用AbstractRoutingDataSource+aop+annotation在service层决定数据源，可以支持事务.
+### 3、索引的底层实现原理和优化
 
-**2、** 缺点：类内部方法通过this.xx()方式相互调用时，aop不会进行拦截，需进行特殊处理。
+B+树，经过优化的B+树
 
+主要是在所有的叶子结点中增加了指向下一个叶子节点的指针，因此InnoDB建议为大部分表使用默认自增的主键作为主索引。
 
-### 4、什么是子查询
 
-**1、** 条件：一条SQL语句的查询结果做为另一条查询语句的条件或查询结果
+### 4、MySQL中都有哪些触发器？
 
-**2、** 嵌套：多条SQL语句嵌套使用，内部的SQL查询语句称为子查询。
+MySQL 数据库中有六种触发器：
 
+**1、** Before Insert
 
-### 5、varchar(50)中50的涵义
+**2、** After Insert
 
-字段最多存放 50 个字符
+**3、** Before Update
 
-如 varchar(50) 和 varchar(200) 存储 "jay" 字符串所占空间是一样的，后者在排序时会消耗更多内存
+**4、** After Update
 
+**5、** Before Delete
 
-### 6、Innodb的事务与日志的实现方式
+**6、** After Delete
 
 
-### 7、MySQL数据库cpu飙升的话，要怎么处理呢？
+### 5、SQL语句的语法顺序：
 
-**「排查过程：」**
+**1、** SELECT
 
-使用top 命令观察，确定是MySQLd导致还是其他原因。
+**2、** FROM
 
-如果是MySQLd导致的，show processlist，查看session情况，确定是不是有消耗资源的sql在运行。
+**3、** JOIN
 
-找出消耗高的 sql，看看执行计划是否准确， 索引是否缺失，数据量是否太大。
+4、ON
 
-**「处理：」**
+**5、** WHERE
 
-kill 掉这些线程(同时观察 cpu 使用率是否下降)，
+**6、** GROUP BY
 
-进行相应的调整(比如说加索引、改 sql、改内存参数)
+**7、** HAVING
 
-重新跑这些 SQL。
+**8、** UNION
 
-**「其他情况：」**
+**9、** ORDER BY
 
-也有可能是每个 sql 消耗资源并不多，但是突然之间，有大量的 session 连进来导致 cpu 飙升，这种情况就需要跟应用一起来分析为何连接数会激增，再做出相应的调整，比如说限制连接数等
+**10、**  LIMIT
 
 
-### 8、什么是非标准字符串类型？
+### 6、如何优化长难的查询语句
 
-**1、**  TINYTEXT
+**1、** 分析是一个复杂查询还是多个简单查询速度快
 
-**2、**  TEXT
+**2、** MySQL内部每秒能扫描内存中上百万行数据，相比之下，响应数据给客户端就要慢得多
 
-**3、**  MEDIUMTEXT
+**3、** 使用尽可能小的查询是好的，但是有时将一个大的查询分解为多个小的查询是很有必要的。
 
-**4、**  LONGTEXT
+**4、** 将一个大的查询分为多个小的相同的查询
 
+**5、** 一次性删除1000万的数据要比一次删除1万，暂停一会的方案更加损耗服务器开销。
 
-### 9、MySQL中有哪几种锁？
+**6、** 分解关联查询，让缓存的效率更高。
 
-**1、** 表级锁：开销小，加锁快；不会出现死锁；锁定粒度大，发生锁冲突的概率最高，并发度最低。
+**7、** 执行单个查询可以减少锁的竞争。
 
-**2、** 行级锁：开销大，加锁慢；会出现死锁；锁定粒度最小，发生锁冲突的概率最低，并发度也最高。
+**8、** 在应用层做关联更容易对数据库进行拆分。
 
-**3、** 页面锁：开销和加锁时间界于表锁和行锁之间；会出现死锁；锁定粒度界于表锁和行锁之间，并发度一般。
+**9、** 查询效率会有大幅提升。
 
+**10、** 较少冗余记录的查询。
 
-### 10、索引有哪几种类型？
 
-**主键索引:** 数据列不允许重复，不允许为NULL，一个表只能有一个主键。
+### 7、SQL的生命周期？
 
-**唯一索引:** 数据列不允许重复，允许为NULL值，一个表允许多个列创建唯一索引。
+**1、** 应用服务器与数据库服务器建立一个连接
 
-**1、** 可以通过 `ALTER TABLE table_name ADD UNIQUE (column);` 创建唯一索引
+**2、** 数据库进程拿到请求sql
 
-**2、** 可以通过 `ALTER TABLE table_name ADD UNIQUE (column1,column2);` 创建唯一组合索引
+**3、** 解析并生成执行计划，执行
 
-**普通索引:** 基本的索引类型，没有唯一性的限制，允许为NULL值。
+**4、** 读取数据到内存并进行逻辑处理
 
-**1、** 可以通过`ALTER TABLE table_name ADD INDEX index_name (column);`创建普通索引
+**5、** 通过步骤一的连接，发送结果到客户端
 
-**2、** 可以通过`ALTER TABLE table_name ADD INDEX index_name(column1, column2, column3);`创建组合索引
+**6、** 关掉连接，释放资源
 
-**全文索引：** 是目前搜索引擎使用的一种关键技术。
+![](https://gitee.com/souyunkutech/souyunku-home/raw/master/images/souyunku-web/2020/5/2/049/50/99_8.png#alt=99%5C_8.png)
 
-可以通过`ALTER TABLE table_name ADD FULLTEXT (column);`创建全文索引
 
+### 8、MySQL里记录货币用什么字段类型好
 
-### 11、什么是触发器？触发器的使用场景有哪些？
-### 12、什么叫视图？游标是什么？
-### 13、count(1)、count(*) 与 count(列名) 的区别？
-### 14、如何选择合适的分布式主键方案呢？
-### 15、SQL注入漏洞产生的原因？如何防止？
-### 16、MySQL中InnoDB支持的四种事务隔离级别名称，以及逐级之间的区别？
-### 17、MySQL中TEXT数据类型的最大长度
-### 18、SQL语句主要分为哪几类
-### 19、MySQL中都有哪些触发器？
-### 20、前缀索引
-### 21、日志的存放形式
-### 22、覆盖索引是什么？
-### 23、怎么优化SQL查询语句吗
-### 24、drop、delete与truncate的区别
-### 25、如何通俗地理解三个范式？
-### 26、你怎么看到为表格定义的所有索引？
-### 27、索引使用场景
-### 28、主键和候选键有什么区别？
-### 29、慢查询日志
+NUMERIC和DECIMAL类型被MySQL实现为同样的类型，这在SQL92标准允许。他们被用于保存值，该值的准确精度是极其重要的值，例如与金钱有关的数据。当声明一个类是这些类型之一时，精度和规模的能被(并且通常是)指定。
+
+例如：
+
+salary DECIMAL(9,2)
+
+在这个例子中，9(precision)代表将被用于存储值的总的小数位数，而2(scale)代表将被用于存储小数点后的位数。
+
+因此，在这种情况下，能被存储在salary列中的值的范围是从-9999999.99到9999999.99。
+
+
+### 9、MYSQL的主从延迟，你怎么解决？
+
+嘻嘻，先复习一下主从复制原理吧，如图：
+
+![](https://user-gold-cdn.xitu.io/2020/5/23/1723fa894b85ed73?w=1176&h=552&f=png&s=242934#alt=)
+
+**主从复制分了五个步骤进行：**
+
+**1、** 步骤一：主库的更新事件(update、insert、delete)被写到binlog
+
+**2、** 步骤二：从库发起连接，连接到主库。
+
+**3、** 步骤三：此时主库创建一个binlog dump thread，把binlog的内容发送到从库。
+
+**4、** 步骤四：从库启动之后，创建一个I/O线程，读取主库传过来的binlog内容并写入到relay log
+
+**5、** 步骤五：还会创建一个SQL线程，从relay log里面读取内容，从Exec_Master_Log_Pos位置开始执行读取到的更新事件，将更新内容写入到slave的db
+
+**主从同步延迟的原因**
+
+一个服务器开放Ｎ个链接给客户端来连接的，这样有会有大并发的更新操作, 但是从服务器的里面读取binlog的线程仅有一个，当某个SQL在从服务器上执行的时间稍长 或者由于某个SQL要进行锁表就会导致，主服务器的SQL大量积压，未被同步到从服务器里。这就导致了主从不一致， 也就是主从延迟。
+
+**主从同步延迟的解决办法**
+
+**1、** 主服务器要负责更新操作，对安全性的要求比从服务器要高，所以有些设置参数可以修改，比如sync_binlog=1，innodb_flush_log_at_trx_commit = 1 之类的设置等。
+
+**2、** 选择更好的硬件设备作为slave。
+
+**3、** 把一台从服务器当度作为备份使用， 而不提供查询， 那边他的负载下来了， 执行relay log 里面的SQL效率自然就高了。
+
+**4、** 增加从服务器喽，这个目的还是分散读的压力，从而降低服务器负载。
+
+
+### 10、MySQL中int(10)和char(10)以及varchar(10)的区别
+
+**1、** int(10)的10表示显示的数据的长度，不是存储数据的大小；chart(10)和varchar(10)的10表示存储数据的大小，即表示存储多少个字符。
+
+**2、** char(10)表示存储定长的10个字符，不足10个就用空格补齐，占用更多的存储空间
+
+**3、** varchar(10)表示存储10个变长的字符，存储多少个就是多少个，空格也按一个字符存储，这一点是和char(10)的空格不同的，char(10)的空格表示占位不算一个字符
+
+
+### 11、联合索引是什么？为什么需要注意联合索引中的顺序？
+### 12、什么是最左前缀原则？什么是最左匹配原则
+### 13、视图的优点
+### 14、MySQL中InnoDB引擎的行锁是怎么实现的？
+### 15、BLOB和TEXT有什么区别？
+### 16、索引能干什么?
+### 17、limit 1000000 加载很慢的话，你是怎么解决的呢？
+### 18、一条sql执行过长的时间，你如何优化，从哪些方面入手？
+### 19、你怎么看到为表格定义的所有索引？
+### 20、Innodb的事务与日志的实现方式
+### 21、什么是非标准字符串类型？
+### 22、CHAR和VARCHAR的区别？
+### 23、视图有哪些特点？哪些使用场景？
+### 24、创建索引的三种方式
+### 25、MySQL如何获取当前日期？
+### 26、MYSQL支持事务吗？
+### 27、500台db，在最快时间之内重启。
+### 28、超键、候选键、主键、外键分别是什么？
+### 29、如果要存储用户的密码散列，应该使用什么字段进行存储？
 
 
 
@@ -184,12 +257,8 @@ kill 掉这些线程(同时观察 cpu 使用率是否下降)，
 ### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/?p=67)
 
 
-## 其他，高清PDF：172份，7701页，最新整理
+## 最新，高清PDF：172份，7701页，最新整理
 
-[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/mst.png "大厂面试题")](https://souyunku.lanzous.com/b0alp9b9g "大厂面试题")
+[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/mst.png "大厂面试题")](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png"大厂面试题")
 
-## 关注公众号：架构师专栏，回复：“面试题”，即可
-
-[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/jiagoushi.png "架构师专栏")](https://souyunku.lanzous.com/b0alp9b9g "架构师专栏")
-
-## 关注公众号：架构师专栏，回复：“面试题”，即可
+[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png "架构师专栏")](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png "架构师专栏")

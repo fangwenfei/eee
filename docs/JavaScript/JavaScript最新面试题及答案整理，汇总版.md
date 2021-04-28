@@ -8,274 +8,155 @@
 
 
 
-### 1、什么是类？
+### 1、什么是闭包？
 
-`类(class)`是在 JS 中编写构造函数的新方法。它是使用构造函数的语法糖，在底层中使用仍然是原型和基于原型的继承。
+闭包就是引用了其他函数作用域中变量的函数，这种模式通常在函数嵌套结构中实现。里面的函数可以访问外面函数的变量，外面的变量的是这个内部函数的一部分。闭包有如下作用：
 
-```
-//ES5 Version
- function Person(firstName, lastName, age, address){
-    this.firstName = firstName;
-    this.lastName = lastName;
-    this.age = age;
-    this.address = address;
- }
+**1、** 加强封装，模拟实现私有变量；
 
- Person.self = function(){
-   return this;
- }
+**2、** 实现常驻内存的变量。
 
- Person.prototype.toString = function(){
-   return "[object Person]";
- }
+> 闭包不能滥用，否则会导致内存泄露，影响网页的性能。闭包使用完了后，要立即释放资源，将引用变量指向null。
 
- Person.prototype.getFullName = function (){
-   return this.firstName + " " + this.lastName;
- }  
 
- //ES6 Version
- class Person {
-    constructor(firstName, lastName, age, address){
-        this.lastName = lastName;
-        this.firstName = firstName;
-        this.age = age;
-        this.address = address;
-    }
 
-    static self() {
-       return this;
-    }
+### 2、commonjs?requirejs?AMD|CMD|UMD?
 
-    toString(){
-       return "[object Person]";
-    }
+**1、** CommonJS就是为JS的表现来制定规范，NodeJS是这种规范的实现，webpack 也是以CommonJS的形式来书写。因为js没有模块的功能，所以CommonJS应运而生。但它不能在浏览器中运行。 CommonJS定义的模块分为:{模块引用(require)} {模块定义(exports)} {模块标识(module)}
 
-    getFullName(){
-       return `${this.firstName} ${this.lastName}`;
-    }
- }
-```
+**2、** RequireJS 是一个JavaScript模块加载器。 RequireJS有两个主要方法(method): define()和require()。这两个方法基本上拥有相同的定义(declaration) 并且它们都知道如何加载的依赖关系，然后执行一个回调函数(callback function)。与require()不同的是， define()用来存储代码作为一个已命名的模块。 因此define()的回调函数需要有一个返回值作为这个模块定义。这些类似被定义的模块叫作AMD (Asynchronous Module Definition，异步模块定义)。
 
-重写方法并从另一个类继承。
+**3、** AMD 是 RequireJS 在推广过程中对模块定义的规范化产出 AMD异步加载模块。它的模块支持对象 函数 构造器 字符串 JSON等各种类型的模块。 适用AMD规范适用define方法定义模块。
 
-```
-//ES5 Version
-Employee.prototype = Object.create(Person.prototype);
+**4、** CMD是SeaJS 在推广过程中对模块定义的规范化产出
 
-function Employee(firstName, lastName, age, address, jobTitle, yearStarted) {
-  Person.call(this, firstName, lastName, age, address);
-  this.jobTitle = jobTitle;
-  this.yearStarted = yearStarted;
-}
+AMD与CDM的区别：
 
-Employee.prototype.describe = function () {
-  return `I am ${this.getFullName()} and I have a position of ${this.jobTitle} and I started at ${this.yearStarted}`;
-}
+（1）对于于依赖的模块，AMD 是提前执行(好像现在也可以延迟执行了)，CMD 是延迟执行。
 
-Employee.prototype.toString = function () {
-  return "[object Employee]";
-}
+（2）AMD 推崇依赖前置，CMD 推崇依赖就近。
 
-//ES6 Version
-class Employee extends Person { //Inherits from "Person" class
-  constructor(firstName, lastName, age, address, jobTitle, yearStarted) {
-    super(firstName, lastName, age, address);
-    this.jobTitle = jobTitle;
-    this.yearStarted = yearStarted;
-  }
+（3）AMD 推崇复用接口，CMD 推崇单用接口。
 
-  describe() {
-    return `I am ${this.getFullName()} and I have a position of ${this.jobTitle} and I started at ${this.yearStarted}`;
-  }
+（4）书写规范的差异。
 
-  toString() { // Overriding the "toString" method of "Person"
-    return "[object Employee]";
-  }
-}
-```
+**5、** umd是AMD和CommonJS的糅合。
 
-**所以我们要怎么知道它在内部使用原型？**
+AMD 浏览器第一的原则发展 异步加载模块。
+
+CommonJS模块以服务器第一原则发展，选择同步加载，它的模块无需包装(unwrapped modules)。这迫使人们又想出另一个更通用的模式UMD ( Universal Module Definition ), 希望解决跨平台的解决方案。UMD先判断是否支持Node.js的模块( exports )是否存在，存在则使用Node.js模块模式。
+
+
+### 3、JS是如何实现异步的？
+
+JS引擎是单线程的，但又能实现异步的原因在于事件循环和任务队列体系。
+
+**事件循环：**
+
+**1、** JS 会创建一个类似于 `while (true)` 的循环，每执行一次循环体的过程称之为 `Tick`。每次 `Tick` 的过程就是查看是否有待处理事件，如果有则取出相关事件及回调函数放入执行栈中由主线程执行。待处理的事件会存储在一个任务队列中，也就是每次 `Tick` 会查看任务队列中是否有需要执行的任务。
+
+**任务队列：**
+
+**1、** 异步操作会将相关回调添加到任务队列中。而不同的异步操作添加到任务队列的时机也不同，如 `onclick`, `setTimeout`, `ajax` 处理的方式都不同，这些异步操作是由浏览器内核的 `webcore` 来执行的，浏览器内核包含3种 webAPI，分别是 `DOM Binding`、`network`、`timer`模块。
+
+**2、** `onclick` 由 `DOM Binding` 模块来处理，当事件触发的时候，回调函数会立即添加到任务队列中。 `setTimeout` 由 `timer` 模块来进行延时处理，当时间到达的时候，才会将回调函数添加到任务队列中。 `ajax` 由`network` 模块来处理，在网络请求完成返回之后，才将回调添加到任务队列中。
+
+**主线程：**
+
+**1、** JS 只有一个线程，称之为主线程。而事件循环是主线程中执行栈里的代码执行完毕之后，才开始执行的。所以，主线程中要执行的代码时间过长，会阻塞事件循环的执行，也就会阻塞异步操作的执行。
+
+**2、** 只有当主线程中执行栈为空的时候（即同步代码执行完后），才会进行事件循环来观察要执行的事件回调，当事件循环检测到任务队列中有事件就取出相关回调放入执行栈中由主线程执行。
+
+
+### 4、undefined 和 null 有什么区别？
+
+在理解 `undefined` 和 `null` 的差异之前，我们先来看看它们的相似点。
+
+**它们都属于 JavaScript 的 7 种基本类型。**
 
 ```
-class Something {
+let primitiveTypes = ['string','number','null','undefined','boolean','symbol', 'bigint'];
+```
 
-}
+它们是属于 falsy 值类型，可以使用 `Boolean(value)` 或 `!!value` 将其转换为布尔值时，值为`false`。
 
-function AnotherSomething(){
+```
+console.log(!!null); // false
+console.log(!!undefined); // false
 
-}
-const as = new AnotherSomething();
-const s = new Something();
+console.log(Boolean(null)); // false
+console.log(Boolean(undefined)); // false
+```
 
-console.log(typeof Something); // "function"
-console.log(typeof AnotherSomething); // "function"
-console.log(as.toString()); // "[object Object]"
-console.log(as.toString()); // "[object Object]"
-console.log(as.toString === Object.prototype.toString); // true
-console.log(s.toString === Object.prototype.toString); // true
+接着来看看它们的区别。
+
+`undefined` 是未指定特定值的变量的默认值，或者没有显式返回值的函数，如：`console.log(1)`，还包括对象中不存在的属性，这些 JS 引擎都会为其分配 `undefined` 值。
+
+```
+let _thisIsUndefined;
+const doNothing = () => {};
+const someObj = {
+  a : "ay",
+  b : "bee",
+  c : "si"
+};
+
+console.log(_thisIsUndefined); // undefined
+console.log(doNothing()); // undefined
+console.log(someObj["d"]); // undefined
+```
+
+`null` 是『不代表任何值的值』。`null`是已明确定义给变量的值。在此示例中，当`fs.readFile`方法未引发错误时，我们将获得`null`值。
+
+```
+fs.readFile('path/to/file', (e,data) => {
+   console.log(e); // 当没有错误发生时，打印 null
+   if(e){
+     console.log(e);
+   }
+   console.log(data);
+ });
+```
+
+在比较`null`和`undefined`时，我们使用`==`时得到`true`，使用`===`时得到`false`:
+
+```
+console.log(null == undefined); // true
+console.log(null === undefined); // false
 ```
 
 
-### 2、说说你对AMD和Commonjs的理解
+### 5、eval是做什么的？
 
-**1、** `CommonJS`是服务器端模块的规范，`Node.js`采用了这个规范。`CommonJS`规范加载模块是同步的，也就是说，只有加载完成，才能执行后面的操作。`AMD`规范则是非同步加载模块，允许指定回调函数
-
-**2、** `AMD`推荐的风格通过返回一个对象做为模块对象，`CommonJS`的风格通过对`module.exports`或`exports`的属性赋值来达到暴露模块对象的目的
+它的功能是把对应的字符串解析成JS代码并运行； 应该避免使用eval，不安全，非常耗性能（2次，一次解析成js语句，一次执行）。
 
 
-### 3、除了jsonp 还有什么跨域方式###
+### 6、Jq中get和eq有什么区别？
 
-javascript跨域有两种情况：
-
-**1、** 基于同一父域的子域之间，如： [http://a.c.com](http://link.zhihu.com/?target=http%3A//a.c.com)和 [http://b.c.com](http://link.zhihu.com/?target=http%3A//b.c.com)
-
-**2、** 基于不同的父域之间，如： [http://www.a.com](http://link.zhihu.com/?target=http%3A//www.a.com)和 [http://www.b.com](http://link.zhihu.com/?target=http%3A//www.b.com)
-
-**3、** 端口的不同，如： [http://www.a.com:8080](http://link.zhihu.com/?target=http%3A//www.a.com%3A8080)和 [http://www.a.com:8088](http://link.zhihu.com/?target=http%3A//www.a.com%3A8088)
-
-**4、** 协议不同，如： [http://www.a.com](http://link.zhihu.com/?target=http%3A//www.a.com)和 [https://www.a.com](http://link.zhihu.com/?target=https%3A//www.a.com)
-
-**对于情况3和4，需要通过后台proxy来解决，具体方式如下：**
-
-a、在发起方的域下创建proxy程序
-
-b、发起方的js调用本域下的proxy程序
-
-c、proxy将请求发送给接收方并获取相应数据
-
-d、proxy将获得的数据返回给发起方的js
-
-代码和ajax调用一致，其实这种方式就是通过ajax进行调用的
-
-而情况1和2除了通过后台proxy这种方式外，还可以有多种办法来解决：
-
-**1、** document.domain+iframe（只能解决情况1）：
-
-a、在发起方页面和接收方页面设置document.domain，并将值设为父域的主域名(window.location.hostname)
-
-b、在发起方页面创建一个隐藏的iframe，iframe的源是接收方页面
-
-c、根据浏览器的不同，通过iframe.contentDocument || iframe.contentWindow.document来获得接收方页面的内容
-
-d、通过获得的接收方页面的内容来与接收方进行交互
-
-这种方法有个缺点，就是当一个域被攻击时，另一个域会有安全漏洞出现。
+get() :取得其中一个匹配的元素。num表示取得第几个匹配的元素，get多针对集合元素，返回的是DOM对象组成的数组 eq():获取第N个元素，下标都是从0开始，返回的是一个JQuery对象
 
 
-### 4、上一个项目是什么？主要负责哪些？购物车流程?支付功能?
+### 7、`Function.prototype.call` 方法的用途是什么？
 
-**主要负责哪些就讲主要做哪些功能模块：**
+`call()` 方法使用一个指定的 `this` 值和单独给出的一个或多个参数来调用一个函数。
 
-1）商品模块:
+`const details = {
 
-**1、** 商品列表：商品排序 商品筛选 商品过滤 商品查询 商品推荐
+message: 'Hello World!'
 
-**2、** 商品详情:类型推荐 商品简介 商品详情 商品评价 售后维护
-
-2)购物车模块：商品编号、数量、价格、总额、运费、运输选项、运费总计、从购物车删除选项、更新数量、结账、继续购物、商品描述、库存信息
-
-
-### 5、Jq中有几种选择器?分别是什么?
-
-层叠选择器、基本过滤选择器、内容过滤选择器、可视化过滤选择器、属性过滤选择器、子元素过滤选择器、表单元素选择器、表单元素过滤选择器
-
-
-### 6、JavaScript提供了哪几种“异步模式”？
-
-**1、** 回调函数（callbacks）
-
-**2、** 事件监听
-
-**3、** Promise对象
-
-
-### 7、什么是闭包？
-
-这可能是所有问题中最难的一个问题，因为闭包是一个有争议的话题，这里从个人角度来谈谈，如果不妥，多多海涵。
-
-**闭包**就是一个函数在声明时能够记住当前作用域、父函数作用域、及父函数作用域上的变量和参数的引用，直至通过作用域链上全局作用域，基本上闭包是在声明函数时创建的作用域。
-
-看看小例子：
-
-```
-// 全局作用域
- var globalVar = "abc";
-
- function a(){
-   console.log(globalVar);
- }
-
- a(); // "abc"
-```
-
-在此示例中，当我们声明`a`函数时，全局作用域是`a`闭包的一部分。
-
-变量`globalVar`在图中没有值的原因是该变量的值可以根据调用函数`a`的位置和时间而改变。但是在上面的示例中，`globalVar`变量的值为`abc`。
-
-来看一个更复杂的例子：
-
-```
-var globalVar = "global";
-var outerVar = "outer"
-
-function outerFunc(outerParam) {
-  function innerFunc(innerParam) {
-    console.log(globalVar, outerParam, innerParam);
-  }
-  return innerFunc;
-}
-
-const x = outerFunc(outerVar);
-outerVar = "outer-2";
-globalVar = "guess"
-x("inner");
-```
-
-上面打印结果是  `guess outer inner`。
-
-当我们调用`outerFunc`函数并将返回值`innerFunc`函数分配给变量`x`时，即使我们为`outerVar`变量分配了新值`outer-2`，`outerParam`也继续保留`outer`值，因为重新分配是在调用`outerFunc`之后发生的，并且当我们调用`outerFunc`函数时，它会在作用域链中查找`outerVar`的值，此时的`outerVar`的值将为 `"outer"`。
-
-现在，当我们调用引用了`innerFunc`的`x`变量时，`innerParam`将具有一个`inner`值，因为这是我们在调用中传递的值，而`globalVar`变量值为`guess`，因为在调用`x`变量之前，我们将一个新值分配给`globalVar`。
-
-下面这个示例演示没有理解好闭包所犯的错误：
-
-```
-const arrFuncs = [];
-for(var i = 0; i < 5; i++){
-  arrFuncs.push(function (){
-    return i;
-  });
-}
-console.log(i); // i is 5
-
-for (let i = 0; i < arrFuncs.length; i++) {
-  console.log(arrFuncs[i]()); // 都打印 5
-}
-```
-
-由于闭包，此代码无法正常运行。`var`关键字创建一个全局变量，当我们 push 一个函数时，这里返回的全局变量`i`。因此，当我们在循环后在该数组中调用其中一个函数时，它会打印`5`，因为我们得到`i`的当前值为`5`，我们可以访问它，因为它是全局变量。
-
-因为闭包在创建变量时会保留该变量的引用而不是其值。我们可以使用**IIFES**或使用 `let` 来代替 `var` 的声明。
-
-
-### 8、Function.prototype.apply 方法的用途是什么？
-
-`apply()` 方法调用一个具有给定this值的函数，以及作为一个数组（或类似数组对象）提供的参数。
-
-```
-const details = {
-  message: 'Hello World!'
 };
 
 function getMessage(){
-  return this.message;
+
+return this.message;
+
 }
 
-getMessage.apply(details); // 'Hello World!'
-```
+getMessage.call(details); // 'Hello World!'
 
-> `call()`方法的作用和 `apply()` 方法类似，区别就是`call()`方法接受的是参数列表，而`apply()`方法接受的是一个参数数组。
+`
 
+注意：该方法的语法和作用与 `apply()` 方法类似，只有一个区别，就是 `call()` 方法接受的是一个参数列表，而 `apply()` 方法接受的是一个包含多个参数的数组。
 
 ```
 const person = {
@@ -286,39 +167,116 @@ function greeting(greetingMessage) {
   return `${greetingMessage} ${this.name}`;
 }
 
-greeting.apply(person, ['Hello']); // "Hello Marko Polo!"
+greeting.call(person, 'Hello'); // "Hello Marko Polo!"
 ```
 
 
-### 9、ajax 是什么?
+### 8、什么是 event.target ？
 
-异步javascript和XML，是指一种创建交互式网页应用的网页开发技术。通过后台与服务器进行少量数据交换，AJAX可以使网页实现异步更新。这意味着可以在不重新加载整个网页的情况下，对网页的某部分进行更新。
+简单来说，`event.target`是发生事件的元素或触发事件的元素。
+
+假设有如下的 HTML 结构：
+
+```
+<div onclick="clickFunc(event)" style="text-align: center;margin:15px;
+border:1px solid red;border-radius:3px;">
+    <div style="margin: 25px; border:1px solid royalblue;border-radius:3px;">
+        <div style="margin:25px;border:1px solid skyblue;border-radius:3px;">
+          <button style="margin:10px">
+             Button
+          </button>
+        </div>
+    </div>
+ </div>
+```
+
+JS 代码如下：
+
+```
+function clickFunc(event) {
+  console.log(event.target);
+}
+```
+
+如果单击 `button`，即使我们将事件附加在最外面的`div`上，它也将打印 `button` 标签，因此我们可以得出结论`event.target`是触发事件的元素。
 
 
-### 10、如何使用storage 对js文件进行缓存
+### 9、什么是模板字符串？
 
-由于sessionStorage - 针对一个 session 的数据存储，所以我们一般利用localStorage储存js文件，只有在第一次访问该页面的时候加载js文件，以后在访问的时候加载本地localStorage执行
+模板字符串是在 JS 中创建字符串的一种新方法。我们可以通过使用反引号使模板字符串化。
+
+```
+//ES5 Version
+var greet = 'Hi I\'m Mark';
+
+//ES6 Version
+let greet = `Hi I'm Mark`;
+```
+
+在 ES5 中我们需要使用一些转义字符来达到多行的效果，在模板字符串不需要这么麻烦：
+
+```
+//ES5 Version
+var lastWords = '\n'
+  + '   I  \n'
+  + '   Am  \n'
+  + 'Iron Man \n';
+
+//ES6 Version
+let lastWords = `
+    I
+    Am
+  Iron Man   
+`;
+```
+
+在ES5版本中，我们需要添加`\n`以在字符串中添加新行。在模板字符串中，我们不需要这样做。
+
+```
+//ES5 Version
+function greet(name) {
+  return 'Hello ' + name + '!';
+}
+
+//ES6 Version
+function greet(name) {
+  return `Hello ${name} !`;
+}
+```
+
+在 ES5 版本中，如果需要在字符串中添加表达式或值，则需要使用`+`运算符。在模板字符串s中，我们可以使用`${expr}`嵌入一个表达式，这使其比 ES5 版本更整洁。
 
 
-### 11、与深拷贝有何区别？如何实现？
-### 12、什么是事件传播?
-### 13、模块化开发怎么做？
-### 14、你觉得jQuery源码有哪些写的好的地方
-### 15、为什么typeof null 返回 object？如何检查一个值是否为 null？
-### 16、为什么此代码 `obj.someprop.x` 会引发错误?
-### 17、JS是如何实现异步的？
-### 18、什么是作用域？
-### 19、js延迟加载的方式有哪些？
-### 20、什么是回调函数？
-### 21、隐式和显式转换有什么区别）？
-### 22、通过new创建一个对象的时候，函数内部有哪些改变###
-### 23、$$('div+.ab')和$$('.ab+div') 哪个效率高？
-### 24、`var`,`let`和`const`的区别是什么？
-### 25、如何创建一个对象？
-### 26、变量作用域?
-### 27、在jq中 mouseover mouseenter mouseout mouseleave 和 hover有什么关联?
-### 28、bootstrap好处？
-### 29、什么是事件捕获？
+### 10、jquery和zepto有什么区别?
+
+**1、** 针对移动端程序，Zepto有一些基本的触摸事件可以用来做触摸屏交互（tap事件、swipe事件），Zepto是不支持IE浏览器的，这不是Zepto的开发者Thomas Fucks在跨浏览器问题上犯了迷糊，而是经过了认真考虑后为了降低文件尺寸而做出的决定，就像jQuery的团队在2.0版中不再支持旧版的IE（6 7 8）一样。因为Zepto使用jQuery句法，所以它在文档中建议把jQuery作为IE上的后备库。那样程序仍能在IE中，而其他浏览器则能享受到Zepto在文件大小上的优势，然而它们两个的API不是完全兼容的，所以使用这种方法时一定要小心，并要做充分的测试。
+
+**2、** Dom操作的区别：添加id时jQuery不会生效而Zepto会生效。
+
+**3、** zepto主要用在移动设备上，只支持较新的浏览器，好处是代码量比较小，性能也较好。
+
+jquery主要是兼容性好，可以跑在各种pc，移动上，好处是兼容各种浏览器，缺点是代码量大，同时考虑兼容，性能也不够好。
+
+
+### 11、什么是函数式编程? JavaScript 的哪些特性使其成为函数式语言的候选语言？
+### 12、什么是 event.currentTarget？？
+### 13、如何在一行中计算多个表达式的值？
+### 14、Jq绑定事件的几种方式？on bind ?
+### 15、call & apply 两者之间的区别###
+### 16、null，undefined 的区别？
+### 17、与深拷贝有何区别？如何实现？
+### 18、压缩合并目的？http请求的优化方式？
+### 19、什么是箭头函数？
+### 20、Jq中如何实现多库并存?
+### 21、变量作用域?
+### 22、简述ajax执行流程
+### 23、说说严格模式的限制
+### 24、git 和 svn的区别?
+### 25、什么是提升？
+### 26、ES6或ECMAScript 2015有哪些新特性？
+### 27、为什么此代码 `obj.someprop.x` 会引发错误?
+### 28、如何理解同步和异步？
+### 29、事件委托？有什么好处?
 
 
 
@@ -330,12 +288,8 @@ greeting.apply(person, ['Hello']); // "Hello Marko Polo!"
 ### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/?p=67)
 
 
-## 其他，高清PDF：172份，7701页，最新整理
+## 最新，高清PDF：172份，7701页，最新整理
 
-[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/mst.png "大厂面试题")](https://souyunku.lanzous.com/b0alp9b9g "大厂面试题")
+[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/mst.png "大厂面试题")](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png"大厂面试题")
 
-## 关注公众号：架构师专栏，回复：“面试题”，即可
-
-[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/jiagoushi.png "架构师专栏")](https://souyunku.lanzous.com/b0alp9b9g "架构师专栏")
-
-## 关注公众号：架构师专栏，回复：“面试题”，即可
+[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png "架构师专栏")](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png "架构师专栏")

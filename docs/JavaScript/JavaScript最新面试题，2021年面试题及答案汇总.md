@@ -8,129 +8,18 @@
 
 
 
-### 1、为什么函数被称为一等公民？
+### 1、平时工作中怎么样进行数据交互?如果后台没有提供数据怎么样进行开发?
 
-在JavaScript中，函数不仅拥有一切传统函数的使用方式（声明和调用），而且可以做到像简单值一样赋值`（var func = function(){}）`、传参`(function func(x,callback){callback();})`、返回`(function(){return function(){}})`，这样的函数也称之为**第一级函数（First-class Function）**。不仅如此，JavaScript中的函数还充当了类的构造函数的作用，同时又是一个`Function`类的实例(instance)。这样的多重身份让JavaScript的函数变得非常重要。
+**mock数据与后台返回的格式不同意怎么办?**
 
+由后台编写接口文档、提供数据接口实、前台通过ajax访问实现数据交互；
 
-### 2、什么是 `async/await` 及其如何工作？
+在没有数据的情况下寻找后台提供静态数据或者自己定义mock数据；
 
-`async/await`是 JS 中编写异步或非阻塞代码的新方法。它建立在**Promises**之上，让异步代码的可读性和简洁度都更高。
-
-`async/await`是 JS 中编写异步或非阻塞代码的新方法。它建立在`Promises`之上，相对于 Promise 和回调，它的可读性和简洁度都更高。但是，在使用此功能之前，我们必须先学习`Promises`的基础知识，因为正如我之前所说，它是基于`Promise`构建的，这意味着幕后使用仍然是**Promise**。
-
-**使用 Promise**
-
-```
-function callApi() {
-  return fetch("url/to/api/endpoint")
-    .then(resp => resp.json())
-    .then(data => {
-      //do something with "data"
-    }).catch(err => {
-      //do something with "err"
-    });
-}
-```
-
-**使用async/await**
-
-在`async/await`，我们使用 tru/catch 语法来捕获异常。
-
-```
-async function callApi() {
- try {
-   const resp = await fetch("url/to/api/endpoint");
-   const data = await resp.json();
-   //do something with "data"
- } catch (e) {
-   //do something with "err"
- }
-}
-```
-
-**注意**:使用 `async`关键声明函数会隐式返回一个**Promise**。
-
-```
-const giveMeOne = async () => 1;
-giveMeOne()
-  .then((num) => {
-    console.log(num); // logs 1
-  });
-```
-
-**注意:**`await`关键字只能在`async function`中使用。在任何非**async function**的函数中使用`await`关键字都会抛出错误。`await`关键字在执行下一行代码之前等待右侧表达式(可能是一个**Promise**)返回。
-
-```
-const giveMeOne = async () => 1;
-
-function getOne() {
-  try {
-    const num = await giveMeOne();
-    console.log(num);
-  } catch (e) {
-    console.log(e);
-  }
-}
-
-// Uncaught SyntaxError: await is only valid in async function
-
-async function getTwo() {
-  try {
-    const num1 = await giveMeOne(); // 这行会等待右侧表达式执行完成
-    const num2 = await giveMeOne(); 
-    return num1 + num2;
-  } catch (e) {
-    console.log(e);
-  }
-}
-
-await getTwo(); // 2
-```
+返回数据不统一时编写映射文件 对数据进行映射。
 
 
-### 3、什么是构造函数？与普通函数有什么区别?
-
-构造函数：是一种特殊的方法、主要用来创建对象时初始化对象，总与new运算符一起使用，创建对象的语句中构造函数的函数名必须与类名完全相同。
-
-与普通函数相比只能由new关键字调用，构造函数是类的标示
-
-
-### 4、JSON 的了解？
-
-JSON(JavaScript Object Notation) 是一种轻量级的数据交换格式。 它是基于JavaScript的一个子集。数据格式简单, 易于读写, 占用带宽小。
-
-
-### 5、**
-
-**1、** 执行代码之前会先读取函数声明，意味着可以把函数申明放在调用它的语句后面。
-
-**2、** 只要函数在代码中进行了声明，无论它在哪个位置上进行声明， js引擎都会将它的声明放在范围作用域的顶部；
-
-**变量or函数声明：**
-
-**1、** 函数声明会覆盖变量声明，但不会覆盖变量赋值。
-
-**2、** 同一个名称标识a，即有变量声明var a，又有函数声明function a() {}，不管二者声明的顺序，函数声明会覆盖变量声明，也就是说，此时a的值是声明的函数function a() {}。注意：如果在变量声明的同时初始化a，或是之后对a进行赋值，此时a的值变量的值。eg: var a; var c = 1; a = 1; function a() { return true; } console.log(a);
-
-
-### 6、谈谈你对AMD、CMD的理解
-
-**1、** `CommonJS`是服务器端模块的规范，`Node.js`采用了这个规范。`CommonJS`规范加载模块是同步的，也就是说，只有加载完成，才能执行后面的操作。`AMD`规范则是非同步加载模块，允许指定回调函数
-
-**2、** `AMD`推荐的风格通过返回一个对象做为模块对象，`CommonJS`的风格通过对`module.exports`或`exports`的属性赋值来达到暴露模块对象的目的
-
-
-### 7、请解释什么是事件代理
-
-**1、** 事件代理（`Event Delegation`），又称之为事件委托。是 `JavaScript` 中常用绑定事件的常用技巧。顾名思义，“事件代理”即是把原本需要绑定的事件委托给父元素，让父元素担当事件监听的职务。事件代理的原理是DOM元素的事件冒泡。使用事件代理的好处是可以提高性能
-
-**2、** 可以大量节省内存占用，减少事件注册，比如在`table`上代理所有`td`的`click`事件就非常棒
-
-**3、** 可以实现当新增子对象时无需再次对其绑定
-
-
-### 8、Ajax原理
+### 2、Ajax原理
 
 **1、** `Ajax`的原理简单来说是在用户和服务器之间加了—个中间层(`AJAX`引擎)，通过`XmlHttpRequest`对象来向服务器发异步请求，从服务器获得数据，然后用`javascrip`t来操作`DOM`而更新页面。使用户操作与服务器响应异步化。这其中最关键的一步就是从服务器获得请求数据
 
@@ -157,47 +46,175 @@ JSON(JavaScript Object Notation) 是一种轻量级的数据交换格式。 它�
 ```
 
 
-### 9、用过哪些设计模式？
+### 3、disabled readyonly?
 
-**工厂模式：**
-
-**1、** 工厂模式解决了重复实例化的问题，但还有一个问题,那就是识别问题，因为根本无法
-
-**2、** 主要好处就是可以消除对象间的耦合，通过使用工程方法而不是`new`关键字
-
-**构造函数模式**
-
-**1、** 使用构造函数的方法，即解决了重复实例化的问题，又解决了对象识别的问题，该模式与工厂模式的不同之处在于
-
-**2、** 直接将属性和方法赋值给 `this`对象;
+readonly只针对input(text / password)和textarea有效，而disabled对于所有的表单元素都有效，当表单元素在使用了disabled后，当我们将表单以POST或GET的方式提交的话，这个元素的值不会被传递出去，而readonly会将该值传递出去。
 
 
-### 10、Gc机制是什么？为什么闭包不会被回收变量和函数？
+### 4、声明函数作用提升?声明变量和声明函数的提升有什么区别
 
-**1、** Gc垃圾回收机制;
+**变量声明提升：**
 
-**2、** 外部变量没释放，所以指向的大函数内的小函数也释放不了
+**1、** 变量申明在进入执行上下文就完成了。
+
+**2、** 只要变量在代码中进行了声明，无论它在哪个位置上进行声明， js引擎都会将它的声明放在范围作用域的顶部；
+
+**函数声明提升
+### 5、`require`/`import`之间的区别？
+
+**1、** `require`是CommonJS语法，`import`是ES6语法；
+
+**2、** `require`只在后端服务器支持，`import`在高版本浏览器及Node中都可以支持；
+
+**3、** `require`引入的是原始导出值的复制，`import`则是导出值的引用；
+
+**4、** `require`时运行时动态加载，`import`是静态编译；
+
+**5、** `require`调用时默认不是严格模式，`import`则默认调用严格模式.
+
+### 6、new 关键字有什么作用？
+
+`new`关键字与构造函数一起使用以创建对象:
+
+```
+function Employee(name, position, yearHired) {
+  this.name = name;
+  this.position = position;
+  this.yearHired = yearHired;
+};
+
+const emp = new Employee("Marko Polo", "Software Developer", 2017);
+```
+
+`new`关键字做了`4`件事:
+
+**1、** 创建空对象 `{}`
+
+**2、** 将空对象分配给 `this` 值
+
+**3、** 将空对象的`__proto__`指向构造函数的`prototype`
+
+**4、** 如果没有使用显式`return`语句，则返回`this`
+
+看下面事例：
+
+`function Person() { this.name = 'kyle' }`
+
+根据上面描述的，`new Person()`做了：
+
+**1、** 创建一个空对象：`var obj = {}`
+
+**2、** 将空对象分配给 `this` 值：this = obj
+
+**3、** 将空对象的`__proto__`指向构造函数的`prototype`:`this.__proto__ = Person().prototype`
+
+**4、** 返回`this`:`return this`
 
 
-### 11、说出几个http协议状态码?
-### 12、!! 运算符能做什么？
-### 13、为什么在调用这个函数时，代码中的`b`会变成一个全局变量?
-### 14、什么是包装对象（wrapper object）？
-### 15、`Function.prototype.call` 方法的用途是什么？
-### 16、eval是做什么的？
-### 17、XML和JSON的区别？
-### 18、如何在 JS 中创建对象？
-### 19、同步和异步的区别?
-### 20、Object.seal 和 Object.freeze 方法之间有什么区别？
-### 21、AJAX 是什么？
-### 22、一个页面从输入 URL 到页面加载显示完成，这个过程中都发生了什么？（流程说的越详细越好）
-### 23、DOM事件模型和事件流？
-### 24、闭包
-### 25、为什么在 JS 中比较两个相似的对象时返回 false？
-### 26、`require`/`import`之间的区别？
-### 27、什么是函数式编程? JavaScript 的哪些特性使其成为函数式语言的候选语言？
-### 28、如何添加一个dom对象到body中?innerHTML和innerText区别?
-### 29、JavaScript 中的虚值是什么？
+
+### 7、如何在 JS 中创建对象？
+
+**使用对象字面量：**
+
+```
+const o = {
+  name: "kyle",
+  greeting() {
+    return `Hi, 我是${this.name}`;
+  }
+};
+
+o.greeting(); // "Hi, 我是kyle"
+```
+
+**使用构造函数：**
+
+```
+function Person(name) {
+   this.name = name;
+}
+
+Person.prototype.greeting = function () {
+   return `Hi, 我是${this.name}`;
+}
+
+const mark = new Person("kyle");
+
+mark.greeting(); // "Hi, 我是kyle"
+```
+
+**使用 Object.create 方法：**
+
+```
+const n = {
+   greeting() {
+      return `Hi, 我是${this.name}`;
+   }
+};
+
+const o = Object.create(n); 
+o.name = "kyle";
+```
+
+
+### 8、异步编程？
+
+**方法1：**
+
+**1、** 回调函数，优点是简单、容易理解和部署，缺点是不利于代码的阅读和维护，各个部分之间高度耦合（Coupling），流程会很混乱，而且每个任务只能指定一个回调函数。
+
+**方法2：**
+
+**1、** 时间监听，可以绑定多个事件，每个事件可以指定多个回调函数，而且可以“去耦合”（Decoupling），有利于实现模块化。缺点是整个程序都要变成事件驱动型，运行流程会变得很不清晰。
+
+**方法3：**
+
+发布/订阅，性质与“事件监听”类似，但是明显优于后者。
+
+**方法4：**
+
+**1、** Promises对象，是CommonJS工作组提出的一种规范，目的是为异步编程提供统一接口。
+
+**2、** 简单说，它的思想是，每一个异步任务返回一个Promise对象，该对象有一个then方法，允许指定回调函数。
+
+
+### 9、上一个项目是什么？主要负责哪些？购物车流程?支付功能?
+
+**主要负责哪些就讲主要做哪些功能模块：**
+
+1）商品模块:
+
+**1、** 商品列表：商品排序 商品筛选 商品过滤 商品查询 商品推荐
+
+**2、** 商品详情:类型推荐 商品简介 商品详情 商品评价 售后维护
+
+2)购物车模块：商品编号、数量、价格、总额、运费、运输选项、运费总计、从购物车删除选项、更新数量、结账、继续购物、商品描述、库存信息
+
+
+### 10、promise###
+
+Promise的构造函数接收一个参数，是函数，并且传入两个参数：resolve，reject，分别表示异步操作执行成功后的回调函数和异步操作执行失败后的回调函数。
+
+
+### 11、常见兼容性问题？
+### 12、sass和less有什么区别?
+### 13、["1", "2", "3"].map(parseInt) 答案是多少？
+### 14、什么是闭包? 堆栈溢出有什么区别？ 内存泄漏? 那些操作会造成内存泄漏？怎么样防止内存泄漏？
+### 15、一般使用什么版本控制工具?svn如何对文件加锁###
+### 16、用过哪些设计模式？
+### 17、简述一下你理解的面向对象？
+### 18、如何对登录的账号密码进行加密?
+### 19、什么是移动端的300ms延迟？什么是点击穿透？解决方案?
+### 20、简述下你理解的面向对象？
+### 21、什么是AJAX？如何实现？
+### 22、如何检查值是否虚值？
+### 23、什么是预编译语音|预编译处理器?
+### 24、什么是 `async/await` 及其如何工作？
+### 25、defer和async
+### 26、什么是执行上下文和执行栈？
+### 27、26.移动端上什么是点击穿透?
+### 28、什么是`Set`对象，它是如何工作的？
+### 29、异步加载JS的方式有哪些？
 
 
 
@@ -209,12 +226,8 @@ JSON(JavaScript Object Notation) 是一种轻量级的数据交换格式。 它�
 ### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/?p=67)
 
 
-## 其他，高清PDF：172份，7701页，最新整理
+## 最新，高清PDF：172份，7701页，最新整理
 
-[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/mst.png "大厂面试题")](https://souyunku.lanzous.com/b0alp9b9g "大厂面试题")
+[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/mst.png "大厂面试题")](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png"大厂面试题")
 
-## 关注公众号：架构师专栏，回复：“面试题”，即可
-
-[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/jiagoushi.png "架构师专栏")](https://souyunku.lanzous.com/b0alp9b9g "架构师专栏")
-
-## 关注公众号：架构师专栏，回复：“面试题”，即可
+[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png "架构师专栏")](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png "架构师专栏")

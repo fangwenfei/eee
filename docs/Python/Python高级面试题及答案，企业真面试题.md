@@ -8,160 +8,186 @@
 
 
 
-### 1、生产者消费者模型的应用场景
+### 1、阅读以下代码，写输出结果
 
-**说明**
-
-生产者只在仓库未满时进行生产，仓库满时生产者进程被阻塞；消费者只在仓库非空时进行消费，仓库为空时消费者进程被阻塞；
-
-应用场景：处理数据比较消耗时间，线程独占，生产数据不需要即时的反馈等。比如说写入日志，将多线程产生的日志放在队列中，然后写入。
-
-
-### 2、什么是Flask？
-
-Flask是Python编写的一款轻量级Web应用框架。其 WSGI 工具箱采用 Werkzeug ，模板引擎则使用 Jinja2。Flask使用 BSD 授权。其中两个环境依赖是Werkzeug和jinja2，这意味着它不需要依赖外部库。正因如此，我们将其称为轻量级框架。
-
-Flask会话使用签名cookie让用户查看和修改会话内容。它会记录从一个请求到另一个请求的信息。不过，要想修改会话，用户必须有密钥Flask.secret_key。
-
-
-### 3、什么是抽象？
-
-抽象(Abstraction)是将一个对象的本质或必要特征向外界展示，并隐藏所有其他无关信息的过程。
-
-
-### 4、怎么移除一个字符串中的前导空格？
-
-字符串中的前导空格就是出现在字符串中第一个非空格字符前的空格。我们使用方法Istrip()可以将它从字符串中移除。
-
-```
->>> '   Ayushi '.lstrip()
+```python
+lis = [2,4,5,6,7]
+for i in lis:
+if i % 2==0:
+lis.remove(i)
+print(lis)
 ```
 
-结果：
-
-```
-‘Ayushi   ’
-```
-
-可以看到，该字符串既有前导字符，也有后缀字符，调用Istrip()去除了前导空格。如果我们想去除后缀空格，就用rstrip()方法。
-
-```
->>> '   Ayushi '.rstrip()
-```
-
-结果：
-
-```
-‘   Ayushi’
-```
-
-从Q 21到Q 35是为有Python经验者准备的进阶版Python面试题。
+结果：[4, 5, 7]
 
 
-### 5、解释Python中的Filter？
+### 2、给定一个非空的字符串，判断它是否可以由它的一个子串重复多次构成。给定的字符串只含有小写英文字母，并且长度不超过10000。例如：'ababab',返回True，'ababa'，返回False
 
-过滤器函数，根据某些条件从可迭代对象中筛选值。
+```python
+def solution(s):
+ll=len(s)
+for i in range(1,ll//2+1):
+if ll % i == 0:
+j=0
+while s[:i]==s[j:j+i] and j<ll:
+    j=j+i
+if j==ll:
+    return True
+return False
 
-```
-# iterable
-lst = [1,2,3,4,5,6,7,8,9,10]
-
-def even(num):
-    if num%2==0:
-        return num
-
-# filter all even numbers
-list(filter(even,lst))
----------------------------------------------
-[2, 4, 6, 8, 10]
+print(solution('abababa'))
 ```
 
 
-### 6、Python代码是如何执行的？
+### 3、守护线程，守护进程是什么
 
-首先，解释器读取Python代码并检查是否有语法或格式错误。
+主进程创建守护进程
 
-如果发现错误，则暂停执行。如果没有发现错误，则解释器会将Python代码转换为等效形式或字节代码。
+**1、** 守护进程会在主进程代码运行结束的情况下，立即挂掉。
 
-然后将字节码发送到Python虚拟机(PVM)，这里Python代码将被执行，如果发现任何错误，则暂停执行，否则结果将显示在输出窗口中。
+**2、** 守护进程本身就是一个子进程。
 
-![90_1.png][90_1.png]
+**3、** 主进程在其代码结束后就已经算运行完毕了（守护进程在此时就被回收）,然后主进程会一直等非守护的子进程都运行完毕后回收子进程的资源(否则会产生僵尸进程)，才会结束，
 
+守护线程
 
-### 7、sys.path.append('xxx')的作用
+**1、** 守护线程会在"该进程内所有非守护线程全部都运行完毕后,守护线程才会挂掉"。并不是主线程运行完毕后守护线程挂掉。这一点是和守护进程的区别之处！
 
-添加搜索路径
+**2、** 守护线程守护的是：当前进程内所有的子线程！
 
-
-### 8、Python有哪些特点和优点？
-
-作为一门编程入门语言，Python主要有以下特点和优点：
-
-**1、** 可解释
-
-**2、** 具有动态特性
-
-**3、** 面向对象
-
-**4、** 简明简单
-
-5、开源
-
-**6、** 具有强大的社区支持
-
-当然，实际上Python的优点远不止如此，
+**3、** 主线程在其他非守护线程运行完毕后才算运行完毕（守护线程在此时就被回收）。因为主线程的结束意味着进程的结束，进程整体的资源都将被回收，而进程必须保证非守护线程都运行完毕后才能结束。
 
 
-### 9、MySQL的建表语句
+### 4、编写程序，查找文本文件中最长的单词
 
-```mysql
-#创建表，例子
-#所谓的建表就是声明列的过程,所以要首先分析列
-create table member(
-                       id int unsigned auto_increment primary key,
-                       username varchar(20) not null default '',
-                       gender char(1) not null default '',
-                       weight tinyint unsigned not null default 0,
-                       birth date not null default '0000-00-00',
-                       salary decimal(8,2) not null default 0.00,
-                       lastlogin int unsigned not null default 0
-)engine myisam charset utf8;
+```
+def longest_word(filename):
+    with open(filename, 'r') as infile:
+              words = infile.read().split()
+    max_len = len(max(words, key=len))
+    return [word for word in words if len(word) == max_len]
+
+print(longest_word('test.txt'))
+----------------------------------------------------
+['comprehensions']
 ```
 
 
-### 10、如何更改列表的数据类型？
+### 5、如何用一行代码生成[1,4,9,16,25,36,49,64,81,100]?
 
-要将列表的数据类型进行更改，可以使用tuple()或者set()。
-
-```
-lst = [1,2,3,4,2]
-
-# 更改为集合
-set(lst)    ## {1,2,3,4}
-# 更改为元组
-tuple(lst)  ## (1,2,3,4,2)
+```python
+lis=[i**2 for i in range(1,11)]
 ```
 
 
-### 11、22、iterables和iterators之间的区别？
-### 12、python和java、php、c、c#、c++ 等其他语言对比？
-### 13、Python有什么特点？
-### 14、怎样将字符串转换为小写？
-### 15、写代码：如何由tuple1=('a','b','c','d','e')，和tuple2=(1,2,3,4,5)得到res={'a': 1, 'b': 2, 'c': 3, 'd': 4, 'e': 5}
-### 16、Python中的装饰器是什么？
-### 17、traceroute使用哪种网络协议
-### 18、什么是pickling和unpickling？
-### 19、python代码如何获取命令行参数
-### 20、描述以下字典的items()方法和iteritems()方法有啥不同？
-### 21、使用生成器编写一个函数实现生成指定个数的斐波那契数列
-### 22、守护线程，守护进程是什么
-### 23、Python中的闭包是什么？
-### 24、如果已经建立了TCP连接，但是客户端突然出现故障了怎么办
-### 25、char和varchar的区别
-### 26、简述TCP三次握手，四次挥手的流程。
-### 27、把a='aaabbcccdddde'这种形式的字符串，压缩成a3b2c3d4e1这种形式。
-### 28、实现99乘法表（使用两种方法）
-### 29、css如何隐藏一个元素
+### 6、什么时GIL锁
+
+**1、** 即全局解释器锁，
+
+**2、** 一个时间点只有一个线程处于执行状态。
+
+
+### 7、解释Python中的help()和dir()函数
+
+Help()函数是一个内置函数，用于查看函数或模块用途的详细说明：
+
+```
+>>> import copy
+>>> help(copy.copy)
+```
+
+运行结果为：
+
+```
+Help on function copy in module copy:
+
+ 
+ 
+copy(x)
+ 
+Shallow copy operation on arbitrary Python objects.
+ 
+See the module’s __doc__ string for more info.
+```
+
+Dir()函数也是Python内置函数，dir() 函数不带参数时，返回当前范围内的变量、方法和定义的类型列表；带参数时，返回参数的属性、方法列表。
+
+以下实例展示了 dir 的使用方法：
+
+```
+>>> dir(copy.copy)
+```
+
+运行结果为：
+
+```
+[‘__annotations__’, ‘__call__’, ‘__class__’, ‘__closure__’, ‘__code__’, ‘__defaults__’, ‘__delattr__’, ‘__dict__’, ‘__dir__’, ‘__doc__’, ‘__eq__’, ‘__format__’, ‘__ge__’, ‘__get__’, ‘__getattribute__’, ‘__globals__’, ‘__gt__’, ‘__hash__’, ‘__init__’, ‘__init_subclass__’, ‘__kwdefaults__’, ‘__le__’, ‘__lt__’, ‘__module__’, ‘__name__’, ‘__ne__’, ‘__new__’, ‘__qualname__’, ‘__reduce__’, ‘__reduce_ex__’, ‘__repr__’, ‘__setattr__’, ‘__sizeof__’, ‘__str__’, ‘__subclasshook__’]
+```
+
+
+### 8、曾经使用过哪些前端框架
+
+react，vue，bootstrap，elementUI，Echarts
+
+
+### 9、Python区分大小写吗？
+
+如果能区分像myname和Myname这样的标识符，那么它就是区分大小写的。也就是说它很在乎大写和小写。我们可以用Python试一试：
+
+```
+>>> myname='Ayushi'
+>>> Myname
+Traceback (most recent call last):
+File "<pyshell#3>", line 1, in <module>
+```
+
+运行结果：
+
+```
+Myname
+
+NameError: name ‘Myname’ is not defined
+```
+
+可以看到，这里出现了NameError，所以Python是区分大小写的。
+
+
+### 10、如何以就地操作方式打乱一个列表的元素？
+
+为了达到这个目的，我们从random模块中导入shuffle()函数。
+
+```
+>>> from random import shuffle
+>>> shuffle(mylist)
+>>> mylist
+```
+
+运行结果：
+
+```
+[3, 4, 8, 0, 5, 7, 6, 2, 1]
+```
+
+
+### 11、解释一下Python中的//，%和 ** 运算符
+### 12、编写程序，打印斐波那契数列的前十项
+### 13、MySQL执行计划的作用和使用方法
+### 14、在什么情况下y!=x-(x-y)会成立？
+### 15、json序列化时可以处理的数据类型有哪些？如何定制支持datetime类型？序列化时，遇到中文转成unicode，如何保持中文形式？
+### 16、什么是Twemproxy
+### 17、怎么移除一个字符串中的前导空格？
+### 18、一行代码通过filter和lambda函数输出alist=[1,22,2,33,23,32]中索引为奇数的值
+### 19、索引有什么作用，有哪些分类，有什么好处和坏处？
+### 20、求下面代码结果
+### 21、编写程序，输出给定序列中的所有质数
+### 22、实现99乘法表（使用两种方法）
+### 23、如何修改本地hosts文件
+### 24、什么是粘包？出现粘包的原因？
+### 25、什么是socket？简述基于tcp协议的socket通信流程？
+### 26、Python中OOPS是什么？
+### 27、如何打乱一个排好序的列表
+### 28、如何判断一个对象是否可调用？哪些对象是可调用对象？如何定义一个类，使其对象本身就是可调用对象？
+### 29、为何不建议以下划线作为标识符的开头
 
 
 
@@ -173,12 +199,8 @@ tuple(lst)  ## (1,2,3,4,2)
 ### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/?p=67)
 
 
-## 其他，高清PDF：172份，7701页，最新整理
+## 最新，高清PDF：172份，7701页，最新整理
 
-[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/mst.png "大厂面试题")](https://souyunku.lanzous.com/b0alp9b9g "大厂面试题")
+[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/mst.png "大厂面试题")](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png"大厂面试题")
 
-## 关注公众号：架构师专栏，回复：“面试题”，即可
-
-[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/jiagoushi.png "架构师专栏")](https://souyunku.lanzous.com/b0alp9b9g "架构师专栏")
-
-## 关注公众号：架构师专栏，回复：“面试题”，即可
+[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png "架构师专栏")](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png "架构师专栏")

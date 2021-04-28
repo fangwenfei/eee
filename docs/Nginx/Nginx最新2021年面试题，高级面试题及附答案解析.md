@@ -8,18 +8,30 @@
 
 
 
-### 1、在 Nginx 中，解释如何在 URL 中保留双斜线?
+### 1、Nginx应用场景？
 
-要在 URL 中保留双斜线，就必须使用 merge_slashes_off;
+**1、** http服务器。Nginx是一个http服务可以独立提供http服务。可以做网页静态服务器。
 
-语法:merge_slashes [on/off]
+**2、** 虚拟主机。可以实现在一台服务器虚拟出多个网站，例如个人网站使用的虚拟机。
 
-默认值: merge_slashes on
+**3、** 反向代理，负载均衡。当网站的访问量达到一定程度后，单台服务器不能满足用户的请求时，需要用多台服务器集群可以使用nginx做反向代理。并且多台服务器可以平均分担负载，不会应为某台服务器负载高宕机而某台服务器闲置的情况。
 
-环境: http，server
+**4、** nginz 中也可以配置安全管理、比如可以使用Nginx搭建API接口网关,对每个接口服务进行拦截。
 
 
-### 2、Location正则案例
+### 2、什么是正向代理和反向代理？
+
+**1、** 正向代理就是一个人发送一个请求直接就到达了目标的服务器
+
+**2、** 反方代理就是请求统一被Nginx接收，nginx反向代理服务器接收到之后，按照一定的规 则分发给了后端的业务处理服务器进行处理了
+
+
+### 3、ngx_http_upstream_module的作用是什么?
+
+ngx_http_upstream_module用于定义可通过fastcgi传递、proxy传递、uwsgi传递、Memcached传递和scgi传递指令来引用的服务器组。
+
+
+### 4、Location正则案例
 
 **示例：**
 
@@ -55,99 +67,115 @@ location / {
 ```
 
 
-### 3、Nginx 有哪些负载均衡策略？
-
-负载均衡，即是代理服务器将接收的请求均衡的分发到各服务器中。
-
-Nginx 默认提供了 3 种负载均衡策略：
-
-**轮询（默认）round_robin**
-
-每个请求按时间顺序逐一分配到不同的后端服务器，如果后端服务器 down 掉，能自动剔除。
-
-**IP 哈希 ip_hash**
-
-每个请求按访问 ip 的 hash 结果分配，这样每个访客固定访问一个后端服务器，可以解决 session 共享的问题。
-
-当然，实际场景下，一般不考虑使用 ip_hash 解决 session 共享。
-
-**最少连接 least_conn**
-
-下一个请求将被分派到活动连接数量最少的服务器
-
-通过 Nginx 插件，我们还可以引入 fair、url_hash 等负载均衡策略。
-
-另外，我们还可以配置每一个后端节点在负载均衡时的其它配置：
+### 5、Nginx怎么判断别IP不可访问？
 
 ```
-weight=1; # (weight 默认为1.weight越大，负载的权重就越大)
-down; # (down 表示单前的server暂时不参与负载)
-backup; # (其它所有的非backup机器down或者忙的时候，请求backup机器)
-max_fails=1; # 允许请求失败的次数默认为 1 。当超过最大次数时，返回 proxy_next_upstream 模块定义的错误
-fail_timeout=30; # max_fails 次失败后，暂停的时间
+# 如果访问的ip地址为192.168.9.115,则返回403
+if  ($remote_addr = 192.168.9.115) {
+     return 403;
+}
 ```
 
 
-### 4、ngx_http_upstream_module的作用是什么?
+### 6、请列举 Nginx 的一些特性。
 
-ngx_http_upstream_module用于定义可通过fastcgi传递、proxy传递、uwsgi传递、Memcached传递和scgi传递指令来引用的服务器组。
+Nginx 服务器的特性包括：
 
+**1、** 反向代理/L7 负载均衡器
 
-### 5、如何通过不同于80的端口开启Nginx?
+**2、** 嵌入式 Perl 解释器
 
-为了通过一个不同的端口开启Nginx，你必须进/etc/Nginx/sites-enabled/，如果这是默认文件，那么必须打开名为“default”的文件。编辑文件，并放置在你想要的端口：
+**3、** 动态二进制升级
 
-![](https://www.wkcto.com/static/uploads/index/article/20200610/1591779001@f3c2283e33bd1f26deab4c50144691af.png#alt=)
-
-
-### 6、解释如何在 Nginx 服务器上添加模块?
-
-在编译过程中，必须选择 Nginx 模块，因为 Nginx 不支持模块的运行时间选
-
-择。
+**4、** 可用于重新编写 URL，具有非常好的 PCRE 支持
 
 
+### 7、Nginx目录结构有哪些？
 
-### 7、nginx和apache的区别？
+```
+[root@localhost ~]# tree /usr/local/nginx
+/usr/local/nginx
+├── client_body_temp
+├── conf                             # Nginx所有配置文件的目录
+│   ├── fastcgi.conf                 # fastcgi相关参数的配置文件
+│   ├── fastcgi.conf.default         # fastcgi.conf的原始备份文件
+│   ├── fastcgi_params               # fastcgi的参数文件
+│   ├── fastcgi_params.default       
+│   ├── koi-utf
+│   ├── koi-win
+│   ├── mime.types                   # 媒体类型
+│   ├── mime.types.default
+│   ├── nginx.conf                   # Nginx主配置文件
+│   ├── nginx.conf.default
+│   ├── scgi_params                  # scgi相关参数文件
+│   ├── scgi_params.default  
+│   ├── uwsgi_params                 # uwsgi相关参数文件
+│   ├── uwsgi_params.default
+│   └── win-utf
+├── fastcgi_temp                     # fastcgi临时数据目录
+├── html                             # Nginx默认站点目录
+│   ├── 50x.html                     # 错误页面优雅替代显示文件，例如当出现502错误时会调用此页面
+│   └── index.html                   # 默认的首页文件
+├── logs                             # Nginx日志目录
+│   ├── access.log                   # 访问日志文件
+│   ├── error.log                    # 错误日志文件
+│   └── nginx.pid                    # pid文件，Nginx进程启动后，会把所有进程的ID号写到此文件
+├── proxy_temp                       # 临时目录
+├── sbin                             # Nginx命令目录
+│   └── nginx                        # Nginx的启动命令
+├── scgi_temp                        # 临时目录
+└── uwsgi_temp                       # 临时目录
+```
 
- 轻量级，同样起web 服务，比apache 占用更少的内存及资源；抗并发，nginx处理请求是异步非阻塞的，而apache 则是阻塞型的，在高并发下nginx 能保持低资源低消耗高性能；高度模块化的设计，编写模块相对简单；最核心的区别在于apache是同步多进程模型，一个连接对应一个进程；nginx是异步的，多个连接（万级别）可以对应一个进程。
+
+### 8、权重 weight
+
+weight的值越大分配
+
+到的访问概率越高，主要用于后端每台服务器性能不均衡的情况下。其次是为在主从的情况下设置不同的权值，达到合理有效的地利用主机资源。
+
+```
+upstream backserver {
+ server 192.168.0.12 weight=2;
+ server 192.168.0.13 weight=8;
+}
+```
+
+权重越高，在被访问的概率越大，如上例，分别是20%，80%。
 
 
-### 8、为什么不使用多线程？
+### 9、请列举Nginx的一些特性？
 
-Nginx:采用单线程来异步非阻塞处理请求（管理员可以配置Nginx主进程的工作进程的数量），不会为每个请求分配cpu和内存资源，节省了大量资源，同时也减少了大量的CPU的上下文切换，所以才使得Nginx支持更高的并发。
-
-
-### 9、Nginx静态资源?
-
-静态资源访问，就是存放在nginx的html页面，我们可以自己编写
+Nginx服务器的特性包括：反向代理/L7负载均衡器 ；嵌入式Perl解释器 ；动态二进制升级；可用于重新编写URL，具有非常好的PCRE支持。
 
 
-### 10、请解释什么是`C10K`问题?
+### 10、请解释一下什么是 Nginx?
 
-`C10K`问题是指无法同时处理大量客户端(10,000)的网络套接字。
+Nginx 是一个 web 服务器和反向代理服务器，用于 HTTP、HTTPS、SMTP、POP3
+
+和 IMAP 协议。
 
 
-### 11、nignx配置
-### 12、使用“反向代理服务器”的优点是什么?
-### 13、解释如何在Nginx中获得当前的时间?
-### 14、解释 Nginx 是否支持将请求压缩到上游?
-### 15、Nginx 如何实现后端服务的健康检查？
-### 16、location的作用是什么？
-### 17、在Nginx中，如何使用未定义的服务器名称来阻止处理请求?
-### 18、解释如何在 Nginx 中获得当前的时间?
-### 19、Nginx是否支持将请求压缩到上游?
-### 20、怎么限制浏览器访问？
-### 21、fastcgi 与 cgi 的区别？
-### 22、url_hash(第三方插件)
-### 23、Rewrite全局变量是什么？
-### 24、在Nginx中如何在URL中保留双斜线?
-### 25、Nginx 常用配置？
-### 26、使用“反向代理服务器”的优点是什么?
-### 27、请陈述stub_status和sub_filter指令的作用是什么?
-### 28、请解释是否有可能将 Nginx 的错误替换为 502 错误、503?
-### 29、令牌桶算法#
-### 30、ip_hash( IP绑定)
+### 11、Nginx怎么处理请求的？
+### 12、用 Nginx 服务器解释-s 的目的是什么?
+### 13、请列举 Nginx 服务器的最佳用途。Nginx 服务器的最佳用法是在网络上部署动态 HTTP 内容，使用 SCGI、WSGI 应
+### 14、请解释什么是`C10K`问题?
+### 15、请解释是否有可能将 Nginx 的错误替换为 502 错误、503?
+### 16、fastcgi 与 cgi 的区别？
+### 17、nginx是如何实现高并发的？
+### 18、Nginx 常用配置？
+### 19、为什么要用Nginx？
+### 20、nginx和apache的区别？
+### 21、解释 Nginx 是否支持将请求压缩到上游?
+### 22、解释如何在 Nginx 中获得当前的时间?
+### 23、使用“反向代理服务器的优点是什么?
+### 24、为什么要做动、静分离？
+### 25、请解释 Nginx 服务器上的 Master 和 Worker 进程分别是什么?
+### 26、什么是C10K问题?
+### 27、请解释 Nginx 如何处理 HTTP 请求？
+### 28、在 Nginx 中，如何使用未定义的服务器名称来阻止处理请求?
+### 29、为什么不使用多线程？
+### 30、location的作用是什么？
 
 
 
@@ -159,12 +187,8 @@ Nginx:采用单线程来异步非阻塞处理请求（管理员可以配置Nginx
 ### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/?p=67)
 
 
-## 其他，高清PDF：172份，7701页，最新整理
+## 最新，高清PDF：172份，7701页，最新整理
 
-[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/mst.png "大厂面试题")](https://souyunku.lanzous.com/b0alp9b9g "大厂面试题")
+[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/mst.png "大厂面试题")](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png"大厂面试题")
 
-## 关注公众号：架构师专栏，回复：“面试题”，即可
-
-[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/jiagoushi.png "架构师专栏")](https://souyunku.lanzous.com/b0alp9b9g "架构师专栏")
-
-## 关注公众号：架构师专栏，回复：“面试题”，即可
+[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png "架构师专栏")](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png "架构师专栏")

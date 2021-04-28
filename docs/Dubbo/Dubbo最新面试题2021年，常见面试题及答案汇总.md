@@ -8,126 +8,143 @@
 
 
 
-### 1、集群容错怎么做？
-
-读操作建议使用 Failover 失败自动切换，默认重试两次其他服务器。写操作建议使用 Failfast 快速失败，发一次调用失败就立即报错。
-
-
-### 2、RPC使用了哪些关键技术，protobuf-rpc-pro
-
-是一个Java类库，提供了基于 Google 的 Protocol Buffers 协议的远程方法调用的框架。基于 Netty 底层的 NIO 技术。支持 TCP 重用/ keep-alive、SSL加密、RPC 调用取消操作、嵌入式日志等功能。
-
-
-### 3、Dubbo 服务器注册与发现的流程？
-
-**1、** 服务容器Container负责启动，加载，运行服务提供者。
-
-**2、** 服务提供者Provider在启动时，向注册中心注册自己提供的服务。
-
-**3、** 服务消费者Consumer在启动时，向注册中心订阅自己所需的服务。
-
-**4、** 注册中心Registry返回服务提供者地址列表给消费者，如果有变更，注册中心将基于长连接推送变更数据给消费者。
-
-**5、** 服务消费者Consumer，从提供者地址列表中，基于软负载均衡算法，选一台提供者进行调用，如果调用失败，再选另一台调用。
-
-**6、** 服务消费者Consumer和提供者Provider，在内存中累计调用次数和调用时间，定时每分钟发送一次统计数据到监控中心Monitor。
-
-
-### 4、Dubbo有哪几种集群容错方案，默认是哪种？
-
-**1、** Failover Cluster 失败自动切换，自动重试其他服务器(默认)
-
-**2、** Failfast Cluster 快速失败，立即报错，只发起一次调用
-
-**3、** Failsafe Cluster 失败安全，出现异常时，直接忽略
-
-**4、** Failback Cluster 失败自动回复，记录失败请求，定时请求
-
-**5、** Forking Cluster  并行调用多个服务器，只要一个成功即返回
-
-**6、** Broadcast Cluster 广播逐个调用所有提供者，任意一个报错则报错
-
-
-### 5、Dubbo 支持哪些协议，每种协议的应用场景，优缺点？
-
-**1、** dubbo：单一长连接和 NIO 异步通讯，适合大并发小数据量的服务调用，以及消费者远大于提供者。传输协议 TCP，异步， Hessian 序列化；
-
-**2、** rmi：采用 JDK 标准的 rmi 协议实现，传输参数和返回参数对象需要实现 Serializable 接口，使用 java 标准序列化机制，使用阻塞式短连接，传输数据包大小混合，消费者和提供者个数差不多，可传文件，传输协议 TCP。多个短连接， TCP 协议传输，同步传输，适用常规的远程服务调用和rmi 互操作。在依赖低版本的 Common-Collections包， java 序列化存在安全漏洞；
-
-**3、** webservice：基于 WebService 的远程调用协议，集成 CXF 实现，提供和原生 WebService 的互操作。多个短连接，基于 HTTP 传输，同步传输，适用系统集成和跨语言调用；
-
-**4、** http：基于 Http 表单提交的远程调用协议，使用 Spring 的HttpInvoke 实现。多个短连接，传输协议 HTTP，传入参数大小混合，提供者个数多于消费者，需要给应用程序和浏览器 JS 调用；
-
-**5、** hessian：集成 Hessian 服务，基于 HTTP 通讯，采用 Servlet 暴露服务， Dubbo 内嵌 Jetty 作为服务器时默认实现，提供与 Hession 服务互操作。多个短连接，同步 HTTP 传输， Hessian 序列化，传入参数较大，提供者大于消费者，提供者压力较大，可传文件；
-
-**6、** memcache：基于 Memcached 实现的 RPC 协议
-
-**7、** Redis：基于 Redis 实现的 RPC 协议
-
-
-### 6、Dubbo SPI 和 Java SPI 区别？
-
-**JDK SPI：**
-
-JDK 标准的 SPI 会一次性加载所有的扩展实现，如果有的扩展很耗时，但也没用上，很浪费资源。所以只希望加载某个的实现，就不现实了
-
-**DUBBO SPI：**
-
-**1、** 对 Dubbo 进行扩展，不需要改动 Dubbo 的源码
-
-**2、** 延迟加载，可以一次只加载自己想要加载的扩展实现。
-
-**3、** 增加了对扩展点 IOC 和 AOP 的支持，一个扩展点可以直接 setter 注入其它扩展点。
-
-**4、** Dubbo 的扩展机制能很好的支持第三方 IoC 容器，默认支持 Spring Bean。
-
-
-### 7、dubbo和dubbox之间的区别？
-
-dubbox是当当网基于dubbo上做了一些扩展，如加了服务可restful调用，更新了开源组件等。
-
-
-### 8、服务调用超时问题怎么解决？
-
-dubbo 在调用服务不成功时，默认是会重试两次的。
-
-
-### 9、Dubbo 支持哪些协议，每种协议的应用场景，优缺点？
-
-dubbo： 单一长连接和 NIO 异步通讯，适合大并发小数据量的服务调用，以及消费者远大于提供者。传输协议 TCP，异步，Hessian 序列化；
-
-rmi： 采用 JDK 标准的 rmi 协议实现，传输参数和返回参数对象需要实现 Serializable 接口，使用 java 标准序列化机制，使用阻塞式短连接，传输数据包大小混合，消费者和提供者个数差不多，可传文件，传输协议 TCP。 多个短连接，TCP 协议传输，同步传输，适用常规的远程服务调用和 rmi 互操作。在依赖低版本的 Common-Collections 包，java 序列化存在安全漏洞；
-
-webservice:基于 WebService 的远程调用协议，集成 CXF 实现，提供和原生 WebService 的互操作。多个短连接，基于 HTTP 传输，同步传输，适用系统集成和跨语言调用；http： 基于 Http 表单提交的远程调用协议，使用 Spring 的 HttpInvoke 实现。多个短连接，传输协议 HTTP，传入参数大小混合，提供者个数多于消费者，需要给应用程序和浏览器 JS 调用； hessian： 集成 Hessian 服务，基于 HTTP 通讯，采用 Servlet 暴露服务，Dubbo 内嵌 Jetty 作为服务器时默认实现，提供与 Hession 服务互操作。多个短连接，同步 HTTP 传输，Hessian 序列化，传入参数较大，提供者大于消费者，提供者压力较大，可传文件；
-
-memcache： 基于 Memcached 实现的 RPC 协议 Redis： 基于 Redis 实现的 RPC 协议
-
-
-### 10、dubbo推荐用什么协议？
+### 1、dubbo推荐用什么协议？
 
 默认使用dubbo协议。
 
 
-### 11、RPC使用了哪些关键技术，动态代理
-### 12、在使用过程中都遇到了些什么问题？ 如何解决的？
-### 13、Dubbo的集群容错方案有哪些？
-### 14、Dubbo Monitor 实现原理？
-### 15、RPC使用了哪些关键技术，服务寻址
-### 16、dubbo 通信协议 dubbo 协议为什么采用异步单一长连接
-### 17、RPC使用了哪些关键技术，RPC的实现原理架构图
-### 18、RPC使用了哪些关键技术，序列化
-### 19、RPC使用了哪些关键技术，服务调用
-### 20、Dubbo 能集成 SpringBoot 吗？
-### 21、Dubbo 集群的负载均衡有哪些策略
-### 22、Dubbo服务之间的调用是阻塞的吗？
-### 23、你还了解别的分布式框架吗？
-### 24、Dubbo 的注册中心集群挂掉，发布者和订阅者之间还能通信么？
-### 25、服务调用超时问题怎么解决
-### 26、Dubbo 核心功能有哪些？
-### 27、Dubbo 核心组件有哪些？
-### 28、说说核心的配置有哪些？
-### 29、dubbo是什么
-### 30、Dubbo 支持哪些序列化方式？
+### 2、RPC使用了哪些关键技术，服务调用
+
+B机器进行本地调用（通过代理Proxy和反射调用）之后得到了返回值，此时还需要再把返回值发送回A机器，同样也需要经过序列化操作，然后再经过网络传输将二进制数据发送回A机器，而当A机器接收到这些返回值之后，则再次进行反序列化操作，恢复为内存中的表达方式，最后再交给A机器上的应用进行相关处理（一般是业务逻辑处理操作）。
+
+通常，经过以上四个步骤之后，一次完整的RPC调用算是完成了，另外可能因为网络抖动等原因需要重试等。
+
+### 3、服务调用是阻塞的吗？
+
+默认是阻塞的，可以异步调用，没有返回值的可以这么做。
+
+
+### 4、Dubbo 的主要应用场景？
+
+**1、** 透明化的远程方法调用，就像调用本地方法一样调用远程方法，只需简单配置，没有任何 API 侵入。
+
+**2、** 软负载均衡及容错机制，可在内网替代 F5 等硬件负载均衡器，降低成本，减少单点。
+
+**3、** 服务自动注册与发现，不再需要写死服务提供方地址，注册中心基于接口名查询服务提供者的 IP 地址，并且能够平滑添加或删除服务提供者。
+
+Dubbo 的主要应用场景？
+
+Dubbo 的核心功能？
+
+**主要就是如下 3 个核心功能：**
+
+**1、** Remoting：网络通信框架，提供对多种 NIO 框架抽象封装，包括“同步转异步”和“请求-响应”模式的信息交换方式。
+
+**2、** Cluster：服务框架，提供基于接口方法的透明远程过程调用，包括多协议支持，以及软负载均衡，失败容错，地址路由，动态配置等集群支持。
+
+**3、** Registry：服务注册，基于注册中心目录服务，使服务消费方能动态的查找服务提供方，使地址透明，使服务提供方可以平滑增加或减少机器。
+
+
+### 5、服务读写推荐的容错策略是怎样的？
+
+读操作建议使用 Failover 失败自动切换，默认重试两次其他服务器。写操作建议使用 Failfast 快速失败，发一次调用失败就立即报错。
+
+
+### 6、Dubbo 用到哪些设计模式？
+
+Dubbo框架在初始化和通信过程中使用了多种设计模式，可灵活控制类加载、权限控制等功能。
+
+**工厂模式**
+
+Provider在export服务时，会调用ServiceConfig的export方法。ServiceConfig中有个字段：
+
+```java
+private static final Protocol protocol = ExtensionLoader.getExtensionLoader(Protocol.class).getAdaptiveExtension();
+```
+
+Dubbo里有很多这种代码。这也是一种工厂模式，只是实现类的获取采用了JDK SPI的机制。这么实现的优点是可扩展性强，想要扩展实现，只需要在classpath下增加个文件就可以了，代码零侵入。另外，像上面的Adaptive实现，可以做到调用时动态决定调用哪个实现，但是由于这种实现采用了动态代理，会造成代码调试比较麻烦，需要分析出实际调用的实现类。
+
+**装饰器模式**
+
+Dubbo在启动和调用阶段都大量使用了装饰器模式。以Provider提供的调用链为例，具体的调用链代码是在ProtocolFilterWrapper的buildInvokerChain完成的，具体是将注解中含有group=provider的Filter实现，按照order排序，最后的调用顺序是：
+
+```java
+EchoFilter -> ClassLoaderFilter -> GenericFilter -> ContextFilter -> ExecuteLimitFilter -> TraceFilter -> TimeoutFilter -> MonitorFilter -> ExceptionFilter
+```
+
+更确切地说，这里是装饰器和责任链模式的混合使用。例如，EchoFilter的作用是判断是否是回声测试请求，是的话直接返回内容，这是一种责任链的体现。而像ClassLoaderFilter则只是在主功能上添加了功能，更改当前线程的ClassLoader，这是典型的装饰器模式。
+
+**观察者模式**
+
+Dubbo的Provider启动时，需要与注册中心交互，先注册自己的服务，再订阅自己的服务，订阅时，采用了观察者模式，开启一个listener。注册中心会每5秒定时检查是否有服务更新，如果有更新，向该服务的提供者发送一个notify消息，provider接受到notify消息后，即运行NotifyListener的notify方法，执行监听器方法。
+
+**动态代理模式**
+
+Dubbo扩展JDK SPI的类ExtensionLoader的Adaptive实现是典型的动态代理实现。Dubbo需要灵活地控制实现类，即在调用阶段动态地根据参数决定调用哪个实现类，所以采用先生成代理类的方法，能够做到灵活的调用。生成代理类的代码是ExtensionLoader的createAdaptiveExtensionClassCode方法。代理类的主要逻辑是，获取URL参数中指定参数的值作为获取实现类的key。
+
+
+### 7、默认使用的是什么通信框架，还有别的选择吗?
+
+默认也推荐使用netty框架，还有mina。
+
+
+### 8、Dubbo SPI 和 Java SPI 区别？
+
+**JDK SPI**
+
+JDK 标准的 SPI 会一次性加载所有的扩展实现，如果有的扩展吃实话很耗时，但也没用上，很浪费资源。
+
+所以只希望加载某个的实现，就不现实了
+
+**DUBBO SPI**
+
+1，对Dubbo进行扩展，不需要改动Dubbo的源码
+
+2，延迟加载，可以一次只加载自己想要加载的扩展实现。
+
+3，增加了对扩展点 IOC 和 AOP 的支持，一个扩展点可以直接 setter 注入其它扩展点。
+
+3，Dubbo的扩展机制能很好的支持第三方IoC容器，默认支持Spring Bean。
+
+
+### 9、RPC框架需要解决的问题？
+
+**1、** 如何确定客户端和服务端之间的通信协议？
+
+**2、** 如何更高效地进行网络通信？
+
+**3、** 服务端提供的服务如何暴露给客户端？
+
+**4、** 客户端如何发现这些暴露的服务？
+
+**5、** 如何更高效地对请求对象和响应结果进行序列化和反序列化操作？
+
+
+### 10、服务提供者能实现失效踢出是什么原理？
+
+服务失效踢出基于 zookeeper 的临时节点原理。
+
+
+### 11、Dubbo 集群容错有几种方案？
+### 12、说说 Dubbo 服务暴露的过程。
+### 13、Dubbo 类似的分布式框架还有哪些？
+### 14、服务调用超时问题怎么解决？
+### 15、Dubbo 核心组件有哪些？
+### 16、服务调用是阻塞的吗？
+### 17、Dubbo 的集群容错方案有哪些？
+### 18、一般使用什么注册中心？还有别的选择吗？
+### 19、RPC使用了哪些关键技术，从服务提供者的角度看：
+### 20、同一个服务多个注册的情况下可以直连某一个服务吗？
+### 21、RPC使用了哪些关键技术，从调用者的角度看：
+### 22、dubbo 通信协议 dubbo 协议为什么要消费者比提供者个数多？
+### 23、Dubbo 支持分布式事务吗？
+### 24、Dubbo集群提供了哪些负载均衡策略？
+### 25、为什么需要服务治理？
+### 26、Dubbo 有哪些注册中心？
+### 27、Dubbo 服务降级，失败重试怎么做？
+### 28、画一画服务注册与发现的流程图？
+### 29、Dubbo 服务降级，失败重试怎么做？
+### 30、Dubbo 和 Spring Cloud 有什么哪些区别？
 
 
 
@@ -139,12 +156,8 @@ memcache： 基于 Memcached 实现的 RPC 协议 Redis： 基于 Redis 实现�
 ### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/?p=67)
 
 
-## 其他，高清PDF：172份，7701页，最新整理
+## 最新，高清PDF：172份，7701页，最新整理
 
-[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/mst.png "大厂面试题")](https://souyunku.lanzous.com/b0alp9b9g "大厂面试题")
+[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/mst.png "大厂面试题")](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png"大厂面试题")
 
-## 关注公众号：架构师专栏，回复：“面试题”，即可
-
-[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/jiagoushi.png "架构师专栏")](https://souyunku.lanzous.com/b0alp9b9g "架构师专栏")
-
-## 关注公众号：架构师专栏，回复：“面试题”，即可
+[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png "架构师专栏")](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png "架构师专栏")

@@ -8,157 +8,111 @@
 
 
 
-### 1、YAML 配置的优势在哪里 ?
+### 1、您使用了哪些 starter maven 依赖项？
 
-YAML 现在可以算是非常流行的一种配置文件格式了，无论是前端还是后端，都可以见到 YAML 配置。那么 YAML 配置和传统的 properties 配置相比到底有哪些优势呢？
+**使用了下面的一些依赖项**
 
-配置有序，在一些特殊的场景下，配置有序很关键
+**1、**  spring-boot-starter-web 嵌入tomcat和web开发需要servlet与jsp支持
 
-简洁明了，他还支持数组，数组中的元素可以是基本数据类型也可以是对象
+**2、**  spring-boot-starter-data-jpa 数据库支持
 
-相比 properties 配置文件，YAML 还有一个缺点，就是不支持 [@PropertySource ](/PropertySource ) 注解导入自定义的 YAML 配置。
+**3、**  spring-boot-starter-data-Redis Redis数据库支持
 
+**4、**  spring-boot-starter-data-solr solr支持
 
-### 2、SpringBoot需要独立的容器运行？
+**5、**  mybatis-spring-boot-starter 第三方的mybatis集成starter
 
-SpringBoot不需要独立的容器就可以运行，因为在SpringBoot工程发布的jar文件里已经包含了tomcat的jar文件。SpringBoot运行的时候会创建tomcat对象，实现web服务功能。也可以将SpringBoot发布成war文件，放到tomcat文件里面运行
-
-
-### 3、JPA 和 Hibernate 有哪些区别？
-
-简而言之
-
-JPA 是一个规范或者接口
-
-Hibernate 是 JPA 的一个实现
-
-当我们使用 JPA 的时候，我们使用 javax.persistence 包中的注释和接口时，不需要使用 hibernate 的导入包。
-
-我们建议使用 JPA 注释，因为哦我们没有将其绑定到 Hibernate 作为实现。后来（我知道 - 小于百分之一的几率），我们可以使用另一种 JPA 实现。
+自定义的starter(如果自己开发过就可以说出来)
 
 
-### 4、什么是YAML？
+### 2、SpringBoot 常用的 Starter 有哪些？
 
-YAML是一种人类可读的数据序列化语言。它通常用于配置文件。 与属性文件相比，如果我们想要在配置文件中添加复杂的属性，YAML文件就更加结构化，而且更少混淆。可以看出YAML具有分层配置数据。
+**1、** spring-boot-starter-web ：提供 Spring MVC + 内嵌的 Tomcat 。
 
+**2、** spring-boot-starter-data-jpa ：提供 Spring JPA + Hibernate 。
 
-### 5、SpringBoot 如何设置支持跨域请求？
+**3、** spring-boot-starter-data-Redis ：提供 Redis 。
 
-现代浏览器出于安全的考虑， HTTP 请求时必须遵守同源策略，否则就是跨域的 HTTP 请求，默认情况下是被禁止的，IP（域名）不同、或者端口不同、协议不同（比如 HTTP、HTTPS）都会造成跨域问题。
-
-**一般前端的解决方案有：**
-
-**1、** 使用 JSONP 来支持跨域的请求，JSONP 实现跨域请求的原理简单的说，就是动态创建`<script>`标签，然后利用`<script>`的 SRC 不受同源策略约束来跨域获取数据。缺点是需要后端配合输出特定的返回信息。
-
-**2、** 利用反应代理的机制来解决跨域的问题，前端请求的时候先将请求发送到同源地址的后端，通过后端请求转发来避免跨域的访问。
-
-后来 HTML5 支持了 CORS 协议。CORS 是一个 W3C 标准，全称是”跨域资源共享”（Cross-origin resource sharing），允许浏览器向跨源服务器，发出 XMLHttpRequest 请求，从而克服了 AJAX 只能同源使用的限制。它通过服务器增加一个特殊的 Header[Access-Control-Allow-Origin]来告诉客户端跨域的限制，如果浏览器支持 CORS、并且判断 Origin 通过的话，就会允许 XMLHttpRequest 发起跨域请求。
-
-前端使用了 CORS 协议，就需要后端设置支持非同源的请求，SpringBoot 设置支持非同源的请求有两种方式。
-
-第一，配置 CorsFilter。
-
-```
-
-@Configuration
-public class GlobalCorsConfig {
-    @Bean
-    public CorsFilter corsFilter() {
-        CorsConfiguration config = new CorsConfiguration();
-          config.addAllowedOrigin("*");
-          config.setAllowCredentials(true);
-          config.addAllowedMethod("*");
-          config.addAllowedHeader("*");
-          config.addExposedHeader("*");
-
-        UrlBasedCorsConfigurationSource configSource = new UrlBasedCorsConfigurationSource();
-        configSource.registerCorsConfiguration("/**", config);
-
-        return new CorsFilter(configSource);
-    }
-}
-```
-
-需要配置上述的一段代码。第二种方式稍微简单一些。
-
-第二，在启动类上添加：
-
-```
-
-public class Application extends WebMvcConfigurerAdapter {
-
-    @Override
-    public void addCorsMappings(CorsRegistry registry) {
-
-        registry.addMapping("/**")
-                .allowCredentials(true)
-                .allowedHeaders("*")
-                .allowedOrigins("*")
-                .allowedMethods("*");
-
-    }
-}
-```
+**4、** mybatis-spring-boot-starter ：提供 MyBatis 。
 
 
-### 6、SpringBoot如何配置log4j？
+### 3、什么是YAML?
 
-在引用log4j之前，需要先排除项目创建时候带的日志，因为那个是Logback，然后再引入log4j的依赖，引入依赖之后，去src/main/resources目录下的log4j-spring.properties配置文件，就可以开始对应用的日志进行配置使用。
-
-
-### 7、@SpringBootApplication注释在内部有什么用处?
-
-作为Spring引导文档，@SpringBootApplication注释等同于同时使用@Configuration、@EnableAutoConfiguration和@ComponentScan及其默认属性。SpringBoot允许开发人员使用单个注释而不是多个注释。但是，众所周知，Spring提供了松散耦合的特性，我们可以根据项目需要为每个注释使用这些特性。
+YAML是一种人类可读的数据序列化语言。它通常用于`配置文件`。 与属性文件相比，如果我们想要在配置文件中添加复杂的属性，YAML文件就更加结构化，而且更少混淆。可以看出YAML具有`分层配置数据`。
 
 
-### 8、如何重新加载SpringBoot上的更改，而无需重新启动服务器？
+### 4、为什么要用SpringBoot
 
-这可以使用DEV工具来实现。通过这种依赖关系，您可以节省任何更改，嵌入式tomcat将重新启动。
-
-SpringBoot有一个开发工具（DevTools）模块，它有助于提高开发人员的生产力。Java开发人员面临的一个主要挑战是将文件更改自动部署到服务器并自动重启服务器。
-
-开发人员可以重新加载SpringBoot上的更改，而无需重新启动服务器。这将消除每次手动部署更改的需要。SpringBoot在发布它的第一个版本时没有这个功能。
-
-这是开发人员最需要的功能。DevTools模块完全满足开发人员的需求。该模块将在生产环境中被禁用。它还提供H2数据库控制台以更好地测试应用程序。
+快速开发，快速整合，配置简化、内嵌服务容器
 
 
-### 9、SpringBoot 中的 starter 到底是什么 ?
+### 5、什么是 WebSockets？
 
-首先，这个 Starter 并非什么新的技术点，基本上还是基于 Spring 已有功能来实现的。首先它提供了一个自动化配置类，一般命名为 `XXXAutoConfiguration` ，在这个配置类中通过条件注解来决定一个配置是否生效（条件注解就是 Spring 中原本就有的），然后它还会提供一系列的默认配置，也允许开发者根据实际情况自定义相关配置，然后通过类型安全的属性(spring、factories)注入将这些配置属性注入进来，新注入的属性会代替掉默认属性。正因为如此，很多第三方框架，我们只需要引入依赖就可以直接使用了。当然，开发者也可以自定义 Starter
+WebSocket 是一种计算机通信协议，通过单个 TCP 连接提供全双工通信信道。
 
+**1、** WebSocket 是双向的 -使用 WebSocket 客户端或服务器可以发起消息发送。
 
-### 10、SpringBoot 的核心配置文件有哪几个？它们的区别是什么？
+**2、** WebSocket 是全双工的 -客户端和服务器通信是相互独立的。
 
-SpringBoot 的核心配置文件是 application 和 bootstrap 配置文件。
+**3、** 单个 TCP 连接 -初始连接使用 HTTP，然后将此连接升级到基于套接字的连接。然后这个单一连接用于所有未来的通信
 
-application 配置文件这个容易理解，主要用于 SpringBoot 项目的自动化配置。
-
-bootstrap 配置文件有以下几个应用场景。
-
-使用 Spring Cloud Config 配置中心时，这时需要在 bootstrap 配置文件中添加连接到配置中心的配置属性来加载外部配置中心的配置信息； 一些固定的不能被覆盖的属性；一些加密/解密的场景
+**4、** Light -与 http 相比，WebSocket 消息数据交换要轻得多。
 
 
-### 11、我们如何监视所有 SpringBoot 微服务？
-### 12、YAML 配置的优势在哪里 ?
-### 13、SpringBoot 有哪几种读取配置的方式？
-### 14、SpringBoot性能如何优化
-### 15、SpringBoot 配置文件的加载顺序
-### 16、什么是SpringBoot ？
-### 17、SpringBoot的配置文件有哪几种格式？区别是什么？
-### 18、运行 SpringBoot 有哪几种方式？
-### 19、如何在自定义端口上运行 SpringBoot 应用程序？
-### 20、什么是 WebSockets？
-### 21、SpringBoot 的核心注解是哪个？它主要由哪几个注解组成的？
-### 22、SpringBoot 有哪几种读取配置的方式？
-### 23、比较一下 Spring Security 和 Shiro 各自的优缺点 ?
-### 24、spring-boot-starter-parent有什么用？
-### 25、SpringBoot中的监视器是什么?
-### 26、SpringBoot 支持哪些日志框架？推荐和默认的日志框架是哪个？
-### 27、SpringBoot 中如何解决跨域问题 ?
-### 28、在 Spring Initializer 中，如何改变一个项目的包名字？
-### 29、什么是 Spring Data REST?
-### 30、SpringBoot的缺点
-### 31、运行 SpringBoot 有哪几种方式？
+### 6、什么是 Spring Batch？
+
+SpringBoot Batch 提供可重用的函数，这些函数在处理大量记录时非常重要，包括日志/跟踪，事务管理，作业处理统计信息，作业重新启动，跳过和资源管理。它还提供了更先进的技术服务和功能，通过优化和分区技术，可以实现极高批量和高性能批处理作业。简单以及复杂的大批量批处理作业可以高度可扩展的方式利用框架处理重要大量的信息。
+
+
+### 7、SpringBoot 支持哪些日志框架？推荐和默认的日志框架是哪个？
+
+SpringBoot 支持 Java Util Logging, Log4j2, Lockback 作为日志框架，如果你使用 Starters 启动器，SpringBoot 将使用 Logback 作为默认日志框架
+
+
+### 8、运行 SpringBoot 有哪几种方式？
+
+打包用命令或者放到容器中运行
+
+用 Maven/ Gradle 插件运行
+
+直接执行 main 方法运行
+
+
+### 9、运行 SpringBoot 有哪几种方式？
+
+**1、**  打包用命令或者放到容器中运行
+
+**2、**  用 Maven/ Gradle 插件运行
+
+**3、**  直接执行 main 方法运行
+
+
+### 10、什么是 Spring Profiles？
+
+Spring Profiles 允许用户根据配置文件（dev，test，prod 等）来注册 bean。因此，当应用程序在开发中运行时，只有某些 bean 可以加载，而在 PRODUCTION中，某些其他 bean 可以加载。假设我们的要求是 Swagger 文档仅适用于 QA 环境，并且禁用所有其他文档。这可以使用配置文件来完成。SpringBoot 使得使用配置文件非常简单。
+
+
+### 11、你如何理解 SpringBoot 中的 Starters？
+### 12、SpringBoot读取配置文件的方式
+### 13、什么是 FreeMarker 模板？
+### 14、你如何理解 SpringBoot 配置加载顺序？
+### 15、SpringBoot集成mybatis的过程
+### 16、SpringBoot的启动器有哪几种?
+### 17、什么是SpringBoot？
+### 18、如何在不使用BasePACKAGE过滤器的情况下排除程序包？
+### 19、如何使用SpringBoot实现分页和排序？
+### 20、什么是FreeMarker模板？
+### 21、SpringBoot的自动配置原理是什么
+### 22、spring boot扫描流程?
+### 23、什么是YAML？
+### 24、如何重新加载SpringBoot上的更改，而无需重新启动服务器？
+### 25、path=”users”, collectionResourceRel=”users” 如何与 Spring Data Rest 一起使用？
+### 26、SpringBoot 有哪几种读取配置的方式？
+### 27、什么是 Apache Kafka？
+### 28、如何集成SpringBoot和ActiveMQ？
+### 29、什么是Apache Kafka？
+### 30、SpringBoot 的配置文件有哪几种格式？它们有什么区别？
+### 31、如何在自定义端口上运行 SpringBoot 应用程序？
 
 
 
@@ -170,12 +124,8 @@ bootstrap 配置文件有以下几个应用场景。
 ### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/?p=67)
 
 
-## 其他，高清PDF：172份，7701页，最新整理
+## 最新，高清PDF：172份，7701页，最新整理
 
-[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/mst.png "大厂面试题")](https://souyunku.lanzous.com/b0alp9b9g "大厂面试题")
+[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/mst.png "大厂面试题")](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png"大厂面试题")
 
-## 关注公众号：架构师专栏，回复：“面试题”，即可
-
-[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/jiagoushi.png "架构师专栏")](https://souyunku.lanzous.com/b0alp9b9g "架构师专栏")
-
-## 关注公众号：架构师专栏，回复：“面试题”，即可
+[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png "架构师专栏")](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png "架构师专栏")

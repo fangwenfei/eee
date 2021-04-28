@@ -8,385 +8,241 @@
 
 
 
-### 1、为什么wait(), notify()和notifyAll ()必须在同步方法或者同步块中被调用？
+### 1、“a==b”和”a.equals(b)”有什么区别？
 
-当一个线程需要调用对象的wait()方法的时候，这个线程必须拥有该对象的锁，接着它就会释放这个对象锁并进入等待状态直到其他线程调用这个对象上的notify()方法。同样的，当一个线程需要调用对象的notify()方法时，它会释放这个对象的锁，以便其他在等待的线程就可以得到这个对象锁。由于所有的这些方法都需要线程持有对象的锁，这样就只能通过同步来实现，所以他们只能在同步方法或者同步块中被调用。
+如果 a 和 b 都是对象，则 a==b 是比较两个对象的引用，只有当 a 和 b 指向的是堆中的同一个对象才会返回 true，而 a.equals(b) 是进行逻辑比较，所以通常需要重写该方法来提供逻辑一致性的比较。例如，String 类重写 equals() 方法，所以可以用于两个不同对象，但是包含的字母相同的比较。
 
 
-### 2、String str=”aaa”,与String str=new String(“aaa”)一样吗？
+### 2、对象的相等与指向他们的引用相等，两者有什么不同？
 
-**1、** 不一样的。因为内存分配的方式不一样。
+对象的相等 比的是内存中存放的内容是否相等而 引用相等 比较的是他们指向的内存地址是否相等。
 
-**2、** 第一种，创建的”aaa”是常量，jvm都将其分配在常量池中。
 
-**3、** 第二种创建的是一个对象，jvm将其值分配在堆内存中。
+### 3、常用的并发工具类有哪些？
 
+**CountDownLatch**
 
-### 3、用代码演示三种代理
+CountDownLatch 类位于java.util.concurrent包下，利用它可以实现类似计数器的功能。比如有一个任务A，它要等待其他3个任务执行完毕之后才能执行，此时就可以利用CountDownLatch来实现这种功能了。
 
-- 静态代理
+**CyclicBarrier (回环栅栏) CyclicBarrier它的作用就是会让所有线程都等待完成后才会继续下一步行动。**
 
-**什么是静态代理**
+CyclicBarrier初始化时规定一个数目，然后计算调用了CyclicBarrier.await()进入等待的线程数。当线程数达到了这个数目时，所有进入等待状态的线程被唤醒并继续。
 
-由程序员创建或工具生成代理类的源码，再编译代理类。所谓静态也就是在程序运行前就已经存在代理类的字节码文件，代理类和委托类的关系在运行前就确定了。
+CyclicBarrier初始时还可带一个Runnable的参数， 此Runnable任务在CyclicBarrier的数目达到后，所有其它线程被唤醒前被执行。
 
-- 代码演示
+Semaphore (信号量) Semaphore 是 synchronized 的加强版，作用是控制线程的并发数量（允许自定义多少线程同时访问）。就这一点而言，单纯的synchronized 关键字是实现不了的。
 
-我有一段这样的代码：（如何能在不修改UserDao接口类的情况下开事务和关闭事务呢）
+Semaphore是一种基于计数的信号量。它可以设定一个阈值，基于此，多个线程竞争获取许可信号，做自己的申请后归还，超过阈值后，线程申请许可信号将会被阻塞。Semaphore可以用来构建一些对象池，资源池之类的，比如数据库连接池，我们也可以创建计数为1的Semaphore，将其作为一种类似互斥锁的机制，这也叫二元信号量，表示两种互斥状态。它的用法如下：
 
-```
-package com.lijie;
 
-//接口类
-public class UserDao{
-    public void save() {
-        System.out.println("保存数据方法");
-    }
-}
-```
+### 4、Java中的ReadWriteLock是什么？
 
-```
-package com.lijie;
+读写锁是用来提升并发程序性能的锁分离技术的成果。
 
-//运行测试类
-public  class Test{
-    public static void main(String[] args) {
-        UserDao userDao = new UserDao();
-        userDao.save();
-    }
-}
-```
 
-**修改代码，添加代理类**
+### 5、你在项目中哪些地方用到了XML？
 
-```
-package com.lijie;
 
-//代理类
-public class UserDaoProxy extends UserDao {
-    private UserDao userDao;
 
-    public UserDaoProxy(UserDao userDao) {
-        this.userDao = userDao;
-    }
+XML的主要作用有两个方面：数据交换和信息配置。在做数据交换时，XML将数据用标签组装成起来，然后压缩打包加密后通过网络传送给接收者，接收解密与解压缩后再从XML文件中还原相关信息进行处理，XML曾经是异构系统间交换数据的事实标准，但此项功能几乎已经被JSON（JavaScript Object Notation）取而代之。当然，目前很多软件仍然使用XML来存储配置信息，我们在很多项目中通常也会将作为配置信息的硬代码写在XML文件中，Java的很多框架也是这么做的，而且这些框架都选择了[dom4j](http://www.dom4j.org)作为处理XML的工具，因为Sun公司的官方API实在不怎么好用。
 
-    public void save() {
-        System.out.println("开启事物...");
-        userDao.save();
-        System.out.println("关闭事物...");
-    }
+> 补充：现在有很多时髦的软件（如Sublime）已经开始将配置文件书写成JSON格式，我们已经强烈的感受到XML的另一项功能也将逐渐被业界抛弃。
 
-}
-```
 
-```
-//添加完静态代理的测试类
-public class Test{
-    public static void main(String[] args) {
-        UserDao userDao = new UserDao();
-        UserDaoProxy userDaoProxy = new UserDaoProxy(userDao);
-        userDaoProxy.save();
-    }
-}
-```
 
-**缺点：**
+### 6、什么是不可变对象，它对写并发应用有什么帮助？
 
-每个需要代理的对象都需要自己重复编写代理，很不舒服，
+**1、** 不可变对象(Immutable Objects)即对象一旦被创建它的状态（对象的数据，也即对象属性值）就不能改变，反之即为可变对象(Mutable Objects)。
 
-**优点：**
+**2、** 不可变对象的类即为不可变类(Immutable Class)。Java平台类库中包含许多不可变类，如String、基本类型的包装类、BigInteger和BigDecimal等。
 
-但是可以面相实际对象或者是接口的方式实现代理
+**3、** 不可变对象天生是线程安全的。它们的常量（域）是在构造函数中创建的。既然它们的状态无法修改，这些常量永远不会变。
 
-- 动态代理
+**1、** 不可变对象永远是线程安全的。
 
-**什么是动态代理**
+**2、** 只有满足如下状态，一个对象才是不可变的；
 
-动态代理也叫做，JDK代理、接口代理。
+**3、** 它的状态不能在创建后再被修改；
 
-动态代理的对象，是利用JDK的API，动态的在内存中构建代理对象（是根据被代理的接口来动态生成代理类的class文件，并加载运行的过程），这就叫动态代理
+**4、** 所有域都是final类型；并且，
 
-- 代码演示
+**5、** 它被正确创建（创建期间没有发生this引用的逸出）。
 
-```
-package com.lijie;
 
-//接口
-public interface UserDao {
-    void save();
-}
-```
+### 7、什么是Java虚拟机
 
-```
-package com.lijie;
+任何一种可以运行Java字节码的软件均可看成是Java的虚拟机（JVM）
 
-//接口实现类
-public class UserDaoImpl implements UserDao {
-    public void save() {
-        System.out.println("保存数据方法");
-    }
-}
-```
 
-下面是代理类，可重复使用，不像静态代理那样要自己重复编写代理
+### 8、Java最顶级的父类是哪个？
 
-```
-package com.lijie;
+Object
 
-import java.lang.reflect.InvocationHandler;
-import java.lang.reflect.Method;
 
-// 每次生成动态代理类对象时,实现了InvocationHandler接口的调用处理器对象
-public class InvocationHandlerImpl implements InvocationHandler {
+### 9、谈谈你知道的垃圾收集器
 
-    // 这其实业务实现类对象，用来调用具体的业务方法
-    private Object target;
-
-    // 通过构造函数传入目标对象
-    public InvocationHandlerImpl(Object target) {
-        this.target = target;
-    }
-
-    //动态代理实际运行的代理方法
-    public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
-        System.out.println("调用开始处理");
-        //下面invoke()方法是以反射的方式来创建对象，第一个参数是要创建的对象，第二个是构成方法的参数，由第二个参数来决定创建对象使用哪个构造方法
-        Object result = method.invoke(target, args);
-        System.out.println("调用结束处理");
-        return result;
-    }
-}
-```
-
-利用动态代理使用代理方法
-
-```
-package com.lijie;
-
-import java.lang.reflect.Proxy;
-
-public class Test {
-    public static void main(String[] args) {
-        // 被代理对象
-        UserDao userDaoImpl = new UserDaoImpl();
-        InvocationHandlerImpl invocationHandlerImpl = new InvocationHandlerImpl(userDaoImpl);
-
-        //类加载器
-        ClassLoader loader = userDaoImpl.getClass().getClassLoader();
-        Class<?>[] interfaces = userDaoImpl.getClass().getInterfaces();
-
-        // 主要装载器、一组接口及调用处理动态代理实例
-        UserDao newProxyInstance = (UserDao) Proxy.newProxyInstance(loader, interfaces, invocationHandlerImpl);
-        newProxyInstance.save();
-    }
-}
-```
+**Serial 特点：**
 
-**缺点：**
+**1、** JDK 1.3 开始提供
 
-必须是面向接口，目标业务类必须实现接口
+**2、** 新生代收集器
 
-**优点：**
+**3、** 无线程交互开销，单线程收集效率最高
 
-不用关心代理类，只需要在运行阶段才指定代理哪一个对象
+**4、** 进行垃圾收集时需要暂停用户线程
 
-- CGLIB动态代理
+**5、** 适用于客户端，小内存堆的回收
 
-**CGLIB动态代理原理：**
+**ParNew 特点：**
 
-利用asm开源包，对代理对象类的class文件加载进来，通过修改其字节码生成子类来处理。
+**1、** 是 Serial 收集器的多线程并行版
 
-**什么是CGLIB动态代理**
+**2、** JDK 7 之前首选的新生代收集器
 
-CGLIB动态代理和jdk代理一样，使用反射完成代理，不同的是他可以直接代理类（jdk动态代理不行，他必须目标业务类必须实现接口），CGLIB动态代理底层使用字节码技术，CGLIB动态代理不能对 final类进行继承。（CGLIB动态代理需要导入jar包）
+**3、** 第一款支持并发的收集器，首次实现垃圾收集线程与用户线程基本上同时工作
 
-- 代码演示
+**4、** 除 Serial 外，只有它能与 CMS 配合
 
-```
-package com.lijie;
+**Parallel Scavenge 特点：**
 
-//接口
-public interface UserDao {
-    void save();
-}
-```
+**1、** 新生代收集器
 
-```
-package com.lijie;
+**2、** 标记-复制算法
 
-//接口实现类
-public class UserDaoImpl implements UserDao {
-    public void save() {
-        System.out.println("保存数据方法");
-    }
-}
-```
+**3、** 多线程并行收集器
 
-```
-package com.lijie;
+**4、** 追求高吞吐量，即最小的垃圾收集时间
 
-import org.springframework.cglib.proxy.Enhancer;
-import org.springframework.cglib.proxy.MethodInterceptor;
-import org.springframework.cglib.proxy.MethodProxy;
-import java.lang.reflect.Method;
+**5、** 可以配置最大停顿时间、垃圾收集时间占比
 
-//代理主要类
-public class CglibProxy implements MethodInterceptor {
-    private Object targetObject;
-    // 这里的目标类型为Object，则可以接受任意一种参数作为被代理类，实现了动态代理
-    public Object getInstance(Object target) {
-        // 设置需要创建子类的类
-        this.targetObject = target;
-        Enhancer enhancer = new Enhancer();
-        enhancer.setSuperclass(target.getClass());
-        enhancer.setCallback(this);
-        return enhancer.create();
-    }
+**6、** 支持开启垃圾收集自适应调节策略，追求适合的停顿时间或最大的吞吐量
 
-    //代理实际方法
-    public Object intercept(Object obj, Method method, Object[] args, MethodProxy proxy) throws Throwable {
-        System.out.println("开启事物");
-        Object result = proxy.invoke(targetObject, args);
-        System.out.println("关闭事物");
-        // 返回代理对象
-        return result;
-    }
-}
-```
+**Serial Old 特点：**
 
-```
-package com.lijie;
+与 Serial 类似，是 Serial 收集器的老年代版本
 
-//测试CGLIB动态代理
-public class Test {
-    public static void main(String[] args) {
-        CglibProxy cglibProxy = new CglibProxy();
-        UserDao userDao = (UserDao) cglibProxy.getInstance(new UserDaoImpl());
-        userDao.save();
-    }
-}
-```
+使用标记-整理算法
 
+**Parallel Old 特点：**
 
-### 4、各种回收算法
+**1、** JDK 6 开始提供
 
-**GC最基础的算法有三种：**
+**2、** Parallel Scavenge 的老年代版
 
-**1、** 标记 -清除算法
+**3、** 支持多线程并发收集
 
-**2、** 复制算法
+**4、** 标记-整理算法
 
-**3、** 标记-压缩算法
+**5、** Parallel Scavenge + Parallel Old 是一个追求高吞吐量的组合
 
-我们常用的垃圾回收器一般都采用分代收集算法(其实就是组合上面的算法，不同的区域使用不同的算法)。
+**CMS 特点：**
 
-**具体：**
+**1、** 标记-清除算法
 
-**1、** 标记-清除算法，“标记-清除”（Mark-Sweep）算法，如它的名字一样，算法分为“标记”和“清除”两个阶段：首先标记出所有需要回收的对象，在标记完成后统一回收掉所有被标记的对象。
+**2、** 追求最短回收停顿时间
 
-**2、** 复制算法，“复制”（Copying）的收集算法，它将可用内存按容量划分为大小相等的两块，每次只使用其中的一块。当这一块的内存用完了，就将还存活着的对象复制到另外一块上面，然后再把已使用过的内存空间一次清理掉。
+**3、** 多应用于关注响应时间的 B/S 架构的服务端
 
-**3、** 标记-压缩算法，标记过程仍然与“标记-清除”算法一样，但后续步骤不是直接对可回收对象进行清理，而是让所有存活的对象都向一端移动，然后直接清理掉端边界以外的内存
+**4、** 并发收集、低停顿
 
-**4、** 分代收集算法，“分代收集”（Generational Collection）算法，把Java堆分为新生代和老年代，这样就可以根据各个年代的特点采用最适当的收集算法。
+**5、** 占用一部分线程资源，应用程序变慢，吞吐量下降
 
+**6、** 无法处理浮动垃圾，可能导致 Full GC
 
-### 5、线程 B 怎么知道线程 A 修改了变量
+**7、** 内存碎片化问题
 
-**1、** volatile 修饰变量
+**G1 特点：**
 
-**2、** synchronized 修饰修改变量的方法
+**1、** JDK 6 开始实验，JDK 7 商用
 
-**3、** wait/notify
+**2、** 面向服务端，JDK 9 取代 Parallel Scavenge + Parallel Old
 
-**4、** while 轮询
+**3、** 结合标记-整理、标记-复制算法
 
+**4、** 首创局部内存回收设计思路
 
-### 6、常用JVM基本配置参数
+**5、** 基于 Region 内存布局，采用不同策略实现分代
 
-**1、** -Xmx：最大分配内存，默认为物理内存的1/4
+**6、** 不再使用固定大小、固定数量的堆内存分代区域划分
 
-**2、** -Xms：初始分配内存，默认为物理内存的1/64
+**7、** 优先回收价收益最大的 Region
 
-**3、** -Xss：等价于-XX:ThreadStackSize，单个线程栈空间大小，默认一般为512k-1024k，通过jinfo查看为0时，表示使用默认值
+**8、** 单个或多个 Humongous 区域存放大对象
 
-**4、** -Xmn：设置年轻代大小
+**9、** 使用记忆集解决跨 Region 引用问题
 
-**5、** -XX:MetaspeaceSize：设置元空间大小（默认21M左右，可以配置大一些），元空间的本质可永久代类似，都是对JVM规范中方法区的实现，不过元空间与永久代的最大区别在于：元空间不在虚拟机中，而是使用本地内存，因此，默认情况下，元空间大小仅受本地内存大小限制
+**10、** 复杂的卡表实现，导致更高的内存占用，堆的 10%～20%
 
-**6、** 典型设置案例：-Xms128m -Xmx4096m -Xss1024k -XX:MetaspaceSize=512m -XX:+PrintCommandLineFlags -XX:+PrintGCDetails -XX:+UseSerialGC
+**11、** 全功能垃圾收集器
 
-**7、** -XX:+PrintGCDetails：打印垃圾回收细节，打印GC： 打印Full GC：
+**12、** 追求有限的时间内最高收集效率、延迟可控的情况下最高吞吐量
 
-**8、** -XX:SurvivorRatio：调整Eden中survivor区比例，默认-XX:SurvivorRatio=8（8:1:1），调整为-XX:SurvivorRatio=4（4:1:1）,一般使用默认值
+**13、** 追求应付内存分配速率，而非一次性清掉所有垃圾内存
 
-**9、** -XX:NewRatio：调整新生代与老年代的比例，默认为2（新生代1，老年代2，年轻代占整个堆的1/3）,调整为-XX:NewRatio=4表示（新生代1，老年代4，年轻代占堆的1/5）,一般使用默认值
+**14、** 适用于大内存堆
 
-**10、** -XX:MaxTenuringThreshold：设置垃圾的最大年龄（经历多少次垃圾回收进入老年代），默认15（15次垃圾回收后依旧存活的对象进入老年代），JDK1.8设置必须0<-XX:MaxTenuringThreshold<15
+**Shenandoah 特点：**
 
+**1、** 追求低延迟，停顿 10 毫秒以内
 
-### 7、死锁的原因
+**2、** OpenJDK 12 新特性，RedHat 提供
 
-**1、** 是多个线程涉及到多个锁，这些锁存在着交叉，所以可能会导致了一个锁依赖的闭环。
+**3、** 连接矩阵代替记忆集，降低内存使用与伪共享问题出现概率
 
-例如：线程在获得了锁A并且没有释放的情况下去申请锁B，这时，另一个线程已经获得了锁B，在释放锁B之前又要先获得锁A，因此闭环发生，陷入死锁循环。
+**ZGC 特点：**
 
-**2、** 默认的锁申请操作是阻塞的。
+**1、** JDK 11 新加的实验性质的收集器
 
-所以要避免死锁，就要在一遇到多个对象锁交叉的情况，就要仔细审查这几个对象的类中的所有方法，是否存在着导致锁依赖的环路的可能性。总之是尽量避免在一个同步方法中调用其它对象的延时方法和同步方法。
+**2、** 追求低延迟，停顿 10 毫秒以内
 
+**3、** 基于 Region 内存布局
 
-### 8、Java 中 WeakReference 与 SoftReference 的区别？
+**4、** 未设分代
 
-虽然 WeakReference 与 SoftReference 都有利于提高 GC 和 内存的效率，但是 WeakReference ，一旦失去最后一个强引用，就会被 GC回收，而软引用虽然不能阻止被回收，但是可以延迟到 JVM 内存不足的时候。
+**5、** 读屏障、染色指针、内存多重映射实现可并发的标记-整理算法
 
+**6、** 染色指针和内存多重映射设计精巧，解决部分性能问题，但降低了可用最大内存、操作系统受限、只支持 32 位、不支持压缩指针等
 
-### 9、Array 和 ArrayList 有何区别？
+**7、** 成绩亮眼、性能彪悍
 
-**1、** Array 可以存储基本数据类型和对象，ArrayList 只能存储对象。
 
-**2、** Array 是指定固定大小的，而 ArrayList 大小是自动扩展的。
+### 10、什么是DAO模式？
 
-**3、** Array 内置方法没有 ArrayList 多，比如 addAll、removeAll、iteration 等方法只有 ArrayList 有。
 
-`对于基本类型数据，集合使用自动装箱来减少编码工作量。但是，当处理固定大小的基本数据类型的时候，这种方式相对比较慢。`
 
+DAO（Data Access Object）顾名思义是一个为数据库或其他持久化机制提供了抽象接口的对象，在不暴露底层持久化方案实现细节的前提下提供了各种数据访问操作。在实际的开发中，应该将所有对数据源的访问操作进行抽象化后封装在一个公共API中。用程序设计语言来说，就是建立一个接口，接口中定义了此应用程序中将会用到的所有事务方法。在这个应用程序中，当需要和数据源进行交互的时候则使用这个接口，并且编写一个单独的类来实现这个接口，在逻辑上该类对应一个特定的数据存储。DAO模式实际上包含了两个模式，一是Data Accessor（数据访问器），二是Data Object（数据对象），前者要解决如何访问数据的问题，而后者要解决的是如何用对象封装数据。
 
-### 10、Swing 是线程安全的？
 
-不是，Swing 不是线程安全的。你不能通过任何线程来更新 Swing 组件，如 JTable、JList 或 JPanel，事实上，它们只能通过 GUI 或 AWT 线程来更新。这就是为什么 Swing 提供 invokeAndWait() 和 invokeLater() 方法来获取其他线程的 GUI 更新请求。这些方法将更新请求放入 AWT 的线程队列中，可以一直等待，也可以通过异步更新直接返回结果。你也可以在参考答案中查看和学习到更详细的内容。
-
-
-### 11、类的实例化顺序
-### 12、如何自定义线程线程池?
-### 13、Executors类是什么？
-### 14、描述一下JVM加载class文件的原理机制？
-### 15、32 位 JVM 和 64 位 JVM 的最大堆内存分别是多数？
-### 16、接口和抽象类有什么区别？
-### 17、Semaphore有什么作用
-### 18、类ExampleA继承Exception，类ExampleB继承ExampleA。
-### 19、为什么线程通信的方法wait(), notify()和notifyAll()被定义在Object 类里？
-### 20、堆溢出的原因？
-### 21、一个java类中包含那些内容？
-### 22、如何通过反射获取和设置对象私有字段的值？
-### 23、你知道哪些JVM性能调优
-### 24、为什么wait和notify方法要在同步块中调用？
-### 25、你能写出一个正则表达式来判断一个字符串是否是一个数字吗？
-### 26、CAS 的会产生什么问题？
-### 27、url是什么？由哪些部分组成？
-### 28、栈帧里面包含哪些东西？
-### 29、常用的并发工具类有哪些？
-### 30、Set接口有什么特点
-### 31、List 和 Set 的区别
-### 32、Anonymous Inner Class(匿名内部类)是否可以继承其它类？是否可以实现接口？
-### 33、Java 中应该使用什么数据类型来代表价格？
-### 34、HashMap在JDK1.7和JDK1.8中有哪些不同？HashMap的底层实现
-### 35、类初始化的情况有哪些？
-### 36、你能解释一下里氏替换原则吗?
-### 37、有什么堆外内存的排查思路？
-### 38、两个对象的 hashCode()相同，则 equals()也一定为 true，对吗？
-### 39、Java 中 LinkedHashMap 和 PriorityQueue 的区别是什么？
-### 40、抽象类必须要有抽象方法吗？
+### 11、怎么看死锁的线程？
+### 12、抽象类是什么？它与接口有什么区别？你为什么要使用过抽象类？
+### 13、什么是上下文切换?
+### 14、标记清除算法（ Mark-Sweep）
+### 15、String str=”aaa”,与String str=new String(“aaa”)一样吗？
+### 16、假如生产环境CPU占用过高，请谈谈你的分析思路和定位。
+### 17、为什么要使用并发编程
+### 18、JIT是什么？
+### 19、栈帧里面包含哪些东西？
+### 20、构造方法有哪些特性？
+### 21、ConcurrentHashMap 底层具体实现知道吗？实现原理是什么？
+### 22、HashMap的扩容操作是怎么实现的？
+### 23、说几个常见的编译时异常类？
+### 24、React的请求应该放在哪个生命周期中?
+### 25、同步方法和同步块，哪个是更好的选择？
+### 26、说说ZGC垃圾收集器的工作原理
+### 27、ArrayList 和 LinkedList 的区别是什么？
+### 28、重定向和请求转发的区别？
+### 29、线程池中 submit() 和 execute() 方法有什么区别？
+### 30、多线程应用场景
+### 31、如何创建守护线程？
+### 32、本地方法栈的作用？
+### 33、CAS的问题
+### 34、怎么获取 Java 程序使用的内存？堆使用的百分比？
+### 35、你所知道的web服务器有哪些？
+### 36、什么是方法的返回值？返回值在类的方法里的作用是什么？
+### 37、怎么将 byte 转换为 String？
+### 38、使用JDBC操作数据库时，如何提升读取数据的性能？如何提升更新数据的性能？
+### 39、JVM的引用类型有哪些？
+### 40、如果使用Object作为HashMap的Key，应该怎么办呢？
 
 
 
@@ -398,12 +254,8 @@ public class Test {
 ### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/?p=67)
 
 
-## 其他，高清PDF：172份，7701页，最新整理
+## 最新，高清PDF：172份，7701页，最新整理
 
-[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/mst.png "大厂面试题")](https://souyunku.lanzous.com/b0alp9b9g "大厂面试题")
+[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/mst.png "大厂面试题")](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png"大厂面试题")
 
-## 关注公众号：架构师专栏，回复：“面试题”，即可
-
-[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/jiagoushi.png "架构师专栏")](https://souyunku.lanzous.com/b0alp9b9g "架构师专栏")
-
-## 关注公众号：架构师专栏，回复：“面试题”，即可
+[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png "架构师专栏")](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png "架构师专栏")

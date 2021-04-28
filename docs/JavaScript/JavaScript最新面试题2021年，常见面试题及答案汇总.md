@@ -8,215 +8,268 @@
 
 
 
-### 1、ES6或ECMAScript 2015有哪些新特性？
+### 1、什么是对象解构？
 
-**1、** 箭头函数
-
-2、类
-
-**3、** 模板字符串
-
-**4、** 加强的对象字面量
-
-**5、** 对象解构
-
-**6、** Promise
-
-**7、** 生成器
-
-8、模块
-
-**9、** Symbol
-
-**10、** 代理
-
-**11、** Set
-
-**12、** 函数默认参数
-
-**13、** rest 和展开
-
-**14、** 块作用域
-
-
-### 2、什么是箭头函数？
-
-箭头函数表达式的语法比函数表达式更简洁，并且没有自己的`this`，`arguments`，`super`或`new.target`。箭头函数表达式更适用于那些本来需要匿名函数的地方，并且它不能用作构造函数。
+**对象析构**是从对象或数组中获取或提取值的一种新的、更简洁的方法。假设有如下的对象：
 
 ```
-//ES5 Version
-var getCurrentDate = function (){
-  return new Date();
-}
-
-//ES6 Version
-const getCurrentDate = () => new Date();
-```
-
-在本例中，ES5 版本中有`function(){}`声明和`return`关键字，这两个关键字分别是创建函数和返回值所需要的。在箭头函数版本中，我们只需要`()`括号，不需要 `return` 语句，因为如果我们只有一个表达式或值需要返回，箭头函数就会有一个隐式的返回。
-
-```
-//ES5 Version
-function greet(name) {
-  return 'Hello ' + name + '!';
-}
-
-//ES6 Version
-const greet = (name) => `Hello ${name}`;
-const greet2 = name => `Hello ${name}`;
-```
-
-我们还可以在箭头函数中使用与函数表达式和函数声明相同的参数。如果我们在一个箭头函数中有一个参数，则可以省略括号。
-
-`const getArgs = () => arguments const getArgs2 = (...rest) => rest`
-
-箭头函数不能访问`arguments`对象。所以调用第一个`getArgs`函数会抛出一个错误。相反，我们可以使用**rest**参数来获得在箭头函数中传递的所有参数。
-
-```
-const data = {
-  result: 0,
-  nums: [1, 2, 3, 4, 5],
-  computeResult() {
-    // 这里的“this”指的是“data”对象
-    const addAll = () => {
-      return this.nums.reduce((total, cur) => total + cur, 0)
-    };
-    this.result = addAll();
-  }
+const employee = {
+  firstName: "Marko",
+  lastName: "Polo",
+  position: "Software Developer",
+  yearHired: 2017
 };
 ```
 
-箭头函数没有自己的`this`值。它捕获词法作用域函数的`this`值，在此示例中，`addAll`函数将复制`computeResult` 方法中的`this`值，如果我们在全局作用域声明箭头函数，则`this`值为 `window` 对象。
+从对象获取属性，早期方法是创建一个与对象属性同名的变量。这种方法很麻烦，因为我们要为每个属性创建一个新变量。假设我们有一个大对象，它有很多属性和方法，用这种方法提取属性会很麻烦。
+
+`var firstName = employee.firstName; var lastName = employee.lastName; var position = employee.position; var yearHired = employee.yearHired;`
+
+使用解构方式语法就变得简洁多了：
+
+`{ firstName, lastName, position, yearHired } = employee;`
+
+我们还可以为属性取别名：
+
+`let { firstName: fName, lastName: lName, position, yearHired } = employee;`
+
+当然如果属性值为 `undefined` 时，我们还可以指定默认值：
+
+`let { firstName = "Mark", lastName: lName, position, yearHired } = employee;`
 
 
-### 3、有哪些方法可以处理 JS 中的异步代码？
+### 2、数据持久化技术(ajax)?简述ajax流程###
 
-1、回调
+**1、** 客户端产生js的事件
 
-**2、** Promise
+**2、** 创建XMLHttpRequest对象
 
-**3、** async/await
+**3、** 对XMLHttpRequest进行配置
 
-**4、** 还有一些库：async.js, bluebird, q, co
+**4、** 通过AJAX引擎发送异步请求
+
+**5、** 服务器端接收请求并且处理请求，返回html或者xml内容
+
+**6、** XML调用一个callback()处理响应回来的内容
+
+**7、** 页面局部刷新
 
 
-### 4、什么是 event.currentTarget？？
+### 3、如何copy一个dom元素？
 
-`event.currentTarget`是我们在其上显式附加事件处理程序的元素。
+原生Js方法：var div = document.getElementsByTagName('div')[0];
 
-假设有如下的 HTML 结构：
+var clone = div.cloneNode();
+
+Jquery方法：$('div').clone();
+
+在默认情况下，.clone()方法不会复制匹配的元素或其后代元素中绑定的事件。不过，可以为这个方法传递一个布尔值参数，将这个参数设置为true, 就可以连同事件一起复制，即.clone(true)。
+
+
+### 4、javascript 代码中的"use strict";是什么意思 ? 使用它区别是什么？
+
+`use strict`是一种`ECMAscript 5` 添加的（严格）运行模式,这种模式使得 Javascript 在更严格的条件下运行,使`JS`编码更加规范化的模式,消除`Javascript`语法的一些不合理、不严谨之处，减少一些怪异行为
+
+
+### 5、谈谈你对webpack的看法
+
+**1、** `WebPack` 是一个模块打包工具，你可以使用`WebPack`管理你的模块依赖，并编绎输出模块们所需的静态文件。它能够很好地管理、打包`Web`开发中所用到的`HTML`、`Javascript`、`CSS`以及各种静态文件（图片、字体等），让开发过程更加高效。对于不同类型的资源，`webpack`有对应的模块加载器。`webpack`模块打包器会分析模块间的依赖关系，最后 生成了优化且合并后的静态资源
+
+
+### 6、typeof？typeof [ ]返回数据类型是？
 
 ```
-<div onclick="clickFunc(event)" style="text-align: center;margin:15px;
-border:1px solid red;border-radius:3px;">
-  <div style="margin: 25px; border:1px solid royalblue;border-radius:3px;">
-      <div style="margin:25px;border:1px solid skyblue;border-radius:3px;">
-        <button style="margin:10px">
-           Button
-        </button>
-      </div>
-  </div>
-</div>
+//判断基本数据类型；var a=[];typeof a输出object；
+//本来判断一个对象类型用typeof是最好的，不过对于Array类型是不适用的，
+//可以使用 instanceof操作符：
+       var arrayStr=new Array("1","2","3","4","5");    
+       alert(arrayStr instanceof Array); 
+//当然以上在一个简单的页面布局里面是没有问题的，如果是复杂页面情况，
+//入获取的是frame内部的Array对象，可以用这个函数判断：
+       function isArray(obj) {      
+          return Object.prototype.toString.call(obj) === '[object Array]';       
+       }
 ```
 
-JS 代码如下：
+
+### 7、除了jsonp 还有什么跨域方式###
+
+javascript跨域有两种情况：
+
+**1、** 基于同一父域的子域之间，如： [http://a.c.com](http://link.zhihu.com/?target=http%3A//a.c.com)和 [http://b.c.com](http://link.zhihu.com/?target=http%3A//b.c.com)
+
+**2、** 基于不同的父域之间，如： [http://www.a.com](http://link.zhihu.com/?target=http%3A//www.a.com)和 [http://www.b.com](http://link.zhihu.com/?target=http%3A//www.b.com)
+
+**3、** 端口的不同，如： [http://www.a.com:8080](http://link.zhihu.com/?target=http%3A//www.a.com%3A8080)和 [http://www.a.com:8088](http://link.zhihu.com/?target=http%3A//www.a.com%3A8088)
+
+**4、** 协议不同，如： [http://www.a.com](http://link.zhihu.com/?target=http%3A//www.a.com)和 [https://www.a.com](http://link.zhihu.com/?target=https%3A//www.a.com)
+
+**对于情况3和4，需要通过后台proxy来解决，具体方式如下：**
+
+a、在发起方的域下创建proxy程序
+
+b、发起方的js调用本域下的proxy程序
+
+c、proxy将请求发送给接收方并获取相应数据
+
+d、proxy将获得的数据返回给发起方的js
+
+代码和ajax调用一致，其实这种方式就是通过ajax进行调用的
+
+而情况1和2除了通过后台proxy这种方式外，还可以有多种办法来解决：
+
+**1、** document.domain+iframe（只能解决情况1）：
+
+a、在发起方页面和接收方页面设置document.domain，并将值设为父域的主域名(window.location.hostname)
+
+b、在发起方页面创建一个隐藏的iframe，iframe的源是接收方页面
+
+c、根据浏览器的不同，通过iframe.contentDocument || iframe.contentWindow.document来获得接收方页面的内容
+
+d、通过获得的接收方页面的内容来与接收方进行交互
+
+这种方法有个缺点，就是当一个域被攻击时，另一个域会有安全漏洞出现。
+
+
+### 8、JavaScript 中的虚值是什么？
+
+`const falsyValues = ['', 0, null, undefined, NaN, false];`
+
+简单的来说虚值就是是在转换为布尔值时变为 `false` 的值。
+
+
+### 9、`var`,`let`和`const`的区别是什么？
+
+**`var`声明的变量会挂载在`window`上，而`let`和`const`声明的变量不会：**
 
 ```
-function clickFunc(event) {
-  console.log(event.currentTarget);
+var a = 100;
+console.log(a,window.a);    // 100 100
+
+let b = 10;
+console.log(b,window.b);    // 10 undefined
+
+const c = 1;
+console.log(c,window.c);    // 1 undefined
+```
+
+**`var`声明变量存在变量提升，`let`和`const`不存在变量提升:**
+
+`console.log(a); // undefined  ===>  a已声明还没赋值，默认得到undefined值
+
+var a = 100;
+
+console.log(b); // 报错：b is not defined  ===> 找不到b这个变量
+
+let b = 10;
+
+console.log(c); // 报错：c is not defined  ===> 找不到c这个变量
+
+const c = 10;
+
+`
+
+**`let`和`const`声明形成块作用域**
+
+```
+if(1){
+  var a = 100;
+  let b = 10;
+}
+
+console.log(a); // 100
+console.log(b)  // 报错：b is not defined  ===> 找不到b这个变量
+
+-------------------------------------------------------------
+
+if(1){
+  var a = 100;
+  const c = 1;
+}
+console.log(a); // 100
+console.log(c)  // 报错：c is not defined  ===> 找不到c这个变量
+```
+
+**同一作用域下`let`和`const`不能声明同名变量，而`var`可以**
+
+```
+var a = 100;
+console.log(a); // 100
+
+var a = 10;
+console.log(a); // 10
+-------------------------------------
+let a = 100;
+let a = 10;
+    //  控制台报错：Identifier 'a' has already been declared  ===> 标识符a已经被声明了。
+```
+
+**暂存死区**
+
+```
+var a = 100;
+
+if(1){
+    a = 10;
+    //在当前块作用域中存在a使用let/const声明的情况下，给a赋值10时，只会在当前作用域找变量a，
+    // 而这时，还未到声明时候，所以控制台Error:a is not defined
+    let a = 1;
 }
 ```
 
-如果单击 `button`，即使我们单击该 `button`，它也会打印最外面的`div`标签。在此示例中，我们可以得出结论，`event.currentTarget`是附加事件处理程序的元素。
+**const**
+
+```
+/*
+*   1、一旦声明必须赋值,不能使用null占位。
+*
+*   2、声明后不能再修改
+*
+*   3、如果声明的是复合类型数据，可以修改其属性
+*
+* */
+
+const a = 100; 
+
+const list = [];
+list[0] = 10;
+console.log(list);  // [10]
+
+const obj = {a:100};
+obj.name = 'apple';
+obj.a = 10000;
+console.log(obj);  // {a:10000,name:'apple'}
+```
 
 
-### 5、怎么理解Promise对象？
+### 10、请解释什么是事件代理
 
-**`Promise`对象有如下两个特点：**
+**1、** 事件代理（`Event Delegation`），又称之为事件委托。是 `JavaScript` 中常用绑定事件的常用技巧。顾名思义，“事件代理”即是把原本需要绑定的事件委托给父元素，让父元素担当事件监听的职务。事件代理的原理是DOM元素的事件冒泡。使用事件代理的好处是可以提高性能
 
-**1、** 对象的状态不受外界影响。`Promise`对象共有三种状态`pending`、`fulfilled`、`rejected`。状态值只会被异步结果决定，其他任何操作无法改变。
+**2、** 可以大量节省内存占用，减少事件注册，比如在`table`上代理所有`td`的`click`事件就非常棒
 
-**2、** 状态一旦成型，就不会再变，且任何时候都可得到这个结果。状态值会由`pending`变为`fulfilled`或`rejected`，这时即为`resolved`。
-
-**Promise的缺点有如下三个缺点：**
-
-**1、** `Promise`一旦执行便无法被取消；
-
-**2、** 不可设置回调函数，其内部发生的错误无法捕获；
-
-**3、** 当处于`pending`状态时，无法得知其具体发展到了哪个阶段。
-
-**`Pomise`中常用的方法有：**
-
-**1、** `Promise.prototype.then()`：`Promise`实例的状态发生改变时，会调用`then`内部的回调函数。`then`方法接受两个参数（第一个为`resolved`状态时时执行的回调，第一个为`rejected`状态时时执行的回调）
-
-**2、** `Promise.prototype.catch()`：`.then(null, rejection)`或`.then(undefined, rejection)`的别名，用于指定发生错误时的回调函数。
+**3、** 可以实现当新增子对象时无需再次对其绑定
 
 
-### 6、谈谈This对象的理解
-
-**1、** `this`总是指向函数的直接调用者（而非间接调用者）
-
-**2、** 如果有`new`关键字，`this`指向`new`出来的那个对象
-
-**3、** 在事件中，`this`指向触发这个事件的对象，特殊的是，`IE`中的`attachEvent`中的`this`总是指向全局对象`Window`
-
-
-### 7、如何理解同步和异步？
-
-同步：按照代码书写顺序一一执行处理指令的一种模式，上一段代码执行完才能执行下一段代码。
-
-异步：可以理解为一种并行处理的方式，不必等待一个程序执行完，可以执行其它的任务。
-
-JS之所以需要异步的原因在于JS是单线程运行的。常用的异步场景有：定时器、ajax请求、事件绑定。
-
-
-### 8、html和xhtml有什么区别?
-
-HTML是一种基本的WEB网页设计语言，XHTML是一个基于XML的标记语言。
-
-**1、** XHTML 元素必须被正确地嵌套。
-
-**2、** XHTML 元素必须被关闭。
-
-**3、** 标签名必须用小写字母。
-
-**4、** 空标签也必须被关闭。
-
-**5、** XHTML 文档必须拥有根元素。
-
-
-### 9、["1", "2", "3"].map(parseInt) 答案是多少？
-
-`[1, NaN, NaN]`因为 `parseInt` 需要两个参数 `(val, radix)`，其中`radix` 表示解析时用的基数。
-
-`map`传了 `3`个`(element, index, array)`，对应的 `radix` 不合法导致解析失败。
-
-
-### 10、开发时如何对项目进行管理?gulp?
-
-本人开发时，利用gulp等前端工作流管理工具管理项目。 gulp是新一代的前端项目构建工具，你可以使用gulp及其插件对你的项目代码（less,sass）进行编译，还可以压缩你的js和css代码，甚至压缩你的图片，能够合并文件，压缩文件，语法检查，监听文件变化，测试，转换二进制，转换图片等一系列功能。gulp仅有少量的API，所以非常容易学习。实现良好的项目管理。
-
-
-### 11、git 和 svn的区别?
-### 12、'use strict' 是干嘛用的？
-### 13、平时工作中怎么样进行数据交互?如果后台没有提供数据怎么样进行开发?
-### 14、sass和less有什么区别?
-### 15、ajax请求方式有几种（8种）？
-### 16、call & apply 两者之间的区别###
-### 17、说说严格模式的限制
-### 18、什么是`Set`对象，它是如何工作的？
-### 19、一般使用什么版本控制工具?svn如何对文件加锁###
-### 20、event.preventDefault() 和 event.stopPropagation()方法之间有什么区别？
-### 21、jquery和zepto有什么区别?
-### 22、异步加载的方式有哪些？
-### 23、ECMAScript 是什么？
-### 24、如何检查值是否虚值？
-### 25、谈谈你对ES6的理解
-### 26、web开发中会话跟踪的方法有哪些
-### 27、this指向的各种情况都有什么？
-### 28、何为防抖和节流？如何实现？
-### 29、|| 运算符能做什么
+### 11、如何创建一个对象？
+### 12、说几条写JavaScript的基本规范？
+### 13、那些操作会造成内存泄漏？
+### 14、手动实现缓存方法
+### 15、什么是作用域和作用域链？
+### 16、'use strict' 是干嘛用的？
+### 17、如何解决跨域问题?
+### 18、js延迟加载的方式有哪些？
+### 19、说说你对作用域链的理解
+### 20、!! 运算符能做什么？
+### 21、隐式和显式转换有什么区别）？
+### 22、同步异步?
+### 23、强制转换 显式转换 隐式转换?
+### 24、节点类型?判断当前节点类型?
+### 25、ajax的缺点
+### 26、什么是缓存及它有什么作用？
+### 27、一个页面从输入 URL 到页面加载显示完成，这个过程中都发生了什么？（流程说的越详细越好）
+### 28、如何检查对象中是否存在某个属性？
+### 29、自执行函数?用于什么场景？好处?
 
 
 
@@ -228,12 +281,8 @@ HTML是一种基本的WEB网页设计语言，XHTML是一个基于XML的标记�
 ### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/?p=67)
 
 
-## 其他，高清PDF：172份，7701页，最新整理
+## 最新，高清PDF：172份，7701页，最新整理
 
-[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/mst.png "大厂面试题")](https://souyunku.lanzous.com/b0alp9b9g "大厂面试题")
+[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/mst.png "大厂面试题")](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png"大厂面试题")
 
-## 关注公众号：架构师专栏，回复：“面试题”，即可
-
-[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/jiagoushi.png "架构师专栏")](https://souyunku.lanzous.com/b0alp9b9g "架构师专栏")
-
-## 关注公众号：架构师专栏，回复：“面试题”，即可
+[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png "架构师专栏")](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png "架构师专栏")

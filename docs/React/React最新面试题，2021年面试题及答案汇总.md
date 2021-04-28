@@ -8,61 +8,76 @@
 
 
 
-### 1、React有哪些限制？
+### 1、redux中间件有哪些，做什么用？
 
-**React的限制如下：**
+中间件提供第三方插件的模式，自定义拦截 action -> reducer 的过程。变为 action -> middlewares -> reducer 。这种机制可以让我们改变数据流，实现如异步 action ，action 过滤，日志输出，异常报告等功能。 常见的中间件：
 
-**1、**  React 只是一个库，而不是一个完整的框架
+redux-logger：提供日志输出
 
-**2、**  它的库非常庞大，需要时间来理解
+redux-thunk：处理异步操作
 
-**3、**  新手程序员可能很难理解
-
-**4、**  编码变得复杂，因为它使用内联模板和 JSX
+redux-promise：处理异步操作，actionCreator的返回值是promise
 
 
-### 2、Vue2.x和Vue3.x渲染器的diff算法分别说一下
+### 2、解释 React 中 render() 的目的。
 
-**简单来说，diff算法有以下过程**
-
-**1、** 同级比较，再比较子节点
-
-**2、** 先判断一方有子节点一方没有子节点的情况(如果新的children没有子节点，将旧的子节点移除)
-
-**3、** 比较都有子节点的情况(核心diff)
-
-**4、** 递归比较子节点
-
-正常Diff两个树的时间复杂度是`O(n^3)`，但实际情况下我们很少会进行`跨层级的移动DOM`，所以Vue将Diff进行了优化，从`O(n^3) -> O(n)`，只有当新旧children都为多个子节点时才需要用核心的Diff算法进行同层级比较。
-
-Vue2的核心Diff算法采用了`双端比较`的算法，同时从新旧children的两端开始进行比较，借助key值找到可复用的节点，再进行相关操作。相比React的Diff算法，同样情况下可以减少移动节点次数，减少不必要的性能损耗，更加的优雅。
-
-Vue3.x借鉴了 [ivi](https://github.com/localvoid/ivi)算法和 [inferno](https://github.com/infernojs/inferno)算法
-
-在创建VNode时就确定其类型，以及在`mount/patch`的过程中采用`位运算`来判断一个VNode的类型，在这个基础之上再配合核心的Diff算法，使得性能上较Vue2.x有了提升。(实际的实现可以结合Vue3.x源码看。)
-
-该算法中还运用了`动态规划`的思想求解最长递归子序列。
-
-(看到这你还会发现，框架内无处不蕴藏着数据结构和算法的魅力)
-
-**面试官：(可以可以，看来是个苗子，不过自我介绍属实有些无聊，下一题)**
+每个React组件强制要求必须有一个 render()。它返回一个 React 元素，是原生 DOM 组件的表示。如果需要渲染多个 HTML 元素，则必须将它们组合在一个封闭标记内，例如 `<form>`、`<group>`、`<div>` 等。此函数必须保持纯净，即必须每次调用时都返回相同的结果。
 
 
-### 3、react 的虚拟dom是怎么实现的
+### 3、解释 Reducer 的作用。
 
-首先说说为什么要使用`Virturl DOM`因为操作真实`DOM`的耗费的性能代价太高所以`react`内部使用`js`实现了一套`dom`结构在每次操作在和真实`dom`之前使用实现好的`diff`算法对虚拟`dom`进行比较递归找出有变化的dom节点然后对其进行更新操作。为了实现虚拟`DOM`我们需要把每一种节点类型抽象成对象每一种节点类型有自己的属性也就是`prop`每次进行`diff`的时候`react`会先比较该节点类型假如节点类型不一样那么`react`会直接删除该节点然后直接创建新的节点插入到其中假如节点类型一样那么会比较`prop`是否有更新假如有`prop`不一样那么`react`会判定该节点有更新那么重渲染该节点然后在对其子节点进行比较一层一层往下直到没有子节点
-
-
-### 4、react组件的划分业务组件技术组件
-
-根据组件的职责通常把组件分为`UI`组件和容器组件。`UI` 组件负责 `UI` 的呈现容器组件负责管理数据和逻辑。两者通过`React-Redux` 提供`connect`方法联系起来
+Reducers 是纯函数，它规定应用程序的状态怎样因响应 ACTION 而改变。Reducers 通过接受先前的状态和 action 来工作，然后它返回一个新的状态。它根据操作的类型确定需要执行哪种更新，然后返回新的值。如果不需要完成任务，它会返回原来的状态。
 
 
-### 5、React 中 keys的作用是什么
+### 4、如何将两个或多个组件嵌入到一个组件中？
 
-`Keys`是 `React` 用于追踪哪些列表中元素被修改、被添加或者被移除的辅助标识
+可以通过以下方式将组件嵌入到一个组件中：
 
-在开发过程中我们需要保证某个元素的 `key` 在其同级元素中具有唯一性。在 `React Diff` 算法中`React` 会借助元素的 `Key` 值来判断该元素是新近创建的还是被移动而来的元素从而减少不必要的元素重渲染。此外React 还需要借助 `Key` 值来判断元素与本地状态的关联关系因此我们绝不可忽视转换函数中 `Key` 的重要性
+```
+class MyComponent extends React.Component{
+    render(){
+        return(
+            <div>
+                <h1>Hello</h1>
+                <Header/>
+            </div>
+        );
+    }
+}
+class Header extends React.Component{
+    render(){
+        return
+            <h1>Header Component</h1>
+   };
+}
+ReactDOM.render(
+    <MyComponent/>, document.getElementById('content')
+);
+```
+
+
+### 5、说说你用react有什么坑点
+
+**1、** JSX做表达式判断时候需要强转为boolean类型
+
+如果不使用 !!b 进行强转数据类型会在页面里面输出 0。
+
+```
+render() {
+  const b = 0;
+  return <div>
+    {
+      !!b && <div>这是一段文本</div>
+    }
+  </div>
+}
+```
+
+**1、** 尽量不要在 `componentWillReviceProps` 里使用 `setState`如果一定要使用那么需要判断结束条件不然会出现无限重渲染导致页面崩溃
+
+**2、** 给组件添加ref时候尽量不要使用匿名函数因为当组件更新的时候匿名函数会被当做新的`prop`处理让`ref`属性接受到新函数的时候`react`内部会先清空`ref`也就是会以`null`为回调参数先执行一次`ref`这个`props`然后在以该组件的实例执行一次`ref`所以用匿名函数做ref的时候有的时候去`ref`赋值后的属性会取到`null`
+
+**3、** 遍历子节点的时候不要用 index 作为组件的 key 进行传入
 
 
 ### 6、react旧版生命周期函数
@@ -92,93 +107,84 @@ Vue3.x借鉴了 [ivi](https://github.com/localvoid/ivi)算法和 [inferno](https
 **5、** `componentDidUpdate`:组件已经更新
 
 
-### 7、React 中的箭头函数是什么？怎么用？
+### 7、Vue2.x和Vue3.x渲染器的diff算法分别说一下
 
-箭头函数（=>）是用于编写函数表达式的简短语法。这些函数允许正确绑定组件的上下文，因为在 ES6 中默认下不能使用自动绑定。使用高阶函数时，箭头函数非常有用。
+**简单来说，diff算法有以下过程**
 
-```
-//General way
-render() {
-    return(
-        <MyInput onChange = {this.handleChange.bind(this) } />
-    );
-}
-//With Arrow Function
-render() {
-    return(
-        <MyInput onChange = { (e)=>this.handleOnChange(e) } />
-    );
-}
-```
+**1、** 同级比较，再比较子节点
 
+**2、** 先判断一方有子节点一方没有子节点的情况(如果新的children没有子节点，将旧的子节点移除)
 
-### 8、React与Vue的相似之处
+**3、** 比较都有子节点的情况(核心diff)
 
-都使用 Virtual DOM
+**4、** 递归比较子节点
 
-提供了响应式 (Reactive) 和组件化 (Composable) 的视图组件。
+正常Diff两个树的时间复杂度是`O(n^3)`，但实际情况下我们很少会进行`跨层级的移动DOM`，所以Vue将Diff进行了优化，从`O(n^3) -> O(n)`，只有当新旧children都为多个子节点时才需要用核心的Diff算法进行同层级比较。
 
-将注意力集中保持在核心库，而将其他功能如路由和全局状态管理交给相关的库。
+Vue2的核心Diff算法采用了`双端比较`的算法，同时从新旧children的两端开始进行比较，借助key值找到可复用的节点，再进行相关操作。相比React的Diff算法，同样情况下可以减少移动节点次数，减少不必要的性能损耗，更加的优雅。
+
+Vue3.x借鉴了 [ivi](https://github.com/localvoid/ivi)算法和 [inferno](https://github.com/infernojs/inferno)算法
+
+在创建VNode时就确定其类型，以及在`mount/patch`的过程中采用`位运算`来判断一个VNode的类型，在这个基础之上再配合核心的Diff算法，使得性能上较Vue2.x有了提升。(实际的实现可以结合Vue3.x源码看。)
+
+该算法中还运用了`动态规划`的思想求解最长递归子序列。
+
+(看到这你还会发现，框架内无处不蕴藏着数据结构和算法的魅力)
+
+**面试官：(可以可以，看来是个苗子，不过自我介绍属实有些无聊，下一题)**
 
 
-### 9、redux中间件
+### 8、React有哪些优化性能是手段?
 
-中间件提供第三方插件的模式自定义拦截 `action -> reducer` 的过程。变为 `action` -> `middlewares` -> `reducer`。这种机制可以让我们改变数据流实现如异步`action action` 过滤日志输出异常报告等功能
-
-**1、** `redux-logger`提供日志输出
-
-**2、** `redux-thunk`处理异步操作
-
-**3、** `redux-promise`处理异步操作 `actionCreator`的返回值是 `promise`
+性能优化的手段很多时候是通用的详情见前端性能优化加载篇
 
 
-### 10、如何更新组件的状态？
+### 9、说一下Vue的生命周期
 
-可以用 `this.setState()`更新组件的状态。
+`beforeCreate`是new Vue()之后触发的第一个钩子，在当前阶段data、methods、computed以及watch上的数据和方法都不能被访问。
 
-```
-class MyComponent extends React.Component {
-    constructor() {
-        super();
-        this.state = {
-            name: 'Maxx',
-            id: '101'
-        }
-    }
-    render()
-        {
-            setTimeout(()=>{this.setState({name:'Jaeha', id:'222'})},2000)
-            return (
-                <div>
-                    <h1>Hello {this.state.name}</h1>
-                    <h2>Your Id is {this.state.id}</h2>
-                </div>
-            );
-        }
-    }
-ReactDOM.render(
-    <MyComponent/>, document.getElementById('content')
-);
-```
+`created`在实例创建完成后发生，当前阶段已经完成了数据观测，也就是可以使用数据，更改数据，在这里更改数据不会触发updated函数。可以做一些初始数据的获取，在当前阶段无法与Dom进行交互，如果非要想，可以通过vm.$nextTick来访问Dom。
+
+`beforeMount`发生在挂载之前，在这之前template模板已导入渲染函数编译。而当前阶段虚拟Dom已经创建完成，即将开始渲染。在此时也可以对数据进行更改，不会触发updated。
+
+`mounted`在挂载完成后发生，在当前阶段，真实的Dom挂载完毕，数据完成双向绑定，可以访问到Dom节点，使用$refs属性对Dom进行操作。
+
+`beforeUpdate`发生在更新之前，也就是响应式数据发生更新，虚拟dom重新渲染之前被触发，你可以在当前阶段进行更改数据，不会造成重渲染。
+
+`updated`发生在更新完成之后，当前阶段组件Dom已完成更新。要注意的是避免在此期间更改数据，因为这可能会导致无限循环的更新。
+
+`beforeDestroy`发生在实例销毁之前，在当前阶段实例完全可以被使用，我们可以在这时进行善后收尾工作，比如清除计时器。
+
+`destroyed`发生在实例销毁之后，这个时候只剩下了dom空壳。组件已被拆解，数据绑定被卸除，监听被移出，子实例也统统被销毁。
 
 
-### 11、Redux与Flux有何不同？
-### 12、redux中如何进行异步操作?
-### 13、connect原理
-### 14、React如何进行组件/逻辑复用?
-### 15、虚拟DOM的优劣如何?
-### 16、你的接口请求一般放在哪个生命周期中？
-### 17、Redux设计理念
-### 18、解释 Reducer 的作用。
-### 19、列出 Redux 的组件。
-### 20、什么是 Props?
-### 21、什么是纯组件？
-### 22、什么是高阶组件（HOC）？
-### 23、区分Real DOM和Virtual DOM
-### 24、Redux实现原理解析
-### 25、setState到底是异步还是同步?
-### 26、你了解 Virtual DOM 吗？解释一下它的工作原理。
-### 27、你对 Time Slice的理解?
+### 10、区分有状态和无状态组件。
+| 有状态组件 | 无状态组件 |
+| --- | --- |
+| 1、在内存中存储有关组件状态变化的信息 | 1、计算组件的内部的状态 |
+| 2、有权改变状态 | 2、无权改变状态 |
+| 3、包含过去、现在和未来可能的状态变化情况 | 3、不包含过去，现在和未来可能发生的状态变化情况 |
+| 4、接受无状态组件状态变化要求的通知，然后将 props 发送给他们。 | 4.从有状态组件接收 props 并将其视为回调函数。 |
+
+
+
+### 11、你对 Time Slice的理解?
+### 12、传入 setState 函数的第二个参数的作用是什么
+### 13、什么是高阶组件（HOC）？
+### 14、为什么React Router v4中使用 switch 关键字 ？
+### 15、setState
+### 16、列出React的一些主要优点。
+### 17、Redux实现原理解析
+### 18、redux中如何进行异步操作?
+### 19、如何在 Redux 中定义 Action？
+### 20、mixin、hoc、render props、react-hooks的优劣如何？
+### 21、React 中 keys的作用是什么
+### 22、react和vue的区别
+### 23、在生命周期中的哪一步你应该发起 AJAX 请求
+### 24、React 中 refs 的作用是什么
+### 25、说一下v-model的原理
+### 26、你对“单一事实来源”有什么理解？
+### 27、HOC(高阶组件)
 
 
 
@@ -190,12 +196,8 @@ ReactDOM.render(
 ### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/?p=67)
 
 
-## 其他，高清PDF：172份，7701页，最新整理
+## 最新，高清PDF：172份，7701页，最新整理
 
-[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/mst.png "大厂面试题")](https://souyunku.lanzous.com/b0alp9b9g "大厂面试题")
+[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/mst.png "大厂面试题")](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png"大厂面试题")
 
-## 关注公众号：架构师专栏，回复：“面试题”，即可
-
-[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/jiagoushi.png "架构师专栏")](https://souyunku.lanzous.com/b0alp9b9g "架构师专栏")
-
-## 关注公众号：架构师专栏，回复：“面试题”，即可
+[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png "架构师专栏")](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png "架构师专栏")

@@ -8,177 +8,159 @@
 
 
 
-### 1、在索引中更新 Mapping 的语法？
+### 1、请解释一下 Elasticsearch 中聚合？
+
+聚合有助于从搜索中使用的查询中收集数据，聚合为各种统计指标，便于统计信息或做其他分析。聚合可帮助回答以下问题：
+
+**1、** 我的网站平均加载时间是多少？
+
+**2、** 根据交易量，谁是我最有价值的客户？
+
+**3、** 什么会被视为我网络上的大文件？
+
+**4、** 每个产品类别中有多少个产品？
+
+**聚合的分三类：**
+
+主要查看7.10 的官方文档，早期是4个分类，别大意啊！
+
+**分桶 Bucket 聚合**
+
+根据字段值，范围或其他条件将文档分组为桶（也称为箱）。
+
+**指标 Metric 聚合**
+
+从字段值计算指标（例如总和或平均值）的指标聚合。
+
+**管道 Pipeline 聚合**
+
+子聚合，从其他聚合（而不是文档或字段）获取输入。
+
+
+### 2、elasticsearch 分布式架构原理
+
+**1、** 首先需要明白es是如何存储数据的，es把对应的数据转换为index。基于倒排索引的方式，每个index上存储了多个type类型，每个type对应一个document。而一个index会被分成多个shard(默认是5个)。
+
+**2、** 在分布式部署时，每个shard会被复制，即一个shard有primary和replica 每个es进程存储的是不同shard的primary和replica。es集群多个节点，会自动选举一个节点为master节点，这个master节点其实就是干一些管理的工作的，比如维护索引元数据拉，负责切换primary shard和replica shard身份拉，之类的。
+
+**3、** ![](https://image-static.segmentfault.com/339/553/3395533898-5e5b562eb42c6_articlex#alt=3cWgYV.png)
+
+
+### 3、Elasticsearch Analyzer 中的字符过滤器如何利用？
+
+字符过滤器将原始文本作为字符流接收，并可以通过添加，删除或更改字符来转换字符流。
+
+字符过滤分类如下：
+
+**HTML Strip Character Filter.**
+
+用途：删除HTML元素，如**，并解码HTML实体，如＆amp 。**
+
+**Mapping Character Filter**
+
+用途：替换指定的字符。
+
+**Pattern Replace Character Filter**
+
+用途：基于正则表达式替换指定的字符。
+
+
+### 4、你之前公司的ElasticSearch集群，一个Node一般会分配几个分片？
+
+我们遵循官方建议，一个Node最好不要多于三个shards.
+
+
+### 5、详细描述一下 Elasticsearch 更新和删除文档的过程。
+
+**1、** 删除和更新也都是写操作，但是 Elasticsearch 中的文档是不可变的，因此不能被删除或者改动以展示其变更；
+
+**2、** 磁盘上的每个段都有一个相应的.del 文件。当删除请求发送后，文档并没有真的被删除，而是在.del 文件中被标记为删除。该文档依然能匹配查询，但是会在结果中被过滤掉。当段合并时，在.del 文件中被标记为删除的文档将不会被写入新段。
+
+**3、** 在新的文档被创建时，Elasticsearch 会为该文档指定一个版本号，当执行更新时，旧版本的文档在.del 文件中被标记为删除，新版本的文档被索引到一个新段。旧版本的文档依然能匹配查询，但是会在结果中被过滤掉。
+
+
+### 6、Elasticsearch中的属性 enabled, index 和 store 的功能是什么？
+
+enabled：false，启用的设置仅可应用于顶级映射定义和 Object 对象字段，导致 Elasticsearch 完全跳过对字段内容的解析。
+
+仍然可以从_source字段中检索JSON，但是无法搜索或以其他任何方式存储JSON。
+
+如果对非全局或者 Object 类型，设置 enable : false 会报错如下：
 
 ```
-PUT test_001/_mapping
-{
-  "properties": {
-    "title":{
-      "type":"keyword"
-    }
-  }
-}
+ "type": "mapper_parsing_exception",
+ "reason": "Mapping definition for [user_id] has unsupported parameters:  [enabled : false]"
 ```
 
+index：false, 索引选项控制是否对字段值建立索引。它接受true或false，默认为true。未索引的字段不可查询。
 
-### 2、详细描述一下Elasticsearch更新和删除文档的过程。
-
-**1、** 删除和更新也都是写操作，但是Elasticsearch中的文档是不可变的，因此不能被删除或者改动以展示其变更；
-
-**2、** 磁盘上的每个段都有一个相应的.del文件。当删除请求发送后，文档并没有真的被删除，而是在.del文件中被标记为删除。该文档依然能匹配查询，但是会在结果中被过滤掉。当段合并时，在.del文件中被标记为删除的文档将不会被写入新段。
-
-**3、** 在新的文档被创建时，Elasticsearch会为该文档指定一个版本号，当执行更新时，旧版本的文档在.del文件中被标记为删除，新版本的文档被索引到一个新段。旧版本的文档依然能匹配查询，但是会在结果中被过滤掉。
-
-
-### 3、解释一下 Elasticsearch Node？
-
-节点是 Elasticsearch 的实例。实际业务中，我们会说：ES集群包含3个节点、7个节点。
-
-这里节点实际就是：一个独立的 Elasticsearch 进程，一般将一个节点部署到一台独立的服务器或者虚拟机、容器中。
-
-不同节点根据角色不同，可以划分为：
-
-**主节点**
-
-帮助配置和管理在整个集群中添加和删除节点。
-
-**数据节点**
-
-存储数据并执行诸如CRUD（创建/读取/更新/删除）操作，对数据进行搜索和聚合的操作。
-
-**1、** 客户端节点（或者说：协调节点） 将集群请求转发到主节点，将与数据相关的请求转发到数据节点
-
-**2、** 摄取节点
-
-用于在索引之前对文档进行预处理。
-
-
-### 4、详细描述一下 Elasticsearch 搜索的过程。
-
-**1、** 搜索被执行成一个两阶段过程，我们称之为 Query Then Fetch；
-
-**2、** 在初始查询阶段时，查询会广播到索引中每一个分片拷贝（主分片或者副本分片）。每个分片在本地执行搜索并构建一个匹配文档的大小为 from + size 的优先队列。
-
-PS：在搜索的时候是会查询 Filesystem Cache 的，但是有部分数据还在 Memory Buffer，所以搜索是近实时的。
-
-**3、** 每个分片返回各自优先队列中 所有文档的 ID 和排序值 给协调节点，它合并这些值到自己的优先队列中来产生一个全局排序后的结果列表。
-
-**4、** 接下来就是 取回阶段，协调节点辨别出哪些文档需要被取回并向相关的分片提交多个 GET 请求。每个分片加载并 _丰富_ 文档，如果有需要的话，接着返回文档给协调节点。一旦所有的文档都被取回了，协调节点返回结果给客户端。
-
-**5、** 补充：Query Then Fetch 的搜索类型在文档相关性打分的时候参考的是本分片的数据，这样在文档数量较少的时候可能不够准确，DFS Query Then Fetch 增加了一个预查询的处理，询问 Term 和 Document frequency，这个评分更准确，但是性能会变差。
-
-![70_6.png][70_6.png]
-
-
-### 5、什么是ElasticSearch索引？
-
-索引（名词）： 一个索引(index)就像是传统关系数据库中的数据库，它是相关文档存储的地方，index的复数是indices或indexes。
-
-索引（动词）：「索引一个文档」表示把一个文档存储到索引（名词）里，以便它可以被检索或者查询。这很像SQL中的INSERT关键字，差别是，如果文档已经存在，新的文档将覆盖旧的文档。
-
-
-### 6、Elasticsearch是如何实现Master选举的？
-
-**1、** Elasticsearch的选主是ZenDiscovery模块负责的，主要包含Ping（节点之间通过这个RPC来发现彼此）和Unicast（单播模块包含一个主机列表以控制哪些节点需要ping通）这两部分；
-
-**2、** 对所有可以成为master的节点（**node.master: true**）根据nodeId字典排序，每次选举每个节点都把自己所知道节点排一次序，然后选出第一个（第0位）节点，暂且认为它是master节点。
-
-**3、** 如果对某个节点的投票数达到一定的值（可以成为master节点数n/2+1）并且该节点自己也选举自己，那这个节点就是master。否则重新选举一直到满足上述条件。
-
-**4、** 补充：master节点的职责主要包括集群、节点和索引的管理，不负责文档级别的管理；data节点可以关闭http功能*。
-
-
-### 7、elasticsearch 索引数据多了怎么办，如何调优，部署
-
-面试官：想了解大数据量的运维能力。
-
-解索引数据的规划，应在前期做好规划，正所谓“设计先行，编码在后”，这样才能有效的避免突如其来的数据激增导致集群处理能力不足引发的线上客户检索或者其他业务受到影响。
-
-如何调优，正如问题 1 所说，这里细化一下：
-
-**动态索引层面**
-
-基于模板+时间+rollover api 滚动创建索引，举例：设计阶段定义：blog 索引的模板格式为：blog_index_时间戳的形式，每天递增数据。
-
-这样做的好处：不至于数据量激增导致单个索引数据量非常大，接近于上线 2 的32 次幂-1，索引存储达到了 TB+甚至更大。
-
-一旦单个索引很大，存储等各种风险也随之而来，所以要提前考虑+及早避免。
-
-**存储层面**
-
-冷热数据分离存储，热数据（比如最近 3 天或者一周的数据），其余为冷数据。
-
-对于冷数据不会再写入新数据，可以考虑定期 force_merge 加 shrink 压缩操作，节省存储空间和检索效率。
-
-**部署层面**
-
-一旦之前没有规划，这里就属于应急策略。结合 ES 自身的支持动态扩展的特点，动态新增机器的方式可以缓解集群压力，注意：如果之前主节点等规划合理，不需要重启集群也能完成动态新增的。
-
-
-### 8、elasticsearch的倒排索引是什么
-
-`面试官`：想了解你对基础概念的认知。
-
-通俗解释一下就可以。
-
-传统的我们的检索是通过文章，逐个遍历找到对应关键词的位置。
-
-而倒排索引，是通过分词策略，形成了词和文章的映射关系表，这种词典+映射表即为倒排索引。
-
-有了倒排索引，就能实现`o（1）时间复杂度`的效率检索文章了，极大的提高了检索效率。
-
-![](https://gitee.com/souyunkutech/souyunku-home/raw/master/images/souyunku-web/2019/08/0814/01/img_2.png#alt=img%5C_2.png)
-
-学术的解答方式：
-
-> 倒排索引，相反于一篇文章包含了哪些词，它从词出发，记载了这个词在哪些文档中出现过，由两部分组成——词典和倒排表。
-
-
-`加分项`：倒排索引的底层实现是基于：FST（Finite State Transducer）数据结构。
-
-lucene从4+版本后开始大量使用的数据结构是FST。FST有两个优点：
-
-**1、** 空间占用小。通过对词典中单词前缀和后缀的重复利用，压缩了存储空间；
-
-**2、** 查询速度快。O(len(str))的查询时间复杂度。
-
-
-### 9、ElasticSearch中的分析器是什么？
-
-在ElasticSearch中索引数据时，数据由为索引定义的Analyzer在内部进行转换。分析器由一个Tokenizer和零个或多个TokenFilter组成。编译器可以在一个或多个CharFilter之前，分析模块允许你在逻辑名称下注册分析器，然后可以在映射定义或某些API中引用它们。ElasticSearch附带了许多可以随时使用的预建分析器。或者，你可以组合内置的字符过滤器，编译器和过滤器来创建自定义分析器。
-
-
-### 10、您能否分步介绍如何启动 Elasticsearch 服务器？
-
-启动方式有很多种，一般 bin 路径下
+如果非要检索，报错如下：
 
 ```
-./elasticsearch -d
+ "type": "search_phase_execution_exception",
+  "reason": "Cannot search on field [user_id] since it is not indexed."
 ```
 
-就可以后台启动。
+**store：**
 
-打开浏览器输入 [http://ES](http://ES) IP:9200 就能知道集群是否启动成功。
+某些特殊场景下，如果你只想检索单个字段或几个字段的值，而不是整个_source的值，则可以使用源过滤来实现；
 
-如果启动报错，日志里会有详细信息，逐条核对解决就可以。
+这个时候， store 就派上用场了。
 
 
-### 11、Elasticsearch 在部署时，对 Linux 的设置有哪些优化方法
-### 12、elasticsearch 全文检索
-### 13、ES在生产集群的部署架构是什么，每个索引有多大的数据量，每个索引有多少分片
-### 14、您能解释一下X-Pack for Elasticsearch的功能和重要性吗？
-### 15、Elasticsearch 支持哪些类型的查询？
-### 16、在 Elasticsearch 中，是怎么根据一个词找到对应的倒排索引的？
-### 17、Elasticsearch 在部署时，对 Linux 的设置有哪些优化方法？
-### 18、你能告诉我 Elasticsearch 中的数据存储功能吗？
-### 19、Elasticsearch 对于大数据量（上亿量级）的聚合如何实现？
-### 20、您能解释一下 Elasticsearch 中的 Explore API 吗？
-### 21、详细描述一下ElasticSearch更新和删除文档的过程
-### 22、详细描述一下Elasticsearch搜索的过程？
-### 23、ElasticSearch主分片数量可以在后期更改吗？为什么？
-### 24、Elasticsearch在部署时，对Linux的设置有哪些优化方法？
-### 25、在并发情况下，Elasticsearch 如果保证读写一致？
+### 7、介绍下你们电商搜索的整体技术架构
+
+![70_7.png][70_7.png]
+
+
+### 8、对于GC方面，在使用Elasticsearch时要注意什么？
+
+**1、** SEE：[https://elasticsearch.cn/article/32](https://elasticsearch.cn/article/32)
+
+**2、** 倒排词典的索引需要常驻内存，无法GC，需要监控data node上segment memory增长趋势。
+
+**3、** 各类缓存，field cache, filter cache, indexing cache, bulk queue等等，要设置合理的大小，并且要应该根据最坏的情况来看heap是否够用，也就是各类缓存全部占满的时候，还有heap空间可以分配给其他任务吗？避免采用clear cache等“自欺欺人”的方式来释放内存。
+
+**4、** 避免返回大量结果集的搜索与聚合。确实需要大量拉取数据的场景，可以采用scan & scroll api来实现。
+
+**5、** cluster stats驻留内存并无法水平扩展，超大规模集群可以考虑分拆成多个集群通过tribe node连接。
+
+**6、** 想知道heap够不够，必须结合实际应用场景，并对集群的heap使用情况做持续的监控。
+
+
+### 9、elasticsearch 的 filesystem
+
+es每次走fileSystem cache查询速度是最快的
+
+所以将每个查询的数据50% 容量
+
+= fileSystem cache 容量。
+
+
+### 10、ES更新数据的执行流程？
+
+(1) 将原来的doc标识为deleted状态，然后新写入一条数据。
+
+(2) buffer每refresh一次，就会产生一个segmentfile，所以默认情况下是1s一个segmentfile，segmentfile会越来越多，此时会定期执行merge。
+
+(3) 每次merge时,会将多个segmentfile合并成一个，同时这里会将标识为deleted的doc给物理删除掉，然后将新的segmentfile写入磁盘，这里会写一个commitpoint，标识所有新的segmentfile，然后打开segmentfile供搜索使用，同时删除旧的segmentfile。
+
+
+### 11、请解释在 Elasticsearch 集群中添加或创建索引的过程？
+### 12、logstash 如何与 Elasticsearch 结合使用？
+### 13、Elasticsearch对于大数据量（上亿量级）的聚合如何实现？
+### 14、Elasticsearch 中常用的 cat命令有哪些？
+### 15、lucence 内部结构是什么？
+### 16、拼写纠错是如何实现的？
+### 17、详细描述一下 Elasticsearch 索引文档的过程
+### 18、ElasticSearch如何避免脑裂？
+### 19、elasticsearch了解多少，说说你们公司es的集群架构，索引数据大小，分片有多少，以及一些调优手段 。
+### 20、定义副本、创建副本的好处是什么？
+### 21、elasticsearch 数据预热
+### 22、迁移 Migration API 如何用作 Elasticsearch？
+### 23、ElasticSearch中的倒排索引是什么？
+### 24、elasticsearch 数据的写入过程
+### 25、详细描述一下 Elasticsearch 搜索的过程？
 
 
 
@@ -190,12 +172,8 @@ lucene从4+版本后开始大量使用的数据结构是FST。FST有两个优点
 ### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/?p=67)
 
 
-## 其他，高清PDF：172份，7701页，最新整理
+## 最新，高清PDF：172份，7701页，最新整理
 
-[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/mst.png "大厂面试题")](https://souyunku.lanzous.com/b0alp9b9g "大厂面试题")
+[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/mst.png "大厂面试题")](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png"大厂面试题")
 
-## 关注公众号：架构师专栏，回复：“面试题”，即可
-
-[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/jiagoushi.png "架构师专栏")](https://souyunku.lanzous.com/b0alp9b9g "架构师专栏")
-
-## 关注公众号：架构师专栏，回复：“面试题”，即可
+[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png "架构师专栏")](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png "架构师专栏")

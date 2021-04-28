@@ -8,111 +8,139 @@
 
 
 
-### 1、解释不同方式的自动装配 。
+### 1、我们如何监视所有 SpringBoot 微服务？
 
-有五种自动装配的方式，可以用来指导Spring容器用自动装配方式来进行依赖注入。
-
-**1、** no：默认的方式是不进行自动装配，通过显式设置ref 属性来进行装配。
-
-**2、** byName：通过参数名 自动装配，Spring容器在配置文件中发现bean的autowire属性被设置成byname，之后容器试图匹配、装配和该bean的属性具有相同名字的bean。
-
-**3、** byType:：通过参数类型自动装配，Spring容器在配置文件中发现bean的autowire属性被设置成byType，之后容器试图匹配、装配和该bean的属性具有相同类型的bean。如果有多个bean符合条件，则抛出错误。
-
-**4、** constructor：这个方式类似于byType， 但是要提供给构造器参数，如果没有确定的带参数的构造器参数类型，将会抛出异常。
-
-**5、** autodetect：首先尝试使用constructor来自动装配，如果无法工作，则使用byType方式。
+SpringBoot 提供监视器端点以监控各个微服务的度量。这些端点对于获取有关应用程序的信息（如它们是否已启动）以及它们的组件（如数据库等）是否正常运行很有帮助。但是，使用监视器的一个主要缺点或困难是，我们必须单独打开应用程序的知识点以了解其状态或健康状况。想象一下涉及 50 个应用程序的微服务，管理员将不得不击中所有 50 个应用程序的执行终端。
 
 
-### 2、什么是耦合和凝聚力？
+### 2、Spring Framework 有哪些不同的功能？
 
-组件之间依赖关系强度的度量被认为是**耦合**。一个好的设计总是被认为具有**高内聚力和低耦合性**。 面试官经常会问起凝聚力。它也是另一个测量单位。更像是一个模块内部的元素保持结合的程度。 必须记住，设计微服务的一个重要关键是低耦合和高内聚的组合。当低耦合时，服务对其他服务的依赖很少。这样可以保持服务的完整性。在高内聚性中，将所有相关逻辑保存在服务中成为可能。否则，服务将尝试彼此通信，从而影响整体性能。
+**1、** 轻量级 - Spring 在代码量和透明度方面都很轻便。
 
+**2、** IOC - 控制反转
 
-### 3、spring 中有多少种 IOC 容器？
+**3、** AOP - 面向切面编程可以将应用业务逻辑和系统服务分离，以实现高内聚。
 
-BeanFactory - BeanFactory 就像一个包含 bean 集合的工厂类。它会在客户端要求时实例化 bean。
+**4、** 容器 - Spring 负责创建和管理对象（Bean）的生命周期和配置。
 
-ApplicationContext - ApplicationContext 接口扩展了 BeanFactory 接口。它在 BeanFactory 基础上提供了一些额外的功能。
+**5、** MVC - 对 web 应用提供了高度可配置性，其他框架的集成也十分方便。
 
+**6、** 事务管理 - 提供了用于事务管理的通用抽象层。Spring 的事务支持也可用于容器较少的环境。
 
-### 4、什么是 Spring Profiles？
-
-Spring Profiles 允许用户根据配置文件（dev，test，prod 等）来注册 bean。因此，当应用程序在开发中运行时，只有某些 bean 可以加载，而在 PRODUCTION中，某些其他 bean 可以加载。假设我们的要求是 Swagger 文档仅适用于 QA 环境，并且禁用所有其他文档。这可以使用配置文件来完成。SpringBoot 使得使用配置文件非常简单。
-
-
-### 5、如何使用SpringBoot实现异常处理？
-
-Spring提供了一种使用ControllerAdvice处理异常的非常有用的方法。 我们通过实现一个ControlerAdvice类，来处理控制器类抛出的所有异常。
+**7、** JDBC 异常 - Spring 的 JDBC 抽象层提供了一个异常层次结构，简化了错误处理策略。
 
 
-### 6、Spring Cloud和SpringBoot版本对应关系
-| Spring Cloud Version | SpringBoot Version |
-| --- | --- |
-| Hoxton | 2.2.x |
-| Greenwich | 2.1.x |
-| Finchley | 2.0.x |
-| Edgware | 1.5.x |
-| Dalston | 1.5.x |
+### 3、什么是 AOP切点
+
+切入点是一个或一组连接点，通知将在这些位置执行。可以通过表达式或匹配的方式指明切入点。
+
+
+### 4、SpringBoot 2.X 有什么新特性？与 1.X 有什么区别？
+
+**1、** 依赖 JDK 版本升级：2.x 里面的许多方法应用了 JDK 8 的许多高级新特性，至少需要 JDK 8 的支持；
+
+**2、** 第三方类库升：2.x 对第三方类库升级了所有能升级的稳定版本，例如：Spring Framework 5+、Tomcat 8.5+、Hibernate 5.2+、Thymeleaf 3+；
+
+**3、** 响应式 Spring 编程：2.x 通过启动器和自动配置全面支持 Spring 的响应式编程，响应式编程是完全异步和非阻塞的，它是基于事件驱动模型，而不是传统的线程模型；
+
+**4、** 连接池：2.x 默认使用 HikariCP 连接池；
+
+**5、** json：提供了一个 spring-boot-starter-json 启动器对 JSON 读写的支持；
+
+**6、** Quartz：2.x 提供了一个 spring-boot-starter-quartz 启动器对定时任务框架 Quartz 的支持；
+
+**7、** HTTP/2 支持：提供对HTTP/2 的支持，如：Tomcat, Undertow, Jetty；
+
+**8、** Actuator加强：在 2.x 中，对执行器端点进行了许多改进，所有的 HTTP 执行端点现在都暴露在 /actuator路径下，并对 JSON 结果集也做了改善。
+
+
+### 5、什么是JavaConfig？
+
+Spring JavaConfig是Spring社区的产品，它提供了配置Spring IoC容器的纯Java方法。因此它有助于避免使用XML配置。使用JavaConfig的优点在于：
+
+面向对象的配置。由于配置被定义为JavaConfig中的类，因此用户可以充分利用Java中的面向对象功能。一个配置类可以继承另一个，重写它的@Bean方法等。
+
+减少或消除XML配置。基于依赖注入原则的外化配置的好处已被证明。但是，许多开发人员不希望在XML和Java之间来回切换。
+
+JavaConfig为开发人员提供了一种纯Java方法来配置与XML配置概念相似的Spring容器。
+
+从技术角度来讲，只使用JavaConfig配置类来配置容器是可行的，但实际上很多人认为将JavaConfig与XML混合匹配是理想的。
+
+类型安全和重构友好。JavaConfig提供了一种类型安全的方法来配置Spring容器。由于Java 5.0对泛型的支持，现在可以按类型而不是按名称检索bean，不需要任何强制转换或基于字符串的查找
+
+
+### 6、运行 SpringBoot 有哪几种方式？
+
+**1、** 打包成 Fat Jar ，直接使用 java -jar 运行。目前主流的做法，推荐。
+
+**2、** 在 IDEA 或 Eclipse 中，直接运行应用的 SpringBoot 启动类的 #main(String[] args 启动。适用于开发调试场景。
+
+**3、** 如果是 Web 项目，可以打包成 War 包，使用外部 Tomcat 或 Jetty 等容器。
+
+
+### 7、如何集成SpringBoot和ActiveMQ？
+
+对于集成SpringBoot和ActiveMQ，我们使用
+
+依赖关系。 它只需要很少的配置，并且不需要样板代码。
+
+
+### 8、Spring Cloud Netflix(重点，这些组件用的最多)
+
+Netflix OSS 开源组件集成，包括Eureka、Hystrix、Ribbon、Feign、Zuul等核心组件。
+
+**1、** Eureka：服务治理组件，包括服务端的注册中心和客户端的服务发现机制；
+
+**2、** Ribbon：负载均衡的服务调用组件，具有多种负载均衡调用策略；
+
+**3、** Hystrix：服务容错组件，实现了断路器模式，为依赖服务的出错和延迟提供了容错能力；
+
+**4、** Feign：基于Ribbon和Hystrix的声明式服务调用组件；
+
+**5、** Zuul：API网关组件，对请求提供路由及过滤功能。
+
+`我觉得SpringCloud的福音是Netflix，他把人家的组件都搬来进行封装了，使开发者能快速简单安全的使用`
+
+
+### 9、您使用了哪些 starter maven 依赖项？
+
+使用了下面的一些依赖项：
+
+spring-boot-starter-activemq
+
+spring-boot-starter-security
+
+这有助于增加更少的依赖关系，并减少版本的冲突。
+
+
+### 10、如果想在拦截的方法里面得到从前台传入的参数,怎么得到？
 
 
 
-### 7、SpringBoot的配置文件有哪几种格式？区别是什么？
-
-.properties和.yml，它们的区别主要是书写格式不同。yml采取的是缩进的格式 不支持@PerpertySource注解导入配置
+直接在形参里面声明这个参数就可以,但必须名字和传过来的参数一样。
 
 
-### 8、什么是不同类型的双因素身份认证？
-
-执行双因素身份验证需要三种类型的凭据：
-
-**1、** 一件你知道的事情——比如密码、密码或屏幕锁定模式。
-
-**2、** 您拥有的物理凭证，如OTP、电话或ATM卡，换句话说，您在外部或第三方设备中拥有的任何类型的凭证。
-
-**3、** 您的物理身份–如语音认证或生物特征安全，如指纹或眼睛扫描仪。
-
-
-### 9、如何在 SpringBoot 启动的时候运行一些特定的代码？
-
-可以实现接口 ApplicationRunner 或者 CommandLineRunner，这两个接口实现方式一样，它们都只提供了一个 run 方法，实现上述接口的类加入IOC容器即可生效。
-
-
-### 10、SpringBoot 有哪些优点？
-
-**SpringBoot 主要有如下优点：**
-
-**1、** 容易上手，提升开发效率，为 Spring 开发提供一个更快、更广泛的入门体验。
-
-**2、** 开箱即用，远离繁琐的配置。
-
-**3、** 提供了一系列大型项目通用的非业务性功能，例如：内嵌服务器、安全管理、运行数据监控、运行状况检查和外部化配置等。
-
-**4、** 没有代码生成，也不需要XML配置。
-
-**5、** 避免大量的 Maven 导入和各种版本冲突。
-
-
-### 11、RequestMapping 和 GetMapping 的不同之处在哪里？
-### 12、Spring Cloud Config
-### 13、如何重新加载SpringBoot上的更改，而无需重新启动服务器？
-### 14、什么是客户证书？
-### 15、什么是切点（JoinPoint）
-### 16、SpringBoot常用的starter有哪些？
-### 17、SpringBoot 自动配置原理是什么？
-### 18、康威定律是什么？
-### 19、列举 IoC 的一些好处
-### 20、如何配置SpringBoot应用程序日志记录？
-### 21、什么是 JavaConfig？
-### 22、可以通过多少种方式完成依赖注入？
-### 23、SpringBoot 的核心注解是哪个？它主要由哪几个注解组成的？
-### 24、SpringBoot微服务中如何实现 session 共享 ?
-### 25、多个消费者调⽤同⼀接⼝，eruka默认的分配⽅式是什么？
-### 26、解释对象/关系映射集成模块。
-### 27、如果在拦截请求中，我想拦截get方式提交的方法,怎么配置
-### 28、微服务架构如何运作？
-### 29、微服务之间如何独立通讯的?
-### 30、Spring MVC怎么样设定重定向和转发的？
-### 31、SpringBoot 2.X 有什么新特性？与 1.X 有什么区别？
+### 11、Container在微服务中的用途是什么？
+### 12、SpringBoot 需要独立的容器运行吗？
+### 13、Spring MVC的异常处理？
+### 14、什么是Spring MVC？简单介绍下你对Spring MVC的理解？
+### 15、Spring Cloud 是什么
+### 16、微服务限流 http限流：我们使⽤nginx的limitzone来完成：
+### 17、是否可以在SpringBoot中覆盖或替换嵌入式Tomcat？
+### 18、什么是Feign？
+### 19、有几种不同类型的自动代理？
+### 20、RequestMapping 和 GetMapping 的不同之处在哪里？
+### 21、Spring Cloud解决了哪些问题？
+### 22、什么是Netflix Feign？它的优点是什么？
+### 23、REST 和RPC对比
+### 24、在Spring框架中如何更有效地使用JDBC?
+### 25、指出在 spring aop 中 concern 和 cross-cutting concern 的不同之处。
+### 26、什么是 Spring Data REST?
+### 27、解释基于XML Schema方式的切面实现。
+### 28、单片，SOA和微服务架构有什么区别？
+### 29、常用网关框架有那些？
+### 30、使用Spring框架的好处是什么？
+### 31、什么是凝聚力？
 
 
 
@@ -124,12 +152,8 @@ Spring提供了一种使用ControllerAdvice处理异常的非常有用的方法�
 ### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/?p=67)
 
 
-## 其他，高清PDF：172份，7701页，最新整理
+## 最新，高清PDF：172份，7701页，最新整理
 
-[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/mst.png "大厂面试题")](https://souyunku.lanzous.com/b0alp9b9g "大厂面试题")
+[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/mst.png "大厂面试题")](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png"大厂面试题")
 
-## 关注公众号：架构师专栏，回复：“面试题”，即可
-
-[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/jiagoushi.png "架构师专栏")](https://souyunku.lanzous.com/b0alp9b9g "架构师专栏")
-
-## 关注公众号：架构师专栏，回复：“面试题”，即可
+[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png "架构师专栏")](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png "架构师专栏")

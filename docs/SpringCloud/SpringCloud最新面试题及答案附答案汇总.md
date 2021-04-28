@@ -8,189 +8,98 @@
 
 
 
-### 1、什么是金丝雀释放？
+### 1、什么是Spring Cloud Config?
 
-Canary Releasing是一种降低在生产中引入新软件版本的风险的技术。这是通过将变更缓慢地推广到一小部分用户，然后将其发布到整个基础架构，即将其提供给每个人来完成的。
+Spring Cloud Config为分布式系统中的外部配置提供服务器和客户端支持，可以方便的对微服务各个环境下的配置进行集中式管理。Spring Cloud Config分为Config Server和Config Client两部分。Config Server负责读取配置文件，并且暴露Http API接口，Config Client通过调用Config Server的接口来读取配置文件。
 
 
-### 2、eureka的缺点：
+### 2、谈谈服务降级、熔断、服务隔离
 
-某个服务不可⽤时，各个Eureka Client不能及时的知道，需要1~3个⼼跳周期才能感知，但是，由于基于Netflix的服务调⽤端都会使⽤Hystrix来容错和降级，当服务调⽤不可⽤时Hystrix也能及时感知到，通过熔断机制来降级服务调⽤，因此弥补了基于客户端服务发现的时效性的缺点。
+**1、** 服务降级：当客户端请求服务器端的时候，防止客户端一直等待，不会处理业务逻辑代码，直接返回一个友好的提示给客户端。
 
+**2、** 服务熔断是在服务降级的基础上更直接的一种保护方式，当在一个统计时间范围内的请求失败数量达到设定值（requestVolumeThreshold）或当前的请求错误率达到设定的错误率阈值（errorThresholdPercentage）时开启断路，之后的请求直接走fallback方法，在设定时间（sleepWindowInMilliseconds）后尝试恢复。
 
-### 3、微服务限流 dubbo限流：dubbo提供了多个和请求相关的filter：ActiveLimitFilter ExecuteLimitFilter TPSLimiterFilter
+**3、** 服务隔离就是Hystrix为隔离的服务开启一个独立的线程池，这样在高并发的情况下不会影响其他服务。服务隔离有线程池和信号量两种实现方式，一般使用线程池方式。
 
-**1、** ActiveLimitFilter：
 
-```
-@Activate(group = Constants.CONSUMER, value = Constants.ACTIVES_KEY)
-```
+### 3、DiscoveryClient的作用
 
-**作⽤于客户端，主要作⽤是控制客户端⽅法的并发度；**
+可以从注册中心中根据服务别名获取注册的服务器信息。
 
-当超过了指定的active值之后该请求将等待前⾯的请求完成【何时结束呢？依赖于该⽅法的timeout 如果没有设置timeout的话可能就是多个请求⼀直被阻塞然后等待随机唤醒。
 
-**2、** ExecuteLimitFilter：
+### 4、Ribbon底层实现原理
 
-```
-@Activate(group = Constants.PROVIDER, value = Constants.EXECUTES_KEY)
-```
+Ribbon使用discoveryClient从注册中心读取目标服务信息，对同一接口请求进行计数，使用%取余算法获取目标服务集群索引，返回获取到的目标服务信息。
 
-作⽤于服务端，⼀旦超出指定的数⽬直接报错 其实是指在服务端的并⾏度【需要注意这些都是指的是在单台服务上⽽不是整个服务集群】
 
-**3、** TPSLimiterFilter：
+### 5、Spring Cloud Stream
 
-```
-@Activate(group = Constants.PROVIDER, value = Constants.TPS_LIMIT_RATE_KEY)
-```
+轻量级事件驱动微服务框架，可以使用简单的声明式模型来发送及接收消息，主要实现为Apache Kafka及RabbitMQ。
 
-**1、** 作⽤于服务端，控制⼀段时间内的请求数；
 
-**2、** 默认情况下取得tps.interval字段表示请求间隔 如果⽆法找到则使⽤60s 根据tps字段表示允许调⽤次数。
+### 6、服务网关的作用
 
-**3、** 使⽤AtomicInteger表示允许调⽤的次数 每次调⽤减少1次当结果⼩于0之后返回不允许调⽤
+**1、** 简化客户端调用复杂度，统一处理外部请求。
 
+**2、** 数据裁剪以及聚合，根据不同的接口需求，对数据加工后对外。
 
-### 4、什么是持续监测？
+**3、** 多渠道支持，针对不同的客户端提供不同的网关支持。
 
-持续监控深入监控覆盖范围，从浏览器内前端性能指标，到应用程序性能，再到主机虚拟化基础架构指标。
+**4、** 遗留系统的微服务化改造，可以作为新老系统的中转组件。
 
+**5、** 统一处理调用过程中的安全、权限问题。
 
-### 5、什么是Eureka
 
-Eureka作为SpringCloud的服务注册功能服务器，他是服务注册中心，系统中的其他服务使用Eureka的客户端将其连接到Eureka Service中，并且保持心跳，这样工作人员可以通过Eureka Service来监控各个微服务是否运行正常。
+### 7、服务注册和发现是什么意思？Spring Cloud 如何实现？
 
+当我们开始一个项目时，我们通常在属性文件中进行所有的配置。随着越来越多的服务开发和部署，添加和修改这些属性变得更加复杂。有些服务可能会下降，而某些位置可能会发生变化。手动更改属性可能会产生问题。 Eureka 服务注册和发现可以在这种情况下提供帮助。由于所有服务都在 Eureka 服务器上注册并通过调用 Eureka 服务器完成查找，因此无需处理服务地点的任何更改和处理。
 
-### 6、Spring Cloud OpenFeign
 
-基于Ribbon和Hystrix的声明式服务调用组件，可以动态创建基于Spring MVC注解的接口实现用于服务调用，在Spring Cloud 2.0中已经取代Feign成为了一等公民。
+### 8、常用网关框架有那些？
 
-Spring Cloud的版本关系
+Nginx、Zuul、Gateway
 
-Spring Cloud是一个由许多子项目组成的综合项目，各子项目有不同的发布节奏。为了管理Spring Cloud与各子项目的版本依赖关系，发布了一个清单，其中包括了某个Spring Cloud版本对应的子项目版本。
 
-为了避免Spring Cloud版本号与子项目版本号混淆，Spring Cloud版本采用了名称而非版本号的命名，这些版本的名字采用了伦敦地铁站的名字，根据字母表的顺序来对应版本时间顺序，例如Angel是第一个版本，Brixton是第二个版本。
+### 9、什么是有界上下文？
 
-当Spring Cloud的发布内容积累到临界点或者一个重大BUG被解决后，会发布一个"service releases"版本，简称SRX版本，比如Greenwich.SR2就是Spring Cloud发布的Greenwich版本的第2个SRX版本。目前Spring Cloud的最新版本是Hoxton。
+有界上下文是域驱动设计的核心模式。DDD战略设计部门的重点是处理大型模型和团队。DDD通过将大型模型划分为不同的有界上下文并明确其相互关系来处理大型模型。
 
 
-### 7、eureka缓存机制：
+### 10、Spring Cloud解决了哪些问题？
 
-![](https://gitee.com/souyunkutech/souyunku-home/raw/master/images/souyunku-web/2020/5/2/01/44/45_10.png#alt=45%5C_10.png)
+在使用SpringBoot开发分布式微服务时，我们面临的问题很少由Spring Cloud解决。
 
-#
-### 8、微服务有哪些特点？
+与分布式系统相关的复杂性 – 包括网络问题，延迟开销，带宽问题，安全问题。
 
-![](https://gitee.com/souyunkutech/souyunku-home/raw/master/images/souyunku-web/2019/08/0816/01/img_3.png#alt=img%5C_3.png)
+处理服务发现的能力 – 服务发现允许集群中的进程和服务找到彼此并进行通信。
 
-图3：微服务的 特点 – 微服务访谈问题
+解决冗余问题 – 冗余问题经常发生在分布式系统中。
 
-解耦 – 系统内的服务很大程度上是分离的。因此，整个应用程序可以轻松构建，更改和扩展
+负载平衡 – 改进跨多个计算资源（例如计算机集群，网络链接，中央处理单元）的工作负载分布。
 
-组件化 – 微服务被视为可以轻松更换和升级的独立组件
+减少性能问题 – 减少因各种操作开销导致的性能问题。
 
-业务能力 – 微服务非常简单，专注于单一功能
 
-自治 – 开发人员和团队可以彼此独立工作，从而提高速度
-
-持续交付 – 通过软件创建，测试和批准的系统自动化，允许频繁发布软件
-
-责任 – 微服务不关注应用程序作为项目。相反，他们将应用程序视为他们负责的产品
-
-分散治理 – 重点是使用正确的工具来做正确的工作。这意味着没有标准化模式或任何技术模式。开发人员可以自由选择最有用的工具来解决他们的问题
-
-敏捷 – 微服务支持敏捷开发。任何新功能都可以快速开发并再次丢弃
-
-
-### 9、什么是Netflix Feign？它的优点是什么？
-
-Feign是受到Retrofit，JAXRS-2.0和WebSocket启发的java客户端联编程序。Feign的第一个目标是将约束分母的复杂性统一到http apis，而不考虑其稳定性。在employee-consumer的例子中，我们使用了employee-producer使用REST模板公开的REST服务。
-
-但是我们必须编写大量代码才能执行以下步骤
-
-**1、** 使用功能区进行负载平衡。
-
-**2、** 获取服务实例，然后获取基本URL。
-
-**3、** 利用REST模板来使用服务。 前面的代码如下
-
-```
-@Controller
-public class ConsumerControllerClient {
-
-@Autowired
-private LoadBalancerClient loadBalancer;
-
-public void getEmployee() throws RestClientException, IOException {
-
-    ServiceInstance serviceInstance=loadBalancer.choose("employee-producer");
-
-    System.out.println(serviceInstance.getUri());
-
-    String baseUrl=serviceInstance.getUri().toString();
-
-    baseUrl=baseUrl+"/employee";
-
-    RestTemplate restTemplate = new RestTemplate();
-    ResponseEntity<String> response=null;
-    try{
-    response=restTemplate.exchange(baseUrl,
-            HttpMethod.GET, getHeaders(),String.class);
-    }catch (Exception ex)
-    {
-        System.out.println(ex);
-    }
-    System.out.println(response.getBody());
-```
-
-之前的代码，有像NullPointer这样的例外的机会，并不是最优的。我们将看到如何使用Netflix Feign使呼叫变得更加轻松和清洁。如果Netflix Ribbon依赖关系也在类路径中，那么Feign默认也会负责负载平衡。
-
-
-### 10、列举微服务技术栈
-
-**1、** 服务⽹关Zuul
-
-**2、** 服务注册发现Eureka+Ribbon
-
-**3、** 服务配置中⼼Apollo
-
-**4、** 认证授权中⼼Spring Security OAuth2
-
-**5、** 服务框架SpringBoot
-
-**6、** 数据总线Kafka
-
-**7、** ⽇志监控ELK
-
-**8、** 调⽤链监控CAT
-
-**9、** Metrics监控KairosDB
-
-**10、** 健康检查和告警ZMon
-
-**11、** 限流熔断和流聚合Hystrix/Turbine
-
-
-### 11、SpringBoot和SpringCloud的区别？
-### 12、Spring Cloud和各子项目版本对应关系
-### 13、您对Mike Cohn的测试金字塔了解多少？
-### 14、第⼆层缓存：
-### 15、Eureka怎么实现高可用
-### 16、什么是不同类型的微服务测试？
-### 17、spring cloud 断路器的作用是什么？
-### 18、什么是Hystrix?
-### 19、springcloud如何实现服务的注册?
-### 20、微服务限流 http限流：我们使⽤nginx的limitzone来完成：
-### 21、熔断的原理，以及如何恢复？
-### 22、什么是Spring Cloud？
-### 23、什么是OAuth？
-### 24、什么是Idempotence以及它在哪里使用？
-### 25、Spring Cloud的版本关系
-### 26、SpringCloud Config 可以实现实时刷新吗？
-### 27、Eureka和ZooKeeper都可以提供服务注册与发现的功能,请说说两个的区别
-### 28、负载平衡的意义什么？
-### 29、常用网关框架有那些？
-### 30、服务雪崩？
+### 11、Spring Cloud Sleuth
+### 12、在使用微服务架构时，您面临哪些挑战？
+### 13、列举微服务技术栈
+### 14、什么是Netflix Feign？它的优点是什么？
+### 15、什么是断路器
+### 16、什么是微服务中的反应性扩展？
+### 17、谈谈服务雪崩效应
+### 18、@LoadBalanced注解的作用
+### 19、微服务有什么特点？
+### 20、Spring Cloud Netflix
+### 21、Nginx与Ribbon的区别
+### 22、SpringCloud有几种调用接口方式
+### 23、如何实现动态Zuul网关路由转发
+### 24、SpringCloud限流：
+### 25、什么是耦合和凝聚力？
+### 26、网关与过滤器有什么区别
+### 27、什么是网关?
+### 28、REST 和RPC对比
+### 29、谈一下领域驱动设计
+### 30、康威定律是什么？
 
 
 
@@ -202,12 +111,8 @@ public void getEmployee() throws RestClientException, IOException {
 ### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/?p=67)
 
 
-## 其他，高清PDF：172份，7701页，最新整理
+## 最新，高清PDF：172份，7701页，最新整理
 
-[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/mst.png "大厂面试题")](https://souyunku.lanzous.com/b0alp9b9g "大厂面试题")
+[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/mst.png "大厂面试题")](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png"大厂面试题")
 
-## 关注公众号：架构师专栏，回复：“面试题”，即可
-
-[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/jiagoushi.png "架构师专栏")](https://souyunku.lanzous.com/b0alp9b9g "架构师专栏")
-
-## 关注公众号：架构师专栏，回复：“面试题”，即可
+[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png "架构师专栏")](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png "架构师专栏")

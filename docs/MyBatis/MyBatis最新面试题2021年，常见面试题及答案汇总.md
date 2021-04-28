@@ -8,54 +8,56 @@
 
 
 
-### 1、什么是 MyBatis？
+### 1、Mybatis与Spring 的整合？
 
-MyBatis 是一个可以自定义 SQL、存储过程和高级映射的持久层框架。
+**1、** Spring Spring是一个轻量级控制反转(IOC)和面向切面(AOP)的容器框架；AOP和IOC是Spring框架重要的两个模块；控制反转就是改变对象的创建方式，将对象的创建和维护有开发人员创建改为由容器帮我们完成创建和维护。
 
+**2、** Mybatis是支持SQL查询，存储过程和高级映射的优秀持久成框架。Mybatis几乎是消除了使用JDBC存在的重复创建和关闭连接，以及结果集查询的问题。它使用简单的xml或者注解用于配置和映射，将java的POjOs映射成数据库中的记录。
 
-### 2、什么是 MyBatis 的接口绑定,有什么好处？
-
-接口映射就是在 MyBatis 中任意定义接口,然后把接口里面的方法和 SQL 语句绑定,我们
-
-直接调用接口方法就可以,这样比起原来了 SqlSession 提供的方法我们可以有更加灵活的选
-
-择和设置.
+**3、** 整合，涉及的常用包： ![](https://atts.w3cschool.cn/attachments/image/20171124/1511515685952292.png#alt=)
 
 
-### 3、Mybatis是如何将sql执行结果封装为目标对象并返回的？都有哪些映射形式？
+### 2、当实体类中的属性名和表中的字段名不一样 ，怎么办 ？
 
-第一种是使用`<resultMap>`标签，逐一定义数据库列名和对象属性名之间的映射关系。
+第1种： 通过在查询的sql语句中定义字段名的别名，让字段名的别名和实体类的属性名一致。
 
-第二种是使用sql列的别名功能，将列的别名书写为对象属性名。
+```
+<select id=”selectorder” parametertype=”int” resultetype=”me.gacl.domain.order”>
+       select order_id id, order_no orderno ,order_price price form orders where order_id=#{id};
+</select>
+```
 
-有了列名与属性名的映射关系后，Mybatis通过反射创建对象，同时使用反射给对象的属性逐一赋值并返回，那些找不到映射关系的属性，是无法完成赋值的。
+第2种： 通过`<resultMap>`来映射字段名和实体类属性名的一一对应的关系。
+
+```
+<select id="getOrder" parameterType="int" resultMap="orderresultmap">
+select * from orders where order_id=#{id}
+</select>
+
+<resultMap type=”me.gacl.domain.order” id=”orderresultmap”>
+    <!–用id属性来映射主键字段–>
+    <id property=”id” column=”order_id”>
+
+    <!–用result属性来映射非主键字段，property为实体类属性名，column为数据表中的属性–>
+    <result property = “orderno” column =”order_no”/>
+    <result property=”price” column=”order_price” />
+</reslutMap>
+```
 
 
-### 4、MyBatis框架的缺点：
+### 3、Mybatis的编程步骤是什么样的？
 
-**1、** SQL语句的编写工作量较大，尤其当字段多、关联表多时，对开发人员编写SQL语句的功底有一定要求。
+首先创建Sql Session Factory；第二通过Sql Session Factory创建Sql Session；第三通过sqlsession执行数据库操作；其次调用session.commit()提交事务最后；调用session.close()关闭会话。
+
+
+### 4、MyBatis框架的缺点有什么？
+
+**1、** SQL语句的编写工作量较大，尤其当字段多、关联表多时，对开发人员编写SQL语句的功底有一定要求；
 
 **2、** SQL语句依赖于数据库，导致数据库移植性差，不能随意更换数据库。
 
 
-### 5、Mybais 常用注解 ？
-
-[@Insert ](/Insert ) ： 插入sql , 和xml insert sql语法完全一样
-
-[@Select ](/Select ) ： 查询sql, 和xml select sql语法完全一样
-
-[@Update ](/Update ) ： 更新sql, 和xml update sql语法完全一样
-
-[@Delete ](/Delete ) ： 删除sql, 和xml delete sql语法完全一样
-
-[@Param ](/Param ) ： 入参
-
-[@Results ](/Results ) ：结果集合
-
-[@Result ](/Result ) ： 结果
-
-
-### 6、Mybatis 能执行一对一、一对多的关联查询吗？都有哪些实现方式，以及它们之间的区
+### 5、Mybatis 能执行一对一、一对多的关联查询吗？都有哪些实现方式，以及它们之间的区
 
 别？
 
@@ -74,133 +76,100 @@ MyBatis 是一个可以自定义 SQL、存储过程和高级映射的持久层�
 就可以把主对象和其关联对象查出来。
 
 
-### 7、简述 Mybatis 的 Xml 映射文件和 Mybatis 内部数据结构之间的映射关系？
+### 6、模糊查询 like 语句该怎么写
 
-Mybatis 将所有 Xml 配置信息都封装到 All-In-One 重量级对象 Configuration 内部。在
+**1、** 在 java 中拼接通配符，通过#{}赋值
 
-Xml 映射文件中，标签会被解析为 ParameterMap 对象，其每个子元素会
-
-被解析为 ParameterMapping 对象。标签会被解析为 ResultMap 对象，其每个子
-
-元素会被解析为 ResultMapping 对象。每一个、、、标签
-
-均会被解析为 MappedStatement 对象，标签内的 sql 会被解析为 BoundSql 对象。
+**2、** 在 Sql 语句中拼接通配符 （不安全 会引起 Sql 注入、
 
 
-### 8、Mybatis 中如何指定使用哪一种 Executor 执行器？
+### 7、Mybatis是如何将sql执行结果封装为目标对象并返回的？都有哪些映射形式？
 
-在 Mybatis 配置文件中，可以指定默认的 ExecutorType 执行器类型，也可以手动给
+第一种是使用`<resultMap>`标签，逐一定义列名和对象属性名之间的映射关系。
 
-DefaultSqlSessionFactory 的创建 SqlSession 的方法传递 ExecutorType 类型参数。
+第二种是使用sql列的别名功能，将列别名书写为对象属性名，比如T_NAME AS NAME，对象属性名一般是name，小写，但是列名不区分大小写，Mybatis会忽略列名大小写，智能找到与之对应对象属性名，你甚至可以写成T_NAME AS NaMe，Mybatis一样可以正常工作。
+
+`有了列名与属性名的映射关系后，Mybatis通过反射创建对象，同时使用反射给对象的属性逐一赋值并返回，那些找不到映射关系的属性，是无法完成赋值的。`
 
 
-### 9、Mapper 编写有哪几种方式？
+### 8、Mapper 编写有几种方式 ？
 
-**第一种：接口实现类继承 SqlSessionDaoSupport：使用此种方法需要编写mapper 接口，mapper 接口实现类、mapper.xml 文件**
+**1、** 接口实现类集成`SQLSessionDaoSupport`** 此方法需要编写`mapper`接口，`mapper`接口的实现类,`mapper.xml`文件。
 
-**1、** 在 sqlMapConfig.xml 中配置 mapper.xml 的位置
+**2、** 使用`org.mybatis.spring.mapper.MapperFactoryBean`** 此方法需要在`SqlMapConfig.xml`中配置`mapper.xml`的位置，还需定义`mapper`接口。
 
-```
-<mappers>
-    <mapper resource="mapper.xml 文件的地址" />
-    <mapper resource="mapper.xml 文件的地址" />
-</mappers>
-```
+**3、** 使用`mapper`扫描器** 需要编写`mapper.xml`文件，需要`mapper`接口，配置`mapper`扫描器，使用扫描器从`spring`容器中获取`mapper`的实现对象。
 
-**2、** 定义 mapper 接口
 
-**3、** 实现类集成 SqlSessionDaoSupport
+### 9、在mapper中如何传递多个参数
 
-mapper 方法中可以 this.getSqlSession()进行数据增删改查。
-
-**4、** spring 配置
+**方法1：顺序传参法**
 
 ```
-<bean id=" " class="mapper 接口的实现">
-    <property name="sqlSessionFactory"
-    ref="sqlSessionFactory"></property>
-</bean>
+public User selectUser(String name, int deptId);
+
+<select id="selectUser" resultMap="UserResultMap">
+select * from user
+where user_name ={0} and dept_id ={1}
+</select>
 ```
 
-**第二种：使用 org.mybatis.spring.mapper.MapperFactoryBean：**
+**1、** #{}里面的数字代表传入参数的顺序。
 
-**1、** 在 sqlMapConfig.xml 中配置 mapper.xml 的位置，如果 mapper.xml 和mappre 接口的名称相同且在同一个目录，这里可以不用配置
+**2、** 这种方法不建议使用，sql层表达不直观，且一旦顺序调整容易出错。
 
-**2、** 定义 mapper 接口：
-
-```
-<mappers>
-    <mapper resource="mapper.xml 文件的地址" />
-    <mapper resource="mapper.xml 文件的地址" />
-</mappers>
-```
-
-**3、** mapper.xml 中的 namespace 为 mapper 接口的地址
-
-**4、** mapper 接口中的方法名和 mapper.xml 中的定义的 statement 的 id 保持一致
-
-**5、** Spring 中定义
+**方法2：@Param注解传参法**
 
 ```
-<bean id="" class="org.mybatis.spring.mapper.MapperFactoryBean">
-    <property name="mapperInterface" value="mapper 接口地址" />
-    <property name="sqlSessionFactory" ref="sqlSessionFactory" />
-</bean>
+public User selectUser(@Param("userName") String name, int @Param("deptId") deptId);
+
+<select id="selectUser" resultMap="UserResultMap">
+select * from user
+where user_name ={userName} and dept_id ={deptId}
+</select>
 ```
 
-**第三种：使用 mapper 扫描器：**
+**1、** #{}里面的名称对应的是注解@Param括号里面修饰的名称。
 
-**1、** mapper.xml 文件编写：
+**2、** 这种方法在参数不多的情况还是比较直观的，（推荐使用）
 
-mapper.xml 中的 namespace 为 mapper 接口的地址；
-
-mapper 接口中的方法名和 mapper.xml 中的定义的 statement 的 id 保持一致；
-
-如果将 mapper.xml 和 mapper 接口的名称保持一致则不用在 sqlMapConfig.xml中进行配置。
-
-**2、** 定义 mapper 接口：
-
-注意 mapper.xml 的文件名和 mapper 的接口名称保持一致，且放在同一个目录
-
-**3、** 配置 mapper 扫描器：
+**方法3：Map传参法**
 
 ```
-<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
-    <property name="basePackage" value="mapper 接口包地址
-    "></property>
-    <property name="sqlSessionFactoryBeanName"
-    value="sqlSessionFactory"/>
-</bean>
+public User selectUser(Map<String, Object> params);
+
+<select id="selectUser" parameterType="java.util.Map" resultMap="UserResultMap">
+select * from user
+where user_name ={userName} and dept_id ={deptId}
+</select>
 ```
 
-**4、** 使用扫描器后从 spring 容器中获取 mapper 的实现对象。
+
+### 10、IBatis 和 MyBatis 在细节上的不同有哪些？
+
+**1、** 在 sql 里面变量命名有原来的#变量# 变成了#{变量}
+
+**2、** 原来的$$变量$$变成了${变量}
+
+**3、** 原来在 sql 节点里面的 class 都换名字交 type
+
+**4、** 原来的 queryForObject queryForList 变成了 selectOne selectList5、原来的别名设置在映
 
 
-### 10、MyBatis 实现一对一有几种方式?具体怎么操作的？
-
-有联合查询和嵌套查询,联合查询是几个表联合查询,只查询一次,通过在 resultMap 里面
-
-配置 association 节点配置一对一的类就可以完成;嵌套查询是先查一个表,根据这个表里面
-
-的结果的外键 id,去再另外一个表里面查询数据,也是通过 association 配置,但另外一个表的
-
-查询通过 select 属性配置。
-
-
-### 11、#{}和${}的区别是什么？
-### 12、MyBatis与Hibernate有哪些不同？
-### 13、resultType resultMap 的区别？
-### 14、Mybatis如何执行批量操作
-### 15、Mybaits的优点有什么？
-### 16、Xml映射文件中，除了常见的select|insert|updae|delete标签之外，还有哪些标签？
-### 17、如何获取自动生成的(主)键值?
-### 18、MyBatis 的好处是什么？
-### 19、简述Mybatis的Xml映射文件和Mybatis内部数据结构之间的映射关系？
-### 20、MyBatis和Hibernate的适用场景?
-### 21、如何执行批量插入?
-### 22、模糊查询like语句该怎么写?
-### 23、Mybaits的优点：
-### 24、Mybatis动态sql是做什么的？都有哪些动态sql？
+### 11、传统JDBC开发存在什么问题？
+### 12、如何执行批量插入?
+### 13、为什么说Mybatis是半自动ORM映射工具？它与全自动的区别在哪里？
+### 14、MyBatis与hibernate有哪些不同？
+### 15、通常一个 Xml 映射文件，都会写一个 Dao 接口与之对应, Dao 的工作原理，是否可以重
+### 16、MyBatis框架的缺点：
+### 17、讲下 MyBatis 的缓存
+### 18、模糊查询like语句该怎么写?
+### 19、接口绑定有几种实现方式,分别是怎么实现的?
+### 20、Mybatis 中如何指定使用哪一种 Executor 执行器？
+### 21、MyBatis与Hibernate有哪些不同？
+### 22、Mybatis是否可以映射Enum枚举类？
+### 23、使用MyBatis的mapper接口调用时有哪些要求？
+### 24、Mybatis是如何将sql执行结果封装为目标对象并返回的？都有哪些映射形式？
 
 
 
@@ -212,12 +181,8 @@ mapper 接口中的方法名和 mapper.xml 中的定义的 statement 的 id 保�
 ### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/?p=67)
 
 
-## 其他，高清PDF：172份，7701页，最新整理
+## 最新，高清PDF：172份，7701页，最新整理
 
-[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/mst.png "大厂面试题")](https://souyunku.lanzous.com/b0alp9b9g "大厂面试题")
+[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/mst.png "大厂面试题")](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png"大厂面试题")
 
-## 关注公众号：架构师专栏，回复：“面试题”，即可
-
-[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/jiagoushi.png "架构师专栏")](https://souyunku.lanzous.com/b0alp9b9g "架构师专栏")
-
-## 关注公众号：架构师专栏，回复：“面试题”，即可
+[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png "架构师专栏")](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png "架构师专栏")

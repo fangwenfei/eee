@@ -8,169 +8,279 @@
 
 
 
-### 1、GC垃圾回收算法与垃圾收集器的关系？
+### 1、什么是线程组，为什么在Java中不推荐使用？
 
-常用的垃圾回收算法有标记清除、标记整理、复制算法等。引用计数器也算是一种，但是没有垃圾回收器使用这种算法，因为有循环依赖的问题。
+ThreadGroup类，可以把线程归属到某一个线程组中，线程组中可以有线程对象，也可以有线程组，组中还可以有线程，这样的组织结构有点类似于树的形式。
 
-很多垃圾回收器都是分代回收的。对于年轻代，主要有Serial、ParNew等垃圾回收器，回收过程主要使用复制算法。
-
-老年代的回收算法有Serial、CMS等，主要使用标记清除、标记整理算法等。
-
-我们线上用的较多的是G1，也有年轻代和老年代的概念，不过它是一个整堆回收器，它的回收对象是小堆区 。
-
-在目前G1大行其道的今天，实在没必要再纠结CMS这么难用的东西了。
+为什么不推荐使用？因为使用有很多的安全隐患吧，没有具体追究，如果需要使用，推荐使用线程池。
 
 
-### 2、常用io类有那些？
+### 2、什么情况下会违反迪米特法则？为什么会有这个问题？
 
-**File
-
-FileInputSteam，FileOutputStream
-
-BufferInputStream，BufferedOutputSream
-
-PrintWrite
-
-FileReader，FileWriter
-
-BufferReader，BufferedWriter
-
-ObjectInputStream，ObjectOutputSream**
+迪米特法则建议“只和朋友说话，不要陌生人说话”，以此来减少类之间的耦合。
 
 
-### 3、Collection和Collections的区别？
+### 3、描述 Java 中的重载和重写？
+
+重载和重写都允许你用相同的名称来实现不同的功能，但是重载是编译时活动，而重写是运行时活动。你可以在同一个类中重载方法，但是只能在子类中重写方法。重写必须要有继承。
 
 
+### 4、四种构建线程池的区别及特点？
 
-Collection是一个接口，它是Set、List等容器的父接口；Collections是个一个工具类，提供了一系列的静态方法来辅助容器操作，这些方法包括对容器的搜索、排序、线程安全化等等。
+- newCachedThreadPool
 
+**特点**：
 
-### 4、强引用、软引用、弱引用、虚引用是什么，有什么区别？
+newCachedThreadPool创建一个可缓存线程池，如果当前线程池的长度超过了处理的需要时，它可以灵活的回收空闲的线程，当需要增加时， 它可以灵活的添加新的线程，而不会对池的长度作任何限制
 
-**1、** 强引用，就是普通的对象引用关系，如 String s = new String("ConstXiong")
+**缺点**：
 
-**2、** 软引用，用于维护一些可有可无的对象。只有在内存不足时，系统则会回收软引用对象，如果回收了软引用对象之后仍然没有足够的内存，才会抛出内存溢出异常。SoftReference 实现
+他虽然可以无线的新建线程，但是容易造成堆外内存溢出，因为它的最大值是在初始化的时候设置为 Integer.MAX_VALUE，一般来说机器都没那么大内存给它不断使用。当然知道可能出问题的点，就可以去重写一个方法限制一下这个最大值
 
-**3、** 弱引用，相比软引用来说，要更加无用一些，它拥有更短的生命周期，当 JVM 进行垃圾回收时，无论内存是否充足，都会回收被弱引用关联的对象。WeakReference 实现
+**总结**：
 
-**4、** 虚引用是一种形同虚设的引用，在现实场景中用的不是很多，它主要用来跟踪对象被垃圾回收的活动。PhantomReference 实现
+线程池为无限大，当执行第二个任务时第一个任务已经完成，会复用执行第一个任务的线程，而不用每次新建线程
 
-
-### 5、什么是线程调度器(Thread Scheduler)和时间分片(Time Slicing)？
-
-线程调度器是一个操作系统服务，它负责为Runnable状态的线程分配CPU时间。一旦我们创建一个线程并启动它，它的执行便依赖于线程调度器的实现。时间分片是指将可用的CPU时间分配给可用的Runnable线程的过程。分配CPU时间可以基于线程优先级或者线程等待的时间。线程调度并不受到Java虚拟机控制，所以由应用程序来控制它是更好的选择（也就是说不要让你的程序依赖于线程的优先级）。
-
-
-### 6、类加载是什么？
-
-Class 文件中描述的各类信息都需要加载到虚拟机后才能使用。JVM 把描述类的数据从 Class 文件加载到内存，并对数据进行校验、解析和初始化，最终形成可以被虚拟机直接使用的 Java 类型，这个过程称为虚拟机的类加载机制。
-
-与编译时需要连接的语言不同，Java 中类型的加载、连接和初始化都是在运行期间完成的，这增加了性能开销，但却提供了极高的扩展性，Java 动态扩展的语言特性就是依赖运行期动态加载和连接实现的。
-
-一个类型从被加载到虚拟机内存开始，到卸载出内存为止，整个生命周期经历加载、验证、准备、解析、初始化、使用和卸载七个阶段，其中验证、解析和初始化三个部分称为连接。加载、验证、准备、初始化阶段的顺序是确定的，解析则不一定：可能在初始化之后再开始，这是为了支持 Java 的动态绑定。
-
-
-### 7、多线程应用场景
-
-**例如:**
-
-迅雷多线程下载、数据库连接池、分批发送短信等。
-
-
-### 8、程序计数器为什么是私有的?
-
-程序计数器主要有下面两个作用：
-
-字节码解释器通过改变程序计数器来依次读取指令，从而实现代码的流程控制，如：顺序执行、选择、循环、异常处理。在多线程的情况下，程序计数器用于记录当前线程执行的位置，从而当线程被切换回来的时候能够知道该线程上次运行到哪儿了。需要注意的是，如果执行的是 native 方法，那么程序计数器记录的是 undefined 地址，只有执行的是 Java 代码时程序计数器记录的才是下一条指令的地址。
-
-所以，程序计数器私有主要是为了线程切换后能恢复到正确的执行位置。
-
-
-### 9、HashMap是怎么解决哈希冲突的？
-
-在解决这个问题之前，我们首先需要知道**什么是哈希冲突**，而在了解哈希冲突之前我们还要知道**什么是哈希**才行；
-
-**什么是哈希？**
-
-Hash，一般翻译为“散列”，也有直接音译为“哈希”的， Hash就是指使用哈希算法是指把任意长度的二进制映射为固定长度的较小的二进制值，这个较小的二进制值叫做哈希值。
-
-**什么是哈希冲突？**
-
-当两个不同的输入值，根据同一散列函数计算出相同的散列值的现象，我们就把它叫做碰撞（哈希碰撞）
-
-**HashMap的数据结构**
-
-在Java中，保存数据有两种比较简单的数据结构：数组和链表
-
-**1、** 数组的特点是：寻址容易，插入和删除困难；
-
-**2、** 链表的特点是：寻址困难，但插入和删除容易；
-
-**3、** 所以我们将数组和链表结合在一起，发挥两者各自的优势，就可以使用俩种方式：链地址法和开放地址法可以解决哈希冲突：
-
-![](https://gitee.com/souyunkutech/souyunku-home/raw/master/images/souyunku-web/2020/5/2/056/58/114_9.png#alt=114%5C_9.png)
-
-**1、** 链表法就是将相同hash值的对象组织成一个链表放在hash值对应的槽位；
-
-**2、** 开放地址法是通过一个探测算法，当某个槽位已经被占据的情况下继续查找下一个可以使用的槽位。
-
-但相比于hashCode返回的int类型，我们HashMap初始的容量大小`DEFAULT_INITIAL_CAPACITY = 1 << 4`（即2的四次方16）要远小于int类型的范围，所以我们如果只是单纯的用hashCode取余来获取对应的bucket这将会大大增加哈希碰撞的概率，并且最坏情况下还会将HashMap变成一个单链表，所以我们还需要对hashCode作一定的优化
-
-**hash()函数**
-
-上面提到的问题，主要是因为如果使用hashCode取余，那么相当于**参与运算的只有hashCode的低位**，高位是没有起到任何作用的，所以我们的思路就是让hashCode取值出的高位也参与运算，进一步降低hash碰撞的概率，使得数据分布更平均，我们把这样的操作称为**扰动**，在**JDK 1.8**中的hash()函数如下：
+- 代码示例：
 
 ```
-static final int hash(Object key) {
-int h;
-return (key == null) ? 0 : (h = key.hashCode()) ^ (h >>> 16);// 与自己右移16位进行异或运算（高低位异或）
+package com.lijie;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+public class TestNewCachedThreadPool {
+    public static void main(String[] args) {
+        // 创建无限大小线程池，由jvm自动回收
+        ExecutorService newCachedThreadPool = Executors.newCachedThreadPool();
+        for (int i = 0; i < 10; i++) {
+            final int temp = i;
+            newCachedThreadPool.execute(new Runnable() {
+                public void run() {
+                    try {
+                        Thread.sleep(100);
+                    } catch (Exception e) {}
+                    System.out.println(Thread.currentThread().getName() + ",i==" + temp);
+                }
+            });
+        }
+    }
 }
 ```
 
-这比在JDK 1.7中，更为简洁，相比在1.7中的4次位运算，5次异或运算（9次扰动），在1.8中，只进行了1次位运算和1次异或运算（2次扰动）
+- newFixedThreadPool
 
-**简单总结一下HashMap是使用了哪些方法来有效解决哈希冲突的：**
+**特点**：
 
-**1、** 链表法就是将相同hash值的对象组织成一个链表放在hash值对应的槽位；
+创建一个定长线程池，可控制线程最大并发数，超出的线程会在队列中等待。定长线程池的大小最好根据系统资源进行设置。
 
-**2、** 开放地址法是通过一个探测算法，当某个槽位已经被占据的情况下继续查找下一个可以使用的槽位。
+**缺点**：
+
+线程数量是固定的，但是阻塞队列是无界队列。如果有很多请求积压，阻塞队列越来越长，容易导致OOM（超出内存空间）
+
+**总结**：
+
+请求的挤压一定要和分配的线程池大小匹配，定线程池的大小最好根据系统资源进行设置。如Runtime.getRuntime().availableProcessors()
+
+`Runtime.getRuntime().availableProcessors()方法是查看电脑CPU核心数量）`
+
+- 代码示例
+
+```
+package com.lijie;
+
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
+public class TestNewFixedThreadPool {
+public static void main(String[] args) {
+ExecutorService newFixedThreadPool = Executors.newFixedThreadPool(3);
+for (int i = 0; i < 10; i++) {
+final int temp = i;
+newFixedThreadPool.execute(new Runnable() {
+public void run() {
+System.out.println(Thread.currentThread().getName() + ",i==" + temp);
+}
+});
+}
+}
+}
+```
+
+- newScheduledThreadPool
+
+**特点**：
+
+创建一个固定长度的线程池，而且支持定时的以及周期性的任务执行，类似于Timer（Timer是Java的一个定时器类）
+
+**缺点**：由于所有任务都是由同一个线程来调度，因此所有任务都是串行执行的，同一时间只能有一个任务在执行，前一个任务的延迟或异常都将会影响到之后的任务（比如：一个任务出错，以后的任务都无法继续）。
+
+- 代码示例
+
+```
+package com.lijie;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
+public class TestNewScheduledThreadPool {
+    public static void main(String[] args) {
+        //定义线程池大小为3
+        ScheduledExecutorService newScheduledThreadPool = Executors.newScheduledThreadPool(3);
+        for (int i = 0; i < 10; i++) {
+            final int temp = i;
+            newScheduledThreadPool.schedule(new Runnable() {
+                public void run() {
+                    System.out.println("i:" + temp);
+                }
+            }, 3, TimeUnit.SECONDS); //这里表示延迟3秒执行。
+        }
+    }
+}
+```
+
+- newSingleThreadExecutor
+
+**特点**：
+
+创建一个单线程化的线程池，它只会用唯一的工作线程来执行任务，如果这个唯一的线程因为异常结束，那么会有一个新的线程来替代它，他必须保证前一项任务执行完毕才能执行后一项。保证所有任务按照指定顺序(FIFO, LIFO, 优先级)执行。
+
+**缺点**：
+
+缺点的话，很明显，他是单线程的，高并发业务下有点无力
+
+**总结**：
+
+保证所有任务按照指定顺序执行的，如果这个唯一的线程因为异常结束，那么会有一个新的线程来替代它
+
+- 代码示例
+
+```
+package com.lijie;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+public class TestNewSingleThreadExecutor {
+    public static void main(String[] args) {
+        ExecutorService newSingleThreadExecutor = Executors.newSingleThreadExecutor();
+        for (int i = 0; i < 10; i++) {
+            final int index = i;
+            newSingleThreadExecutor.execute(new Runnable() {
+                public void run() {
+                    System.out.println(Thread.currentThread().getName() + " index:" + index);
+                    try {
+                        Thread.sleep(200);
+                    } catch (Exception e) {}
+                }
+            });
+        }
+    }
+}
+```
 
 
-### 10、多线程同步有哪几种方法？
+### 5、JSP中的静态包含和动态包含有什么区别？
 
-Synchronized关键字，Lock锁实现，分布式锁等。
+静态包含是通过JSP的include指令包含页面，动态包含是通过JSP标准动作  包含页面。
+
+静态包含是编译时包含，如果包含的页面不存在则会产生编译错误，而且两个页面的"contentType"属性应保持一致，因为两个页面会合二为一，只产生一个class文件，因此被包含页面发生的变动再包含它的页面更新前不会得到更新。
+
+动态包含是运行时包含，可以向被包含的页面传递参数，包含页面和被包含页面是独立的，会编译出两个class文件，如果被包含的页面不存在，不会产生编译错误，也不影响页面其他部分的执行。
 
 
-### 11、JVM 运行时内存
-### 12、为什么HashMap中String、Integer这样的包装类适合作为K？
-### 13、CAS的问题
-### 14、HTTP的状态码
-### 15、简述正则表达式及其用途。
-### 16、JVM 数据运行区，哪些会造成 OOM 的情况？
-### 17、什么是方法重载？
-### 18、Thread 类中的 yield 方法有什么作用？
-### 19、Java 中，编写多线程程序的时候你会遵循哪些最佳实践？
-### 20、集合和数组的区别
-### 21、我们能创建一个包含可变对象的不可变对象吗？
-### 22、什么是双亲委派机制？
-### 23、如何理解Hibernate的延迟加载机制？在实际应用中，延迟加载与Session关闭的矛盾是如何处理的？
-### 24、Java中的ReadWriteLock是什么？
-### 25、ThreadPoolExecutor饱和策略有哪些？
-### 26、char 型变量中能不能存贮一个中文汉字，为什么？
-### 27、什么是多线程环境下的伪共享（false sharing）？
-### 28、SynchronizedMap和ConcurrentHashMap有什么区别？
-### 29、CMS分为哪几个阶段?
-### 30、Tcp协议的特点
-### 31、各种回收器，各自优缺点，重点CMS、G1
-### 32、说一下堆和栈的区别
-### 33、创建线程的四种方式
-### 34、你知道哪些GC类型？
-### 35、单例模式了解吗？给我解释一下双重检验锁方式实现单例模式！”
-### 36、什么情况会造成元空间溢出？
-### 37、生产环境 CPU 占用过高，你如何解决？
-### 38、遍历一个 List 有哪些不同的方式？每种方法的实现原理是什么？Java 中 List 遍历的最佳实践是什么？
-### 39、怎么唤醒一个阻塞的线程
-### 40、Java有没有goto？
+### 6、说一下HashMap的实现原理？
+
+**1、** HashMap概述： HashMap是基于哈希表的Map接口的非同步实现。此实现提供所有可选的映射操作，并允许使用null值和null键。此类不保证映射的顺序，特别是它不保证该顺序恒久不变。
+
+**2、** HashMap的数据结构： 在Java编程语言中，最基本的结构就是两种，一个是数组，另外一个是模拟指针（引用），所有的数据结构都可以用这两个基本结构来构造的，HashMap也不例外。HashMap实际上是一个“链表散列”的数据结构，即数组和链表的结合体。
+
+**HashMap 基于 Hash 算法实现的**
+
+**1、** 当我们往HashMap中put元素时，利用key的hashCode重新hash计算出当前对象的元素在数组中的下标
+
+**2、** 存储时，如果出现hash值相同的key，此时有两种情况。
+
+(1)如果key相同，则覆盖原始值；
+
+(2)如果key不同（出现冲突），则将当前的key-value放入链表中
+
+**3、** 获取时，直接找到hash值对应的下标，在进一步判断key是否相同，从而找到对应值。
+
+**4、** 理解了以上过程就不难明白HashMap是如何解决hash冲突的问题，核心就是使用了数组的存储方式，然后将冲突的key的对象放入链表中，一旦发现冲突就在链表中做进一步的对比。
+
+需要注意Jdk 1.8中对HashMap的实现做了优化，当链表中的节点数据超过八个之后，该链表会转为红黑树来提高查询效率，从原来的O(n)到O(logn)
+
+
+### 7、对象是怎么从年轻代进入老年代的？
+
+这是老掉牙的题目了。在下面四种情况下，对象会从年轻代进入老年代。
+
+**1、** 如果对象够老，会通过提升（Promotion）进入老年代，这一般是根据对象的年龄进行判断的。
+
+**2、** 动态对象年龄判定。有的垃圾回收算法，比如G1，并不要求age必须达到15才能晋升到老年代，它会使用一些动态的计算方法。
+
+**3、** 分配担保。当 Survivor 空间不够的时候，就需要依赖其他内存（指老年代）进行分配担保。这个时候，对象也会直接在老年代上分配。
+
+**4、** 超出某个大小的对象将直接在老年代分配。不过这个值默认为0，意思是全部首选Eden区进行分配。
+
+
+### 8、JDBC中如何进行事务处理？
+
+
+
+Connection提供了事务处理的方法，通过调用setAutoCommit(false)可以设置手动提交事务；当事务完成后用commit()显式提交事务；如果在事务处理过程中发生异常则通过rollback()进行事务回滚。除此之外，从JDBC 3.0中还引入了Savepoint（保存点）的概念，允许通过代码设置保存点并让事务回滚到指定的保存点。
+
+![](https://gitee.com/souyunkutech/souyunku-home/raw/master/images/souyunku-web/2019/08/0816/03/img_3.png#alt=img%5C_3.png)
+
+
+### 9、能否使用任何类作为 Map 的 key？
+
+可以使用任何类作为 Map 的 key，然而在使用之前，需要考虑以下几点：
+
+**1、** 如果类重写了 equals() 方法，也应该重写 hashCode() 方法。
+
+**2、** 类的所有实例需要遵循与 equals() 和 hashCode() 相关的规则。
+
+**3、** 如果一个类没有使用 equals()，不应该在 hashCode() 中使用它。
+
+**4、** 用户自定义 Key 类最佳实践是使之为不可变的，这样 hashCode() 值可以被缓存起来，拥有更好的性能。不可变的类也可以确保 hashCode() 和 equals() 在未来不会改变，这样就会解决与可变相关的问题了。
+
+
+### 10、如何通过反射创建对象？
+
+
+
+**1、** 方法1：通过类对象调用newInstance()方法，例如：String.class.newInstance()
+
+**2、** 方法2：通过类对象的getConstructor()或getDeclaredConstructor()方法获得构造器（Constructor）对象并调用其newInstance()方法创建对象，例如：String.class.getConstructor(String.class).newInstance(“Hello”);
+
+
+### 11、你所知道网络协议有那些？
+### 12、引用计数法
+### 13、Files的常用方法都有哪些？
+### 14、说一下堆和栈的区别
+### 15、对象的内存布局了解吗？
+### 16、Java 中，如何计算两个日期之间的差距？
+### 17、如何停止一个正在运行的线程？
+### 18、Static关键字有什么作用？
+### 19、Java 中，受检查异常 和 不受检查异常的区别？
+### 20、什么时候会触发FullGC
+### 21、请说明NAT协议的目的是什么?
+### 22、假设把实例化的数组的变量当成方法参数，当方法执行的时候改变了数组内的元素，那么在方法外，数组元素有发生改变吗？
+### 23、三种代理的区别
+### 24、MinorGC、MajorGC、FullGC 什么时候发生？
+### 25、Serial 垃圾收集器（单线程、 复制算法）
+### 26、并发编程有什么缺点
+### 27、volatile 类型变量提供什么保证？
+### 28、继承和组合之间有什么不同？
+### 29、面向对象的特征有哪些方面？
+### 30、死锁与活锁的区别，死锁与饥饿的区别？
+### 31、游标的创建步骤？
+### 32、什么是字节码？采用字节码的最大好处是什么？什么Java是虚拟机？
+### 33、用 wait-notify 写一段代码来解决生产者-消费者问题？
+### 34、redux中如何进行异步操作?
+### 35、请说明select * from tab的输出结果是什么?
+### 36、说说线程栈
+### 37、在 Java 程序中怎么保证多线程的运行安全？
+### 38、Java中notify 和 notifyAll有什么区别？
+### 39、React有哪些优化性能是手段?
+### 40、notify() 和 notifyAll() 有什么区别？
 
 
 
@@ -182,12 +292,8 @@ Synchronized关键字，Lock锁实现，分布式锁等。
 ### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/?p=67)
 
 
-## 其他，高清PDF：172份，7701页，最新整理
+## 最新，高清PDF：172份，7701页，最新整理
 
-[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/mst.png "大厂面试题")](https://souyunku.lanzous.com/b0alp9b9g "大厂面试题")
+[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/mst.png "大厂面试题")](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png"大厂面试题")
 
-## 关注公众号：架构师专栏，回复：“面试题”，即可
-
-[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/jiagoushi.png "架构师专栏")](https://souyunku.lanzous.com/b0alp9b9g "架构师专栏")
-
-## 关注公众号：架构师专栏，回复：“面试题”，即可
+[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png "架构师专栏")](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png "架构师专栏")

@@ -8,434 +8,191 @@
 
 
 
-### 1、在不使用 StringBuffer 的前提下，怎么反转一个字符串？
+### 1、你是如何调用 wait（）方法的？使用 if 块还是循环？为什么？
 
-解决方案
+wait() 方法应该在循环调用，因为当线程获取到 CPU 开始执行的时候，其他条件可能还没有满足，所以在处理前，循环检测条件是否满足会更好。下面是一段标准的使用 wait 和 notify 方法的代码：
 
-[http://java67.blogspot.com/2012/12/how-to-reverse-string-in-java-stringbuffer-stringbuilder.htm](http://java67.blogspot.com/2012/12/how-to-reverse-string-in-java-stringbuffer-stringbuilder.htm)
-
-
-### 2、什么是线程池？
-
-在一个应用程序中初始化一个线程集合，然后在需要执行新的任务时重用线程池中的线程，而不是创建一个新的线程。线程池中的每个线程都有被分配一个任务，一旦任务完成，线程就回到线程池中，等待下一次的任务分配
-
-
-### 3、并发编程有什么缺点
-
-并发编程的目的就是为了能提高程序的执行效率，提高程序运行速度，但是并发编程并不总是能提高程序运行速度的，而且并发编程可能会遇到很多问题，比如：内存泄漏、上下文切换、线程安全、死锁等问题。
-
-
-### 4、工厂模式分类
-
-工厂模式分为简单工厂、工厂方法、抽象工厂模式
-
-**简单工厂 ：**
-
-用来生产同一等级结构中的任意产品。（不支持拓展增加产品）
-
-**工厂方法 ：**
-
-用来生产同一等级结构中的固定产品。（支持拓展增加产品）
-
-**抽象工厂 ：**
-
-用来生产不同产品族的全部产品。（不支持拓展增加产品；支持增加产品族）
-
-我下面来使用代码演示一下：
-
-- 简单工厂模式
-
-**什么是简单工厂模式**
-
-简单工厂模式相当于是一个工厂中有各种产品，创建在一个类中，客户无需知道具体产品的名称，只需要知道产品类所对应的参数即可。但是工厂的职责过重，而且当类型过多时不利于系统的扩展维护。
-
-- 代码演示
-
-**1、** 创建工厂
-
-```
-package com.lijie;
-
-public interface Car {
-    public void run();
-}
-```
-
-**2、** 创建工厂的产品（宝马）
-
-```
-package com.lijie;
-
-public class Bmw implements Car {
-    public void run() {
-        System.out.println("我是宝马汽车...");
-    }
-}
-```
-
-**3、** 创建工另外一种产品（奥迪）
-
-```
-package com.lijie;
-
-public class AoDi implements Car {
-    public void run() {
-        System.out.println("我是奥迪汽车..");
-    }
-}
-```
-
-**4、** 创建核心工厂类，由他决定具体调用哪产品
-
-```
-package com.lijie;
-
-public class CarFactory {
-
-     public static Car createCar(String name) {
-        if ("".equals(name)) {
-             return null;
+```java
+// The standard idiom for using the wait method
+synchronized (obj) {
+        while (condition does not hold)
+        obj.wait(); // (Releases lock, and reacquires on wakeup)
+        ..、// Perform action appropriate to condition
         }
-        if(name.equals("奥迪")){
-            return new AoDi();
-        }
-        if(name.equals("宝马")){
-            return new Bmw();
-        }
-        return null;
-    }
-}
 ```
 
-**5、** 演示创建工厂的具体实例
+参见 [Effective Java]第 69 条，获取更多关于为什么应该在循环中来调用 wait 方法的内容。
+
+
+### 2、为什么wait和notify方法要在同步块中调用？
+
+Java API强制要求这样做，如果你不这么做，你的代码会抛出IllegalMonitorStateException异常。还有一个原因是为了避免wait和notify之间产生竞态条件。
+
+
+### 3、synchronized可重入的原理
+
+重入锁是指一个线程获取到该锁之后，该线程可以继续获得该锁。底层原理维护一个计数器，当线程获取该锁时，计数器加一，再次获得该锁时继续加一，释放锁时，计数器减一，当计数器值为0时，表明该锁未被任何线程所持有，其它线程可以竞争获取锁。
+
+
+### 4、什么是线程池（thread pool）？
+
+
+
+在面向对象编程中，创建和销毁对象是很费时间的，因为创建一个对象要获取内存资源或者其它更多资源。在Java中更是如此，虚拟机将试图跟踪每一个对象，以便能够在对象销毁后进行垃圾回收。所以提高服务程序效率的一个手段就是尽可能减少创建和销毁对象的次数，特别是一些很耗资源的对象创建和销毁，这就是”池化资源”技术产生的原因。线程池顾名思义就是事先创建若干个可执行的线程放入一个池（容器）中，需要的时候从池中获取线程不用自行创建，使用完毕不需要销毁线程而是放回池中，从而减少创建和销毁线程对象的开销。
+
+Java 5+中的Executor接口定义一个执行线程的工具。它的子类型即线程池接口是ExecutorService。要配置一个线程池是比较复杂的，尤其是对于线程池的原理不是很清楚的情况下，因此在工具类Executors面提供了一些静态工厂方法，生成一些常用的线程池，如下所示：
+
+**1、** newSingleThreadExecutor：创建一个单线程的线程池。这个线程池只有一个线程在工作，也就是相当于单线程串行执行所有任务。如果这个唯一的线程因为异常结束，那么会有一个新的线程来替代它。此线程池保证所有任务的执行顺序按照任务的提交顺序执行。
+
+**2、** newFixedThreadPool：创建固定大小的线程池。每次提交一个任务就创建一个线程，直到线程达到线程池的最大大小。线程池的大小一旦达到最大值就会保持不变，如果某个线程因为执行异常而结束，那么线程池会补充一个新线程。
+
+**3、** newCachedThreadPool：创建一个可缓存的线程池。如果线程池的大小超过了处理任务所需要的线程，那么就会回收部分空闲（60秒不执行任务）的线程，当任务数增加时，此线程池又可以智能的添加新线程来处理任务。此线程池不会对线程池大小做限制，线程池大小完全依赖于操作系统（或者说JVM）能够创建的最大线程大小。
+
+**4、** newScheduledThreadPool：创建一个大小无限的线程池。此线程池支持定时以及周期性执行任务的需求。
+
+**5、** newSingleThreadExecutor：创建一个单线程的线程池。此线程池支持定时以及周期性执行任务的需求。
+
+第60题的例子中演示了通过Executors工具类创建线程池并使用线程池执行线程的代码。如果希望在服务器上使用线程池，强烈建议使用newFixedThreadPool方法来创建线程池，这样能获得更好的性能。
+
+
+### 5、Java中是如何支持正则表达式操作的？
+
+
+
+Java中的String类提供了支持正则表达式操作的方法，包括：matches()、replaceAll()、replaceFirst()、split()。此外，Java中可以用Pattern类表示正则表达式对象，它提供了丰富的API进行各种正则表达式操作，请参考下面面试题的代码。
+
+> 面试题： - 如果要从字符串中截取第一个英文左括号之前的字符串，例如：北京市(朝阳区)(西城区)(海淀区)，截取结果为：北京市，那么正则表达式怎么写？
+
 
 ```
-package com.lijie;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
-public class Client01 {
+class RegExpTest {
 
     public static void main(String[] args) {
-        Car aodi  =CarFactory.createCar("奥迪");
-        Car bmw  =CarFactory.createCar("宝马");
-        aodi.run();
-        bmw.run();
+        String str = "北京市(朝阳区)(西城区)(海淀区)";
+        Pattern p = Pattern.compile(".*?(?=\\()");
+        Matcher m = p.matcher(str);
+        if(m.find()) {
+            System.out.println(m.group());
+        }
     }
 }
 ```
 
-**单工厂的优点/缺点**
+> 说明：上面的正则表达式中使用了懒惰匹配和前瞻，如果不清楚这些内容，推荐读一下网上很有名的[《正则表达式30分钟入门教程》](http://www.jb51.net/tools/zhengze.html)。
 
-**优点：**
 
-简单工厂模式能够根据外界给定的信息，决定究竟应该创建哪个具体类的对象。明确区分了各自的职责和权力，有利于整个软件体系结构的优化。
 
-**缺点：**
+### 6、String和StringBuffer、StringBuilder的区别是什么？String为什么是不可变的？
 
-很明显工厂类集中了所有实例的创建逻辑，容易违反GRASPR的高内聚的责任分配原则
+**可变性**
 
-- 工厂方法模式
+String类中使用字符数组保存字符串，private final char value[]，所以string对象是不可变的。StringBuilder与StringBuffer都继承自AbstractStringBuilder类，在AbstractStringBuilder中也是使用字符数组保存字符串，char[]value，这两种对象都是可变的。
 
-**什么是工厂方法模式**
+**线程安全性**
 
-工厂方法模式Factory Method，又称多态性工厂模式。在工厂方法模式中，核心的工厂类不再负责所有的产品的创建，而是将具体创建的工作交给子类去做。该核心类成为一个抽象工厂角色，仅负责给出具体工厂子类必须实现的接口，而不接触哪一个产品类应当被实例化这种细节
+String中的对象是不可变的，也就可以理解为常量，线程安全。AbstractStringBuilder是StringBuilder与StringBuffer的公共父类，定义了一些字符串的基本操作，如expandCapacity、append、insert、indexOf等公共方法。StringBuffer对方法加了同步锁或者对调用的方法加了同步锁，所以是线程安全的。StringBuilder并没有对方法进行加同步锁，所以是非线程安全的。
 
-- 代码演示
+**性能**
 
-**1、** 创建工厂
+每次对String 类型进行改变的时候，都会生成一个新的String对象，然后将指针指向新的String 对象。StringBuffer每次都会对StringBuffer对象本身进行操作，而不是生成新的对象并改变对象引用。相同情况下使用StirngBuilder 相比使用StringBuffer 仅能获得10%~15% 左右的性能提升，但却要冒多线程不安全的风险。 **对于三者使用的总结：** 如果要操作少量的数据用 = String 单线程操作字符串缓冲区 下操作大量数据 = StringBuilder 多线程操作字符串缓冲区 下操作大量数据 = StringBuffer
+
+
+### 7、setState到底是异步还是同步?
+
+先给出答案: 有时表现出异步,有时表现出同步
+
+**1、** `setState`只在合成事件和钩子函数中是“异步”的，在原生事件和`setTimeout` 中都是同步的
+
+**2、** `setState` 的“异步”并不是说内部由异步代码实现，其实本身执行的过程和代码都是同步的，只是合成事件和钩子函数的调用顺序在更新之前，导致在合成事件和钩子函数中没法立马拿到更新后的值，形成了所谓的“异步”，当然可以通过第二个参数 `setState(partialState, callback)` 中的`callback`拿到更新后的结果
+
+**3、** `setState` 的批量更新优化也是建立在“异步”（合成事件、钩子函数）之上的，在原生事件和setTimeout 中不会批量更新，在“异步”中如果对同一个值进行多次`setState`，`setState`的批量更新策略会对其进行覆盖，取最后一次的执行，如果是同时`setState`多个不同的值，在更新时会对其进行合并批量更新
+
+
+### 8、GC 垃圾收集器
+
+Java 堆内存被划分为新生代和年老代两部分，新生代主要使用复制和标记-清除垃圾回收算法；年老代主要使用标记-整理垃圾回收算法，因此 java 虚拟中针对新生代和年老代分别提供了多种不同的垃圾收集器， JDK1.6 中 Sun HotSpot 虚拟机的垃圾收集器
+
+
+### 9、Java 中会存在内存泄漏吗，请简单描述。
+
+
+
+理论上Java因为有垃圾回收机制（GC）不会存在内存泄露问题（这也是Java被广泛使用于服务器端编程的一个重要原因）；然而在实际开发中，可能会存在无用但可达的对象，这些对象不能被GC回收，因此也会导致内存泄露的发生。例如Hibernate的Session（一级缓存）中的对象属于持久态，垃圾回收器是不会回收这些对象的，然而这些对象中可能存在无用的垃圾对象，如果不及时关闭（close）或清空（flush）一级缓存就可能导致内存泄露。下面例子中的代码也会导致内存泄露。
 
 ```
-package com.lijie;
+import java.util.Arrays;
+import java.util.EmptyStackException;
 
-public interface Car {
-    public void run();
-}
-```
+public class MyStack<T> {
+    private T[] elements;
+    private int size = 0;
 
-**2、** 创建工厂方法调用接口（所有的产品需要new出来必须继承他来实现方法）
+    private static final int INIT_CAPACITY = 16;
 
-```
-package com.lijie;
+    public MyStack() {
+        elements = (T[]) new Object[INIT_CAPACITY];
+    }
 
-public interface CarFactory {
+    public void push(T elem) {
+        ensureCapacity();
+        elements[size++] = elem;
+    }
 
-    Car createCar();
+    public T pop() {
+        if(size == 0) 
+            throw new EmptyStackException();
+        return elements[--size];
+    }
 
-}
-```
-
-**3、** 创建工厂的产品（奥迪）
-
-```
-package com.lijie;
-
-public class AoDi implements Car {
-    public void run() {
-        System.out.println("我是奥迪汽车..");
+    private void ensureCapacity() {
+        if(elements.length == size) {
+            elements = Arrays.copyOf(elements, 2 * size + 1);
+        }
     }
 }
 ```
 
-**4、** 创建工厂另外一种产品（宝马）
-
-```
-package com.lijie;
-
-public class Bmw implements Car {
-    public void run() {
-        System.out.println("我是宝马汽车...");
-    }
-}
-```
-
-**5、** 创建工厂方法调用接口的实例（奥迪）
-
-```
-package com.lijie;
-
-public class AoDiFactory implements CarFactory {
-
-    public Car createCar() {
-    
-        return new AoDi();
-    }
-}
-```
-
-**6、** 创建工厂方法调用接口的实例（宝马）
-
-```
-package com.lijie;
-
-public class BmwFactory implements CarFactory {
-
-    public Car createCar() {
-
-        return new Bmw();
-    }
-
-}
-```
-
-**7、** 演示创建工厂的具体实例
-
-```
-package com.lijie;
-
-public class Client {
-
-    public static void main(String[] args) {
-        Car aodi = new AoDiFactory().createCar();
-        Car jili = new BmwFactory().createCar();
-        aodi.run();
-        jili.run();
-    }
-}
-```
-
-- 抽象工厂模式
-
-**什么是抽象工厂模式**
-
-抽象工厂简单地说是工厂的工厂，抽象工厂可以创建具体工厂，由具体工厂来产生具体产品。
-
-![](https://gitee.com/souyunkutech/souyunku-home/raw/master/images/souyunku-web/2020/5/2/047/42/89_3.png#alt=89%5C_3.png)
-
-- 代码演示
-
-**1、** 创建第一个子工厂，及实现类
-
-```
-package com.lijie;
-
-//汽车
-public interface Car {
-       void run();
-}
-
- class CarA implements Car{
-
-    public void run() {
-        System.out.println("宝马");
-    }
-    
-}
- class CarB implements Car{
-
-    public void run() {
-        System.out.println("摩拜");
-    }
-    
-}
-```
-
-**2、** 创建第二个子工厂，及实现类
-
-```
-package com.lijie;
-
-//发动机
-public interface Engine {
-
-    void run();
-
-}
-
-class EngineA implements Engine {
-
-    public void run() {
-        System.out.println("转的快!");
-    }
-
-}
-
-class EngineB implements Engine {
-
-    public void run() {
-        System.out.println("转的慢!");
-    }
-
-}
-```
-
-**3、** 创建一个总工厂，及实现类（由总工厂的实现类决定调用那个工厂的那个实例）
-
-```
-package com.lijie;
-
-public interface TotalFactory {
-    // 创建汽车
-    Car createChair();
-    // 创建发动机
-    Engine createEngine();
-}
-
-//总工厂实现类，由他决定调用哪个工厂的那个实例
-class TotalFactoryReally implements TotalFactory {
-
-    public Engine createEngine() {
-
-        return new EngineA();
-    }
-
-    public Car createChair() {
-
-        return new CarA();
-    }
-}
-```
-
-**4、** 运行测试
-
-```
-package com.lijie;
-
-public class Test {
-
-    public static void main(String[] args) {
-        TotalFactory totalFactory2 = new TotalFactoryReally();
-        Car car = totalFactory2.createChair();
-        car.run();
-
-        TotalFactory totalFactory = new TotalFactoryReally();
-        Engine engine = totalFactory.createEngine();
-        engine.run();
-    }
-}
-```
-
-
-### 5、Statement与preparedStatement区别
-
-preparedStatement会预编译sql语句，能够提高批量的数据操作的执行效率，Statement执行slq的时候才进行编译
-
-Preparedstatement在第一次执行sql的时候，比较耗费资源。如果只对数据库进行一次操作，使用statement比较好。
-
-Statement会出现sql注入的问题，使用preparedstatment可以解决sql注入
-
-
-### 6、说明Tomcat配置了多少个Valve?
-
-Tomcat配置了四种类型的Valve：
-
-**1、** 访问日志
-
-**2、** 远程地址过滤
-
-**3、** 远程主机过滤器
-
-**4、** 客户请求记录器
-
-
-### 7、Java 中堆和栈有什么区别？
-
-JVM 中堆和栈属于不同的内存区域，使用目的也不同。栈常用于保存方法帧和局部变量，而对象总是在堆上分配。栈通常都比堆小，也不会在多个线程之间共享，而堆被整个 JVM 的所有线程共享。
-
-
-### 8、62、volatile 变量和 atomic 变量有什么不同？
-
-Volatile变量可以确保先行关系，即写操作会发生在后续的读操作之前, 但它并不能保证原子性。例如用volatile修饰count变量那么 count++ 操作就不是原子性的。
-
-而AtomicInteger类提供的atomic方法可以让这种操作具有原子性如getAndIncrement()方法会原子性的进行增量操作把当前值加一，其它数据类型和引用变量也可以进行相似操作。
-
-
-### 9、多线程的常用方法
-| 方法 名 | 描述 |
-| --- | --- |
-| sleep() | 强迫一个线程睡眠Ｎ毫秒 |
-| isAlive() | 判断一个线程是否存活。 |
-| join() | 等待线程终止。 |
-| activeCount() | 程序中活跃的线程数。 |
-| enumerate() | 枚举程序中的线程。 |
-| currentThread() | 得到当前线程。 |
-| isDaemon() | 一个线程是否为守护线程。 |
-| setDaemon() | 设置一个线程为守护线程。 |
-| setName() | 为线程设置一个名称。 |
-| wait() | 强迫一个线程等待。 |
-| notify() | 通知一个线程继续运行。 |
-| setPriority() | 设置一个线程的优先级。 |
-
-
-
-### 10、阐述ArrayList、Vector、LinkedList的存储性能和特性。
-
-
-
-ArrayList 和Vector都是使用数组方式存储数据，此数组元素数大于实际存储的数据以便增加和插入元素，它们都允许直接按序号索引元素，但是插入元素要涉及数组元素移动等内存操作，所以索引数据快而插入数据慢，Vector中的方法由于添加了synchronized修饰，因此Vector是线程安全的容器，但性能上较ArrayList差，因此已经是Java中的遗留容器。LinkedList使用双向链表实现存储（将内存中零散的内存单元通过附加的引用关联起来，形成一个可以按序号索引的线性结构，这种链式存储方式与数组的连续存储方式相比，内存的利用率更高），按序号索引数据需要进行前向或后向遍历，但是插入数据时只需要记录本项的前后项即可，所以插入速度较快。Vector属于遗留容器（Java早期的版本中提供的容器，除此之外，Hashtable、Dictionary、BitSet、Stack、Properties都是遗留容器），已经不推荐使用，但是由于ArrayList和LinkedListed都是非线程安全的，如果遇到多个线程操作同一个容器的场景，则可以通过工具类Collections中的synchronizedList方法将其转换成线程安全的容器后再使用（这是对装潢模式的应用，将已有对象传入另一个类的构造器中创建新的对象来增强实现）。
-
-> 补充：遗留容器中的Properties类和Stack类在设计上有严重的问题，Properties是一个键和值都是字符串的特殊的键值对映射，在设计上应该是关联一个Hashtable并将其两个泛型参数设置为String类型，但是Java API中的Properties直接继承了Hashtable，这很明显是对继承的滥用。这里复用代码的方式应该是Has-A关系而不是Is-A关系，另一方面容器都属于工具类，继承工具类本身就是一个错误的做法，使用工具类最好的方式是Has-A关系（关联）或Use-A关系（依赖）。同理，Stack类继承Vector也是不正确的。Sun公司的工程师们也会犯这种低级错误，让人唏嘘不已。
-
-
-
-### 11、CopyOnWriteArrayList 的缺点?
-### 12、在监视器(Monitor)内部，是如何做线程同步的？程序应该做哪种级别的同步？
-### 13、Java中ConcurrentHashMap的并发度是什么？
-### 14、JIT是什么？
-### 15、你将如何使用thread dump？你将如何分析Thread dump？
-### 16、什么是Hash算法
-### 17、什么是 FutureTask
-### 18、Final在java中的作用
-### 19、线程池中 submit() 和 execute() 方法有什么区别？
-### 20、分区收集算法
-### 21、TreeMap 和 TreeSet 在排序时如何比较元素？Collections 工具类中的 sort()方法如何比较元素？
-### 22、如何在两个线程间共享数据？
-### 23、Javascript中常用的事件有哪些？
-### 24、JDK 和 JRE 有什么区别？
-### 25、as-if-serial规则和happens-before规则的区别
-### 26、String 属于基础的数据类型吗？
-### 27、双亲委派模型是什么？
-### 28、java如何实现多线程之间的通讯和协作？
-### 29、为什么要学习工厂设计模式
-### 30、synchronized的作用？
-### 31、final、finalize()、finally，性质不同
-### 32、ThreadLocal是什么？有什么用？
-### 33、==与equlas有什么区别？
-### 34、JVM 的内存模型以及分区情况和作用
-### 35、那针对浮点型数据运算出现的误差的问题，你怎么解决？
-### 36、Minor Gc和Full GC 有什么不同呢？
-### 37、什么是方法内联？
-### 38、如何设置请求的编码以及响应内容的类型？
-### 39、同步方法和同步块，哪个是更好的选择?
-### 40、重排序遵守的规则
+上面的代码实现了一个栈（先进后出（FILO））结构，乍看之下似乎没有什么明显的问题，它甚至可以通过你编写的各种单元测试。然而其中的pop方法却存在内存泄露的问题，当我们用pop方法弹出栈中的对象时，该对象不会被当作垃圾回收，即使使用栈的程序不再引用这些对象，因为栈内部维护着对这些对象的过期引用（obsolete reference）。在支持垃圾回收的语言中，内存泄露是很隐蔽的，这种内存泄露其实就是无意识的对象保持。如果一个对象引用被无意识的保留起来了，那么垃圾回收器不会处理这个对象，也不会处理该对象引用的其他对象，即使这样的对象只有少数几个，也可能会导致很多的对象被排除在垃圾回收之外，从而对性能造成重大影响，极端情况下会引发Disk Paging（物理内存与硬盘的虚拟内存交换数据），甚至造成OutOfMemoryError。
+
+
+### 10、Java中操作字符串使用哪个类？
+
+String，StringBuffer，StringBuilder
+
+
+### 11、JVM垃圾回收时候如何确定垃圾？什么是GC Roots？
+### 12、什么是 Busy spin？我们为什么要使用它？
+### 13、重载和重写的区别
+### 14、我们能自己写一个容器类，然后使用 for-each 循环码？
+### 15、Collections.synchronized  是什么？
+### 16、JVM怎么判断一个对象是不是要回收？
+### 17、堆
+### 18、比较一下Java和JavaSciprt。
+### 19、CMS 收集器（多线程标记清除算法）
+### 20、那些地方用到了单例模式
+### 21、什么是外观模式
+### 22、调优工具
+### 23、final 在 java 中有什么作用？
+### 24、3*0.1 == 0.3 将会返回什么？true 还是 false？
+### 25、Thread 类中的 yield 方法有什么作用？
+### 26、Jsp包含那些隐藏对象或者内建对象
+### 27、构造器Constructor是否可被override
+### 28、JVM 年轻代到年老代的晋升过程的判断条件是什么呢？
+### 29、JVM 的内存模型以及分区情况和作用
+### 30、创建socket通讯的步骤？
+### 31、说说自己是怎么使用 synchronized 关键字，在项目中用到了吗
+### 32、普通类和抽象类有哪些区别？
+### 33、讲讲什么情况下会出现内存溢出，内存泄漏？
+### 34、类加载为什么要使用双亲委派模式，有没有什么场景是打破了这个模式？
+### 35、线程同步的方法
+### 36、Get请求与post有什么区别？
+### 37、例如： if(a+1.0=4.0)，这样做好吗？
+### 38、你有哪些手段来排查 OOM 的问题？
+### 39、JVM 运行时内存
+### 40、可以直接调用Thread类的run ()方法么？
 
 
 
@@ -447,12 +204,8 @@ ArrayList 和Vector都是使用数组方式存储数据，此数组元素数大�
 ### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/?p=67)
 
 
-## 其他，高清PDF：172份，7701页，最新整理
+## 最新，高清PDF：172份，7701页，最新整理
 
-[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/mst.png "大厂面试题")](https://souyunku.lanzous.com/b0alp9b9g "大厂面试题")
+[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/mst.png "大厂面试题")](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png"大厂面试题")
 
-## 关注公众号：架构师专栏，回复：“面试题”，即可
-
-[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/jiagoushi.png "架构师专栏")](https://souyunku.lanzous.com/b0alp9b9g "架构师专栏")
-
-## 关注公众号：架构师专栏，回复：“面试题”，即可
+[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png "架构师专栏")](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png "架构师专栏")

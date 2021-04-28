@@ -8,108 +8,115 @@
 
 
 
-### 1、如何集成SpringBoot和ActiveMQ？
+### 1、为什么我们需要 spring-boot-maven-plugin?
 
-对于集成SpringBoot和ActiveMQ，我们使用
+spring-boot-maven-plugin 提供了一些像 jar 一样打包或者运行应用程序的命令。
 
-依赖关系。 它只需要很少的配置，并且不需要样板代码。
+spring-boot:run 运行你的 SpringBooty 应用程序。
 
+spring-boot：repackage 重新打包你的 jar 包或者是 war 包使其可执行
 
-### 2、什么是CSRF攻击？
+spring-boot：start 和 spring-boot：stop 管理 SpringBoot 应用程序的生命周期（也可以说是为了集成测试）。
 
-CSRF代表跨站请求伪造。这是一种攻击，迫使最终用户在当前通过身份验证的Web应用程序上执行不需要的操作。CSRF攻击专门针对状态改变请求，而不是数据窃取，因为攻击者无法查看对伪造请求的响应。
-
-
-### 3、什么是Spring Cloud？
-
-根据Spring Cloud的官方网站，Spring Cloud为开发人员提供了快速构建分布式系统中一些常见模式的工具（例如配置管理，服务发现，断路器，智能路由，领导选举，分布式会话，集群状态）。
+spring-boot:build-info 生成执行器可以使用的构造信息。
 
 
-### 4、什么是 AOP 引入?
+### 2、什么是YAML？
 
-引入允许我们在已存在的类中增加新的方法和属性。
-
-
-### 5、开启 SpringBoot 特性有哪几种方式？
-
-继承spring-boot-starter-parent项目
-
-导入spring-boot-dependencies项目依赖
+YAML是一种人类可读的数据序列化语言。它通常用于配置文件。 与属性文件相比，如果我们想要在配置文件中添加复杂的属性，YAML文件就更加结构化，而且更少混淆。可以看出YAML具有分层配置数据。
 
 
-### 6、什么是 Spring Profiles？
+### 3、列举 spring 支持的事务管理类型
 
-在项目的开发中，有些配置文件在开发、测试或者生产等不同环境中可能是不同的，例如数据库连接、Redis的配置等等。那我们如何在不同环境中自动实现配置的切换呢？Spring给我们提供了profiles机制给我们提供的就是来回切换配置文件的功能
+Spring 支持两种类型的事务管理：
 
-Spring Profiles 允许用户根据配置文件（dev，test，prod 等）来注册 bean。因此，当应用程序在开发中运行时，只有某些 bean 可以加载，而在 PRODUCTION中，某些其他 bean 可以加载。假设我们的要求是 Swagger 文档仅适用于 QA 环境，并且禁用所有其他文档。这可以使用配置文件来完成。SpringBoot 使得使用配置文件非常简单。
+**1、** 程序化事务管理：在此过程中，在编程的帮助下管理事务。它为您提供极大的灵活性，但维护起来非常困难。
 
-
-### 7、如何在自定义端口上运行 SpringBoot 应用程序？
-
-为了在自定义端口上运行 SpringBoot 应用程序，您可以在application.properties 中指定端口。server.port = 8090
+**2、** 声明式事务管理：在此，事务管理与业务代码分离。仅使用注解或基于 XML 的配置来管理事务。
 
 
-### 8、AOP 有哪些实现方式？
+### 4、什么是Spring的内部bean？
 
-**实现 AOP 的技术，主要分为两大类：**
-
-**静态代理**
-
-指使用 AOP 框架提供的命令进行编译，从而在编译阶段就可生成 AOP 代理类，因此也称为编译时增强；
-
-编译时编织（特殊编译器实现）
-
-类加载时编织（特殊的类加载器实现）。
-
-**动态代理**
-
-在运行时在内存中“临时”生成 AOP 动态代理类，因此也被称为运行时增强。
-
-**JDK 动态代理**
-
-**CGLIB**
+当一个bean仅被用作另一个bean的属性时，它能被声明为一个内部bean，为了定义inner bean，在Spring 的 基于XML的 配置元数据中，可以在 或  元素内使用 元素，内部bean通常是匿名的，它们的Scope一般是prototype。
 
 
-### 9、如何给静态变量赋值？
+### 5、什么是YAML？
 
-SpringBoot无法通过@Value给静态变量赋值
+YAML是一种人类可读的数据序列化语言。它通常用于配置文件。
 
-此时需要给当前类加@Component注解，通过set方法设置@Value注解加载set方法上，set方法的参数可以任意命名，不能同属性名，此后当前工具类下的静态方法可直接使用属性值。
-
-
-
-### 10、Spring Cloud和SpringBoot版本对应关系
-| Spring Cloud Version | SpringBoot Version |
-| --- | --- |
-| Hoxton | 2.2.x |
-| Greenwich | 2.1.x |
-| Finchley | 2.0.x |
-| Edgware | 1.5.x |
-| Dalston |  |
+与属性文件相比，如果我们想要在配置文件中添加复杂的属性，YAML文件就更加结构化，而且更少混淆。可以看出YAML具有分层配置数据。
 
 
+### 6、怎么设计无状态服务？
 
-### 11、Zuul与Nginx有什么区别？
-### 12、spring boot扫描流程?
-### 13、什么是幂等性?它是如何使用的？
-### 14、如何重新加载SpringBoot上的更改，而无需重新启动服务器？
-### 15、服务雪崩？
-### 16、如何使用SpringBoot实现异常处理?
-### 17、什么是 SpringBoot 启动类注解：
-### 18、单片，SOA和微服务架构有什么区别？
-### 19、Bean 工厂和 Application contexts 有什么区别？
-### 20、SpringBoot 配置加载顺序?
-### 21、SpringBoot性能如何优化
-### 22、Spring支持的ORM
-### 23、您对Distributed Transaction有何了解？
-### 24、什么是 SpringBoot？
-### 25、列举 Spring Framework 的优点。
-### 26、为什么我们不建议在实际的应用程序中使用 Spring Data Rest?
-### 27、能否举一个例子来解释更多 Staters 的内容？
-### 28、Ribbon是什么？
-### 29、如何重新加载 SpringBoot 上的更改，而无需重新启动服务器？SpringBoot项目如何热部署？
-### 30、列举微服务技术栈
-### 31、Spring支持的事务管理类型
+对于无状态服务，首先说一下什么是状态：如果一个数据需要被多个服务共享，才能完成一笔交易，那么这1、个数据被称为状态。进而依赖这个“状态”数据的服务被称为有状态服务，反之称为无状态服务。
+
+**2、** 那么这个无状态服务原则并不是说在微服务架构里就不允许存在状态，表达的真实意思是要把有状态的业务服务改变为无状态的计算类服务，那么状态数据也就相应的迁移到对应的“有状态数据服务”中。
+
+**3、** 场景说明：例如我们以前在本地内存中建立的数据缓存、Session缓存，到现在的微服务架构中就应该把这些数据迁移到分布式缓存中存储，让业务服务变成一个无状态的计算节点。迁移后，就可以做到按需动态伸缩，微服务应用在运行时动态增删节点，就不再需要考虑缓存数据如何同步的问题。
+
+
+### 7、你如何理解 SpringBoot 中的 Starters？
+
+Starters可以理解为启动器，它包含了一系列可以集成到应用里面的依赖包，你可以一站式集成 Spring 及其他技术，而不需要到处找示例代码和依赖包。如你想使用 Spring JPA 访问数据库，只要加入 spring-boot-starter-data-jpa 启动器依赖就能使用了。
+
+
+### 8、spring 支持集中 bean scope？
+
+**Spring bean 支持 5 种 scope：**
+
+**1、** Singleton - 每个 Spring IoC 容器仅有一个单实例。
+
+**2、** Prototype - 每次请求都会产生一个新的实例。
+
+**3、** Request - 每一次 HTTP 请求都会产生一个新的实例，并且该 bean 仅在当前 HTTP 请求内有效。
+
+**4、** Session - 每一次 HTTP 请求都会产生一个新的 bean，同时该 bean 仅在当前 HTTP session 内有效。
+
+**5、** Global-session - 类似于标准的 HTTP Session 作用域，不过它仅仅在基于 portlet 的 web 应用中才有意义。 Portlet 规范定义了全局 Session 的概念，它被所有构成某个 portlet web 应用的各种不同的 portlet 所共享。 在 global session 作用域中定义的 bean 被限定于全局 portlet Session 的生命周期范围内。 如果你在 web 中使用 global session 作用域来标识 bean，那么 web 会自动当成 session 类型来使用。
+
+**6、** 仅当用户使用支持 Web 的 ApplicationContext 时，最后三个才可用。
+
+
+### 9、SpringBoot 是否可以使用 XML 配置 ?
+
+SpringBoot 推荐使用 Java 配置而非 XML 配置，但是 SpringBoot 中也可以使用 XML 配置，通过 [@ImportResource ](/ImportResource ) 注解可以引入一个 XML 配置。
+
+
+### 10、保护 SpringBoot 应用有哪些方法？
+
+**1、** 在生产中使用HTTPS
+
+**2、** 使用Snyk检查你的依赖关系
+
+**3、** 升级到最新版本
+
+**4、** 启用CSRF保护
+
+**5、** 使用内容安全策略防止XSS攻击
+
+
+### 11、Spring 应用程序有哪些不同组件？
+### 12、什么是嵌入式服务器？我们为什么要使用嵌入式服务器呢?
+### 13、如何在 spring 中启动注解装配？
+### 14、如何使用 SpringBoot 实现分页和排序？
+### 15、SpringBoot 支持哪些日志框架？推荐和默认的日志框架是哪个？
+### 16、什么是基于注解的容器配置?
+### 17、Web，RESTful API在微服务中的作用是什么？
+### 18、什么是 JavaConfig？
+### 19、什么是领域驱动设计？
+### 20、SpringBoot读取配置文件的方式
+### 21、什么是Spring Cloud Gateway?
+### 22、spring-boot-starter-parent 有什么用 ?
+### 23、什么是SpringBoot？
+### 24、为什么要使用 Spring Cloud 熔断器？
+### 25、SpringBoot 的核心注解是哪个？它主要由哪几个注解组成的？
+### 26、微服务架构有哪些优势？
+### 27、如何集成SpringBoot和ActiveMQ？
+### 28、使⽤中碰到的坑
+### 29、bootstrap.yml和application.yml有什么区别?
+### 30、Spring MVC中函数的返回值是什么？
+### 31、[@Autowired ](/Autowired ) 注解有什么用？
 
 
 
@@ -121,12 +128,8 @@ SpringBoot无法通过@Value给静态变量赋值
 ### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/?p=67)
 
 
-## 其他，高清PDF：172份，7701页，最新整理
+## 最新，高清PDF：172份，7701页，最新整理
 
-[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/mst.png "大厂面试题")](https://souyunku.lanzous.com/b0alp9b9g "大厂面试题")
+[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/mst.png "大厂面试题")](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png"大厂面试题")
 
-## 关注公众号：架构师专栏，回复：“面试题”，即可
-
-[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/jiagoushi.png "架构师专栏")](https://souyunku.lanzous.com/b0alp9b9g "架构师专栏")
-
-## 关注公众号：架构师专栏，回复：“面试题”，即可
+[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png "架构师专栏")](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png "架构师专栏")

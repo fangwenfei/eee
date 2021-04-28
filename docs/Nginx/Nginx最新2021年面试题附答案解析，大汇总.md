@@ -8,168 +8,158 @@
 
 
 
-### 1、502错误可能原因
+### 1、Nginx服务器上的Master和Worker进程分别是什么?
 
-**1、** FastCGI进程是否已经启动
-
-**2、** FastCGI worker进程数是否不够
-
-**3、** FastCGI执行时间过长
-
-**1、** fastcgi_connect_timeout 300;
-
-**2、** fastcgi_send_timeout 300;
-
-**3、** fastcgi_read_timeout 300;
-
-**FastCGI Buffer不够**
-
-**1、** nginx和apache一样，有前端缓冲限制，可以调整缓冲参数
-
-**2、** fastcgi_buffer_size 32k;
-
-**3、** fastcgi_buffers 8 32k;
-
-**Proxy Buffer不够**
-
-**1、** 如果你用了Proxying，调整
-
-**2、** proxy_buffer_size 16k;
-
-**3、** proxy_buffers 4 16k;
-
-**php脚本执行时间过长**
-
-将php-fpm.conf的0s的0s改成一个时间
+Master进程：读取及评估配置和维持 ；Worker进程：处理请求。
 
 
-### 2、Nginx目录结构有哪些？
+### 2、ip_hash( IP绑定)
+
+每个请求按访问IP的哈希结果分配，使来自同一个IP的访客固定访问一台后端服务器，`并且可以有效解决动态网页存在的session共享问题`
 
 ```
-[root@localhost ~]# tree /usr/local/nginx
-/usr/local/nginx
-├── client_body_temp
-├── conf                             # Nginx所有配置文件的目录
-│   ├── fastcgi.conf                 # fastcgi相关参数的配置文件
-│   ├── fastcgi.conf.default         # fastcgi.conf的原始备份文件
-│   ├── fastcgi_params               # fastcgi的参数文件
-│   ├── fastcgi_params.default       
-│   ├── koi-utf
-│   ├── koi-win
-│   ├── mime.types                   # 媒体类型
-│   ├── mime.types.default
-│   ├── nginx.conf                   # Nginx主配置文件
-│   ├── nginx.conf.default
-│   ├── scgi_params                  # scgi相关参数文件
-│   ├── scgi_params.default  
-│   ├── uwsgi_params                 # uwsgi相关参数文件
-│   ├── uwsgi_params.default
-│   └── win-utf
-├── fastcgi_temp                     # fastcgi临时数据目录
-├── html                             # Nginx默认站点目录
-│   ├── 50x.html                     # 错误页面优雅替代显示文件，例如当出现502错误时会调用此页面
-│   └── index.html                   # 默认的首页文件
-├── logs                             # Nginx日志目录
-│   ├── access.log                   # 访问日志文件
-│   ├── error.log                    # 错误日志文件
-│   └── nginx.pid                    # pid文件，Nginx进程启动后，会把所有进程的ID号写到此文件
-├── proxy_temp                       # 临时目录
-├── sbin                             # Nginx命令目录
-│   └── nginx                        # Nginx的启动命令
-├── scgi_temp                        # 临时目录
-└── uwsgi_temp                       # 临时目录
+upstream backserver {
+ ip_hash;
+ server 192.168.0.12:88; 
+ server 192.168.0.13:80; 
+}
 ```
 
 
-### 3、漏桶流算法和令牌桶算法知道，漏桶算法#
+### 3、Nginx 常用命令？
 
-漏桶算法是网络世界中流量整形或速率限制时经常使用的一种算法，它的主要目的是控制数据注入到网络的速率，平滑网络上的突发流量。漏桶算法提供了一种机制，通过它，突发流量可以被整形以便为网络提供一个稳定的流量。也就是我们刚才所讲的情况。漏桶算法提供的机制实际上就是刚才的案例：**突发流量会进入到一个漏桶，漏桶会按照我们定义的速率依次处理请求，如果水流过大也就是突发流量过大就会直接溢出，则多余的请求会被拒绝。所以漏桶算法能控制数据的传输速率。**
+**1、** 启动 `nginx` 。
 
-![56_1.png][56_1.png]
+**2、** 停止 `nginx -s stop` 或 `nginx -s quit` 。
 
+**3、** 重载配置 `./sbin/nginx -s reload(平滑重启)` 或 `service nginx reload` 。
 
-### 4、Nginx应用场景？
+**4、** 重载指定配置文件 `.nginx -c /usr/local/nginx/conf/nginx.conf` 。
 
-**1、** http服务器。Nginx是一个http服务可以独立提供http服务。可以做网页静态服务器。
+**5、** 查看 nginx 版本 `nginx -v` 。
 
-**2、** 虚拟主机。可以实现在一台服务器虚拟出多个网站，例如个人网站使用的虚拟机。
+**6、** 检查配置文件是否正确 `nginx -t` 。
 
-**3、** 反向代理，负载均衡。当网站的访问量达到一定程度后，单台服务器不能满足用户的请求时，需要用多台服务器集群可以使用nginx做反向代理。并且多台服务器可以平均分担负载，不会应为某台服务器负载高宕机而某台服务器闲置的情况。
-
-**4、** nginz 中也可以配置安全管理、比如可以使用Nginx搭建API接口网关,对每个接口服务进行拦截。
-
-
-### 5、请解释`ngx_http_upstream_module`的作用是什么?
-
-`ngx_http_upstream_module`用于定义可通过`fastcgi`传递、`proxy`传递、`uwsgi`传递、`Memcached`传递和scgi传递指令来引用的服务器组。
+**7、** 显示帮助信息 `nginx -h` 。
 
 
-### 6、为什么 Nginx 不使用多线程？
+### 4、fair(第三方插件)
 
-Apache: 创建多个进程或线程，而每个进程或线程都会为其分配 cpu 和内存（线程要比进程小的多，所以 worker 支持比 perfork 高的并发），并发过大会榨干服务器资源。
+必须安装upstream_fair模块。
 
-Nginx: 采用单线程来异步非阻塞处理请求（管理员可以配置 Nginx 主进程的工作进程的数量）(epoll)，不会为每个请求分配 cpu 和内存资源，节省了大量资源，同时也减少了大量的 CPU 的上下文切换。所以才使得 Nginx 支持更高的并发。
-
-**Netty、Redis 基本采用相同思路**
-
-
-### 7、Nginx虚拟主机怎么配置?
-
-**1、** 基于域名的虚拟主机，通过域名来区分虚拟主机——应用：外部网站
-
-**2、** 基于端口的虚拟主机，通过端口来区分虚拟主机——应用：公司内部网站，外部网站的管理后台
-
-**3、** 基于ip的虚拟主机。
-
-
-### 8、Nginx如何处理HTTP请求？
-
-Nginx使用反应器模式。主事件循环等待操作系统发出准备事件的信号，这样数据就可以从套接字读取，在该实例中读取到缓冲区并进行处理。单个线程可以提供数万个并发连接。
-
-
-### 9、为什么Nginx性能这么高？
-
-因为他的事件处理机制：异步非阻塞事件处理机制：运用了epoll模型，提供了一个队列，排队解决
-
-
-### 10、Nginx怎么处理请求的？
-
-nginx接收一个请求后，首先由listen和server_name指令匹配server模块，再匹配server模块里的location，location就是实际地址
+对比 weight、ip_hash更加智能的负载均衡算法，fair算法可以根据页面大小和加载时间长短智能地进行负载均衡，响应时间短的优先分配。
 
 ```
-server {#第一个
-    Server区块开始，表示一个独立的虚拟主机站点
-    listen 80；#提供服务的端口，默认 80
-    server_name localhost；#提供服务的域名主机名
-    location / {#第一个
-        location区块开始
-        root html；#站点的根目录，相当于 Nginx的安装目录
-        index index.html index.htm；#默认的首页文件，多个用空格分开
-    }#第一个
-location区块结果
+upstream backserver {
+ server server1; 
+ server server2; 
+ fair; 
+}
+```
+
+哪个服务器的响应速度快，就将请求分配到那个服务器上。
+
+
+### 5、url_hash(第三方插件)
+
+必须安装Nginx的hash软件包
+
+按访问url的hash结果来分配请求，使每个url定向到同一个后端服务器，可以进一步提高后端缓存服务器的效率。
+
+```
+upstream backserver {
+ server squid1:3128; 
+ server squid2:3128; 
+ hash $request_uri; 
+ hash_method crc32; 
+}
 ```
 
 
-### 11、请列举 Nginx 的一些特性。
-### 12、为什么要做动静分离？
-### 13、解释如何在Nginx服务器上添加模块?
-### 14、解释`Nginx`是否支持将请求压缩到上游?
-### 15、Nginx 如何开启压缩？
+### 6、使用“反向代理服务器”的优点是什么?
+
+反向代理服务器可以隐藏源服务器的存在和特征。它充当互联网云和web服务器之间的中间层。这对于安全方面来说是很好的，特别是当您使用web托管服务时。
+
+
+### 7、怎么限制浏览器访问？
+
+```
+## 不允许谷歌浏览器访问 如果是谷歌浏览器返回500
+ if ($http_user_agent ~ Chrome) {
+    return 500;
+}
+```
+
+
+### 8、解释如何在`Nginx`服务器上添加模块?
+
+在编译过程中，必须选择`Nginx`模块，因为`Nginx`不支持模块的运行时间选择。
+
+
+### 9、Nginx 有哪些优点？
+
+**1、** 跨平台、配置简单。
+
+**2、** 非阻塞、高并发连接
+
+**3、** 处理 2-3 万并发连接数，官方监测能支持 5 万并发。
+
+**4、** 内存消耗小
+
+**5、** 开启 10 个 Nginx 才占 150M 内存。
+
+**6、** 成本低廉，且开源。
+
+**7、** 稳定性高，宕机的概率非常小。
+
+
+### 10、Nginx 是如何实现高并发的？
+
+如果一个 server 采用一个进程(或者线程)负责一个request的方式，那么进程数就是并发数。那么显而易见的，就是会有很多进程在等待中。等什么？最多的应该是等待网络传输。其缺点胖友应该也感觉到了，此处不述。
+
+**思考下，Java 的 NIO 和 BIO 的对比哟。**
+
+而 Nginx 的异步非阻塞工作方式正是利用了这点等待的时间。在需要等待的时候，这些进程就空闲出来待命了。因此表现为少数几个进程就解决了大量的并发问题。
+
+Nginx是如何利用的呢，简单来说：同样的 4 个进程，如果采用一个进程负责一个 request 的方式，那么，同时进来 4 个 request 之后，每个进程就负责其中一个，直至会话关闭。期间，如果有第 5 个request进来了。就无法及时反应了，因为 4 个进程都没干完活呢，因此，一般有个调度进程，每当新进来了一个 request ，就新开个进程来处理。
+
+**回想下，BIO 是不是存在酱紫的问题？嘻嘻。**
+
+Nginx 不这样，每进来一个 request ，会有一个 worker 进程去处理。但不是全程的处理，处理到什么程度呢？处理到可能发生阻塞的地方，比如向上游（后端）服务器转发 request ，并等待请求返回。那么，这个处理的 worker 不会这么傻等着，他会在发送完请求后，注册一个事件：“如果 upstream 返回了，告诉我一声，我再接着干”。于是他就休息去了。此时，如果再有 request 进来，他就可以很快再按这种方式处理。而一旦上游服务器返回了，就会触发这个事件，worker 才会来接手，这个 request 才会接着往下走。
+
+**这就是为什么说，Nginx 基于事件模型。**
+
+由于 web server 的工作性质决定了每个 request 的大部份生命都是在网络传输中，实际上花费在 server 机器上的时间片不多。这是几个进程就解决高并发的秘密所在。即：
+
+**webserver 刚好属于网络 IO 密集型应用，不算是计算密集型。**
+
+而正如叔度所说的
+
+**异步，非阻塞，使用 epoll ，和大量细节处的优化**
+
+也正是 Nginx 之所以然的技术基石。
+
+
+### 11、为什么Nginx性能这么高？
+### 12、用`Nginx`服务器解释`-s`的目的是什么?
+### 13、为什么 Nginx 不使用多线程？
+### 14、Nginx 有哪些负载均衡策略？
+### 15、什么是动态资源、静态资源分离？
 ### 16、Nginx配置文件nginx.conf有哪些属性模块?
-### 17、nginx状态码
-### 18、请解释你如何通过不同于 80 的端口开启 Nginx?
-### 19、请解释 ngx_http_upstream_module 的作用是什么?
-### 20、使用“反向代理服务器的优点是什么?
-### 21、请解释 Nginx 如何处理 HTTP 请求。
-### 22、Nginx怎么判断别IP不可访问？
-### 23、用 Nginx 服务器解释-s 的目的是什么?
-### 24、列举Nginx服务器的最佳用途。
-### 25、在 Nginx 中，如何使用未定义的服务器名称来阻止处理请求?
-### 26、请列举Nginx的一些特性？
-### 27、如何用Nginx解决前端跨域问题？
-### 28、Nginx的优缺点？
-### 29、请陈述 stub_status 和 sub_filter 指令的作用是什么?
-### 30、权重 weight
+### 17、解释如何在Nginx服务器上添加模块?
+### 18、nginx状态码
+### 19、在Nginx中如何在URL中保留双斜线?
+### 20、nignx配置
+### 21、正常限制访问频率（正常流量）
+### 22、如何通过不同于80的端口开启Nginx?
+### 23、请解释 Nginx 如何处理 HTTP 请求。
+### 24、Nginx如何处理HTTP请求？
+### 25、Nginx是否支持将请求压缩到上游?
+### 26、Nginx配置高可用性怎么配置？
+### 27、Nginx 如何开启压缩？
+### 28、请解释`ngx_http_upstream_module`的作用是什么?
+### 29、突发限制访问频率（突发流量）
+### 30、如何用Nginx解决前端跨域问题？
 
 
 
@@ -181,12 +171,8 @@ location区块结果
 ### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/?p=67)
 
 
-## 其他，高清PDF：172份，7701页，最新整理
+## 最新，高清PDF：172份，7701页，最新整理
 
-[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/mst.png "大厂面试题")](https://souyunku.lanzous.com/b0alp9b9g "大厂面试题")
+[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/mst.png "大厂面试题")](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png"大厂面试题")
 
-## 关注公众号：架构师专栏，回复：“面试题”，即可
-
-[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/jiagoushi.png "架构师专栏")](https://souyunku.lanzous.com/b0alp9b9g "架构师专栏")
-
-## 关注公众号：架构师专栏，回复：“面试题”，即可
+[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png "架构师专栏")](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png "架构师专栏")

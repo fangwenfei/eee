@@ -8,117 +8,119 @@
 
 
 
-### 1、如何转换init.ora到spfile?
+### 1、解释什么是死锁，如何解决Oracle中的死锁？
 
-使用create spfile from pfile 命令
+简言之就是存在加了锁而没有解锁，可能是使用锁没有提交或者回滚事务，如果是表级锁则不能操作表，客户端处于等在状态，如果是行级锁则不能操作锁定行
 
+**解决办法：**
 
-### 2、说明你可以将FMX转换或反向回到FMB文件吗?
+查找出被锁的表
 
-不，不可能将FMX转换或反向回到FMB文件，以确保它们不会丢失。
+```
+select b.owner,b.object_name,a.session_id,a.locked_mode 
+from v$locked_object a,dba_objects b 
+where b.object_id = a.object_id; 
 
+select b.username,b.sid,b.serial#,logon_time 
+from v$locked_object a,v$session b 
+where a.session_id = b.sid order by b.logon_time;
+```
 
-### 3、存储过程 、函数 、游标 在项目中怎么用的：
+**杀进程中的会话**
 
-**存储过程：**
-
-**2、** 能够批量执行的一组SQL语句，且容易控制事务。但没有返回值，可以通过设置in out|out类型的参数返回结果
-
-**3、** 存储过程可以没有参数,不需要返回值
-
-**函数：**
-
-与存储过程相似，函数可以没有参数,但是一定需要一个返回值
-
-**游标：**
-
-游标类似指针，游标可以执行多个不相关的操作.如果希望当产生了结果集后,对结果集中的数据进行多 种不相关的数据操作
+`alter system kill session "sid,serial#";`
 
 
-### 4、如何启动SESSION级别的TRACE
+### 2、Oracle的导入导出有几种方式，有何区别？
 
-解答:
+**1、** 使用oracle工具 exp/imp
 
-DBMS_SESSION.SET_SQL_TRACE
+**2、** 使用plsql相关工具
 
-ALTER SESSION SET SQL_TRACE = TRUE;
+**方法1.**
 
-49.###
+导入/导出的是二进制的数据， 2.plsql导入/导出的是sql语句的文本文件
 
-这两个ORACLE工具都是用来将数据导入数据库的。
+**3、** sqlloader
 
-区别是：IMPORT工具只能处理由另一个ORACLE工具EXPORT生成
-
-的数据。而SQL*LOADER可以导入不同的ASCII格式的数据源
+**4、** dblink
 
 
-### 5、索引是用来干什么的？有那些约束建立索引？
+### 3、Oracle跟SQL Server 2005的区别？
 
-**说下你怎么使用索引的？使用索引的好处和坏处？**
+**宏观上：**
 
-**1、** 索引用于对指定字段查询时，提升查询速度。
+**1、** 最大的区别在于平台，oracle可以运行在不同的平台上，sql server只能运行在windows平台上，由于windows平台的稳定性和安全性影响了sql server的稳定性和安全性
 
-**2、** 主要有B树索引，位图索引，函数索引。
+**2、** oracle使用的脚本语言为PL-SQL，而sql server使用的脚本为T-SQL
 
-**3、** 对查询频率比较高的字段做索引，但一张表不要做太多索引。
+**微观上：**
 
-**4、** 索引能提升查询效率，但它占用存储空间，且在更新数据时也会影响更新效率。
-
-
-### 6、解释$$ORACLE_HOME和$$ORACLE_BASE的区别？
-
-ORACLE_BASE是oracle的根目录，ORACLE_HOME是oracle产品的目录。
+**1、** 从数据类型,数据库的结构等等回答
 
 
-### 7、如何判断数据库的时区？
+### 4、如何判断数据库的时区？
 
 SELECT DBTIMEZONE FROM DUAL;
 
 
-### 8、解释$$ORACLE_HOME和$$ORACLE_BASE的区别？
+### 5、哪个column可以用来区别V$$视图和GV$$视图?
 
-ORACLE_BASE是oracle的根目录，ORACLE_HOME是oracle产品的目录
-
-
-### 9、回滚段的作用是什么
-
-事务回滚：当事务修改表中数据的时候，该数据修改前的值(即前影像)会存放在回滚段中，当用户回滚事务(ROLLBACK)时，ORACLE将会利用回滚段中的数据前影像来将修改的数据恢复到原来的值。
-
-事务恢复：当事务正在处理的时候，例程失败，回滚段的信息保存在undo表空间中，ORACLE将在下次打开数据库时利用回滚来恢复未提交的数据。
-
-**1、** 读一致性：当一个会话正在修改数据时，其他的会话将看不到该会话未提交的修改。
-
-**2、** 当一个语句正在执行时，该语句将看不到从该语句开始执行后的未提交的修改(语句级读一致性)。
-
-**3、** 当ORACLE执行Select语句时，ORACLE依照当前的系统改变号(SYSTEM CHANGE NUMBER-SCN)。
-
-**4、** 来保证任何前于当前SCN的未提交的改变不被该语句处理。可以想象：当一个长时间的查询正在执行时。
-
-**5、** 若其他会话改变了该查询要查询的某个数据块，ORACLE将利用回滚段的数据前影像来构造一个读一致性视图。
+INST_ID 指明集群环境中具体的 某个instance 。
 
 
-### 10、Coalescing做了什么？
+### 6、Oralce怎样存储文件，能够存储哪些文件？
 
-Coalescing针对于字典管理的tablespace进行碎片整理，将临近的小extents合并成单个的大extent.
+**1、** Oracle 能存储 clob、nclob、 blob、 bfile
+
+**2、** Clob 可变长度的字符型数据，也就是其他数据库中提到的文本型数据类型
+
+**3、** Nclob 可变字符类型的数据，不过其存储的是Unicode字符集的字符数据
+
+**4、** Blob 可变长度的二进制数据
+
+**5、** Bfile 数据库外面存储的可变二进制数据
 
 
-### 11、给出在STAR SCHEMA中的两种表及它们分别含有的数据
-### 12、ORA-01555的应对方法？
-### 13、给出在STAR SCHEMA中的两种表及它们分别含有的数据
-### 14、如何生成explain plan?
-### 15、说明如何在指定的块中迭代项目和记录?
-### 16、如何判断谁往表里增加了一条纪录？
-### 17、哪个column可以用来区别V$$视图和GV$$视图?
-### 18、如何在tablespace里增加数据文件？
-### 19、在千万级的数据库查询中，如何提高效率？
-### 20、使用索引的理由
-### 21、列出Oracle Forms配置文件?
-### 22、pctused and pctfree 表示什么含义有什么作用？
-### 23、说下 Oracle的导入导出有几种方式，有何区别？
-### 24、集合操作符
-### 25、可以从表单执行动态SQL吗?
-### 26、Oracle中function和procedure的区别？
-### 27、用于网络连接的2个文件？
+### 7、哪个VIEW用来检查数据文件的大小？
+
+DBA_DATA_FILES
+
+
+### 8、给出两个检查表结构的方法
+
+**1、** DESCRIBE命令
+
+**2、**  DBMS_METADATA.GET_DDL 包
+
+
+### 9、ORA-01555的应对方法?
+
+具体的出错信息是snapshot too old within rollback seg , 通常可以通过增大rollback seg来解决问题。当然也需要察看一下具体造成错误的SQL文本
+
+
+### 10、如何变动数据文件的大小？
+
+ALTER DATABASE DATAFILE <datafile_name> RESIZE <new_size>;
+
+
+### 11、比较truncate和delete 命令
+### 12、解释data block , extent 和 segment的区别（这里建议用英文术语）
+### 13、用于网络连接的2个文件？
+### 14、给出数据库正常启动所经历的几种状态 ?
+### 15、解释data block , extent 和 segment的区别？
+### 16、FACT Table上需要建立何种索引?
+### 17、当用户进程出错，哪个后台进程负责清理它
+### 18、说下 Oracle中有哪几种文件？
+### 19、集合操作符
+### 20、解释$$ORACLE_HOME和$$ORACLE_BASE的区别？
+### 21、解释冷备份和热备份的不同点以及各自的优点
+### 22、说一下，Oracle的分区有几种
+### 23、哪个VIEW用来判断tablespace的剩余空间
+### 24、如何建立一个备份控制文件？
+### 25、FACT Table上需要建立何种索引？
+### 26、说下 Oracle的导入导出有几种方式，有何区别？
+### 27、如何定位重要(消耗资源多)的SQL
 
 
 
@@ -130,12 +132,8 @@ Coalescing针对于字典管理的tablespace进行碎片整理，将临近的小
 ### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/?p=67)
 
 
-## 其他，高清PDF：172份，7701页，最新整理
+## 最新，高清PDF：172份，7701页，最新整理
 
-[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/mst.png "大厂面试题")](https://souyunku.lanzous.com/b0alp9b9g "大厂面试题")
+[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/mst.png "大厂面试题")](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png"大厂面试题")
 
-## 关注公众号：架构师专栏，回复：“面试题”，即可
-
-[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/jiagoushi.png "架构师专栏")](https://souyunku.lanzous.com/b0alp9b9g "架构师专栏")
-
-## 关注公众号：架构师专栏，回复：“面试题”，即可
+[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png "架构师专栏")](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png "架构师专栏")

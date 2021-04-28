@@ -8,91 +8,84 @@
 
 
 
-### 1、这个Dao接口的工作原理是什么？Dao接口里的方法，参数不同时，方法能重载吗
+### 1、Hibernate 和 MyBatis 的区别
 
-Dao接口的工作原理是JDK动态代理，Mybatis运行时会使用JDK动态代理为Dao接口生成代理proxy对象，代理对象proxy会拦截接口方法，转而执行MappedStatement所代表的sql，然后将sql执行结果返回。
+**相同点**
 
-Dao接口里的方法，是不能重载的，因为是全限名+方法名的保存和寻找策略。
+都是对jdbc的封装，都是持久层的框架，都用于dao层的开发。
 
+**不同点**
 
-### 2、Mybatis是否支持延迟加载？如果支持，它的实现原理是什么？
+映射关系
 
-Mybatis仅支持association关联对象和collection关联集合对象的延迟加载，association指的就是一对一，collection指的就是一对多查询。在Mybatis配置文件中，可以配置是否启用延迟加载lazyLoadingEnabled=true|false。
+MyBatis 是一个半自动映射的框架，配置Java对象与sql语句执行结果的对应关系，多表关联关系配置简单
 
-它的原理是，使用CGLIB创建目标对象的代理对象，当调用目标方法时，进入拦截器方法，比如调用a.getB().getName()，拦截器invoke()方法发现a.getB()是null值，那么就会单独发送事先保存好的查询关联B对象的sql，把B查询上来，然后调用a.setB(b)，于是a的对象b属性就有值了，接着完成a.getB().getName()方法的调用。这就是延迟加载的基本原理。
+Hibernate 是一个全表映射的框架，配置Java对象与数据库表的对应关系，多表关联关系配置复杂
 
-当然了，不光是Mybatis，几乎所有的包括Hibernate，支持延迟加载的原理都是一样的。
+**SQL优化和移植性**
 
+Hibernate 对SQL语句封装，提供了日志、缓存、级联（级联比 MyBatis 强大）等特性，此外还提供 HQL（Hibernate Query Language）操作数据库，数据库无关性支持好，但会多消耗性能。如果项目需要支持多种数据库，代码开发量少，但SQL语句优化困难。
 
-### 3、Mybatis的Xml映射文件中，不同的Xml映射文件，id是否可以重复？
-
-不同的Xml映射文件，如果配置了namespace，那么id可以重复；如果没有配置namespace，那么id不能重复；
-
-原因就是namespace+id是作为Map`<String, MapperStatement>`的key使用的，如果没有namespace，就剩下id，那么，id重复会导致数据互相覆盖。有了namespace，自然id就可以重复，namespace不同，namespace+id自然也就不同。
+MyBatis 需要手动编写 SQL，支持动态 SQL、处理列表、动态生成表名、支持存储过程。开发工作量相对大些。直接使用SQL语句操作数据库，不支持数据库无关性，但sql语句优化容易。
 
 
-### 4、Mybatis的表关联的映射？
+### 2、JDBC编程有哪些不足之处，Mybatis是如何解决这些问题的？
 
-**1、** 一对一关联 Property: 对象属性名称 javaType: 对象属性的类型 column: 所对应的外键字段的名称 select: 使用另一个查询封装的结果
+**1、** 数据库连接的创建、释放频繁造成系统资源浪费从而影响了性能，如果使用数据库连接池就可以解决这个问题。当然JDBC同样能够使用数据源。
 
-**2、** 一对多关联
+**2、** 在SQLMapConfig.xml中配置数据连接池，使用数据库连接池管理数据库连接。
 
-**3、** 多对多关联
+**3、** SQL语句在写代码中不容易维护，事件需求中SQL变化的可能性很大，SQL变动需要改变JAVA代码。解决：将SQL语句配置在mapper.xml文件中与java代码分离。
 
+**4、** 向SQL语句传递参数麻烦，因为SQL语句的where条件不一定，可能多，也可能少，占位符需要和参数一一对应。解决：Mybatis自动将java对象映射到sql语句。
 
-### 5、MyBatis 里面的动态 Sql 是怎么设定的?用什么语法?
-
-MyBatis 里面的动态 Sql 一般是通过 if 节点来实现,通过 OGNL 语法来实现,但是如果要
-
-写的完整,必须配合 where,trim 节点,where 节点是判断包含节点有内容就插入 where,否则不
-
-插入,trim 节点是用来判断如果动态语句是以 and 或 or 开始,那么会自动把这个 and 或者 or
-
-取掉。
+**5、** 对结果集解析麻烦，sql变化导致解析代码变化，且解析前需要遍历，如果能将数据库记录封装成pojo对象解析比较方便。解决：Mbatis自动将SQL执行结果映射到java对象。
 
 
-### 6、如何获取生成的主键
+### 3、为什么说Mybatis是半自动ORM映射工具？它与全自动的区别在哪里？
 
-**新增标签中添加：keyProperty=" ID " 即可**
-
-```
-<insert id="insert" useGeneratedKeys="true" keyProperty="userId" >
-    insert into user( 
-    user_name, user_password, create_time) 
-    values(#{userName},{userPassword} ,{createTime, jdbcType= TIMESTAMP})
-</insert>
-```
-
-![](https://gitee.com/souyunkutech/souyunku-home/raw/master/images/souyunku-web/2020/5/2/041/14/55_4.png#alt=55%5C_4.png)
+Hibernate属于全自动ORM映射工具，使用Hibernate查询关联对象或者关联集合对象时，可以根据对象关系模型直接获取，所以它是全自动的。而Mybatis在查询关联对象或关联集合对象时，需要手动编写sql来完成，所以，称之为半自动ORM映射工具。
 
 
-### 7、Mybatis 是否支持延迟加载？如果支持，它的实现原理是什么？
+### 4、Mybatis的Xml映射文件中，不同的Xml映射文件，id是否可以重复？
 
-**1、** Mybatis 仅支持 association 关联对象和 collection 关联集合对象的延迟加载，association
+不同的Xml映射文件，如果配置了namespace，那么id可以重复；如果没有配置namespace，那么id不能重复；毕竟namespace不是必须的，只是最佳实践而已。
 
-指的就是一对一，collection 指的就是一对多查询。在 Mybatis 配置文件中，可以配置是否
-
-启用延迟加载 lazyLoadingEnabled=true|false。
-
-**2、** 它的原理是，使用 CGLIB 创建目标对象的代理对象，当调用目标方法时，进入拦截器方
-
-法，比如调用 a.getB().getName()，拦截器 invoke()方法发现 a.getB()是 null 值，那么就会单
-
-独发送事先保存好的查询关联 B 对象的 sql，把 B 查询上来，然后调用 a.setB(b)，于是 a 的
-
-对象 b 属性就有值了，接着完成 a.getB().getName()方法的调用。这就是延迟加载的基本原
-
-理。
+原因就是namespace+id是作为Map<String, MappedStatement>的key使用的，如果没有namespace，就剩下id，那么，id重复会导致数据互相覆盖。有了namespace，自然id就可以重复，namespace不同，namespace+id自然也就不同。
 
 
-### 8、MyBatis与hibernate有哪些不同？
+### 5、什么是MyBatis的接口绑定？有哪些实现方式？
 
-**1、** Mybatis MyBatis 是支持定制化 SQL、存储过程以及高级映射的一种持久层框架。MyBatis 避免了几乎所有的 JDBC 代码和手动设置参数以及获取结果集。Mybatis它不完全是一个ORM(对象关系映射)框架；它需要程序员自己编写部分SQL语句。 mybatis可以通过xml或者注解的方式灵活的配置要运行的SQL语句，并将java对象和SQL语句映射生成最终的执行的SQL，最后将SQL执行的结果在映射生成java对象。 Mybatis程序员可以直接的编写原生态的SQL语句，可以控制SQL执行性能，灵活度高，适合软件需求变换频繁的企业。 缺点：Mybatis无法做到数据库无关性，如果需要实现支持多种数据库的软件，则需要自定义多套SQL映射文件，工作量大。
+接口绑定，就是在MyBatis中任意定义接口,然后把接口里面的方法和SQL语句绑定, 我们直接调用接口方法就可以,这样比起原来了SqlSession提供的方法我们可以有更加灵活的选择和设置。
 
-**2、** Hibernate Hibernate是支持定制化 SQL、存储过程以及高级映射的一种持久层框架。 Hibernate对象-关系映射能力强，数据库的无关性好，Hirberate可以自动生成SQL语句，对于关系模型要求高的软件，如果用HIrbernate开发可以节省很多时间。
+接口绑定有两种实现方式,一种是通过注解绑定，就是在接口的方法上面加上 @Select、@Update等注解，里面包含Sql语句来绑定；另外一种就是通过xml里面写SQL来绑定, 在这种情况下,要指定xml映射文件里面的namespace必须为接口的全路径名。当Sql语句比较简单时候,用注解绑定, 当SQL语句比较复杂时候,用xml绑定,一般用xml绑定的比较多。
 
 
-### 9、Mybatis映射文件中，如果A标签通过include引用了B标签的内容
+### 6、简述Mybatis的Xml映射文件和Mybatis内部数据结构之间的映射关系？
+
+Mybatis将所有Xml配置信息都封装到All-In-One重量级对象Configuration内部。在Xml映射文件中，`<parameterMap>`标签会被解析为ParameterMap对象，其每个子元素会被解析为ParameterMapping对象。`<resultMap>`标签会被解析为ResultMap对象，其每个子元素会被解析为ResultMapping对象。每一个`<select>`、`<insert>`、`<update>`、`<delete>`标签均会被解析为MappedStatement对象，标签内的sql会被解析为BoundSql对象。
+
+
+### 7、Mybatis都有哪些Executor执行器？它们之间的区别是什么？
+
+Mybatis有三种基本的Executor执行器，SimpleExecutor、ReuseExecutor、BatchExecutor。
+
+**SimpleExecutor**：
+
+每执行一次update或select，就开启一个Statement对象，用完立刻关闭Statement对象。
+
+**ReuseExecutor**：
+
+执行update或select，以sql作为key查找Statement对象，存在就使用，不存在就创建，用完后，不关闭Statement对象，而是放置于Map<String, Statement>内，供下一次使用。简言之，就是重复使用Statement对象。
+
+**BatchExecutor**：
+
+执行update（没有select，JDBC批处理不支持select），将所有sql都添加到批处理中（addBatch()），等待统一执行（executeBatch()），它缓存了多个Statement对象，每个Statement对象都是addBatch()完毕后，等待逐一执行executeBatch()批处理。与JDBC批处理相同。
+
+作用范围：Executor的这些特点，都严格限制在SqlSession生命周期范围内。
+
+
+### 8、Mybatis映射文件中，如果A标签通过include引用了B标签的内容
 
 **请问，B标签能否定义在A标签的后面，还是说必须定义在A标签的前面？**
 
@@ -101,26 +94,45 @@ MyBatis 里面的动态 Sql 一般是通过 if 节点来实现,通过 OGNL 语�
 原理是，Mybatis解析A标签，发现A标签引用了B标签，但是B标签尚未解析到，尚不存在，此时，Mybatis会将A标签标记为未解析状态，然后继续解析余下的标签，包含B标签，待所有标签解析完毕，Mybatis会重新解析那些被标记为未解析的标签，此时再解析A标签时，B标签已经存在，A标签也就可以正常解析完成了。
 
 
-### 10、SQLMapConfig.xml中配置有哪些内容？
+### 9、在 mapper 中如何传递多个参数？
 
-properties（属性） settings（配置） typeAliases（类型别名） typeHandlers（类型处理器） objectFactory（对象工厂） plugins（插件） environments（环境集合属性对象） environment（环境子属性对象） transactionManager（事务管理） dataSource（数据源） mappers（映射器）
+**1、** 直接在方法中传递参数，xml 文件用#{0} #{1}来获取
+
+**2、** 使用 [@param ](/param ) 注解:这样可以直接在 xml 文件中通过#{name}来获取
 
 
-### 11、Hibernate 和 MyBatis 的区别
-### 12、JDBC编程有哪些不足之处，Mybatis是如何解决这些问题的？
-### 13、Mybatis 的 Xml 映射文件中，不同的 Xml 映射文件，id 是否可以重复？
-### 14、Mapper 编写有几种方式 ？
-### 15、JDBC编程有哪些不足之处，MyBatis是如何解决的？
-### 16、Xml 映射文件中，除了常见的 select|insert|updae|delete 标签之外，还有哪些标签？
-### 17、Mybatis 映射文件中，如果 A 标签通过 include 引用了 B 标签的内容，请问，B 标签能
-### 18、Mybatis 中如何执行批处理？
-### 19、MyBatis框架适用场合：
-### 20、接口绑定有几种实现方式,分别是怎么实现的?
-### 21、#{}和${}的区别
-### 22、什么是MyBatis的接口绑定？有哪些实现方式？
-### 23、Mybatis优缺点
-### 24、Mybatis的映射文件 ？
-### 25、为什么需要预编译
+### 10、Mybatis 映射文件中，如果 A 标签通过 include 引用了 B 标签的内容，请问，B 标签能
+
+否定义在 A 标签的后面，还是说必须定义在 A 标签的前面？
+
+虽然 Mybatis 解析 Xml 映射文件是按照顺序解析的，但是，被引用的 B 标签依然可以
+
+定义在任何地方，Mybatis 都可以正确识别。原理是，Mybatis 解析 A 标签，发现 A 标签引
+
+用了 B 标签，但是 B 标签尚未解析到，尚不存在，此时，Mybatis 会将 A 标签标记为未解
+
+析状态，然后继续解析余下的标签，包含 B 标签，待所有标签解析完毕，Mybatis 会重新
+
+解析那些被标记为未解析的标签，此时再解析 A 标签时，B 标签已经存在，A 标签也就可
+
+以正常解析完成了。
+
+
+### 11、MyBatis框架适用场合：
+### 12、MyBatis实现一对多有几种方式,怎么操作的？
+### 13、Mybatis的表关联的映射？
+### 14、Mybaits的优点：
+### 15、Mybatis是如何进行分页的？分页插件的原理是什么？
+### 16、MyBatis是什么？
+### 17、Mybatis动态sql是做什么的？都有哪些动态sql？
+### 18、什么是 MyBatis 的接口绑定,有什么好处？
+### 19、Mybatis 中如何执行批处理？
+### 20、Xml映射文件中，除了常见的select|insert|updae|delete标签之外，还有哪些标签？
+### 21、Mybatis的Xml映射文件中，不同的Xml映射文件，id是否可以重复？
+### 22、这个Dao接口的工作原理是什么？Dao接口里的方法，参数不同时，方法能重载吗
+### 23、使用Mybatis的mapper接口调用时候有哪些要求？
+### 24、Mybatis是否支持延迟加载？如果支持，它的实现原理是什么？
+### 25、#{}和${}的区别是什么？
 
 
 
@@ -132,12 +144,8 @@ properties（属性） settings（配置） typeAliases（类型别名） typeHa
 ### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/?p=67)
 
 
-## 其他，高清PDF：172份，7701页，最新整理
+## 最新，高清PDF：172份，7701页，最新整理
 
-[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/mst.png "大厂面试题")](https://souyunku.lanzous.com/b0alp9b9g "大厂面试题")
+[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/mst.png "大厂面试题")](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png"大厂面试题")
 
-## 关注公众号：架构师专栏，回复：“面试题”，即可
-
-[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/jiagoushi.png "架构师专栏")](https://souyunku.lanzous.com/b0alp9b9g "架构师专栏")
-
-## 关注公众号：架构师专栏，回复：“面试题”，即可
+[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png "架构师专栏")](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png "架构师专栏")

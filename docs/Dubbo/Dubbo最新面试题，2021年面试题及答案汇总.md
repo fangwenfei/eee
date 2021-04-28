@@ -8,108 +8,102 @@
 
 
 
-### 1、默认使用什么序列化框架，你知道的还有哪些？
+### 1、Dubbo 能集成 SpringBoot 吗？
 
-推荐使用Hessian序列化，还有Dubbo、FastJson、Java自带序列化。
-
-
-### 2、同一个服务多个注册的情况下可以直连某一个服务吗？
-
-可以直连，修改配置即可，也可以通过telnet直接某个服务。
+可以的
 
 
-### 3、Dubbo 有哪些注册中心？
+### 2、dubbo 在安全机制方面如何解决的？
 
-**1、** Multicast 注册中心：Multicast 注册中心不需要任何中心节点，只要广播地址，就能进行服务注册和发现,基于网络中组播传输实现。
-
-**2、** Zookeeper 注册中心：基于分布式协调系统 Zookeeper 实现，采用 Zookeeper 的 watch 机制实现数据变更。
-
-**3、** Redis 注册中心：基于 Redis 实现，采用 key/map 存储，key 存储服务名和类型，map 中 key 存储服务 url，value 服务过期时间。基于 Redis 的发布/订阅模式通知数据变更。
-
-**4、** Simple 注册中心。
-
-**5、** 推荐使用 Zookeeper 作为注册中心
+dubbo 通过 token 令牌防止用户绕过注册中心直连，然后在注册中心管理授权，dubbo 提供了黑白名单，控制服务所允许的调用方。
 
 
-### 4、Dubbo 超时时间怎样设置？
+### 3、Dubbo 超时设置有哪些方式？
 
-Dubbo 超时时间设置有两种方式：
+Dubbo 超时设置有两种方式：
 
-服务提供者端设置超时时间，在 Dubbo 的用户文档中，推荐如果能在服务端多配置就尽量多配置，因为服务提供者比消费者更清楚自己提供的服务特性。
+**1、** 服务提供者端设置超时时间，在Dubbo的用户文档中，推荐如果能在服务端多配置就尽量多配置，因为服务提供者比消费者更清楚自己提供的服务特性。
 
-服务消费者端设置超时时间，如果在消费者端设置了超时时间，以消费者端为主，即优先级更高。因为服务调用方设置超时时间控制性更灵活。如果消费方超时，服务端线程不会定制，会产生警告。
+**2、** 服务消费者端设置超时时间，如果在消费者端设置了超时时间，以消费者端为主，即优先级更高。因为服务调用方设置超时时间控制性更灵活。如果消费方超时，服务端线程不会定制，会产生警告。
 
 
-### 5、Dubbo 和 Spring Cloud 有什么关系？
+### 4、Dubbo 支持哪些协议，每种协议的应用场景，优缺点？
+
+dubbo： 单一长连接和 NIO 异步通讯，适合大并发小数据量的服务调用，以及消费者远大于提供者。传输协议 TCP，异步，Hessian 序列化；
+
+rmi： 采用 JDK 标准的 rmi 协议实现，传输参数和返回参数对象需要实现 Serializable 接口，使用 java 标准序列化机制，使用阻塞式短连接，传输数据包大小混合，消费者和提供者个数差不多，可传文件，传输协议 TCP。 多个短连接，TCP 协议传输，同步传输，适用常规的远程服务调用和 rmi 互操作。在依赖低版本的 Common-Collections 包，java 序列化存在安全漏洞；
+
+webservice:基于 WebService 的远程调用协议，集成 CXF 实现，提供和原生 WebService 的互操作。多个短连接，基于 HTTP 传输，同步传输，适用系统集成和跨语言调用；http： 基于 Http 表单提交的远程调用协议，使用 Spring 的 HttpInvoke 实现。多个短连接，传输协议 HTTP，传入参数大小混合，提供者个数多于消费者，需要给应用程序和浏览器 JS 调用； hessian： 集成 Hessian 服务，基于 HTTP 通讯，采用 Servlet 暴露服务，Dubbo 内嵌 Jetty 作为服务器时默认实现，提供与 Hession 服务互操作。多个短连接，同步 HTTP 传输，Hessian 序列化，传入参数较大，提供者大于消费者，提供者压力较大，可传文件；
+
+memcache： 基于 Memcached 实现的 RPC 协议 Redis： 基于 Redis 实现的 RPC 协议
+
+
+### 5、Dubbo 支持分布式事务吗？
+
+**1、** 目前暂时不支持，可与通过 tcc-transaction 框架实现
+
+**2、** 介绍：tcc-transaction 是开源的 TCC 补偿性分布式事务框架
+
+**3、** TCC-Transaction 通过 Dubbo 隐式传参的功能，避免自己对业务代码的入侵。
+
+
+### 6、Dubbo Monitor 实现原理？
+
+Consumer 端在发起调用之前会先走 filter 链；provider 端在接收到请求时也是先走 filter 链，然后才进行真正的业务逻辑处理。默认情况下，在 consumer 和 provider 的 filter 链中都会有 Monitorfilter。
+
+**1、** MonitorFilter 向 DubboMonitor 发送数据
+
+**2、** DubboMonitor 将数据进行聚合后（默认聚合 1min 中的统计数据）暂存到ConcurrentMap<Statistics, AtomicReference> statisticsMap，然后使用一个含有 3 个线程（线程名字：DubboMonitorSendTimer）的线程池每隔 1min 钟，调用 SimpleMonitorService 遍历发送 statisticsMap 中的统计数据，每发送完毕一个，就重置当前的 Statistics 的 AtomicReference
+
+**3、** SimpleMonitorService 将这些聚合数据塞入 BlockingQueue queue 中（队列大写为 100000）
+
+**4、** SimpleMonitorService 使用一个后台线程（线程名为：DubboMonitorAsyncWriteLogThread）将 queue 中的数据写入文件（该线程以死循环的形式来写）
+
+**5、** SimpleMonitorService 还会使用一个含有 1 个线程（线程名字：DubboMonitorTimer）的线程池每隔 5min 钟，将文件中的统计数据画成图表
+
+
+### 7、集群容错怎么做？
+
+读操作建议使用 Failover 失败自动切换，默认重试两次其他服务器。写操作建议使用 Failfast 快速失败，发一次调用失败就立即报错。
+
+
+### 8、Dubbo 的注册中心集群挂掉，发布者和订阅者之间还能通信么？
+
+可以通讯。启动 Dubbo 时，消费者会从 Zookeeper 拉取注册的生产者的地址接口等数据，缓存在本地。每次调用时，按照本地存储的地址进行调用。
+
+
+### 9、Dubbo 和 Spring Cloud 有什么关系？
 
 Dubbo 是 SOA 时代的产物，它的关注点主要在于服务的调用，流量分发、流量监控和熔断。而 Spring Cloud 诞生于微服务架构时代，考虑的是微服务治理的方方面面，另外由于依托了 Spring、SpringBoot 的优势之上，两个框架在开始目标就不一致，Dubbo 定位服务治理、Spring Cloud 是打造一个生态。
 
 
-### 6、dubbo 推荐用什么协议？
+### 10、Dubbo 和 Spring Cloud 有什么哪些区别？
 
-默认使用 dubbo 协议。
+Dubbo 底层是使用 Netty 这样的 NIO 框架，是基于 TCP 协议传输的，配合以 Hession 序列化完成 RPC 通信。
 
-
-### 7、为什么要用Dubbo？
-
-随着服务化的进一步发展，服务越来越多，服务之间的调用和依赖关系也越来越复杂，诞生了面向服务的架构体系(SOA)，
-
-也因此衍生出了一系列相应的技术，如对服务提供、服务调用、连接处理、通信协议、序列化方式、服务发现、服务路由、日志输出等行为进行封装的服务框架。
-
-就这样为分布式系统的服务治理框架就出现了，Dubbo也就这样产生了。
+Spring Cloud 是基于 Http 协议 Rest 接口调用远程过程的通信，相对来说 Http 请求会有更大的报文，占的带宽也会更多。但是 REST 相比 RPC 更为灵活，服务提供方和调用方的依赖只依靠一纸契约，不存在代码级别的强依赖，这在强调快速演化的微服务环境下，显得更为合适，至于注重通信速度还是方便灵活性，具体情况具体考虑。
 
 
-### 8、Dubbo 和 Spring Cloud 的区别？
-
-根据微服务架构在各方面的要素，看看Spring Cloud和Dubbo都提供了哪些支持。
-
-|  | Dubbo | Spring Cloud |
-| --- | --- | --- |
-| 服务注册中心 | Zookeeper | Spring Cloud Netflix Eureka |
-| 服务调用方式 | RPC | REST API |
-| 服务网关 | 无 | Spring Cloud Netflix Zuul |
-| 断路器 | 不完善 | Spring Cloud Netflix Hystrix |
-| 分布式配置 | 无 | Spring Cloud Config |
-| 服务跟踪 | 无 | Spring Cloud Sleuth |
-| 消息总线 | 无 | Spring Cloud Bus |
-| 数据流 | 无 | Spring Cloud Stream |
-| 批量任务 | 无 | Spring Cloud Task |
-| …… | …… | …… |
-
-
-使用Dubbo构建的微服务架构就像组装电脑，各环节我们的选择自由度很高，但是最终结果很有可能因为一条内存质量不行就点不亮了，总是让人不怎么放心，但是如果你是一名高手，那这些都不是问题；而Spring Cloud就像品牌机，在Spring Source的整合下，做了大量的兼容性测试，保证了机器拥有更高的稳定性，但是如果要在使用非原装组件外的东西，就需要对其基础有足够的了解。
-
-
-### 9、Dubbo 在安全机制方面是如何解决的
-
-Dubbo 通过 Token 令牌防止用户绕过注册中心直连，然后在注册中心上管理授权。Dubbo 还提供服务黑白名单，来控制服务所允许的调用方。
-
-
-### 10、Dubbo 服务降级，失败重试怎么做？
-
-可以通过dubbo:reference 中设置 mock="return null"。mock 的值也可以修改为 true，然后再跟接口同一个路径下实现一个 Mock 类，命名规则是 “接口名称+Mock” 后缀。然后在 Mock 类里实现自己的降级逻辑
-
-
-### 11、RPC使用了哪些关键技术，从服务提供者的角度看：
-### 12、Dubbo 如何优雅停机？
-### 13、服务上线怎么兼容旧版本？
-### 14、服务调用超时会怎么样？
-### 15、Dubbo 使用过程中都遇到了些什么问题？
-### 16、Dubbo 核心组件有哪些？
-### 17、dubbo能做什么
-### 18、RPC的实现基础？
-### 19、服务调用是阻塞的吗？
-### 20、Dubbo 和 Spring Cloud 有什么哪些区别？
-### 21、如何解决服务调用链过长的问题？
-### 22、RPC使用了哪些关键技术，Hessian
-### 23、Dubbo 可以对结果进行缓存吗？
-### 24、Dubbo 支持服务降级吗？
-### 25、Dubbo 和 Spring Cloud 有什么哪些区别？
-### 26、同一个服务多个注册的情况下可以直连某一个服务吗？
-### 27、Dubbo 用到哪些设计模式？
-### 28、dubbo 在安全机制方面如何解决的？
-### 29、Dubbo telnet 命令能做什么？
-### 30、默认使用的是什么通信框架，还有别的选择吗?
+### 11、默认使用的是什么通信框架，还有别的选择吗?
+### 12、什么是RPC
+### 13、Dubbo 在安全方面有哪些措施？
+### 14、Dubbo telnet 命令能做什么？
+### 15、Dubbo必须依赖的包有哪些？
+### 16、说说核心的配置有哪些？
+### 17、Dubbo 用到哪些设计模式？
+### 18、Dubbo 可以对结果进行缓存吗？
+### 19、如何解决服务调用链过长的问题？
+### 20、dubbo 推荐用什么协议？
+### 21、说说核心的配置有哪些？
+### 22、RPC使用了哪些关键技术，序列化和反序列化
+### 23、服务上线怎么不影响旧版本？
+### 24、注册了多个同一样的服务，如果测试指定的某一个服务呢？
+### 25、Dubbo的集群容错方案有哪些？
+### 26、Dubbo 服务器注册与发现的流程？
+### 27、Dubbo 和 Spring Cloud 的关系？
+### 28、Dubbo 集群的负载均衡有哪些策略
+### 29、RPC使用了哪些关键技术，建立通信
+### 30、RPC使用了哪些关键技术，Dubbo
 
 
 
@@ -121,12 +115,8 @@ Dubbo 通过 Token 令牌防止用户绕过注册中心直连，然后在注册�
 ### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/?p=67)
 
 
-## 其他，高清PDF：172份，7701页，最新整理
+## 最新，高清PDF：172份，7701页，最新整理
 
-[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/mst.png "大厂面试题")](https://souyunku.lanzous.com/b0alp9b9g "大厂面试题")
+[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/mst.png "大厂面试题")](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png"大厂面试题")
 
-## 关注公众号：架构师专栏，回复：“面试题”，即可
-
-[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/jiagoushi.png "架构师专栏")](https://souyunku.lanzous.com/b0alp9b9g "架构师专栏")
-
-## 关注公众号：架构师专栏，回复：“面试题”，即可
+[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png "架构师专栏")](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png "架构师专栏")

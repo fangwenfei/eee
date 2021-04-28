@@ -8,123 +8,156 @@
 
 
 
-### 1、Query接口的list方法和iterate方法有什么区别？
+### 1、Java 中，嵌套公共静态类与顶级类有什么不同？
 
-list()方法无法利用一级缓存和二级缓存（对缓存只写不读），它只能在开启查询缓存的前提下使用查询缓存；iterate()方法可以充分利用缓存，如果目标数据只读或者读取频繁，使用iterate()方法可以减少性能开销。
-
-list()方法不会引起N+1查询问题，而iterate()方法可能引起N+1查询问题
+类的内部可以有多个嵌套公共静态类，但是一个 Java 源文件只能有一个顶级公共类，并且顶级公共类的名称与源文件名称必须一致。
 
 
-### 2、在老年代-标记整理算法
+### 2、写一段代码在遍历 ArrayList 时移除一个元素？
 
-因为对象存活率高、没有额外空间对它进行分配担保, 就必须采用“标记—清理”或“标记—整理” 算法来进行回收, 不必进行内存复制, 且直接腾出空闲内存。
-
-
-### 3、Spring中如何使用注解来配置Bean？有哪些相关的注解？
-
-首先需要在Spring配置文件中增加配置：
-
-用@Component、@Controller、@Service、@Repository注解来标注需要由Spring IoC容器进行对象托管的类。
-
-**1、** @Controller通常用于控制器
-
-**2、** @Service通常用于业务逻辑类
-
-**3、** @Repository通常用于DAO类
-
-**4、** 普通的类用@Component来标注。
+该问题的关键在于面试者使用的是 ArrayList 的 remove() 还是 Iterator 的 remove()方法。这有一段[示例代码](http://java67.blogspot.com/2015/10/how-to-solve-concurrentmodificationexception-in-java-arraylist.html)，是使用正确的方式来实现在遍历的过程中移除元素，而不会出现 ConcurrentModificationException 异常的示例代码。
 
 
-### 4、什么是多线程中的上下文切换？
+### 3、ZGC 了解吗？
 
-**1、** 在上下文切换过程中，CPU会停止处理当前运行的程序，并保存当前程序运行的具体位置以便之后继续运行。从这个角度来看，上下文切换有点像我们同时阅读几本书，在来回切换书本的同时我们需要记住每本书当前读到的页码。在程序中，上下文切换过程中的“页码”信息是保存在进程控制块（PCB）中的。PCB还经常被称作“切换桢”（switchframe）。“页码”信息会一直保存到CPU的内存中，直到他们被再次使用。
+JDK11 中加入的具有实验性质的低延迟垃圾收集器，目标是尽可能在不影响吞吐量的前提下，实现在任意堆内存大小都可以把停顿时间限制在 10ms 以内的低延迟。
 
-**2、** 上下文切换是存储和恢复CPU状态的过程，它使得线程执行能够从中断点恢复执行。上下文切换是多任务操作系统和多线程环境的基本特征。
+基于 Region 内存布局，不设分代，使用了读屏障、染色指针和内存多重映射等技术实现可并发的标记-整理，以低延迟为首要目标。
 
-
-### 5、什么是线程池？ 为什么要使用它？
-
-创建线程要花费昂贵的资源和时间，如果任务来了才创建线程那么响应时间会变长，而且一个进程能创建的线程数有限。为了避免这些问题，在程序启动的时候就创建若干线程来响应处理，它们被称为线程池，里面的线程叫工作线程。从JDK1.5开始，Java API提供了Executor框架让你可以创建不同的线程池。
+ZGC 的 Region 具有动态性，是动态创建和销毁的，并且容量大小也是动态变化的。
 
 
-### 6、Java常用包有那些？
-
-**1、** Java.lang
-
-**2、** Java.io
-
-**3、** Java.sql
-
-**4、** Java.util
-
-**5、** Java.awt
-
-**6、** Java.net
-
-**7、** Java.math
-
-
-### 7、JVM 内存区域
-
-JVM 内存区域主要分为线程私有区域【程序计数器、虚拟机栈、本地方法区】、线程共享区域【JAVA 堆、方法区】、直接内存。
-
-线程私有数据区域生命周期与线程相同, 依赖用户线程的启动/结束 而 创建/销毁(在 Hotspot VM 内, 每个线程都与操作系统的本地线程直接映射, 因此这部分内存区域的存/否跟随本地线程的生/死对应)。
-
-线程共享区域随虚拟机的启动/关闭而创建/销毁。
-
-直接内存并不是 JVM 运行时数据区的一部分, 但也会被频繁的使用: 在 JDK 1.4 引入的 NIO 提供了基于Channel与 Buffer的IO方式, 它可以使用Native函数库直接分配堆外内存, 然后使用DirectByteBuffer 对象作为这块内存的引用进行操作(详见: Java I/O 扩展), 这样就避免了在 Java堆和 Native 堆中来回复制数据, 因此在一些场景中可以显著提高性能。
-
-
-### 8、Java 面试中其他各式各样的问题
-
-这部分包含 Java 中关于 XML 的面试题，正则表达式面试题，Java 错误和异常及序列化面试题
-
-
-### 9、Statement和PreparedStatement有什么区别？哪个性能更好？
+### 4、用最有效率的方法计算2乘以8？
 
 
 
-与Statement相比，①PreparedStatement接口代表预编译的语句，它主要的优势在于可以减少SQL的编译错误并增加SQL的安全性（减少SQL注射攻击的可能性）；②PreparedStatement中的SQL语句是可以带参数的，避免了用字符串连接拼接SQL语句的麻烦和不安全；③当批量处理SQL或频繁执行相同的查询时，PreparedStatement有明显的性能上的优势，由于数据库可以将编译优化后的SQL语句缓存起来，下次执行相同结构的语句时就会很快（不用再次编译和生成执行计划）。
+2 << 3（左移3位相当于乘以2的3次方，右移3位相当于除以2的3次方）。
 
-> 补充：为了提供对存储过程的调用，JDBC API中还提供了CallableStatement接口。存储过程（Stored Procedure）是数据库中一组为了完成特定功能的SQL语句的集合，经编译后存储在数据库中，用户通过指定存储过程的名字并给出参数（如果该存储过程带有参数）来执行它。虽然调用存储过程会在网络开销、安全性、性能上获得很多好处，但是存在如果底层数据库发生迁移时就会有很多麻烦，因为每种数据库的存储过程在书写上存在不少的差别。
+**补充：**
+
+我们为编写的类重写hashCode方法时，可能会看到如下所示的代码，其实我们不太理解为什么要使用这样的乘法运算来产生哈希码（散列码），而且为什么这个数是个素数，为什么通常选择31这个数？前两个问题的答案你可以自己百度一下，选择31是因为可以用移位和减法运算来代替乘法，从而得到更好的性能。说到这里你可能已经想到了：31 * num 等价于(num << 5) - num，左移5位相当于乘以2的5次方再减去自身就相当于乘以31，现在的VM都能自动完成这个优化。
+
+```
+public class PhoneNumber {
+    private int areaCode;
+    private String prefix;
+    private String lineNumber;
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + areaCode;
+        result = prime * result
+                + ((lineNumber == null) ? 0 : lineNumber.hashCode());
+        result = prime * result + ((prefix == null) ? 0 : prefix.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        PhoneNumber other = (PhoneNumber) obj;
+        if (areaCode != other.areaCode)
+            return false;
+        if (lineNumber == null) {
+            if (other.lineNumber != null)
+                return false;
+        } else if (!lineNumber.equals(other.lineNumber))
+            return false;
+        if (prefix == null) {
+            if (other.prefix != null)
+                return false;
+        } else if (!prefix.equals(other.prefix))
+            return false;
+        return true;
+    }
+
+}
+```
 
 
+### 5、动态改变构造
 
-### 10、垃圾回收器的基本原理是什么？垃圾回收器可以马上回收内存吗？有什么办法主动通知虚拟机进行垃圾回收？
-
-对于 GC 来说，当程序员创建对象时，GC 就开始监控这个对象的地址、大小以及使用情况。通常，GC 采用有向图的方式记录和管理堆（heap）中的所有对象。通过这种方式确定哪些对象是”可达的”，哪些对象是”不可达的”。当 GC 确定一些对象为“不可达”时，GC 就有责任回收这些内存空间。可以。程序员可以手动执行 System.gc()，通知 GC 运行，但是 Java 语言规范并不保证 GC 一定会执行。
+OSGi 服务平台提供在多种网络设备上无需重启的动态改变构造的功能。为了最小化耦合度和促使这些耦合度可管理， OSGi 技术提供一种面向服务的架构，它能使这些组件动态地发现对方。
 
 
-### 11、React的请求应该放在哪个生命周期中?
-### 12、如何用Java代码列出一个目录下所有的文件？
-### 13、JDBC操作的步骤
-### 14、类与对象的关系?
-### 15、解释什么是Tomcat Valve?
-### 16、说一下 JVM 调优的工具？
-### 17、HashMap的put方法的具体流程？
-### 18、如何通过反射创建对象？
-### 19、重载与重写
-### 20、String str=”aa”,String s=”bb”,String aa=aa+s;一种创建了几个对象？
-### 21、构造方法能不能显式调用？
-### 22、使用Log4j对程序有影响吗？
-### 23、什么是上下文切换?
-### 24、说出 5 条 IO 的最佳实践(答案)
-### 25、什么是重写？什么是重载？
-### 26、谈谈动态年龄判断
-### 27、我能在不进行强制转换的情况下将一个 double 值赋值给 long 类型的变量吗？
-### 28、并发编程三个必要因素是什么？
-### 29、Java中用到的线程调度算法是什么？
-### 30、调优命令有哪些？
-### 31、Java中notify 和 notifyAll有什么区别？
-### 32、JVM 监控与分析工具你用过哪些？介绍一下。
-### 33、线程的状态
-### 34、Java 内存分配与回收策率以及 Minor GC 和 Major GC
-### 35、线程同步的方法
-### 36、是否了解连接池，使用连接池有什么好处？
-### 37、当打开其他程序的网页时，使用的target属性是哪个？
-### 38、synchronized 和 ReentrantLock 区别是什么？
-### 39、我们可以在 hashcode() 中使用随机数字吗？
-### 40、safepoint是什么？
+### 6、有没有可能两个不相等的对象有有相同的 hashcode？
+
+有可能，两个不相等的对象可能会有相同的 hashcode 值，这就是为什么在 hashmap 中会有冲突。相等 hashcode 值的规定只是说如果两个对象相等，必须有相同的hashcode 值，但是没有关于不相等对象的任何规定。
+
+
+### 7、Java Concurrency API中的Lock接口(Lock interface)是什么？对比同步它有什么优势？
+
+Lock接口比同步方法和同步块提供了更具扩展性的锁操作。
+
+他们允许更灵活的结构，可以具有完全不同的性质，并且可以支持多个相关类的条件对象。
+
+**它的优势有**：
+
+**1、** 可以使锁更公平
+
+**2、** 可以使线程在等待锁的时候响应中断
+
+**3、** 可以让线程尝试获取锁，并在无法获取锁的时候立即返回或者等待一段时间
+
+**4、** 可以在不同的范围，以不同的顺序获取和释放锁
+
+**5、** 整体上来说Lock是synchronized的扩展版，Lock提供了无条件的、可轮询的(tryLock方法)、定时的(tryLock带参方法)、可中断的(lockInterruptibly)、可多条件队列的(newCondition方法)锁操作。另外Lock的实现类基本都支持非公平锁(默认)和公平锁，synchronized只支持非公平锁，当然，在大部分情况下，非公平锁是高效的选择。
+
+
+### 8、什么是ORM？
+
+对象关系映射（Object-Relational Mapping，简称ORM）是一种为了解决程序的面向对象模型与数据库的关系模型互不匹配问题的技术
+
+
+### 9、为什么Thread类的sleep()和yield ()方法是静态的？
+
+Thread类的sleep()和yield()方法将在当前正在执行的线程上运行。所以在其他处于等待状态的线程上调用这些方法是没有意义的。这就是为什么这些方法是静态的。它们可以在当前正在执行的线程中工作，并避免程序员错误的认为可以在其他非运行线程调用这些方法。
+
+
+### 10、什么是过滤器？怎么创建一个过滤器
+
+过滤器：在请求发送之后，处理之前对请求的一次拦截，可以更改请求状态或者参数值等。
+
+创建过滤器：实现filter接口，重写doFilter方法，最后在web.xml中配置过滤器
+
+
+### 11、原型模式的应用场景
+### 12、使用Log4j对程序有影响吗？
+### 13、在java中守护线程和本地线程区别？
+### 14、什么是Java Timer 类？如何创建一个有特定时间间隔的任务？
+### 15、CopyOnWriteArrayList 的使用场景?
+### 16、创建一个对象用什么运算符？对象实体与对象引用有何不同？
+### 17、Java 中 interrupted 和 isInterrupted 方法的区别？
+### 18、int 和 Integer 哪个会占用更多的内存？
+### 19、float f=3.4;是否正确？
+### 20、Java中用到的线程调度算法是什么
+### 21、如何合理分配线程池大小?
+### 22、什么是线程调度器(Thread Scheduler)和时间分片(Time Slicing)？
+### 23、Java中集合框架的有几个？
+### 24、Java 中 ++ 操作符是线程安全的吗？
+### 25、程序计数器
+### 26、Java线程数过多会造成什么异常？
+### 27、Spring中Bean的作用域有哪些？
+### 28、Final在java中的作用
+### 29、什么是面向对象？
+### 30、java中有没有指针？
+### 31、short s1 = 1; s1 = s1 + 1;有错吗?short s1 = 1; s1 += 1;有错吗？
+### 32、创建一个子类对象的时候，那么父类的构造方法会执行吗？
+### 33、说一下堆内存中对象的分配的基本策略
+### 34、Java语言采用何种编码方案？有何特点？
+### 35、Thow与thorws区别
+### 36、Java 中会存在内存泄漏?简述一下
+### 37、url是什么？由哪些部分组成？
+### 38、你都有哪些手段用来排查内存溢出？
+### 39、Java 中，编写多线程程序的时候你会遵循哪些最佳实践？
+### 40、怎么检查一个字符串只包含数字？解决方案
 
 
 
@@ -136,12 +169,8 @@ JVM 内存区域主要分为线程私有区域【程序计数器、虚拟机栈�
 ### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/?p=67)
 
 
-## 其他，高清PDF：172份，7701页，最新整理
+## 最新，高清PDF：172份，7701页，最新整理
 
-[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/mst.png "大厂面试题")](https://souyunku.lanzous.com/b0alp9b9g "大厂面试题")
+[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/mst.png "大厂面试题")](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png"大厂面试题")
 
-## 关注公众号：架构师专栏，回复：“面试题”，即可
-
-[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/jiagoushi.png "架构师专栏")](https://souyunku.lanzous.com/b0alp9b9g "架构师专栏")
-
-## 关注公众号：架构师专栏，回复：“面试题”，即可
+[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png "架构师专栏")](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png "架构师专栏")

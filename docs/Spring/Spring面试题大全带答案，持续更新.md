@@ -8,145 +8,119 @@
 
 
 
-### 1、SpringBoot 的自动配置是如何实现的？
+### 1、什么是 Spring IOC 容器？
 
-SpringBoot 项目的启动注解是：@SpringBootApplication，其实它就是由下面三个注解组成的：
+Spring 框架的核心是 Spring 容器。容器创建对象，将它们装配在一起，配置它们并管理它们的完整生命周期。Spring 容器使用依赖注入来管理组成应用程序的组件。容器通过读取提供的配置元数据来接收对象进行实例化，配置和组装的指令。该元数据可以通过 XML，Java 注解或 Java 代码提供。
 
-**1、** [@Configuration ](/Configuration )
+![](https://gitee.com/souyunkutech/souyunku-home/raw/master/images/souyunku-web/2019/08/0816/02/img_2.png#alt=img%5C_2.png)
 
-**2、** [@ComponentScan ](/ComponentScan )
 
-**3、** @EnableAutoConfiguration
+### 2、SpringCloud有几种调用接口方式
 
-其中 @EnableAutoConfiguration 是实现自动配置的入口，该注解又通过 [@Import ](/Import ) 注解导入了AutoConfigurationImportSelector，在该类中加载 META-INF/spring.factories 的配置信息。然后筛选出以 EnableAutoConfiguration 为 key 的数据，加载到 IOC 容器中，实现自动配置功能！
+**1、** Feign
 
+**2、** RestTemplate
 
-### 2、path=”users”, collectionResourceRel=”users” 如何与 Spring Data Rest 一起使用？
 
-path- 这个资源要导出的路径段。
+### 3、网关与过滤器有什么区别
 
-collectionResourceRel- 生成指向集合资源的链接时使用的 rel 值。在生成 HATEOAS 链接时使用。
+网关是对所有服务的请求进行分析过滤，过滤器是对单个服务而言。
 
 
-### 3、创建一个 SpringBoot Project 的最简单的方法是什么？
+### 4、如何使用 SpringBoot 实现异常处理？
 
-Spring Initializr是启动 SpringBoot Projects 的一个很好的工具。
+Spring 提供了一种使用 ControllerAdvice 处理异常的非常有用的方法。我们通过实现一个 ControlerAdvice 类，来处理控制器类抛出的所有异常。
 
-**我们需要做一下几步：**
 
-**1、** 登录 Spring Initializr，按照以下方式进行选择：
+### 5、Spring Cloud Sleuth
 
-**2、** 选择 com.in28minutes.SpringBoot 为组
+在微服务中，通常根据业务模块分服务，项目中前端发起一个请求，后端可能跨几个服务调用才能完成这个请求（如下图）。如果系统越来越庞大，服务之间的调用与被调用关系就会变得很复杂，假如一个请求中需要跨几个服务调用，其中一个服务由于网络延迟等原因挂掉了，那么这时候我们需要分析具体哪一个服务出问题了就会显得很困难。Spring Cloud Sleuth服务链路跟踪功能就可以帮助我们快速的发现错误根源以及监控分析每条请求链路上的性能等等。 ![](https://gitee.com/souyunkutech/souyunku-home/raw/master/images/souyunku-web/2020/5/2/023/45/68_1.png#alt=68%5C_1.png)
 
-**3、** 选择 studet-services 为组件
 
-**4、** 选择下面的依赖项
+### 6、区分构造函数注入和 setter 注入。
+| 构造函数注入 | setter 注入 |
+| --- | --- |
+| 没有部分注入 | 有部分注入 |
+| 不会覆盖 setter 属性 | 会覆盖 setter 属性 |
+| 任意修改都会创建一个新实例 | 任意修改不会创建一个新实例 |
+| 适用于设置很多属性 | 适用于设置少量属性 |
 
-Web
 
-Actuator
 
-DevTools
+### 7、您对Mike Cohn的测试金字塔了解多少？
 
-**5、** 点击生 GenerateProject
+Mike Cohn 提供了一个名为Test Pyramid的模型。这描述了软件开发所需的自动化测试类型。
 
-**6、** 将项目导入 Eclipse。文件 - 导入 - 现有的 Maven 项目
+![](https://gitee.com/souyunkutech/souyunku-home/raw/master/images/souyunku-web/2019/08/0816/01/img_19.png#alt=img%5C_19.png)
 
+图16：  Mike Cohn的测试金字塔 – 微服务面试问题
 
-### 4、SpringBoot 实现热部署有哪几种方式？
+根据金字塔，第一层的测试数量应该最高。在服务层，测试次数应小于单元测试级别，但应大于端到端级别。
 
-主要有两种方式：
 
-**1、** Spring Loaded
+### 8、springcloud核⼼组件及其作⽤，以及springcloud⼯作原理：
 
-**2、** Spring-boot-devtools
+![](https://gitee.com/souyunkutech/souyunku-home/raw/master/images/souyunku-web/2020/5/2/01/44/45_9.png#alt=45%5C_9.png)
 
+**springcloud由以下⼏个核⼼组件构成：**
 
+**1、** Eureka：各个服务启动时，Eureka Client都会将服务注册到Eureka Server，并且Eureka Client还可以反过来从Eureka Server拉取注册表，从⽽知道其他服务在哪⾥
 
-### 5、什么是 AOP 代理?
+**2、** Ribbon：服务间发起请求的时候，基于Ribbon做负载均衡，从⼀个服务的多台机器中选择⼀台
 
-代理是通知目标对象后创建的对象。从客户端的角度看，代理对象和目标对象是一样的。
+**3、** Feign：基于Feign的动态代理机制，根据注解和选择的机器，拼接请求URL地址，发起请求
 
+**4、** Hystrix：发起请求是通过Hystrix的线程池来⾛的，不同的服务⾛不同的线程池，实现了不同服务调⽤的隔离，避免了服务雪崩的问题
 
-### 6、SpringBoot如何实现打包
+**5、** Zuul：如果前端、移动端要调⽤后端系统，统⼀从Zuul⽹关进⼊，由Zuul⽹关转发请求给对应的服务
 
-进入项目目录在控制台输入mvn clean package，clean是清空已存在的项目包，package进行打包
 
-或者点击左边选项栏中的Mavne，先点击clean在点击package
+### 9、SpringBoot 还提供了其它的哪些 Starter Project Options？
 
+SpringBoot 也提供了其它的启动器项目包括，包括用于开发特定类型应用程序的典型依赖项。
 
-### 7、Mock或Stub有什么区别？
+**1、** spring-boot-starter-web-services - SOAP Web Services；
 
-存根
+**2、** spring-boot-starter-web - Web 和 RESTful 应用程序；
 
-一个有助于运行测试的虚拟对象。
+**3、** spring-boot-starter-test - 单元测试和集成测试；
 
-在某些可以硬编码的条件下提供固定行为。
+**4、** spring-boot-starter-jdbc - 传统的 JDBC；
 
-永远不会测试存根的任何其他行为。
+**5、** spring-boot-starter-hateoas - 为服务添加 HATEOAS 功能；
 
-例如，对于空堆栈，您可以创建一个只为empty（）方法返回true的存根。因此，这并不关心堆栈中是否存在元素。
+**6、** spring-boot-starter-security - 使用 SpringSecurity 进行身份验证和授权；
 
-嘲笑
+**7、** spring-boot-starter-data-jpa - 带有 Hibeernate 的 Spring Data JPA；
 
-一个虚拟对象，其中最初设置了某些属性。
+**8、** spring-boot-starter-data-rest - 使用 Spring Data REST 公布简单的 REST 服务；
 
-此对象的行为取决于set属性。
 
-也可以测试对象的行为。
+### 10、如何在 SpringBoot中禁用 Actuator端点安全性?
 
-例如，对于Customer对象，您可以通过设置名称和年龄来模拟它。您可以将age设置为12，然后测试isAdult（）方法，该方法将在年龄大于18时返回true。因此，您的Mock Customer对象适用于指定的条件。
+默认情况下，所有敏感的HTTP端点都是安全的，只有具有 `http ACTUATOR`角色的用户才能访问它们。安全性是使用标准的 `httpservletrequest. isuserinrole..isusernrole`方法实施的。可以使用 `management. security. enabled= false`来禁用安全性。只有在执行机构端点在防火墙后访问时，才建议禁用安全性。
 
 
-### 8、如何给Spring 容器提供配置元数据?
-
-这里有三种重要的方法给Spring 容器提供配置元数据。
-
-**1、** XML配置文件。
-
-**2、** 基于注解的配置。
-
-**3、** 基于java的配置。
-
-
-### 9、一个Spring的应用看起来象什么？
-
-**1、** 一个定义了一些功能的接口。
-
-**2、** 这实现包括属性，它的Setter ， getter 方法和函数等。
-
-**3、** Spring AOP。
-
-**4、** Spring 的XML 配置文件。
-
-**5、** 使用以上功能的客户端程序。
-
-
-### 10、什么是耦合？
-
-组件之间依赖关系强度的度量被认为是耦合。一个好的设计总是被认为具有高内聚力和低耦合性。
-
-
-### 11、解释JDBC抽象和DAO模块。
-### 12、如何重新加载SpringBoot上的更改，而无需重新启动服务器？
-### 13、spring JDBC API 中存在哪些类？
-### 14、SpringBoot 有哪几种读取配置的方式？
-### 15、核心容器（应用上下文) 模块。
-### 16、Async异步调用方法
-### 17、使用 SpringBoot 启动连接到内存数据库 H2 的 JPA 应用程序需要哪些依赖项？
-### 18、在Spring AOP 中，关注点和横切关注的区别是什么？
-### 19、过渡到微服务时的常见错误
-### 20、Spring AOP and AspectJ AOP 有什么区别？
-### 21、使用Spring通过什么方式访问Hibernate?
-### 22、比较一下 Spring Security 和 Shiro 各自的优缺点 ?
-### 23、什么是 AOP什么是引入?
-### 24、[@Required ](/Required ) 注解有什么用？
-### 25、哪些是重要的bean生命周期方法？ 你能重载它们吗？
-### 26、eureka和zookeeper都可以提供服务注册与发现的功能，请说说两个的区别？
-### 27、DispatcherServlet
-### 28、什么是YAML？
-### 29、比较一下 Spring Security 和 Shiro 各自的优缺点 ?
-### 30、你更倾向用那种事务管理类型？
+### 11、我们如何监视所有SpringBoot微服务？
+### 12、列举 IoC 的一些好处
+### 13、列举 Spring DAO 抛出的异常。
+### 14、SpringBoot 怎么用好自动配置，精髓:
+### 15、什么是bean装配?
+### 16、eureka和zookeeper都可以提供服务注册与发现的功能，请说说两个的区别？
+### 17、Spring Cloud Consul
+### 18、什么是 Swagger？你用 SpringBoot 实现了它吗？
+### 19、您将如何在微服务上执行安全测试？
+### 20、什么是网关?
+### 21、Spring Cloud Zookeeper
+### 22、Spring由哪些模块组成?
+### 23、什么是 JavaConfig？
+### 24、SpringBoot、Spring MVC 和 Spring 有什么区别
+### 25、SpringBoot如何配置log4j？
+### 26、JPA 和 Hibernate 有哪些区别？
+### 27、什么是编织（Weaving）？
+### 28、什么是 SpringBoot？
+### 29、什么是bean的自动装配？
+### 30、什么是 Spring Profiles？
 
 
 
@@ -158,12 +132,8 @@ DevTools
 ### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/?p=67)
 
 
-## 其他，高清PDF：172份，7701页，最新整理
+## 最新，高清PDF：172份，7701页，最新整理
 
-[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/mst.png "大厂面试题")](https://souyunku.lanzous.com/b0alp9b9g "大厂面试题")
+[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/mst.png "大厂面试题")](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png"大厂面试题")
 
-## 关注公众号：架构师专栏，回复：“面试题”，即可
-
-[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/jiagoushi.png "架构师专栏")](https://souyunku.lanzous.com/b0alp9b9g "架构师专栏")
-
-## 关注公众号：架构师专栏，回复：“面试题”，即可
+[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png "架构师专栏")](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png "架构师专栏")

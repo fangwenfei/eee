@@ -8,7 +8,44 @@
 
 
 
-### 1、SpringBoot 2.X 有什么新特性？与 1.X 有什么区别？
+### 1、什么是Spring Initializer?
+
+这个问题并不难，但面试官总是以此测试候选人的专业知识。
+
+Spring Initializer是一个网络应用程序，它可以生成一个SpringBoot项目，包含快速启动所需的一切。和往常一样，我们需要一个好的项目框架；它有助于你正确创建项目结构/框架。
+
+
+### 2、如何使用 SpringBoot 自动重装我的应用程序？
+
+使用 SpringBoot 开发工具。
+
+把 SpringBoot 开发工具添加进入你的项目是简单的。
+
+把下面的依赖项添加至你的 SpringBoot Project pom.xml 中
+
+重启应用程序，然后就可以了。
+
+同样的，如果你想自动装载页面，有可以看看 FiveReload
+
+```
+http://www.logicbig.com/tutorials/spring-framework/spring-boot/boot-live-reload/.
+```
+
+在我测试的时候，发现了 LiveReload 漏洞，如果你测试时也发现了，请一定要告诉我们。
+
+
+### 3、SpringBoot 的核心配置文件有哪几个？它们的区别是什么？
+
+SpringBoot 的核心配置文件是 application 和 bootstrap 配置文件。
+
+application 配置文件这个容易理解，主要用于 SpringBoot 项目的自动化配置。
+
+bootstrap 配置文件有以下几个应用场景。
+
+使用 Spring Cloud Config 配置中心时，这时需要在 bootstrap 配置文件中添加连接到配置中心的配置属性来加载外部配置中心的配置信息； 一些固定的不能被覆盖的属性；一些加密/解密的场景
+
+
+### 4、SpringBoot 2.X 有什么新特性？与 1.X 有什么区别？
 
 **1、** 配置变更
 
@@ -25,92 +62,84 @@
 **7、** 更多改进与加强…
 
 
-### 2、SpringBoot自动配置的原理是什么？
+### 5、SpringBoot中的监视器是什么？
 
-SpringBoot启动的时候通过@EnableAutoConfiguration注解找到META-INF/spring.factories配置文件中所有的自动配置类，并对其进行加载，而这些自动配置类的类名都是以AutoConfiguration结尾来命名的，它实际上就是一个javaConfig形式的Spring容器配置类，它们都有一个@EnableConfigurationPerperties的注解，通过这个注解启动XXXProperties命名的类去加载全局配置中的属性，如server.port,而XXXProperties通过@ConfigurationProperties注解将全局配置文件中的属性与自己的属性进行绑定。
+Spring boot actuator是spring启动框架中的重要功能之一。Spring boot监视器可帮助您访问生产环境中正在运行的应用程序的当前状态。
 
-
-### 3、SpringBoot 中如何实现定时任务 ?
-
-在 SpringBoot 中使用定时任务主要有两种不同的方式，一个就是使用 Spring 中的 [@Scheduled ](/Scheduled ) 注解，另一-个则是使用第三方框架 Quartz。
-
-使用 Spring 中的 [@Scheduled ](/Scheduled ) 的方式主要通过 [@Scheduled ](/Scheduled ) 注解来实现。
+有几个指标必须在生产环境中进行检查和监控。即使一些外部应用程序可能正在使用这些服务来向相关人员触发警报消息。监视器模块公开了一组可直接作为HTTP URL访问的REST端点来检查状态。
 
 
-### 4、如何使用 SpringBoot 实现异常处理？
+### 6、Spring Cache 三种常用的缓存注解和意义？
 
-Spring 提供了一种使用 ControllerAdvice 处理异常的非常有用的方法。我们通过实现一个 ControlerAdvice 类，来处理控制器类抛出的所有异常。
+**1、** [@Cacheable ](/Cacheable ) ，用来声明方法是可缓存，将结果存储到缓存中以便后续使用相同参数调用时不需执行实际的方法，直接从缓存中取值。
 
+**2、** @CachePut，使用 [@CachePut ](/CachePut ) 标注的方法在执行前，不会去检查缓存中是否存在之前执行过的结果，而是每次都会执行该方法，并将执行结果以键值对的形式存入指定的缓存中。
 
-### 5、什么是SpringBoot？
-
-多年来，随着新功能的增加，spring变得越来越复杂。只需访问https://spring.io/projects 页面，我们就会看到可以在我们的应用程序中使用的所有Spring项目的不同功能。如果必须启动一个新的Spring项目，我们必须添加构建路径或添加Maven依赖关系，配置应用程序服务器，添加spring配置。因此，开始一个新的spring项目需要很多努力，因为我们现在必须从头开始做所有事情。
-
-SpringBoot是解决这个问题的方法。SpringBoot已经建立在现有spring框架之上。使用spring启动，我们避免了之前我们必须做的所有样板代码和配置。因此，SpringBoot可以帮助我们以最少的工作量，更加健壮地使用现有的Spring功能。
+**3、** @CacheEvict，是用来标注在需要清除缓存元素的方法或类上的，当标记在一个类上时表示其中所有的方法的执行都会触发缓存的清除操作。
 
 
-### 6、你如何理解 SpringBoot 中的 Starters？
+### 7、如何启用/禁用执行器？
 
-Starters可以理解为启动器，它包含了一系列可以集成到应用里面的依赖包，你可以一站式集成 Spring 及其他技术，而不需要到处找示例代码和依赖包。如你想使用 Spring JPA 访问数据库，只要加入 spring-boot-starter-data-jpa 启动器依赖就能使用了。
+启用/禁用致动器很容易；最简单的方法是使特性能够将依赖项(Maven/Gradle)添加到spring-boot-starter-actuator，即启动器。如果不想启用致动器，那么就不要添加依赖项。
 
+Maven依赖项：
 
-### 7、什么是 Apache Kafka？
-
-Apache Kafka 是一个分布式发布 - 订阅消息系统。它是一个可扩展的，容错的发布 - 订阅消息系统，它使我们能够构建分布式应用程序。这是一个 Apache 顶级项目。Kafka 适合离线和在线消息消费。
-
-
-### 8、如何使用 SpringBoot 实现全局异常处理？
-
-Spring 提供了一种使用 ControllerAdvice 处理异常的非常有用的方法。 我们通过实现一个 ControlerAdvice 类，来处理控制器类抛出的所有异常。
-
-
-### 9、spring boot监听器流程?
-
-**1、** 通过`app.addListeners`注册进入 2、初始化一个`SpringApplicationRunListeners`进行处理
-
-**3、** 从`spring.factories`中读取监听器处理类`EventPublishingRunListener`
-
-**4、** 通过`createSpringFactoriesInstances`创建监听器处理类实例
-
-**5、** 调用监听器`listeners.starting()`的方法来启动。
-
-**6、** 底层把事件处理交给`线程池`去处理
+```
+<dependencies>
+    <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-actuator</artifactId>
+    </dependency>
+</dependencies>
+```
 
 
-### 10、保护 SpringBoot 应用有哪些方法？
+### 8、什么是 SpringBoot Stater ？
 
-**1、**  在生产中使用HTTPS
+启动器是一套方便的依赖没描述符，它可以放在自己的程序中。你可以一站式的获取你所需要的 Spring 和相关技术，而不需要依赖描述符的通过示例代码搜索和复制黏贴的负载。
 
-**2、**  使用Snyk检查你的依赖关系
-
-**3、**  升级到最新版本
-
-**4、**  启用CSRF保护
-
-**5、**  使用内容安全策略防止XSS攻击
+例如，如果你想使用 Sping 和 JPA 访问数据库，只需要你的项目包含 spring-boot-starter-data-jpa 依赖项，你就可以完美进行。
 
 
-### 11、保护 SpringBoot 应用有哪些方法？
-### 12、什么是 JavaConfig？
-### 13、为什么要用SpringBoot
-### 14、SpringBoot的自动配置原理是什么
-### 15、如何使用SpringBoot实现分页和排序？
-### 16、如何集成SpringBoot和ActiveMQ？
-### 17、什么是 Spring Profiles？
-### 18、SpringBoot事物的使用
-### 19、SpringBoot有哪些优点？
-### 20、如何重新加载 SpringBoot 上的更改，而无需重新启动服务器？SpringBoot项目如何热部署？
-### 21、我们如何连接一个像 MySQL 或者Orcale 一样的外部数据库？
-### 22、什么是 Spring Batch?
-### 23、SpringBoot的启动器有哪几种?
-### 24、SpringBoot、Spring MVC 和 Spring 有什么区别
-### 25、能否举一个例子来解释更多 Staters 的内容？
-### 26、怎么设计无状态服务？
-### 27、SpringBoot 的核心注解是哪个？它主要由哪几个注解组成的？
-### 28、我们如何监视所有 SpringBoot 微服务？
-### 29、SpringBoot 支持哪些日志框架？推荐和默认的日志框架是哪个？
-### 30、SpringBoot 的自动配置是如何实现的？
-### 31、什么是 YAML？
+### 9、SpringBoot 中的 starter 到底是什么 ?
+
+首先，这个 Starter 并非什么新的技术点，基本上还是基于 Spring 已有功能来实现的。首先它提供了一个自动化配置类，一般命名为 XXXAutoConfiguration ，在这个配置类中通过条件注解来决定一个配置是否生效（条件注解就是 Spring 中原本就有的），然后它还会提供一系列的默认配置，也允许开发者根据实际情况自定义相关配置，然后通过类型安全的属性注入将这些配置属性注入进来，新注入的属性会代替掉默认属性。正因为如此，很多第三方框架，我们只需要引入依赖就可以直接使用了。当然，开发者也可以自定义 Starter
+
+
+### 10、SpringBoot 有哪些优点？
+
+**SpringBoot 主要有如下优点：**
+
+**1、**  容易上手，提升开发效率，为 Spring 开发提供一个更快、更简单的开发框架。
+
+**2、**  开箱即用，远离繁琐的配置。
+
+**3、**  提供了一系列大型项目通用的非业务性功能，例如：内嵌服务器、安全管理、运行数据监控、运行状况检查和外部化配置等。
+
+**4、**  SpringBoot总结就是使编码变简单、配置变简单、部署变简单、监控变简单等等
+
+
+### 11、SpringBoot 中如何实现定时任务 ?
+### 12、SpringBoot 2.X 有什么新特性？与 1.X 有什么区别？
+### 13、什么是 YAML？
+### 14、RequestMapping 和 GetMapping 的不同之处在哪里？
+### 15、如何使用 SpringBoot 实现异常处理？
+### 16、我们如何监视所有 SpringBoot 微服务？
+### 17、如何使用 SpringBoot 生成一个 WAR 文件？
+### 18、SpringBoot如何实现打包
+### 19、如何重新加载 SpringBoot上的更改，而无需重新启动服务器？
+### 20、比较一下 Spring Security 和 Shiro 各自的优缺点 ?
+### 21、spring boot 核心配置文件是什么？bootstrap.properties 和 application.properties 有何区别 ?
+### 22、什么是 Spring Data ?
+### 23、SpringBoot多数据源事务如何管理
+### 24、保护 SpringBoot 应用有哪些方法？
+### 25、spring boot初始化环境变量流程?
+### 26、SpringBoot运行项目的几种方式？
+### 27、如何禁用特定的自动配置类？
+### 28、如何使用SpringBoot实现异常处理？
+### 29、如何在 SpringBoot 启动的时候运行一些特定的代码？
+### 30、SpringBoot支持什么前端模板，
+### 31、开启SpringBoot特性有哪几种方式？（创建SpringBoot项目的两种方式）
 
 
 
@@ -122,12 +151,8 @@ Spring 提供了一种使用 ControllerAdvice 处理异常的非常有用的方�
 ### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/?p=67)
 
 
-## 其他，高清PDF：172份，7701页，最新整理
+## 最新，高清PDF：172份，7701页，最新整理
 
-[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/mst.png "大厂面试题")](https://souyunku.lanzous.com/b0alp9b9g "大厂面试题")
+[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/mst.png "大厂面试题")](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png"大厂面试题")
 
-## 关注公众号：架构师专栏，回复：“面试题”，即可
-
-[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/jiagoushi.png "架构师专栏")](https://souyunku.lanzous.com/b0alp9b9g "架构师专栏")
-
-## 关注公众号：架构师专栏，回复：“面试题”，即可
+[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png "架构师专栏")](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png "架构师专栏")

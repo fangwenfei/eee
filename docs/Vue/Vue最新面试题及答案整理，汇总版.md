@@ -8,178 +8,196 @@
 
 
 
-### 1、简述每个周期具体适合哪些场景
+### 1、自定义指令（v-check、v-focus）的方法有哪些？它有哪些钩子函数？还有哪些钩子函数参数？
 
-**1、** beforeCreate：在new一个vue实例后，只有一些默认的生命周期钩子和默认事件，其他的东西都还没创建。在beforeCreate生命周期执行的时候，data和methods中的数据都还没有初始化。不能在这个阶段使用data中的数据和methods中的方法
+**1、** 全局定义指令：在vue对象的directive方法里面有两个参数，一个是指令名称，另外一个是函数。组件内定义指令：directives
 
-**2、** create：data 和 methods都已经被初始化好了，如果要调用 methods 中的方法，或者操作 data 中的数据，最早可以在这个阶段中操作
+**2、** 钩子函数：bind（绑定事件触发）、inserted(节点插入的时候触发)、update（组件内相关更新）
 
-**3、** beforeMount：执行到这个钩子的时候，在内存中已经编译好了模板了，但是还没有挂载到页面中，此时，页面还是旧的
-
-**4、** mounted：执行到这个钩子的时候，就表示Vue实例已经初始化完成了。此时组件脱离了创建阶段，进入到了运行阶段。 如果我们想要通过插件操作页面上的DOM节点，最早可以在和这个阶段中进行
-
-**5、** beforeUpdate： 当执行这个钩子时，页面中的显示的数据还是旧的，data中的数据是更新后的， 页面还没有和最新的数据保持同步
-
-**6、** updated：页面显示的数据和data中的数据已经保持同步了，都是最新的
-
-**7、** beforeDestory：Vue实例从运行阶段进入到了销毁阶段，这个时候上所有的 data 和 methods ， 指令， 过滤器 ……都是处于可用状态。还没有真正被销毁
-
-**8、** destroyed： 这个时候上所有的 data 和 methods ， 指令， 过滤器 ……都是处于不可用状态。组件已经被销毁了。
+**3、** 钩子函数参数：el、binding
 
 
-### 2、vue修改打包后静态资源路径的修改
+### 2、module.exports 和 exports 之间有什么区别？
 
-cli2版本：将 config/index.js 里的 assetsPublicPath 的值改为 './' 。
+module和exports是Node.js给每个js文件内置的两个对象。可以通过console.log(module)和console.log(exports)打印出来。如果你在main.js中写入下面两行，然后运行$ node main.js:
 
-build: {
+```
+console.log(exports);//输出：{}
+console.log(module);//输出：Module {..., exports: {}, ...} （注：...代表省略了其他一些属性）
+```
 
-...
+从打印咱们可以看出，module.exports和exports一开始都是一个空对象{}，实际上，这两个对象指向同一块内存。这也就是说module.exports和exports是等价的（有个前提：不去改变它们指向的内存地址）。
 
-assetsPublicPath: './',
-
-...
-
-}
-
-cli3版本：在根目录下新建vue.config.js 文件，然后加上以下内容：（如果已经有此文件就直接修改）
-
-module.exports = {
-
-publicPath: '', // 相对于 HTML 页面（目录相同） }
+例如：exports.age = 18和module.export.age = 18，这两种写法是一致的（都相当于给最初的空对象{}添加了一个属性，通过require得到的就是{age: 18}）。
 
 
-### 3、再说一下Computed和Watch
+### 3、如何在JS中克隆对象
 
-`Computed`本质是一个具备缓存的watcher，依赖的属性发生变化就会更新视图。 适用于计算比较消耗性能的计算场景。当表达式过于复杂时，在模板中放入过多逻辑会让模板难以维护，可以将复杂的逻辑放入计算属性中处理。
+Object.assign() 方法用于在JS中克隆对象。如：
 
-`Watch`没有缓存性，更多的是观察的作用，可以监听某些数据执行回调。当我们需要深度监听对象中的属性时，可以打开`deep：true`选项，这样便会对对象中的每一项进行监听。这样会带来性能问题，优化的话可以使用`字符串形式`监听，如果没有写到组件中，不要忘记使用`unWatch手动注销`哦。
+```
+var x = {myProp: "value"};
+var y = Object.assign({}, x);
+```
 
 
-### 4、你用哪个指令遍历对象的属性？
+### 4、请说出vue.cli项目中src目录每个文件夹和文件的用法？
 
-要遍历对象或数组，可以使用 **v-for** 指令。下面是一个例子：
+assets文件夹是放静态资源；components是放组件；router是定义路由相关的配置; app.vue是一个应用主组件；main.js是入口文件。
 
-**Template**
+
+### 5、vue slot
+
+简单来说，假如父组件需要在子组件内放一些DOM，那么这些DOM是显示、不显示、在哪个地方显示、如何显示，就是slot分发负责的活。
+
+
+### 6、你都做过哪些Vue的性能优化，编码阶段
+
+**1、** 尽量减少data中的数据，data中的数据都会增加getter和setter，会收集对应的watcher
+
+**2、** v-if和v-for不能连用
+
+**3、** 如果需要使用v-for给每项元素绑定事件时使用事件代理
+
+**4、** SPA 页面采用keep-alive缓存组件
+
+**5、** 在更多的情况下，使用v-if替代v-show
+
+**6、** key保证唯一
+
+**7、** 使用路由懒加载、异步组件
+
+**8、** 防抖、节流
+
+**9、** 第三方模块按需导入
+
+**10、** 长列表滚动到可视区域动态加载
+
+**11、** 图片懒加载
+
+
+### 7、嵌套路由怎么定义？
+
+在实际项目中我们会碰到多层嵌套的组件组合而成，但是我们如何实现嵌套路由呢？因此我们需要在 VueRouter 的参数中使用 children 配置，这样就可以很好的实现路由嵌套。
+
+index.html，只有一个路由出口
 
 ```
 <div id="app">
-    <ul>
-      <li v-for="(value, key) in card">{{ key }} - {{ value }}</li>    </ul>
- </div>
+    <!-- router-view 路由出口, 路由匹配到的组件将渲染在这里 -->
+    <router-view></router-view>
+</div>
 ```
 
-**App**
+main.js，路由的重定向，就会在页面一加载的时候，就会将home组件显示出来，因为重定向指向了home组件，redirect的指向与path的必须一致。children里面是子路由，当然子路由里面还可以继续嵌套子路由。
 
 ```
-new Vue({
-  el: '#app',
-  data: {
-    card: {
-      name: 'John Doe',
-      age: 25,
-      city: 'New York',
-      country: 'US'
+import Vue from 'vue'
+import VueRouter from 'vue-router'
+Vue.use(VueRouter)
+
+//引入两个组件
+
+import home from "./home.vue"
+import game from "./game.vue"
+//定义路由
+const routes = [
+    { path: "/", redirect: "/home" },//重定向,指向了home组件
+    {
+        path: "/home", component: home,
+        children: [
+            { path: "/home/game", component: game }
+        ]
     }
-  }
-});
+]
+//创建路由实例
+const router = new VueRouter({routes})
+
+new Vue({
+    el: '#app',
+    data: {
+    },
+    methods: {
+    },
+    router
+})
 ```
 
-**输出**
-
-1. name - John Doe
-2. age - 25
-3. city - New York
-4. country - US
-
-
-### 5、vue开发遇到的问题？
-
-**样式污染**
-
-在编写样式中，如果需要防止样式的污染，可以使用两种方式，一种是在组件的根元素上增加一个唯一的class或者id，然后在编写组件的样式时候在根元素对应的class或者id下进行编写；另一种方式是在对应的style上添加scoped关键字，不过该关键字对引用的框架UI无效
-
-**router-link在安卓上不起作用**
-
-不起作用的原因是因为转码编译的问题，可以使用babel来进行处理，安装babel polypill插件解决
-
-**初始化页面出现闪屏乱码的问题**
-
-这是因为vue还没有解析的情况下会容易出现花屏现象，看到类似于{{data}}的字样，可以使用两种方式来进行处理，一种为：在设置index.html的根元素的元素的样式为display:none，然后在mounted中的$nextTick函数中display:block展示；另一种方式是使用vue的内置指令：v-cloak,并且在css中设置样式
+home.vue，点击显示就会将子路由显示在出来，子路由的出口必须在父路由里面，否则子路由无法显示。
 
 ```
-[v-cloak] {
-    display: none;
-}
+<template>
+    <div>
+        <h3>首页</h3>
+        <router-link to="/home/game">
+            <button>显示<tton>
+        </router-link>
+        <router-view></router-view>
+    </div>
+</template>
 ```
 
-**router-link上事件无效解决方法**
+game.vue
 
-使用@click.native来进行调用原生的js事件。原因：router-link会阻止click事件，.native指直接监听一个原生事件。
-
-
-
-### 6、axios是什么？怎么使用？描述使用它实现登录功能的流程？
-
-请求后台资源的模块。npm install axios -S装好，然后发送的是跨域，需在配置文件中config/index.js进行设置。后台如果是Tp5则定义一个资源路由。js中使用import进来，然后.get或.post。返回在.then函数中如果成功，失败则是在.catch函数中
+```
+ <template>
+    <h3>游戏</h3>
+</template>
+```
 
 
-### 7、mvvm 框架是什么？
+### 8、vue单页面和传统的多页面区别？
 
-vue是实现了双向数据绑定的mvvm框架，当视图改变更新模型层，当模型层改变更新视图层。在vue中，使用了双向绑定技术，就是View的变化能实时让Model发生变化，而Model的变化也能实时更新到View。
+**单页面应用（SPA）**
 
+通俗一点说就是指只有一个主页面的应用，浏览器一开始要加载所有必须的 html, js, css。所有的页面内容都包含在这个所谓的主页面中。但在写的时候，还是会分开写（页面片段），然后在交互的时候由路由程序动态载入，单页面的页面跳转，仅刷新局部资源。多应用于pc端。
 
-### 8、vue父组件向子组件传递数据？
+**多页面（MPA）**
 
-通过props
+指一个应用中有多个页面，页面跳转时是整页刷新
 
+**单页面的优点：**
 
-### 9、keep-alive了解吗
+用户体验好，快，内容的改变不需要重新加载整个页面，基于这一点spa对服务器压力较小；前后端分离；页面效果会比较炫酷（比如切换页面内容时的专场动画）。
 
-`keep-alive`可以实现组件缓存，当组件切换时不会对当前组件进行卸载。
+**单页面缺点：**
 
-常用的两个属性`include/exclude`，允许组件有条件的进行缓存。
-
-两个生命周期`activated/deactivated`，用来得知当前组件是否处于活跃状态。
-
-keep-alive的中还运用了`LRU(Least Recently Used)`算法。
-
-（又是数据结构与算法，原来算法在前端也有这么多的应用）
+不利于seo；导航不可用，如果一定要导航需要自行实现前进、后退。（由于是单页面不能用浏览器的前进后退功能，所以需要自己建立堆栈管理）；初次加载时耗时多；页面复杂度提高很多。
 
 
-### 10、vue优点？
+### 9、v-model的理解？
 
-**1、** 轻量级框架：只关注视图层，是一个构建数据的视图集合，大小只有几十kb；
+v-model用于表单数据的双向绑定，其实它就是一个语法糖，这个背后就做了两个操作：
 
-**2、** 简单易学：国人开发，中文文档，不存在语言障碍 ，易于理解和学习；
+**1、** v-bind绑定一个value属性；
 
-**3、** 双向数据绑定：保留了angular的特点，在数据操作方面更为简单；
-
-**4、** 组件化：保留了react的优点，实现了html的封装和重用，在构建单页面应用方面有着独特的优势；
-
-**5、** 视图，数据，结构分离：使数据的更改更为简单，不需要进行逻辑代码的修改，只需要操作数据就能完成相关操作；
-
-**6、** 虚拟DOM：dom操作是非常耗费性能的， 不再使用原生的dom操作节点，极大解放dom操作，但具体操作的还是dom不过是换了另一种方式；
-
-**7、** 运行速度更快:相比较与react而言，同样是操作虚拟dom，就性能而言，vue存在很大的优势。
+**2、** v-on指令给当前元素绑定input事件
 
 
-### 11、如何让CSS只在当前组件中起作用？
-### 12、vue组件的通信（父子组件和非父子组件）？
-### 13、说出至少4种vue当中的指令和它的用法？
-### 14、是否可以在JS中执行301重定向？
-### 15、子组件更新过程
-### 16、vue的filter的理解与用法？
-### 17、用纯JS编写一个程序来反转字符串
-### 18、v-show 指令的用途是什么？
-### 19、如何获取dom?
-### 20、vue-roter的钩子函数？
-### 21、vue与angular的区别?
-### 22、说一下Vue的生命周期
-### 23、vue生命周期的作用是什么？
-### 24、Vue.js 中的指令是什么？
-### 25、请说出vue.cli项目中src目录每个文件夹和文件的用法？
-### 26、对于作为元素实现的注释框，我们希望使用户能够按下键盘上的Enter键，来将内容提交给名为 “storeComment” 的方法。在代码中对此进行演示。
-### 27、父组件更新过程
+### 10、data为什么是一个函数？
+
+这是有JavaScript的特性所导致，在component中，data必须以函数的形式存在，不可以是对象。
+
+组建中的data写成一个函数，数据以函数返回值的形式定义，这样每次复用组件的时候，都会返回一份新的data，相当于每个组件实例都有自己私有的数据空间，它们只负责各自维护的数据，不会造成混乱。而单纯的写成对象形式，就是所有的组件实例共用了一个data，这样改一个全都改了。
+
+
+### 11、JS中的匿名函数是什么？
+### 12、如何动态地在元素上切换 CSS 类？
+### 13、import 和 exports 是什么？
+### 14、delete和Vue.delete删除数组的区别
+### 15、vue常用的UI组件库
+### 16、delete和Vue.delete删除数组的区别？
+### 17、mint-ui是什么？怎么使用？说出至少三个组件使用方法？
+### 18、vuex的使用？
+### 19、子组件像父组件传递事件？
+### 20、iframe的优缺点？
+### 21、再说一下vue2.x中如何监测数组变化
+### 22、与React的区别
+### 23、解释JS中的事件冒泡和事件捕获
+### 24、created和mounted的区别
+### 25、请讲述下VUE的MVVM的理解？
+### 26、JS中的substr()和substring()函数有什么区别
+### 27、Vue中双向数据绑定是如何实现的？
 
 
 
@@ -191,12 +209,8 @@ keep-alive的中还运用了`LRU(Least Recently Used)`算法。
 ### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/?p=67)
 
 
-## 其他，高清PDF：172份，7701页，最新整理
+## 最新，高清PDF：172份，7701页，最新整理
 
-[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/mst.png "大厂面试题")](https://souyunku.lanzous.com/b0alp9b9g "大厂面试题")
+[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/mst.png "大厂面试题")](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png"大厂面试题")
 
-## 关注公众号：架构师专栏，回复：“面试题”，即可
-
-[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/jiagoushi.png "架构师专栏")](https://souyunku.lanzous.com/b0alp9b9g "架构师专栏")
-
-## 关注公众号：架构师专栏，回复：“面试题”，即可
+[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png "架构师专栏")](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png "架构师专栏")

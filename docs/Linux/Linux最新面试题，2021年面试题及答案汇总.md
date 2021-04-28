@@ -8,64 +8,140 @@
 
 
 
-### 1、ping （用于检测与目标的连通性）语法：ping ip地址
+### 1、文件描述符?每个描述符的含义?
 
 ```
-测试：
-**1、** 在Windows操作系统中?cmd?ipconfig，查看本机IP地址：
-
-**2、** 再到LInux系统中输入 ping ip地址
-
-（公司电脑，我就不暴露Ip了,没图片  自己去试）
-按Ctrl + C 可以停止测试。
+[root@iz2ze76ybn73dvwmdij06zz xiaoka]# ls -l
+总用量 0
+-rw-r—r— 1 root root 0 4月  21 13:17 a
+-rw-r—r— 1 root root 0 4月  21 13:17 b
+-rw-r—r— 1 root root 0 4月  21 13:17 c
+-rw-r—r— 1 root root 0 4月  21 13:17 d
+-rw-r—r— 1 root root 0 4月  21 13:17 e
 ```
 
+**文件类型:**
 
-### 2、怎么查看当前进程？怎么执行退出？怎么查看当前路径？
+**1、** -代表文件
+
+**2、** d代表目录
+
+**3、** l代表链接
+
+**4、** c代表字符型设备
+
+**5、** b代表块设备
+
+**6、** n代表网络设备
+
+**访问权限符号:**
+
+**1、** r代表对象是可读的
+
+**2、** w代表对象是可写的
+
+**3、** x代表对象是可执行的
+
+若没有某种权限，在该权限位会出现单破折线。
+
+**这3组权限分别对应对象的3个安全级别:**
+
+**1、** 对象的属主
+
+**2、** 对象的属组
+
+**3、** 系统其他用户
+
+
+### 2、查看整个文件？按照有文本显示行号？无文本显示行号？
+
+语法 : cat destination
+
+-n 显示行号，-b 有文本的显示行号。 （默认是不显示行号的)
+
+```
+?  apache cat -n tomcat
+     1    text
+     2    text
+     3
+     4    start
+     5    stop
+     6    restart
+     7    end
+?  apache cat -b tomcat
+     1    text
+     2    text
+```
+
+3 ? ?start
+
+4 ? ?stop
+
+5 ? ?restart
+
+6 ? ?end
+
+
+
+### 3、当你需要给命令绑定一个宏或者按键的时候，应该怎么做呢？
 
 **答案：**
 
-**1、** 查看当前进程： ps
+**1、** 可以使用bind命令，bind可以很方便地在shell中实现宏或按键的绑定。
 
-**2、** 执行退出： exit
+**2、** 在进行按键绑定的时候，我们需要先获取到绑定按键对应的字符序列。
 
-**3、** 查看当前路径： pwd
+**3、** 比如获取F12的字符序列获取方法如下：先按下Ctrl+V,然后按下F12 .我们就可以得到F12的字符序列 `^[[24~。`
 
+接着使用bind进行绑定。
 
-### 3、如何规划一台 Linux 主机，步骤是怎样？
+```
+[root@localhost ~]# bind ‘”\e[24~":"date"'
+```
 
-确定机器是做什么用的，比如是做 WEB 、DB、还是游戏服务器。
+注意：相同的按键在不同的终端或终端模拟器下可能会产生不同的字符序列。
 
-> 不同的用途，机器的配置会有所不同。
-
-
-**1、** 确定好之后，就要定系统需要怎么安装，默认安装哪些系统、分区怎么做。
-
-**2、** 需要优化系统的哪些参数，需要创建哪些用户等等的。
+【附】也可以使用showkey -a命令查看按键对应的字符序列。
 
 
-### 4、什么是运维？什么是游戏运维？
+### 4、查看已有别名?建立属于自己的别名?
 
-**运维是指大型组织已经建立好的网络软硬件的维护，就是要保证业务的上线与运作的正常，**
+alias -p 查看当前可用别名
 
-**1、** 在他运转的过程中，对他进行维护，他集合了网络、系统、数据库、开发、安全、监控于一身的技术
+```
+[root@iz2ze76ybn73dvwmdij06zz ~]# alias -p
+alias cp='cp -i'
+alias egrep='egrep —color=auto'
+alias fgrep='fgrep —color=auto'
+alias grep='grep —color=auto'
+alias l.='ls -d .* —color=auto'
+alias ll='ls -l —color=auto'
+```
 
-**2、** 运维又包括很多种，有DBA运维、网站运维、虚拟化运维、监控运维、游戏运维等等
-
-**游戏运维又有分工，分为开发运维、应用运维（业务运维）和系统运维**
-
-**1、** 开发运维：是给应用运维开发运维工具和运维平台的
-
-**2、** 应用运维：是给业务上线、维护和做故障排除的，用开发运维开发出来的工具给业务上线、维护、做故障排查
-
-**3、** 系统运维：是给应用运维提供业务上的基础设施，比如：系统、网络、监控、硬件等等
-
-总结：开发运维和系统运维给应用运维提供了“工具”和“基础设施”上的支撑
-
-开发运维、应用运维和系统运维他们的工作是环环相扣的
+alias li = 'ls -li' 创建别名
 
 
-### 5、vim （VI IMproved：改进版视觉）改进版文本编辑器 （不管是文件查看还是文件编辑 按 Shift + 上或者下可以上下移动查看视角）
+### 5、统计ip访问情况，要求分析nginx访问日志，找出访问页面数量在前十位的ip
+
+cat access.log | awk '{print $1}' | uniq -c | sort -rn | head -10
+
+
+### 6、怎么清屏？怎么退出当前命令？怎么执行睡眠？怎么查看当前用户 id？查看指定帮助用什么命令？
+
+**答案：**
+
+**1、** 清屏： clear
+
+**2、** 退出当前命令： ctrl+c 彻底退出
+
+**3、** 执行睡眠 ： ctrl+z 挂起当前进程fg 恢复后台
+
+**4、** 查看当前用户 id： ”id“：查看显示目前登陆账户的 uid 和 gid 及所属分组及用户名
+
+**5、** 查看指定帮助： 如 man adduser 这个很全 而且有例子； adduser --help 这个告诉你一些常用参数； info adduesr；
+
+
+### 7、vim （VI IMproved：改进版视觉）改进版文本编辑器 （不管是文件查看还是文件编辑 按 Shift + 上或者下可以上下移动查看视角）
 
 输入”vim 文件名” 打开文件，刚刚时是”一般模式”。
 
@@ -112,93 +188,86 @@ P ;在光标的上门进行粘贴
 ```
 
 
-### 6、如何停止一个进程?
-
-kill命令被用来给程序发送信号。如果没有指定信号，默认发送TERM(终止）信号。
-
-语法 : kill [-signal] PID …
-
-![80_4.png][80_4.png]image-20200421141556974
-
-
-### 7、验证网络可链接命令是什么？什么原理？
-
-ping。这个 ping 命令发送一个特殊的网络数据包(叫做 IMCP ECHO REQUEST)到一台指定的主机。大多数接收这个包的网络设备将会回复它，来允许网络连接验证。
-
-![80_5.png][80_5.png]image-20200421142307602
-
-一旦启动，ping会持续在特定时间（默认1秒）发送数据包。
-
-
-### 8、如何中断一个进程?
-
-在一个终端中， Ctrl + c
-
-通过这个命令许多（不是全部）命令行程序都可以被中断。
-
-
-### 9、Linux广泛使用的归档数据方法?
-
-虽然zip命令能压缩和解压单个文件，但是更多的时候广泛使用tar命令来做归档。
-
-语法: tar function [options] obj1 obj2
-
-![80_2.png][80_2.png]image-20200421122932671
+### 8、tail（尾巴） 查看文件命令（看最后多少行）
 
 ```
-?  apache tar -cvf service.tar service1 service2 // 创建规定文件service.tar
-a service1
-a service2
-?  apache tar -tf service.tar //查看文件中的目录内容
-service1
-service2
-?  apache tar zxvf service.tar //解压
-x service1
-x service2
+tail -10 ;文件名 看最后10行
 ```
 
 
-### 10、tar （解压 压缩 命令）
+### 9、什么是中间件？什么是jdk？
+
+中间件介绍：
+
+中间件是一种独立的系统软件或服务程序，分布式应用软件借助这种软件在不同的技术之间共享资源
+
+中间件位于客户机/ 服务器的操作系统之上，管理计算机资源和网络通讯
+
+是连接两个独立应用程序或独立系统的软件。相连接的系统，即使它们具有不同的接口
+
+但通过中间件相互之间仍能交换信息。执行中间件的一个关键途径是信息传递
+
+通过中间件，应用程序可以工作于多平台或OS环境。
+
+jdk：jdk是Java的开发工具包
+
+它是一种用于构建在 Java 平台上发布的应用程序、applet 和组件的开发环境
+
+
+### 10、如何用sed只打印第5行?删除第一行？替换字符串?
+
+只打印第5行:
 
 ```
-常用的组合命令：
--z 是否需要用gzip压缩。
--c 建立一个压缩文件的参数指令(create) –压缩
--x 解开一个压缩文件的参数指令(extract) –解压  
--v 压缩的过程中显示文件(verbose)
--f 使用档名，在f之后要立即接档中(file)
-常用解压参数组合：zxvf
-常用压缩参数组合：zcvf 
+?  apache sed -n "5p" tomcat
+stop
+```
 
-解压命令：
-tar -zxvf Redis-3.2.8.tar.gz ；解压到当前文件夹
-tar -zxvf Redis-3.2.8.tar.gz -C /opt/java/ ；解压到指定目录
+删除第一行:
 
-压缩命令：（注意 语法有点反了，我反正每次都搞反）
-tar -zcvf Redis-3.2.8.tar.gz  Redis-3.2.8/  ;语法 tar -zcvf  压缩后的名称  要压缩的文件
-tar -zcvf 压缩后的文件（可指定目录）  要压缩的文件（可指定目录）
+```
+[root@xiaoka ~]# cat story
+Long ago a lion and a bear saw a kid.
+They sprang upon it at the same time.
+The lion said to the bear, “I caught this kid first, and so this is mine.”
+[root@xiaoka ~]# cat story
+They sprang upon it at the same time.
+The lion said to the bear, “I caught this kid first, and so this is mine.”
+```
+
+替换字符串:
+
+```
+?  apache cat story
+Long ago a lion and a bear saw a kid.
+They sprang upon it at the same time.
+The lion said to the bear, “I caught this kid first, and so this is mine.”
+?  apache sed 's#this#that#g' story
+Long ago a lion and a bear saw a kid.
+They sprang upon it at the same time.
+The lion said to the bear, “I caught that kid first, and so that is mine.”
 ```
 
 
-### 11、服务器开不了机怎么解决一步步的排查
-### 12、复制文件
-### 13、使用什么命令查看 ip 地址及接口信息？
-### 14、pwd （print working directory：显示当前工作目录的绝对路径）
-### 15、查看设备还有多少磁盘空间?
-### 16、写一个脚本，实现判断192.168.1.0/24网络里，当前在线的IP有哪些，能ping通则认为在线
-### 17、MySQL的innodb如何定位锁问题，MySQL如何减少主从复制延迟？
-### 18、Linux 中进程有哪几种状态？在 ps 显示出来的信息中，分别用什么符号表示的？
-### 19、查看http的并发请求数与其TCP连接状态
-### 20、把后台任务调到前台执行使用什么命令?把停下的后台任务在后台执行起来用什么命令?
-### 21、讲述一下Tomcat8005、8009、8080三个端口的含义？
-### 22、Tomcat和Resin有什么区别，工作中你怎么选择？
-### 23、当你需要给命令绑定一个宏或者按键的时候，应该怎么做呢？
-### 24、更改为北京时间命令
-### 25、less （lese：较少的意思）分页查看文件命令（可以快速定位到最后一页）
-### 26、什么是Linux？
-### 27、终端是哪个文件夹下的哪个文件？黑洞文件是哪个文件夹下的哪个命令？
-### 28、什么是环境变量？
-### 29、制表符自动补全？
+### 11、哪个文件包含了主机名和ip的映射关系?
+### 12、压缩工具有哪些?
+### 13、讲述一下Tomcat8005、8009、8080三个端口的含义？
+### 14、简述DNS进行域名解析的过程？
+### 15、使用tcpdump监听主机为192.168.1.1，tcp端口为80的数据，同时将输出结果保存输出到tcpdump.log
+### 16、什么是硬链接和软链接？
+### 17、简述raid0 raid1 raid5 三种工作模式的工作原理及特点
+### 18、随意写文件命令？怎么向屏幕输出带空格的字符串，比如”hello world”?
+### 19、实时监测进程
+### 20、ll （ll：list的缩写，查看列表详情）查看当前目录下的所有详细信息和文件夹（ll 结果是详细,有时间,是否可读写等信息）
+### 21、简述raid0 raid1 raid5 三种工作模式的工作原理及特点
+### 22、如何压缩文件？如何解压文件?
+### 23、LVS、Nginx、HAproxy有什么区别？工作中你怎么选择？
+### 24、Linux 的目录结构是怎样的？
+### 25、打印文件第一行到第三行?
+### 26、如何重置MySQL root密码？
+### 27、Shell 脚本是什么？
+### 28、Linux 使用的进程间通信方式？
+### 29、cat （concatenate：显示或把多个文本文件连接起来）查看文件命令（可以快捷查看当前文件的内容）（不能快速定位到最后一页）
 
 
 
@@ -210,12 +279,8 @@ tar -zcvf 压缩后的文件（可指定目录）  要压缩的文件（可指�
 ### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/?p=67)
 
 
-## 其他，高清PDF：172份，7701页，最新整理
+## 最新，高清PDF：172份，7701页，最新整理
 
-[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/mst.png "大厂面试题")](https://souyunku.lanzous.com/b0alp9b9g "大厂面试题")
+[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/mst.png "大厂面试题")](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png"大厂面试题")
 
-## 关注公众号：架构师专栏，回复：“面试题”，即可
-
-[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/jiagoushi.png "架构师专栏")](https://souyunku.lanzous.com/b0alp9b9g "架构师专栏")
-
-## 关注公众号：架构师专栏，回复：“面试题”，即可
+[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png "架构师专栏")](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png "架构师专栏")

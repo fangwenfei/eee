@@ -8,142 +8,60 @@
 
 
 
-### 1、调优工具
+### 1、类的实例化顺序
 
-常用调优工具分为两类,jdk自带监控工具：jconsole和jvisualvm，第三方有：MAT(Memory AnalyzerTool)、GChisto。
+**比如父类静态数据，构造函数，字段，子类静态数据，构造函数，字段，他们的执行顺序**
 
-**1、** jconsole，Java Monitoring and Management Console是从java5开始，在JDK中自带的java监控和管理控制台，用于对JVM中内存，线程和类等的监控
+先静态、先父后子。
 
-**2、** jvisualvm，jdk自带全能工具，可以分析内存快照、线程快照；监控内存变化、GC变化等。
+先静态：父静态 > 子静态
 
-**3、** MAT，Memory Analyzer Tool，一个基于Eclipse的内存分析工具，是一个快速、功能丰富的Javaheap分析工具，它可以帮助我们查找内存泄漏和减少内存消耗
+优先级：父类 > 子类 静态代码块 > 非静态代码块 > 构造函数
 
-**4、** GChisto，一款专业分析gc日志的工具
+**一个类的实例化过程：**
 
+**1、** 父类中的static代码块，当前类的static
 
-### 2、Serial 与 Parallel GC 之间的不同之处？
+**2、** 顺序执行父类的普通代码块
 
-Serial 与 Parallel 在 GC 执行的时候都会引起 stop-the-world。它们之间主要不同 serial 收集器是默认的复制收集器，执行 GC 的时候只有一个线程，而parallel 收集器使用多个 GC 线程来执行。
+**3、** 父类的构造函数
 
+**4、** 子类普通代码块
 
-### 3、各种回收算法
+**5、** 子类（当前类）的构造函数，按顺序执行。
 
-**GC最基础的算法有三种：**
+**6、** 子类方法的执行，
 
-**1、** 标记 -清除算法
 
-**2、** 复制算法
+### 2、Minor Gc和Full GC 有什么不同呢？
 
-**3、** 标记-压缩算法
+大多数情况下，对象在新生代中 eden 区分配。当 eden 区没有足够空间进行分配时，虚拟机将发起一次Minor GC。新生代GC（Minor GC）:指发生新生代的的垃圾收集动作，Minor GC非常频繁，回收速度一般也比较快。老年代GC（Major GC/Full GC）:指发生在老年代的GC，出现了Major GC经常会伴随至少一次的Minor GC（并非绝对），Major GC的速度一般会比Minor GC的慢10倍以上。
 
-我们常用的垃圾回收器一般都采用分代收集算法(其实就是组合上面的算法，不同的区域使用不同的算法)。
 
-**具体：**
+### 3、Java 虚拟机栈的作用？
 
-**1、** 标记-清除算法，“标记-清除”（Mark-Sweep）算法，如它的名字一样，算法分为“标记”和“清除”两个阶段：首先标记出所有需要回收的对象，在标记完成后统一回收掉所有被标记的对象。
+**Java 虚拟机栈**来描述 Java 方法的内存模型。每当有新线程创建时就会分配一个栈空间，线程结束后栈空间被回收，栈与线程拥有相同的生命周期。栈中元素用于支持虚拟机进行方法调用，每个方法在执行时都会创建一个栈帧存储方法的局部变量表、操作栈、动态链接和方法出口等信息。每个方法从调用到执行完成，就是栈帧从入栈到出栈的过程。
 
-**2、** 复制算法，“复制”（Copying）的收集算法，它将可用内存按容量划分为大小相等的两块，每次只使用其中的一块。当这一块的内存用完了，就将还存活着的对象复制到另外一块上面，然后再把已使用过的内存空间一次清理掉。
+有两类异常：① 线程请求的栈深度大于虚拟机允许的深度抛出 StackOverflowError。② 如果 JVM 栈容量可以动态扩展，栈扩展无法申请足够内存抛出 OutOfMemoryError（HotSpot 不可动态扩展，不存在此问题）。
 
-**3、** 标记-压缩算法，标记过程仍然与“标记-清除”算法一样，但后续步骤不是直接对可回收对象进行清理，而是让所有存活的对象都向一端移动，然后直接清理掉端边界以外的内存
 
-**4、** 分代收集算法，“分代收集”（Generational Collection）算法，把Java堆分为新生代和老年代，这样就可以根据各个年代的特点采用最适当的收集算法。
+### 4、ZGC收集器中的染色指针有什么用？
 
+染色指针是一种直接将少量额外的信息存储在指针上的技术，可是为什么指针本身也可以存储额外信息呢？在64位系统中，理论可以访问的内存高达16EB（2的64次幂）字节 [3] 。实际上，基于需求（用不到那么多内存）、性能（地址越宽在做地址转换时需要的页表级数越多）和成本（消耗更多晶体管）的考虑，在AMD64架构 [4] 中只支持到52位（4PB）的地址总线和48位（256TB）的虚拟地址空间，所以目前64位的硬件实际能够支持的最大内存只有256TB。此外，操作系统一侧也还会施加自己的约束，64位的Linux则分别支持47位（128TB）的进程虚拟地址空间和46位（64TB）的物理地址空间，64位的Windows系统甚至只支持44位（16TB）的物理地址空间。尽管Linux下64位指针的高18位不能用来寻址，但剩余的46位指针所能支持的64TB内存在今天仍然能够充分满足大型服务器的需要。鉴于此，ZGC的染色指针技术继续盯上了这剩下的46位指针宽度，将其高4位提取出来存储四个标志信息。通过这些标志位，虚拟机可以直接从指针中看到其引用对象的三色标记状态、是否进入了重分配集（即被移动过）、是否只能通过finalize()方法才能被访问到。当然，由于这些标志位进一步压缩了原本就只有46位的地址空间，也直接导致ZGC能够管理的内存不可以超过4TB（2的42次幂） 。
 
-### 4、请你谈谈对OOM的认识
 
-OOM是非常严重的问题，除了`程序计数器`，其他内存区域都有溢出的风险。和我们平常工作最密切的，就是堆溢出。另外，元空间在方法区内容非常多的情况下也会溢出。还有就是栈溢出，这个通常影响比较小。堆外也有溢出的可能，这个就比较难排查一些。
+### 5、列举一些你知道的打破双亲委派机制的例子。为什么要打破？
 
+**1、** JNDI 通过引入线程上下文类加载器，可以在 Thread.setContextClassLoader 方法设置，默认是应用程序类加载器，来加载 SPI 的代码。有了线程上下文类加载器，就可以完成父类加载器请求子类加载器完成类加载的行为。打破的原因，是为了 JNDI 服务的类加载器是启动器类加载，为了完成高级类加载器请求子类加载器（即上文中的线程上下文加载器）加载类。
 
-### 5、垃圾回收的优点和原理。说说2种回收机制
+**2、** Tomcat，应用的类加载器优先自行加载应用目录下的 class，并不是先委派给父加载器，加载不了才委派给父加载器。打破的目的是为了完成应用间的类隔离。
 
-Java 语言中一个显著的特点就是引入了垃圾回收机制，使 C++ 程序员最头疼的内存管理的问题迎刃而解，它使得 Java 程序员在编写程序的时候不再需要考虑内存管理。由于有个垃圾回收机制，Java 中的对象不再有“作用域”的概念，只有对象的引用才有"作用域"。垃圾回收可以有效的防止内存泄露，有效的使用可以使用的内存。垃圾回收器通常是作为一个单独的低级别的线程运行，不可预知的情况下对内存堆中已经死亡的或者长时间没有使用的对象进行清楚和回收，程序员不能实时的调用垃圾回收器对某个对象或所有对象进行垃圾回收。
+**3、** OSGi，实现模块化热部署，为每个模块都自定义了类加载器，需要更换模块时，模块与类加载器一起更换。其类加载的过程中，有平级的类加载器加载行为。打破的原因是为了实现模块热替换。
 
-**回收机制有分代复制垃圾回收和标记垃圾回收，增量垃圾回收。**
+**4、** JDK 9，Extension ClassLoader 被 Platform ClassLoader 取代，当平台及应用程序类加载器收到类加载请求，在委派给父加载器加载前，要先判断该类是否能够归属到某一个系统模块中，如果可以找到这样的归属关系，就要优先委派给负责那个模块的加载器完成加载。打破的原因，是为了添加模块化的特性。
 
 
-### 6、描述一下 JVM 加载 class 文件的原理机制
-
-**1、** JVM 中类的装载是由类加载器（ClassLoader）和它的子类来实现的，Java 中各类加载器是一个重要的 Java 运行时系统组件，它负责在运行时查找和装入类文件中的类。
-
-**2、** 由于 Java 的跨平台性，经过编译的 Java 源程序并不是一个可执行程序，而是一个或多个类文件。当 Java 程序需要使用某个类时，JVM 会确保这个类已经被加载、连接（验证、准备和解析）和初始化。类的加载是指把类的.class 文件中的数据读入到内存中，通常是创建一个字节数组读入.class 文件，然后产生与所加载类对应的 Class 对象。
-
-**3、** 加载完成后，Class 对象还不完整，所以此时的类还不可用。当类被加载后就进入连接阶段，这一阶段包括验证、准备（为静态变量分配内存并设置默认的初始值）和解析（将符号引用替换为直接引用）三个步骤。最后 JVM 对类进行初始化，包括：1)如果类存在直接的父类并且这个类还没有被初始化，那么就先初始化父类；2)如果类中存在初始化语句，就依次执行这些初始化语句。
-
-**4、** 类的加载是由类加载器完成的，类加载器包括：根加载器（BootStrap）、扩展加载器（Extension）、系统加载器（System）和用户自定义类加载器（java.lang.ClassLoader 的子类）。
-
-**5、** 从 Java 2（JDK 1.2）开始，类加载过程采取了父亲委托机制（PDM）。PDM 更好的保证了 Java 平台的安全性，在该机制中，JVM 自带的Bootstrap 是根加载器，其他的加载器都有且仅有一个父类加载器。类的加载首先请求父类加载器加载，父类加载器无能为力时才由其子类加载器自行加载。JVM 不会向 Java 程序提供对 Bootstrap 的引用。下面是关于几个类
-
-**加载器的说明：**
-
-**1、** Bootstrap：一般用本地代码实现，负责加载 JVM 基础核心类库（rt.jar）；
-
-**2、** Extension：从 java.ext.dirs 系统属性所指定的目录中加载类库，它的父加载器是 Bootstrap；
-
-**3、** System：又叫应用类加载器，其父类是 Extension。它是应用最广泛的类加载器。它从环境变量 classpath 或者系统属性
-
-java.class.path 所指定的目录中记载类，是用户自定义加载器的默认父加载器。
-
-
-### 7、运行时栈帧包含哪些结构？
-
-**1、** 局部变量表
-
-**2、** 操作数栈
-
-**3、** 动态连接
-
-**4、** 返回地址
-
-**5、** 附加信息
-
-
-### 8、什么时候会触发FullGC
-
-除直接调用System.gc外，触发Full GC执行的情况有如下四种。
-
-**旧生代空间不足**
-
-旧生代空间只有在新生代对象转入及创建为大对象、大数组时才会出现不足的现象，当执行Full GC后空间仍然不足，则抛出如下错
-
-**误：**
-
-java.lang.OutOfMemoryError: Java heap space
-
-为避免以上两种状况引起的FullGC，调优时应尽量做到让对象在Minor GC阶段被回收、让对象在新生代多存活一段时间及不要创建过大的对象及数组。
-
-**Permanet Generation空间满**
-
-PermanetGeneration中存放的为一些class的信息等，当系统中要加载的类、反射的类和调用的方法较多时，Permanet Generation可能会被占满，在未配置为采用CMS GC的情况下会执行Full GC。如果经过Full GC仍然回收不了，那么JVM会抛出如下错误信息：
-
-java.lang.OutOfMemoryError: PermGen space
-
-为避免Perm Gen占满造成Full GC现象，可采用的方法为增大Perm Gen空间或转为使用CMS GC。
-
-**CMS GC时出现promotion failed和concurrent mode failure**
-
-对于采用CMS进行旧生代GC的程序而言，尤其要注意GC日志中是否有promotion failed和concurrent mode failure两种状况，当这两种状况出现时可能会触发Full GC。
-
-promotionfailed是在进行Minor GC时，survivor space放不下、对象只能放入旧生代，而此时旧生代也放不下造成的；concurrentmode failure是在执行CMS GC的过程中同时有对象要放入旧生代，而此时旧生代空间不足造成的。
-
-应对措施为：增大survivorspace、旧生代空间或调低触发并发GC的比率，但在JDK 5.0+、6.0+的版本中有可能会由于JDK的bug29导致CMS在remark完毕后很久才触发sweeping动作。对于这种状况，可通过设置-XX:CMSMaxAbortablePrecleanTime=5（单位为ms）来避免。
-
-**统计得到的Minor GC晋升到旧生代的平均大小大于旧生代的剩余空间**
-
-这是一个较为复杂的触发情况，Hotspot为了避免由于新生代对象晋升到旧生代导致旧生代空间不足的现象，在进行Minor GC时，做了一个判断，如果之前统计所得到的Minor GC晋升到旧生代的平均大小大于旧生代的剩余空间，那么就直接触发Full GC。
-
-例如程序第一次触发MinorGC后，有6MB的对象晋升到旧生代，那么当下一次Minor GC发生时，首先检查旧生代的剩余空间是否大于6MB，如果小于6MB，则执行Full GC。
-
-当新生代采用PSGC时，方式稍有不同，PS GC是在Minor GC后也会检查，例如上面的例子中第一次Minor GC后，PS GC会检查此时旧生代的剩余空间是否大于6MB，如小于，则触发对旧生代的回收。除了以上4种状况外，对于使用RMI来进行RPC或管理的Sun JDK应用而言，默认情况下会一小时执行一次Full GC。可通过在启动时通过- java-Dsun.rmi.dgc.client.gcInterval=3600000来设置Full GC执行的间隔时间或通过-XX:+ DisableExplicitGC来禁止RMI调用System.gc
-
-
-### 9、对象分配内存是否线程安全？
-
-对象创建十分频繁，即使修改一个指针的位置在并发下也不是线程安全的，可能正给对象 A 分配内存，指针还没来得及修改，对象 B 又使用了指针来分配内存。
-
-解决方法：① CAS 加失败重试保证更新原子性。② 把内存分配按线程划分在不同空间，即每个线程在 Java 堆中预先分配一小块内存，叫做本地线程分配缓冲 TLAB，哪个线程要分配内存就在对应的 TLAB 分配，TLAB 用完了再进行同步。
-
-
-### 10、生产环境用的什么JDK？如何配置的垃圾收集器？
+### 6、生产环境用的什么JDK？如何配置的垃圾收集器？
 
 **Oracle JDK 1.8**
 
@@ -188,26 +106,261 @@ JDK 1.8 中有 Serial、ParNew、Parallel Scavenge、Serial Old、Parallel Old�
 **4、** 等过 GC 信息，针对项目敏感指标优化，比如访问延迟、吞吐量等
 
 
-### 11、32、volatile关键字的原理是什么？干什么用的？
-### 12、类加载器
-### 13、什么是指令重排序？
-### 14、方法区溢出的原因？
-### 15、如何判断对象是否是垃圾？
-### 16、JAVA 强引用
-### 17、对象的访问方式有哪些？
-### 18、栈
-### 19、谈谈永久代
-### 20、说一下堆和栈的区别
-### 21、Java对象的布局了解过吗？
-### 22、方法区
-### 23、老年代与标记复制算法
-### 24、方法区/永久代（线程共享）
-### 25、为什么需要双亲委派模式？
-### 26、什么情况下会发生栈内存溢出？
-### 27、字符串常量存放在哪个区域？
-### 28、分区收集算法
-### 29、JVM中一次完整的GC流程是怎样的，对象如何晋升到老年代？
-### 30、你熟悉哪些垃圾收集算法？
+### 7、Java 中会存在内存泄漏?简述一下
+
+所谓内存泄露就是指一个不再被程序使用的对象或变量一直被占据在内存中。Java 中有垃圾回收机制，它可以保证一对象不再被引用的时候，即对象变成了孤儿的时候，对象将自动被垃圾回收器从内存中清除掉。由于 Java 使用有向图的方式进行垃圾回收管理，可以消除引用循环的问题，例如有两个对象，相互引用，只要它们和根进程不可达的，那么 GC 也是可以回收它们的，例如下面的代码可以看到这种情况的内存回收：
+
+```
+import java.io.IOException;
+public class GarbageTest {
+    /**
+     * @param args
+     * @throws IOException 
+     */
+    public static void main(String[] args) throws IOException {
+        // TODO Auto-generated method stub
+        try {
+            gcTest();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        System.out.println("has exited gcTest!");
+        System.in.read();
+        System.in.read();       
+        System.out.println("out begin gc!");        
+        for(int i=0;i<100;i++)
+        {
+            System.gc();
+            System.in.read();   
+            System.in.read();   
+        }
+    }
+    private static void gcTest() throws IOException {
+        System.in.read();
+        System.in.read();       
+        Person p1 = new Person();
+        System.in.read();
+        System.in.read();       
+        Person p2 = new Person();
+        p1.setMate(p2);
+        p2.setMate(p1);
+        System.out.println("before exit gctest!");
+        System.in.read();
+        System.in.read();       
+        System.gc();
+        System.out.println("exit gctest!");
+    }
+    private static class Person
+    {
+        byte[] data = new byte[20000000];
+        Person mate = null;
+        public void setMate(Person other)
+        {
+            mate = other;
+        }
+    }
+}
+```
+
+Java 中的内存泄露的情况：长生命周期的对象持有短生命周期对象的引用就很可能发生内存泄露，尽管短生命周期对象已经不再需要，但是因为长生命周期对象持有它的引用而导致不能被回收，这就是 Java 中内存泄露的发生场景，通俗地说，就是程序员可能创建了一个对象，以后一直不再使用这个对象，这个对象却一直被引用，即这个对象无用但是却无法被垃圾回收器回收的，这就是 java 中可能出现内存泄露的情况，例如，缓存系统，我们加载了一个对象放在缓存中 (例如放在一个全局 map 对象中)，然后一直不再使用它，这个对象一直被缓存引用，但却不再被使用。
+
+检查 Java 中的内存泄露，一定要让程序将各种分支情况都完整执行到程序结束，然后看某个对象是否被使用过，如果没有，则才能判定这个对象属于内存泄露。
+
+如果一个外部类的实例对象的方法返回了一个内部类的实例对象，这个内部类对象被长期引用了，即使那个外部类实例对象不再被使用，但由于内部类持久外部类的实例对象，这个外部类对象将不会被垃圾回收，这也会造成内存泄露。
+
+下面内容来自于网上（主要特点就是清空堆栈中的某个元素，并不是彻底把它从数组中拿掉，而是把存储的总数减少，本人写得可以比这个好，在拿掉某个元素时，顺便也让它从数组中消失，将那个元素所在的位置的值设置为 null 即可）：
+
+我实在想不到比那个堆栈更经典的例子了，以致于我还要引用别人的例子，下面的例子不是我想到的，是书上看到的，当然如果没有在书上看到，可能过一段时间我自己也想的到，可是那时我说是我自己想到的也没有人相信的。
+
+```
+public class Stack {
+    private Object[] elements=new Object[10];
+    private int size = 0;
+    public void push(Object e){
+        ensureCapacity();
+        elements[size++] = e;
+    }
+
+    public Object pop(){
+        if( size == 0) throw new EmptyStackException();
+        return elements[--size];
+    }
+
+    private void ensureCapacity(){
+        if(elements.length == size){
+            Object[] oldElements = elements;
+            elements = new Object[2 * elements.length+1];
+            System.arraycopy(oldElements,0, elements, 0, size);
+            }
+    }
+}
+```
+
+上面的原理应该很简单，假如堆栈加了 10 个元素，然后全部弹出来，虽然堆栈是空的，没有我们要的东西，但是这是个对象是无法回收的，这个才符合了内存泄露的两个条件：无用，无法回收。但是就是存在这样的东西也不一定会导致什么样的后果，如果这个堆栈用的比较少，也就浪费了几个K内存而已，反正我们的内存都上 G 了，哪里会有什么影响，再说这个东西很快就会被回收的，有什么关系。下面看两个例子。
+
+```
+public class Bad{
+    public static Stack s=Stack();
+    static{
+        s.push(new Object());
+        s.pop(); //这里有一个对象发生内存泄露
+        s.push(new Object()); //上面的对象可以被回收了，等于是自愈了
+    }
+}
+```
+
+因为是 static，就一直存在到程序退出，但是我们也可以看到它有自愈功能，就是说如果你的 Stack 最多有 100 个对象，那么最多也就只有 100 个对象无法被回收其实这个应该很容易理解，Stack 内部持有 100 个引用，最坏的情况就是他们都是无用的，因为我们一旦放新的进取，以前的引用自然消失！
+
+内存泄露的另外一种情况：当一个对象被存储进 HashSet 集合中以后，就不能修改这个对象中的那些参与计算哈希值的字段了，否则，对象修改后的哈希值与最初存储进 HashSet 集合中时的哈希值就不同了，在这种情况下，即使在 contains 方法使用该对象的当前引用作为的参数去 HashSet 集合中检索对象，也将返回找不到对象的结果，这也会导致无法从 HashSet 集合中单独删除当前对象，造成内存泄露。
+
+
+### 8、类的实例化顺序
+
+**1、** 父类静态成员和静态初始化块 ，按在代码中出现的顺序依次执行
+
+**2、** 子类静态成员和静态初始化块 ，按在代码中出现的顺序依次执行
+
+**3、** 父类实例成员和实例初始化块 ，按在代码中出现的顺序依次执行
+
+**4、** 父类构造方法
+
+**5、** 子类实例成员和实例初始化块 ，按在代码中出现的顺序依次执行
+
+**6、** 子类构造方法
+
+**检验一下是不是真懂了：**
+
+```
+public class Base {
+    private String name = "博客：Soinice";
+
+    public Base() {
+        tellName();
+        printName();
+    }
+
+    public void tellName() {
+        System.out.println("Base tell name: " + name);
+    }
+
+    public void printName() {
+        System.out.println("Base print name: " + name);
+    }
+}
+```
+
+```
+public class Dervied extends Base {
+    private String name = "Java3y";
+
+    public Dervied() {
+        tellName();
+        printName();
+    }
+
+    @Override
+    public void tellName() {
+        System.out.println("Dervied tell name: " + name);
+    }
+
+    @Override
+    public void printName() {
+        System.out.println("Dervied print name: " + name);
+    }
+
+    public static void main(String[] args) {
+        new Dervied();
+    }
+}
+```
+
+**输出数据：**
+
+```
+Dervied tell name: null
+Dervied print name: null
+Dervied tell name: Java3y
+Dervied print name: Java3y
+
+Process finished with exit code 0
+```
+
+第一次做错的同学点个赞，加个关注不过分吧(hahaha。
+
+
+### 9、创建对象的过程是什么？
+
+**字节码角度**
+
+**NEW**
+
+如果找不到 Class 对象则进行类加载。加载成功后在堆中分配内存，从 Object 到本类路径上的所有属性都要分配。分配完毕后进行零值设置。最后将指向实例对象的引用变量压入虚拟机栈顶。
+
+**DUP：**
+
+在栈顶复制引用变量，这时栈顶有两个指向堆内实例的引用变量。两个引用变量的目的不同，栈底的引用用于赋值或保存局部变量表，栈顶的引用作为句柄调用相关方法。
+
+**INVOKESPECIAL**
+
+通过栈顶的引用变量调用 init 方法。
+
+**执行角度**
+
+1.
+当 JVM 遇到字节码 new 指令时，首先将检查该指令的参数能否在常量池中定位到一个类的符号引用，并检查引用代表的类是否已被加载、解析和初始化，如果没有就先执行类加载。
+
+2.
+在类加载检查通过后虚拟机将为新生对象分配内存。
+
+3.
+内存分配完成后虚拟机将成员变量设为零值，保证对象的实例字段可以不赋初值就使用。
+
+4.
+设置对象头，包括哈希码、GC 信息、锁信息、对象所属类的类元信息等。
+
+5.
+执行 init 方法，初始化成员变量，执行实例化代码块，调用类的构造方法，并把堆内对象的首地址赋值给引用变量。
+
+
+
+### 10、请解释StackOverflowError和OutOfMemeryError的区别？
+
+通过之前的分析可以发现，实际上每一块内存中都会存在有一部分的可变伸缩区，其基本流程为：如果空间内存不足，在可变范围之内扩大内存空间，当一段时间之后发现内存充足，会缩小内存空间。
+
+**永久代（JDK 1.8后消失了）**
+
+虽然java的版本是JDK1.8，但是java EE 的版本还是jdk1.7，永久代存在于堆内存之中
+
+**元空间**
+
+元空间在Jdk1.8之后才有的，器功能实际上和永久代没区别，唯一的区别在于永久代使用的是JVM的堆内存空间，元空间使用的是物理内存，所以元空间的大小受本地内存影响，一般默认在2M 左右。
+
+**范例：设置一些参数，让元空间出错**
+
+Java -XX:MetaspaceSize=1m
+
+
+### 11、串行（serial）收集器和吞吐量（throughput）收集器的区别是什么？
+### 12、JAVA8 与元数据
+### 13、被引用的对象就一定能存活吗？
+### 14、JVM 的内存模型以及分区情况和作用
+### 15、JVM中一次完整的GC流程是怎样的，对象如何晋升到老年代？
+### 16、GC 是什么？为什么要有 GC？
+### 17、Java对象的布局了解过吗？
+### 18、你说你做过JVM参数调优和参数配置，请问如何查看JVM系统默认值
+### 19、你有哪些手段来排查 OOM 的问题？
+### 20、可达性分析
+### 21、ZGC 了解吗？
+### 22、OSGI（ 动态模型系统）
+### 23、类加载的过程是什么？
+### 24、Java 堆的结构是什么样子的？什么是堆中的永久代（Perm Gen space）
+### 25、类加载为什么要使用双亲委派模式，有没有什么场景是打破了这个模式？
+### 26、描述一下什么情况下，对象会从年轻代进入老年代
+### 27、介绍一下 JVM 中垃圾收集器有哪些？ 他们特点分别是什么？
+### 28、简述Java的对象结构
+### 29、引用计数法
+### 30、你知道哪些GC类型？
 
 
 
@@ -219,12 +372,8 @@ JDK 1.8 中有 Serial、ParNew、Parallel Scavenge、Serial Old、Parallel Old�
 ### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/?p=67)
 
 
-## 其他，高清PDF：172份，7701页，最新整理
+## 最新，高清PDF：172份，7701页，最新整理
 
-[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/mst.png "大厂面试题")](https://souyunku.lanzous.com/b0alp9b9g "大厂面试题")
+[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/mst.png "大厂面试题")](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png"大厂面试题")
 
-## 关注公众号：架构师专栏，回复：“面试题”，即可
-
-[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/jiagoushi.png "架构师专栏")](https://souyunku.lanzous.com/b0alp9b9g "架构师专栏")
-
-## 关注公众号：架构师专栏，回复：“面试题”，即可
+[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png "架构师专栏")](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png "架构师专栏")

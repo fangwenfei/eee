@@ -8,130 +8,137 @@
 
 
 
-### 1、设计微服务的最佳实践是什么？
+### 1、DiscoveryClient的作用
 
-以下是设计微服务的最佳实践：
-
-![](https://gitee.com/souyunkutech/souyunku-home/raw/master/images/souyunku-web/2019/08/0816/01/img_4.png#alt=img%5C_4.png)
-
-图4：设计微服务的最佳实践 – 微服务访谈问题
+可以从注册中心中根据服务别名获取注册的服务器信息。
 
 
-### 2、什么是持续集成（CI）？
+### 2、dubbo服务注册与发现原理
 
-持续集成（CI）是每次团队成员提交版本控制更改时自动构建和测试代码的过程。这鼓励开发人员通过在每个小任务完成后将更改合并到共享版本控制存储库来共享代码和单元测试。
+![](https://gitee.com/souyunkutech/souyunku-home/raw/master/images/souyunku-web/2020/5/2/01/44/45_5.png#alt=45%5C_5.png)
+
+![](https://gitee.com/souyunkutech/souyunku-home/raw/master/images/souyunku-web/2020/5/2/01/44/45_6.png#alt=45%5C_6.png)
+
+调⽤关系说明：
+
+**1、** 服务容器负责启动,加载,运⾏服务提供者。
+
+**2、** 服务提供者在启动时,向注册中⼼注册⾃⼰提供的服务。
+
+**3、** 服务消费者在启动时,向注册中⼼订阅⾃⼰所需的服务。
+
+**4、** 注册中⼼返回服务提供者地址列表给消费者,如果有变更,注册中⼼将基于⻓连接推送变更数据给消费者。
+
+**5、** 服务消费者,从提供者地址列表中,基于软负载均衡算法,选⼀台提供者进⾏调⽤,如果调⽤失败,再选另⼀台调⽤。
+
+**6、** 服务消费者和提供者,在内存中累计调⽤次数和调⽤时间,定时每分钟发送⼀次统计数据到监控中⼼。
 
 
-### 3、SpringBoot默认支持的日志框架有哪些？可以进行哪些设置？
+### 3、Spring Cloud和SpringBoot版本对应关系
+| Spring Cloud Version | SpringBoot Version |
+| --- | --- |
+| Hoxton | 2.2.x |
+| Greenwich | 2.1.x |
+| Finchley | 2.0.x |
+| Edgware | 1.5.x |
+| Dalston | 1.5.x |
 
-SpringBoot支持Java Util Logging，Log4J2，Lockback作为日志框架，如果你使用Starters启动器，SpringBoot将使用Logback作为默认日志框架
 
 
-### 4、Spring Cloud Gateway
+### 4、既然Nginx可以实现网关？为什么还需要使用Zuul框架
 
-Spring cloud gateway是spring官方基于Spring 5.0、SpringBoot2.0和Project Reactor等技术开发的网关，Spring Cloud Gateway旨在为微服务架构提供简单、有效和统一的API路由管理方式，Spring Cloud Gateway作为Spring Cloud生态系统中的网关，目标是替代Netflix Zuul，其不仅提供统一的路由方式，并且还基于Filer链的方式提供了网关基本的功能，例如：安全、监控/埋点、限流等。
+Zuul是SpringCloud集成的网关，使用Java语言编写，可以对SpringCloud架构提供更灵活的服务。
 
 
-### 5、spring 提供了哪些配置方式？
+### 5、自动装配有哪些局限性 ?
 
-bean 所需的依赖项和服务在 XML 格式的配置文件中指定。 这些配置文件通常包含许多 bean 定义和特定于应用程序的配置选项。 它们通常以 bean 标签开头。
+自动装配的局限性是：
 
-**例如：**
+**1、** 重写：你仍需用 和  配置来定义依赖，意味着总要重写自动装配。
+
+**2、** 基本数据类型：你不能自动装配简单的属性，如基本数据类型，String字符串，和类。
+
+**3、** 模糊特性：自动装配不如显式装配精确，如果有可能，建议使用显式装配。
+
+
+### 6、哪些是重要的bean生命周期方法？你能重载它们吗？
+
+有两个重要的bean 生命周期方法，第一个是setup ， 它是在容器加载bean的时候被调用。第二个方法是 teardown 它是在容器卸载类的时候被调用。
+
+The bean 标签有两个重要的属性（init-method和destroy-method）。用它们你可以自己定制初始化和注销方法。它们也有相应的注解（@PostConstruct和@PreDestroy）。
+
+
+### 7、什么是 spring bean？
+
+**1、** 它们是构成用户应用程序主干的对象。
+
+**2、** Bean 由 Spring IoC 容器管理。
+
+**3、** 它们由 Spring IoC 容器实例化，配置，装配和管理。
+
+**4、** Bean 是基于用户提供给容器的配置元数据创建。
+
+
+### 8、spring 中有多少种 IOC 容器？
+
+BeanFactory - BeanFactory 就像一个包含 bean 集合的工厂类。 它会在客户端要求时实例化 bean。
+
+ApplicationContext - ApplicationContext 接口扩展了 BeanFactory 接口。 它在 BeanFactory 基础上提供了一些额外的功能。
+
+
+### 9、如何在 SpringBoot 中添加通用的 JS 代码？
+
+在源文件夹下，创建一个名为 static 的文件夹。然后，你可以把你的静态的内容放在这里面。
+
+例如，myapp.js 的路径是 resources\static\js\myapp.js
+
+**
+
+你可以参考它在 jsp 中的使用方法：**
+
+错误：HAL browser gives me unauthorized error - Full authenticaition is required to access this resource.
+
+该如何来修复这个错误呢？
+
+两种方法：
+
+方法 1：关闭安全验证
+
+application.properties
 
 ```
-<bean id="studentbean" class="org.edureka.firstSpring.StudentBean">
-     <property name="name" value="Edureka"></property>
-</bean>
+management.security.enabled:FALSE
 ```
 
-**基于注解配置**
-
-您可以通过在相关的类，方法或字段声明上使用注解，将 bean 配置为组件类本身，而不是使用 XML 来描述 bean 装配。 默认情况下，Spring 容器中未打开注解装配。 因此，您需要在使用它之前在 Spring 配置文件中启用它。 例如：
-
-context:annotation-config/
-
-Spring 的 Java 配置是通过使用[@Bean ](/Bean ) 和 [@Configuration ](/Configuration ) 来实现。
-
-[@Bean ](/Bean ) 注解扮演与 元素相同的角色。 [@Configuration ](/Configuration ) 类允许通过简单地调用同一个类中的其他[@Bean ](/Bean ) 方法来定义 bean 间依赖关系。
-
-**例如：**
-
-```
-public class StudentConfig {
-    @Bean
-    public StudentBean myStudent() {
-        return new StudentBean();
-    }
-}
-```
+方法二：在日志中搜索密码并传递至请求标头中
 
 
-### 6、SpringBoot有哪些优点？
+### 10、解释JDBC抽象和DAO模块。
 
-减少开发，测试时间和努力。
-
-使用JavaConfig有助于避免使用XML。
-
-避免大量的Maven导入和各种版本冲突。
-
-提供意见发展方法。
-
-通过提供默认值快速开始开发。
-
-没有单独的Web服务器需要。这意味着你不再需要启动Tomcat，Glassfish或其他任何东西。
-
-需要更少的配置 因为没有web.xml文件。只需添加用@ Configuration注释的类，然后添加用@Bean注释的方法，Spring将自动加载对象并像以前一样对其进行管理。您甚至可以将@Autowired添加到bean方法中，以使Spring自动装入需要的依赖关系中。基于环境的配置 使用这些属性，您可以将您正在使用的环境传递到应用程序：-Dspring.profiles.active = {enviornment}。在加载主应用程序属性文件后，Spring将在（application{environment} .properties）中加载后续的应用程序属性文件。
+通过使用JDBC抽象和DAO模块，保证数据库代码的简洁，并能避免数据库资源错误关闭导致的问题，它在各种不同的数据库的错误信息之上，提供了一个统一的异常访问层。它还利用Spring的AOP 模块给Spring应用中的对象提供事务管理服务。
 
 
-### 7、分布式配置中心有那些框架？
-
-Apollo、zookeeper、springcloud config。
-
-
-### 8、Spring Cloud Zookeeper
-
-SpringCloud支持三种注册方式Eureka， Consul(go语言编写)，zookeeper
-
-Spring Cloud Zookeeper是基于Apache Zookeeper的服务治理组件。
-
-
-### 9、什么是Spring的依赖注入？
-
-依赖注入，是IOC的一个方面，是个通常的概念，它有多种解释。这概念是说你不用创建对象，而只需要描述它如何被创建。你不在代码里直接组装你的组件和服务，但是要在配置文件里描述哪些组件需要哪些服务，之后一个容器（IOC容器）负责把他们组装起来。
-
-
-### 10、Ribbon和Feign的区别？
-
-**1、** Ribbon都是调用其他服务的，但方式不同。
-
-**2、** 启动类注解不同，Ribbon是[@RibbonClient ](/RibbonClient ) feign的是[@EnableFeignClients ](/EnableFeignClients )
-
-**3、** 服务指定的位置不同，Ribbon是在@RibbonClient注解上声明，Feign则是在定义抽象方法的接口中使用@FeignClient声明。
-
-**4、** 调用方式不同，Ribbon需要自己构建http请求，模拟http请求然后使用RestTemplate发送给其他服务，步骤相当繁琐。Feign需要将调用的方法定义成抽象方法即可。
-
-
-### 11、dubbo服务注册与发现原理
-### 12、SpringBoot 的配置文件有哪几种格式？它们有什么区别？
-### 13、Spring MVC的控制器是不是单例模式,如果是,有什么问题,怎么解决？
-### 14、eureka服务注册与发现原理
-### 15、解释AOP模块
-### 16、SpringBoot Starter 的工作原理是什么？
-### 17、SpringBoot 中如何解决跨域问题 ?
-### 18、什么是不同类型的微服务测试？
-### 19、[@Required ](/Required ) 注解
-### 20、ZuulFilter常用有那些方法
-### 21、Spring对DAO的支持
-### 22、什么是Spring的MVC框架？
-### 23、Zookeeper如何 保证CP
-### 24、Eureka如何 保证AP
-### 25、Spring Cloud Gateway
-### 26、如何不通过任何配置来选择 Hibernate 作为 JPA 的默认实现？
-### 27、访问RESTful微服务的方法是什么？
-### 28、[@Controller ](/Controller ) 注解
-### 29、解释AOP
-### 30、什么是Feign？
-### 31、spring boot初始化环境变量流程?
+### 11、[@Qualifier ](/Qualifier ) 注解有什么用？
+### 12、微服务测试的主要障碍是什么？
+### 13、什么是Spring Profiles？
+### 14、SpringBoot事物的使用
+### 15、什么是 FreeMarker 模板？
+### 16、SpringBoot支持哪些嵌入式容器？
+### 17、SpringBoot 的自动配置是如何实现的？
+### 18、spring 支持哪些 ORM 框架
+### 19、如何重新加载SpringBoot上的更改，而无需重新启动服务器？
+### 20、是否可以在Spring boot中更改嵌入式Tomcat服务器的端口?
+### 21、如何使用 SpringBoot 生成一个 WAR 文件？
+### 22、SpringBoot 配置文件的加载顺序
+### 23、使用 Spring 访问 Hibernate 的方法有哪些？
+### 24、什么是DispatcherServlet
+### 25、一个Spring的应用看起来象什么？
+### 26、为什么要选择微服务架构？
+### 27、SpringBoot 配置加载顺序?
+### 28、如何在自定义端口上运行 SpringBoot应用程序?
+### 29、什么是Spring Cloud？
+### 30、SpringBoot常用的starter有哪些？
+### 31、spring JDBC API 中存在哪些类？
 
 
 
@@ -143,12 +150,8 @@ Spring Cloud Zookeeper是基于Apache Zookeeper的服务治理组件。
 ### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/?p=67)
 
 
-## 其他，高清PDF：172份，7701页，最新整理
+## 最新，高清PDF：172份，7701页，最新整理
 
-[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/mst.png "大厂面试题")](https://souyunku.lanzous.com/b0alp9b9g "大厂面试题")
+[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/mst.png "大厂面试题")](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png"大厂面试题")
 
-## 关注公众号：架构师专栏，回复：“面试题”，即可
-
-[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/jiagoushi.png "架构师专栏")](https://souyunku.lanzous.com/b0alp9b9g "架构师专栏")
-
-## 关注公众号：架构师专栏，回复：“面试题”，即可
+[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png "架构师专栏")](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png "架构师专栏")

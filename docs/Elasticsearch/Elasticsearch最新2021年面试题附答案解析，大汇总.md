@@ -8,152 +8,118 @@
 
 
 
-### 1、解释一下 Elasticsearch 的 分片？
+### 1、可以列出X-Pack API 吗？
 
-当文档数量增加，硬盘容量和处理能力不足时，对客户端请求的响应将延迟。
+付费功能只是试用过（面试时如实回答就可以）。
 
-在这种情况下，将索引数据分成小块的过程称为分片，可改善数据搜索结果的获取。
+7.1 安全功能免费后，用 X-pack 创建Space、角色、用户，设置SSL加密，并且为不同用户设置不同的密码和分配不同的权限。
 
+其他如：机器学习、 Watcher、 Migration 等 API 用的较少。
 
-### 2、详细描述一下Elasticsearch搜索的过程？
 
-面试官：想了解ES搜索的底层原理，不再只关注业务层面了。
+### 2、ElasticSearch中的副本是什么？
 
-搜索拆解为“query then fetch” 两个阶段。
+一个索引被分解成碎片以便于分发和扩展，副本是分片的副本。一个节点是一个属于一个集群的ElasticSearch的运行实例，一个集群由一个或多个共享相同集群名称的节点组成。
 
-query阶段的目的：定位到位置，但不取。
 
-**步骤拆解如下：**
+### 3、Elasticsearch中的 Ingest 节点如何工作？
 
-**1、** 假设一个索引数据有5主+1副本 共10分片，一次请求会命中（主或者副本分片中）的一个。
+ingest 节点可以看作是数据前置处理转换的节点，支持 pipeline管道 设置，可以使用 ingest 对数据进行过滤、转换等操作，类似于 logstash 中 filter 的作用，功能相当强大。
 
-**2、** 每个分片在本地进行查询，结果返回到本地有序的优先队列中。
 
-**3、** 第2）步骤的结果发送到协调节点，协调节点产生一个全局的排序列表。
+### 4、你能否在 Elasticsearch 中定义映射？
 
-fetch阶段的目的：取数据。
+映射是定义文档及其包含的字段的存储和索引方式的过程。
 
-路由节点获取所有文档，返回给客户端。
+**例如，使用映射定义：**
 
+**1、** 哪些字符串字段应该定义为 text 类型。
 
-### 3、能列出 10 个使用 Elasticsearch 作为其搜索引擎或数据库的公司吗？
+**2、** 哪些字段应该定义为：数字，日期或地理位置 类型。
 
-这个问题，铭毅本来想删掉。但仔细一想，至少能看出求职者的视野够不够开阔。
+**3、** 自定义规则来控制动态添加字段的类型。
 
-参与过 Elastic中文社区活动或者经常关注社区动态的就知道，公司太多了，列举如下（排名不分先后）：
 
-1、阿里
+### 5、在 Elasticsearch 中列出集群的所有索引的语法是什么？
 
-2、腾讯
+```
+GET _cat/indices
+```
 
-3、百度
 
-4、京东
+### 6、elasticsearch 索引数据多了怎么办，如何调优，部署
 
-5、美团
+面试官：想了解大数据量的运维能力。
 
-6、小米
+解索引数据的规划，应在前期做好规划，正所谓“设计先行，编码在后”，这样才能有效的避免突如其来的数据激增导致集群处理能力不足引发的线上客户检索或者其他业务受到影响。
 
-7、滴滴
+如何调优，正如问题 1 所说，这里细化一下：
 
-8、携程
+**动态索引层面**
 
-**9、** 今日头条
+基于模板+时间+rollover api 滚动创建索引，举例：设计阶段定义：blog 索引的模板格式为：blog_index_时间戳的形式，每天递增数据。
 
-**10、** 贝壳找房
+这样做的好处：不至于数据量激增导致单个索引数据量非常大，接近于上线 2 的32 次幂-1，索引存储达到了 TB+甚至更大。
 
-**11、** 360
+一旦单个索引很大，存储等各种风险也随之而来，所以要提前考虑+及早避免。
 
-**12、** IBM
+**存储层面**
 
-**13、** 顺丰快递
+冷热数据分离存储，热数据（比如最近 3 天或者一周的数据），其余为冷数据。
 
-几乎我们能想到的互联网公司都在使用 Elasticsearch。
+对于冷数据不会再写入新数据，可以考虑定期 force_merge 加 shrink 压缩操作，节省存储空间和检索效率。
 
-关注 TOP 互联网公司的相关技术的动态和技术博客，也是一种非常好的学习方式。
+**部署层面**
 
+一旦之前没有规划，这里就属于应急策略。结合 ES 自身的支持动态扩展的特点，动态新增机器的方式可以缓解集群压力，注意：如果之前主节点等规划合理，不需要重启集群也能完成动态新增的。
 
-### 4、Elasticsearch 中的节点（比如共 20 个），其中的 10 个选了一个master，另外 10 个选了另一个 master，怎么办？
 
-**1、** 当集群 master 候选数量不小于 3 个时，可以通过设置最少投票通过数量（discovery.zen.minimum_master_nodes）超过所有候选节点一半以上来解决脑裂问题；
+### 7、解释一下Elasticsearch Cluster？
 
-**2、** 当候选数量为两个时，只能修改为唯一的一个 master 候选，其他作为 data节点，避免脑裂问题。
+Elasticsearch 集群是一组连接在一起的一个或多个 Elasticsearch 节点实例。
 
+Elasticsearch 集群的功能在于在集群中的所有节点之间分配任务，进行搜索和建立索引。
 
-### 5、Elasticsearch 是如何实现 Master 选举的？
 
-**1、** Elasticsearch 的选主是 ZenDiscovery 模块负责的，**主要包含 Ping（节点之**
+### 8、详细说明ELK Stack及其内容？
 
-**间通过这个 RPC 来发现彼此）和 Unicast（单播模块包含一个主机列表以控制哪**
+ELK Stack是一系列搜索和分析工具（Elasticsearch），收集和转换工具（Logstash）以及数据管理及可视化工具（Kibana）、解析和收集日志工具（Beats 未来是 Agent）以及监视和报告工具（例如X Pack）的集合。
 
-**些节点需要 ping 通）这两部分；**
+相当于用户基本不再需要第三方技术栈，就能全流程、全环节搞定数据接入、存储、检索、可视化分析等全部功能。
 
-**2、** 对所有可以成为 master 的节点（node.master: true）根据 nodeId 字典排序，每次选举每个节点都把自己所知道节点排一次序，然后选出第一个（第 0 位）节点，暂且认为它是 master 节点。
 
-**3、** 如果对某个节点的投票数达到一定的值（可以成为 master 节点数 n/2+1）并且该节点自己也选举自己，那这个节点就是 master。否则重新选举一直到满足上述条件。
+### 9、ElasticSearch对于大数据量（上亿量级）的聚合如何实现？
 
-**4、补充**：master 节点的职责主要包括集群、节点和索引的管理，不负责文档级
+ElasticSearch提供的首个近似聚合是cardinality度量。它提供一个字段的基数，即该字段的distinct或者unique值的数目。它是基于HLL算法的。HLL会先对我们的输入做哈希运算，然后根据哈希运算结果中的bits做概率估算从而得到基数。其特点是：
 
-别的管理；data 节点可以关闭 http 功能。
+可配置的精度，用来控制内存的使用（更精确＝更多内存），小的数据集精度是非常高的；我们可以通过配置参数来设置去重需要的固定内存使用量，无论数千还是数十亿的唯一值，内存使用量只与你配置的精确度相关 。
 
+图片
 
-### 6、elasticsearch 实际设计
 
-采用elasticSearch + Hbase的架构方式。es中只存放少量关键数据建立索引，通过es查询到doc id 再去Hbase中查询完整的数据信息。
+### 10、Beats 如何与 Elasticsearch 结合使用？
 
+Beats是一种开源工具，可以将数据直接传输到 Elasticsearch 或通过 logstash，在使用Kibana进行查看之前，可以对数据进行处理或过滤。
 
-### 7、详细描述一下 Elasticsearch 索引文档的过程。
+传输的数据类型包含：审核数据，日志文件，云数据，网络流量和窗口事件日志等。
 
-协调节点默认使用文档 ID 参与计算（也支持通过 routing），以便为路由提供合适的分片。
 
-shard = hash(document_id) % (num_of_primary_shards)
-
-**1、** 当分片所在的节点接收到来自协调节点的请求后，会将请求写入到 MemoryBuffer，然后定时（默认是每隔 1 秒）写入到 Filesystem Cache，这个从 MomeryBuffer 到 Filesystem Cache 的过程就叫做 refresh；
-
-**2、** 当然在某些情况下，存在 Momery Buffer 和 Filesystem Cache 的数据可能会丢失，ES 是通过 translog 的机制来保证数据的可靠性的。其实现机制是接收到请求后，同时也会写入到 translog 中，当 Filesystem cache 中的数据写入到磁盘中时，才会清除掉，这个过程叫做 flush；
-
-**3、** 在 flush 过程中，内存中的缓冲将被清除，内容被写入一个新段，段的 fsync将创建一个新的提交点，并将内容刷新到磁盘，旧的 translog 将被删除并开始一个新的 translog。
-
-**4、** flush 触发的时机是定时触发（默认 30 分钟）或者 translog 变得太大（默认为 512M）时；
-
-
-### 8、elasticsearch 读取数据
-
-使用RestFul API向对应的node发送查询请求，根据did来判断在哪个shard上，返回的是primary和replica的node节点集合
-
-这样会负载均衡地把查询发送到对应节点，之后对应节点接收到请求，将document数据返回协调节点，协调节点把document返回给客户端
-
-![](https://image-static.segmentfault.com/277/237/2772379432-5e5b563f9a221_articlex#alt=3cI6RP.png)
-
-
-### 9、能列举过你使用的 X-Pack 命令吗?
-
-7.1 安全功能免费后，使用了：setup-passwords 为账号设置密码，确保集群安全。
-
-
-### 10、如何使用 Elastic Reporting ？
-
-收费功能，只是了解，点到为止。
-
-Reporting API有助于将检索结果生成 PD F格式，图像 PNG 格式以及电子表格 CSV 格式的数据，并可根据需要进行共享或保存。
-
-
-### 11、ES更新数据的执行流程？
-### 12、elasticsearch 的 filesystem
-### 13、对于 GC 方面，在使用 Elasticsearch 时要注意什么？
-### 14、详细描述一下Elasticsearch索引文档的过程
-### 15、详细说明ELK Stack及其内容？
-### 16、详细描述一下Elasticsearch搜索的过程。
-### 17、elasticsearch 了解多少，说说你们公司 es 的集群架构，索引数据大小，分片有多少，以及一些调优手段 。
-### 18、elasticsearch了解多少，说说你们公司es的集群架构，索引数据大小，分片有多少，以及一些调优手段 。
-### 19、客户端在和集群连接时，如何选择特定的节点执行请求的？
-### 20、Master 节点和 候选 Master节点有什么区别？
-### 21、Elasticsearch中的节点（比如共20个），其中的10个选了一个master，另外10个选了另一个master，怎么办？
-### 22、介绍一下你们的个性化搜索方案？
-### 23、elasticsearch 数据的写入过程
-### 24、解释一下 Elasticsearch集群中的 索引的概念 ？
-### 25、请解释一下 Elasticsearch 中聚合？
-### 26、Elasticsearch是如何实现master选举的？
+### 11、lucence内部结构是什么？
+### 12、Elasticsearch 在部署时，对 Linux 的设置有哪些优化方法？
+### 13、客户端在和集群连接时，是如何选择特定的节点执行请求的？
+### 14、如何使用 Elasticsearch Tokenizer？
+### 15、什么是ElasticSearch脑裂？
+### 16、elasticsearch 冷热分离
+### 17、elasticsearch 读取数据
+### 18、您能解释一下X-Pack for Elasticsearch的功能和重要性吗？
+### 19、Elasticsearch的 文档是什么？
+### 20、token filter 过滤器 在 Elasticsearch 中如何工作？
+### 21、是否了解字典树？
+### 22、详细描述一下Elasticsearch索引文档的过程。
+### 23、elasticsearch 是如何实现 master 选举的
+### 24、在 Elasticsearch 中，是怎么根据一个词找到对应的倒排索引的？
+### 25、详细描述一下 Elasticsearch 索引文档的过程。
+### 26、什么是Elasticsearch Analyzer？
 
 
 
@@ -165,12 +131,8 @@ Reporting API有助于将检索结果生成 PD F格式，图像 PNG 格式以及
 ### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/?p=67)
 
 
-## 其他，高清PDF：172份，7701页，最新整理
+## 最新，高清PDF：172份，7701页，最新整理
 
-[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/mst.png "大厂面试题")](https://souyunku.lanzous.com/b0alp9b9g "大厂面试题")
+[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/mst.png "大厂面试题")](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png"大厂面试题")
 
-## 关注公众号：架构师专栏，回复：“面试题”，即可
-
-[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/jiagoushi.png "架构师专栏")](https://souyunku.lanzous.com/b0alp9b9g "架构师专栏")
-
-## 关注公众号：架构师专栏，回复：“面试题”，即可
+[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png "架构师专栏")](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png "架构师专栏")

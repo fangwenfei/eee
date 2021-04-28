@@ -8,149 +8,93 @@
 
 
 
-### 1、如何在不使用BasePACKAGE过滤器的情况下排除程序包？
+### 1、Spring框架中的单例bean是线程安全的吗?
 
-过滤程序包的方法不尽相同。但是弹簧启动提供了一个更复杂的选项，可以在不接触组件扫描的情况下实现这一点。在使用注释@ SpringBootApplication时，可以使用排除属性。请参阅下面的代码片段：
+不，Spring框架中的单例bean不是线程安全的。
 
-@SpringBootApplication(exclude= {Employee.class})
 
-public class FooAppConfiguration {}
+### 2、什么是spring?
 
+Spring 是个java企业级应用的开源开发框架。Spring主要用来开发Java应用，但是有些扩展是针对构建J2EE平台的web应用。Spring 框架目标是简化Java企业级应用开发，并通过POJO为基础的编程模型促进良好的编程习惯。
 
-### 2、Spring MVC的异常处理？
 
+### 3、Async异步调用方法
 
+在SpringBoot中使用异步调用是很简单的，只需要在方法上使用@Async注解即可实现方法的异步调用。 注意：需要在启动类加入@EnableAsync使异步调用@Async注解生效。
 
-可以将异常抛给Spring框架，由Spring框架来处理；我们只需要配置简单的异常处理器，在异常处理器中添视图页面即可。
 
+### 4、前后端分离，如何维护接口文档 ?
 
-### 3、微服务设计的基础是什么？
+前后端分离开发日益流行，大部分情况下，我们都是通过 SpringBoot 做前后端分离开发，前后端分离一定会有接口文档，不然会前后端会深深陷入到扯皮中。一个比较笨的方法就是使用 word 或者 md 来维护接口文档，但是效率太低，接口一变，所有人手上的文档都得变。在 SpringBoot 中，这个问题常见的解决方案是 Swagger ，使用 Swagger 我们可以快速生成一个接口文档网站，接口一旦发生变化，文档就会自动更新，所有开发工程师访问这一个在线网站就可以获取到最新的接口文档，非常方便。
 
-这可能是最常见的微服务面试问题之一。在回答这个问题时，你需要记住以下内容：
 
-**1、** 定义范围。
+### 5、为什么要用SpringBoot
 
-**2、** 结合低耦合和高内聚。
+快速开发，快速整合，配置简化、内嵌服务容器
 
-**3、** 创建一个有唯一标识的服务，唯一标识将充当识别源，非常像数据库表中的唯一键。
 
-**4、** 创建正确的API并在集成过程中特别注意。
+### 6、SpringBoot 打成的 jar 和普通的 jar 有什么区别 ?
 
-**5、** 限制对数据的访问并将其限制到所需级别。
+SpringBoot 项目最终打包成的 jar 是可执行 jar ，这种 jar 可以直接通过 java -jar xxx.jar 命令来运行，这种 jar 不可以作为普通的 jar 被其他项目依赖，即使依赖了也无法使用其中的类。
 
-**6、** 在请求和响应之间保持顺畅的流程。
+SpringBoot 的 jar 无法被其他项目依赖，主要还是他和普通 jar 的结构不同。普通的 jar 包，解压后直接就是包名，包里就是我们的代码，而 SpringBoot 打包成的可执行 jar 解压后，在 \BOOT-INF\classes 目录下才是我们的代码，因此无法被直接引用。如果非要引用，可以在 pom.xml 文件中增加配置，将 SpringBoot 项目打包成两个 jar ，一个可执行，一个可引用。
 
-**7、** 自动化大多数流程，以减少时间复杂性。
 
-**8、** 将表的数量保持在最低水平，以减少空间复杂性。
+### 7、什么是SpringBoot？
 
-**9、** 不断监控架构，发现缺陷及时修复。
+多年来，随着新功能的增加，spring变得越来越复杂。只需访问https://spring.io/projects 页面，我们就会看到可以在我们的应用程序中使用的所有Spring项目的不同功能。如果必须启动一个新的Spring项目，我们必须添加构建路径或添加Maven依赖关系，配置应用程序服务器，添加spring配置。因此，开始一个新的spring项目需要很多努力，因为我们现在必须从头开始做所有事情。
 
-**10、**  每个微服务的数据存储应该分开。
+SpringBoot是解决这个问题的方法。SpringBoot已经建立在现有spring框架之上。使用spring启动，我们避免了之前我们必须做的所有样板代码和配置。因此，SpringBoot可以帮助我们以最少的工作量，更加健壮地使用现有的Spring功能。
 
-**11、**  对于每个微服务，都应该有一个独立的构建。
 
-**12、**  将微服务部署到容器中。
+### 8、哪种依赖注入方式你建议使用，构造器注入，还是 Setter方法注入？
 
-**13、**  服务器应被视为无状态。
+你两种依赖方式都可以使用，构造器注入和Setter方法注入。最好的解决方案是用构造器参数实现强制依赖，setter方法实现可选依赖。
 
 
-### 4、什么是 Aspect？
+### 9、使用Spring Cloud有什么优势？
 
-`aspect` 由 `pointcount` 和 `advice` 组成, 它既包含了横切逻辑的定义, 也包括了连接点的定义、Spring AOP 就是负责实施切面的框架, 它将切面所定义的横切逻辑编织到切面所指定的连接点中、AOP 的工作重心在于如何将增强编织目标对象的连接点上, 这里包含两个工作:
+使用SpringBoot开发分布式微服务时，我们面临以下问题
 
-**1、** 如何通过 pointcut 和 advice 定位到特定的 joinpoint 上
+**1、** 与分布式系统相关的复杂性-这种开销包括网络问题，延迟开销，带宽问题，安全问题。
 
-**2、** 如何在 advice 中编写切面代码.
+**2、** 服务发现-服务发现工具管理群集中的流程和服务如何查找和互相交谈。它涉及一个服务目录，在该目录中注册服务，然后能够查找并连接到该目录中的服务。
 
-![](https://gitee.com/souyunkutech/souyunku-home/raw/master/images/souyunku-web/2019/08/0816/02/img_5.png#alt=img%5C_5.png)
+**3、** 冗余-分布式系统中的冗余问题。
 
-可以简单地认为, 使用 [@Aspect ](/Aspect ) 注解的类就是切面.
+**4、** 负载平衡 --负载平衡改善跨多个计算资源的工作负荷，诸如计算机，计算机集群，网络链路，中央处理单元，或磁盘驱动器的分布。
 
+**5、** 性能-问题 由于各种运营开销导致的性能问题。
 
-### 5、SpringBoot多数据源拆分的思路
+**6、** 部署复杂性-Devops技能的要求。
 
-先在properties配置文件中配置两个数据源，创建分包mapper，使用@ConfigurationProperties读取properties中的配置，使用@MapperScan注册到对应的mapper包中
 
+### 10、什么是SpringBoot？
 
-### 6、什么是Spring Cloud Zuul（服务网关）
+用来简化spring应用的初始搭建以及开发过程，使用特定的方式来进行配置（`properties`或`yml`文件）创建独立的spring引用程序 main方法运行，嵌入的Tomcat 无需部署war文件，简化maven配置，自动配置spring添加对应功能starter自动化配置
 
-Zuul是对SpringCloud提供的成熟对的路由方案，他会根据请求的路径不同，网关会定位到指定的微服务，并代理请求到不同的微服务接口，他对外隐蔽了微服务的真正接口地址。
 
-三个重要概念：动态路由表，路由定位，反向代理：
-
-**1、** 动态路由表：Zuul支持Eureka路由，手动配置路由，这俩种都支持自动更新
-
-**2、** 路由定位：根据请求路径，Zuul有自己的一套定位服务规则以及路由表达式匹配
-
-**3、** 反向代理：客户端请求到路由网关，网关受理之后，在对目标发送请求，拿到响应之后在 给客户端它可以和Eureka,Ribbon,Hystrix等组件配合使用，
-
-**Zuul的应用场景：**
-
-对外暴露，权限校验，服务聚合，日志审计等
-
-
-### 7、什么是 Hystrix 断路器？我们需要它吗？
-
-由于某些原因，employee-consumer 公开服务会引发异常。在这种情况下使用 Hystrix 我们定义了一个回退方法。如果在公开服务中发生异常，则回退方法返回一些默认值
-
-![](https://gitee.com/souyunkutech/souyunku-home/raw/master/images/souyunku-web/2020/5/2/01/44/45_13.png#alt=45%5C_13.png)
-
-中断，并且员工使用者将一起跳过 firtsPage 方法，并直接调用回退方法。 断路器的目的是给第一页方法或第一页方法可能调用的其他方法留出时间，并导致异常恢复。可能发生的情况是，在负载较小的情况下，导致异常的问题有更好的恢复机会 。
-
-![](https://gitee.com/souyunkutech/souyunku-home/raw/master/images/souyunku-web/2020/5/2/01/44/45_14.png#alt=45%5C_14.png)
-
-
-### 8、如何重新加载 SpringBoot上的更改，而无需重新启动服务器？
-
-使用DEV工具来实现。 通过这种依赖关系，可以节省任何更改，嵌入式 tomcat将重新启动。 使用SpringBoot有一个开发工具`Dev Tools`模块，可以重新加载 SpringBoot上的更改，而无需重新启动服务器。消除每次手动部署更改的需要。 SpringBoot在发布它的第一个版本时没有这个功能。该模块将在生产环境中被禁用。它还提供H2数据库控制台以更好地测试应用程序。
-
-
-### 9、Spring Cloud的版本关系
-
-Spring Cloud是一个由许多子项目组成的综合项目，各子项目有不同的发布节奏。 为了管理Spring Cloud与各子项目的版本依赖关系，发布了一个清单，其中包括了某个Spring Cloud版本对应的子项目版本。 为了避免Spring Cloud版本号与子项目版本号混淆，Spring Cloud版本采用了名称而非版本号的命名，这些版本的名字采用了伦敦地铁站的名字，根据字母表的顺序来对应版本时间顺序，例如Angel是第一个版本，Brixton是第二个版本。 当Spring Cloud的发布内容积累到临界点或者一个重大BUG被解决后，会发布一个"service releases"版本，简称SRX版本，比如Greenwich.SR2就是Spring Cloud发布的Greenwich版本的第2个SRX版本。目前Spring Cloud的最新版本是Hoxton。
-
-
-### 10、bootstrap.yml和application.yml有什么区别?
-
-**1、** Spring Cloud 构建于 SpringBoot 之上，在 SpringBoot 中有两种上下文，一种是 bootstrap，另外一种是 application。
-
-**2、** application 配置文件这个容易理解，主要用于 SpringBoot 项目的`自动化配置`。
-
-**3、** bootstrap 是应用程序的父上下文，也就是说 `bootstrap 加载优先于 applicaton`。
-
-**4、** bootstrap 主要用于从`额外的资源来加载配置信息`，还可以在本地外部配置文件中解密属性。
-
-**5、** 这两个上下文`共用一个环境`，它是任何Spring应用程序的外部属性的来源。
-
-**6、** bootstrap 里面的属性会`优先加载`，它们默认也不能被本地相同配置覆盖。
-
-**7、** boostrap 由父 ApplicationContext 加载，`比 applicaton 优先加载`
-
-**8、** boostrap 里面的属性`不能被覆盖`
-
-
-### 11、各服务之间通信，对Restful和Rpc这2种方式如何做选择？
-### 12、SpringCloud Config 可以实现实时刷新吗？
-### 13、Spring Framework 中有多少个模块，它们分别是什么？
-### 14、spring-boot-starter-parent有什么用？
-### 15、常用网关框架有那些？
-### 16、您使用了哪些 starter maven 依赖项？
-### 17、spring JDBC API 中存在哪些类？
-### 18、Spring MVC的优点
-### 19、什么是凝聚力？
-### 20、在使用微服务架构时，您面临哪些挑战？
-### 21、21、在Spring MVC应用程序中使用WebMvcTest注释有什么用处？
-### 22、架构师在微服务架构中的角色是什么？
-### 23、使用Spring框架的好处是什么？
-### 24、可以通过多少种方式完成依赖注入？
-### 25、SpringData 项目所支持的关系数据存储技术：
-### 26、什么是 JavaConfig？
-### 27、SpringBoot 支持哪些日志框架？推荐和默认的日志框架是哪个？
-### 28、什么是 Hystrix？
-### 29、什么是Spring Batch？
-### 30、什么是 Spring Cloud Bus？
-### 31、微服务有什么特点？
+### 11、什么是持续监测？
+### 12、SpringBoot 实现热部署有哪几种方式？
+### 13、你能否举一个以 ReadOnly 为事务管理的例子？
+### 14、spring boot初始化环境变量流程?
+### 15、path=”users”, collectionResourceRel=”users” 如何与 Spring Data Rest 一起使用？
+### 16、SpringBoot 的核心注解是哪个？它主要由哪几个注解组成的？
+### 17、什么是 Spring Data？
+### 18、什么是Spring MVC框架的控制器？
+### 19、spring cloud 断路器的作用是什么？
+### 20、如何重新加载SpringBoot上的更改，而无需重新启动服务器？
+### 21、YAML 配置的优势在哪里 ?
+### 22、什么是无所不在的语言？
+### 23、使用 SpringBoot 开发分布式微服务时，我们面临什么问题
+### 24、spring 提供了哪些配置方式？
+### 25、如何重新加载 SpringBoot 上的更改，而无需重新启动服务器？SpringBoot项目如何热部署？
+### 26、如何重新加载 SpringBoot上的更改，而无需重新启动服务器？
+### 27、什么是 JavaConfig？
+### 28、比较一下 Spring Security 和 Shiro 各自的优缺点 ?
+### 29、Spring支持的事务管理类型
+### 30、如何实现SpringBoot应用程序的安全性？
+### 31、spring boot 核心配置文件是什么？bootstrap、properties 和 application、properties 有何区别 ?
 
 
 
@@ -162,12 +106,8 @@ Spring Cloud是一个由许多子项目组成的综合项目，各子项目有�
 ### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/?p=67)
 
 
-## 其他，高清PDF：172份，7701页，最新整理
+## 最新，高清PDF：172份，7701页，最新整理
 
-[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/mst.png "大厂面试题")](https://souyunku.lanzous.com/b0alp9b9g "大厂面试题")
+[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/mst.png "大厂面试题")](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png"大厂面试题")
 
-## 关注公众号：架构师专栏，回复：“面试题”，即可
-
-[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/jiagoushi.png "架构师专栏")](https://souyunku.lanzous.com/b0alp9b9g "架构师专栏")
-
-## 关注公众号：架构师专栏，回复：“面试题”，即可
+[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png "架构师专栏")](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png "架构师专栏")

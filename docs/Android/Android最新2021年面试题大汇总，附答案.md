@@ -8,173 +8,247 @@
 
 
 
-### 1、Android root机制
+### 1、android中的动画有哪几类，它们的特点和区别是什么
 
-root指的是你有权限可以再系统上对所有档案有 "读" "写" "执行"的权力。root机器不是真正能让你的应用程序具有root权限。它原理就跟linux下的像sudo这样的命令。在系统的bin目录下放个su程序并属主是root并有suid权限。则通过su执行的命令都具有Android root权限。当然使用临时用户权限想把su拷贝的/system/bin目录并改属性并不是一件容易的事情。这里用到2个工具跟2个命令。把busybox拷贝到你有权限访问的目录然后给他赋予4755权限，你就可以用它做很多事了。
-
-
-### 2、Android 中的动画有哪几类，它们的特点和区别是什么
-
-Frame Animation(帧动画)主要用于播放一帧帧准备好的图片，类似GIF图片，优点是使用简单方便、缺点是需要事先准备好每一帧图片；
-
-Tween Animation(补间动画)仅需定义开始与结束的关键帧，而变化的中间帧由系统补上，优点是不用准备每一帧，缺点是只改变了对象绘制，而没有改变View本身属性。因此如果改变了按钮的位置，还是需要点击原来按钮所在位置才有效。
-
-Property Animation(属性动画)是3.0后推出的动画，优点是使用简单、降低实现的复杂度、直接更改对象的属性、几乎可适用于任何对象而仅非View类，主要包括ValueAnimator和ObjectAnimator
+两种，一种是Tween动画、还有一种是Frame动画。Tween动画，这种实现方式可以使视图组件移动、放大、缩小以及产生透明度的变化;另一种Frame动画，传统的动画方法，通过顺序的播放排列好的图片来实现，类似电影。
 
 
-### 3、String,StringBuffer,StringBuilder的区别
-
-String不可改变对象，一旦创建就不能修改
-
-```
-String str="aaa";
-str="bbb";
-```
-
-以上代码虽然改变了str，但是执行过程是回收str，把值赋给一个新的str
-
-StringBuffer创建之后，可以去修改
-
-StringBuilder也可修改，执行效率高于StringBuffer，不安全
-
-当字符赋值少使用String
-
-字符赋值频繁使用StringBuilder
-
-当多个线程同步操作数据，使用StringBuffer
-
-
-### 4、说下 Activity 跟 跟 window ， view 之间的关系？
+### 2、说下 Activity 跟 跟 window ， view 之间的关系？
 
 Activity 创建时通过 attach()初始化了一个 Window 也就是PhoneWindow，一个 PhoneWindow 持有一个DecorView 的实例，DecorView 本身是一个 FrameLayout，继承于 View，Activty 通过setContentView 将xml 布局控件不断 addView()添加到 View 中，最终显示到 Window 于我们交互；
 
 
-### 5、andorid 应用第二次登录实现自动登录
+### 3、Service生命周期
 
-前置条件是所有用户相关接口都走 https，非用户相关列表类数据走 http。
+在Service的生命周期里，常用的有：
 
-**步骤**
-
-**1、** 第一次登陆 getUserInfo 里带有一个长效 token，该长效 token 用来判断用户是否登陆和换取短 token
-
-**2、** 把长效 token 保存到 SharedPreferences
-
-**3、** 接口请求用长效 token 换取短token，短 token 服务端可以根据你的接口最后一次请求作为标示，超时时间为一天。
-
-**4、** 所有接口都用短效 token
-
-**5、** 如果返回短效 token 失效，执行第3步，再直接当前接口
-
-**6、** 如果长效 token 失效（用户换设备或超过一月），提示用户登录。
-
-
-### 6、View
-
-显示视图，内置画布，提供图形绘制函数、触屏事件、按键事件函数等，必须在UI主线程内更新画面，速度较慢
-
-
-### 7、activity与fragment区别
-
-生命周期：
-
-fragment从创建倒销毁整个生命周期依次为onAttach()→onCreate()→onCreateView()→onActivityCreated()→onStart()→onResume()→onPause()→onStop()→onDestroyView()→onDestroy()→onDetach()
-
-**与activity不同的方法有**
-
-**1、** onAttach():当Fragment和Activity建立关联的时候调用；
-
-**2、** onCreateView():当Fragment创建视图调用；
-
-**3、** onActivityCreated:与Fragment相关联的Activity完成onCreate()之后调用；
-
-**4、** onDestoryView():在Fragment中的布局被移除时调用；
-
-**5、** onDetach():当Fragment和Activity解除关联时调用；
-
-**6、** activity常用的生命周期只有以下几个；
-
-**7、** onCreate()： 表示 Activity 正在被创建，常用来 初始化工作，比如调用 setContentView 加载界面布局资源，初始化 Activity 所需数据等；
-
-**8、** onRestart()：表示 Activity 正在重新启动，一般情况下，当前Acitivty 从不可见重新变为可见时，OnRestart就会被调用；
-
-**9、** onStart()： 表示 Activity 正在被启动，此时 Activity 可见但不在前台，还处于后台，无法与用户交互；
-
-**10、** onResume()： 表示 Activity 获得焦点，此时 Activity 可见且在前台并开始活动，这是与 onStart 的区别所在；
-
-**11、** onPause()： 表示 Activity 正在停止，此时可做一些 存储数据、停止动画等工作，但是不能太耗时，因为这会影响到新 Activity的显示，onPause 必须先执行完，新 Activity 的 onResume 才会执行；
-
-**12、** onStop()： 表示 Activity 即将停止，可以做一些稍微重量级的回收工作，比如注销广播接收器、关闭网络连接等，同样不能太耗时；
-
-**13、** onDestroy()： 表示 Activity 即将被销毁，这是 Activity 生命周期中的最后一个回调，常做 回收工作、资源释放；
-
-**14、** 区别：
-
-**15、** Fragment比Activity多出四个回调周期，控制操作上更灵活；
-
-**16、** Fragment可以在xml文件中直接写入，也可以在Activity中动态添加；
-
-**17、** Fragment可以使用show()/hide()或者replace()对Fragment进行切换，切换的时候不会出现明显的效果，Activity切换的时候会有明显的翻页或其他效果；
-
-
-### 8、Android数字签名
-
-**1、** 所有的应用程序都必须有数字证书，Android系统不会安装一个没有数字证书的应用程序
-
-**2、** Android程序包使用的数字证书可以是自签名的，不需要一个权威的数字证书机构签名认证
-
-**3、** 如果要正式发布一个Android ，必须使用一个合适的私钥生成的数字证书来给程序签名。
-
-**4、** 数字证书都是有有效期的，Android只是在应用程序安装的时候才会检查证书的有效期。如果程序已经安装在系统中，即使证书过期也不会影响程序的正常功能。
-
-
-### 9、如何修改 Activity 进入和退出动画
-
-可 以 通 过 两 种 方 式 ， 一 是 通 过 定 义 Activity 的 主 题 ， 二 是 通 过 覆 写 Activity 的overridePendingTransition 方法。
-
-通过设置主题样式在 styles.xml 中编辑如下代码：
+4个手动调用的方法
 
 ```
-添加 themes.xml 文件： 
-在 AndroidManifest.xml 中给指定的 Activity 指定 theme。
+startService()    启动服务
+stopService()    关闭服务
+bindService()    绑定服务
+unbindService()    解绑服务
 ```
 
-覆写 overridePendingTransition 方法
+5个内部自动调用的方法
 
 ```
-overridePendingTransition(R.anim.fade, R.anim.hold);
+onCreat()            创建服务
+onStartCommand()    开始服务
+onDestroy()            销毁服务
+onBind()            绑定服务
+onUnbind()            解绑服务
 ```
 
+**1、** 手动调用startService()启动服务，自动调用内部方法：onCreate()、onStartCommand()，如果一个Service被startService()多次启动，那么onCreate()也只会调用一次。
 
-### 10、Fragment 的 replace 和 add 方法的区别
+**2、** 手动调用stopService()关闭服务，自动调用内部方法：onDestory()，如果一个Service被启动且被绑定，如果在没有解绑的前提下使用stopService()关闭服务是无法停止服务的。
 
-Fragment 本身并没有 replace 和 add 方法，FragmentManager才有replace和add方法。我们经常使用的一个架构就是通过RadioGroup切换Fragment，每个 Fragment 就是一个功能模块。
+**3、** 手动调用bindService()后，自动调用内部方法：onCreate()、onBind()。
 
-Fragment 的容器一个 FrameLayout，add 的时候是把所有的 Fragment 一层一层的叠加到了。FrameLayout 上了，而 replace 的话首先将该容器中的其他 Fragment 去除掉然后将当前Fragment添加到容器中。
+**4、** 手动调用unbindService()后，自动调用内部方法：onUnbind()、onDestory()。
 
-一个 Fragment 容器中只能添加一个 Fragment 种类，如果多次添加则会报异常，导致程序终止，而 replace 则无所谓，随便切换。因为通过 add 的方法添加的 Fragment，每个 Fragment 只能添加一次，因此如果要想达到切换效果需要通过 Fragment 的的 hide 和 show 方法结合者使用。将要显示的 show 出来，将其他 hide起来。这个过程 Fragment 的生命周期没有变化。
-
-通过 replace 切换 Fragment，每次都会执行上一个 Fragment 的 onDestroyView，新 Fragment的 onCreateView、onStart、onResume 方法。基于以上不同的特点我们在使用的使用一定要结合着生命周期操作我们的视图和数据。
+**5、** startService()和stopService()只能开启和关闭Service，无法操作Service，调用者退出后Service仍然存在；bindService()和unbindService()可以操作Service，调用者退出后，Service随着调用者销毁。
 
 
-### 11、跟activity和Task 有关的 Intent启动方式有哪些？其含义？
-### 12、简要解释一下activity、 intent 、intent filter、service、Broadcase、BroadcaseReceiver
-### 13、都使用过哪些自定义控件
-### 14、属性动画
-### 15、什么是嵌入式实时操作系统, Android 操作系统属于实时操作系统吗?
-### 16、ListView优化
-### 17、sim卡的EF文件是什么？有何作用
-### 18、说说 LruCache 底层原理
-### 19、Fragment的生命周期
-### 20、ListView 可以显示多种类型的条目吗
-### 21、如果Listview中的数据源发生改变，如何更新listview中的数据
-### 22、activity在屏幕旋转时的生命周期
-### 23、Adapter是什么？你所接触过的adapter有那些？
-### 24、推送到达率如何提高
-### 25、什么是IntentService？有何优点？
-### 26、Android 应用中验证码登陆都有哪些实现方案
-### 27、Fragment与activity如何传值和交互？
-### 28、Android中任务栈的分配
-### 29、请描述下Activity的生命周期。
+### 4、Serializable 和 Parcelable 的区别？
+
+如果存储在内存中，推荐使用parcelable，使用serialiable在序列化的时候会产生大量的临时变量，会引起频繁的GC
+
+如果存储在硬盘上，推荐使用Serializable，虽然serializable效率较低
+
+Serializable的实现：只需要实现Serializable接口，就会自动生成一个序列化id
+
+Parcelable的实现：需要实现Parcelable接口，还需要Parcelable.CREATER变量
+
+
+### 5、消息推送的方式
+
+**1、** 使用极光和友盟推送。
+
+**2、** 使用XMPP协议（Openfire + Spark + Smack）
+
+**简介：**基于XML协议的通讯协议，前身是Jabber，目前已由IETF国际标准化组织完成了标准化工作。
+
+**优点：**协议成熟、强大、可扩展性强、目前主要应用于许多聊天系统中，且已有开源的Java版的开发实例androidpn。
+
+**缺点：**协议较复杂、冗余（基于XML）、费流量、费电，部署硬件成本高。
+
+**3、** 使用MQTT协议（更多信息见：[mqtt.org/）][mqtt.org]
+
+**简介：**轻量级的、基于代理的“发布/订阅”模式的消息传输协议。
+
+**优点：**协议简洁、小巧、可扩展性强、省流量、省电，目前已经应用到企业领域（参考：[mqtt.org/software），且…][mqtt.org_software]
+
+**缺点：**不够成熟、实现较复杂、服务端组件rsmb不开源，部署硬件成本较高。
+
+**4、** 使用HTTP轮循方式
+
+**简介：**定时向HTTP服务端接口（Web Service API）获取最新消息。
+
+**优点：**实现简单、可控性强，部署硬件成本低。
+
+**缺点：**实时性差。
+
+
+### 6、请解释下Android程序运行时权限与文件系统权限的区别。
+
+运行时权限Dalvik( android授权)
+
+文件系统 linux 内核授权
+
+
+### 7、如果后台的Activity由于某原因被系统回收了，如何在被系统回收之前保存当前状态？
+
+重写onSaveInstanceState()方法，在此方法中保存需要保存的数据，该方法将会在activity被回收之前调用。通过重写onRestoreInstanceState()方法可以从中提取保存好的数据
+
+
+### 8、请介绍下Android的数据存储方式。
+
+使用SharedPreferences存储数据；文件存储数据；SQLite数据库存储数据；使用ContentProvider存储数据；网络存储数据；
+
+Preference，File， DataBase这三种方式分别对应的目录是/data/data/Package Name/Shared_Pref, /data/data/Package Name/files, /data/data/Package Name/database 。
+
+**一：使用SharedPreferences存储数据**
+
+首先说明SharedPreferences存储方式，它是 Android提供的用来存储一些简单配置信息的一种机制，例如：登录用户的用户名与密码。其采用了Map数据结构来存储数据，以键值的方式存储，可以简单的读取与写入，具体实例如下：
+
+```
+void  ReadSharedPreferences() {
+    String  strName, strPassword;
+    SharedPreferences    user  =  getSharedPreferences(“user_info”, 0);
+    strName  =  user.getString(“NAME”, ””);
+    strPassword  =  user  getString(“PASSWORD”, ””);
+}
+void  WriteSharedPreferences(String  strName, String  strPassword) {
+    SharedPreferences    user  =  getSharedPreferences(“user_info”, 0);
+    uer.edit();
+    user.putString(“NAME”,  strName);
+    user.putString(“PASSWORD” , strPassword);
+    user.commit();
+}
+```
+
+数据读取与写入的方法都非常简单，只是在写入的时候有些区别：先调用edit()使其处于编辑状态，然后才能修改数据，最后使用commit()提交修改的数据。实际上SharedPreferences是采用了XML格式将数据存储到设备中，在DDMS中的File Explorer中的/data/data//shares_prefs下。使用SharedPreferences是有些限制的：只能在同一个包内使用，不能在不同的包之间使用</package name>
+
+**二：文件存储数**
+
+文件存储方式是一种较常用的方法，在Android中读取/写入文件的方法，与 Java中实现I/O的程序是完全一样的，提供了openFileInput()和openFileOutput()方法来读取设备上的文件。具体实例如下
+
+```
+String fn = “moandroid.log”;
+FileInputStream fis = openFileInput(fn);
+FileOutputStream fos = openFileOutput(fn,Context.MODE_PRIVATE);
+```
+
+**三：网络存储数**
+
+网络存储方式，需要与Android 网络数据包打交道，关于Android 网络数据包的详细说明，请阅读Android SDK引用了Java SDK的哪些package？
+
+**四：ContentProvide**
+
+**1、** ContentProvider简
+
+当应用继承ContentProvider类，并重写该类用于提供数据和存储数据的方法，就可以向其他应用共享其数据。虽然使用其他方法也可以对外共享数据，但数据访问方式会因数据存储的方式而不同，如：采用文件方式对外共享数据，需要进行文件操作读写数据；采用sharedpreferences共享数据，需要使用sharedpreferences API读写数据。而使用ContentProvider共享数据的好处是统一了数据访问方式
+
+**2、** Uri类简
+
+Uri代表了要操作的数据，Uri主要包含了两部分信息：1.需要操作的ContentProvider ，2.对ContentProvider中的什么数据进行操作，一个Uri由以下几部分组成
+
+**1、** scheme：ContentProvider（内容提供者）的scheme已经由Android所规定为：content://
+
+**2、** 主机名（或Authority）：用于唯一标识这个ContentProvider，外部调用者可以根据这个标识来找到它
+
+**3、** 路径（path）：可以用来表示我们要操作的数据，路径的构建应根据业务而定，如下
+
+**1、** 要操作contact表中id为10的记录，可以构建这样的路径:/contact/10
+
+**2、** 要操作contact表中id为10的记录的name字段， contact/10/name
+
+**3、** 要操作contact表中的所有记录，可以构建这样的路径:/contact?
+
+**4、** 要操作的数据不一定来自数据库，也可以是文件等他存储方式，如下:
+
+**5、** 要操作xml文件中contact节点下的name节点，可以构建这样的路径：/contact/name
+
+**6、** 如果要把一个字符串转换成Uri，可以使用Uri类中的parse()方法，如下：
+
+Uri uri = Uri.parse("content://com.changcheng.provider.contactprovider/contact")
+
+**3、** UriMatcher、ContentUrist和ContentResolver简介
+
+因为Uri代表了要操作的数据，所以我们很经常需要解析Uri，并从 Uri中获取数据。Android系统提供了两个用于操作Uri的工具类，分别为UriMatcher 和ContentUris 。掌握它们的使用，会便于我们的开发工作。
+
+**UriMatcher：用于匹配Uri，它的用法如下：**
+
+1.首先把你需要匹配Uri路径全部给注册上，如下
+
+```
+//常量UriMatcher.NO_MATCH表示不匹配任何路径的返回码(-1)。
+UriMatcher uriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
+//如果match()方法匹配content://com.changcheng.sqlite.provider.contactprovider /contact路径，返回匹配码为1
+uriMatcher.addURI(“com.changcheng.sqlite.provider.contactprovider”, “contact”, 1);//添加需要匹配uri，如果匹配就会返回匹配码
+//如果match()方法匹配 content://com.changcheng.sqlite.provider.contactprovider/contact/230路径，返回匹配码为2
+uriMatcher.addURI(“com.changcheng.sqlite.provider.contactprovider”, “contact/#”, 2);//#号为通配符
+```
+
+2.注册完需要匹配的Uri后，就可以使用uriMatcher.match(uri)方法对输入的Uri进行匹配，如果匹配就返回匹配码，匹配码是调用 addURI()方法传入的第三个参数，假设匹配 content://com.changcheng.sqlite.provider.contactprovider/contact路径，返回的匹配码为1
+
+ContentUris：用于获取Uri路径后面的ID部分，它有两个比较实用的方法
+
+withAppendedId(uri, id)用于为路径加上ID部
+
+parseId(uri)方法用于从路径中获取ID部
+
+ContentResolver：当外部应用需要对ContentProvider中的数据进行添加、删除、修改和查询操作时，可以使用 ContentResolver 类来完成，要获取ContentResolver 对象，可以使用Activity提供的getContentResolver()方法。 ContentResolver使用insert、delete、update、query方法，来操作数据
+
+
+### 9、如何退出Activity
+
+结束当前activity
+
+```
+Finish()
+killProgress()
+System.exit(0)
+```
+
+关闭应用程序时，结束所有的activity
+
+可以创建一个List集合，每新创建一个activity，将该activity的实例放进list中，程序结束时，从集合中取出循环取出activity实例，调用finish()方法结束
+
+
+### 10、什么是 AIDL？如何使用？
+
+aidl 是 Android interface definition Language 的英文缩写，意思 Android 接口定义语言。
+
+使用 aidl 可以帮助我们发布以及调用远程服务，实现跨进程通信。
+
+**1、** 将服务的 aidl 放到对应的 src 目录，工程的 gen 目录会生成相应的接口类
+
+**2、** 我们通过 bindService（Intent，ServiceConnect，int）方法绑定远程服务，在 bindService中 有 一 个 ServiceConnec 接 口 ， 我 们 需 要 覆 写 该 类 的onServiceConnected(ComponentName,IBinder)方法，这个方法的第二个参数 IBinder 对象其实就是已经在 aidl 中定义的接口，因此我们可以将 IBinder 对象强制转换为 aidl 中的接口类。我们通过 IBinder 获取到的对象（也就是 aidl 文件生成的接口）其实是系统产生的代理对象，该代理对象既可以跟我们的进程通信， 又可以跟远程进程通信， 作为一个中间的角色实现了进程间通信。
+
+
+### 11、NDK是什么
+### 12、activity与fragment区别
+### 13、子线程发消息到主线程进行更新 UI，除了 handler 和 AsyncTask，还有什么？
+### 14、请解释下在单线程模型中Message、Handler、Message Queue、Looper之间的关系。
+### 15、请描述下Activity的生命周期。
+### 16、Intent 传递数据时，可以传递哪些类型数据？
+### 17、补间动画
+### 18、一条最长的短信息约占多少byte?
+### 19、简述TCP，UDP，Socket
+### 20、activity的生命周期
+### 21、如何提升Service进程优先级
+### 22、如何将一个Activity设置成窗口的样式。
+### 23、Manifest.xml文件中主要包括哪些信息？
+### 24、recyclerView嵌套卡顿解决如何解决
+### 25、属性动画
+### 26、你一般在开发项目中都使用什么设计模式？如何来重构，优化你的代码？
+### 27、横竖屏切换的Activity 生命周期变化？
+### 28、ListView 可以显示多种类型的条目吗
+### 29、如何将SQLite数据库(dictionary.db文件)与apk文件一起发布
 
 
 
@@ -186,12 +260,8 @@ Fragment 的容器一个 FrameLayout，add 的时候是把所有的 Fragment 一
 ### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/?p=67)
 
 
-## 其他，高清PDF：172份，7701页，最新整理
+## 最新，高清PDF：172份，7701页，最新整理
 
-[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/mst.png "大厂面试题")](https://souyunku.lanzous.com/b0alp9b9g "大厂面试题")
+[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/mst.png "大厂面试题")](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png"大厂面试题")
 
-## 关注公众号：架构师专栏，回复：“面试题”，即可
-
-[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/jiagoushi.png "架构师专栏")](https://souyunku.lanzous.com/b0alp9b9g "架构师专栏")
-
-## 关注公众号：架构师专栏，回复：“面试题”，即可
+[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png "架构师专栏")](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png "架构师专栏")

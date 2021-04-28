@@ -8,183 +8,121 @@
 
 
 
-### 1、re的match和search的区别
+### 1、什么是多态？
 
-match()函数是在string的开始位置匹配，如果不匹配，则返回None
+多态(Polymorphism)的意思是「许多形式」。
 
-search()会扫描整个string查找匹配；也就是说match()只有在0位置匹配成功的话才有返回，
-
-
-### 2、当退出Python时，是否释放全部内存？
-
-答案是No。循环引用其它对象或引用自全局命名空间的对象的模块，在Python退出时并非完全释放。
-
-另外，也不会释放C库保留的内存部分。
+子类可以定义自己的独特行为，并且仍然共享其父类/基类的相同功能或行为。
 
 
-### 3、什么是C/S和B/S架构
+### 2、什么是haproxy？
 
-**1、** C/S 架构是一种典型的两层架构，其全称是Client/Server，即客户端服务器端架构，其客户端包含一个或多个在用户的电脑上运行的程序，而服务器端有两种，一种是数据库服务器端，客户端通过数据库连接访问服务器端的数据；另一种是Socket服务器端，服务器端的程序通过Socket与客户端的程序通信。
-
-**2、** B/S架构的全称为Browser/Server，即浏览器/服务器结构。Browser指的是Web浏览器，极少数事务逻辑在前端实现，但主要事务逻辑在服务器端实现，Browser客户端，WebApp服务器端和DB端构成所谓的三层架构。B/S架构的系统无须特别安装，只有Web浏览器即可。
+HAProxy是一个使用C语言编写的自由及开放源代码软件，其提供高可用性、负载均衡，以及基于TCP和HTTP的应用程序代理
 
 
-### 4、简述线程死锁是怎么造成的。如何避免？
+### 3、如果已经建立了TCP连接，但是客户端突然出现故障了怎么办
 
-**1、** 死锁的产生原因？
-
-**2、** 系统资源的竞争
-
-**3、** 进程运行推进顺序不当
-
-**4、** 解决死锁
-
-**5、** 加锁顺序：线程按照一定的顺序加锁
-
-**6、** 加锁时限：线程尝试获取锁的时候加上一定的时限，超过时限，则放弃对该锁的请求，并释放自己占有的锁。
-
-**7、** 死锁检测
+TCP还设有一个保活计时器，显然，客户端如果出现故障，服务器不能一直等下去，白白浪费资源。服务器每收到一次客户端的请求后都会重新复位这个计时器，时间通常是设置为2小时，若两小时还没有收到客户端的任何数据，服务器就会发送一个探测报文段，以后每隔75秒发送一次。若一连发送10个探测报文仍然没反应，服务器就认为客户端出了故障，接着就关闭连接。
 
 
-### 5、什么是lambda函数？
+### 4、Python有哪些特点和优点？
 
-Lambda函数是不带名称的单行函数，可以具有n个参数，但只能有一个表达式。也称为匿名函数。
+作为一门编程入门语言，Python主要有以下特点和优点：
 
-```
-a = lambda x, y：x + y 
-print(a(5, 6))
+**1、** 可解释
 
-> 11
-```
+**2、** 具有动态特性
+
+**3、** 面向对象
+
+**4、** 简明简单
+
+5、开源
+
+**6、** 具有强大的社区支持
+
+当然，实际上Python的优点远不止如此，
 
 
-### 6、获取python解释器版本的方法
-
-终端执行python -V
-
-
-### 7、输入一个字符串，输出该字符串的字符的所有组合。如输入'abc',输出a,b,c,ab,ac,bc,abc.
+### 5、求以下代码的输出结果
 
 ```python
-def getC(s):
-if not s:
-return
-len_s=len(s)
-ss=[]
-for i in range(len_s):
-combination(s,0,i,ss)
-aaa=[]
-def combination(s,index,num,ss):
-global aaa
-if num==-1:
-return
-if index==len(s):
-return
-ss.append(s[index])
-aaa.append(''.join(ss))
-combination(s,index+1,num-1,ss)
-ss.pop()
-combination(s,index+1,num,ss)
+collapse=True
+processFunc=collapse and (lambda s:' '.join(s.split())) or (lambda s:s)
+print(processFunc('i\tam\ntest\tproject!'))
 
-getC('123')
-print(aaa)
-print(sorted(set(aaa),key=lambda x:len(str(x))))
+collapse=False
+processFunc=collapse and (lambda s:' '.join(s.split())) or (lambda s:s)
+print(processFunc('i\tam\ntest\tproject!'))
 ```
 
+答案：
 
-### 8、列举你所了解的所有Python2和Python3的区别
+> i am test project!
 
-[python2和python3的区别](https://blog.csdn.net/weixin_41819299/article/details/81259721)
+i       am
 
-**1、** python2没有nonlocal关键字，要修改临时变量只能将其改成可变数据类型，如数组。b=[a]
-
-**2、** print()函数代替print语句
-
-**3、** Python3加入 Unicode 字符串，用以编码存储字符串。比如用 utf-8可以用来输入中文
-
-**4、** Python3去掉long类型，新增了bytes。
-
-**5、** Python 3整数之间做除法可以得到浮点数的结果，不需要进行数据格式转换1/2=0.5 Python 2整数int间除法结果为把运算结果去尾的整数1/2=0，3/2.0=1.5
-
-**6、** Python3 中 range()，Python2 中 xrange()。
-
-**7、** python2中的不等于号可以是!=或者<>，python3只能是!=
-
-**8、** python2中raw_input()用来输入字符串，而python3中使用input()来输入字符串
+test    project!
 
 
-### 9、python是如何进行内存管理的？python的程序会内存泄漏吗？说说有没有什么方面阻止或者检测内存泄漏？
 
-python是如何进行内存管理的[参考文章](https://blog.csdn.net/u010967872/article/details/80301633)
+### 6、如何高效的找到Redis中所有以felix开头的key
 
-**1、** 引用计数
+**1、** scan 0 match felixcount 5
 
-Python内部使用引用计数，来保持追踪内存中的对象，Python内部记录了对象有多少个引用，就是引用计数，当对象被创建时就创建了一个引用计数，当对象不再需要的时候，这个对象的引用计数为0时，他被垃圾回收。
-
-**2、** 垃圾回收
-
-当内存中有不再使用的部分时，垃圾收集器就会把他们清理掉。他会去检查那些引用计数为0的对象，然后清除其在内存中的空间。当然除了引用计数为0的会被清除，还有一种情况也会被垃圾收集器清掉，当两个对象相互引用时，他们本身其他引用已经为0了。
-
-**3、** 内存池机制
-
-**1、** Python提供了对内存的垃圾收集机制，但是他将不用的内存放到内存池而不是反回给操作系统。
-
-**2、** python的程序会内存泄漏吗？
-
-**3、** 会发生内存泄漏，在Python程序里，内存泄漏是由于一个长期持有的对象不断的往一个dict或者list对象里添加新的对象, 而又没有即时释放，就会导致这些对象占用的内存越来越多，从而造成内存泄漏。另外，对象的交叉引用也会造成内存无法释放的问题。
-
-**说说有没有什么方面阻止或者检测内存泄漏？**
-
-**1、** 程序员管理好每个python对象的引用，尽量在不需要使用对象的时候，断开所有引用
-
-**2、** 尽量少通过循环引用组织数据，可以改用weakref做弱引用或者用id之类的句柄访问对象
-
-**3、** 通过gc模块的接口可以检查出每次垃圾回收有哪些对象不能自动处理，再逐个逐个处理
+**2、** 表示从游标0开始查询felix开头的key，每次返回5条，但是这个5条不一定
 
 
-### 10、python解释器种类以及特点
+### 7、is和==的区别
 
-**1、** CPython
+is比较的是两个对象的id是否相同
 
-**2、** c语言开发的 使用最广的解释器
-
-**3、** IPython
-
-**4、** 基于cpython之上的一个交互式计时器 交互方式增强 功能和cpython一样
-
-**5、** PyPy
-
-**6、** 目标是执行效率 采用JIT技术 对python代码进行动态编译，提高执行效率
-
-**7、** JPython
-
-**8、** 运行在Java上的解释器 直接把python代码编译成Java字节码执行
-
-**9、** IronPython
-
-**10、** 运行在微软 .NET 平台上的解释器，把python编译成、NET 的字节码
+==比较的是两个对象的值是否相同
 
 
-### 11、简述解释型和编译型编程语言
-### 12、写一个函数，计算出以下字母所代表的数字，每个字母值不一样
-### 13、找出两个列表中相同的元素和不同的元素
-### 14、什么是haproxy？
-### 15、_init_在Python中有什么用？
-### 16、如何实现响应式布局
-### 17、求以下代码结果：
-### 18、深拷贝和浅拷贝之间的区别是什么？
-### 19、什么是keepalived
-### 20、什么是粘包？出现粘包的原因？
-### 21、1，2，3，4，5能组成多少个互不相同且不重复的三位数？
-### 22、pass的使用
-### 23、三元运算编写格式
-### 24、解释一下Python中的成员运算符
-### 25、用一行Python代码，从给定列表中取出所有的偶数和奇数
-### 26、解释一下Python中的逻辑运算符
-### 27、or 和 and
-### 28、简述生成器，迭代器，装饰器以及应用场景
-### 29、什么是局域网和广域网
-### 30、什么是正向代理和反向代理？
+### 8、二叉树是非线性结构，栈和队列以及线性表都是线性结构，对吗？
+
+对的
+
+
+### 9、简述jsonp及其原理
+
+JSONP是JSON with Padding的略称。它是一个非官方的协议，它允许在服务器端集成Script tags返回至客户端，通过javascript callback的形式实现跨域访问（这仅仅是JSONP简单的实现形式）
+
+原理：
+
+
+
+
+
+
+
+
+### 10、python中enumerate的意思是什么？
+
+枚举的意思，同时得到可迭代对象，如列表和元组的索引和值，以元组形式返回
+
+
+### 11、css如何隐藏一个元素
+### 12、请写一个Python逻辑，计算一个文件中的大写字母数量
+### 13、select、poll、epoll模型的区别
+### 14、为什么学python
+### 15、ascii、Unicode、utf-8、gbk的区别
+### 16、python的底层网络交互模块有哪些
+### 17、a=range(10),则a[::-3]的值是？
+### 18、super的作用
+### 19、Python中的pass语句是什么？
+### 20、Redis中sentinel的作用
+### 21、列举你所了解的所有Python2和Python3的区别
+### 22、MySQL的增删改查
+### 23、将列表alist=[{'name':'a','age':25},{'name':'b','age':30},{'name':'c','age':20}]，按照age的值从大到小排列。
+### 24、yield from 和 yield 的区别
+### 25、实现一个装饰器，限制该函数被调用的频率，如10秒一次
+### 26、什么是Python？为什么它会如此流行？
+### 27、类的加载和实例化过程
+### 28、python是如何进行内存管理的？python的程序会内存泄漏吗？说说有没有什么方面阻止或者检测内存泄漏？
+### 29、MySQL慢日志
+### 30、写代码：如何由tuple1=('a','b','c','d','e')，和tuple2=(1,2,3,4,5)得到res={'a': 1, 'b': 2, 'c': 3, 'd': 4, 'e': 5}
 
 
 
@@ -196,12 +134,8 @@ Python内部使用引用计数，来保持追踪内存中的对象，Python内�
 ### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/?p=67)
 
 
-## 其他，高清PDF：172份，7701页，最新整理
+## 最新，高清PDF：172份，7701页，最新整理
 
-[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/mst.png "大厂面试题")](https://souyunku.lanzous.com/b0alp9b9g "大厂面试题")
+[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/mst.png "大厂面试题")](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png"大厂面试题")
 
-## 关注公众号：架构师专栏，回复：“面试题”，即可
-
-[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/jiagoushi.png "架构师专栏")](https://souyunku.lanzous.com/b0alp9b9g "架构师专栏")
-
-## 关注公众号：架构师专栏，回复：“面试题”，即可
+[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png "架构师专栏")](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png "架构师专栏")

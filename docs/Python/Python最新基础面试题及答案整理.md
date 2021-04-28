@@ -8,215 +8,213 @@
 
 
 
-### 1、在Python中如何使用多进制数字？
+### 1、编写程序，检查数字是否为Armstrong
 
-我们在Python中，除十进制外还可以使用二进制、八进制和十六进制。
+将每个数字依次分离，并累加其立方(位数)。
 
-**1、**   二进制数字由0和1组成，我们使用 0b 或 0B 前缀表示二进制数。
-
-```
->>> int(0b1010)
-10
-```
-
-**2、** 使用bin()函数将一个数字转换为它的二进制形式。
+最后，如果发现总和等于原始数，则称为阿姆斯特朗数(Armstrong)。
 
 ```
->>> bin(0xf)
-‘0b1111’
-```
+num = int(input("Enter the number:\n"))
+order = len(str(num))
 
-**3、** 八进制数由数字 0-7 组成，用前缀 0o 或 0O 表示 8 进制数。
+sum = 0
+temp = num
 
-```
->>> oct(8)
-‘0o10’
-```
+while temp > 0:
+   digit = temp % 10
+   sum += digit ** order
+   temp //= 10
 
-**4、** 十六进数由数字 0-15 组成，用前缀 0x 或者 0X 表示 16 进制数。
-
-```
->>> hex(16)
-‘0x10’
- 
->>> hex(15)
-‘0xf’
-```
-
-
-### 2、xrange和range的区别
-
-xrange和range用法相同，但是xrange是一个生成器，range结果是一个列表。xrange做循环的时候性能比range好。
-
-
-### 3、TCP和UDP的区别
-
-**1、** TCP面向连接（如打电话要先拨号建立连接）;UDP是无连接的，即发送数据之前不需要建立连接
-
-**2、** TCP提供可靠的服务。也就是说，通过TCP连接传送的数据，无差错，不丢失，不重复，且按序到达;UDP尽最大努力交付，即不保证可靠交付
-
-**3、** UDP具有较好的实时性，工作效率比TCP高，适用于对高速传输和实时性有较高的通信或广播通信。
-
-**4、** 每一条TCP连接只能是点到点的;UDP支持一对一，一对多，多对一和多对多的交互通信
-
-**5、** TCP对系统资源要求较多，UDP对系统资源要求较少。
-
-
-### 4、yield from 和 yield 的区别
-
-[简述yield和yield from](https://blog.csdn.net/lamusique/article/details/85845225)
-
-```python
-# 下面a()和b()是等价的
-def a():
-yield from [1,2,3,4,5]
-def b():
-for i in [1,2,3,4,5]:
-yield i
-for i in a():
-print(i)
-for i in b():
-print(i)
-```
-
-yield将一个函数变成一个生成器
-
-yield 返回一个值
-
-yield from后面接可迭代对象，一个一个返回值。
-
-
-### 5、Python中append，insert和extend的区别?
-
-append：在列表末尾添加新元素。
-
-insert：在列表的特定位置添加元素。
-
-extend：通过添加新列表来扩展列表。
-
-```
-numbers = [1,2,3,4,5]
-numbers.append(6)
-print(numbers)
->[1,2,3,4,5,6]
-
-## insert(position,value)
-numbers.insert(2,7)  
-print(numbers)
->[1,2,7,4,5,6]
-
-numbers.extend([7,8,9])
-print(numbers)
->[1,2,7,4,5,6,7,8,9]
-
-numbers.append([4,5])
->[1,2,7,4,5,6,7,8,9,[4,5]]
-```
-
-
-### 6、编写一个函数，找出数组中没有重复的值的和
-
-```python
-def func(lis):
-lis1=[]
-del_lis=[]
-for i in lis:
-if i not in lis1:
-if i not in del_lis:
-    lis1.append(i)
+if num == sum:
+   print(num,"is an Armstrong number")
 else:
-del_lis.append(i)
-lis1.remove(i)
-return sum(lis1)
-
-def func2(lis):
-return sum([i for i in set(lis) if lis.count(i)==1])
-
-print(func2([3,4,1,2,5,6,6,5,4,3,3]))
+   print(num,"is not an Armstrong number")
 ```
 
 
-### 7、python的垃圾回收机制
+### 2、写一个函数，计算出以下字母所代表的数字，每个字母值不一样
 
-[python垃圾回收机制详解](https://testerhome.com/topics/16556)
-
-**1、** 概述：python采用的是引用计数机制为主，标记-清除和分代收集两种机制为辅的策略
-
-**2、** 引用计数：
-
-**3、** 每当新的引用指向该对象时，引用计数加1，当对该对象的引用失效时，引用计数减1，当对象的引用计数为0时，对象被回收。缺点是，需要额外的空间来维护引用计数，并且无法解决对象的循环引用。
-
-**4、** 分代回收：（具体见上面链接）
-
-**5、** 以时间换空间的回收方式
-
-**6、** 标记清除：
-
-**7、** 活动对象会被打上标记，会把那些没有被打上标记的非活动对象进行回收。
-
-
-### 8、什么是负载均衡
-
-负载均衡建立在现有网络结构之上，它提供了一种廉价有效透明的方法扩展网络设备和服务器的带宽、增加吞吐量、加强网络数据处理能力、提高网络的灵活性和可用性。
-
-负载均衡其意思就是分摊到多个操作单元上进行执行。
-
-
-### 9、简述SQL注入原理，以及如何在代码层面房子sql注入
-
-通俗点讲，SQL注入的根本原因是: "用户输入数据"意外变成了代码被执行。
-
-"用户输入数据"我这里可以指Web前端$_POST,$_GET获取的数据，也可以指从数据库获取的数据，当然也不排除程序猿无意中使用的特殊字符串。
-
-在SQL语句的拼接中，一些含特殊字符的变量在拼接时破坏了SQL语句的结构，导致"用户输入数据"意外变成了代码被执行。
-
-**规避方法：**
-
-**1、** 理语句法  (解析协议层面上完全规避SQL注入)
-
-**2、** 字符串转义（不要在sql中拼接字符）
-
-
-### 10、区分Python中的remove，del和pop？
-
-remove：将删除列表中的第一个匹配值，它以值作为参数。
-
-del：使用索引删除元素，它不返回任何值。
-
-pop：将删除列表中顶部的元素，并返回列表的顶部元素。
-
-```
-numbers = [1,2,3,4,5]
-numbers.remove(5)
-> [1,2,3,4]
-
-del numbers[0]
->[2,3,4]
-
-numbers.pop()
->4
+```python
+for A in range(1,10):
+for B in range(10):
+if A==B:
+continue
+for C in range(1,10):
+if C in [A,B]:
+    continue
+for D in range(10):
+    if D in [A,B,C]:
+        continue
+    for E in range(1,10):
+        if E in [A,B,C,D]:
+            continue
+        for F in range(10):
+            if F in [A,B,C,D,E]:
+                continue
+            for G in range(1,10):
+                if G in [A,B,C,D,E,F]:
+                    continue
+                for H in range(10):
+                    if H in [A,B,C,D,E,F,G]:
+                        continue
+                    for P in range(1,10):
+                        if P in [A,B,C,D,E,F,G,H]:
+                            continue
+                        if (A*10+B)-(C*10+D)==(E*10+F) and (E*10+F)+(G*10+H)==(P*100+P*10+P):
+                        print(A,B,C,D,E,F,G,H,P)
 ```
 
 
-### 11、python中enumerate的意思是什么？
-### 12、is和==的区别
-### 13、有如下代码：
-### 14、对字典d={'a':30,'g':17,'b':25,'c':18,'d':50,'e':36,'f':57,'h':25}按照value字段进行排序
-### 15、求以下代码的输出结果
-### 16、什么是一致性哈希
-### 17、文件操作时，xreadlines和readlines的区别
-### 18、常用字符串格式化有哪几种？
-### 19、如何保证Redis中的数据都是热点数据
-### 20、如何实现['1','2','3']变成[1,2,3]
-### 21、Python中的字典是什么？
-### 22、在什么情况下y!=x-(x-y)会成立？
-### 23、请写一个Python逻辑，计算一个文件中的大写字母数量
-### 24、什么是Nginx
-### 25、介绍一下try except的用法和作用？
-### 26、编写程序，输出给定序列中的所有质数
-### 27、如果Redis中的某个列表中的数据量非常大，如何实现循环显示每一个值？
-### 28、a=range(10),则a[::-3]的值是？
-### 29、Redis和Memcached的区别
+### 3、什么是闭包
+
+在函数中可以（嵌套）定义另一个函数时，如果内部的函数引用了外部的函数的变量，则可能产生闭包。闭包可以用来在一个函数与一组“私有”变量之间创建关联关系。在给定函数被多次调用的过程中，这些私有变量能够保持其持久性。
+
+```python
+# 内部函数使用了外部函数的变量，就相当于闭包
+def func1():
+a=1
+def inner():
+return a
+return inner
+print(func1()())
+```
+
+
+### 4、使用python将数据库的student表中的数据写入db.txt
+
+```python
+import pyMySQL
+connect=pyMySQL.Connect(
+host='',
+port=,
+user='',
+passwd='',
+db='',
+charset='',
+)
+
+cursor=connect.cursor()
+sql='select from student'
+cursor.execute(sql)
+students=cursor.fetchall()
+
+with open('db.txt','w') as f:
+for student in students:
+f.write(student)
+
+cursor.close()
+connect.close()
+```
+
+
+### 5、描述以下字典的items()方法和iteritems()方法有啥不同？
+
+**1、** 字典的items方法作用：是可以将字典中的所有项，以列表方式返回。因为字典是无序的，所以用items方法返回字典的所有项，也是没有顺序的。
+
+**2、** 字典的iteritems方法作用：与items方法相比作用大致相同，只是它的返回值不是列表，而是一个迭代器
+
+
+### 6、MySQL如何创建索引
+
+**1、** ALTER TABLE
+
+**2、** ALTER TABLE用来创建普通索引、UNIQUE索引或PRIMARY KEY索引。
+
+**3、** ALTER TABLE table_name ADD INDEX index_name (column_list)
+
+**4、** ALTER TABLE table_name ADD UNIQUE (column_list)
+
+**5、** ALTER TABLE table_name ADD PRIMARY KEY (column_list)
+
+**6、** CREATE INDEX
+
+**7、** CREATE INDEX可对表增加普通索引或UNIQUE索引。
+
+**8、** CREATE INDEX index_name ON table_name (column_list)
+
+**9、** CREATE UNIQUE INDEX index_name ON table_name (column_list)
+
+
+### 7、解释一下Python中的继承？
+
+继承(inheritance)允许一个类获取另一个类的所有成员和属性。继承提供代码可重用性，可以更轻松地创建和维护应用程序。
+
+被继承的类称为超类，而继承的类称为派生类/子类。
+
+
+### 8、py2项目如何迁移成py3
+
+**1、** 先备份原文件，然后使用python3自带工具2to3.py将py2文件转换位py3文件
+
+**2、** 手动将不兼容的代码改写成兼容py3的代码
+
+
+### 9、什么是正向代理和反向代理？
+
+**正向代理**
+
+**1、** 正向代理类似一个跳板机，代理访问外部资源。
+
+**2、** 正向代理 是一个位于客户端和原始服务器(origin server)之间的服务器，为了从原始服务器取得内容，客户端向代理发送一个请求并指定目标(原始服务器)，然后代理向原始服务器转交请求并将获得的内容返回给客户端。客户端必须要进行一些特别的设置才能使用正向代理。
+
+**正向代理作用：**
+
+**1、** 访问原来无法访问的资源，如google
+
+**2、** 可以做缓存，加速访问资源
+
+**3、** 对客户端访问授权，上网进行认证
+
+**4、** 代理可以记录用户访问记录（上网行为管理），对外隐藏用户信息
+
+**反向代理**
+
+**1、** 反向代理（Reverse Proxy）实际运行方式是指以代理服务器来接受internet上的连接请求，然后将请求转发给内部网络上的服务器，并将从服务器上得到的结果返回给internet上请求连接的客户端，此时代理服务器对外就表现为一个服务器
+
+**反向代理的作用：**
+
+**1、** 保证内网的安全，可以使用反向代理提供WAF功能，阻止web攻击
+
+**2、** 负载均衡，通过反向代理服务器来优化网站的负载
+
+
+### 10、生成器与函数的区别？
+
+生成器和函数的主要区别在于函数 return a value，生成器 yield a value同时标记或记忆point of the yield 以便于在下次调用时从标记点恢复执行。 yield 使函数转换成生成器，而生成器反过来又返回迭代器。
+
+```python
+# 简单实现生成器
+def dec():
+n=0
+for i in range(10):
+yield n
+n+=i
+
+for i in dec():
+print(i)
+```
+
+
+### 11、vue中的路由拦截器的作用
+### 12、在Python中有多少种运算符？解释一下算数运算符。
+### 13、如何基于Redis实现发布和订阅
+### 14、python解释器种类以及特点
+### 15、简述python的深浅拷贝
+### 16、什么是codis
+### 17、什么是负索引？
+### 18、如何实现"1.2.3"变成['1','2','3']?
+### 19、索引再什么情况下遵循最左前缀的规则？
+### 20、解释Python中的Filter？
+### 21、什么是防火墙？防火墙的作用是什么？
+### 22、什么是正则的贪婪匹配？贪婪模式和非贪婪模式的区别？
+### 23、有如下链表类，请实现单链表逆置。
+### 24、讲讲Python中的位运算符
+### 25、区分Python中的remove，del和pop？
+### 26、请列举你所知道的python代码检测工具以及他们之间的区别
+### 27、query作为sql模板，args为将要传入的参数
+### 28、python中如何使用进程池和线程池
+### 29、a = dict(zip(('a','b','c','d','e'),(1,2,3,4,5))) 请问a是什么？
 
 
 
@@ -228,12 +226,8 @@ numbers.pop()
 ### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/?p=67)
 
 
-## 其他，高清PDF：172份，7701页，最新整理
+## 最新，高清PDF：172份，7701页，最新整理
 
-[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/mst.png "大厂面试题")](https://souyunku.lanzous.com/b0alp9b9g "大厂面试题")
+[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/mst.png "大厂面试题")](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png"大厂面试题")
 
-## 关注公众号：架构师专栏，回复：“面试题”，即可
-
-[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/jiagoushi.png "架构师专栏")](https://souyunku.lanzous.com/b0alp9b9g "架构师专栏")
-
-## 关注公众号：架构师专栏，回复：“面试题”，即可
+[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png "架构师专栏")](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png "架构师专栏")

@@ -8,258 +8,157 @@
 
 
 
-### 1、Python中注释代码的方法有哪些？
+### 1、为什么数据很大的时候使用limit offset分页时，越往后翻速度越慢，如何优化？
 
-在Python中，我们可以通过下面两种方式进行注释。
+使用limit分页时，比如limit 10000，20的意思是扫描满足条件的10020行，扔掉前面的10000行，最后返回20行，问题就出在这，当数据量大的时候，大量时间花在了扫描上面了。
 
-**1、**  三引号'''，用于多行注释。
+**优化方法：**
 
-**2、**  单井号#，用于单行注释。
+**1、** 当一个数据库表过于庞大，LIMIT offset, length中的offset值过大，则SQL查询语句会非常缓慢，你需增加order by，并且order by字段需要建立索引。
 
+**2、** 如果使用子查询去优化LIMIT的话，则子查询必须是连续的，某种意义来讲，子查询不应该有where条件，where会过滤数据，使数据失去连续性
 
-### 2、编写程序，检查序列是否为回文
 
-```
-a = input("Enter The sequence")
-ispalindrome = a == a[::-1]
+### 2、简述生成器，迭代器，装饰器以及应用场景
 
-ispalindrome
->True
-```
+**1、** 迭代器对象实现了iter()方法
 
+**2、** 迭代器实现了iter()和next()方法，迭代器对象从集合的第一个元素开始访问，直到所有的元素被访问完结束
 
-### 3、如何使用python删除一个文件或者文件夹？
+**3、** 生成器是迭代器的一种，一个函数调用时返回一个迭代器，这个函数就叫生成器。通常带有yield
 
-```python
-import os
-import shutil
-os.remove(path) # 删除文件
-os.removedirs(path) # 删除空文件夹
-shutil.rmtree(path) # 删除文件夹，可以为空也可以不为空
-```
+**4、** 装饰器是一个以函数作为参数，并返回一个替换函数的可执行函数，是闭包的一种应用。通常用来给一个函数添加功能
 
 
-### 4、你了解哪些数据库优化方案
+### 3、Redis默认多少个db
 
-**1、** 减少数据访问-创建并正确使用索引
+默认有16个数据库
 
-**2、** 返回更少的数据
 
-**3、** 数据分页处理
+### 4、如何实现响应式布局
 
-**4、** 只返回需要的字段
+**1、** 流体布局
 
-**5、** 减少交互次数
+其实就是度量单位的改变。在响应式设计的布局中，不在把像素(px)作为唯一的单位，而是采用%或者是混合%、px为单位，设计出自己想要的布局方式。
 
-**6、** 使用存储过程
+**2、** 媒体查询
 
-**7、** 优化业务逻辑
+媒体查询可以在你根据特定的环境下查询到各种属性---------比如设备类型，分辨率、屏幕物理尺寸以及色彩等。通过使用媒体查询，可以获得设备的一些特性，以及响应式的布局方案。
 
-**8、** 减少服务器的cpu运算
+**3、** 弹性图片
 
-**9、** 使用绑定变量
+其实在做响应式布局时，大多用到的是弹性盒子进行布局，那么在设置图片的地方也应该具有一些变化以适应布局的变化。出了图片外，像图标啦！视频啦也应做一些调整用以适应布局的变化。
 
-**10、** 合理使用排序
 
-**11、** 减少比较操作
+### 5、如何保证Redis中的数据都是热点数据
 
-**12、** 大量复杂运算在客户端处理
+**1、** Redis 内存数据集大小上升到一定大小的时候，就会施行数据淘汰策略。Redis 提供 6种数据淘汰策略：
 
-**13、** 利用更多资源
+**2、** volatile-lru：从已设置过期时间的数据集（server.db[i].expires）中挑选最近最少使用的数据淘汰
 
-**14、** 客户端多进程访问
+**3、** volatile-ttl：从已设置过期时间的数据集（server.db[i].expires）中挑选将要过期的数据淘汰
 
-**15、** 数据库并行处理
+**4、** volatile-random：从已设置过期时间的数据集（server.db[i].expires）中任意选择数据淘汰
 
+**5、** allkeys-lru：从数据集（server.db[i].dict）中挑选最近最少使用的数据淘汰
 
-### 5、元组的解封装是什么？
+**6、** allkeys-random：从数据集（server.db[i].dict）中任意选择数据淘汰
 
-首先我们来看解封装：
+**7、** no-enviction（驱逐）：禁止驱逐数据
 
-```
->>> mytuple=3,4,5
->>> mytuple
-(3, 4, 5)
-```
 
-这将 3，4，5 封装到元组 mytuple 中。
+### 6、什么是反射，以及应用场景
 
-现在我们将这些值解封装到变量 x，y，z 中：
+[什么是反射的解释](https://www.cnblogs.com/IT-Scavenger/p/9394306.html)
 
-```
->>> x,y,z=mytuple
->>> x+y+z
-```
+**1、** 反射就是通过字符串的形式，导入模块；通过字符串的形式，去模块寻找指定函数，并执行。利用字符串的形式去对象（模块）中操作（查找/获取/删除/添加）成员，一种基于字符串的事件驱动！
 
-得到结果12.
+**2、** 应用场景：当我们动态的输入一个模块名的时候就可以使用到反射。
 
+**3、** 通过hasattr，getattr，delattr，setattr等四个函数来操作
 
-### 6、在Python中有多少种运算符？解释一下算数运算符。
 
-在Python中，我们有7种运算符：算术运算符、关系运算符、赋值运算符、逻辑运算符、位运算符、成员运算符、身份运算符。
-
-我们有7个算术运算符，能让我们对数值进行算术运算：
-
-**1、** 加号（+），将两个值相加
-
-```
->>> 7+8
-15
-```
-
-**2、** 减号（-），将第一个值减去第二个值
-
-```
->>> 7-8
--1
-```
-
-**3、** 乘号（*），将两个值相乘
-
-```
->>> 7*8
-56
-```
-
-**4、** 除号（/），用第二个值除以第一个值
-
-```
->>> 7/8
-0.875
->>> 1/1
-1.0
-```
-
-**5、** 向下取整除、取模和取幂运算，参见上个问题。
-
-
-### 7、如何基于Redis实现发布和订阅
-
-```python
-# 发布者
-#coding:utf-8import time
-import Redis
-
-number_list = ['300033', '300032', '300031', '300030']
-signal = ['1', '-1', '1', '-1']
-
-rc = Redis.StrictRedis(host='***', port='6379', db=3, password='********')
-for i in range(len(number_list)):
-value_new = str(number_list[i]) + ' ' + str(signal[i])
-rc.publish("liao", value_new)  #发布消息到liao
-```
-
-```python
-# 订阅者
-#coding:utf-8import time
-import Redis
-
-rc = Redis.StrictRedis(host='****', port='6379', db=3,     password='******')
-ps = rc.pubsub()
-ps.subscribe('liao')  #从liao订阅消息for item in ps.listen():        #监听状态：有消息发布了就拿过来
-if item['type'] == 'message':
-print item['channel']
-print item['data']
-```
-
-
-### 8、手写一个栈
-
-```python
-#给一个点，我们能够根据这个点知道一些内容
-class Node(object):
-def __init__(self,val): #定位的点的值和一个指向
-self.val=val #指向元素的值,原队列第二元素
-self.next=None #指向的指针
-
-class stack(object):
-def __init__(self):
-self.top=None #初始化最开始的位置
-
-def push(self,n):#添加到栈中
-n=Node(n) #实例化节点
-n.next=self.top #顶端元素传值给一个指针
-self.top=n
-return n.val
-
-def pop(self): #退出栈
-if self.top == None:
-return None
-else:
-tmp=self.top.val
-self.top=self.top.next #下移一位，进行
-return tmp
-
-if __name__=="__main__":
-s=stack()
-print(s.pop())
-s.push(1)
-print(s.pop())
-s.push(2)
-s.push(3)
-print(s.pop())
-s.push(3)
-s.push(3)
-s.push(3)
-print(s.pop())
-print(s.pop())
-print(s.pop())
-print(s.pop())
-```
-
-
-### 9、写个函数接收一个文件夹名称作为参数，显示文件夹中文件的路径，以及其中包含的文件夹中文件的如今
-
-```python
-# 方法一
-import os
-def Test1(rootDir):
-list_dirs = os.walk(rootDir)
-for root, dirs, files in list_dirs:
-for d in dirs:
-print(os.path.join(root, d))
-for f in files:
-print(os.path.join(root, f))
-Test1(r'C:\Users\felix\Desktop\aaa')
-print('#############')
-# 方法二
-import os
-def Test2(rootDir):
-paths=os.listdir(rootDir)
-for lis in paths:
-path=os.path.join(rootDir,lis)
-print(path)
-if os.path.isdir(path):
- Test2(path)
-Test2(r'C:\Users\felix\Desktop\aaa')
-```
-
-
-### 10、mro是什么？
+### 7、mro是什么？
 
 对于支持继承的编程语言来说，其方法（属性）可能定义在当前类，也可能来自于基类，所以在方法调用时就需要对当前类和基类进行搜索以确定方法所在的位置。而搜索的顺序就是所谓的「方法解析顺序」（Method Resolution Order，或MRO）。
 
 
-### 11、使用两个队列实现一个栈
-### 12、select、poll、epoll模型的区别
-### 13、vuex的作用
-### 14、解释Python中reduce函数的用法？
-### 15、列举创建索引但是无法命中索引的情况
-### 16、一个数如果恰好等于它的因子之和，这个数就称为‘完数’，比如6=1+2+3，编程找出1000以内的所有的完数。
-### 17、将下面列表中的元素根据位数合并成字典：
-### 18、IO多路复用的作用？
-### 19、列举面向对象中带双下划线的特殊方法
-### 20、如何实现字符串的反转？如：name=felix，反转成name=xilef
-### 21、什么是twisted框架
-### 22、什么是asyncio
-### 23、MySQL如何创建索引
-### 24、python递归的最大层数？
-### 25、py2项目如何迁移成py3
-### 26、Python中的生成器是什么？
-### 27、!=和is not运算符的区别？
-### 28、什么是正则的贪婪匹配？贪婪模式和非贪婪模式的区别？
-### 29、求下面代码结果
-### 30、解释Python的内置数据结构？
+### 8、解释*args和**kwargs？
+
+*args，是当我们不确定要传递给函数参数的数量时使用的。
+
+```
+def add（* num）：
+    sum = 0 
+    for val in num：
+        sum = val + sum 
+    print（sum）
+
+
+add（4,5）
+add（7,4,6）
+add（10,34,23）
+--------------------- 
+9 
+17 
+57
+```
+
+**kwargs，是当我们想将字典作为参数传递给函数时使用的。
+
+```
+def intro(**data):
+    print("\nData type of argument:",type(data))
+    for key, value in data.items():
+        print("{} is {}".format(key,value))
+
+
+intro(name="alex",Age=22, Phone=1234567890)
+intro(name="louis",Email="a@gmail.com",Country="Wakanda", Age=25)
+--------------------------------------------------------------
+Data type of argument: <class 'dict'>
+name is alex
+Age is 22
+Phone is 1234567890
+
+Data type of argument: <class 'dict'>
+name is louis
+Email is a@gmail.com
+Country is Wakanda
+Age is 25
+```
+
+
+### 9、简述OSI七层协议
+
+为了实现计算机系统的互连，OSI参考模型把整个网络的通信功能划分为7个层次，同时也定义了层次之间的相互关系以及各层所包括的服务及每层的功能。OSI的七层由低到高依次为：物理层、数据链路层、网络层、传输层、会话层、表示层、应用层，下三层（物理层、数据链路层、网络层）面向数据通信，而上三层（会话层、表示层、应用层）则面向资源子网，而传输层则是七层中最为重要的一层。它位于上层和下层中间，起承上启下的作用。
+
+
+### 10、前后端分离的基本原理
+
+前后端分离并非仅仅只是一种开发模式，而是一种架构模式（前后端分离架构）。前端项目与后端项目是两个项目，放在两个不同的服务器，需要独立部署，两个不同的工程，两个不同的代码库，不同的开发人员。前后端工程师需要约定交互接口，实现并行开发，开发结束后需要进行独立部署，前端通过Ajax来调用HTTP请求调用后端的restful api。前端只需要关注页面的样式与动态数据的解析&渲染，而后端专注于具体业务逻辑。
+
+
+### 11、什么是C/S和B/S架构
+### 12、如何实现字符串的反转？如：name=felix，反转成name=xilef
+### 13、axios的作用
+### 14、列表和元组之间的区别是？
+### 15、三元运算编写格式
+### 16、对列表[3,1,-4,-2]按照绝对值排序
+### 17、python哪些类型的数据才能作为字典的key？
+### 18、python中进制转换
+### 19、获取python解释器版本的方法
+### 20、编写一个函数，找出数组中没有重复的值的和
+### 21、什么是rpc
+### 22、生产者消费者模型的应用场景
+### 23、元组的解封装是什么？
+### 24、Python中的生成器是什么？
+### 25、python的可变类型和不可变类型的区别
+### 26、输入某年某月某日，判断这是这一年的第几天？
+### 27、解释一下Python中的逻辑运算符
+### 28、了解过Hbase，DB2，SQLServer，Access吗
+### 29、双下划线和单下划线的区别
+### 30、Redis中watch的作用
 
 
 
@@ -271,12 +170,8 @@ Test2(r'C:\Users\felix\Desktop\aaa')
 ### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/?p=67)
 
 
-## 其他，高清PDF：172份，7701页，最新整理
+## 最新，高清PDF：172份，7701页，最新整理
 
-[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/mst.png "大厂面试题")](https://souyunku.lanzous.com/b0alp9b9g "大厂面试题")
+[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/mst.png "大厂面试题")](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png"大厂面试题")
 
-## 关注公众号：架构师专栏，回复：“面试题”，即可
-
-[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/jiagoushi.png "架构师专栏")](https://souyunku.lanzous.com/b0alp9b9g "架构师专栏")
-
-## 关注公众号：架构师专栏，回复：“面试题”，即可
+[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png "架构师专栏")](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png "架构师专栏")

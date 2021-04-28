@@ -8,144 +8,114 @@
 
 
 
-### 1、在微服务中，如何保护服务?
+### 1、什么是 Hystrix？
 
-一般使用使用Hystrix框架，实现服务隔离来避免出现服务的雪崩效应，从而达到保护服务的效果。当微服务中，高并发的数据库访问量导致服务线程阻塞，使单个服务宕机，服务的不可用会蔓延到其他服务，引起整体服务灾难性后果，使用服务降级能有效为不同的服务分配资源,一旦服务不可用则返回友好提示，不占用其他服务资源，从而避免单个服务崩溃引发整体服务的不可用.
+在分布式系统，我们一定会依赖各种服务，那么这些个服务一定会出现失败的情况，就会导致雪崩，Hystrix就是这样的一个工具，防雪崩利器，它具有服务降级，服务熔断，服务隔离，监控等一些防止雪崩的技术。
 
+**Hystrix有四种防雪崩方式:**
 
-### 2、哪些是重要的bean生命周期方法？你能重载它们吗？
+**1、** 服务降级：接口调用失败就调用本地的方法返回一个空
 
-有两个重要的bean 生命周期方法，第一个是setup ， 它是在容器加载bean的时候被调用。第二个方法是 teardown 它是在容器卸载类的时候被调用。
+**2、** 服务熔断：接口调用失败就会进入调用接口提前定义好的一个熔断的方法，返回错误信息
 
-The bean 标签有两个重要的属性（init-method和destroy-method）。用它们你可以自己定制初始化和注销方法。它们也有相应的注解（@PostConstruct和@PreDestroy）。
+**3、** 服务隔离：隔离服务之间相互影响
 
+**4、** 服务监控：在服务发生调用时,会将每秒请求数、成功请求数等运行指标记录下来。
 
-### 3、PACT在微服务架构中的用途是什么？
 
-PACT是一个开源工具，允许测试服务提供者和消费者之间的交互，与合同隔离，从而提高微服务集成的可靠性。
+### 2、你怎样定义类的作用域?
 
-微服务中的用法
+当定义一个 在Spring里，我们还能给这个bean声明一个作用域。它可以通过bean 定义中的scope属性来定义。如，当Spring要在需要的时候每次生产一个新的bean实例，bean的scope属性被指定为prototype。另一方面，一个bean每次使用的时候必须返回同一个实例，这个bean的scope 属性 必须设为 singleton。
 
-用于在微服务中实现消费者驱动的合同。
 
-测试微服务的消费者和提供者之间的消费者驱动的合同。
+### 3、什么是 JavaConfig？
 
-查看即将到来的批次
+Spring JavaConfig 是 Spring 社区的产品，它提供了配置 Spring IoC 容器的纯Java 方法。因此它有助于避免使用 XML 配置。使用 JavaConfig 的优点在于：
 
+**1、** 面向对象的配置。由于配置被定义为 JavaConfig 中的类，因此用户可以充分利用 Java 中的面向对象功能。一个配置类可以继承另一个，重写它的[@Bean ](/Bean ) 方法等。
 
-### 4、谈谈服务降级、熔断、服务隔离
+**2、** 减少或消除 XML 配置。基于依赖注入原则的外化配置的好处已被证明。但是，许多开发人员不希望在 XML 和 Java 之间来回切换。JavaConfig 为开发人员提供了一种纯 Java 方法来配置与 XML 配置概念相似的 Spring 容器。从技术角度来讲，只使用 JavaConfig 配置类来配置容器是可行的，但实际上很多人认为将JavaConfig 与 XML 混合匹配是理想的。
 
-**1、** 服务降级：当客户端请求服务器端的时候，防止客户端一直等待，不会处理业务逻辑代码，直接返回一个友好的提示给客户端。
+**3、** 类型安全和重构友好。JavaConfig 提供了一种类型安全的方法来配置 Spring容器。由于 Java 5.0 对泛型的支持，现在可以按类型而不是按名称检索 bean，不需要任何强制转换或基于字符串的查找。
 
-**2、** 服务熔断是在服务降级的基础上更直接的一种保护方式，当在一个统计时间范围内的请求失败数量达到设定值（requestVolumeThreshold）或当前的请求错误率达到设定的错误率阈值（errorThresholdPercentage）时开启断路，之后的请求直接走fallback方法，在设定时间（sleepWindowInMilliseconds）后尝试恢复。
 
-**3、** 服务隔离就是Hystrix为隔离的服务开启一个独立的线程池，这样在高并发的情况下不会影响其他服务。服务隔离有线程池和信号量两种实现方式，一般使用线程池方式。
+### 4、服务雪崩？
 
+简介：服务雪崩效应是⼀种因服务提供者的不可⽤导致服务调⽤者的不可⽤,并将不可⽤逐渐放⼤的过程.
 
-### 5、你如何理解 SpringBoot 配置加载顺序？
+![](https://gitee.com/souyunkutech/souyunku-home/raw/master/images/souyunku-web/2020/5/2/01/44/45_12.png#alt=45%5C_12.png)
 
-在 SpringBoot 里面，可以使用以下几种方式来加载配置。
+**形成原因**
 
-**1、** properties文件；
+**1、** 服务提供者不可
 
-**2、** YAML文件；
+**2、** 重试加⼤流量
 
-**3、** 系统环境变量；
+**3、** 服务调⽤者不可⽤
 
-**4、** 命令行参数；
+**采⽤策略**
 
-等等……
+**1、** 流量控制
 
+**2、** 改进缓存模式
 
-### 6、列举 Spring DAO 抛出的异常。
+**3、** 服务⾃动扩容
 
-![](https://gitee.com/souyunkutech/souyunku-home/raw/master/images/souyunku-web/2019/08/0816/02/img_4.png#alt=img%5C_4.png)
+**4、** 服务调⽤者降级服务
 
 
-### 7、Spring MVC的主要组件？
+### 5、解释基于注解的切面实现
 
-**1、** 前端控制器 DispatcherServlet（不需要程序员开发）
+在这种情况下(基于@AspectJ的实现)，涉及到的切面声明的风格与带有java5标注的普通java类一致。
 
-**作用：**
 
-接收请求、响应结果，相当于转发器，有了DispatcherServlet 就减少了其它组件之间的耦合度。
+### 6、微服务架构的优缺点是什么？
 
-**2、** 处理器映射器HandlerMapping（不需要程序员开发）
+![](https://gitee.com/souyunkutech/souyunku-home/raw/master/images/souyunku-web/2019/08/0816/01/img_6.png#alt=img%5C_6.png)
 
-**作用：**
 
-根据请求的URL来查找Handler
+### 7、RequestMapping 和 GetMapping 的不同之处在哪里？
 
-**3、** 处理器适配器HandlerAdapter
+RequestMapping 具有类属性的，可以进行 GET,POST,PUT 或者其它的注释中具有的请求方法。GetMapping 是 GET 请求方法中的一个特例。它只是 ResquestMapping 的一个延伸，目的是为了提高清晰度。
 
-**注意：**
 
-在编写Handler的时候要按照HandlerAdapter要求的规则去编写，这样适配器HandlerAdapter才可以正确的去执行Handler。
+### 8、如果前台有很多个参数传入,并且这些参数都是一个对象的,那么怎么样快速得到这个对象？
 
-**4、** 处理器Handler（需要程序员开发）
 
-**5、** 视图解析器 ViewResolver（不需要程序员开发）
 
-**作用：**
+直接在方法中声明这个对象,Spring MVC就自动会把属性赋值到这个对象里面。
 
-进行视图的解析，根据视图逻辑名解析成真正的视图（view）
 
-**6、** 视图View（需要程序员开发jsp）
+### 9、spring DAO 有什么用？
 
-View是一个接口， 它的实现类支持不同的视图类型（jsp，freemarker，pdf等等）
+Spring DAO 使得 JDBC，Hibernate 或 JDO 这样的数据访问技术更容易以一种统一的方式工作。 这使得用户容易在持久性技术之间切换。 它还允许您在编写代码时，无需考虑捕获每种技术不同的异常。
 
 
-### 8、什么是 AOP切点
+### 10、自动装配有什么局限？
 
-切入点是一个或一组连接点，通知将在这些位置执行。可以通过表达式或匹配的方式指明切入点。
+覆盖的可能性 - 您始终可以使用 `<constructor-arg>` 和 `<property>` 设置指定依赖项，这将覆盖自动装配。基本元数据类型 - 简单属性（如原数据类型，字符串和类）无法自动装配。令人困惑的性质 - 总是喜欢使用明确的装配，因为自动装配不太精确。
 
 
-### 9、如何禁用特定的自动配置类？
-
-若发现任何不愿使用的特定自动配置类，可以使用@EnableAutoConfiguration的排除属性。
-
-//By using "exclude"
-
-@EnableAutoConfiguration(exclude={DataSourceAutoConfiguration.class})
-
-另一方面，如果类别不在类路径上，则可以使用excludeName类注解，并且指定完全限定名。
-
-//By using "excludeName"
-
-@EnableAutoConfiguration(excludeName={Foo.class})
-
-此外，SpringBoot还具有控制排除自动配置类列表的功能，可以通过使用spring.autoconfigure.exclude property来实现。可以将其添加到 propertie应用程序中，并且可以添加逗号分隔的多个类。
-
-//By using property file
-
-spring.autoconfigure.exclude=org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
-
-
-### 10、什么是 spring 装配
-
-当 bean 在 Spring 容器中组合在一起时，它被称为装配或 bean 装配。Spring 容器需要知道需要什么 bean 以及容器应该如何使用依赖注入来将 bean 绑定在一起，同时装配 bean。
-
-
-### 11、什么是 YAML？
-### 12、创建一个 SpringBoot Project 的最简单的方法是什么？
-### 13、Spring框架中的单例bean是线程安全的吗?
-### 14、JdbcTemplate
-### 15、什么是微服务架构
-### 16、怎样在方法里面得到Request,或者Session？
-### 17、服务网关的作用
-### 18、spring boot 核心配置文件是什么？bootstrap.properties 和 application.properties 有何区别 ?
-### 19、springcloud如何实现服务的注册?
-### 20、Springboot 有哪些优点？
-### 21、如何在 SpringBoot 中禁用 Actuator 端点安全性？
-### 22、SpringBoot 实现热部署有哪几种方式？
-### 23、什么是 Spring Data ?
-### 24、列举 Spring Framework 的优点。
-### 25、什么是无所不在的语言？
-### 26、开启 SpringBoot 特性有哪几种方式？
-### 27、什么是Spring Cloud？
-### 28、在 Spring Initializer 中，如何改变一个项目的包名字？
-### 29、既然Nginx可以实现网关？为什么还需要使用Zuul框架
-### 30、Spring MVC怎么和AJAX相互调用的？
+### 11、什么是Spring Cloud？
+### 12、Eureka和ZooKeeper都可以提供服务注册与发现的功能,请说说两个的区别
+### 13、什么是Eureka的自我保护模式，
+### 14、Spring Cloud和各子项目版本对应关系
+### 15、开启SpringBoot特性有哪几种方式？（创建SpringBoot项目的两种方式）
+### 16、Springboot 有哪些优点？
+### 17、如何在 SpringBoot 启动的时候运行一些特定的代码？
+### 18、SpringBoot多数据源拆分的思路
+### 19、你所知道微服务的技术栈有哪些？列举一二
+### 20、Spring MVC的优点
+### 21、SpringBoot 实现热部署有哪几种方式？
+### 22、第⼆层缓存：
+### 23、Ribbon是什么？
+### 24、DispatcherServlet
+### 25、微服务的缺点：
+### 26、区分 BeanFactory 和 ApplicationContext。
+### 27、合同测试你懂什么？
+### 28、如何使用 SpringBoot 部署到不同的服务器？
+### 29、Spring Initializr 是创建 SpringBoot Projects 的唯一方法吗？
+### 30、Spring Framework 中有多少个模块，它们分别是什么？
 
 
 
@@ -157,12 +127,8 @@ spring.autoconfigure.exclude=org.springframework.boot.autoconfigure.jdbc.DataSou
 ### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/?p=67)
 
 
-## 其他，高清PDF：172份，7701页，最新整理
+## 最新，高清PDF：172份，7701页，最新整理
 
-[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/mst.png "大厂面试题")](https://souyunku.lanzous.com/b0alp9b9g "大厂面试题")
+[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/mst.png "大厂面试题")](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png"大厂面试题")
 
-## 关注公众号：架构师专栏，回复：“面试题”，即可
-
-[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/jiagoushi.png "架构师专栏")](https://souyunku.lanzous.com/b0alp9b9g "架构师专栏")
-
-## 关注公众号：架构师专栏，回复：“面试题”，即可
+[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png "架构师专栏")](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png "架构师专栏")

@@ -8,119 +8,268 @@
 
 
 
-### 1、Parallel Old 收集器（多线程标记整理算法）
+### 1、阻塞队列和非阻塞队列区别
 
-Parallel Old 收集器是Parallel Scavenge的年老代版本，使用多线程的标记-整理算法，在 JDK1.6才开始提供。
+**1、** 当队列阻塞队列为空的时，从队列中获取元素的操作将会被阻塞。
 
-在 JDK1.6 之前，新生代使用 ParallelScavenge 收集器只能搭配年老代的 Serial Old 收集器，只能保证新生代的吞吐量优先，无法保证整体的吞吐量， Parallel Old 正是为了在年老代同样提供吞吐量优先的垃圾收集器， 如果系统对吞吐量要求比较高，可以优先考虑新生代Parallel Scavenge和年老代 Parallel Old 收集器的搭配策略。
+**2、** 或者当阻塞队列是满时，往队列里添加元素的操作会被阻塞。
 
+**3、** 或者试图从空的阻塞队列中获取元素的线程将会被阻塞，直到其他的线程往空的队列插入新的元素。
 
-### 2、线程池的优点？
-
-**1、** 重用存在的线程，减少对象创建销毁的开销。
-
-**2、** 可有效的控制最大并发线程数，提高系统资源的使用率，同时避免过多资源竞争，避免堵塞。
-
-**3、** 提供定时执行、定期执行、单线程、并发数控制等功能。
+**4、** 试图往已满的阻塞队列中添加新元素的线程同样也会被阻塞，直到其他的线程使队列重新变得空闲起来
 
 
-### 3、什么是数据结构？
+### 2、现实生活中的模板方法
 
-计算机保存，组织数据的方式
+**例如：**
+
+去餐厅吃饭，餐厅给我们提供了一个模板就是：看菜单，点菜，吃饭，付款，走人 （这里 “**点菜和付款**” 是不确定的由子类来完成的，其他的则是一个模板。）
+
+- 代码演示
+
+**1、** 先定义一个模板。把模板中的点菜和付款，让子类来实现。
+
+```
+package com.lijie;
+
+//模板方法
+public abstract class RestaurantTemplate {
+
+    // 1.看菜单
+    public void menu() {
+        System.out.println("看菜单");
+    }
+
+    // 2.点菜业务
+    abstract void spotMenu();
+
+    // 3.吃饭业务
+    public void havingDinner(){ System.out.println("吃饭"); }
+
+    // 3.付款业务
+    abstract void payment();
+
+    // 3.走人
+    public void GoR() { System.out.println("走人"); }
+
+    //模板通用结构
+    public void process(){
+        menu();
+        spotMenu();
+        havingDinner();
+        payment();
+        GoR();
+    }
+}
+```
+
+**2、** 具体的模板方法子类 1
+
+```
+package com.lijie;
+
+public class RestaurantGinsengImpl extends RestaurantTemplate {
+
+    void spotMenu() {
+        System.out.println("人参");
+    }
+
+    void payment() {
+        System.out.println("5快");
+    }
+}
+```
+
+**3、** 具体的模板方法子类 2
+
+```
+package com.lijie;
+
+public class RestaurantLobsterImpl  extends RestaurantTemplate  {
+
+    void spotMenu() {
+        System.out.println("龙虾");
+    }
+
+    void payment() {
+        System.out.println("50块");
+    }
+}
+```
+
+**4、** 客户端测试
+
+```
+package com.lijie;
+
+public class Client {
+
+    public static void main(String[] args) {
+        //调用第一个模板实例
+        RestaurantTemplate restaurantTemplate = new RestaurantGinsengImpl();
+        restaurantTemplate.process();
+    }
+}
+```
 
 
-### 4、Java中用到的线程调度算法是什么
+### 3、如何避免线程死锁
 
-抢占式。一个线程用完CPU之后，操作系统会根据线程优先级、线程饥饿情况等数据算出一个总的优先级并分配下一个时间片给某个线程执行。
+**1、** 避免一个线程同时获得多个锁
 
+**2、** 避免一个线程在锁内同时占用多个资源，尽量保证每个锁只占用一个资源
 
-### 5、字节流与字符流的区别
-
-**1、** 以字节为单位输入输出数据，字节流按照8位传输
-
-**2、** 以字符为单位输入输出数据，字符流按照16位传输
+**3、** 尝试使用定时锁，使用lock.tryLock(timeout)来替代使用内部锁机制
 
 
-### 6、什么是“依赖注入”和“控制反转”？为什么有人使用？
+### 4、Java 中能创建 volatile 数组吗？
 
-控制反转（IOC）是Spring框架的核心思想，用我自己的话说，就是你要做一件事，别自己可劲new了，你就说你要干啥，然后外包出去就好~
-
-依赖注入（DI） 在我浅薄的想法中，就是通过接口的引用和构造方法的表达，将一些事情整好了反过来传给需要用到的地方~
+能，Java 中可以创建 volatile 类型数组，不过只是一个指向数组的引用，而不是整个数组。意思是，如果改变引用指向的数组，将会受到 volatile 的保护，但是如果多个线程同时改变数组的元素，volatile 标示符就不能起到之前的保护作用了。
 
 
-### 7、静态方法和实例方法有何不同？
+### 5、32 位 JVM 和 64 位 JVM 的最大堆内存分别是多数？
 
-静态方法和实例方法的区别主要体现在两个方面：
-
-**1、** 在外部调用静态方法时，可以使用"类名.方法名"的方式，也可以使用"对象名.方法名"的方式。而实例方法只有后面这种方式。也就是说，调用静态方法可以无需创建对象。
-
-**2、** 静态方法在访问本类的成员时，只允许访问静态成员（即静态成员变量和静态方法），而不允许访问实例成员变量和实例方法；实例方法则无此限制
+理论上说上 32 位的 JVM 堆内存可以到达 2^32，即 4GB，但实际上会比这个小很多。不同操作系统之间不同，如 Windows 系统大约 1.5 GB，Solaris 大约 3GB。64 位 JVM允许指定最大的堆内存，理论上可以达到 2^64，这是一个非常大的数字，实际上你可以指定堆内存大小到 100GB。甚至有的 JVM，如 Azul，堆内存到 1000G 都是可能的。
 
 
-### 8、单例模式的线程安全性
+### 6、介绍一下 JVM 中垃圾收集器有哪些？ 他们特点分别是什么？
 
-老生常谈的问题了，首先要说的是单例模式的线程安全意味着：某个类的实例在多线程环境下只会被创建一次出来。
+**新生代垃圾收集器**
 
-**单例模式有很多种的写法，我总结一下：**
+**Serial 收集器**
 
-**1、** 饿汉式单例模式的写法：线程安全
+特点： Serial 收集器只能使用一条线程进行垃圾收集工作，并且在进行垃圾收集的时候，所有的工作线程都需要停止工作，等待垃圾收集线程完成以后，其他线程才可以继续工作。
 
-**2、** 懒汉式单例模式的写法：非线程安全
+**使用算法：复制算法**
 
-**3、** 双检锁单例模式的写法：线程安全
+**ParNew 收集器**
+
+特点： ParNew 垃圾收集器是Serial收集器的多线程版本。为了利用 CPU 多核多线程的优势，ParNew 收集器可以运行多个收集线程来进行垃圾收集工作。这样可以提高垃圾收集过程的效率。
+
+**使用算法：复制算法**
+
+**Parallel Scavenge 收集器**
+
+特点： Parallel Scavenge 收集器是一款多线程的垃圾收集器，但是它又和 ParNew 有很大的不同点。
+
+Parallel Scavenge 收集器和其他收集器的关注点不同。其他收集器，比如 ParNew 和 CMS 这些收集器，它们主要关注的是如何缩短垃圾收集的时间。而 Parallel Scavenge 收集器关注的是如何控制系统运行的吞吐量。这里说的吞吐量，指的是 CPU 用于运行应用程序的时间和 CPU 总时间的占比，吞吐量 = 代码运行时间 / （代码运行时间 + 垃圾收集时间）。如果虚拟机运行的总的 CPU 时间是 100 分钟，而用于执行垃圾收集的时间为 1 分钟，那么吞吐量就是 99%。
+
+**使用算法：复制算法**
+
+**老年代垃圾收集器**
+
+**Serial Old 收集器**
+
+特点： Serial Old 收集器是 Serial 收集器的老年代版本。这款收集器主要用于客户端应用程序中作为老年代的垃圾收集器，也可以作为服务端应用程序的垃圾收集器。
+
+**使用算法：标记-整理**
+
+**Parallel Old 收集器**
+
+特点： Parallel Old 收集器是 Parallel Scavenge 收集器的老年代版本这个收集器是在 JDK1.6 版本中出现的，所以在 JDK1.6 之前，新生代的 Parallel Scavenge 只能和 Serial Old 这款单线程的老年代收集器配合使用。Parallel Old 垃圾收集器和 Parallel Scavenge 收集器一样，也是一款关注吞吐量的垃圾收集器，和 Parallel Scavenge 收集器一起配合，可以实现对 Java 堆内存的吞吐量优先的垃圾收集策略。
+
+**使用算法：标记-整理**
+
+**CMS 收集器**
+
+特点： CMS 收集器是目前老年代收集器中比较优秀的垃圾收集器。CMS 是 Concurrent Mark Sweep，从名字可以看出，这是一款使用"标记-清除"算法的并发收集器。
+
+CMS 垃圾收集器是一款以获取最短停顿时间为目标的收集器。如下图所示：
+
+![](https://gitee.com/souyunkutech/souyunku-home/raw/master/images/souyunku-web/2020/5/2/05/34/39_3.png#alt=39%5C_3.png)
+
+**从图中可以看出，CMS 收集器的工作过程可以分为 4 个阶段：**
+
+**1、** 初始标记（CMS initial mark）阶段
+
+**2、** 并发标记（CMS concurrent mark）阶段
+
+**3、** 重新标记（CMS remark）阶段
+
+**4、** 并发清除(（CMS concurrent sweep）阶段
+
+使用算法：复制+标记清除
+
+**其他**
+
+**G1 垃圾收集器**
+
+特点： 主要步骤：`初始标记，并发标记，重新标记，复制清除。`
+
+**使用算法：复制 + 标记整理**
 
 
-### 9、在java中守护线程和本地线程区别？
+### 7、自动装箱与拆箱
 
-java中的线程分为两种：守护线程（Daemon）和用户线程（User）。
+**装箱**：将基本类型用它们对应的引用类型包装起来；
 
-任何线程都可以设置为守护线程和用户线程，通过方法Thread.setDaemon(bool on)；true则把该线程设置为守护线程，反之则为用户线程。Thread.setDaemon()必须在Thread.start()之前调用，否则运行时会抛出异常。
+**拆箱**：将包装类型转换为基本数据类型；
 
-**两者的区别**：
-
-唯一的区别是判断虚拟机(JVM)何时离开，Daemon是为其他线程提供服务，如果全部的User Thread已经撤离，Daemon 没有可服务的线程，JVM撤离。也可以理解为守护线程是JVM自动创建的线程（但不一定），用户线程是程序创建的线程；比如JVM的垃圾回收线程是一个守护线程，当所有线程已经撤离，不再产生垃圾，守护线程自然就没事可干了，当垃圾回收线程是Java虚拟机上仅剩的线程时，Java虚拟机会自动离开。
-
-**扩展**：
-
-Thread Dump打印出来的线程信息，含有daemon字样的线程即为守护进程，可能会有：服务守护进程、编译守护进程、windows下的监听Ctrl+break的守护进程、Finalizer守护进程、引用处理守护进程、GC守护进程。
+Java使用自动装箱和拆箱机制，节省了常用数值的内存开销和创建对象的开销，提高了效率，由编译器来完成，编译器会在编译期根据语法决定是否进行装箱和拆箱动作。
 
 
-### 10、Java中的同步集合与并发集合有什么区别？
+### 8、解释什么是Jasper?
 
-同步集合与并发集合都为多线程和并发提供了合适的线程安全的集合，不过并发集合的可扩展性更高。在Java1.5之前程序员们只有同步集合来用且在多线程并发的时候会导致争用，阻碍了系统的扩展性。Java5介绍了并发集合像ConcurrentHashMap，不仅提供线程安全还用锁分离和内部分区等现代技术提高了可扩展性。
+Jasper是Tomcat的JSP引擎
+
+它解析JSP文件，将它们编译成JAVA代码作为servlet
+
+在运行时，Jasper允许自动检测JSP文件的更改并重新编译它们
 
 
-### 11、类加载器
-### 12、String s = new String(“xyz”);创建了几个字符串对象？
-### 13、哪些集合类是线程安全的？
-### 14、Java中interrupted 和 isInterrupted方法的区别？
-### 15、什么是代理模式
-### 16、Java 中，抽象类与接口之间有什么不同？
-### 17、关于 OOP 和设计模式的面试题
-### 18、如何让正在运行的线程暂停一段时间？
-### 19、阐述JDBC操作数据库的步骤。
-### 20、遇到过元空间溢出吗？
-### 21、Java语言如何进行异常处理，关键字：throws、throw、try、catch、finally分别如何使用？
-### 22、环境变量Path和ClassPath的作用是什么？如何设置这两个环境变量？
-### 23、38、数据类型之间的转换：
-### 24、int 和 Integer 哪个会占用更多的内存？
-### 25、什么时候用断言（assert）？
-### 26、在 Java 程序中怎么保证多线程的运行安全？
-### 27、接口和抽象类的区别是什么？
-### 28、redux的工作流程?
-### 29、什么是线程同步和线程互斥，有哪几种实现方式？
-### 30、什么叫线程安全？servlet是线程安全吗?
-### 31、构造方法能不能重写？能不能重载？
-### 32、String和StringBuffer、StringBuilder的区别是什么？String为什么是不可变的？
-### 33、请说出与线程同步以及线程调度相关的方法。
-### 34、什么情况发生栈溢出？
-### 35、Java中有几种数据类型
-### 36、import java和javax有什么区别
-### 37、用Java实现阻塞队列
-### 38、什么是 Busy spin？我们为什么要使用它？
-### 39、什么时候使用享元模式？
-### 40、对于JDK自带的监控和性能分析工具用过哪些？
-### 41、方法区溢出的原因？
+### 9、在多线程环境下，SimpleDateFormat 是线程安全的吗？
+
+不是，非常不幸，DateFormat 的所有实现，包括 SimpleDateFormat 都不是线程安全的，因此你不应该在多线程序中使用，除非是在对外线程安全的环境中使用，如 将 SimpleDateFormat 限制在 ThreadLocal 中。如果你不这么做，在解析或者格式化日期的时候，可能会获取到一个不正确的结果。因此，从日期、时间处理的所有实践来说，我强力推荐 joda-time 库。
+
+
+### 10、Java常用包有那些？
+
+**1、** Java.lang
+
+**2、** Java.io
+
+**3、** Java.sql
+
+**4、** Java.util
+
+**5、** Java.awt
+
+**6、** Java.net
+
+**7、** Java.math
+
+
+### 11、HashMap 和 ConcurrentHashMap 的区别
+### 12、遇到过元空间溢出吗？
+### 13、String 类的常用方法都有那些？
+### 14、什么是方法重载？
+### 15、JVM 出现 fullGC 很频繁，怎么去线上排查问题
+### 16、线程的调度策略
+### 17、什么是Hash算法
+### 18、Hashtable 与 HashMap 有什么不同之处？
+### 19、Spring开发中的工厂设计模式
+### 20、说一下 Atomic的原理？
+### 21、请解释一下什么时候可以使用“.”，什么时候可以使用“[]”?
+### 22、JVM 数据运行区，哪些会造成 OOM 的情况？
+### 23、阐述JDBC操作数据库的步骤。
+### 24、使用集合框架的好处
+### 25、HashMap中的key，可以是普通对象么？需要什么注意的地方？
+### 26、什么是重写？什么是重载？
+### 27、volatile 能使得一个非原子操作变成原子操作吗？
+### 28、线程之间是如何通信的？
+### 29、如何自定义线程线程池?
+### 30、什么是Executors框架？
+### 31、什么是重排序
+### 32、类加载是什么？
+### 33、在使用jdbc的时候，如何防止出现sql注入的问题。
+### 34、抽象的（abstract）方法是否可同时是静态的（static）,是否可同时是本地方法（native），是否可同时被synchronized修饰？
+### 35、什么时候使用享元模式？
+### 36、说下有哪些类加载器？
+### 37、synchronized、volatile、CAS 比较
+### 38、你都用过G1垃圾回收器的哪几个重要参数？
+### 39、什么叫线程安全？servlet 是线程安全吗?
+### 40、CyclicBarrier和CountDownLatch的区别
+### 41、HTTP的状态码
 
 
 
@@ -132,12 +281,8 @@ Thread Dump打印出来的线程信息，含有daemon字样的线程即为守护
 ### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/?p=67)
 
 
-## 其他，高清PDF：172份，7701页，最新整理
+## 最新，高清PDF：172份，7701页，最新整理
 
-[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/mst.png "大厂面试题")](https://souyunku.lanzous.com/b0alp9b9g "大厂面试题")
+[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/mst.png "大厂面试题")](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png"大厂面试题")
 
-## 关注公众号：架构师专栏，回复：“面试题”，即可
-
-[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/jiagoushi.png "架构师专栏")](https://souyunku.lanzous.com/b0alp9b9g "架构师专栏")
-
-## 关注公众号：架构师专栏，回复：“面试题”，即可
+[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png "架构师专栏")](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png "架构师专栏")

@@ -8,116 +8,83 @@
 
 
 
-### 1、Mybatis的Xml映射文件中，不同的Xml映射文件，id是否可以重复？
+### 1、MyBatis 实现一对一有几种方式?具体怎么操作的？
 
-不同的Xml映射文件，如果配置了namespace，那么id可以重复；如果没有配置namespace，那么id不能重复；毕竟namespace不是必须的，只是最佳实践而已。
+有联合查询和嵌套查询,联合查询是几个表联合查询,只查询一次,通过在 resultMap 里面
 
-原因就是namespace+id是作为Map<String, MappedStatement>的key使用的，如果没有namespace，就剩下id，那么，id重复会导致数据互相覆盖。有了namespace，自然id就可以重复，namespace不同，namespace+id自然也就不同。
+配置 association 节点配置一对一的类就可以完成;嵌套查询是先查一个表,根据这个表里面
 
+的结果的外键 id,去再另外一个表里面查询数据,也是通过 association 配置,但另外一个表的
 
-### 2、模糊查询 like 语句该怎么写
-
-**1、** 在 java 中拼接通配符，通过#{}赋值
-
-**2、** 在 Sql 语句中拼接通配符 （不安全 会引起 Sql 注入、
+查询通过 select 属性配置。
 
 
-### 3、传统JDBC开发存在什么问题？
+### 2、{}里面的名称对应的是Map里面的key名称。
 
-**1、** 频繁创建数据库连接对象、释放，容易造成系统资源浪费，影响系统性能。可以使用连接池解决这个问题。但是使用jdbc需要自己实现连接池。
+这种方法适合传递多个参数，且参数易变能灵活传递的情况。（推荐使用）。
 
-**2、** sql语句定义、参数设置、结果集处理存在硬编码。实际项目中sql语句变化的可能性较大，一旦发生变化，需要修改java代码，系统需要重新编译，重新发布。不好维护。
-
-**3、** 使用preparedStatement向占有位符号传参数存在硬编码，因为sql语句的where条件不一定，可能多也可能少，修改sql还要修改代码，系统不易维护。
-
-**4、** 结果集处理存在重复代码，处理麻烦。如果可以映射成Java对象会比较方便。
-
-
-### 4、一对一、一对多的关联查询 ？
-
-```xml
-<mapper namespace="com.lcb.mapping.userMapper">
-    <!--association  一对一关联查询 -->
-    <select id="getClass" parameterType="int" resultMap="ClassesResultMap">
-        select * from class c,teacher t where c.teacher_id=t.t_id and c.c_id=#{id}
-    </select>
-
-    <resultMap type="com.lcb.user.Classes" id="ClassesResultMap">
-        <!-- 实体类的字段名和数据表的字段名映射 -->
-        <id property="id" column="c_id"/>
-        <result property="name" column="c_name"/>
-        <association property="teacher" javaType="com.lcb.user.Teacher">
-            <id property="id" column="t_id"/>
-            <result property="name" column="t_name"/>
-        </association>
-    </resultMap>
-
-
-    <!--collection  一对多关联查询 -->
-    <select id="getClass2" parameterType="int" resultMap="ClassesResultMap2">
-        select * from class c,teacher t,student s where c.teacher_id=t.t_id and c.c_id=s.class_id and c.c_id=#{id}
-    </select>
-
-    <resultMap type="com.lcb.user.Classes" id="ClassesResultMap2">
-        <id property="id" column="c_id"/>
-        <result property="name" column="c_name"/>
-        <association property="teacher" javaType="com.lcb.user.Teacher">
-            <id property="id" column="t_id"/>
-            <result property="name" column="t_name"/>
-        </association>
-
-        <collection property="student" ofType="com.lcb.user.Student">
-            <id property="id" column="s_id"/>
-            <result property="name" column="s_name"/>
-        </collection>
-    </resultMap>
-</mapper>
-```
-
-
-### 5、什么情况下用注解绑定,什么情况下用 xml 绑定？
-
-当 Sql 语句比较简单时候,用注解绑定；当 SQL 语句比较复杂时候,用 xml 绑定,一般用
-
-xml 绑定的比较多
-
-
-### 6、JDBC编程有哪些不足之处，MyBatis是如何解决这些问题的？
-
-**1、** 数据库链接创建、释放频繁造成系统资源浪费从而影响系统性能，使用数据库链接池可解决此问题。解决：在SqlMapConfig.xml中配置数据链接池，使用连接池管理数据库链接。
-
-**2、** Sql语句写在代码中造成代码不易维护，实际应用sql变化的可能较大，sql变动需要改变java代码。解决：将Sql语句配置在XXXXmapper.xml文件中与java代码分离。
-
-**3、** 向sql语句传参数麻烦，因为sql语句的where条件不一定，可能多也可能少，占位符需要和参数一一对应。解决： Mybatis 自动将 java 对象映射至 sql 语句。
-
-**4、** 对结果集解析麻烦，sql 变化导致解析代码变化，且解析前需要遍历，如果能将数据库记录封装成 pojo对象解析比较方便。解决：Mybatis 自动将 sql 执行结果映射至java对象。
-
-
-### 7、Mybatis与Spring 的整合？
-
-**1、** Spring Spring是一个轻量级控制反转(IOC)和面向切面(AOP)的容器框架；AOP和IOC是Spring框架重要的两个模块；控制反转就是改变对象的创建方式，将对象的创建和维护有开发人员创建改为由容器帮我们完成创建和维护。
-
-**2、** Mybatis是支持SQL查询，存储过程和高级映射的优秀持久成框架。Mybatis几乎是消除了使用JDBC存在的重复创建和关闭连接，以及结果集查询的问题。它使用简单的xml或者注解用于配置和映射，将java的POjOs映射成数据库中的记录。
-
-**3、** 整合，涉及的常用包： ![](https://atts.w3cschool.cn/attachments/image/20171124/1511515685952292.png#alt=)
-
-
-### 8、模糊查询like语句该怎么写
-
-- 1 ’%${question}%’ 可能引起SQL注入，不推荐
-- 2 "%"#{question}"%" 注意：因为#{…}解析成sql语句时候，会在变量外侧自动加单引号’ '，所以这里 % 需要使用双引号" "，不能使用单引号 ’ '，不然会查不到任何结果。
-- 3 CONCAT(’%’,#{question},’%’) 使用CONCAT()函数，（推荐）
-- 4 使用bind标签（不推荐）
+**方法4：Java Bean传参法**
 
 ```
-<select id="listUserLikeUsername" resultType="com.jourwon.pojo.User">
-  <bind name="pattern" value="'%' + username + '%'" />
-  select id,sex,age,username,password from person where username LIKE{pattern}
+public User selectUser(User user);
+
+<select id="selectUser" parameterType="com.jourwon.pojo.User" resultMap="UserResultMap">
+select * from user
+where user_name ={userName} and dept_id ={deptId}
 </select>
 ```
 
+**1、** #{}里面的名称对应的是User类里面的成员属性。
 
-### 9、在mapper中如何传递多个参数?
+**2、** 这种方法直观，需要建一个实体类，扩展不容易，需要加属性，但代码可读性强，业务逻辑处理方便，推荐使用。（推荐使用）。
+
+
+### 3、Mybatis能执行一对多，一对一的联系查询吗，有哪些实现方法
+
+能，不止可以一对多，一对一还可以多对多，一对多
+
+**实现方式：**
+
+**1、** 单独发送一个SQL去查询关联对象，赋给主对象，然后返回主对象
+
+**2、** 使用嵌套查询，似JOIN查询，一部分是A对象的属性值，另一部分是关联对 象 B的属性值，好处是只要发送一个属性值，就可以把主对象和关联对象查出来
+
+**3、** 子查询
+
+
+### 4、resultType resultMap 的区别？
+
+**1、** 类的名字和数据库相同时，可以直接设置 resultType 参数为 Pojo 类
+
+**2、** 若不同，需要设置 resultMap 将结果名字和 Pojo 名字进行转换
+
+
+### 5、Mybatis 执行批量插入，能返回数据库主键列表吗？
+
+能，JDBC 都能，Mybatis 当然也能。
+
+
+### 6、Mybatis 比 IBatis 比较大的几个改进是什么？
+
+**1、** 有接口绑定,包括注解绑定 sql 和 xml 绑定 Sql
+
+**2、** 动态 sql 由原来的节点配置变成 OGNL 表达式 3、 在一对一,一对多的时候引进了
+
+association,在一对多的时候引入了 collection 节点,不过都是在 resultMap 里面配置
+
+
+### 7、#{}和${}的区别
+
+**1、** #{}是占位符，预编译处理；${}是拼接符，字符串替换，没有预编译处理。
+
+**2、** Mybatis在处理#{}时，#{}传入参数是以字符串传入，会将SQL中的#{}替换为?号，调用PreparedStatement的set方法来赋值。
+
+**3、** #{} 可以有效的防止SQL注入，提高系统安全性；${} 不能防止SQL 注入
+
+**4、** #{} 的变量替换是在DBMS 中；${} 的变量替换是在 DBMS 外
+
+
+### 8、在mapper中如何传递多个参数?
 
 **1、** 第一种：
 
@@ -173,25 +140,52 @@ try {
 ```
 
 
-### 10、Mybatis的编程步骤是什么样的？
+### 9、MyBatis和Hibernate的适用场景?
 
-首先创建Sql Session Factory；第二通过Sql Session Factory创建Sql Session；第三通过sqlsession执行数据库操作；其次调用session.commit()提交事务最后；调用session.close()关闭会话。
+**1、** MyBatis专注于SQL本身，是一个足够灵活的DAO层解决方案。
+
+**2、** 对性能的要求很高，或者需求变化较多的项目，如互联网项目，MyBatis将是不错的选择。
+
+**开发难易程度和学习成本**
+
+Hibernate 是重量级框架，学习使用门槛高，适合于需求相对稳定，中小型的项目，比如：办公自动化系统
+
+MyBatis 是轻量级框架，学习使用门槛低，适合于需求变化频繁，大型的项目，比如：互联网电子商务系统
+
+**总结**
+
+**1、** MyBatis 是一个小巧、方便、高效、简单、直接、半自动化的持久层框架，
+
+**2、** Hibernate 是一个强大、方便、高效、复杂、间接、全自动化的持久层框架。
 
 
-### 11、使用 MyBatis 的 mapper 接口调用时有哪些要求？
-### 12、Mybatis 执行批量插入，能返回数据库主键列表吗？
-### 13、MyBatis编程步骤是什么样的？
-### 14、Mybatis都有哪些Executor执行器？它们之间的区别是什么？
-### 15、Mapper编写有哪几种方式？
-### 16、Mybatis是如何进行分页的？分页插件的原理是什么？
-### 17、#{}和${}的区别是什么？
-### 18、什么是DBMS
-### 19、MyBatis是什么？
-### 20、在mapper中如何传递多个参数
-### 21、MyBatis框架的缺点有什么？
-### 22、Mybatis是如何将sql执行结果封装为目标对象并返回的？都有哪些映射形式？
-### 23、简述 Mybatis 的插件运行原理，以及如何编写一个插件？
-### 24、Mybatis是否可以映射Enum枚举类？
+### 10、Mybatis 是否可以映射 Enum 枚举类？
+
+Mybatis 可以映射枚举类，不单可以映射枚举类，Mybatis 可以映射任何对象到表的一
+
+列上。映射方式为自定义一个 TypeHandler，实现 TypeHandler 的 setParameter()和
+
+getResult()接口方法。TypeHandler 有两个作用，一是完成从 javaType 至 jdbcType 的转换，
+
+二是完成 jdbcType 至 javaType 的转换，体现为 setParameter()和 getResult()两个方法，分别
+
+代表设置 sql 问号占位符参数和获取列查询结果。
+
+
+### 11、模糊查询like语句该怎么写
+### 12、当实体类中的属性名和表中的字段名不一样 ，怎么办
+### 13、SQLMapConfig.xml中配置有哪些内容？
+### 14、Mybatis编程步骤 ？
+### 15、如何获取生成的主键
+### 16、使用MyBatis的mapper接口调用时有哪些要求？
+### 17、什么是DBMS
+### 18、Mybatis是如何进行分页的？分页插件的原理是什么？
+### 19、简述Mybatis的插件运行原理，以及如何编写一个插件。
+### 20、Xml映射文件中，除了常见的select|insert|updae|delete标签之外，还有哪些标签？
+### 21、#{}和${}的区别是什么？
+### 22、Mybatis的一级、二级缓存
+### 23、Mybatis动态SQL？
+### 24、为什么说 Mybatis 是半自动 ORM 映射工具？它与全自动的区别在哪里？
 
 
 
@@ -203,12 +197,8 @@ try {
 ### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/?p=67)
 
 
-## 其他，高清PDF：172份，7701页，最新整理
+## 最新，高清PDF：172份，7701页，最新整理
 
-[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/mst.png "大厂面试题")](https://souyunku.lanzous.com/b0alp9b9g "大厂面试题")
+[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/mst.png "大厂面试题")](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png"大厂面试题")
 
-## 关注公众号：架构师专栏，回复：“面试题”，即可
-
-[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/jiagoushi.png "架构师专栏")](https://souyunku.lanzous.com/b0alp9b9g "架构师专栏")
-
-## 关注公众号：架构师专栏，回复：“面试题”，即可
+[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png "架构师专栏")](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png "架构师专栏")

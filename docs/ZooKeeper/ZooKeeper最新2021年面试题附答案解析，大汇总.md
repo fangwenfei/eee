@@ -8,73 +8,50 @@
 
 
 
-### 1、集群角色？
+### 1、四种类型的数据节点 Znode
 
-Leader、Follower、Observer
+**1、** PERSISTENT-持久节点 除非手动删除，否则节点一直存在于 Zookeeper 上
 
+**2、** EPHEMERAL-临时节点 临时节点的生命周期与客户端会话绑定，一旦客户端会话失效（客户端与zookeeper 连接断开不一定会话失效），那么这个客户端创建的所有临时节点都会被移除。
 
-### 2、Zookeeper集群管理（文件系统、通知机制）
+**3、** PERSISTENT_SEQUENTIAL-持久顺序节点 基本特性同持久节点，只是增加了顺序属性，节点名后边会追加一个由父节点维护的自增整型数字。
 
-**1、** 所谓集群管理无在乎两点：是否有机器退出和加入、选举master。
-
-**2、** 对于第一点，所有机器约定在父目录下创建临时目录节点，然后监听父目录节点的子节点变化消息。一旦有机器挂掉，该机器与 zookeeper的连接断开，其所创建的临时目录节点被删除，所有其他机器都收到通知：某个兄弟目录被删除，于是，所有人都知道：它上船了。
-
-**3、** 新机器加入也是类似，所有机器收到通知：新兄弟目录加入，highcount又有了，对于第二点，我们稍微改变一下，所有机器创建临时顺序编号目录节点，每次选取编号最小的机器作为master就好。
+**4、** EPHEMERAL_SEQUENTIAL-临时顺序节点 基本特性同临时节点，增加了顺序属性，节点名后边会追加一个由父节点维护的自增整型数字。
 
 
-### 3、说几个zookeeper常用的命令。
+### 2、更新指定节点信息？
 
-常用命令：ls get set create delete等。
+set path data [version]
 
+[zk: localhost:2181(CONNECTED) 6] set /app 222
 
-### 4、分布式集群中为什么会有Master？
+[zk: localhost:2181(CONNECTED) 7] get /app
 
-在分布式环境中，有些业务逻辑只需要集群中的某一台机器进行执行，其他的机器可以共享这个结果，这样可以大大减少重复计算，提高性能，于是就需要进行leader选举。
-
-
-### 5、ZAB和Paxos算法的联系与区别？
-
-**相同点：**
-
-**1、** 两者都存在一个类似于Leader进程的角色，由其负责协调多个Follower进程的运行
-
-**2、** Leader进程都会等待超过半数的Follower做出正确的反馈后，才会将一个提案进行提交
-
-**3、** ZAB协议中，每个Proposal中都包含一个 epoch 值来代表当前的Leader周期，Paxos中名字为Ballot
-
-**不同点：**
-
-ZAB用来构建高可用的分布式数据主备系统（Zookeeper），Paxos是用来构建分布式一致性状态机系统。
+222
 
 
-### 6、Quorum?
+### 3、客户端回调Watcher
+
+客户端SendThread线程接收事件通知，交由EventThread线程回调Watcher。客户端的Watcher机制同样是一次性的，一旦被触发后，该Watcher就失效了。
+
+
+### 4、Zookeeper 对节点的 watch 监听通知是永久的吗？为什么不是永久的?
+
+**1、** 不是。官方声明：一个 Watch 事件是一个一次性的触发器，当被设置了 Watch的数据发生了改变的时候，则服务器将这个改变发送给设置了 Watch 的客户端，以便通知它们。
+
+**2、** 为什么不是永久的，举个例子，如果服务端变动频繁，而监听的客户端很多情况下，每次变动都要通知到所有的客户端，给网络和服务器造成很大压力。
+
+**3、** 一般是客户端执行 getData(“/节点 A”,true)，如果节点 A 发生了变更或删除，客户端会得到它的 watch 事件，但是在之后节点 A 又发生了变更，而客户端又没有设置 watch 事件，就不再给客户端发送。
+
+**4、** 在实际应用中，很多情况下，我们的客户端不需要知道服务端的每一次变动，我只要最新的数据即可。
+
+
+### 5、Quorum?
 
 当集群中过半UP状态的进程组成了进程子集后，就可以正常的消息传播了，这样的一个子集我们称为Quorum。
 
 
-### 7、Chroot 特性
-
-3.2.0 版本后，添加了 Chroot 特性，该特性允许每个客户端为自己设置一个命名空间。如果一个客户端设置了 Chroot，那么该客户端对服务器的任何操作，都将会被限制在其自己的命名空间下。
-
-通过设置 Chroot，能够将一个客户端应用于 Zookeeper 服务端的一颗子树相对应，在那些多个应用公用一个 Zookeeper 进群的场景下，对实现不同应用间的相互隔离非常有帮助。
-
-
-### 8、Stat记录了哪些版本相关数据？
-
-version:当前ZNode版本
-
-cversion:当前ZNode子节点版本
-
-aversion:当前ZNode的ACL版本
-
-
-### 9、ZooKeeper 是什么？
-
-**1、** ZooKeeper 是一个开源的分布式协调服务。它是一个为分布式应用提供一致性服务的软件，分布式应用程序可以基于 Zookeeper 实现诸如数据发布/订阅、负载均衡、命名服务、分布式协调/通知、集群管理、Master 选举、分布式锁和分布式队列等功能。
-
-**2、** ZooKeeper 的目标就是封装好复杂易出错的关键服务，将简单易用的接口和性能高效、功能稳定的系统提供给用户。
-
-**Zookeeper 保证了如下分布式一致性特性：**
+### 6、ZooKeeper可以保证哪些分布式一致性特性？
 
 **1、** 顺序一致性
 
@@ -84,68 +61,63 @@ aversion:当前ZNode的ACL版本
 
 **4、** 可靠性
 
-**5、** 实时性（最终一致性）
-
-客户端的读请求可以被集群中的任意一台机器处理，如果读请求在节点上注册了监听器，这个监听器也是由所连接的 zookeeper 机器来处理。对于写请求，这些请求会同时发给其他 zookeeper 机器并且达成一致后，请求才会返回成功。因此，随着 zookeeper 的集群机器增多，读请求的吞吐会提高但是写请求的吞吐会下降。
-
-有序性是 zookeeper 中非常重要的一个特性，所有的更新都是全局有序的，每个更新都有一个唯一的时间戳，这个时间戳称为 zxid（Zookeeper Transaction Id）。而读请求只会相对于更新有序，也就是读请求的返回结果中会带有这个zookeeper 最新的 zxid。
+**5、** 实时性
 
 
-### 10、ACL 权限控制机制
+### 7、会话管理
 
-**1、** UGO（User/Group/Others）
+分桶策略：将类似的会话放在同一区块中进行管理，以便于 Zookeeper 对会话进行不同区块的隔离处理以及同一区块的统一处理。
 
-**2、** 目前在 Linux/Unix 文件系统中使用，也是使用最广泛的权限控制方式。是一种粗粒度的文件系统权限控制模式。
+分配原则：每个会话的“下次超时时间点”（ExpirationTime）
 
-**3、** ACL（Access Control List）访问控制列表
+**计算公式：**
 
-**包括三个方面：**
+```
+ExpirationTime\_ = currentTime + sessionTimeout
 
-**权限模式（Scheme）**
+ExpirationTime = (ExpirationTime\_ / ExpirationInrerval + 1) \*
 
-**1、** IP：从 IP 地址粒度进行权限控制
-
-**2、** Digest：最常用，用类似于 username:password 的权限标识来进行权限配置，便于区分不同应用来进行权限控制
-
-**3、** World：最开放的权限控制方式，是一种特殊的 digest 模式，只有一个权限标识“world:anyone”
-
-**4、** Super：超级用户
-
-**授权对象** 授权对象指的是权限赋予的用户或一个指定实体，例如 IP 地址或是机器灯。
-
-**权限 Permission**
-
-**1、** CREATE：数据节点创建权限，允许授权对象在该 Znode 下创建子节点
-
-**2、** DELETE：子节点删除权限，允许授权对象删除该数据节点的子节点
-
-**3、** READ：数据节点的读取权限，允许授权对象访问该数据节点并读取其数据内容或子节点列表等
-
-**4、** WRITE：数据节点更新权限，允许授权对象对该数据节点进行更新操作
-
-**5、** ADMIN：数据节点管理权限，允许授权对象对该数据节点进行 ACL 相关设置操作
+ExpirationInterval , ExpirationInterval 是指 Zookeeper 会话超时检查时间间隔，默认 tickTime
+```
 
 
-### 11、服务器的3中角色？
-### 12、Zookeeper 文件系统
-### 13、发布订阅的两种设计模式？
-### 14、Zookeeper文件系统
-### 15、Zookeeper队列管理（文件系统、通知机制）
-### 16、在sessionTimeout之内的会话，因服务器压力大、网络故障或客户端主动断开情况下，之前的会话还有效吗？
-### 17、为什么叫ZooKeeper?
-### 18、客户端回调Watcher
-### 19、数据同步
-### 20、Zookeeper默认端口？
-### 21、如何识别请求的先后顺序？
-### 22、ZooKeeper 提供了什么？
-### 23、数据同步
-### 24、Zookeeper分布式锁（文件系统、通知机制）
-### 25、Zookeeper Watcher 机制 -- 数据变更通知
-### 26、机器中为什么会有leader？
-### 27、四种类型的znode
-### 28、Zookeeper 和 Dubbo 的关系？
-### 29、ZAB的两种基本模式？
-### 30、分布式通知和协调
+### 8、zookeeper 负载均衡和 nginx 负载均衡区别
+
+zk 的负载均衡是可以调控，nginx 只是能调权重，其他需要可控的都需要自己写插件；但是 nginx 的吞吐量比 zk 大很多，应该说按业务选择用哪种方式。
+
+
+### 9、Zookeeper 文件系统
+
+Zookeeper 提供一个多层级的节点命名空间（节点称为 znode）。与文件系统不同的是，这些节点都可以设置关联的数据，而文件系统中只有文件节点可以存放数据而目录节点不行。
+
+Zookeeper 为了保证高吞吐和低延迟，在内存中维护了这个树状的目录结构，这种特性使得 Zookeeper 不能用于存放大量的数据，每个节点的存放数据上限为1M。
+
+
+### 10、zk的配置管理（文件系统、通知机制）
+
+程序分布式的部署在不同的机器上，将程序的配置信息放在zk的znode下，当有配置发生改变时，也就是znode发生变化时，可以通过改变zk中某个目录节点的内容，利用watcher通知给各个客户端，从而更改配置。
+
+
+### 11、说一下 Zookeeper 的通知机制？
+### 12、权限控制?
+### 13、Zookeeper 下 Server工作状态
+### 14、ZAB三个阶段？
+### 15、ZooKeeper定义了几种权限？
+### 16、集群最少要几台机器，集群规则是怎样的?
+### 17、Zookeeper对节点的watch监听通知是永久的吗？为什么不是永久的?
+### 18、Zookeeper集群管理（文件系统、通知机制）
+### 19、在sessionTimeout之内的会话，因服务器压力大、网络故障或客户端主动断开情况下，之前的会话还有效吗？
+### 20、Zookeeper 怎么保证主从节点的状态同步？
+### 21、ACL权限控制机制
+### 22、ZooKeeper可以实现哪些功能？
+### 23、Watcher事件监听器？
+### 24、什么是会话Session?
+### 25、Zookeeper工作原理
+### 26、Zookeeper分布式锁（文件系统、通知机制）
+### 27、Zookeeper 的 java 客户端都有哪些？
+### 28、分布式集群中为什么会有 Master主节点？
+### 29、客户端注册 Watcher 实现
+### 30、Zookeeper 专门设计的一种支持崩溃恢复的原子广 播协议是?
 
 
 
@@ -157,12 +129,8 @@ aversion:当前ZNode的ACL版本
 ### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/?p=67)
 
 
-## 其他，高清PDF：172份，7701页，最新整理
+## 最新，高清PDF：172份，7701页，最新整理
 
-[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/mst.png "大厂面试题")](https://souyunku.lanzous.com/b0alp9b9g "大厂面试题")
+[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/mst.png "大厂面试题")](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png"大厂面试题")
 
-## 关注公众号：架构师专栏，回复：“面试题”，即可
-
-[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/jiagoushi.png "架构师专栏")](https://souyunku.lanzous.com/b0alp9b9g "架构师专栏")
-
-## 关注公众号：架构师专栏，回复：“面试题”，即可
+[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png "架构师专栏")](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png "架构师专栏")

@@ -8,132 +8,174 @@
 
 
 
-### 1、SpringBoot 支持哪些日志框架？推荐和默认的日志框架是哪个？
+### 1、SOA和微服务架构之间的主要区别是什么？
 
-SpringBoot 支持 Java Util Logging, Log4j2, Lockback 作为日志框架，如果你使用 Starters 启动器，SpringBoot 将使用 Logback 作为默认日志框架.
+SOA和微服务之间的主要区别如下：
 
-
-### 2、SpringBoot有哪些优点？
-
-**1、** 减少开发，测试时间和努力。
-
-**2、** 使用JavaConfig有助于避免使用XML。
-
-**3、** 避免大量的Maven导入和各种版本冲突。
-
-**4、** 提供意见发展方法。
-
-**5、** 通过提供默认值快速开始开发。
-
-**6、** 没有单独的Web服务器需要。这意味着你不再需要启动Tomcat，Glassfish或其他任何东西。
-
-**7、** 需要更少的配置 因为没有web.xml文件。只需添加用@ Configuration注释的类，然后添加用@Bean注释的方法，Spring将自动加载对象并像以前一样对其进行管理。您甚至可以将@Autowired添加到bean方法中，以使Spring自动装入需要的依赖关系中。
-
-**8、** 基于环境的配置 使用这些属性，您可以将您正在使用的环境传递到应用程序：-Dspring.profiles.active = {enviornment}。在加载主应用程序属性文件后，Spring将在（application{environment} .properties）中加载后续的应用程序属性文件。
+![](https://gitee.com/souyunkutech/souyunku-home/raw/master/images/souyunku-web/2019/08/0816/01/img_8.png#alt=img%5C_8.png)
 
 
-### 3、IOC的优点是什么？
+### 2、Spring Cloud Bus
 
-IOC 或 依赖注入把应用的代码量降到最低。它使应用容易测试，单元测试不再需要单例和JNDI查找机制。最小的代价和最小的侵入性使松散耦合得以实现。IOC容器支持加载服务时的饿汉式初始化和懒加载。
+用于传播集群状态变化的消息总线，使用轻量级消息代理链接分布式系统中的节点，可以用来动态刷新集群中的服务配置信息。
 
+简单来说就是修改了配置文件，发送一次请求，所有客户端便会重新读取配置文件。
 
-### 4、什么是代理?
-
-代理是通知目标对象后创建的对象。从客户端的角度看，代理对象和目标对象是一样的。
-
-
-### 5、SpringBoot 的核心配置文件有哪几个？它们的区别是什么？
-
-SpringBoot 的核心配置文件是 application 和 bootstrap 配置文件。
-
-application 配置文件这个容易理解，主要用于 SpringBoot 项目的自动化配置。
-
-bootstrap 配置文件有以下几个应用场景。
-
-使用 Spring Cloud Config 配置中心时，这时需要在 bootstrap 配置文件中添加连接到配置中心的配置属性来加载外部配置中心的配置信息； 一些固定的不能被覆盖的属性；一些加密/解密的场景
+需要利用中间插件MQ
 
 
-### 6、什么是基于注解的容器配置
+### 3、什么是 AOP 目标对象?
 
-不使用 XML 来描述 bean 装配，开发人员通过在相关的类，方法或字段声明上使用注解将配置移动到组件类本身。它可以作为 XML 设置的替代方案。例如：
+被一个或者多个切面所通知的对象。它通常是一个代理对象。也指被通知（advised）对象。
 
-Spring 的 Java 配置是通过使用 [@Bean ](/Bean ) 和 [@Configuration ](/Configuration ) 来实现。
 
-[@Bean ](/Bean ) 注解扮演与  元素相同的角色。 [@Configuration ](/Configuration ) 类允许通过简单地调用同一个类中的其他 [@Bean ](/Bean ) 方法来定义 bean 间依赖关系。
+### 4、SpringBoot 中的监视器是什么？
 
-例如：
+Spring boot actuator 是 spring 启动框架中的重要功能之一。Spring boot 监视器可帮助您访问生产环境中正在运行的应用程序的当前状态。有几个指标必须在生产环境中进行检查和监控。即使一些外部应用程序可能正在使用这些服务来向相关人员触发警报消息。监视器模块公开了一组可直接作为 HTTP URL 访问的REST 端点来检查状态。
+
+
+### 5、[@Controller ](/Controller ) 注解
+
+该注解表明该类扮演控制器的角色，Spring不需要你继承任何其他控制器基类或引用Servlet API。
+
+
+### 6、SpringBoot 如何设置支持跨域请求？
+
+现代浏览器出于安全的考虑， HTTP 请求时必须遵守同源策略，否则就是跨域的 HTTP 请求，默认情况下是被禁止的，IP（域名）不同、或者端口不同、协议不同（比如 HTTP、HTTPS）都会造成跨域问题。
+
+**一般前端的解决方案有：**
+
+**1、** 使用 JSONP 来支持跨域的请求，JSONP 实现跨域请求的原理简单的说，就是动态创建`<script>`标签，然后利用`<script>`的 SRC 不受同源策略约束来跨域获取数据。缺点是需要后端配合输出特定的返回信息。
+
+**2、** 利用反应代理的机制来解决跨域的问题，前端请求的时候先将请求发送到同源地址的后端，通过后端请求转发来避免跨域的访问。
+
+后来 HTML5 支持了 CORS 协议。CORS 是一个 W3C 标准，全称是”跨域资源共享”（Cross-origin resource sharing），允许浏览器向跨源服务器，发出 XMLHttpRequest 请求，从而克服了 AJAX 只能同源使用的限制。它通过服务器增加一个特殊的 Header[Access-Control-Allow-Origin]来告诉客户端跨域的限制，如果浏览器支持 CORS、并且判断 Origin 通过的话，就会允许 XMLHttpRequest 发起跨域请求。
+
+前端使用了 CORS 协议，就需要后端设置支持非同源的请求，SpringBoot 设置支持非同源的请求有两种方式。
+
+第一，配置 CorsFilter。
 
 ```
+
 @Configuration
-public class StudentConfig {
+public class GlobalCorsConfig {
     @Bean
-    public StudentBean myStudent() {
-        return new StudentBean();
+    public CorsFilter corsFilter() {
+        CorsConfiguration config = new CorsConfiguration();
+          config.addAllowedOrigin("*");
+          config.setAllowCredentials(true);
+          config.addAllowedMethod("*");
+          config.addAllowedHeader("*");
+          config.addExposedHeader("*");
+
+        UrlBasedCorsConfigurationSource configSource = new UrlBasedCorsConfigurationSource();
+        configSource.registerCorsConfiguration("/**", config);
+
+        return new CorsFilter(configSource);
+    }
+}
+```
+
+需要配置上述的一段代码。第二种方式稍微简单一些。
+
+第二，在启动类上添加：
+
+```
+
+public class Application extends WebMvcConfigurerAdapter {
+
+    @Override
+    public void addCorsMappings(CorsRegistry registry) {
+
+        registry.addMapping("/**")
+                .allowCredentials(true)
+                .allowedHeaders("*")
+                .allowedOrigins("*")
+                .allowedMethods("*");
+
     }
 }
 ```
 
 
-### 7、是否可以在SpringBoot中覆盖或替换嵌入式Tomcat？
+### 7、在微服务中，如何保护服务?
 
-是的，可以使用starter依赖项将嵌入式Tomcat替换为任何其他服务器。可以根据需要使用SpringBootStarter Jetty或SpringBootStarter作为每个项目的依赖项。
-
-
-### 8、什么是 SpringBoot Stater ？
-
-启动器是一套方便的依赖没描述符，它可以放在自己的程序中。你可以一站式的获取你所需要的 Spring 和相关技术，而不需要依赖描述符的通过示例代码搜索和复制黏贴的负载。
-
-例如，如果你想使用 Sping 和 JPA 访问数据库，只需要你的项目包含 spring-boot-starter-data-jpa 依赖项，你就可以完美进行。
+一般使用使用Hystrix框架，实现服务隔离来避免出现服务的雪崩效应，从而达到保护服务的效果。当微服务中，高并发的数据库访问量导致服务线程阻塞，使单个服务宕机，服务的不可用会蔓延到其他服务，引起整体服务灾难性后果，使用服务降级能有效为不同的服务分配资源,一旦服务不可用则返回友好提示，不占用其他服务资源，从而避免单个服务崩溃引发整体服务的不可用.
 
 
-### 9、微服务架构有哪些优势？
+### 8、什么是 spring 的内部 bean？
 
-![](https://gitee.com/souyunkutech/souyunku-home/raw/master/images/souyunku-web/2019/08/0816/01/img_2.png#alt=img%5C_2.png)
+只有将 bean 用作另一个 bean 的属性时，才能将 bean 声明为内部 bean。为了定义 bean，Spring 的基于 XML 的配置元数据在 `<property>` 或 `<constructor-arg>` 中提供了 `<bean>` 元素的使用。内部 bean 总是匿名的，它们总是作为原型。
 
-图2：微服务的 优点 – 微服务访谈问题
+例如，假设我们有一个 Student 类，其中引用了 Person 类。这里我们将只创建一个 Person 类实例并在 Student 中使用它。
 
-独立开发 – 所有微服务都可以根据各自的功能轻松开发
+Student.java
 
-独立部署 – 基于其服务，可以在任何应用程序中单独部署它们
+```
+public class Student {
+    private Person person;
+    //Setters and Getters
+}
+public class Person {
+    private String name;
+    private String address;
+    //Setters and Getters
+}
+```
 
-故障隔离 – 即使应用程序的一项服务不起作用，系统仍可继续运行
+bean.xml
 
-混合技术堆栈 – 可以使用不同的语言和技术来构建同一应用程序的不同服务
-
-粒度缩放 – 单个组件可根据需要进行缩放，无需将所有组件缩放在一起
-
-
-### 10、你对SpringBoot有什么了解？
-
-事实上，随着新功能的增加，弹簧变得越来越复杂。如果必须启动新的spring项目，则必须添加构建路径或添加maven依赖项，配置应用程序服务器，添加spring配置。所以一切都必须从头开始。
-
-SpringBoot是解决这个问题的方法。使用spring boot可以避免所有样板代码和配置。因此，基本上认为自己就好像你正在烘烤蛋糕一样，春天就像制作蛋糕所需的成分一样，弹簧靴就是你手中的完整蛋糕。
-
-![](https://gitee.com/souyunkutech/souyunku-home/raw/master/images/souyunku-web/2019/08/0816/01/img_12.png#alt=img%5C_12.png)
-
-图10：  SpringBoot的因素 – 微服务面试问题
+```
+<bean id=“StudentBean" class="com.edureka.Student">
+    <property name="person">
+        <!--This is inner bean -->
+        <bean class="com.edureka.Person">
+            <property name="name" value=“Scott"></property>
+            <property name="address" value=“Bangalore"></property>
+        </bean>
+    </property>
+</bean>
+```
 
 
-### 11、微服务测试的主要障碍是什么？
-### 12、SpringBoot和SpringCloud的区别？
-### 13、什么是JavaConfig？
-### 14、什么是SpringBoot？
-### 15、区分构造函数注入和 setter 注入。
-### 16、什么是Hystrix？它如何实现容错？
-### 17、如何使用 SpringBoot 实现异常处理？
-### 18、什么是JavaConfig？
-### 19、SpringBoot 的核心配置文件有哪几个？它们的区别是什么？
-### 20、注解原理是什么
-### 21、什么是bean装配?
-### 22、如何在自定义端口上运行SpringBoot应用程序？
-### 23、什么是微服务架构中的DRY？
-### 24、有哪些类型的通知（Advice）？
-### 25、什么是依赖注入？
-### 26、YAML 配置的优势在哪里 ?
-### 27、运行 SpringBoot 有哪几种方式？
-### 28、如果前台有很多个参数传入,并且这些参数都是一个对象的,那么怎么样快速得到这个对象？
-### 29、什么是Spring Cloud？
-### 30、SpringBoot集成mybatis的过程
+### 9、什么是切点（JoinPoint）
+
+程序运行中的一些时间点, 例如一个方法的执行, 或者是一个异常的处理.
+
+在 Spring AOP 中, join point 总是方法的执行点。
+
+
+### 10、什么是端到端微服务测试？
+
+端到端测试验证了工作流中的每个流程都正常运行。这可确保系统作为一个整体协同工作并满足所有要求。
+
+通俗地说，你可以说端到端测试是一种测试，在特定时期后测试所有东西。
+
+![](https://gitee.com/souyunkutech/souyunku-home/raw/master/images/souyunku-web/2019/08/0816/01/img_17.png#alt=img%5C_17.png)
+
+图14：测试层次 – 微服务面试问题
+
+
+### 11、[@Required ](/Required ) 注解有什么用？
+### 12、SpringBoot 有哪些优点？
+### 13、[@Autowired ](/Autowired ) 注解
+### 14、spring boot监听器流程?
+### 15、什么是依赖注入？
+### 16、为什么需要学习Spring Cloud
+### 17、Spring Cloud 实现服务注册和发现的原理是什么？
+### 18、Nginx与Ribbon的区别
+### 19、如何在自定义端口上运行 SpringBoot 应用程序？
+### 20、Spring Cloud Stream
+### 21、什么是持续集成（CI）？
+### 22、怎样在方法里面得到Request,或者Session？
+### 23、SpringBoot中的监视器是什么？
+### 24、什么是 Hystrix 断路器？我们需要它吗？
+### 25、双因素身份验证的凭据类型有哪些？
+### 26、什么是 SpringBoot？
+### 27、如何在SpringBoot中禁用Actuator端点安全性？
+### 28、JdbcTemplate
+### 29、哪些是重要的bean生命周期方法？ 你能重载它们吗？
+### 30、SpringCloud主要项目
 
 
 
@@ -145,12 +187,8 @@ SpringBoot是解决这个问题的方法。使用spring boot可以避免所有�
 ### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/?p=67)
 
 
-## 其他，高清PDF：172份，7701页，最新整理
+## 最新，高清PDF：172份，7701页，最新整理
 
-[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/mst.png "大厂面试题")](https://souyunku.lanzous.com/b0alp9b9g "大厂面试题")
+[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/mst.png "大厂面试题")](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png"大厂面试题")
 
-## 关注公众号：架构师专栏，回复：“面试题”，即可
-
-[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/jiagoushi.png "架构师专栏")](https://souyunku.lanzous.com/b0alp9b9g "架构师专栏")
-
-## 关注公众号：架构师专栏，回复：“面试题”，即可
+[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png "架构师专栏")](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png "架构师专栏")
