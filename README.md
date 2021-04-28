@@ -3695,5 +3695,4 @@
 **9、** [DOMContentLoaded 事件和 Load 事件的区别？](https://github.com/souyunku/DevBooks/blob/master/HTML/HTML最新面试题2021年，常见面试题及答案汇总.md#9DOMContentLoaded-事件和-Load-事件的区别)  
 **10、** [无样式内容闪烁（FOUC）Flash of Unstyle Content**](https://github.com/souyunku/DevBooks/blob/master/HTML/HTML最新面试题2021年，常见面试题及答案汇总.md#10无样式内容闪烁FOUCFlash-of-Unstyle-Content**)  
 
-### [此处，仅展示前10道，查看更多30道...](https://github.com/souyunku/DevBooks/blob/master/HTML/HTML最新面试题2021年，常见面试题及答案汇总.md)  
-
+### [此处，仅展示前10道，查看更多30道...](https://github.com/souyunku/DevBooks/blob/master/HTML/HTML最新面试题2021年，常见面试题及答案汇总.md) 
