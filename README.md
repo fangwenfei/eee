@@ -1,337 +1,310 @@
 
+### Java
 
-### [Java](https://github.com/souyunku/DevBooks#Java)
-
-[Java基础面试题及答案，最新版](https://github.com/souyunku/DevBooks#Java基础面试题及答案，最新版)  
-[Java常见2021年最新面试题，附答案解析](https://github.com/souyunku/DevBooks#Java常见2021年最新面试题，附答案解析)  
-[Java常见面试题及答案汇总，2021年最新版](https://github.com/souyunku/DevBooks#Java常见面试题及答案汇总，2021年最新版)  
-[Java常见面试题，2021年及答案汇总](https://github.com/souyunku/DevBooks#Java常见面试题，2021年及答案汇总)  
-[Java最新2021年面试题及答案，汇总版](https://github.com/souyunku/DevBooks#Java最新2021年面试题及答案，汇总版)  
-[Java最新2021年面试题大汇总，附答案](https://github.com/souyunku/DevBooks#Java最新2021年面试题大汇总，附答案)  
-[Java最新2021年面试题附答案解析，大汇总](https://github.com/souyunku/DevBooks#Java最新2021年面试题附答案解析，大汇总)  
-[Java最新2021年面试题，高级面试题及附答案解析](https://github.com/souyunku/DevBooks#Java最新2021年面试题，高级面试题及附答案解析)  
+[Java基础面试题及答案最新版](https://github.com/souyunku/DevBooks#Java基础面试题及答案最新版)  
+[Java常见2021年最新面试题附答案解析](https://github.com/souyunku/DevBooks#Java常见2021年最新面试题附答案解析)  
+[Java常见面试题及答案汇总2021年最新版](https://github.com/souyunku/DevBooks#Java常见面试题及答案汇总2021年最新版)  
+[Java常见面试题2021年及答案汇总](https://github.com/souyunku/DevBooks#Java常见面试题2021年及答案汇总)  
+[Java最新2021年面试题及答案汇总版](https://github.com/souyunku/DevBooks#Java最新2021年面试题及答案汇总版)  
+[Java最新2021年面试题大汇总附答案](https://github.com/souyunku/DevBooks#Java最新2021年面试题大汇总附答案)  
+[Java最新2021年面试题附答案解析大汇总](https://github.com/souyunku/DevBooks#Java最新2021年面试题附答案解析大汇总)  
+[Java最新2021年面试题高级面试题及附答案解析](https://github.com/souyunku/DevBooks#Java最新2021年面试题高级面试题及附答案解析)  
 [Java最新基础面试题及答案整理](https://github.com/souyunku/DevBooks#Java最新基础面试题及答案整理)  
-[Java最新面试题2021年，常见面试题及答案汇总](https://github.com/souyunku/DevBooks#Java最新面试题2021年，常见面试题及答案汇总)  
-[Java最新面试题及答案整理，汇总版](https://github.com/souyunku/DevBooks#Java最新面试题及答案整理，汇总版)  
+[Java最新面试题2021年常见面试题及答案汇总](https://github.com/souyunku/DevBooks#Java最新面试题2021年常见面试题及答案汇总)  
+[Java最新面试题及答案整理汇总版](https://github.com/souyunku/DevBooks#Java最新面试题及答案整理汇总版)  
 [Java最新面试题及答案附答案汇总](https://github.com/souyunku/DevBooks#Java最新面试题及答案附答案汇总)  
-[Java最新面试题，2021年面试题及答案汇总](https://github.com/souyunku/DevBooks#Java最新面试题，2021年面试题及答案汇总)  
-[Java最新面试题，常见面试题及答案汇总](https://github.com/souyunku/DevBooks#Java最新面试题，常见面试题及答案汇总)  
-[Java面试2021秋招面试问题，附答案](https://github.com/souyunku/DevBooks#Java面试2021秋招面试问题，附答案)  
-[Java面试题及答案整理汇总，2021年最新版](https://github.com/souyunku/DevBooks#Java面试题及答案整理汇总，2021年最新版)  
-[Java面试题及答案整理，2021年最新，汇总版](https://github.com/souyunku/DevBooks#Java面试题及答案整理，2021年最新，汇总版)  
-[Java面试题大全带答案，持续更新](https://github.com/souyunku/DevBooks#Java面试题大全带答案，持续更新)  
-[Java面试题大汇总，2021年附答案解析](https://github.com/souyunku/DevBooks#Java面试题大汇总，2021年附答案解析)  
-[Java面试题大汇总，2021面试题及答案汇总](https://github.com/souyunku/DevBooks#Java面试题大汇总，2021面试题及答案汇总)  
-[Java面试题目大汇总，附参考答案](https://github.com/souyunku/DevBooks#Java面试题目大汇总，附参考答案)  
-[Java高级面试题及答案，2021版](https://github.com/souyunku/DevBooks#Java高级面试题及答案，2021版)  
-[Java高级面试题及答案，企业真面试题](https://github.com/souyunku/DevBooks#Java高级面试题及答案，企业真面试题)  
-[Java高级面试题合集，附答案解析](https://github.com/souyunku/DevBooks#Java高级面试题合集，附答案解析)  
+[Java最新面试题2021年面试题及答案汇总](https://github.com/souyunku/DevBooks#Java最新面试题2021年面试题及答案汇总)  
+[Java最新面试题常见面试题及答案汇总](https://github.com/souyunku/DevBooks#Java最新面试题常见面试题及答案汇总)  
+[Java面试2021秋招面试问题附答案](https://github.com/souyunku/DevBooks#Java面试2021秋招面试问题附答案)  
+[Java面试题及答案整理汇总2021年最新版](https://github.com/souyunku/DevBooks#Java面试题及答案整理汇总2021年最新版)  
+[Java面试题及答案整理2021年最新汇总版](https://github.com/souyunku/DevBooks#Java面试题及答案整理2021年最新汇总版)  
+[Java面试题大全带答案持续更新](https://github.com/souyunku/DevBooks#Java面试题大全带答案持续更新)  
+[Java面试题大汇总2021年附答案解析](https://github.com/souyunku/DevBooks#Java面试题大汇总2021年附答案解析)  
+[Java面试题大汇总2021面试题及答案汇总](https://github.com/souyunku/DevBooks#Java面试题大汇总2021面试题及答案汇总)  
+[Java面试题目大汇总附参考答案](https://github.com/souyunku/DevBooks#Java面试题目大汇总附参考答案)  
+[Java高级面试题及答案2021版](https://github.com/souyunku/DevBooks#Java高级面试题及答案2021版)  
+[Java高级面试题及答案企业真面试题](https://github.com/souyunku/DevBooks#Java高级面试题及答案企业真面试题)  
+[Java高级面试题合集附答案解析](https://github.com/souyunku/DevBooks#Java高级面试题合集附答案解析)  
 [Java高级面试题整理及答案](https://github.com/souyunku/DevBooks#Java高级面试题整理及答案)  
-[Java高级面试题，中级面试题，大汇总](https://github.com/souyunku/DevBooks#Java高级面试题，中级面试题，大汇总)  
+[Java高级面试题中级面试题大汇总](https://github.com/souyunku/DevBooks#Java高级面试题中级面试题大汇总)  
 
+### Jvm
 
-### [Jvm](https://github.com/souyunku/DevBooks#Jvm)
-
-[Jvm最新2021年面试题及答案，汇总版](https://github.com/souyunku/DevBooks#Jvm最新2021年面试题及答案，汇总版)  
-[Jvm最新2021年面试题大汇总，附答案](https://github.com/souyunku/DevBooks#Jvm最新2021年面试题大汇总，附答案)  
-[Jvm最新2021年面试题附答案解析，大汇总](https://github.com/souyunku/DevBooks#Jvm最新2021年面试题附答案解析，大汇总)  
-[Jvm最新2021年面试题，高级面试题及附答案解析](https://github.com/souyunku/DevBooks#Jvm最新2021年面试题，高级面试题及附答案解析)  
-[Jvm最新面试题2021年，常见面试题及答案汇总](https://github.com/souyunku/DevBooks#Jvm最新面试题2021年，常见面试题及答案汇总)  
-[Jvm最新面试题及答案整理，汇总版](https://github.com/souyunku/DevBooks#Jvm最新面试题及答案整理，汇总版)  
+[Jvm最新2021年面试题及答案汇总版](https://github.com/souyunku/DevBooks#Jvm最新2021年面试题及答案汇总版)  
+[Jvm最新2021年面试题大汇总附答案](https://github.com/souyunku/DevBooks#Jvm最新2021年面试题大汇总附答案)  
+[Jvm最新2021年面试题附答案解析大汇总](https://github.com/souyunku/DevBooks#Jvm最新2021年面试题附答案解析大汇总)  
+[Jvm最新2021年面试题高级面试题及附答案解析](https://github.com/souyunku/DevBooks#Jvm最新2021年面试题高级面试题及附答案解析)  
+[Jvm最新面试题2021年常见面试题及答案汇总](https://github.com/souyunku/DevBooks#Jvm最新面试题2021年常见面试题及答案汇总)  
+[Jvm最新面试题及答案整理汇总版](https://github.com/souyunku/DevBooks#Jvm最新面试题及答案整理汇总版)  
 [Jvm最新面试题及答案附答案汇总](https://github.com/souyunku/DevBooks#Jvm最新面试题及答案附答案汇总)  
-[Jvm最新面试题，2021年面试题及答案汇总](https://github.com/souyunku/DevBooks#Jvm最新面试题，2021年面试题及答案汇总)  
-[Jvm最新面试题，常见面试题及答案汇总](https://github.com/souyunku/DevBooks#Jvm最新面试题，常见面试题及答案汇总)  
+[Jvm最新面试题2021年面试题及答案汇总](https://github.com/souyunku/DevBooks#Jvm最新面试题2021年面试题及答案汇总)  
+[Jvm最新面试题常见面试题及答案汇总](https://github.com/souyunku/DevBooks#Jvm最新面试题常见面试题及答案汇总)  
 
+### Dubbo
 
-### [Dubbo](https://github.com/souyunku/DevBooks#Dubbo)
-
-[Dubbo最新2021年面试题大汇总，附答案](https://github.com/souyunku/DevBooks#Dubbo最新2021年面试题大汇总，附答案)  
-[Dubbo最新2021年面试题附答案解析，大汇总](https://github.com/souyunku/DevBooks#Dubbo最新2021年面试题附答案解析，大汇总)  
-[Dubbo最新2021年面试题，高级面试题及附答案解析](https://github.com/souyunku/DevBooks#Dubbo最新2021年面试题，高级面试题及附答案解析)  
-[Dubbo最新面试题2021年，常见面试题及答案汇总](https://github.com/souyunku/DevBooks#Dubbo最新面试题2021年，常见面试题及答案汇总)  
+[Dubbo最新2021年面试题大汇总附答案](https://github.com/souyunku/DevBooks#Dubbo最新2021年面试题大汇总附答案)  
+[Dubbo最新2021年面试题附答案解析大汇总](https://github.com/souyunku/DevBooks#Dubbo最新2021年面试题附答案解析大汇总)  
+[Dubbo最新2021年面试题高级面试题及附答案解析](https://github.com/souyunku/DevBooks#Dubbo最新2021年面试题高级面试题及附答案解析)  
+[Dubbo最新面试题2021年常见面试题及答案汇总](https://github.com/souyunku/DevBooks#Dubbo最新面试题2021年常见面试题及答案汇总)  
 [Dubbo最新面试题及答案附答案汇总](https://github.com/souyunku/DevBooks#Dubbo最新面试题及答案附答案汇总)  
-[Dubbo最新面试题，2021年面试题及答案汇总](https://github.com/souyunku/DevBooks#Dubbo最新面试题，2021年面试题及答案汇总)  
+[Dubbo最新面试题2021年面试题及答案汇总](https://github.com/souyunku/DevBooks#Dubbo最新面试题2021年面试题及答案汇总)  
 
+### MySQL
 
-### [MySQL](https://github.com/souyunku/DevBooks#MySQL)
-
-[MySQL最新2021年面试题及答案，汇总版](https://github.com/souyunku/DevBooks#MySQL最新2021年面试题及答案，汇总版)  
-[MySQL最新2021年面试题大汇总，附答案](https://github.com/souyunku/DevBooks#MySQL最新2021年面试题大汇总，附答案)  
-[MySQL最新2021年面试题附答案解析，大汇总](https://github.com/souyunku/DevBooks#MySQL最新2021年面试题附答案解析，大汇总)  
-[MySQL最新2021年面试题，高级面试题及附答案解析](https://github.com/souyunku/DevBooks#MySQL最新2021年面试题，高级面试题及附答案解析)  
+[MySQL最新2021年面试题及答案汇总版](https://github.com/souyunku/DevBooks#MySQL最新2021年面试题及答案汇总版)  
+[MySQL最新2021年面试题大汇总附答案](https://github.com/souyunku/DevBooks#MySQL最新2021年面试题大汇总附答案)  
+[MySQL最新2021年面试题附答案解析大汇总](https://github.com/souyunku/DevBooks#MySQL最新2021年面试题附答案解析大汇总)  
+[MySQL最新2021年面试题高级面试题及附答案解析](https://github.com/souyunku/DevBooks#MySQL最新2021年面试题高级面试题及附答案解析)  
 [MySQL最新基础面试题及答案整理](https://github.com/souyunku/DevBooks#MySQL最新基础面试题及答案整理)  
-[MySQL最新面试题2021年，常见面试题及答案汇总](https://github.com/souyunku/DevBooks#MySQL最新面试题2021年，常见面试题及答案汇总)  
-[MySQL最新面试题及答案整理，汇总版](https://github.com/souyunku/DevBooks#MySQL最新面试题及答案整理，汇总版)  
+[MySQL最新面试题2021年常见面试题及答案汇总](https://github.com/souyunku/DevBooks#MySQL最新面试题2021年常见面试题及答案汇总)  
+[MySQL最新面试题及答案整理汇总版](https://github.com/souyunku/DevBooks#MySQL最新面试题及答案整理汇总版)  
 [MySQL最新面试题及答案附答案汇总](https://github.com/souyunku/DevBooks#MySQL最新面试题及答案附答案汇总)  
-[MySQL最新面试题，2021年面试题及答案汇总](https://github.com/souyunku/DevBooks#MySQL最新面试题，2021年面试题及答案汇总)  
-[MySQL最新面试题，常见面试题及答案汇总](https://github.com/souyunku/DevBooks#MySQL最新面试题，常见面试题及答案汇总)  
-[MySQL高级面试题及答案，企业真面试题](https://github.com/souyunku/DevBooks#MySQL高级面试题及答案，企业真面试题)  
+[MySQL最新面试题2021年面试题及答案汇总](https://github.com/souyunku/DevBooks#MySQL最新面试题2021年面试题及答案汇总)  
+[MySQL最新面试题常见面试题及答案汇总](https://github.com/souyunku/DevBooks#MySQL最新面试题常见面试题及答案汇总)  
+[MySQL高级面试题及答案企业真面试题](https://github.com/souyunku/DevBooks#MySQL高级面试题及答案企业真面试题)  
 [MySQL高级面试题整理及答案](https://github.com/souyunku/DevBooks#MySQL高级面试题整理及答案)  
-[MySQL高级面试题，中级面试题，大汇总](https://github.com/souyunku/DevBooks#MySQL高级面试题，中级面试题，大汇总)  
+[MySQL高级面试题中级面试题大汇总](https://github.com/souyunku/DevBooks#MySQL高级面试题中级面试题大汇总)  
 
+### 并发编程
 
-### [并发编程](https://github.com/souyunku/DevBooks#并发编程)
-
-[并发编程最新2021年面试题及答案，汇总版](https://github.com/souyunku/DevBooks#并发编程最新2021年面试题及答案，汇总版)  
-[并发编程最新2021年面试题大汇总，附答案](https://github.com/souyunku/DevBooks#并发编程最新2021年面试题大汇总，附答案)  
-[并发编程最新2021年面试题附答案解析，大汇总](https://github.com/souyunku/DevBooks#并发编程最新2021年面试题附答案解析，大汇总)  
-[并发编程最新2021年面试题，高级面试题及附答案解析](https://github.com/souyunku/DevBooks#并发编程最新2021年面试题，高级面试题及附答案解析)  
+[并发编程最新2021年面试题及答案汇总版](https://github.com/souyunku/DevBooks#并发编程最新2021年面试题及答案汇总版)  
+[并发编程最新2021年面试题大汇总附答案](https://github.com/souyunku/DevBooks#并发编程最新2021年面试题大汇总附答案)  
+[并发编程最新2021年面试题附答案解析大汇总](https://github.com/souyunku/DevBooks#并发编程最新2021年面试题附答案解析大汇总)  
+[并发编程最新2021年面试题高级面试题及附答案解析](https://github.com/souyunku/DevBooks#并发编程最新2021年面试题高级面试题及附答案解析)  
 [并发编程最新基础面试题及答案整理](https://github.com/souyunku/DevBooks#并发编程最新基础面试题及答案整理)  
-[并发编程最新面试题2021年，常见面试题及答案汇总](https://github.com/souyunku/DevBooks#并发编程最新面试题2021年，常见面试题及答案汇总)  
-[并发编程最新面试题及答案整理，汇总版](https://github.com/souyunku/DevBooks#并发编程最新面试题及答案整理，汇总版)  
+[并发编程最新面试题2021年常见面试题及答案汇总](https://github.com/souyunku/DevBooks#并发编程最新面试题2021年常见面试题及答案汇总)  
+[并发编程最新面试题及答案整理汇总版](https://github.com/souyunku/DevBooks#并发编程最新面试题及答案整理汇总版)  
 [并发编程最新面试题及答案附答案汇总](https://github.com/souyunku/DevBooks#并发编程最新面试题及答案附答案汇总)  
-[并发编程最新面试题，2021年面试题及答案汇总](https://github.com/souyunku/DevBooks#并发编程最新面试题，2021年面试题及答案汇总)  
-[并发编程最新面试题，常见面试题及答案汇总](https://github.com/souyunku/DevBooks#并发编程最新面试题，常见面试题及答案汇总)  
-[并发编程面试题及答案整理，2021年最新，汇总版](https://github.com/souyunku/DevBooks#并发编程面试题及答案整理，2021年最新，汇总版)  
-[并发编程面试题大汇总，2021年附答案解析](https://github.com/souyunku/DevBooks#并发编程面试题大汇总，2021年附答案解析)  
-[并发编程高级面试题及答案，2021版](https://github.com/souyunku/DevBooks#并发编程高级面试题及答案，2021版)  
-[并发编程高级面试题及答案，企业真面试题](https://github.com/souyunku/DevBooks#并发编程高级面试题及答案，企业真面试题)  
-[并发编程高级面试题合集，附答案解析](https://github.com/souyunku/DevBooks#并发编程高级面试题合集，附答案解析)  
+[并发编程最新面试题2021年面试题及答案汇总](https://github.com/souyunku/DevBooks#并发编程最新面试题2021年面试题及答案汇总)  
+[并发编程最新面试题常见面试题及答案汇总](https://github.com/souyunku/DevBooks#并发编程最新面试题常见面试题及答案汇总)  
+[并发编程面试题及答案整理2021年最新汇总版](https://github.com/souyunku/DevBooks#并发编程面试题及答案整理2021年最新汇总版)  
+[并发编程面试题大汇总2021年附答案解析](https://github.com/souyunku/DevBooks#并发编程面试题大汇总2021年附答案解析)  
+[并发编程高级面试题及答案2021版](https://github.com/souyunku/DevBooks#并发编程高级面试题及答案2021版)  
+[并发编程高级面试题及答案企业真面试题](https://github.com/souyunku/DevBooks#并发编程高级面试题及答案企业真面试题)  
+[并发编程高级面试题合集附答案解析](https://github.com/souyunku/DevBooks#并发编程高级面试题合集附答案解析)  
 [并发编程高级面试题整理及答案](https://github.com/souyunku/DevBooks#并发编程高级面试题整理及答案)  
-[并发编程高级面试题，中级面试题，大汇总](https://github.com/souyunku/DevBooks#并发编程高级面试题，中级面试题，大汇总)  
+[并发编程高级面试题中级面试题大汇总](https://github.com/souyunku/DevBooks#并发编程高级面试题中级面试题大汇总)  
 
+### Spring
 
-### [Spring](https://github.com/souyunku/DevBooks#Spring)
-
-[Spring基础面试题及答案，最新版](https://github.com/souyunku/DevBooks#Spring基础面试题及答案，最新版)  
-[Spring最新2021年面试题及答案，汇总版](https://github.com/souyunku/DevBooks#Spring最新2021年面试题及答案，汇总版)  
-[Spring最新2021年面试题大汇总，附答案](https://github.com/souyunku/DevBooks#Spring最新2021年面试题大汇总，附答案)  
-[Spring最新2021年面试题附答案解析，大汇总](https://github.com/souyunku/DevBooks#Spring最新2021年面试题附答案解析，大汇总)  
-[Spring最新2021年面试题，高级面试题及附答案解析](https://github.com/souyunku/DevBooks#Spring最新2021年面试题，高级面试题及附答案解析)  
+[Spring基础面试题及答案最新版](https://github.com/souyunku/DevBooks#Spring基础面试题及答案最新版)  
+[Spring最新2021年面试题及答案汇总版](https://github.com/souyunku/DevBooks#Spring最新2021年面试题及答案汇总版)  
+[Spring最新2021年面试题大汇总附答案](https://github.com/souyunku/DevBooks#Spring最新2021年面试题大汇总附答案)  
+[Spring最新2021年面试题附答案解析大汇总](https://github.com/souyunku/DevBooks#Spring最新2021年面试题附答案解析大汇总)  
+[Spring最新2021年面试题高级面试题及附答案解析](https://github.com/souyunku/DevBooks#Spring最新2021年面试题高级面试题及附答案解析)  
 [Spring最新基础面试题及答案整理](https://github.com/souyunku/DevBooks#Spring最新基础面试题及答案整理)  
-[Spring最新面试题2021年，常见面试题及答案汇总](https://github.com/souyunku/DevBooks#Spring最新面试题2021年，常见面试题及答案汇总)  
-[Spring最新面试题及答案整理，汇总版](https://github.com/souyunku/DevBooks#Spring最新面试题及答案整理，汇总版)  
+[Spring最新面试题2021年常见面试题及答案汇总](https://github.com/souyunku/DevBooks#Spring最新面试题2021年常见面试题及答案汇总)  
+[Spring最新面试题及答案整理汇总版](https://github.com/souyunku/DevBooks#Spring最新面试题及答案整理汇总版)  
 [Spring最新面试题及答案附答案汇总](https://github.com/souyunku/DevBooks#Spring最新面试题及答案附答案汇总)  
-[Spring最新面试题，2021年面试题及答案汇总](https://github.com/souyunku/DevBooks#Spring最新面试题，2021年面试题及答案汇总)  
-[Spring最新面试题，常见面试题及答案汇总](https://github.com/souyunku/DevBooks#Spring最新面试题，常见面试题及答案汇总)  
-[Spring面试题及答案整理汇总，2021年最新版](https://github.com/souyunku/DevBooks#Spring面试题及答案整理汇总，2021年最新版)  
-[Spring面试题及答案整理，2021年最新，汇总版](https://github.com/souyunku/DevBooks#Spring面试题及答案整理，2021年最新，汇总版)  
-[Spring面试题大全带答案，持续更新](https://github.com/souyunku/DevBooks#Spring面试题大全带答案，持续更新)  
-[Spring面试题大汇总，2021年附答案解析](https://github.com/souyunku/DevBooks#Spring面试题大汇总，2021年附答案解析)  
-[Spring面试题大汇总，2021面试题及答案汇总](https://github.com/souyunku/DevBooks#Spring面试题大汇总，2021面试题及答案汇总)  
-[Spring高级面试题及答案，2021版](https://github.com/souyunku/DevBooks#Spring高级面试题及答案，2021版)  
-[Spring高级面试题及答案，企业真面试题](https://github.com/souyunku/DevBooks#Spring高级面试题及答案，企业真面试题)  
-[Spring高级面试题合集，附答案解析](https://github.com/souyunku/DevBooks#Spring高级面试题合集，附答案解析)  
+[Spring最新面试题2021年面试题及答案汇总](https://github.com/souyunku/DevBooks#Spring最新面试题2021年面试题及答案汇总)  
+[Spring最新面试题常见面试题及答案汇总](https://github.com/souyunku/DevBooks#Spring最新面试题常见面试题及答案汇总)  
+[Spring面试题及答案整理汇总2021年最新版](https://github.com/souyunku/DevBooks#Spring面试题及答案整理汇总2021年最新版)  
+[Spring面试题及答案整理2021年最新汇总版](https://github.com/souyunku/DevBooks#Spring面试题及答案整理2021年最新汇总版)  
+[Spring面试题大全带答案持续更新](https://github.com/souyunku/DevBooks#Spring面试题大全带答案持续更新)  
+[Spring面试题大汇总2021年附答案解析](https://github.com/souyunku/DevBooks#Spring面试题大汇总2021年附答案解析)  
+[Spring面试题大汇总2021面试题及答案汇总](https://github.com/souyunku/DevBooks#Spring面试题大汇总2021面试题及答案汇总)  
+[Spring高级面试题及答案2021版](https://github.com/souyunku/DevBooks#Spring高级面试题及答案2021版)  
+[Spring高级面试题及答案企业真面试题](https://github.com/souyunku/DevBooks#Spring高级面试题及答案企业真面试题)  
+[Spring高级面试题合集附答案解析](https://github.com/souyunku/DevBooks#Spring高级面试题合集附答案解析)  
 [Spring高级面试题整理及答案](https://github.com/souyunku/DevBooks#Spring高级面试题整理及答案)  
-[Spring高级面试题，中级面试题，大汇总](https://github.com/souyunku/DevBooks#Spring高级面试题，中级面试题，大汇总)  
+[Spring高级面试题中级面试题大汇总](https://github.com/souyunku/DevBooks#Spring高级面试题中级面试题大汇总)  
 
+### SpringBoot
 
-### [SpringBoot](https://github.com/souyunku/DevBooks#SpringBoot)
-
-[SpringBoot最新2021年面试题及答案，汇总版](https://github.com/souyunku/DevBooks#SpringBoot最新2021年面试题及答案，汇总版)  
-[SpringBoot最新2021年面试题大汇总，附答案](https://github.com/souyunku/DevBooks#SpringBoot最新2021年面试题大汇总，附答案)  
-[SpringBoot最新2021年面试题附答案解析，大汇总](https://github.com/souyunku/DevBooks#SpringBoot最新2021年面试题附答案解析，大汇总)  
-[SpringBoot最新2021年面试题，高级面试题及附答案解析](https://github.com/souyunku/DevBooks#SpringBoot最新2021年面试题，高级面试题及附答案解析)  
-[SpringBoot最新面试题2021年，常见面试题及答案汇总](https://github.com/souyunku/DevBooks#SpringBoot最新面试题2021年，常见面试题及答案汇总)  
-[SpringBoot最新面试题及答案整理，汇总版](https://github.com/souyunku/DevBooks#SpringBoot最新面试题及答案整理，汇总版)  
+[SpringBoot最新2021年面试题及答案汇总版](https://github.com/souyunku/DevBooks#SpringBoot最新2021年面试题及答案汇总版)  
+[SpringBoot最新2021年面试题大汇总附答案](https://github.com/souyunku/DevBooks#SpringBoot最新2021年面试题大汇总附答案)  
+[SpringBoot最新2021年面试题附答案解析大汇总](https://github.com/souyunku/DevBooks#SpringBoot最新2021年面试题附答案解析大汇总)  
+[SpringBoot最新2021年面试题高级面试题及附答案解析](https://github.com/souyunku/DevBooks#SpringBoot最新2021年面试题高级面试题及附答案解析)  
+[SpringBoot最新面试题2021年常见面试题及答案汇总](https://github.com/souyunku/DevBooks#SpringBoot最新面试题2021年常见面试题及答案汇总)  
+[SpringBoot最新面试题及答案整理汇总版](https://github.com/souyunku/DevBooks#SpringBoot最新面试题及答案整理汇总版)  
 [SpringBoot最新面试题及答案附答案汇总](https://github.com/souyunku/DevBooks#SpringBoot最新面试题及答案附答案汇总)  
-[SpringBoot最新面试题，2021年面试题及答案汇总](https://github.com/souyunku/DevBooks#SpringBoot最新面试题，2021年面试题及答案汇总)  
+[SpringBoot最新面试题2021年面试题及答案汇总](https://github.com/souyunku/DevBooks#SpringBoot最新面试题2021年面试题及答案汇总)  
 
+### SpringCloud
 
-### [SpringCloud](https://github.com/souyunku/DevBooks#SpringCloud)
-
-[SpringCloud最新2021年面试题及答案，汇总版](https://github.com/souyunku/DevBooks#SpringCloud最新2021年面试题及答案，汇总版)  
-[SpringCloud最新2021年面试题大汇总，附答案](https://github.com/souyunku/DevBooks#SpringCloud最新2021年面试题大汇总，附答案)  
-[SpringCloud最新2021年面试题附答案解析，大汇总](https://github.com/souyunku/DevBooks#SpringCloud最新2021年面试题附答案解析，大汇总)  
-[SpringCloud最新2021年面试题，高级面试题及附答案解析](https://github.com/souyunku/DevBooks#SpringCloud最新2021年面试题，高级面试题及附答案解析)  
-[SpringCloud最新面试题2021年，常见面试题及答案汇总](https://github.com/souyunku/DevBooks#SpringCloud最新面试题2021年，常见面试题及答案汇总)  
+[SpringCloud最新2021年面试题及答案汇总版](https://github.com/souyunku/DevBooks#SpringCloud最新2021年面试题及答案汇总版)  
+[SpringCloud最新2021年面试题大汇总附答案](https://github.com/souyunku/DevBooks#SpringCloud最新2021年面试题大汇总附答案)  
+[SpringCloud最新2021年面试题附答案解析大汇总](https://github.com/souyunku/DevBooks#SpringCloud最新2021年面试题附答案解析大汇总)  
+[SpringCloud最新2021年面试题高级面试题及附答案解析](https://github.com/souyunku/DevBooks#SpringCloud最新2021年面试题高级面试题及附答案解析)  
+[SpringCloud最新面试题2021年常见面试题及答案汇总](https://github.com/souyunku/DevBooks#SpringCloud最新面试题2021年常见面试题及答案汇总)  
 [SpringCloud最新面试题及答案附答案汇总](https://github.com/souyunku/DevBooks#SpringCloud最新面试题及答案附答案汇总)  
-[SpringCloud最新面试题，2021年面试题及答案汇总](https://github.com/souyunku/DevBooks#SpringCloud最新面试题，2021年面试题及答案汇总)  
+[SpringCloud最新面试题2021年面试题及答案汇总](https://github.com/souyunku/DevBooks#SpringCloud最新面试题2021年面试题及答案汇总)  
 
+### ZooKeeper
 
-### [ZooKeeper](https://github.com/souyunku/DevBooks#ZooKeeper)
+[ZooKeeper最新2021年面试题大汇总附答案](https://github.com/souyunku/DevBooks#ZooKeeper最新2021年面试题大汇总附答案)  
+[ZooKeeper最新2021年面试题附答案解析大汇总](https://github.com/souyunku/DevBooks#ZooKeeper最新2021年面试题附答案解析大汇总)  
+[ZooKeeper最新2021年面试题高级面试题及附答案解析](https://github.com/souyunku/DevBooks#ZooKeeper最新2021年面试题高级面试题及附答案解析)  
+[ZooKeeper最新面试题2021年常见面试题及答案汇总](https://github.com/souyunku/DevBooks#ZooKeeper最新面试题2021年常见面试题及答案汇总)  
 
-[ZooKeeper最新2021年面试题大汇总，附答案](https://github.com/souyunku/DevBooks#ZooKeeper最新2021年面试题大汇总，附答案)  
-[ZooKeeper最新2021年面试题附答案解析，大汇总](https://github.com/souyunku/DevBooks#ZooKeeper最新2021年面试题附答案解析，大汇总)  
-[ZooKeeper最新2021年面试题，高级面试题及附答案解析](https://github.com/souyunku/DevBooks#ZooKeeper最新2021年面试题，高级面试题及附答案解析)  
-[ZooKeeper最新面试题2021年，常见面试题及答案汇总](https://github.com/souyunku/DevBooks#ZooKeeper最新面试题2021年，常见面试题及答案汇总)  
+### 大数据
 
-
-### [大数据](https://github.com/souyunku/DevBooks#大数据)
-
-[大数据最新2021年面试题及答案，汇总版](https://github.com/souyunku/DevBooks#大数据最新2021年面试题及答案，汇总版)  
-[大数据最新2021年面试题大汇总，附答案](https://github.com/souyunku/DevBooks#大数据最新2021年面试题大汇总，附答案)  
-[大数据最新2021年面试题附答案解析，大汇总](https://github.com/souyunku/DevBooks#大数据最新2021年面试题附答案解析，大汇总)  
-[大数据最新2021年面试题，高级面试题及附答案解析](https://github.com/souyunku/DevBooks#大数据最新2021年面试题，高级面试题及附答案解析)  
-[大数据最新面试题2021年，常见面试题及答案汇总](https://github.com/souyunku/DevBooks#大数据最新面试题2021年，常见面试题及答案汇总)  
+[大数据最新2021年面试题及答案汇总版](https://github.com/souyunku/DevBooks#大数据最新2021年面试题及答案汇总版)  
+[大数据最新2021年面试题大汇总附答案](https://github.com/souyunku/DevBooks#大数据最新2021年面试题大汇总附答案)  
+[大数据最新2021年面试题附答案解析大汇总](https://github.com/souyunku/DevBooks#大数据最新2021年面试题附答案解析大汇总)  
+[大数据最新2021年面试题高级面试题及附答案解析](https://github.com/souyunku/DevBooks#大数据最新2021年面试题高级面试题及附答案解析)  
+[大数据最新面试题2021年常见面试题及答案汇总](https://github.com/souyunku/DevBooks#大数据最新面试题2021年常见面试题及答案汇总)  
 [大数据最新面试题及答案附答案汇总](https://github.com/souyunku/DevBooks#大数据最新面试题及答案附答案汇总)  
-[大数据最新面试题，2021年面试题及答案汇总](https://github.com/souyunku/DevBooks#大数据最新面试题，2021年面试题及答案汇总)  
+[大数据最新面试题2021年面试题及答案汇总](https://github.com/souyunku/DevBooks#大数据最新面试题2021年面试题及答案汇总)  
 
+### Redis
 
-### [Redis](https://github.com/souyunku/DevBooks#Redis)
-
-[Redis最新2021年面试题及答案，汇总版](https://github.com/souyunku/DevBooks#Redis最新2021年面试题及答案，汇总版)  
-[Redis最新2021年面试题大汇总，附答案](https://github.com/souyunku/DevBooks#Redis最新2021年面试题大汇总，附答案)  
-[Redis最新2021年面试题附答案解析，大汇总](https://github.com/souyunku/DevBooks#Redis最新2021年面试题附答案解析，大汇总)  
-[Redis最新2021年面试题，高级面试题及附答案解析](https://github.com/souyunku/DevBooks#Redis最新2021年面试题，高级面试题及附答案解析)  
-[Redis最新面试题2021年，常见面试题及答案汇总](https://github.com/souyunku/DevBooks#Redis最新面试题2021年，常见面试题及答案汇总)  
+[Redis最新2021年面试题及答案汇总版](https://github.com/souyunku/DevBooks#Redis最新2021年面试题及答案汇总版)  
+[Redis最新2021年面试题大汇总附答案](https://github.com/souyunku/DevBooks#Redis最新2021年面试题大汇总附答案)  
+[Redis最新2021年面试题附答案解析大汇总](https://github.com/souyunku/DevBooks#Redis最新2021年面试题附答案解析大汇总)  
+[Redis最新2021年面试题高级面试题及附答案解析](https://github.com/souyunku/DevBooks#Redis最新2021年面试题高级面试题及附答案解析)  
+[Redis最新面试题2021年常见面试题及答案汇总](https://github.com/souyunku/DevBooks#Redis最新面试题2021年常见面试题及答案汇总)  
 [Redis最新面试题及答案附答案汇总](https://github.com/souyunku/DevBooks#Redis最新面试题及答案附答案汇总)  
-[Redis最新面试题，2021年面试题及答案汇总](https://github.com/souyunku/DevBooks#Redis最新面试题，2021年面试题及答案汇总)  
+[Redis最新面试题2021年面试题及答案汇总](https://github.com/souyunku/DevBooks#Redis最新面试题2021年面试题及答案汇总)  
 
+### React
 
-### [React](https://github.com/souyunku/DevBooks#React)
+[React最新2021年面试题大汇总附答案](https://github.com/souyunku/DevBooks#React最新2021年面试题大汇总附答案)  
+[React最新2021年面试题附答案解析大汇总](https://github.com/souyunku/DevBooks#React最新2021年面试题附答案解析大汇总)  
+[React最新2021年面试题高级面试题及附答案解析](https://github.com/souyunku/DevBooks#React最新2021年面试题高级面试题及附答案解析)  
+[React最新面试题2021年常见面试题及答案汇总](https://github.com/souyunku/DevBooks#React最新面试题2021年常见面试题及答案汇总)  
+[React最新面试题2021年面试题及答案汇总](https://github.com/souyunku/DevBooks#React最新面试题2021年面试题及答案汇总)  
 
-[React最新2021年面试题大汇总，附答案](https://github.com/souyunku/DevBooks#React最新2021年面试题大汇总，附答案)  
-[React最新2021年面试题附答案解析，大汇总](https://github.com/souyunku/DevBooks#React最新2021年面试题附答案解析，大汇总)  
-[React最新2021年面试题，高级面试题及附答案解析](https://github.com/souyunku/DevBooks#React最新2021年面试题，高级面试题及附答案解析)  
-[React最新面试题2021年，常见面试题及答案汇总](https://github.com/souyunku/DevBooks#React最新面试题2021年，常见面试题及答案汇总)  
-[React最新面试题，2021年面试题及答案汇总](https://github.com/souyunku/DevBooks#React最新面试题，2021年面试题及答案汇总)  
+### RabbitMQ
 
+[RabbitMQ最新2021年面试题大汇总附答案](https://github.com/souyunku/DevBooks#RabbitMQ最新2021年面试题大汇总附答案)  
+[RabbitMQ最新2021年面试题附答案解析大汇总](https://github.com/souyunku/DevBooks#RabbitMQ最新2021年面试题附答案解析大汇总)  
+[RabbitMQ最新2021年面试题高级面试题及附答案解析](https://github.com/souyunku/DevBooks#RabbitMQ最新2021年面试题高级面试题及附答案解析)  
+[RabbitMQ最新面试题2021年常见面试题及答案汇总](https://github.com/souyunku/DevBooks#RabbitMQ最新面试题2021年常见面试题及答案汇总)  
+[RabbitMQ最新面试题2021年面试题及答案汇总](https://github.com/souyunku/DevBooks#RabbitMQ最新面试题2021年面试题及答案汇总)  
 
-### [RabbitMQ](https://github.com/souyunku/DevBooks#RabbitMQ)
+### Elasticsearch
 
-[RabbitMQ最新2021年面试题大汇总，附答案](https://github.com/souyunku/DevBooks#RabbitMQ最新2021年面试题大汇总，附答案)  
-[RabbitMQ最新2021年面试题附答案解析，大汇总](https://github.com/souyunku/DevBooks#RabbitMQ最新2021年面试题附答案解析，大汇总)  
-[RabbitMQ最新2021年面试题，高级面试题及附答案解析](https://github.com/souyunku/DevBooks#RabbitMQ最新2021年面试题，高级面试题及附答案解析)  
-[RabbitMQ最新面试题2021年，常见面试题及答案汇总](https://github.com/souyunku/DevBooks#RabbitMQ最新面试题2021年，常见面试题及答案汇总)  
-[RabbitMQ最新面试题，2021年面试题及答案汇总](https://github.com/souyunku/DevBooks#RabbitMQ最新面试题，2021年面试题及答案汇总)  
+[Elasticsearch最新2021年面试题大汇总附答案](https://github.com/souyunku/DevBooks#Elasticsearch最新2021年面试题大汇总附答案)  
+[Elasticsearch最新2021年面试题附答案解析大汇总](https://github.com/souyunku/DevBooks#Elasticsearch最新2021年面试题附答案解析大汇总)  
+[Elasticsearch最新2021年面试题高级面试题及附答案解析](https://github.com/souyunku/DevBooks#Elasticsearch最新2021年面试题高级面试题及附答案解析)  
+[Elasticsearch最新面试题2021年常见面试题及答案汇总](https://github.com/souyunku/DevBooks#Elasticsearch最新面试题2021年常见面试题及答案汇总)  
+[Elasticsearch最新面试题2021年面试题及答案汇总](https://github.com/souyunku/DevBooks#Elasticsearch最新面试题2021年面试题及答案汇总)  
 
+### Kafka
 
-### [Elasticsearch](https://github.com/souyunku/DevBooks#Elasticsearch)
-
-[Elasticsearch最新2021年面试题大汇总，附答案](https://github.com/souyunku/DevBooks#Elasticsearch最新2021年面试题大汇总，附答案)  
-[Elasticsearch最新2021年面试题附答案解析，大汇总](https://github.com/souyunku/DevBooks#Elasticsearch最新2021年面试题附答案解析，大汇总)  
-[Elasticsearch最新2021年面试题，高级面试题及附答案解析](https://github.com/souyunku/DevBooks#Elasticsearch最新2021年面试题，高级面试题及附答案解析)  
-[Elasticsearch最新面试题2021年，常见面试题及答案汇总](https://github.com/souyunku/DevBooks#Elasticsearch最新面试题2021年，常见面试题及答案汇总)  
-[Elasticsearch最新面试题，2021年面试题及答案汇总](https://github.com/souyunku/DevBooks#Elasticsearch最新面试题，2021年面试题及答案汇总)  
-
-
-### [Kafka](https://github.com/souyunku/DevBooks#Kafka)
-
-[Kafka最新2021年面试题大汇总，附答案](https://github.com/souyunku/DevBooks#Kafka最新2021年面试题大汇总，附答案)  
-[Kafka最新2021年面试题附答案解析，大汇总](https://github.com/souyunku/DevBooks#Kafka最新2021年面试题附答案解析，大汇总)  
-[Kafka最新2021年面试题，高级面试题及附答案解析](https://github.com/souyunku/DevBooks#Kafka最新2021年面试题，高级面试题及附答案解析)  
-[Kafka最新面试题2021年，常见面试题及答案汇总](https://github.com/souyunku/DevBooks#Kafka最新面试题2021年，常见面试题及答案汇总)  
+[Kafka最新2021年面试题大汇总附答案](https://github.com/souyunku/DevBooks#Kafka最新2021年面试题大汇总附答案)  
+[Kafka最新2021年面试题附答案解析大汇总](https://github.com/souyunku/DevBooks#Kafka最新2021年面试题附答案解析大汇总)  
+[Kafka最新2021年面试题高级面试题及附答案解析](https://github.com/souyunku/DevBooks#Kafka最新2021年面试题高级面试题及附答案解析)  
+[Kafka最新面试题2021年常见面试题及答案汇总](https://github.com/souyunku/DevBooks#Kafka最新面试题2021年常见面试题及答案汇总)  
 [Kafka最新面试题及答案附答案汇总](https://github.com/souyunku/DevBooks#Kafka最新面试题及答案附答案汇总)  
-[Kafka最新面试题，2021年面试题及答案汇总](https://github.com/souyunku/DevBooks#Kafka最新面试题，2021年面试题及答案汇总)  
+[Kafka最新面试题2021年面试题及答案汇总](https://github.com/souyunku/DevBooks#Kafka最新面试题2021年面试题及答案汇总)  
 
+### MyBatis
 
-### [MyBatis](https://github.com/souyunku/DevBooks#MyBatis)
+[MyBatis最新2021年面试题大汇总附答案](https://github.com/souyunku/DevBooks#MyBatis最新2021年面试题大汇总附答案)  
+[MyBatis最新2021年面试题附答案解析大汇总](https://github.com/souyunku/DevBooks#MyBatis最新2021年面试题附答案解析大汇总)  
+[MyBatis最新2021年面试题高级面试题及附答案解析](https://github.com/souyunku/DevBooks#MyBatis最新2021年面试题高级面试题及附答案解析)  
+[MyBatis最新面试题2021年常见面试题及答案汇总](https://github.com/souyunku/DevBooks#MyBatis最新面试题2021年常见面试题及答案汇总)  
+[MyBatis最新面试题2021年面试题及答案汇总](https://github.com/souyunku/DevBooks#MyBatis最新面试题2021年面试题及答案汇总)  
 
-[MyBatis最新2021年面试题大汇总，附答案](https://github.com/souyunku/DevBooks#MyBatis最新2021年面试题大汇总，附答案)  
-[MyBatis最新2021年面试题附答案解析，大汇总](https://github.com/souyunku/DevBooks#MyBatis最新2021年面试题附答案解析，大汇总)  
-[MyBatis最新2021年面试题，高级面试题及附答案解析](https://github.com/souyunku/DevBooks#MyBatis最新2021年面试题，高级面试题及附答案解析)  
-[MyBatis最新面试题2021年，常见面试题及答案汇总](https://github.com/souyunku/DevBooks#MyBatis最新面试题2021年，常见面试题及答案汇总)  
-[MyBatis最新面试题，2021年面试题及答案汇总](https://github.com/souyunku/DevBooks#MyBatis最新面试题，2021年面试题及答案汇总)  
+### Linux
 
-
-### [Linux](https://github.com/souyunku/DevBooks#Linux)
-
-[Linux最新2021年面试题及答案，汇总版](https://github.com/souyunku/DevBooks#Linux最新2021年面试题及答案，汇总版)  
-[Linux最新2021年面试题大汇总，附答案](https://github.com/souyunku/DevBooks#Linux最新2021年面试题大汇总，附答案)  
-[Linux最新2021年面试题附答案解析，大汇总](https://github.com/souyunku/DevBooks#Linux最新2021年面试题附答案解析，大汇总)  
-[Linux最新2021年面试题，高级面试题及附答案解析](https://github.com/souyunku/DevBooks#Linux最新2021年面试题，高级面试题及附答案解析)  
-[Linux最新面试题2021年，常见面试题及答案汇总](https://github.com/souyunku/DevBooks#Linux最新面试题2021年，常见面试题及答案汇总)  
+[Linux最新2021年面试题及答案汇总版](https://github.com/souyunku/DevBooks#Linux最新2021年面试题及答案汇总版)  
+[Linux最新2021年面试题大汇总附答案](https://github.com/souyunku/DevBooks#Linux最新2021年面试题大汇总附答案)  
+[Linux最新2021年面试题附答案解析大汇总](https://github.com/souyunku/DevBooks#Linux最新2021年面试题附答案解析大汇总)  
+[Linux最新2021年面试题高级面试题及附答案解析](https://github.com/souyunku/DevBooks#Linux最新2021年面试题高级面试题及附答案解析)  
+[Linux最新面试题2021年常见面试题及答案汇总](https://github.com/souyunku/DevBooks#Linux最新面试题2021年常见面试题及答案汇总)  
 [Linux最新面试题及答案附答案汇总](https://github.com/souyunku/DevBooks#Linux最新面试题及答案附答案汇总)  
-[Linux最新面试题，2021年面试题及答案汇总](https://github.com/souyunku/DevBooks#Linux最新面试题，2021年面试题及答案汇总)  
+[Linux最新面试题2021年面试题及答案汇总](https://github.com/souyunku/DevBooks#Linux最新面试题2021年面试题及答案汇总)  
 
+### MongoDB
 
-### [MongoDB](https://github.com/souyunku/DevBooks#MongoDB)
+[MongoDB最新2021年面试题大汇总附答案](https://github.com/souyunku/DevBooks#MongoDB最新2021年面试题大汇总附答案)  
+[MongoDB最新2021年面试题附答案解析大汇总](https://github.com/souyunku/DevBooks#MongoDB最新2021年面试题附答案解析大汇总)  
+[MongoDB最新2021年面试题高级面试题及附答案解析](https://github.com/souyunku/DevBooks#MongoDB最新2021年面试题高级面试题及附答案解析)  
 
-[MongoDB最新2021年面试题大汇总，附答案](https://github.com/souyunku/DevBooks#MongoDB最新2021年面试题大汇总，附答案)  
-[MongoDB最新2021年面试题附答案解析，大汇总](https://github.com/souyunku/DevBooks#MongoDB最新2021年面试题附答案解析，大汇总)  
-[MongoDB最新2021年面试题，高级面试题及附答案解析](https://github.com/souyunku/DevBooks#MongoDB最新2021年面试题，高级面试题及附答案解析)  
+### Oracle
 
+[Oracle最新2021年面试题大汇总附答案](https://github.com/souyunku/DevBooks#Oracle最新2021年面试题大汇总附答案)  
+[Oracle最新2021年面试题附答案解析大汇总](https://github.com/souyunku/DevBooks#Oracle最新2021年面试题附答案解析大汇总)  
+[Oracle最新2021年面试题高级面试题及附答案解析](https://github.com/souyunku/DevBooks#Oracle最新2021年面试题高级面试题及附答案解析)  
+[Oracle最新面试题2021年常见面试题及答案汇总](https://github.com/souyunku/DevBooks#Oracle最新面试题2021年常见面试题及答案汇总)  
+[Oracle最新面试题2021年面试题及答案汇总](https://github.com/souyunku/DevBooks#Oracle最新面试题2021年面试题及答案汇总)  
 
-### [Oracle](https://github.com/souyunku/DevBooks#Oracle)
+### Netty
 
-[Oracle最新2021年面试题大汇总，附答案](https://github.com/souyunku/DevBooks#Oracle最新2021年面试题大汇总，附答案)  
-[Oracle最新2021年面试题附答案解析，大汇总](https://github.com/souyunku/DevBooks#Oracle最新2021年面试题附答案解析，大汇总)  
-[Oracle最新2021年面试题，高级面试题及附答案解析](https://github.com/souyunku/DevBooks#Oracle最新2021年面试题，高级面试题及附答案解析)  
-[Oracle最新面试题2021年，常见面试题及答案汇总](https://github.com/souyunku/DevBooks#Oracle最新面试题2021年，常见面试题及答案汇总)  
-[Oracle最新面试题，2021年面试题及答案汇总](https://github.com/souyunku/DevBooks#Oracle最新面试题，2021年面试题及答案汇总)  
+[Netty最新2021年面试题附答案解析大汇总](https://github.com/souyunku/DevBooks#Netty最新2021年面试题附答案解析大汇总)  
+[Netty最新2021年面试题高级面试题及附答案解析](https://github.com/souyunku/DevBooks#Netty最新2021年面试题高级面试题及附答案解析)  
 
+### Nginx
 
-### [Netty](https://github.com/souyunku/DevBooks#Netty)
+[Nginx最新2021年面试题大汇总附答案](https://github.com/souyunku/DevBooks#Nginx最新2021年面试题大汇总附答案)  
+[Nginx最新2021年面试题附答案解析大汇总](https://github.com/souyunku/DevBooks#Nginx最新2021年面试题附答案解析大汇总)  
+[Nginx最新2021年面试题高级面试题及附答案解析](https://github.com/souyunku/DevBooks#Nginx最新2021年面试题高级面试题及附答案解析)  
 
-[Netty最新2021年面试题附答案解析，大汇总](https://github.com/souyunku/DevBooks#Netty最新2021年面试题附答案解析，大汇总)  
-[Netty最新2021年面试题，高级面试题及附答案解析](https://github.com/souyunku/DevBooks#Netty最新2021年面试题，高级面试题及附答案解析)  
+### Python
 
-
-### [Nginx](https://github.com/souyunku/DevBooks#Nginx)
-
-[Nginx最新2021年面试题大汇总，附答案](https://github.com/souyunku/DevBooks#Nginx最新2021年面试题大汇总，附答案)  
-[Nginx最新2021年面试题附答案解析，大汇总](https://github.com/souyunku/DevBooks#Nginx最新2021年面试题附答案解析，大汇总)  
-[Nginx最新2021年面试题，高级面试题及附答案解析](https://github.com/souyunku/DevBooks#Nginx最新2021年面试题，高级面试题及附答案解析)  
-
-
-### [Python](https://github.com/souyunku/DevBooks#Python)
-
-[Python最新2021年面试题及答案，汇总版](https://github.com/souyunku/DevBooks#Python最新2021年面试题及答案，汇总版)  
-[Python最新2021年面试题大汇总，附答案](https://github.com/souyunku/DevBooks#Python最新2021年面试题大汇总，附答案)  
-[Python最新2021年面试题附答案解析，大汇总](https://github.com/souyunku/DevBooks#Python最新2021年面试题附答案解析，大汇总)  
-[Python最新2021年面试题，高级面试题及附答案解析](https://github.com/souyunku/DevBooks#Python最新2021年面试题，高级面试题及附答案解析)  
+[Python最新2021年面试题及答案汇总版](https://github.com/souyunku/DevBooks#Python最新2021年面试题及答案汇总版)  
+[Python最新2021年面试题大汇总附答案](https://github.com/souyunku/DevBooks#Python最新2021年面试题大汇总附答案)  
+[Python最新2021年面试题附答案解析大汇总](https://github.com/souyunku/DevBooks#Python最新2021年面试题附答案解析大汇总)  
+[Python最新2021年面试题高级面试题及附答案解析](https://github.com/souyunku/DevBooks#Python最新2021年面试题高级面试题及附答案解析)  
 [Python最新基础面试题及答案整理](https://github.com/souyunku/DevBooks#Python最新基础面试题及答案整理)  
-[Python最新面试题2021年，常见面试题及答案汇总](https://github.com/souyunku/DevBooks#Python最新面试题2021年，常见面试题及答案汇总)  
-[Python最新面试题及答案整理，汇总版](https://github.com/souyunku/DevBooks#Python最新面试题及答案整理，汇总版)  
+[Python最新面试题2021年常见面试题及答案汇总](https://github.com/souyunku/DevBooks#Python最新面试题2021年常见面试题及答案汇总)  
+[Python最新面试题及答案整理汇总版](https://github.com/souyunku/DevBooks#Python最新面试题及答案整理汇总版)  
 [Python最新面试题及答案附答案汇总](https://github.com/souyunku/DevBooks#Python最新面试题及答案附答案汇总)  
-[Python最新面试题，2021年面试题及答案汇总](https://github.com/souyunku/DevBooks#Python最新面试题，2021年面试题及答案汇总)  
-[Python最新面试题，常见面试题及答案汇总](https://github.com/souyunku/DevBooks#Python最新面试题，常见面试题及答案汇总)  
-[Python高级面试题及答案，企业真面试题](https://github.com/souyunku/DevBooks#Python高级面试题及答案，企业真面试题)  
+[Python最新面试题2021年面试题及答案汇总](https://github.com/souyunku/DevBooks#Python最新面试题2021年面试题及答案汇总)  
+[Python最新面试题常见面试题及答案汇总](https://github.com/souyunku/DevBooks#Python最新面试题常见面试题及答案汇总)  
+[Python高级面试题及答案企业真面试题](https://github.com/souyunku/DevBooks#Python高级面试题及答案企业真面试题)  
 
+### Android
 
-### [Android](https://github.com/souyunku/DevBooks#Android)
-
-[Android最新2021年面试题大汇总，附答案](https://github.com/souyunku/DevBooks#Android最新2021年面试题大汇总，附答案)  
-[Android最新2021年面试题附答案解析，大汇总](https://github.com/souyunku/DevBooks#Android最新2021年面试题附答案解析，大汇总)  
-[Android最新2021年面试题，高级面试题及附答案解析](https://github.com/souyunku/DevBooks#Android最新2021年面试题，高级面试题及附答案解析)  
-[Android最新面试题2021年，常见面试题及答案汇总](https://github.com/souyunku/DevBooks#Android最新面试题2021年，常见面试题及答案汇总)  
+[Android最新2021年面试题大汇总附答案](https://github.com/souyunku/DevBooks#Android最新2021年面试题大汇总附答案)  
+[Android最新2021年面试题附答案解析大汇总](https://github.com/souyunku/DevBooks#Android最新2021年面试题附答案解析大汇总)  
+[Android最新2021年面试题高级面试题及附答案解析](https://github.com/souyunku/DevBooks#Android最新2021年面试题高级面试题及附答案解析)  
+[Android最新面试题2021年常见面试题及答案汇总](https://github.com/souyunku/DevBooks#Android最新面试题2021年常见面试题及答案汇总)  
 [Android最新面试题及答案附答案汇总](https://github.com/souyunku/DevBooks#Android最新面试题及答案附答案汇总)  
-[Android最新面试题，2021年面试题及答案汇总](https://github.com/souyunku/DevBooks#Android最新面试题，2021年面试题及答案汇总)  
+[Android最新面试题2021年面试题及答案汇总](https://github.com/souyunku/DevBooks#Android最新面试题2021年面试题及答案汇总)  
 
+### Vue
 
-### [Vue](https://github.com/souyunku/DevBooks#Vue)
-
-[Vue最新2021年面试题及答案，汇总版](https://github.com/souyunku/DevBooks#Vue最新2021年面试题及答案，汇总版)  
-[Vue最新2021年面试题大汇总，附答案](https://github.com/souyunku/DevBooks#Vue最新2021年面试题大汇总，附答案)  
-[Vue最新2021年面试题附答案解析，大汇总](https://github.com/souyunku/DevBooks#Vue最新2021年面试题附答案解析，大汇总)  
-[Vue最新2021年面试题，高级面试题及附答案解析](https://github.com/souyunku/DevBooks#Vue最新2021年面试题，高级面试题及附答案解析)  
-[Vue最新面试题2021年，常见面试题及答案汇总](https://github.com/souyunku/DevBooks#Vue最新面试题2021年，常见面试题及答案汇总)  
-[Vue最新面试题及答案整理，汇总版](https://github.com/souyunku/DevBooks#Vue最新面试题及答案整理，汇总版)  
+[Vue最新2021年面试题及答案汇总版](https://github.com/souyunku/DevBooks#Vue最新2021年面试题及答案汇总版)  
+[Vue最新2021年面试题大汇总附答案](https://github.com/souyunku/DevBooks#Vue最新2021年面试题大汇总附答案)  
+[Vue最新2021年面试题附答案解析大汇总](https://github.com/souyunku/DevBooks#Vue最新2021年面试题附答案解析大汇总)  
+[Vue最新2021年面试题高级面试题及附答案解析](https://github.com/souyunku/DevBooks#Vue最新2021年面试题高级面试题及附答案解析)  
+[Vue最新面试题2021年常见面试题及答案汇总](https://github.com/souyunku/DevBooks#Vue最新面试题2021年常见面试题及答案汇总)  
+[Vue最新面试题及答案整理汇总版](https://github.com/souyunku/DevBooks#Vue最新面试题及答案整理汇总版)  
 [Vue最新面试题及答案附答案汇总](https://github.com/souyunku/DevBooks#Vue最新面试题及答案附答案汇总)  
-[Vue最新面试题，2021年面试题及答案汇总](https://github.com/souyunku/DevBooks#Vue最新面试题，2021年面试题及答案汇总)  
+[Vue最新面试题2021年面试题及答案汇总](https://github.com/souyunku/DevBooks#Vue最新面试题2021年面试题及答案汇总)  
 
+### 前端
 
-### [前端](https://github.com/souyunku/DevBooks#前端)
-
-[前端最新2021年面试题及答案，汇总版](https://github.com/souyunku/DevBooks#前端最新2021年面试题及答案，汇总版)  
-[前端最新2021年面试题大汇总，附答案](https://github.com/souyunku/DevBooks#前端最新2021年面试题大汇总，附答案)  
-[前端最新2021年面试题附答案解析，大汇总](https://github.com/souyunku/DevBooks#前端最新2021年面试题附答案解析，大汇总)  
-[前端最新2021年面试题，高级面试题及附答案解析](https://github.com/souyunku/DevBooks#前端最新2021年面试题，高级面试题及附答案解析)  
+[前端最新2021年面试题及答案汇总版](https://github.com/souyunku/DevBooks#前端最新2021年面试题及答案汇总版)  
+[前端最新2021年面试题大汇总附答案](https://github.com/souyunku/DevBooks#前端最新2021年面试题大汇总附答案)  
+[前端最新2021年面试题附答案解析大汇总](https://github.com/souyunku/DevBooks#前端最新2021年面试题附答案解析大汇总)  
+[前端最新2021年面试题高级面试题及附答案解析](https://github.com/souyunku/DevBooks#前端最新2021年面试题高级面试题及附答案解析)  
 [前端最新基础面试题及答案整理](https://github.com/souyunku/DevBooks#前端最新基础面试题及答案整理)  
-[前端最新面试题2021年，常见面试题及答案汇总](https://github.com/souyunku/DevBooks#前端最新面试题2021年，常见面试题及答案汇总)  
-[前端最新面试题及答案整理，汇总版](https://github.com/souyunku/DevBooks#前端最新面试题及答案整理，汇总版)  
+[前端最新面试题2021年常见面试题及答案汇总](https://github.com/souyunku/DevBooks#前端最新面试题2021年常见面试题及答案汇总)  
+[前端最新面试题及答案整理汇总版](https://github.com/souyunku/DevBooks#前端最新面试题及答案整理汇总版)  
 [前端最新面试题及答案附答案汇总](https://github.com/souyunku/DevBooks#前端最新面试题及答案附答案汇总)  
-[前端最新面试题，2021年面试题及答案汇总](https://github.com/souyunku/DevBooks#前端最新面试题，2021年面试题及答案汇总)  
-[前端最新面试题，常见面试题及答案汇总](https://github.com/souyunku/DevBooks#前端最新面试题，常见面试题及答案汇总)  
-[前端面试题及答案整理汇总，2021年最新版](https://github.com/souyunku/DevBooks#前端面试题及答案整理汇总，2021年最新版)  
-[前端面试题及答案整理，2021年最新，汇总版](https://github.com/souyunku/DevBooks#前端面试题及答案整理，2021年最新，汇总版)  
-[前端面试题大汇总，2021年附答案解析](https://github.com/souyunku/DevBooks#前端面试题大汇总，2021年附答案解析)  
-[前端高级面试题及答案，2021版](https://github.com/souyunku/DevBooks#前端高级面试题及答案，2021版)  
-[前端高级面试题及答案，企业真面试题](https://github.com/souyunku/DevBooks#前端高级面试题及答案，企业真面试题)  
-[前端高级面试题合集，附答案解析](https://github.com/souyunku/DevBooks#前端高级面试题合集，附答案解析)  
+[前端最新面试题2021年面试题及答案汇总](https://github.com/souyunku/DevBooks#前端最新面试题2021年面试题及答案汇总)  
+[前端最新面试题常见面试题及答案汇总](https://github.com/souyunku/DevBooks#前端最新面试题常见面试题及答案汇总)  
+[前端面试题及答案整理汇总2021年最新版](https://github.com/souyunku/DevBooks#前端面试题及答案整理汇总2021年最新版)  
+[前端面试题及答案整理2021年最新汇总版](https://github.com/souyunku/DevBooks#前端面试题及答案整理2021年最新汇总版)  
+[前端面试题大汇总2021年附答案解析](https://github.com/souyunku/DevBooks#前端面试题大汇总2021年附答案解析)  
+[前端高级面试题及答案2021版](https://github.com/souyunku/DevBooks#前端高级面试题及答案2021版)  
+[前端高级面试题及答案企业真面试题](https://github.com/souyunku/DevBooks#前端高级面试题及答案企业真面试题)  
+[前端高级面试题合集附答案解析](https://github.com/souyunku/DevBooks#前端高级面试题合集附答案解析)  
 [前端高级面试题整理及答案](https://github.com/souyunku/DevBooks#前端高级面试题整理及答案)  
-[前端高级面试题，中级面试题，大汇总](https://github.com/souyunku/DevBooks#前端高级面试题，中级面试题，大汇总)  
+[前端高级面试题中级面试题大汇总](https://github.com/souyunku/DevBooks#前端高级面试题中级面试题大汇总)  
 
+### JavaScript
 
-### [JavaScript](https://github.com/souyunku/DevBooks#JavaScript)
-
-[JavaScript最新2021年面试题及答案，汇总版](https://github.com/souyunku/DevBooks#JavaScript最新2021年面试题及答案，汇总版)  
-[JavaScript最新2021年面试题大汇总，附答案](https://github.com/souyunku/DevBooks#JavaScript最新2021年面试题大汇总，附答案)  
-[JavaScript最新2021年面试题附答案解析，大汇总](https://github.com/souyunku/DevBooks#JavaScript最新2021年面试题附答案解析，大汇总)  
-[JavaScript最新2021年面试题，高级面试题及附答案解析](https://github.com/souyunku/DevBooks#JavaScript最新2021年面试题，高级面试题及附答案解析)  
-[JavaScript最新面试题2021年，常见面试题及答案汇总](https://github.com/souyunku/DevBooks#JavaScript最新面试题2021年，常见面试题及答案汇总)  
-[JavaScript最新面试题及答案整理，汇总版](https://github.com/souyunku/DevBooks#JavaScript最新面试题及答案整理，汇总版)  
+[JavaScript最新2021年面试题及答案汇总版](https://github.com/souyunku/DevBooks#JavaScript最新2021年面试题及答案汇总版)  
+[JavaScript最新2021年面试题大汇总附答案](https://github.com/souyunku/DevBooks#JavaScript最新2021年面试题大汇总附答案)  
+[JavaScript最新2021年面试题附答案解析大汇总](https://github.com/souyunku/DevBooks#JavaScript最新2021年面试题附答案解析大汇总)  
+[JavaScript最新2021年面试题高级面试题及附答案解析](https://github.com/souyunku/DevBooks#JavaScript最新2021年面试题高级面试题及附答案解析)  
+[JavaScript最新面试题2021年常见面试题及答案汇总](https://github.com/souyunku/DevBooks#JavaScript最新面试题2021年常见面试题及答案汇总)  
+[JavaScript最新面试题及答案整理汇总版](https://github.com/souyunku/DevBooks#JavaScript最新面试题及答案整理汇总版)  
 [JavaScript最新面试题及答案附答案汇总](https://github.com/souyunku/DevBooks#JavaScript最新面试题及答案附答案汇总)  
-[JavaScript最新面试题，2021年面试题及答案汇总](https://github.com/souyunku/DevBooks#JavaScript最新面试题，2021年面试题及答案汇总)  
+[JavaScript最新面试题2021年面试题及答案汇总](https://github.com/souyunku/DevBooks#JavaScript最新面试题2021年面试题及答案汇总)  
 
+### HTML
 
-### [HTML](https://github.com/souyunku/DevBooks#HTML)
-
-[HTML最新2021年面试题大汇总，附答案](https://github.com/souyunku/DevBooks#HTML最新2021年面试题大汇总，附答案)  
-[HTML最新2021年面试题附答案解析，大汇总](https://github.com/souyunku/DevBooks#HTML最新2021年面试题附答案解析，大汇总)  
-[HTML最新2021年面试题，高级面试题及附答案解析](https://github.com/souyunku/DevBooks#HTML最新2021年面试题，高级面试题及附答案解析)  
-[HTML最新面试题2021年，常见面试题及答案汇总](https://github.com/souyunku/DevBooks#HTML最新面试题2021年，常见面试题及答案汇总)  
+[HTML最新2021年面试题大汇总附答案](https://github.com/souyunku/DevBooks#HTML最新2021年面试题大汇总附答案)  
+[HTML最新2021年面试题附答案解析大汇总](https://github.com/souyunku/DevBooks#HTML最新2021年面试题附答案解析大汇总)  
+[HTML最新2021年面试题高级面试题及附答案解析](https://github.com/souyunku/DevBooks#HTML最新2021年面试题高级面试题及附答案解析)  
+[HTML最新面试题2021年常见面试题及答案汇总](https://github.com/souyunku/DevBooks#HTML最新面试题2021年常见面试题及答案汇总)  
 
 
 ## Java基础面试题及答案，最新版
@@ -339,13 +312,13 @@
 **1、** [抽象类是什么？它与接口有什么区别？你为什么要使用过抽象类？](https://github.com/souyunku/DevBooks/blob/master/Java/Java基础面试题及答案，最新版.md#1抽象类是什么它与接口有什么区别你为什么要使用过抽象类)  
 **2、** [构造方法能不能重载？能不能重写？](https://github.com/souyunku/DevBooks/blob/master/Java/Java基础面试题及答案，最新版.md#2构造方法能不能重载能不能重写)  
 **3、** [日期和时间：](https://github.com/souyunku/DevBooks/blob/master/Java/Java基础面试题及答案，最新版.md#3日期和时间：)  
-**4、** [假如生产环境CPU占用过高，请谈谈你的分析思路和定位。](https://github.com/souyunku/DevBooks/blob/master/Java/Java基础面试题及答案，最新版.md#4假如生产环境CPU占用过高，请谈谈你的分析思路和定位。)  
+**4、** [假如生产环境CPU占用过高，请谈谈你的分析思路和定位。](https://github.com/souyunku/DevBooks/blob/master/Java/Java基础面试题及答案，最新版.md#4假如生产环境CPU占用过高请谈谈你的分析思路和定位。)  
 **5、** [什么是多线程环境下的伪共享（false sharing）？](https://github.com/souyunku/DevBooks/blob/master/Java/Java基础面试题及答案，最新版.md#5什么是多线程环境下的伪共享false-sharing)  
 **6、** [线程池有什么优点？](https://github.com/souyunku/DevBooks/blob/master/Java/Java基础面试题及答案，最新版.md#6线程池有什么优点)  
 **7、** [用Java的套接字编程实现一个多线程的回显（echo）服务器。](https://github.com/souyunku/DevBooks/blob/master/Java/Java基础面试题及答案，最新版.md#7用Java的套接字编程实现一个多线程的回显echo服务器。)  
-**8、** [Java 中，怎么打印出一个字符串的所有排列？](https://github.com/souyunku/DevBooks/blob/master/Java/Java基础面试题及答案，最新版.md#8Java-中，怎么打印出一个字符串的所有排列)  
+**8、** [Java 中，怎么打印出一个字符串的所有排列？](https://github.com/souyunku/DevBooks/blob/master/Java/Java基础面试题及答案，最新版.md#8Java-中怎么打印出一个字符串的所有排列)  
 **9、** [怎么打出线程栈信息？](https://github.com/souyunku/DevBooks/blob/master/Java/Java基础面试题及答案，最新版.md#9怎么打出线程栈信息)  
-**10、** [JVM中一次完整的GC流程是怎样的，对象如何晋升到老年代？](https://github.com/souyunku/DevBooks/blob/master/Java/Java基础面试题及答案，最新版.md#10JVM中一次完整的GC流程是怎样的，对象如何晋升到老年代)  
+**10、** [JVM中一次完整的GC流程是怎样的，对象如何晋升到老年代？](https://github.com/souyunku/DevBooks/blob/master/Java/Java基础面试题及答案，最新版.md#10JVM中一次完整的GC流程是怎样的对象如何晋升到老年代)  
 
 ### [此处，仅展示前10道，查看更多40道...](https://github.com/souyunku/DevBooks/blob/master/Java/Java基础面试题及答案，最新版.md)  
 
@@ -354,11 +327,11 @@
 **1、** [使用Log4j对程序有影响吗？](https://github.com/souyunku/DevBooks/blob/master/Java/Java常见2021年最新面试题，附答案解析.md#1使用Log4j对程序有影响吗)  
 **2、** [JVM 类加载机制](https://github.com/souyunku/DevBooks/blob/master/Java/Java常见2021年最新面试题，附答案解析.md#2JVM-类加载机制)  
 **3、** [Java中各种数据默认值](https://github.com/souyunku/DevBooks/blob/master/Java/Java常见2021年最新面试题，附答案解析.md#3Java中各种数据默认值)  
-**4、** [final、finalize()、finally，性质不同](https://github.com/souyunku/DevBooks/blob/master/Java/Java常见2021年最新面试题，附答案解析.md#4finalfinalizefinally，性质不同)  
+**4、** [final、finalize()、finally，性质不同](https://github.com/souyunku/DevBooks/blob/master/Java/Java常见2021年最新面试题，附答案解析.md#4finalfinalizefinally性质不同)  
 **5、** [什么是工厂模式](https://github.com/souyunku/DevBooks/blob/master/Java/Java常见2021年最新面试题，附答案解析.md#5什么是工厂模式)  
 **6、** [JSP中的静态包含和动态包含有什么区别？](https://github.com/souyunku/DevBooks/blob/master/Java/Java常见2021年最新面试题，附答案解析.md#6JSP中的静态包含和动态包含有什么区别)  
 **7、** [什么是happen-before原则？](https://github.com/souyunku/DevBooks/blob/master/Java/Java常见2021年最新面试题，附答案解析.md#7什么是happen-before原则)  
-**8、** [在进行数据库编程时，连接池有什么作用？](https://github.com/souyunku/DevBooks/blob/master/Java/Java常见2021年最新面试题，附答案解析.md#8在进行数据库编程时，连接池有什么作用)  
+**8、** [在进行数据库编程时，连接池有什么作用？](https://github.com/souyunku/DevBooks/blob/master/Java/Java常见2021年最新面试题，附答案解析.md#8在进行数据库编程时连接池有什么作用)  
 **9、** [Java的数据结构有那些？](https://github.com/souyunku/DevBooks/blob/master/Java/Java常见2021年最新面试题，附答案解析.md#9Java的数据结构有那些)  
 **10、** [什么是JDK?什么是JRE？](https://github.com/souyunku/DevBooks/blob/master/Java/Java常见2021年最新面试题，附答案解析.md#10什么是JDK什么是JRE)  
 
@@ -367,10 +340,10 @@
 ## Java常见面试题及答案汇总，2021年最新版
 
 **1、** [String和StringBuilder、StringBuffer的区别？](https://github.com/souyunku/DevBooks/blob/master/Java/Java常见面试题及答案汇总，2021年最新版.md#1String和StringBuilderStringBuffer的区别)  
-**2、** [你经常使用什么并发容器，为什么？](https://github.com/souyunku/DevBooks/blob/master/Java/Java常见面试题及答案汇总，2021年最新版.md#2你经常使用什么并发容器，为什么)  
+**2、** [你经常使用什么并发容器，为什么？](https://github.com/souyunku/DevBooks/blob/master/Java/Java常见面试题及答案汇总，2021年最新版.md#2你经常使用什么并发容器为什么)  
 **3、** [线程的 run()和 start()有什么区别？](https://github.com/souyunku/DevBooks/blob/master/Java/Java常见面试题及答案汇总，2021年最新版.md#3线程的-run和-start有什么区别)  
 **4、** [Java中用到的线程调度算法是什么](https://github.com/souyunku/DevBooks/blob/master/Java/Java常见面试题及答案汇总，2021年最新版.md#4Java中用到的线程调度算法是什么)  
-**5、** [当一个对象被当作参数传递到一个方法后，此方法可改变这个对象的属性，并可返回变化后的结果，那么这里到底是值传递还是引用传递？](https://github.com/souyunku/DevBooks/blob/master/Java/Java常见面试题及答案汇总，2021年最新版.md#5当一个对象被当作参数传递到一个方法后，此方法可改变这个对象的属性，并可返回变化后的结果，那么这里到底是值传递还是引用传递)  
+**5、** [当一个对象被当作参数传递到一个方法后，此方法可改变这个对象的属性，并可返回变化后的结果，那么这里到底是值传递还是引用传递？](https://github.com/souyunku/DevBooks/blob/master/Java/Java常见面试题及答案汇总，2021年最新版.md#5当一个对象被当作参数传递到一个方法后此方法可改变这个对象的属性并可返回变化后的结果那么这里到底是值传递还是引用传递)  
 **6、** [什么是多态机制？Java语言是如何实现多态的？](https://github.com/souyunku/DevBooks/blob/master/Java/Java常见面试题及答案汇总，2021年最新版.md#6什么是多态机制Java语言是如何实现多态的)  
 **7、** [Try.catch.finally是必须要存在的吗？](https://github.com/souyunku/DevBooks/blob/master/Java/Java常见面试题及答案汇总，2021年最新版.md#7Trycatchfinally是必须要存在的吗)  
 **8、** [引用计数法](https://github.com/souyunku/DevBooks/blob/master/Java/Java常见面试题及答案汇总，2021年最新版.md#8引用计数法)  
@@ -383,10 +356,10 @@
 
 **1、** [比较一下Java和JavaSciprt。](https://github.com/souyunku/DevBooks/blob/master/Java/Java常见面试题，2021年及答案汇总.md#1比较一下Java和JavaSciprt。)  
 **2、** [聚集索引与非聚集索引有什么区别？](https://github.com/souyunku/DevBooks/blob/master/Java/Java常见面试题，2021年及答案汇总.md#2聚集索引与非聚集索引有什么区别)  
-**3、** [在使用jdbc的时候，如何防止出现sql注入的问题。](https://github.com/souyunku/DevBooks/blob/master/Java/Java常见面试题，2021年及答案汇总.md#3在使用jdbc的时候，如何防止出现sql注入的问题。)  
-**4、** [是否了解连接池，使用连接池有什么好处？](https://github.com/souyunku/DevBooks/blob/master/Java/Java常见面试题，2021年及答案汇总.md#4是否了解连接池，使用连接池有什么好处)  
+**3、** [在使用jdbc的时候，如何防止出现sql注入的问题。](https://github.com/souyunku/DevBooks/blob/master/Java/Java常见面试题，2021年及答案汇总.md#3在使用jdbc的时候如何防止出现sql注入的问题。)  
+**4、** [是否了解连接池，使用连接池有什么好处？](https://github.com/souyunku/DevBooks/blob/master/Java/Java常见面试题，2021年及答案汇总.md#4是否了解连接池使用连接池有什么好处)  
 **5、** [说出 5 条 IO 的最佳实践(答案)](https://github.com/souyunku/DevBooks/blob/master/Java/Java常见面试题，2021年及答案汇总.md#5说出-5-条-IO-的最佳实践答案)  
-**6、** [那针对浮点型数据运算出现的误差的问题，你怎么解决？](https://github.com/souyunku/DevBooks/blob/master/Java/Java常见面试题，2021年及答案汇总.md#6那针对浮点型数据运算出现的误差的问题，你怎么解决)  
+**6、** [那针对浮点型数据运算出现的误差的问题，你怎么解决？](https://github.com/souyunku/DevBooks/blob/master/Java/Java常见面试题，2021年及答案汇总.md#6那针对浮点型数据运算出现的误差的问题你怎么解决)  
 **7、** [JDK 和 JRE 有什么区别？](https://github.com/souyunku/DevBooks/blob/master/Java/Java常见面试题，2021年及答案汇总.md#7JDK-和-JRE-有什么区别)  
 **8、** [什么时候使用享元模式？](https://github.com/souyunku/DevBooks/blob/master/Java/Java常见面试题，2021年及答案汇总.md#8什么时候使用享元模式)  
 **9、** [你对线程优先级的理解是什么？](https://github.com/souyunku/DevBooks/blob/master/Java/Java常见面试题，2021年及答案汇总.md#9你对线程优先级的理解是什么)  
@@ -401,11 +374,11 @@
 **3、** [用 wait-notify 写一段代码来解决生产者-消费者问题？](https://github.com/souyunku/DevBooks/blob/master/Java/Java最新2021年面试题及答案，汇总版.md#3用-wait-notify-写一段代码来解决生产者-消费者问题)  
 **4、** [简述synchronized 和java.util.concurrent.locks.Lock的异同？](https://github.com/souyunku/DevBooks/blob/master/Java/Java最新2021年面试题及答案，汇总版.md#4简述synchronized-和javautilconcurrentlocksLock的异同)  
 **5、** [GC 是什么? 为什么要有 GC](https://github.com/souyunku/DevBooks/blob/master/Java/Java最新2021年面试题及答案，汇总版.md#5GC-是什么-为什么要有-GC)  
-**6、** [除了使用new创建对象之外，还可以用什么方法创建对象？](https://github.com/souyunku/DevBooks/blob/master/Java/Java最新2021年面试题及答案，汇总版.md#6除了使用new创建对象之外，还可以用什么方法创建对象)  
+**6、** [除了使用new创建对象之外，还可以用什么方法创建对象？](https://github.com/souyunku/DevBooks/blob/master/Java/Java最新2021年面试题及答案，汇总版.md#6除了使用new创建对象之外还可以用什么方法创建对象)  
 **7、** [你了解过哪些垃圾收集器？](https://github.com/souyunku/DevBooks/blob/master/Java/Java最新2021年面试题及答案，汇总版.md#7你了解过哪些垃圾收集器)  
 **8、** [程序计数器(线程私有)](https://github.com/souyunku/DevBooks/blob/master/Java/Java最新2021年面试题及答案，汇总版.md#8程序计数器线程私有)  
 **9、** [调优工具](https://github.com/souyunku/DevBooks/blob/master/Java/Java最新2021年面试题及答案，汇总版.md#9调优工具)  
-**10、** [判断两个对象是否相同，能使用equlas比较吗？](https://github.com/souyunku/DevBooks/blob/master/Java/Java最新2021年面试题及答案，汇总版.md#10判断两个对象是否相同，能使用equlas比较吗)  
+**10、** [判断两个对象是否相同，能使用equlas比较吗？](https://github.com/souyunku/DevBooks/blob/master/Java/Java最新2021年面试题及答案，汇总版.md#10判断两个对象是否相同能使用equlas比较吗)  
 
 ### [此处，仅展示前10道，查看更多40道...](https://github.com/souyunku/DevBooks/blob/master/Java/Java最新2021年面试题及答案，汇总版.md)  
 
@@ -417,8 +390,8 @@
 **4、** [什么是 FutureTask](https://github.com/souyunku/DevBooks/blob/master/Java/Java最新2021年面试题大汇总，附答案.md#4什么是-FutureTask)  
 **5、** [Java都有那些开发平台？](https://github.com/souyunku/DevBooks/blob/master/Java/Java最新2021年面试题大汇总，附答案.md#5Java都有那些开发平台)  
 **6、** [Java 中垃圾收集的方法有哪些](https://github.com/souyunku/DevBooks/blob/master/Java/Java最新2021年面试题大汇总，附答案.md#6Java-中垃圾收集的方法有哪些)  
-**7、** [stackoverflow错误，permgen space错误](https://github.com/souyunku/DevBooks/blob/master/Java/Java最新2021年面试题大汇总，附答案.md#7stackoverflow错误，permgen-space错误)  
-**8、** [java中会存在内存泄漏吗，请简单描述。](https://github.com/souyunku/DevBooks/blob/master/Java/Java最新2021年面试题大汇总，附答案.md#8java中会存在内存泄漏吗，请简单描述。)  
+**7、** [stackoverflow错误，permgen space错误](https://github.com/souyunku/DevBooks/blob/master/Java/Java最新2021年面试题大汇总，附答案.md#7stackoverflow错误permgen-space错误)  
+**8、** [java中会存在内存泄漏吗，请简单描述。](https://github.com/souyunku/DevBooks/blob/master/Java/Java最新2021年面试题大汇总，附答案.md#8java中会存在内存泄漏吗请简单描述。)  
 **9、** [构造器（constructor）是否可被重写（override）？](https://github.com/souyunku/DevBooks/blob/master/Java/Java最新2021年面试题大汇总，附答案.md#9构造器constructor是否可被重写override)  
 **10、** [重排序实际执行的指令步骤](https://github.com/souyunku/DevBooks/blob/master/Java/Java最新2021年面试题大汇总，附答案.md#10重排序实际执行的指令步骤)  
 
@@ -435,7 +408,7 @@
 **7、** [重定向和请求转发的区别？](https://github.com/souyunku/DevBooks/blob/master/Java/Java最新2021年面试题附答案解析，大汇总.md#7重定向和请求转发的区别)  
 **8、** [什么是线程局部变量？](https://github.com/souyunku/DevBooks/blob/master/Java/Java最新2021年面试题附答案解析，大汇总.md#8什么是线程局部变量)  
 **9、** [堆的作用是什么？](https://github.com/souyunku/DevBooks/blob/master/Java/Java最新2021年面试题附答案解析，大汇总.md#9堆的作用是什么)  
-**10、** [讲讲什么情况下会出现内存溢出，内存泄漏？](https://github.com/souyunku/DevBooks/blob/master/Java/Java最新2021年面试题附答案解析，大汇总.md#10讲讲什么情况下会出现内存溢出，内存泄漏)  
+**10、** [讲讲什么情况下会出现内存溢出，内存泄漏？](https://github.com/souyunku/DevBooks/blob/master/Java/Java最新2021年面试题附答案解析，大汇总.md#10讲讲什么情况下会出现内存溢出内存泄漏)  
 
 ### [此处，仅展示前10道，查看更多40道...](https://github.com/souyunku/DevBooks/blob/master/Java/Java最新2021年面试题附答案解析，大汇总.md)  
 
@@ -448,7 +421,7 @@
 **5、** [那些地方用到了单例模式](https://github.com/souyunku/DevBooks/blob/master/Java/Java最新2021年面试题，高级面试题及附答案解析.md#5那些地方用到了单例模式)  
 **6、** [在 Java 程序中怎么保证多线程的运行安全？](https://github.com/souyunku/DevBooks/blob/master/Java/Java最新2021年面试题，高级面试题及附答案解析.md#6在-Java-程序中怎么保证多线程的运行安全)  
 **7、** [Java 程序是怎样运行的？](https://github.com/souyunku/DevBooks/blob/master/Java/Java最新2021年面试题，高级面试题及附答案解析.md#7Java-程序是怎样运行的)  
-**8、** [Java 中，嵌套公共静态类与顶级类有什么不同？](https://github.com/souyunku/DevBooks/blob/master/Java/Java最新2021年面试题，高级面试题及附答案解析.md#8Java-中，嵌套公共静态类与顶级类有什么不同)  
+**8、** [Java 中，嵌套公共静态类与顶级类有什么不同？](https://github.com/souyunku/DevBooks/blob/master/Java/Java最新2021年面试题，高级面试题及附答案解析.md#8Java-中嵌套公共静态类与顶级类有什么不同)  
 **9、** [说一下HashMap的实现原理？](https://github.com/souyunku/DevBooks/blob/master/Java/Java最新2021年面试题，高级面试题及附答案解析.md#9说一下HashMap的实现原理)  
 **10、** [迭代器 Iterator 是什么？](https://github.com/souyunku/DevBooks/blob/master/Java/Java最新2021年面试题，高级面试题及附答案解析.md#10迭代器-Iterator-是什么)  
 
@@ -459,13 +432,13 @@
 **1、** [并行和并发有什么区别？](https://github.com/souyunku/DevBooks/blob/master/Java/Java最新基础面试题及答案整理.md#1并行和并发有什么区别)  
 **2、** [说一下垃圾分代收集的过程](https://github.com/souyunku/DevBooks/blob/master/Java/Java最新基础面试题及答案整理.md#2说一下垃圾分代收集的过程)  
 **3、** [构造方法能不能显式调用？](https://github.com/souyunku/DevBooks/blob/master/Java/Java最新基础面试题及答案整理.md#3构造方法能不能显式调用)  
-**4、** [List、Map、Set三个接口存取元素时，各有什么特点？](https://github.com/souyunku/DevBooks/blob/master/Java/Java最新基础面试题及答案整理.md#4ListMapSet三个接口存取元素时，各有什么特点)  
+**4、** [List、Map、Set三个接口存取元素时，各有什么特点？](https://github.com/souyunku/DevBooks/blob/master/Java/Java最新基础面试题及答案整理.md#4ListMapSet三个接口存取元素时各有什么特点)  
 **5、** [类加载器](https://github.com/souyunku/DevBooks/blob/master/Java/Java最新基础面试题及答案整理.md#5类加载器)  
 **6、** [在新生代-复制算法](https://github.com/souyunku/DevBooks/blob/master/Java/Java最新基础面试题及答案整理.md#6在新生代-复制算法)  
 **7、** [单例模式的线程安全性](https://github.com/souyunku/DevBooks/blob/master/Java/Java最新基础面试题及答案整理.md#7单例模式的线程安全性)  
 **8、** [什么叫线程安全？servlet是线程安全吗?](https://github.com/souyunku/DevBooks/blob/master/Java/Java最新基础面试题及答案整理.md#8什么叫线程安全servlet是线程安全吗)  
-**9、** [Java 中，怎么获取一个文件中单词出现的最高频率？](https://github.com/souyunku/DevBooks/blob/master/Java/Java最新基础面试题及答案整理.md#9Java-中，怎么获取一个文件中单词出现的最高频率)  
-**10、** [死锁与活锁的区别，死锁与饥饿的区别？](https://github.com/souyunku/DevBooks/blob/master/Java/Java最新基础面试题及答案整理.md#10死锁与活锁的区别，死锁与饥饿的区别)  
+**9、** [Java 中，怎么获取一个文件中单词出现的最高频率？](https://github.com/souyunku/DevBooks/blob/master/Java/Java最新基础面试题及答案整理.md#9Java-中怎么获取一个文件中单词出现的最高频率)  
+**10、** [死锁与活锁的区别，死锁与饥饿的区别？](https://github.com/souyunku/DevBooks/blob/master/Java/Java最新基础面试题及答案整理.md#10死锁与活锁的区别死锁与饥饿的区别)  
 
 ### [此处，仅展示前10道，查看更多40道...](https://github.com/souyunku/DevBooks/blob/master/Java/Java最新基础面试题及答案整理.md)  
 
@@ -478,7 +451,7 @@
 **5、** [Java应用程序与小程序之间有那些差别？](https://github.com/souyunku/DevBooks/blob/master/Java/Java最新面试题2021年，常见面试题及答案汇总.md#5Java应用程序与小程序之间有那些差别)  
 **6、** [说明Tomcat配置了多少个Valve?](https://github.com/souyunku/DevBooks/blob/master/Java/Java最新面试题2021年，常见面试题及答案汇总.md#6说明Tomcat配置了多少个Valve)  
 **7、** [3*0.1 == 0.3 将会返回什么？true 还是 false？](https://github.com/souyunku/DevBooks/blob/master/Java/Java最新面试题2021年，常见面试题及答案汇总.md#73*01-==-03-将会返回什么true-还是-false)  
-**8、** [生产环境 CPU 占用过高，你如何解决？](https://github.com/souyunku/DevBooks/blob/master/Java/Java最新面试题2021年，常见面试题及答案汇总.md#8生产环境-CPU-占用过高，你如何解决)  
+**8、** [生产环境 CPU 占用过高，你如何解决？](https://github.com/souyunku/DevBooks/blob/master/Java/Java最新面试题2021年，常见面试题及答案汇总.md#8生产环境-CPU-占用过高你如何解决)  
 **9、** [Java 中 java.util.Date 与 java.sql.Date 有什么区别？](https://github.com/souyunku/DevBooks/blob/master/Java/Java最新面试题2021年，常见面试题及答案汇总.md#9Java-中-javautilDate-与-javasqlDate-有什么区别)  
 **10、** [JVM 如何确定垃圾对象？](https://github.com/souyunku/DevBooks/blob/master/Java/Java最新面试题2021年，常见面试题及答案汇总.md#10JVM-如何确定垃圾对象)  
 
@@ -493,7 +466,7 @@
 **5、** [写一段代码在遍历 ArrayList 时移除一个元素？](https://github.com/souyunku/DevBooks/blob/master/Java/Java最新面试题及答案整理，汇总版.md#5写一段代码在遍历-ArrayList-时移除一个元素)  
 **6、** [如何自定义线程线程池?](https://github.com/souyunku/DevBooks/blob/master/Java/Java最新面试题及答案整理，汇总版.md#6如何自定义线程线程池)  
 **7、** [GC的回收流程是怎样的？](https://github.com/souyunku/DevBooks/blob/master/Java/Java最新面试题及答案整理，汇总版.md#7GC的回收流程是怎样的)  
-**8、** [当一个线程进入一个对象的 synchronized 方法 A 之后，其它线程是否可进入此对象的 synchronized 方法 B？](https://github.com/souyunku/DevBooks/blob/master/Java/Java最新面试题及答案整理，汇总版.md#8当一个线程进入一个对象的-synchronized-方法-A-之后，其它线程是否可进入此对象的-synchronized-方法-B)  
+**8、** [当一个线程进入一个对象的 synchronized 方法 A 之后，其它线程是否可进入此对象的 synchronized 方法 B？](https://github.com/souyunku/DevBooks/blob/master/Java/Java最新面试题及答案整理，汇总版.md#8当一个线程进入一个对象的-synchronized-方法-A-之后其它线程是否可进入此对象的-synchronized-方法-B)  
 **9、** [Array 和 ArrayList 有何区别？](https://github.com/souyunku/DevBooks/blob/master/Java/Java最新面试题及答案整理，汇总版.md#9Array-和-ArrayList-有何区别)  
 **10、** [适配器模式和装饰器模式有什么区别？](https://github.com/souyunku/DevBooks/blob/master/Java/Java最新面试题及答案整理，汇总版.md#10适配器模式和装饰器模式有什么区别)  
 
@@ -506,7 +479,7 @@
 **3、** [阻塞队列和非阻塞队列区别](https://github.com/souyunku/DevBooks/blob/master/Java/Java最新面试题及答案附答案汇总.md#3阻塞队列和非阻塞队列区别)  
 **4、** [并发编程三要素？](https://github.com/souyunku/DevBooks/blob/master/Java/Java最新面试题及答案附答案汇总.md#4并发编程三要素)  
 **5、** [简述正则表达式及其用途。](https://github.com/souyunku/DevBooks/blob/master/Java/Java最新面试题及答案附答案汇总.md#5简述正则表达式及其用途。)  
-**6、** [各种回收器，各自优缺点，重点CMS、G1](https://github.com/souyunku/DevBooks/blob/master/Java/Java最新面试题及答案附答案汇总.md#6各种回收器，各自优缺点，重点CMSG1)  
+**6、** [各种回收器，各自优缺点，重点CMS、G1](https://github.com/souyunku/DevBooks/blob/master/Java/Java最新面试题及答案附答案汇总.md#6各种回收器各自优缺点重点CMSG1)  
 **7、** [如何使session失效](https://github.com/souyunku/DevBooks/blob/master/Java/Java最新面试题及答案附答案汇总.md#7如何使session失效)  
 **8、** [线程的调度策略](https://github.com/souyunku/DevBooks/blob/master/Java/Java最新面试题及答案附答案汇总.md#8线程的调度策略)  
 **9、** [一个”.java”源文件中是否可以包含多个类（不是内部类）？有什么限制？](https://github.com/souyunku/DevBooks/blob/master/Java/Java最新面试题及答案附答案汇总.md#9一个java源文件中是否可以包含多个类不是内部类有什么限制)  
@@ -516,8 +489,8 @@
 
 ## Java最新面试题，2021年面试题及答案汇总
 
-**1、** [如何理解Hibernate的延迟加载机制？在实际应用中，延迟加载与Session关闭的矛盾是如何处理的？](https://github.com/souyunku/DevBooks/blob/master/Java/Java最新面试题，2021年面试题及答案汇总.md#1如何理解Hibernate的延迟加载机制在实际应用中，延迟加载与Session关闭的矛盾是如何处理的)  
-**2、** [强引用、软引用、弱引用、虚引用是什么，有什么区别？](https://github.com/souyunku/DevBooks/blob/master/Java/Java最新面试题，2021年面试题及答案汇总.md#2强引用软引用弱引用虚引用是什么，有什么区别)  
+**1、** [如何理解Hibernate的延迟加载机制？在实际应用中，延迟加载与Session关闭的矛盾是如何处理的？](https://github.com/souyunku/DevBooks/blob/master/Java/Java最新面试题，2021年面试题及答案汇总.md#1如何理解Hibernate的延迟加载机制在实际应用中延迟加载与Session关闭的矛盾是如何处理的)  
+**2、** [强引用、软引用、弱引用、虚引用是什么，有什么区别？](https://github.com/souyunku/DevBooks/blob/master/Java/Java最新面试题，2021年面试题及答案汇总.md#2强引用软引用弱引用虚引用是什么有什么区别)  
 **3、** [内部类可以引用它的包含类（外部类）的成员吗？有没有什么限制？](https://github.com/souyunku/DevBooks/blob/master/Java/Java最新面试题，2021年面试题及答案汇总.md#3内部类可以引用它的包含类外部类的成员吗有没有什么限制)  
 **4、** [Java中是如何支持正则表达式操作的？](https://github.com/souyunku/DevBooks/blob/master/Java/Java最新面试题，2021年面试题及答案汇总.md#4Java中是如何支持正则表达式操作的)  
 **5、** [适配器模式和代理模式之前有什么不同？](https://github.com/souyunku/DevBooks/blob/master/Java/Java最新面试题，2021年面试题及答案汇总.md#5适配器模式和代理模式之前有什么不同)  
@@ -546,7 +519,7 @@
 
 ## Java面试2021秋招面试问题，附答案
 
-**1、** [64 位 JVM 中，int 的长度是多数？](https://github.com/souyunku/DevBooks/blob/master/Java/Java面试2021秋招面试问题，附答案.md#164-位-JVM-中，int-的长度是多数)  
+**1、** [64 位 JVM 中，int 的长度是多数？](https://github.com/souyunku/DevBooks/blob/master/Java/Java面试2021秋招面试问题，附答案.md#164-位-JVM-中int-的长度是多数)  
 **2、** [为什么代码会重排序？](https://github.com/souyunku/DevBooks/blob/master/Java/Java面试2021秋招面试问题，附答案.md#2为什么代码会重排序)  
 **3、** [运行时栈帧包含哪些结构？](https://github.com/souyunku/DevBooks/blob/master/Java/Java面试2021秋招面试问题，附答案.md#3运行时栈帧包含哪些结构)  
 **4、** [JAVA为什么需要接口？](https://github.com/souyunku/DevBooks/blob/master/Java/Java面试2021秋招面试问题，附答案.md#4JAVA为什么需要接口)  
@@ -579,13 +552,13 @@
 **1、** [JVM 中一次完整的 GC 流程（从 ygc 到 fgc）是怎样的](https://github.com/souyunku/DevBooks/blob/master/Java/Java面试题及答案整理，2021年最新，汇总版.md#1JVM-中一次完整的-GC-流程从-ygc-到-fgc是怎样的)  
 **2、** [JVM 的内存模型以及分区情况和作用](https://github.com/souyunku/DevBooks/blob/master/Java/Java面试题及答案整理，2021年最新，汇总版.md#2JVM-的内存模型以及分区情况和作用)  
 **3、** [什么是链表](https://github.com/souyunku/DevBooks/blob/master/Java/Java面试题及答案整理，2021年最新，汇总版.md#3什么是链表)  
-**4、** [当一个线程进入一个对象的synchronized方法A之后，其它线程是否可进入此对象的synchronized方法B？](https://github.com/souyunku/DevBooks/blob/master/Java/Java面试题及答案整理，2021年最新，汇总版.md#4当一个线程进入一个对象的synchronized方法A之后，其它线程是否可进入此对象的synchronized方法B)  
+**4、** [当一个线程进入一个对象的synchronized方法A之后，其它线程是否可进入此对象的synchronized方法B？](https://github.com/souyunku/DevBooks/blob/master/Java/Java面试题及答案整理，2021年最新，汇总版.md#4当一个线程进入一个对象的synchronized方法A之后其它线程是否可进入此对象的synchronized方法B)  
 **5、** [多线程中 synchronized 锁升级的原理是什么？](https://github.com/souyunku/DevBooks/blob/master/Java/Java面试题及答案整理，2021年最新，汇总版.md#5多线程中-synchronized-锁升级的原理是什么)  
 **6、** [a.hashCode() 有什么用？与 a.equals(b) 有什么关系？](https://github.com/souyunku/DevBooks/blob/master/Java/Java面试题及答案整理，2021年最新，汇总版.md#6ahashCode-有什么用与-aequalsb-有什么关系)  
 **7、** [对象的内存布局了解吗？](https://github.com/souyunku/DevBooks/blob/master/Java/Java面试题及答案整理，2021年最新，汇总版.md#7对象的内存布局了解吗)  
 **8、** [接口有什么特点？](https://github.com/souyunku/DevBooks/blob/master/Java/Java面试题及答案整理，2021年最新，汇总版.md#8接口有什么特点)  
-**9、** [什么是不可变对象，它对写并发应用有什么帮助？](https://github.com/souyunku/DevBooks/blob/master/Java/Java面试题及答案整理，2021年最新，汇总版.md#9什么是不可变对象，它对写并发应用有什么帮助)  
-**10、** [除了单例模式，你在生产环境中还用过什么设计模式？](https://github.com/souyunku/DevBooks/blob/master/Java/Java面试题及答案整理，2021年最新，汇总版.md#10除了单例模式，你在生产环境中还用过什么设计模式)  
+**9、** [什么是不可变对象，它对写并发应用有什么帮助？](https://github.com/souyunku/DevBooks/blob/master/Java/Java面试题及答案整理，2021年最新，汇总版.md#9什么是不可变对象它对写并发应用有什么帮助)  
+**10、** [除了单例模式，你在生产环境中还用过什么设计模式？](https://github.com/souyunku/DevBooks/blob/master/Java/Java面试题及答案整理，2021年最新，汇总版.md#10除了单例模式你在生产环境中还用过什么设计模式)  
 
 ### [此处，仅展示前10道，查看更多40道...](https://github.com/souyunku/DevBooks/blob/master/Java/Java面试题及答案整理，2021年最新，汇总版.md)  
 
@@ -599,7 +572,7 @@
 **6、** [什么是阻塞式方法？](https://github.com/souyunku/DevBooks/blob/master/Java/Java面试题大全带答案，持续更新.md#6什么是阻塞式方法)  
 **7、** [什么是线程调度器(Thread Scheduler)和时间分片(Time Slicing )？](https://github.com/souyunku/DevBooks/blob/master/Java/Java面试题大全带答案，持续更新.md#7什么是线程调度器Thread-Scheduler和时间分片Time-Slicing-)  
 **8、** [怎么将 byte 转换为 String？](https://github.com/souyunku/DevBooks/blob/master/Java/Java面试题大全带答案，持续更新.md#8怎么将-byte-转换为-String)  
-**9、** [写一个方法，输入一个文件名和一个字符串，统计这个字符串在这个文件中出现的次数。](https://github.com/souyunku/DevBooks/blob/master/Java/Java面试题大全带答案，持续更新.md#9写一个方法，输入一个文件名和一个字符串，统计这个字符串在这个文件中出现的次数。)  
+**9、** [写一个方法，输入一个文件名和一个字符串，统计这个字符串在这个文件中出现的次数。](https://github.com/souyunku/DevBooks/blob/master/Java/Java面试题大全带答案，持续更新.md#9写一个方法输入一个文件名和一个字符串统计这个字符串在这个文件中出现的次数。)  
 **10、** [什么是方法的返回值？返回值在类的方法里的作用是什么？](https://github.com/souyunku/DevBooks/blob/master/Java/Java面试题大全带答案，持续更新.md#10什么是方法的返回值返回值在类的方法里的作用是什么)  
 
 ### [此处，仅展示前10道，查看更多40道...](https://github.com/souyunku/DevBooks/blob/master/Java/Java面试题大全带答案，持续更新.md)  
@@ -609,12 +582,12 @@
 **1、** [什么是乐观锁和悲观锁](https://github.com/souyunku/DevBooks/blob/master/Java/Java面试题大汇总，2021年附答案解析.md#1什么是乐观锁和悲观锁)  
 **2、** [你有哪些手段来排查 OOM 的问题？](https://github.com/souyunku/DevBooks/blob/master/Java/Java面试题大汇总，2021年附答案解析.md#2你有哪些手段来排查-OOM-的问题)  
 **3、** [什么是外观模式](https://github.com/souyunku/DevBooks/blob/master/Java/Java面试题大汇总，2021年附答案解析.md#3什么是外观模式)  
-**4、** [在调用子类构造方法之前会先调用父类没有参数的构造方法，其目的是？](https://github.com/souyunku/DevBooks/blob/master/Java/Java面试题大汇总，2021年附答案解析.md#4在调用子类构造方法之前会先调用父类没有参数的构造方法，其目的是)  
+**4、** [在调用子类构造方法之前会先调用父类没有参数的构造方法，其目的是？](https://github.com/souyunku/DevBooks/blob/master/Java/Java面试题大汇总，2021年附答案解析.md#4在调用子类构造方法之前会先调用父类没有参数的构造方法其目的是)  
 **5、** [Java 中怎样将 bytes 转换为 long 类型？](https://github.com/souyunku/DevBooks/blob/master/Java/Java面试题大汇总，2021年附答案解析.md#5Java-中怎样将-bytes-转换为-long-类型)  
 **6、** [程序计数器](https://github.com/souyunku/DevBooks/blob/master/Java/Java面试题大汇总，2021年附答案解析.md#6程序计数器)  
 **7、** [Collection 和 Collections 有什么区别？](https://github.com/souyunku/DevBooks/blob/master/Java/Java面试题大汇总，2021年附答案解析.md#7Collection-和-Collections-有什么区别)  
 **8、** [什么是内存屏障？](https://github.com/souyunku/DevBooks/blob/master/Java/Java面试题大汇总，2021年附答案解析.md#8什么是内存屏障)  
-**9、** [Java语言如何进行异常处理，关键字：throws、throw、try、catch、finally分别如何使用？](https://github.com/souyunku/DevBooks/blob/master/Java/Java面试题大汇总，2021年附答案解析.md#9Java语言如何进行异常处理，关键字：throwsthrowtrycatchfinally分别如何使用)  
+**9、** [Java语言如何进行异常处理，关键字：throws、throw、try、catch、finally分别如何使用？](https://github.com/souyunku/DevBooks/blob/master/Java/Java面试题大汇总，2021年附答案解析.md#9Java语言如何进行异常处理关键字：throwsthrowtrycatchfinally分别如何使用)  
 **10、** [栈帧都有哪些数据？](https://github.com/souyunku/DevBooks/blob/master/Java/Java面试题大汇总，2021年附答案解析.md#10栈帧都有哪些数据)  
 
 ### [此处，仅展示前10道，查看更多40道...](https://github.com/souyunku/DevBooks/blob/master/Java/Java面试题大汇总，2021年附答案解析.md)  
@@ -642,8 +615,8 @@
 **4、** [notify() 和 notifyAll() 有什么区别？](https://github.com/souyunku/DevBooks/blob/master/Java/Java面试题目大汇总，附参考答案.md#4notify-和-notifyAll-有什么区别)  
 **5、** [谈谈双亲委派模型](https://github.com/souyunku/DevBooks/blob/master/Java/Java面试题目大汇总，附参考答案.md#5谈谈双亲委派模型)  
 **6、** [你对线程优先级的理解是什么？](https://github.com/souyunku/DevBooks/blob/master/Java/Java面试题目大汇总，附参考答案.md#6你对线程优先级的理解是什么)  
-**7、** [为什么我们调用start()方法时会执行run()方法，为什么我们不能直接调用run()方法？](https://github.com/souyunku/DevBooks/blob/master/Java/Java面试题目大汇总，附参考答案.md#7为什么我们调用start方法时会执行run方法，为什么我们不能直接调用run方法)  
-**8、** [说说自己是怎么使用 synchronized 关键字，在项目中用到了吗](https://github.com/souyunku/DevBooks/blob/master/Java/Java面试题目大汇总，附参考答案.md#8说说自己是怎么使用-synchronized-关键字，在项目中用到了吗)  
+**7、** [为什么我们调用start()方法时会执行run()方法，为什么我们不能直接调用run()方法？](https://github.com/souyunku/DevBooks/blob/master/Java/Java面试题目大汇总，附参考答案.md#7为什么我们调用start方法时会执行run方法为什么我们不能直接调用run方法)  
+**8、** [说说自己是怎么使用 synchronized 关键字，在项目中用到了吗](https://github.com/souyunku/DevBooks/blob/master/Java/Java面试题目大汇总，附参考答案.md#8说说自己是怎么使用-synchronized-关键字在项目中用到了吗)  
 **9、** [什么是多线程中的上下文切换？](https://github.com/souyunku/DevBooks/blob/master/Java/Java面试题目大汇总，附参考答案.md#9什么是多线程中的上下文切换)  
 **10、** [什么是模板方法](https://github.com/souyunku/DevBooks/blob/master/Java/Java面试题目大汇总，附参考答案.md#10什么是模板方法)  
 
@@ -652,11 +625,11 @@
 ## Java高级面试题及答案，2021版
 
 **1、** [什么是建造者模式](https://github.com/souyunku/DevBooks/blob/master/Java/Java高级面试题及答案，2021版.md#1什么是建造者模式)  
-**2、** [我们能自己写一个容器类，然后使用 for-each 循环码？](https://github.com/souyunku/DevBooks/blob/master/Java/Java高级面试题及答案，2021版.md#2我们能自己写一个容器类，然后使用-for-each-循环码)  
+**2、** [我们能自己写一个容器类，然后使用 for-each 循环码？](https://github.com/souyunku/DevBooks/blob/master/Java/Java高级面试题及答案，2021版.md#2我们能自己写一个容器类然后使用-for-each-循环码)  
 **3、** [MyBatis中使用#和$书写占位符有什么区别？](https://github.com/souyunku/DevBooks/blob/master/Java/Java高级面试题及答案，2021版.md#3MyBatis中使用#和$书写占位符有什么区别)  
 **4、** [为什么 Java 中的 String 是不可变的（Immutable）？](https://github.com/souyunku/DevBooks/blob/master/Java/Java高级面试题及答案，2021版.md#4为什么-Java-中的-String-是不可变的Immutable)  
 **5、** [老年代](https://github.com/souyunku/DevBooks/blob/master/Java/Java高级面试题及答案，2021版.md#5老年代)  
-**6、** [假设数组内有5个元素，如果对数组进行反序，该如何做？](https://github.com/souyunku/DevBooks/blob/master/Java/Java高级面试题及答案，2021版.md#6假设数组内有5个元素，如果对数组进行反序，该如何做)  
+**6、** [假设数组内有5个元素，如果对数组进行反序，该如何做？](https://github.com/souyunku/DevBooks/blob/master/Java/Java高级面试题及答案，2021版.md#6假设数组内有5个元素如果对数组进行反序该如何做)  
 **7、** [Parallel Scavenge 收集器（多线程复制算法、高效）](https://github.com/souyunku/DevBooks/blob/master/Java/Java高级面试题及答案，2021版.md#7Parallel-Scavenge-收集器多线程复制算法高效)  
 **8、** [什么是不可变对象（immutable object）？Java 中怎么创建一个不可变对象？](https://github.com/souyunku/DevBooks/blob/master/Java/Java高级面试题及答案，2021版.md#8什么是不可变对象immutable-objectJava-中怎么创建一个不可变对象)  
 **9、** [GC是什么？为什么要有GC？](https://github.com/souyunku/DevBooks/blob/master/Java/Java高级面试题及答案，2021版.md#9GC是什么为什么要有GC)  
@@ -674,7 +647,7 @@
 **6、** [Thow与thorws区别](https://github.com/souyunku/DevBooks/blob/master/Java/Java高级面试题及答案，企业真面试题.md#6Thow与thorws区别)  
 **7、** [类加载的过程是什么？](https://github.com/souyunku/DevBooks/blob/master/Java/Java高级面试题及答案，企业真面试题.md#7类加载的过程是什么)  
 **8、** [如何找到死锁的线程？](https://github.com/souyunku/DevBooks/blob/master/Java/Java高级面试题及答案，企业真面试题.md#8如何找到死锁的线程)  
-**9、** [HashMap中的key，可以是普通对象么？需要什么注意的地方？](https://github.com/souyunku/DevBooks/blob/master/Java/Java高级面试题及答案，企业真面试题.md#9HashMap中的key，可以是普通对象么需要什么注意的地方)  
+**9、** [HashMap中的key，可以是普通对象么？需要什么注意的地方？](https://github.com/souyunku/DevBooks/blob/master/Java/Java高级面试题及答案，企业真面试题.md#9HashMap中的key可以是普通对象么需要什么注意的地方)  
 **10、** [什么是线程池？有哪几种创建方式？](https://github.com/souyunku/DevBooks/blob/master/Java/Java高级面试题及答案，企业真面试题.md#10什么是线程池有哪几种创建方式)  
 
 ### [此处，仅展示前10道，查看更多40道...](https://github.com/souyunku/DevBooks/blob/master/Java/Java高级面试题及答案，企业真面试题.md)  
@@ -684,13 +657,13 @@
 **1、** [如何通过反射创建对象？](https://github.com/souyunku/DevBooks/blob/master/Java/Java高级面试题合集，附答案解析.md#1如何通过反射创建对象)  
 **2、** [使用js获取一个表单元素](https://github.com/souyunku/DevBooks/blob/master/Java/Java高级面试题合集，附答案解析.md#2使用js获取一个表单元素)  
 **3、** [Session的save()、update()、merge()、lock()、saveOrUpdate()和persist()方法分别是做什么的？有什么区别？](https://github.com/souyunku/DevBooks/blob/master/Java/Java高级面试题合集，附答案解析.md#3Session的saveupdatemergelocksaveOrUpdate和persist方法分别是做什么的有什么区别)  
-**4、** [抽象的（abstract）方法是否可同时是静态的（static）,是否可同时是本地方法（native），是否可同时被synchronized修饰？](https://github.com/souyunku/DevBooks/blob/master/Java/Java高级面试题合集，附答案解析.md#4抽象的abstract方法是否可同时是静态的static,是否可同时是本地方法native，是否可同时被synchronized修饰)  
+**4、** [抽象的（abstract）方法是否可同时是静态的（static）,是否可同时是本地方法（native），是否可同时被synchronized修饰？](https://github.com/souyunku/DevBooks/blob/master/Java/Java高级面试题合集，附答案解析.md#4抽象的abstract方法是否可同时是静态的static,是否可同时是本地方法native是否可同时被synchronized修饰)  
 **5、** [volatile 变量和 atomic 变量有什么不同？](https://github.com/souyunku/DevBooks/blob/master/Java/Java高级面试题合集，附答案解析.md#5volatile-变量和-atomic-变量有什么不同)  
 **6、** [说出 5 个 JDK 1.8 引入的新特性？](https://github.com/souyunku/DevBooks/blob/master/Java/Java高级面试题合集，附答案解析.md#6说出-5-个-JDK-18-引入的新特性)  
 **7、** [面向对象的特征有哪些方面？](https://github.com/souyunku/DevBooks/blob/master/Java/Java高级面试题合集，附答案解析.md#7面向对象的特征有哪些方面)  
 **8、** [有没有可能两个不相等的对象有有相同的 hashcode？](https://github.com/souyunku/DevBooks/blob/master/Java/Java高级面试题合集，附答案解析.md#8有没有可能两个不相等的对象有有相同的-hashcode)  
 **9、** [抽象的关键字是什么？](https://github.com/souyunku/DevBooks/blob/master/Java/Java高级面试题合集，附答案解析.md#9抽象的关键字是什么)  
-**10、** [什么是线程同步和线程互斥，有哪几种实现方式？](https://github.com/souyunku/DevBooks/blob/master/Java/Java高级面试题合集，附答案解析.md#10什么是线程同步和线程互斥，有哪几种实现方式)  
+**10、** [什么是线程同步和线程互斥，有哪几种实现方式？](https://github.com/souyunku/DevBooks/blob/master/Java/Java高级面试题合集，附答案解析.md#10什么是线程同步和线程互斥有哪几种实现方式)  
 
 ### [此处，仅展示前10道，查看更多40道...](https://github.com/souyunku/DevBooks/blob/master/Java/Java高级面试题合集，附答案解析.md)  
 
@@ -729,9 +702,9 @@
 **1、** [程序计数器为什么是私有的?](https://github.com/souyunku/DevBooks/blob/master/Jvm/Jvm最新2021年面试题及答案，汇总版.md#1程序计数器为什么是私有的)  
 **2、** [CMS分为哪几个阶段?](https://github.com/souyunku/DevBooks/blob/master/Jvm/Jvm最新2021年面试题及答案，汇总版.md#2CMS分为哪几个阶段)  
 **3、** [JRE、JDK、JVM 及 JIT 之间有什么不同？](https://github.com/souyunku/DevBooks/blob/master/Jvm/Jvm最新2021年面试题及答案，汇总版.md#3JREJDKJVM-及-JIT-之间有什么不同)  
-**4、** [stackoverflow错误，permgen space错误](https://github.com/souyunku/DevBooks/blob/master/Jvm/Jvm最新2021年面试题及答案，汇总版.md#4stackoverflow错误，permgen-space错误)  
+**4、** [stackoverflow错误，permgen space错误](https://github.com/souyunku/DevBooks/blob/master/Jvm/Jvm最新2021年面试题及答案，汇总版.md#4stackoverflow错误permgen-space错误)  
 **5、** [运行时常量池溢出的原因？](https://github.com/souyunku/DevBooks/blob/master/Jvm/Jvm最新2021年面试题及答案，汇总版.md#5运行时常量池溢出的原因)  
-**6、** [32 位和 64 位的 JVM，int 类型变量的长度是多数？](https://github.com/souyunku/DevBooks/blob/master/Jvm/Jvm最新2021年面试题及答案，汇总版.md#632-位和-64-位的-JVM，int-类型变量的长度是多数)  
+**6、** [32 位和 64 位的 JVM，int 类型变量的长度是多数？](https://github.com/souyunku/DevBooks/blob/master/Jvm/Jvm最新2021年面试题及答案，汇总版.md#632-位和-64-位的-JVMint-类型变量的长度是多数)  
 **7、** [介绍一下类文件结构吧！](https://github.com/souyunku/DevBooks/blob/master/Jvm/Jvm最新2021年面试题及答案，汇总版.md#7介绍一下类文件结构吧)  
 **8、** [为什么需要双亲委派模式？](https://github.com/souyunku/DevBooks/blob/master/Jvm/Jvm最新2021年面试题及答案，汇总版.md#8为什么需要双亲委派模式)  
 **9、** [说一下Java对象的创建过程](https://github.com/souyunku/DevBooks/blob/master/Jvm/Jvm最新2021年面试题及答案，汇总版.md#9说一下Java对象的创建过程)  
@@ -756,13 +729,13 @@
 
 ## Jvm最新2021年面试题附答案解析，大汇总
 
-**1、** [强引用、软引用、弱引用、虚引用是什么，有什么区别？](https://github.com/souyunku/DevBooks/blob/master/Jvm/Jvm最新2021年面试题附答案解析，大汇总.md#1强引用软引用弱引用虚引用是什么，有什么区别)  
+**1、** [强引用、软引用、弱引用、虚引用是什么，有什么区别？](https://github.com/souyunku/DevBooks/blob/master/Jvm/Jvm最新2021年面试题附答案解析，大汇总.md#1强引用软引用弱引用虚引用是什么有什么区别)  
 **2、** [JVM新生代中为什么要分为Eden和Survivor？](https://github.com/souyunku/DevBooks/blob/master/Jvm/Jvm最新2021年面试题附答案解析，大汇总.md#2JVM新生代中为什么要分为Eden和Survivor)  
 **3、** [怎么查看服务器默认的垃圾回收器是哪一个？](https://github.com/souyunku/DevBooks/blob/master/Jvm/Jvm最新2021年面试题附答案解析，大汇总.md#3怎么查看服务器默认的垃圾回收器是哪一个)  
 **4、** [生产环境用的什么JDK？如何配置的垃圾收集器？](https://github.com/souyunku/DevBooks/blob/master/Jvm/Jvm最新2021年面试题附答案解析，大汇总.md#4生产环境用的什么JDK如何配置的垃圾收集器)  
 **5、** [运行时常量池的作用是什么?](https://github.com/souyunku/DevBooks/blob/master/Jvm/Jvm最新2021年面试题附答案解析，大汇总.md#5运行时常量池的作用是什么)  
 **6、** [垃圾回收器的基本原理是什么？垃圾回收器可以马上回收内存吗？有什么办法主动通知虚拟机进行垃圾回收？](https://github.com/souyunku/DevBooks/blob/master/Jvm/Jvm最新2021年面试题附答案解析，大汇总.md#6垃圾回收器的基本原理是什么垃圾回收器可以马上回收内存吗有什么办法主动通知虚拟机进行垃圾回收)  
-**7、** [假如生产环境CPU占用过高，请谈谈你的分析思路和定位。](https://github.com/souyunku/DevBooks/blob/master/Jvm/Jvm最新2021年面试题附答案解析，大汇总.md#7假如生产环境CPU占用过高，请谈谈你的分析思路和定位。)  
+**7、** [假如生产环境CPU占用过高，请谈谈你的分析思路和定位。](https://github.com/souyunku/DevBooks/blob/master/Jvm/Jvm最新2021年面试题附答案解析，大汇总.md#7假如生产环境CPU占用过高请谈谈你的分析思路和定位。)  
 **8、** [JVM 运行时内存](https://github.com/souyunku/DevBooks/blob/master/Jvm/Jvm最新2021年面试题附答案解析，大汇总.md#8JVM-运行时内存)  
 **9、** [safepoint是什么？](https://github.com/souyunku/DevBooks/blob/master/Jvm/Jvm最新2021年面试题附答案解析，大汇总.md#9safepoint是什么)  
 **10、** [JVM 的内存模型是什么？](https://github.com/souyunku/DevBooks/blob/master/Jvm/Jvm最新2021年面试题附答案解析，大汇总.md#10JVM-的内存模型是什么)  
@@ -772,13 +745,13 @@
 ## Jvm最新2021年面试题，高级面试题及附答案解析
 
 **1、** [什么情况下会发生栈内存溢出？](https://github.com/souyunku/DevBooks/blob/master/Jvm/Jvm最新2021年面试题，高级面试题及附答案解析.md#1什么情况下会发生栈内存溢出)  
-**2、** [生产环境服务器变慢，如何诊断处理？](https://github.com/souyunku/DevBooks/blob/master/Jvm/Jvm最新2021年面试题，高级面试题及附答案解析.md#2生产环境服务器变慢，如何诊断处理)  
+**2、** [生产环境服务器变慢，如何诊断处理？](https://github.com/souyunku/DevBooks/blob/master/Jvm/Jvm最新2021年面试题，高级面试题及附答案解析.md#2生产环境服务器变慢如何诊断处理)  
 **3、** [创建对象的过程是什么？](https://github.com/souyunku/DevBooks/blob/master/Jvm/Jvm最新2021年面试题，高级面试题及附答案解析.md#3创建对象的过程是什么)  
 **4、** [可以描述一下 class 文件的结构吗？](https://github.com/souyunku/DevBooks/blob/master/Jvm/Jvm最新2021年面试题，高级面试题及附答案解析.md#4可以描述一下-class-文件的结构吗)  
 **5、** [方法区](https://github.com/souyunku/DevBooks/blob/master/Jvm/Jvm最新2021年面试题，高级面试题及附答案解析.md#5方法区)  
 **6、** [说一下垃圾分代收集的过程](https://github.com/souyunku/DevBooks/blob/master/Jvm/Jvm最新2021年面试题，高级面试题及附答案解析.md#6说一下垃圾分代收集的过程)  
 **7、** [说说G1垃圾收集器的工作原理](https://github.com/souyunku/DevBooks/blob/master/Jvm/Jvm最新2021年面试题，高级面试题及附答案解析.md#7说说G1垃圾收集器的工作原理)  
-**8、** [类加载为什么要使用双亲委派模式，有没有什么场景是打破了这个模式？](https://github.com/souyunku/DevBooks/blob/master/Jvm/Jvm最新2021年面试题，高级面试题及附答案解析.md#8类加载为什么要使用双亲委派模式，有没有什么场景是打破了这个模式)  
+**8、** [类加载为什么要使用双亲委派模式，有没有什么场景是打破了这个模式？](https://github.com/souyunku/DevBooks/blob/master/Jvm/Jvm最新2021年面试题，高级面试题及附答案解析.md#8类加载为什么要使用双亲委派模式有没有什么场景是打破了这个模式)  
 **9、** [JAVA8 与元数据](https://github.com/souyunku/DevBooks/blob/master/Jvm/Jvm最新2021年面试题，高级面试题及附答案解析.md#9JAVA8-与元数据)  
 **10、** [什么情况下会发生栈溢出？](https://github.com/souyunku/DevBooks/blob/master/Jvm/Jvm最新2021年面试题，高级面试题及附答案解析.md#10什么情况下会发生栈溢出)  
 
@@ -792,7 +765,7 @@
 **4、** [说一下堆内存中对象的分配的基本策略](https://github.com/souyunku/DevBooks/blob/master/Jvm/Jvm最新面试题2021年，常见面试题及答案汇总.md#4说一下堆内存中对象的分配的基本策略)  
 **5、** [MinorGC、MajorGC、FullGC 什么时候发生？](https://github.com/souyunku/DevBooks/blob/master/Jvm/Jvm最新面试题2021年，常见面试题及答案汇总.md#5MinorGCMajorGCFullGC-什么时候发生)  
 **6、** [本地方法栈的作用？](https://github.com/souyunku/DevBooks/blob/master/Jvm/Jvm最新面试题2021年，常见面试题及答案汇总.md#6本地方法栈的作用)  
-**7、** [你做过 JVM 调优，说说如何查看 JVM 参数默认值？](https://github.com/souyunku/DevBooks/blob/master/Jvm/Jvm最新面试题2021年，常见面试题及答案汇总.md#7你做过-JVM-调优，说说如何查看-JVM-参数默认值)  
+**7、** [你做过 JVM 调优，说说如何查看 JVM 参数默认值？](https://github.com/souyunku/DevBooks/blob/master/Jvm/Jvm最新面试题2021年，常见面试题及答案汇总.md#7你做过-JVM-调优说说如何查看-JVM-参数默认值)  
 **8、** [怎么看死锁的线程？](https://github.com/souyunku/DevBooks/blob/master/Jvm/Jvm最新面试题2021年，常见面试题及答案汇总.md#8怎么看死锁的线程)  
 **9、** [你知道哪些内存分配与回收策略？](https://github.com/souyunku/DevBooks/blob/master/Jvm/Jvm最新面试题2021年，常见面试题及答案汇总.md#9你知道哪些内存分配与回收策略)  
 **10、** [说一下堆和栈的区别](https://github.com/souyunku/DevBooks/blob/master/Jvm/Jvm最新面试题2021年，常见面试题及答案汇总.md#10说一下堆和栈的区别)  
@@ -817,7 +790,7 @@
 ## Jvm最新面试题及答案附答案汇总
 
 **1、** [JVM的永久代中会发生垃圾回收么](https://github.com/souyunku/DevBooks/blob/master/Jvm/Jvm最新面试题及答案附答案汇总.md#1JVM的永久代中会发生垃圾回收么)  
-**2、** [什么是类加载器，类加载器有哪些？](https://github.com/souyunku/DevBooks/blob/master/Jvm/Jvm最新面试题及答案附答案汇总.md#2什么是类加载器，类加载器有哪些)  
+**2、** [什么是类加载器，类加载器有哪些？](https://github.com/souyunku/DevBooks/blob/master/Jvm/Jvm最新面试题及答案附答案汇总.md#2什么是类加载器类加载器有哪些)  
 **3、** [JVM 有哪些运行时内存区域？](https://github.com/souyunku/DevBooks/blob/master/Jvm/Jvm最新面试题及答案附答案汇总.md#3JVM-有哪些运行时内存区域)  
 **4、** [什么时候会触发FullGC](https://github.com/souyunku/DevBooks/blob/master/Jvm/Jvm最新面试题及答案附答案汇总.md#4什么时候会触发FullGC)  
 **5、** [串行（serial）收集器和吞吐量（throughput）收集器的区别是什么？](https://github.com/souyunku/DevBooks/blob/master/Jvm/Jvm最新面试题及答案附答案汇总.md#5串行serial收集器和吞吐量throughput收集器的区别是什么)  
@@ -825,7 +798,7 @@
 **7、** [在老年代-标记整理算法](https://github.com/souyunku/DevBooks/blob/master/Jvm/Jvm最新面试题及答案附答案汇总.md#7在老年代-标记整理算法)  
 **8、** [常用JVM基本配置参数](https://github.com/souyunku/DevBooks/blob/master/Jvm/Jvm最新面试题及答案附答案汇总.md#8常用JVM基本配置参数)  
 **9、** [你知道哪些故障处理工具？](https://github.com/souyunku/DevBooks/blob/master/Jvm/Jvm最新面试题及答案附答案汇总.md#9你知道哪些故障处理工具)  
-**10、** [JVM中一次完整的GC流程是怎样的，对象如何晋升到老年代？](https://github.com/souyunku/DevBooks/blob/master/Jvm/Jvm最新面试题及答案附答案汇总.md#10JVM中一次完整的GC流程是怎样的，对象如何晋升到老年代)  
+**10、** [JVM中一次完整的GC流程是怎样的，对象如何晋升到老年代？](https://github.com/souyunku/DevBooks/blob/master/Jvm/Jvm最新面试题及答案附答案汇总.md#10JVM中一次完整的GC流程是怎样的对象如何晋升到老年代)  
 
 ### [此处，仅展示前10道，查看更多30道...](https://github.com/souyunku/DevBooks/blob/master/Jvm/Jvm最新面试题及答案附答案汇总.md)  
 
@@ -862,13 +835,13 @@
 ## Dubbo最新2021年面试题大汇总，附答案
 
 **1、** [一般使用什么注册中心？还有别的选择吗？](https://github.com/souyunku/DevBooks/blob/master/Dubbo/Dubbo最新2021年面试题大汇总，附答案.md#1一般使用什么注册中心还有别的选择吗)  
-**2、** [Dubbo 服务降级，失败重试怎么做？](https://github.com/souyunku/DevBooks/blob/master/Dubbo/Dubbo最新2021年面试题大汇总，附答案.md#2Dubbo-服务降级，失败重试怎么做)  
-**3、** [RPC使用了哪些关键技术，主流RPC框架有哪些](https://github.com/souyunku/DevBooks/blob/master/Dubbo/Dubbo最新2021年面试题大汇总，附答案.md#3RPC使用了哪些关键技术，主流RPC框架有哪些)  
+**2、** [Dubbo 服务降级，失败重试怎么做？](https://github.com/souyunku/DevBooks/blob/master/Dubbo/Dubbo最新2021年面试题大汇总，附答案.md#2Dubbo-服务降级失败重试怎么做)  
+**3、** [RPC使用了哪些关键技术，主流RPC框架有哪些](https://github.com/souyunku/DevBooks/blob/master/Dubbo/Dubbo最新2021年面试题大汇总，附答案.md#3RPC使用了哪些关键技术主流RPC框架有哪些)  
 **4、** [Dubbo 和 Spring Cloud 有什么哪些区别？](https://github.com/souyunku/DevBooks/blob/master/Dubbo/Dubbo最新2021年面试题大汇总，附答案.md#4Dubbo-和-Spring-Cloud-有什么哪些区别)  
 **5、** [Dubbo 在安全机制方面是如何解决？](https://github.com/souyunku/DevBooks/blob/master/Dubbo/Dubbo最新2021年面试题大汇总，附答案.md#5Dubbo-在安全机制方面是如何解决)  
 **6、** [Dubbo 使用过程中都遇到了些什么问题？](https://github.com/souyunku/DevBooks/blob/master/Dubbo/Dubbo最新2021年面试题大汇总，附答案.md#6Dubbo-使用过程中都遇到了些什么问题)  
 **7、** [Dubbo 默认采用注册中心？](https://github.com/souyunku/DevBooks/blob/master/Dubbo/Dubbo最新2021年面试题大汇总，附答案.md#7Dubbo-默认采用注册中心)  
-**8、** [RPC使用了哪些关键技术，Thrift](https://github.com/souyunku/DevBooks/blob/master/Dubbo/Dubbo最新2021年面试题大汇总，附答案.md#8RPC使用了哪些关键技术，Thrift)  
+**8、** [RPC使用了哪些关键技术，Thrift](https://github.com/souyunku/DevBooks/blob/master/Dubbo/Dubbo最新2021年面试题大汇总，附答案.md#8RPC使用了哪些关键技术Thrift)  
 **9、** [Dubbo 的默认集群容错方案？](https://github.com/souyunku/DevBooks/blob/master/Dubbo/Dubbo最新2021年面试题大汇总，附答案.md#9Dubbo-的默认集群容错方案)  
 **10、** [dubbo和dubbox之间的区别？](https://github.com/souyunku/DevBooks/blob/master/Dubbo/Dubbo最新2021年面试题大汇总，附答案.md#10dubbo和dubbox之间的区别)  
 
@@ -882,7 +855,7 @@
 **4、** [Dubbo 集群的负载均衡有哪些策略?](https://github.com/souyunku/DevBooks/blob/master/Dubbo/Dubbo最新2021年面试题附答案解析，大汇总.md#4Dubbo-集群的负载均衡有哪些策略)  
 **5、** [服务上线怎么不影响旧版本？](https://github.com/souyunku/DevBooks/blob/master/Dubbo/Dubbo最新2021年面试题附答案解析，大汇总.md#5服务上线怎么不影响旧版本)  
 **6、** [在使用过程中都遇到了些什么问题？](https://github.com/souyunku/DevBooks/blob/master/Dubbo/Dubbo最新2021年面试题附答案解析，大汇总.md#6在使用过程中都遇到了些什么问题)  
-**7、** [RPC使用了哪些关键技术，序列化和反序列化](https://github.com/souyunku/DevBooks/blob/master/Dubbo/Dubbo最新2021年面试题附答案解析，大汇总.md#7RPC使用了哪些关键技术，序列化和反序列化)  
+**7、** [RPC使用了哪些关键技术，序列化和反序列化](https://github.com/souyunku/DevBooks/blob/master/Dubbo/Dubbo最新2021年面试题附答案解析，大汇总.md#7RPC使用了哪些关键技术序列化和反序列化)  
 **8、** [服务调用超时问题怎么解决？](https://github.com/souyunku/DevBooks/blob/master/Dubbo/Dubbo最新2021年面试题附答案解析，大汇总.md#8服务调用超时问题怎么解决)  
 **9、** [Dubbo 推荐用什么协议？](https://github.com/souyunku/DevBooks/blob/master/Dubbo/Dubbo最新2021年面试题附答案解析，大汇总.md#9Dubbo-推荐用什么协议)  
 **10、** [Dubbo 的整体架构设计有哪些分层?](https://github.com/souyunku/DevBooks/blob/master/Dubbo/Dubbo最新2021年面试题附答案解析，大汇总.md#10Dubbo-的整体架构设计有哪些分层)  
@@ -892,29 +865,29 @@
 ## Dubbo最新2021年面试题，高级面试题及附答案解析
 
 **1、** [你觉得用 Dubbo 好还是 Spring Cloud 好？](https://github.com/souyunku/DevBooks/blob/master/Dubbo/Dubbo最新2021年面试题，高级面试题及附答案解析.md#1你觉得用-Dubbo-好还是-Spring-Cloud-好)  
-**2、** [默认使用什么序列化框架，你知道的还有哪些？](https://github.com/souyunku/DevBooks/blob/master/Dubbo/Dubbo最新2021年面试题，高级面试题及附答案解析.md#2默认使用什么序列化框架，你知道的还有哪些)  
+**2、** [默认使用什么序列化框架，你知道的还有哪些？](https://github.com/souyunku/DevBooks/blob/master/Dubbo/Dubbo最新2021年面试题，高级面试题及附答案解析.md#2默认使用什么序列化框架你知道的还有哪些)  
 **3、** [服务调用超时会怎么样？](https://github.com/souyunku/DevBooks/blob/master/Dubbo/Dubbo最新2021年面试题，高级面试题及附答案解析.md#3服务调用超时会怎么样)  
 **4、** [dubbo能做什么](https://github.com/souyunku/DevBooks/blob/master/Dubbo/Dubbo最新2021年面试题，高级面试题及附答案解析.md#4dubbo能做什么)  
 **5、** [Dubbo支持服务多协议吗？](https://github.com/souyunku/DevBooks/blob/master/Dubbo/Dubbo最新2021年面试题，高级面试题及附答案解析.md#5Dubbo支持服务多协议吗)  
 **6、** [Dubbo 核心组件有哪些？](https://github.com/souyunku/DevBooks/blob/master/Dubbo/Dubbo最新2021年面试题，高级面试题及附答案解析.md#6Dubbo-核心组件有哪些)  
-**7、** [RPC使用了哪些关键技术，protobuf-rpc-pro](https://github.com/souyunku/DevBooks/blob/master/Dubbo/Dubbo最新2021年面试题，高级面试题及附答案解析.md#7RPC使用了哪些关键技术，protobuf-rpc-pro)  
+**7、** [RPC使用了哪些关键技术，protobuf-rpc-pro](https://github.com/souyunku/DevBooks/blob/master/Dubbo/Dubbo最新2021年面试题，高级面试题及附答案解析.md#7RPC使用了哪些关键技术protobuf-rpc-pro)  
 **8、** [Dubbo 和 Spring Cloud 有什么哪些区别？](https://github.com/souyunku/DevBooks/blob/master/Dubbo/Dubbo最新2021年面试题，高级面试题及附答案解析.md#8Dubbo-和-Spring-Cloud-有什么哪些区别)  
 **9、** [Dubbo 使用的是什么通信框架?](https://github.com/souyunku/DevBooks/blob/master/Dubbo/Dubbo最新2021年面试题，高级面试题及附答案解析.md#9Dubbo-使用的是什么通信框架)  
-**10、** [RPC使用了哪些关键技术，服务寻址](https://github.com/souyunku/DevBooks/blob/master/Dubbo/Dubbo最新2021年面试题，高级面试题及附答案解析.md#10RPC使用了哪些关键技术，服务寻址)  
+**10、** [RPC使用了哪些关键技术，服务寻址](https://github.com/souyunku/DevBooks/blob/master/Dubbo/Dubbo最新2021年面试题，高级面试题及附答案解析.md#10RPC使用了哪些关键技术服务寻址)  
 
 ### [此处，仅展示前10道，查看更多30道...](https://github.com/souyunku/DevBooks/blob/master/Dubbo/Dubbo最新2021年面试题，高级面试题及附答案解析.md)  
 
 ## Dubbo最新面试题2021年，常见面试题及答案汇总
 
 **1、** [Dubbo 有哪些注册中心？](https://github.com/souyunku/DevBooks/blob/master/Dubbo/Dubbo最新面试题2021年，常见面试题及答案汇总.md#1Dubbo-有哪些注册中心)  
-**2、** [RPC使用了哪些关键技术，NIO通信](https://github.com/souyunku/DevBooks/blob/master/Dubbo/Dubbo最新面试题2021年，常见面试题及答案汇总.md#2RPC使用了哪些关键技术，NIO通信)  
-**3、** [RPC使用了哪些关键技术，Dubbo](https://github.com/souyunku/DevBooks/blob/master/Dubbo/Dubbo最新面试题2021年，常见面试题及答案汇总.md#3RPC使用了哪些关键技术，Dubbo)  
+**2、** [RPC使用了哪些关键技术，NIO通信](https://github.com/souyunku/DevBooks/blob/master/Dubbo/Dubbo最新面试题2021年，常见面试题及答案汇总.md#2RPC使用了哪些关键技术NIO通信)  
+**3、** [RPC使用了哪些关键技术，Dubbo](https://github.com/souyunku/DevBooks/blob/master/Dubbo/Dubbo最新面试题2021年，常见面试题及答案汇总.md#3RPC使用了哪些关键技术Dubbo)  
 **4、** [Dubbo 核心功能有哪些？](https://github.com/souyunku/DevBooks/blob/master/Dubbo/Dubbo最新面试题2021年，常见面试题及答案汇总.md#4Dubbo-核心功能有哪些)  
 **5、** [Dubbo 支持服务降级吗？](https://github.com/souyunku/DevBooks/blob/master/Dubbo/Dubbo最新面试题2021年，常见面试题及答案汇总.md#5Dubbo-支持服务降级吗)  
 **6、** [Dubbo集群提供了哪些负载均衡策略？](https://github.com/souyunku/DevBooks/blob/master/Dubbo/Dubbo最新面试题2021年，常见面试题及答案汇总.md#6Dubbo集群提供了哪些负载均衡策略)  
-**7、** [Dubbo 支持哪些协议，每种协议的应用场景，优缺点？](https://github.com/souyunku/DevBooks/blob/master/Dubbo/Dubbo最新面试题2021年，常见面试题及答案汇总.md#7Dubbo-支持哪些协议，每种协议的应用场景，优缺点)  
+**7、** [Dubbo 支持哪些协议，每种协议的应用场景，优缺点？](https://github.com/souyunku/DevBooks/blob/master/Dubbo/Dubbo最新面试题2021年，常见面试题及答案汇总.md#7Dubbo-支持哪些协议每种协议的应用场景优缺点)  
 **8、** [集群容错怎么做？](https://github.com/souyunku/DevBooks/blob/master/Dubbo/Dubbo最新面试题2021年，常见面试题及答案汇总.md#8集群容错怎么做)  
-**9、** [Dubbo 支持哪些协议，它们的优缺点有哪些？](https://github.com/souyunku/DevBooks/blob/master/Dubbo/Dubbo最新面试题2021年，常见面试题及答案汇总.md#9Dubbo-支持哪些协议，它们的优缺点有哪些)  
+**9、** [Dubbo 支持哪些协议，它们的优缺点有哪些？](https://github.com/souyunku/DevBooks/blob/master/Dubbo/Dubbo最新面试题2021年，常见面试题及答案汇总.md#9Dubbo-支持哪些协议它们的优缺点有哪些)  
 **10、** [dubbo 在安全机制方面如何解决的？](https://github.com/souyunku/DevBooks/blob/master/Dubbo/Dubbo最新面试题2021年，常见面试题及答案汇总.md#10dubbo-在安全机制方面如何解决的)  
 
 ### [此处，仅展示前10道，查看更多30道...](https://github.com/souyunku/DevBooks/blob/master/Dubbo/Dubbo最新面试题2021年，常见面试题及答案汇总.md)  
@@ -938,26 +911,26 @@
 
 **1、** [服务提供者能实现失效踢出是什么原理？](https://github.com/souyunku/DevBooks/blob/master/Dubbo/Dubbo最新面试题，2021年面试题及答案汇总.md#1服务提供者能实现失效踢出是什么原理)  
 **2、** [Dubbo 集群提供了哪些负载均衡策略？](https://github.com/souyunku/DevBooks/blob/master/Dubbo/Dubbo最新面试题，2021年面试题及答案汇总.md#2Dubbo-集群提供了哪些负载均衡策略)  
-**3、** [默认使用的是什么通信框架，还有别的选择吗?](https://github.com/souyunku/DevBooks/blob/master/Dubbo/Dubbo最新面试题，2021年面试题及答案汇总.md#3默认使用的是什么通信框架，还有别的选择吗)  
+**3、** [默认使用的是什么通信框架，还有别的选择吗?](https://github.com/souyunku/DevBooks/blob/master/Dubbo/Dubbo最新面试题，2021年面试题及答案汇总.md#3默认使用的是什么通信框架还有别的选择吗)  
 **4、** [Dubbo 核心组件有哪些？](https://github.com/souyunku/DevBooks/blob/master/Dubbo/Dubbo最新面试题，2021年面试题及答案汇总.md#4Dubbo-核心组件有哪些)  
 **5、** [dubbo 通信协议 dubbo 协议适用范围和适用场景](https://github.com/souyunku/DevBooks/blob/master/Dubbo/Dubbo最新面试题，2021年面试题及答案汇总.md#5dubbo-通信协议-dubbo-协议适用范围和适用场景)  
 **6、** [Dubbo SPI 和 Java SPI 区别？](https://github.com/souyunku/DevBooks/blob/master/Dubbo/Dubbo最新面试题，2021年面试题及答案汇总.md#6Dubbo-SPI-和-Java-SPI-区别)  
-**7、** [Dubbo中zookeeper做注册中心，如果注册中心集群都挂掉，者和订阅者之间还能通信么？](https://github.com/souyunku/DevBooks/blob/master/Dubbo/Dubbo最新面试题，2021年面试题及答案汇总.md#7Dubbo中zookeeper做注册中心，如果注册中心集群都挂掉，者和订阅者之间还能通信么)  
-**8、** [Dubbo有哪几种集群容错方案，默认是哪种？](https://github.com/souyunku/DevBooks/blob/master/Dubbo/Dubbo最新面试题，2021年面试题及答案汇总.md#8Dubbo有哪几种集群容错方案，默认是哪种)  
-**9、** [默认使用什么序列化框架，你知道的还有哪些？](https://github.com/souyunku/DevBooks/blob/master/Dubbo/Dubbo最新面试题，2021年面试题及答案汇总.md#9默认使用什么序列化框架，你知道的还有哪些)  
-**10、** [Dubbo 支持哪些协议，每种协议的应用场景，优缺点？](https://github.com/souyunku/DevBooks/blob/master/Dubbo/Dubbo最新面试题，2021年面试题及答案汇总.md#10Dubbo-支持哪些协议，每种协议的应用场景，优缺点)  
+**7、** [Dubbo中zookeeper做注册中心，如果注册中心集群都挂掉，者和订阅者之间还能通信么？](https://github.com/souyunku/DevBooks/blob/master/Dubbo/Dubbo最新面试题，2021年面试题及答案汇总.md#7Dubbo中zookeeper做注册中心如果注册中心集群都挂掉者和订阅者之间还能通信么)  
+**8、** [Dubbo有哪几种集群容错方案，默认是哪种？](https://github.com/souyunku/DevBooks/blob/master/Dubbo/Dubbo最新面试题，2021年面试题及答案汇总.md#8Dubbo有哪几种集群容错方案默认是哪种)  
+**9、** [默认使用什么序列化框架，你知道的还有哪些？](https://github.com/souyunku/DevBooks/blob/master/Dubbo/Dubbo最新面试题，2021年面试题及答案汇总.md#9默认使用什么序列化框架你知道的还有哪些)  
+**10、** [Dubbo 支持哪些协议，每种协议的应用场景，优缺点？](https://github.com/souyunku/DevBooks/blob/master/Dubbo/Dubbo最新面试题，2021年面试题及答案汇总.md#10Dubbo-支持哪些协议每种协议的应用场景优缺点)  
 
 ### [此处，仅展示前10道，查看更多30道...](https://github.com/souyunku/DevBooks/blob/master/Dubbo/Dubbo最新面试题，2021年面试题及答案汇总.md)  
 
 ## MySQL最新2021年面试题及答案，汇总版
 
 **1、** [Innodb的事务实现原理？](https://github.com/souyunku/DevBooks/blob/master/MySQL/MySQL最新2021年面试题及答案，汇总版.md#1Innodb的事务实现原理)  
-**2、** [MySQL数据库cpu飙升的话，要怎么处理呢？](https://github.com/souyunku/DevBooks/blob/master/MySQL/MySQL最新2021年面试题及答案，汇总版.md#2MySQL数据库cpu飙升的话，要怎么处理呢)  
-**3、** [MVCC熟悉吗，它的底层原理？](https://github.com/souyunku/DevBooks/blob/master/MySQL/MySQL最新2021年面试题及答案，汇总版.md#3MVCC熟悉吗，它的底层原理)  
+**2、** [MySQL数据库cpu飙升的话，要怎么处理呢？](https://github.com/souyunku/DevBooks/blob/master/MySQL/MySQL最新2021年面试题及答案，汇总版.md#2MySQL数据库cpu飙升的话要怎么处理呢)  
+**3、** [MVCC熟悉吗，它的底层原理？](https://github.com/souyunku/DevBooks/blob/master/MySQL/MySQL最新2021年面试题及答案，汇总版.md#3MVCC熟悉吗它的底层原理)  
 **4、** [主从同步延迟的原因](https://github.com/souyunku/DevBooks/blob/master/MySQL/MySQL最新2021年面试题及答案，汇总版.md#4主从同步延迟的原因)  
 **5、** [优化特定类型的查询语句](https://github.com/souyunku/DevBooks/blob/master/MySQL/MySQL最新2021年面试题及答案，汇总版.md#5优化特定类型的查询语句)  
 **6、** [既然提到了InnoDB使用户的B+树的索引模型](https://github.com/souyunku/DevBooks/blob/master/MySQL/MySQL最新2021年面试题及答案，汇总版.md#6既然提到了InnoDB使用户的B+树的索引模型)  
-**7、** [一个6亿的表a，一个3亿的表b，通过外间tid关联，你如何最快的查询出满足条件的第50000到第50200中的这200条数据记录。](https://github.com/souyunku/DevBooks/blob/master/MySQL/MySQL最新2021年面试题及答案，汇总版.md#7一个6亿的表a，一个3亿的表b，通过外间tid关联，你如何最快的查询出满足条件的第50000到第50200中的这200条数据记录。)  
+**7、** [一个6亿的表a，一个3亿的表b，通过外间tid关联，你如何最快的查询出满足条件的第50000到第50200中的这200条数据记录。](https://github.com/souyunku/DevBooks/blob/master/MySQL/MySQL最新2021年面试题及答案，汇总版.md#7一个6亿的表a一个3亿的表b通过外间tid关联你如何最快的查询出满足条件的第50000到第50200中的这200条数据记录。)  
 **8、** [NULL是什么意思](https://github.com/souyunku/DevBooks/blob/master/MySQL/MySQL最新2021年面试题及答案，汇总版.md#8NULL是什么意思)  
 **9、** [SQL语句主要分为哪几类](https://github.com/souyunku/DevBooks/blob/master/MySQL/MySQL最新2021年面试题及答案，汇总版.md#9SQL语句主要分为哪几类)  
 **10、** [LIKE声明中的％和_是什么意思？](https://github.com/souyunku/DevBooks/blob/master/MySQL/MySQL最新2021年面试题及答案，汇总版.md#10LIKE声明中的％和_是什么意思)  
@@ -974,7 +947,7 @@
 **6、** [select for update 含义](https://github.com/souyunku/DevBooks/blob/master/MySQL/MySQL最新2021年面试题大汇总，附答案.md#6select-for-update-含义)  
 **7、** [MySQL_fetch_array和MySQL_fetch_object的区别是什么？](https://github.com/souyunku/DevBooks/blob/master/MySQL/MySQL最新2021年面试题大汇总，附答案.md#7MySQL_fetch_array和MySQL_fetch_object的区别是什么)  
 **8、** [varchar与char的区别](https://github.com/souyunku/DevBooks/blob/master/MySQL/MySQL最新2021年面试题大汇总，附答案.md#8varchar与char的区别)  
-**9、** [列设置为AUTO INCREMENT时，如果在表中达到最大值，会发生什么情况？](https://github.com/souyunku/DevBooks/blob/master/MySQL/MySQL最新2021年面试题大汇总，附答案.md#9列设置为AUTO-INCREMENT时，如果在表中达到最大值，会发生什么情况)  
+**9、** [列设置为AUTO INCREMENT时，如果在表中达到最大值，会发生什么情况？](https://github.com/souyunku/DevBooks/blob/master/MySQL/MySQL最新2021年面试题大汇总，附答案.md#9列设置为AUTO-INCREMENT时如果在表中达到最大值会发生什么情况)  
 **10、** [创建索引的三种方式](https://github.com/souyunku/DevBooks/blob/master/MySQL/MySQL最新2021年面试题大汇总，附答案.md#10创建索引的三种方式)  
 
 ### [此处，仅展示前10道，查看更多30道...](https://github.com/souyunku/DevBooks/blob/master/MySQL/MySQL最新2021年面试题大汇总，附答案.md)  
@@ -1004,7 +977,7 @@
 **6、** [drop、delete与truncate的区别](https://github.com/souyunku/DevBooks/blob/master/MySQL/MySQL最新2021年面试题，高级面试题及附答案解析.md#6dropdelete与truncate的区别)  
 **7、** [怎么查询SQL语句是否使用了索引查询？](https://github.com/souyunku/DevBooks/blob/master/MySQL/MySQL最新2021年面试题，高级面试题及附答案解析.md#7怎么查询SQL语句是否使用了索引查询)  
 **8、** [数据库经常使用的函数](https://github.com/souyunku/DevBooks/blob/master/MySQL/MySQL最新2021年面试题，高级面试题及附答案解析.md#8数据库经常使用的函数)  
-**9、** [索引的数据结构（b树，hash）](https://github.com/souyunku/DevBooks/blob/master/MySQL/MySQL最新2021年面试题，高级面试题及附答案解析.md#9索引的数据结构b树，hash)  
+**9、** [索引的数据结构（b树，hash）](https://github.com/souyunku/DevBooks/blob/master/MySQL/MySQL最新2021年面试题，高级面试题及附答案解析.md#9索引的数据结构b树hash)  
 **10、** [NULL是什么意思](https://github.com/souyunku/DevBooks/blob/master/MySQL/MySQL最新2021年面试题，高级面试题及附答案解析.md#10NULL是什么意思)  
 
 ### [此处，仅展示前10道，查看更多30道...](https://github.com/souyunku/DevBooks/blob/master/MySQL/MySQL最新2021年面试题，高级面试题及附答案解析.md)  
@@ -1029,13 +1002,13 @@
 **1、** [完整性约束包括哪些？](https://github.com/souyunku/DevBooks/blob/master/MySQL/MySQL最新面试题2021年，常见面试题及答案汇总.md#1完整性约束包括哪些)  
 **2、** [什么是索引？](https://github.com/souyunku/DevBooks/blob/master/MySQL/MySQL最新面试题2021年，常见面试题及答案汇总.md#2什么是索引)  
 **3、** [MySQL的binlog有几种录入格式？分别有什么区别？](https://github.com/souyunku/DevBooks/blob/master/MySQL/MySQL最新面试题2021年，常见面试题及答案汇总.md#3MySQL的binlog有几种录入格式分别有什么区别)  
-**4、** [数据库中间件了解过吗，sharding jdbc，mycat？](https://github.com/souyunku/DevBooks/blob/master/MySQL/MySQL最新面试题2021年，常见面试题及答案汇总.md#4数据库中间件了解过吗，sharding-jdbc，mycat)  
+**4、** [数据库中间件了解过吗，sharding jdbc，mycat？](https://github.com/souyunku/DevBooks/blob/master/MySQL/MySQL最新面试题2021年，常见面试题及答案汇总.md#4数据库中间件了解过吗sharding-jdbcmycat)  
 **5、** [索引有哪些优缺点？](https://github.com/souyunku/DevBooks/blob/master/MySQL/MySQL最新面试题2021年，常见面试题及答案汇总.md#5索引有哪些优缺点)  
 **6、** [关心过业务系统里面的sql耗时吗？统计过慢查询吗？对慢查询都怎么优化过？](https://github.com/souyunku/DevBooks/blob/master/MySQL/MySQL最新面试题2021年，常见面试题及答案汇总.md#6关心过业务系统里面的sql耗时吗统计过慢查询吗对慢查询都怎么优化过)  
 **7、** [MySQL中有哪几种锁？](https://github.com/souyunku/DevBooks/blob/master/MySQL/MySQL最新面试题2021年，常见面试题及答案汇总.md#7MySQL中有哪几种锁)  
-**8、** [在高并发情况下，如何做到安全的修改同一行数据？](https://github.com/souyunku/DevBooks/blob/master/MySQL/MySQL最新面试题2021年，常见面试题及答案汇总.md#8在高并发情况下，如何做到安全的修改同一行数据)  
+**8、** [在高并发情况下，如何做到安全的修改同一行数据？](https://github.com/souyunku/DevBooks/blob/master/MySQL/MySQL最新面试题2021年，常见面试题及答案汇总.md#8在高并发情况下如何做到安全的修改同一行数据)  
 **9、** [InnoDB存储引擎的锁的算法有三种](https://github.com/souyunku/DevBooks/blob/master/MySQL/MySQL最新面试题2021年，常见面试题及答案汇总.md#9InnoDB存储引擎的锁的算法有三种)  
-**10、** [谈谈六种关联查询，使用场景。](https://github.com/souyunku/DevBooks/blob/master/MySQL/MySQL最新面试题2021年，常见面试题及答案汇总.md#10谈谈六种关联查询，使用场景。)  
+**10、** [谈谈六种关联查询，使用场景。](https://github.com/souyunku/DevBooks/blob/master/MySQL/MySQL最新面试题2021年，常见面试题及答案汇总.md#10谈谈六种关联查询使用场景。)  
 
 ### [此处，仅展示前10道，查看更多30道...](https://github.com/souyunku/DevBooks/blob/master/MySQL/MySQL最新面试题2021年，常见面试题及答案汇总.md)  
 
@@ -1045,19 +1018,19 @@
 **2、** [MySQL为什么这么设计](https://github.com/souyunku/DevBooks/blob/master/MySQL/MySQL最新面试题及答案整理，汇总版.md#2MySQL为什么这么设计)  
 **3、** [优化子查询](https://github.com/souyunku/DevBooks/blob/master/MySQL/MySQL最新面试题及答案整理，汇总版.md#3优化子查询)  
 **4、** [如何优化长难的查询语句](https://github.com/souyunku/DevBooks/blob/master/MySQL/MySQL最新面试题及答案整理，汇总版.md#4如何优化长难的查询语句)  
-**5、** [从锁的类别角度讲，MySQL都有哪些锁呢？](https://github.com/souyunku/DevBooks/blob/master/MySQL/MySQL最新面试题及答案整理，汇总版.md#5从锁的类别角度讲，MySQL都有哪些锁呢)  
+**5、** [从锁的类别角度讲，MySQL都有哪些锁呢？](https://github.com/souyunku/DevBooks/blob/master/MySQL/MySQL最新面试题及答案整理，汇总版.md#5从锁的类别角度讲MySQL都有哪些锁呢)  
 **6、** [Blob和text有什么区别？](https://github.com/souyunku/DevBooks/blob/master/MySQL/MySQL最新面试题及答案整理，汇总版.md#6Blob和text有什么区别)  
 **7、** [事物的四大特性(ACID)介绍一下?](https://github.com/souyunku/DevBooks/blob/master/MySQL/MySQL最新面试题及答案整理，汇总版.md#7事物的四大特性ACID介绍一下)  
 **8、** [优化数据库的方法](https://github.com/souyunku/DevBooks/blob/master/MySQL/MySQL最新面试题及答案整理，汇总版.md#8优化数据库的方法)  
 **9、** [你怎么看到为表格定义的所有索引？](https://github.com/souyunku/DevBooks/blob/master/MySQL/MySQL最新面试题及答案整理，汇总版.md#9你怎么看到为表格定义的所有索引)  
-**10、** [备份计划，MySQLdump以及xtranbackup的实现原理](https://github.com/souyunku/DevBooks/blob/master/MySQL/MySQL最新面试题及答案整理，汇总版.md#10备份计划，MySQLdump以及xtranbackup的实现原理)  
+**10、** [备份计划，MySQLdump以及xtranbackup的实现原理](https://github.com/souyunku/DevBooks/blob/master/MySQL/MySQL最新面试题及答案整理，汇总版.md#10备份计划MySQLdump以及xtranbackup的实现原理)  
 
 ### [此处，仅展示前10道，查看更多30道...](https://github.com/souyunku/DevBooks/blob/master/MySQL/MySQL最新面试题及答案整理，汇总版.md)  
 
 ## MySQL最新面试题及答案附答案汇总
 
-**1、** [如果一个表有一列定义为TIMESTAMP，将发生什么？](https://github.com/souyunku/DevBooks/blob/master/MySQL/MySQL最新面试题及答案附答案汇总.md#1如果一个表有一列定义为TIMESTAMP，将发生什么)  
-**2、** [MYSQL的主从延迟，你怎么解决？](https://github.com/souyunku/DevBooks/blob/master/MySQL/MySQL最新面试题及答案附答案汇总.md#2MYSQL的主从延迟，你怎么解决)  
+**1、** [如果一个表有一列定义为TIMESTAMP，将发生什么？](https://github.com/souyunku/DevBooks/blob/master/MySQL/MySQL最新面试题及答案附答案汇总.md#1如果一个表有一列定义为TIMESTAMP将发生什么)  
+**2、** [MYSQL的主从延迟，你怎么解决？](https://github.com/souyunku/DevBooks/blob/master/MySQL/MySQL最新面试题及答案附答案汇总.md#2MYSQL的主从延迟你怎么解决)  
 **3、** [读写分离常见方案？](https://github.com/souyunku/DevBooks/blob/master/MySQL/MySQL最新面试题及答案附答案汇总.md#3读写分离常见方案)  
 **4、** [索引的底层实现原理和优化](https://github.com/souyunku/DevBooks/blob/master/MySQL/MySQL最新面试题及答案附答案汇总.md#4索引的底层实现原理和优化)  
 **5、** [如何优化长难的查询语句？有实战过吗？](https://github.com/souyunku/DevBooks/blob/master/MySQL/MySQL最新面试题及答案附答案汇总.md#5如何优化长难的查询语句有实战过吗)  
@@ -1071,14 +1044,14 @@
 
 ## MySQL最新面试题，2021年面试题及答案汇总
 
-**1、** [聚簇索引和非聚簇索引，在查询数据的时候有区别吗？为什么？](https://github.com/souyunku/DevBooks/blob/master/MySQL/MySQL最新面试题，2021年面试题及答案汇总.md#1聚簇索引和非聚簇索引，在查询数据的时候有区别吗为什么)  
+**1、** [聚簇索引和非聚簇索引，在查询数据的时候有区别吗？为什么？](https://github.com/souyunku/DevBooks/blob/master/MySQL/MySQL最新面试题，2021年面试题及答案汇总.md#1聚簇索引和非聚簇索引在查询数据的时候有区别吗为什么)  
 **2、** [什么是游标？](https://github.com/souyunku/DevBooks/blob/master/MySQL/MySQL最新面试题，2021年面试题及答案汇总.md#2什么是游标)  
 **3、** [什么是死锁？怎么解决？](https://github.com/souyunku/DevBooks/blob/master/MySQL/MySQL最新面试题，2021年面试题及答案汇总.md#3什么是死锁怎么解决)  
 **4、** [什么是数据库连接池?为什么需要数据库连接池呢?](https://github.com/souyunku/DevBooks/blob/master/MySQL/MySQL最新面试题，2021年面试题及答案汇总.md#4什么是数据库连接池为什么需要数据库连接池呢)  
 **5、** [SQL语言包括哪几部分？每部分都有哪些操作关键字？](https://github.com/souyunku/DevBooks/blob/master/MySQL/MySQL最新面试题，2021年面试题及答案汇总.md#5SQL语言包括哪几部分每部分都有哪些操作关键字)  
 **6、** [优化器的执行过程？](https://github.com/souyunku/DevBooks/blob/master/MySQL/MySQL最新面试题，2021年面试题及答案汇总.md#6优化器的执行过程)  
 **7、** [什么是非标准字符串类型？](https://github.com/souyunku/DevBooks/blob/master/MySQL/MySQL最新面试题，2021年面试题及答案汇总.md#7什么是非标准字符串类型)  
-**8、** [MVCC熟悉吗，它的底层原理？](https://github.com/souyunku/DevBooks/blob/master/MySQL/MySQL最新面试题，2021年面试题及答案汇总.md#8MVCC熟悉吗，它的底层原理)  
+**8、** [MVCC熟悉吗，它的底层原理？](https://github.com/souyunku/DevBooks/blob/master/MySQL/MySQL最新面试题，2021年面试题及答案汇总.md#8MVCC熟悉吗它的底层原理)  
 **9、** [主键、外键和索引的区别？](https://github.com/souyunku/DevBooks/blob/master/MySQL/MySQL最新面试题，2021年面试题及答案汇总.md#9主键外键和索引的区别)  
 **10、** [说说MySQL 的基础架构图](https://github.com/souyunku/DevBooks/blob/master/MySQL/MySQL最新面试题，2021年面试题及答案汇总.md#10说说MySQL-的基础架构图)  
 
@@ -1090,7 +1063,7 @@
 **2、** [MySQL如何优化DISTINCT？](https://github.com/souyunku/DevBooks/blob/master/MySQL/MySQL最新面试题，常见面试题及答案汇总.md#2MySQL如何优化DISTINCT)  
 **3、** [SQL 约束有哪几种呢？](https://github.com/souyunku/DevBooks/blob/master/MySQL/MySQL最新面试题，常见面试题及答案汇总.md#3SQL-约束有哪几种呢)  
 **4、** [说说MySQL 的基础架构图](https://github.com/souyunku/DevBooks/blob/master/MySQL/MySQL最新面试题，常见面试题及答案汇总.md#4说说MySQL-的基础架构图)  
-**5、** [按照锁的粒度分，数据库锁有哪些呢？锁机制与InnoDB锁算法](https://github.com/souyunku/DevBooks/blob/master/MySQL/MySQL最新面试题，常见面试题及答案汇总.md#5按照锁的粒度分，数据库锁有哪些呢锁机制与InnoDB锁算法)  
+**5、** [按照锁的粒度分，数据库锁有哪些呢？锁机制与InnoDB锁算法](https://github.com/souyunku/DevBooks/blob/master/MySQL/MySQL最新面试题，常见面试题及答案汇总.md#5按照锁的粒度分数据库锁有哪些呢锁机制与InnoDB锁算法)  
 **6、** [什么是脏读？幻读？不可重复读？](https://github.com/souyunku/DevBooks/blob/master/MySQL/MySQL最新面试题，常见面试题及答案汇总.md#6什么是脏读幻读不可重复读)  
 **7、** [varchar(50)中50的涵义](https://github.com/souyunku/DevBooks/blob/master/MySQL/MySQL最新面试题，常见面试题及答案汇总.md#7varchar50中50的涵义)  
 **8、** [有多少种日志](https://github.com/souyunku/DevBooks/blob/master/MySQL/MySQL最新面试题，常见面试题及答案汇总.md#8有多少种日志)  
@@ -1103,14 +1076,14 @@
 
 **1、** [事务特性：](https://github.com/souyunku/DevBooks/blob/master/MySQL/MySQL高级面试题及答案，企业真面试题.md#1事务特性：)  
 **2、** [SQL 约束有哪几种？](https://github.com/souyunku/DevBooks/blob/master/MySQL/MySQL高级面试题及答案，企业真面试题.md#2SQL-约束有哪几种)  
-**3、** [select for update有什么含义，会锁表还是锁行还是其他。](https://github.com/souyunku/DevBooks/blob/master/MySQL/MySQL高级面试题及答案，企业真面试题.md#3select-for-update有什么含义，会锁表还是锁行还是其他。)  
+**3、** [select for update有什么含义，会锁表还是锁行还是其他。](https://github.com/souyunku/DevBooks/blob/master/MySQL/MySQL高级面试题及答案，企业真面试题.md#3select-for-update有什么含义会锁表还是锁行还是其他。)  
 **4、** [什么是触发器？触发器的使用场景有哪些？](https://github.com/souyunku/DevBooks/blob/master/MySQL/MySQL高级面试题及答案，企业真面试题.md#4什么是触发器触发器的使用场景有哪些)  
-**5、** [大表数据查询，怎么优化](https://github.com/souyunku/DevBooks/blob/master/MySQL/MySQL高级面试题及答案，企业真面试题.md#5大表数据查询，怎么优化)  
-**6、** [MySQL中有哪几种锁，列举一下？](https://github.com/souyunku/DevBooks/blob/master/MySQL/MySQL高级面试题及答案，企业真面试题.md#6MySQL中有哪几种锁，列举一下)  
+**5、** [大表数据查询，怎么优化](https://github.com/souyunku/DevBooks/blob/master/MySQL/MySQL高级面试题及答案，企业真面试题.md#5大表数据查询怎么优化)  
+**6、** [MySQL中有哪几种锁，列举一下？](https://github.com/souyunku/DevBooks/blob/master/MySQL/MySQL高级面试题及答案，企业真面试题.md#6MySQL中有哪几种锁列举一下)  
 **7、** [drop、delete与truncate的区别](https://github.com/souyunku/DevBooks/blob/master/MySQL/MySQL高级面试题及答案，企业真面试题.md#7dropdelete与truncate的区别)  
 **8、** [索引能干什么?](https://github.com/souyunku/DevBooks/blob/master/MySQL/MySQL高级面试题及答案，企业真面试题.md#8索引能干什么)  
 **9、** [什么是基本表？什么是视图？](https://github.com/souyunku/DevBooks/blob/master/MySQL/MySQL高级面试题及答案，企业真面试题.md#9什么是基本表什么是视图)  
-**10、** [B树和B+树的区别，数据库为什么使用B+树而不是B树？](https://github.com/souyunku/DevBooks/blob/master/MySQL/MySQL高级面试题及答案，企业真面试题.md#10B树和B+树的区别，数据库为什么使用B+树而不是B树)  
+**10、** [B树和B+树的区别，数据库为什么使用B+树而不是B树？](https://github.com/souyunku/DevBooks/blob/master/MySQL/MySQL高级面试题及答案，企业真面试题.md#10B树和B+树的区别数据库为什么使用B+树而不是B树)  
 
 ### [此处，仅展示前10道，查看更多30道...](https://github.com/souyunku/DevBooks/blob/master/MySQL/MySQL高级面试题及答案，企业真面试题.md)  
 
@@ -1119,8 +1092,8 @@
 **1、** [列的字符串类型可以是什么？](https://github.com/souyunku/DevBooks/blob/master/MySQL/MySQL高级面试题整理及答案.md#1列的字符串类型可以是什么)  
 **2、** [数据库的乐观锁和悲观锁。](https://github.com/souyunku/DevBooks/blob/master/MySQL/MySQL高级面试题整理及答案.md#2数据库的乐观锁和悲观锁。)  
 **3、** [简述在MySQL数据库中MyISAM和InnoDB的区别](https://github.com/souyunku/DevBooks/blob/master/MySQL/MySQL高级面试题整理及答案.md#3简述在MySQL数据库中MyISAM和InnoDB的区别)  
-**4、** [如果要存储用户的密码散列，应该使用什么字段进行存储？](https://github.com/souyunku/DevBooks/blob/master/MySQL/MySQL高级面试题整理及答案.md#4如果要存储用户的密码散列，应该使用什么字段进行存储)  
-**5、** [视图的优点，缺点，讲一下？](https://github.com/souyunku/DevBooks/blob/master/MySQL/MySQL高级面试题整理及答案.md#5视图的优点，缺点，讲一下)  
+**4、** [如果要存储用户的密码散列，应该使用什么字段进行存储？](https://github.com/souyunku/DevBooks/blob/master/MySQL/MySQL高级面试题整理及答案.md#4如果要存储用户的密码散列应该使用什么字段进行存储)  
+**5、** [视图的优点，缺点，讲一下？](https://github.com/souyunku/DevBooks/blob/master/MySQL/MySQL高级面试题整理及答案.md#5视图的优点缺点讲一下)  
 **6、** [如何优化查询过程中的数据访问](https://github.com/souyunku/DevBooks/blob/master/MySQL/MySQL高级面试题整理及答案.md#6如何优化查询过程中的数据访问)  
 **7、** [索引有哪些优缺点？](https://github.com/souyunku/DevBooks/blob/master/MySQL/MySQL高级面试题整理及答案.md#7索引有哪些优缺点)  
 **8、** [超键、候选键、主键、外键分别是什么？](https://github.com/souyunku/DevBooks/blob/master/MySQL/MySQL高级面试题整理及答案.md#8超键候选键主键外键分别是什么)  
@@ -1132,7 +1105,7 @@
 ## MySQL高级面试题，中级面试题，大汇总
 
 **1、** [如何在Unix和MySQL时间戳之间进行转换？](https://github.com/souyunku/DevBooks/blob/master/MySQL/MySQL高级面试题，中级面试题，大汇总.md#1如何在Unix和MySQL时间戳之间进行转换)  
-**2、** [B树和B+树的区别，数据库为什么使用B+树而不是B树？](https://github.com/souyunku/DevBooks/blob/master/MySQL/MySQL高级面试题，中级面试题，大汇总.md#2B树和B+树的区别，数据库为什么使用B+树而不是B树)  
+**2、** [B树和B+树的区别，数据库为什么使用B+树而不是B树？](https://github.com/souyunku/DevBooks/blob/master/MySQL/MySQL高级面试题，中级面试题，大汇总.md#2B树和B+树的区别数据库为什么使用B+树而不是B树)  
 **3、** [什么是最左前缀原则？什么是最左匹配原则？](https://github.com/souyunku/DevBooks/blob/master/MySQL/MySQL高级面试题，中级面试题，大汇总.md#3什么是最左前缀原则什么是最左匹配原则)  
 **4、** [MySQL数据库cpu飙升到500%的话他怎么处理？](https://github.com/souyunku/DevBooks/blob/master/MySQL/MySQL高级面试题，中级面试题，大汇总.md#4MySQL数据库cpu飙升到500%的话他怎么处理)  
 **5、** [MySQL的复制原理以及流程](https://github.com/souyunku/DevBooks/blob/master/MySQL/MySQL高级面试题，中级面试题，大汇总.md#5MySQL的复制原理以及流程)  
@@ -1148,7 +1121,7 @@
 
 **1、** [简述Java的对象结构](https://github.com/souyunku/DevBooks/blob/master/并发编程/并发编程最新2021年面试题及答案，汇总版.md#1简述Java的对象结构)  
 **2、** [说说 JVM 如何执行 class 中的字节码。](https://github.com/souyunku/DevBooks/blob/master/并发编程/并发编程最新2021年面试题及答案，汇总版.md#2说说-JVM-如何执行-class-中的字节码。)  
-**3、** [用过ConcurrentHashMap，讲一下他和HashTable的不同之处？](https://github.com/souyunku/DevBooks/blob/master/并发编程/并发编程最新2021年面试题及答案，汇总版.md#3用过ConcurrentHashMap，讲一下他和HashTable的不同之处)  
+**3、** [用过ConcurrentHashMap，讲一下他和HashTable的不同之处？](https://github.com/souyunku/DevBooks/blob/master/并发编程/并发编程最新2021年面试题及答案，汇总版.md#3用过ConcurrentHashMap讲一下他和HashTable的不同之处)  
 **4、** [为什么wait和notify方法要在同步块中调用？](https://github.com/souyunku/DevBooks/blob/master/并发编程/并发编程最新2021年面试题及答案，汇总版.md#4为什么wait和notify方法要在同步块中调用)  
 **5、** [什么是Future？](https://github.com/souyunku/DevBooks/blob/master/并发编程/并发编程最新2021年面试题及答案，汇总版.md#5什么是Future)  
 **6、** [有哪些类加载器？](https://github.com/souyunku/DevBooks/blob/master/并发编程/并发编程最新2021年面试题及答案，汇总版.md#6有哪些类加载器)  
@@ -1164,7 +1137,7 @@
 **1、** [什么是方法内联？](https://github.com/souyunku/DevBooks/blob/master/并发编程/并发编程最新2021年面试题大汇总，附答案.md#1什么是方法内联)  
 **2、** [对象的内存布局了解吗？](https://github.com/souyunku/DevBooks/blob/master/并发编程/并发编程最新2021年面试题大汇总，附答案.md#2对象的内存布局了解吗)  
 **3、** [线程池作用？](https://github.com/souyunku/DevBooks/blob/master/并发编程/并发编程最新2021年面试题大汇总，附答案.md#3线程池作用)  
-**4、** [为什么我们调用 start() 方法时会执行 run() 方法，为什么我们不能直接调用 run() 方法？](https://github.com/souyunku/DevBooks/blob/master/并发编程/并发编程最新2021年面试题大汇总，附答案.md#4为什么我们调用-start-方法时会执行-run-方法，为什么我们不能直接调用-run-方法)  
+**4、** [为什么我们调用 start() 方法时会执行 run() 方法，为什么我们不能直接调用 run() 方法？](https://github.com/souyunku/DevBooks/blob/master/并发编程/并发编程最新2021年面试题大汇总，附答案.md#4为什么我们调用-start-方法时会执行-run-方法为什么我们不能直接调用-run-方法)  
 **5、** [你知道哪些垃圾收集器？](https://github.com/souyunku/DevBooks/blob/master/并发编程/并发编程最新2021年面试题大汇总，附答案.md#5你知道哪些垃圾收集器)  
 **6、** [Java线程具有五中基本状态](https://github.com/souyunku/DevBooks/blob/master/并发编程/并发编程最新2021年面试题大汇总，附答案.md#6Java线程具有五中基本状态)  
 **7、** [本地方法区(线程私有)](https://github.com/souyunku/DevBooks/blob/master/并发编程/并发编程最新2021年面试题大汇总，附答案.md#7本地方法区线程私有)  
@@ -1178,7 +1151,7 @@
 
 **1、** [多线程的好处](https://github.com/souyunku/DevBooks/blob/master/并发编程/并发编程最新2021年面试题附答案解析，大汇总.md#1多线程的好处)  
 **2、** [类的实例化顺序](https://github.com/souyunku/DevBooks/blob/master/并发编程/并发编程最新2021年面试题附答案解析，大汇总.md#2类的实例化顺序)  
-**3、** [强引用、软引用、弱引用、虚引用是什么，有什么区别？](https://github.com/souyunku/DevBooks/blob/master/并发编程/并发编程最新2021年面试题附答案解析，大汇总.md#3强引用软引用弱引用虚引用是什么，有什么区别)  
+**3、** [强引用、软引用、弱引用、虚引用是什么，有什么区别？](https://github.com/souyunku/DevBooks/blob/master/并发编程/并发编程最新2021年面试题附答案解析，大汇总.md#3强引用软引用弱引用虚引用是什么有什么区别)  
 **4、** [线上常用的 JVM 参数有哪些？](https://github.com/souyunku/DevBooks/blob/master/并发编程/并发编程最新2021年面试题附答案解析，大汇总.md#4线上常用的-JVM-参数有哪些)  
 **5、** [invokedynamic指令是干什么的？](https://github.com/souyunku/DevBooks/blob/master/并发编程/并发编程最新2021年面试题附答案解析，大汇总.md#5invokedynamic指令是干什么的)  
 **6、** [怎样通过 Java 程序来判断 JVM 是 32 位 还是 64位？](https://github.com/souyunku/DevBooks/blob/master/并发编程/并发编程最新2021年面试题附答案解析，大汇总.md#6怎样通过-Java-程序来判断-JVM-是-32-位-还是-64位)  
@@ -1209,7 +1182,7 @@
 **1、** [线程的状态](https://github.com/souyunku/DevBooks/blob/master/并发编程/并发编程最新基础面试题及答案整理.md#1线程的状态)  
 **2、** [说一下堆和栈的区别](https://github.com/souyunku/DevBooks/blob/master/并发编程/并发编程最新基础面试题及答案整理.md#2说一下堆和栈的区别)  
 **3、** [Collections.synchronized  是什么？](https://github.com/souyunku/DevBooks/blob/master/并发编程/并发编程最新基础面试题及答案整理.md#3Collectionssynchronized- 是什么)  
-**4、** [如果你提交任务时，线程池队列已满，这时会发生什么](https://github.com/souyunku/DevBooks/blob/master/并发编程/并发编程最新基础面试题及答案整理.md#4如果你提交任务时，线程池队列已满，这时会发生什么)  
+**4、** [如果你提交任务时，线程池队列已满，这时会发生什么](https://github.com/souyunku/DevBooks/blob/master/并发编程/并发编程最新基础面试题及答案整理.md#4如果你提交任务时线程池队列已满这时会发生什么)  
 **5、** [引用计数法](https://github.com/souyunku/DevBooks/blob/master/并发编程/并发编程最新基础面试题及答案整理.md#5引用计数法)  
 **6、** [如何自定义线程线程池?](https://github.com/souyunku/DevBooks/blob/master/并发编程/并发编程最新基础面试题及答案整理.md#6如何自定义线程线程池)  
 **7、** [线程的状态流转图](https://github.com/souyunku/DevBooks/blob/master/并发编程/并发编程最新基础面试题及答案整理.md#7线程的状态流转图)  
@@ -1221,7 +1194,7 @@
 
 ## 并发编程最新面试题2021年，常见面试题及答案汇总
 
-**1、** [JVM 出现 fullGC 很频繁，怎么去线上排查问题](https://github.com/souyunku/DevBooks/blob/master/并发编程/并发编程最新面试题2021年，常见面试题及答案汇总.md#1JVM-出现-fullGC-很频繁，怎么去线上排查问题)  
+**1、** [JVM 出现 fullGC 很频繁，怎么去线上排查问题](https://github.com/souyunku/DevBooks/blob/master/并发编程/并发编程最新面试题2021年，常见面试题及答案汇总.md#1JVM-出现-fullGC-很频繁怎么去线上排查问题)  
 **2、** [如何停止一个正在运行的线程？](https://github.com/souyunku/DevBooks/blob/master/并发编程/并发编程最新面试题2021年，常见面试题及答案汇总.md#2如何停止一个正在运行的线程)  
 **3、** [什么叫线程安全？servlet是线程安全吗?](https://github.com/souyunku/DevBooks/blob/master/并发编程/并发编程最新面试题2021年，常见面试题及答案汇总.md#3什么叫线程安全servlet是线程安全吗)  
 **4、** [类的实例化顺序](https://github.com/souyunku/DevBooks/blob/master/并发编程/并发编程最新面试题2021年，常见面试题及答案汇总.md#4类的实例化顺序)  
@@ -1230,21 +1203,21 @@
 **7、** [Java中垃圾回收有什么目的？什么时候进行垃圾回收？](https://github.com/souyunku/DevBooks/blob/master/并发编程/并发编程最新面试题2021年，常见面试题及答案汇总.md#7Java中垃圾回收有什么目的什么时候进行垃圾回收)  
 **8、** [Java 中 ConcurrentHashMap 的并发度是什么？](https://github.com/souyunku/DevBooks/blob/master/并发编程/并发编程最新面试题2021年，常见面试题及答案汇总.md#8Java-中-ConcurrentHashMap-的并发度是什么)  
 **9、** [什么是线程死锁](https://github.com/souyunku/DevBooks/blob/master/并发编程/并发编程最新面试题2021年，常见面试题及答案汇总.md#9什么是线程死锁)  
-**10、** [HashMap中的key，可以是普通对象么？需要什么注意的地方？](https://github.com/souyunku/DevBooks/blob/master/并发编程/并发编程最新面试题2021年，常见面试题及答案汇总.md#10HashMap中的key，可以是普通对象么需要什么注意的地方)  
+**10、** [HashMap中的key，可以是普通对象么？需要什么注意的地方？](https://github.com/souyunku/DevBooks/blob/master/并发编程/并发编程最新面试题2021年，常见面试题及答案汇总.md#10HashMap中的key可以是普通对象么需要什么注意的地方)  
 
 ### [此处，仅展示前10道，查看更多30道...](https://github.com/souyunku/DevBooks/blob/master/并发编程/并发编程最新面试题2021年，常见面试题及答案汇总.md)  
 
 ## 并发编程最新面试题及答案整理，汇总版
 
-**1、** [什么是线程组，为什么在Java中不推荐使用？](https://github.com/souyunku/DevBooks/blob/master/并发编程/并发编程最新面试题及答案整理，汇总版.md#1什么是线程组，为什么在Java中不推荐使用)  
+**1、** [什么是线程组，为什么在Java中不推荐使用？](https://github.com/souyunku/DevBooks/blob/master/并发编程/并发编程最新面试题及答案整理，汇总版.md#1什么是线程组为什么在Java中不推荐使用)  
 **2、** [哪些是 GC Roots？](https://github.com/souyunku/DevBooks/blob/master/并发编程/并发编程最新面试题及答案整理，汇总版.md#2哪些是-GC-Roots)  
 **3、** [在老年代-标记整理算法](https://github.com/souyunku/DevBooks/blob/master/并发编程/并发编程最新面试题及答案整理，汇总版.md#3在老年代-标记整理算法)  
 **4、** [对象的访问定位有哪几种方式?](https://github.com/souyunku/DevBooks/blob/master/并发编程/并发编程最新面试题及答案整理，汇总版.md#4对象的访问定位有哪几种方式)  
 **5、** [并发编程有什么缺点](https://github.com/souyunku/DevBooks/blob/master/并发编程/并发编程最新面试题及答案整理，汇总版.md#5并发编程有什么缺点)  
 **6、** [JIT 是什么？](https://github.com/souyunku/DevBooks/blob/master/并发编程/并发编程最新面试题及答案整理，汇总版.md#6JIT-是什么)  
-**7、** [MinorGC，MajorGC、FullGC都什么时候发生？](https://github.com/souyunku/DevBooks/blob/master/并发编程/并发编程最新面试题及答案整理，汇总版.md#7MinorGC，MajorGCFullGC都什么时候发生)  
+**7、** [MinorGC，MajorGC、FullGC都什么时候发生？](https://github.com/souyunku/DevBooks/blob/master/并发编程/并发编程最新面试题及答案整理，汇总版.md#7MinorGCMajorGCFullGC都什么时候发生)  
 **8、** [介绍一下类文件结构吧！](https://github.com/souyunku/DevBooks/blob/master/并发编程/并发编程最新面试题及答案整理，汇总版.md#8介绍一下类文件结构吧)  
-**9、** [在监视器(Monitor)内部，是如何做线程同步的？程序应该做哪种级别的同步？](https://github.com/souyunku/DevBooks/blob/master/并发编程/并发编程最新面试题及答案整理，汇总版.md#9在监视器Monitor内部，是如何做线程同步的程序应该做哪种级别的同步)  
+**9、** [在监视器(Monitor)内部，是如何做线程同步的？程序应该做哪种级别的同步？](https://github.com/souyunku/DevBooks/blob/master/并发编程/并发编程最新面试题及答案整理，汇总版.md#9在监视器Monitor内部是如何做线程同步的程序应该做哪种级别的同步)  
 **10、** [堆和栈的区别](https://github.com/souyunku/DevBooks/blob/master/并发编程/并发编程最新面试题及答案整理，汇总版.md#10堆和栈的区别)  
 
 ### [此处，仅展示前10道，查看更多30道...](https://github.com/souyunku/DevBooks/blob/master/并发编程/并发编程最新面试题及答案整理，汇总版.md)  
@@ -1259,7 +1232,7 @@
 **6、** [并发关键字 synchronized ？](https://github.com/souyunku/DevBooks/blob/master/并发编程/并发编程最新面试题及答案附答案汇总.md#6并发关键字-synchronized-)  
 **7、** [什么是自旋](https://github.com/souyunku/DevBooks/blob/master/并发编程/并发编程最新面试题及答案附答案汇总.md#7什么是自旋)  
 **8、** [MinorGC、MajorGC、FullGC 什么时候发生？](https://github.com/souyunku/DevBooks/blob/master/并发编程/并发编程最新面试题及答案附答案汇总.md#8MinorGCMajorGCFullGC-什么时候发生)  
-**9、** [当一个线程进入一个对象的 synchronized 方法 A 之后，其它线程是否可进入此对象的 synchronized 方法 B？](https://github.com/souyunku/DevBooks/blob/master/并发编程/并发编程最新面试题及答案附答案汇总.md#9当一个线程进入一个对象的-synchronized-方法-A-之后，其它线程是否可进入此对象的-synchronized-方法-B)  
+**9、** [当一个线程进入一个对象的 synchronized 方法 A 之后，其它线程是否可进入此对象的 synchronized 方法 B？](https://github.com/souyunku/DevBooks/blob/master/并发编程/并发编程最新面试题及答案附答案汇总.md#9当一个线程进入一个对象的-synchronized-方法-A-之后其它线程是否可进入此对象的-synchronized-方法-B)  
 **10、** [线程池的优点？](https://github.com/souyunku/DevBooks/blob/master/并发编程/并发编程最新面试题及答案附答案汇总.md#10线程池的优点)  
 
 ### [此处，仅展示前10道，查看更多30道...](https://github.com/souyunku/DevBooks/blob/master/并发编程/并发编程最新面试题及答案附答案汇总.md)  
@@ -1267,13 +1240,13 @@
 ## 并发编程最新面试题，2021年面试题及答案汇总
 
 **1、** [CMS分为哪几个阶段?](https://github.com/souyunku/DevBooks/blob/master/并发编程/并发编程最新面试题，2021年面试题及答案汇总.md#1CMS分为哪几个阶段)  
-**2、** [死锁与活锁的区别，死锁与饥饿的区别？](https://github.com/souyunku/DevBooks/blob/master/并发编程/并发编程最新面试题，2021年面试题及答案汇总.md#2死锁与活锁的区别，死锁与饥饿的区别)  
-**3、** [各种回收器，各自优缺点，重点CMS、G1](https://github.com/souyunku/DevBooks/blob/master/并发编程/并发编程最新面试题，2021年面试题及答案汇总.md#3各种回收器，各自优缺点，重点CMSG1)  
+**2、** [死锁与活锁的区别，死锁与饥饿的区别？](https://github.com/souyunku/DevBooks/blob/master/并发编程/并发编程最新面试题，2021年面试题及答案汇总.md#2死锁与活锁的区别死锁与饥饿的区别)  
+**3、** [各种回收器，各自优缺点，重点CMS、G1](https://github.com/souyunku/DevBooks/blob/master/并发编程/并发编程最新面试题，2021年面试题及答案汇总.md#3各种回收器各自优缺点重点CMSG1)  
 **4、** [对象分配内存是否线程安全？](https://github.com/souyunku/DevBooks/blob/master/并发编程/并发编程最新面试题，2021年面试题及答案汇总.md#4对象分配内存是否线程安全)  
 **5、** [什么是栈](https://github.com/souyunku/DevBooks/blob/master/并发编程/并发编程最新面试题，2021年面试题及答案汇总.md#5什么是栈)  
 **6、** [双亲委派模型是什么？](https://github.com/souyunku/DevBooks/blob/master/并发编程/并发编程最新面试题，2021年面试题及答案汇总.md#6双亲委派模型是什么)  
 **7、** [程序计数器](https://github.com/souyunku/DevBooks/blob/master/并发编程/并发编程最新面试题，2021年面试题及答案汇总.md#7程序计数器)  
-**8、** [JVM垃圾回收机制，何时触发MinorGC等操作](https://github.com/souyunku/DevBooks/blob/master/并发编程/并发编程最新面试题，2021年面试题及答案汇总.md#8JVM垃圾回收机制，何时触发MinorGC等操作)  
+**8、** [JVM垃圾回收机制，何时触发MinorGC等操作](https://github.com/souyunku/DevBooks/blob/master/并发编程/并发编程最新面试题，2021年面试题及答案汇总.md#8JVM垃圾回收机制何时触发MinorGC等操作)  
 **9、** [synchronized、volatile、CAS比较](https://github.com/souyunku/DevBooks/blob/master/并发编程/并发编程最新面试题，2021年面试题及答案汇总.md#9synchronizedvolatileCAS比较)  
 **10、** [标记清除算法（ Mark-Sweep）](https://github.com/souyunku/DevBooks/blob/master/并发编程/并发编程最新面试题，2021年面试题及答案汇总.md#10标记清除算法-Mark-Sweep)  
 
@@ -1284,7 +1257,7 @@
 **1、** [Parallel Old 收集器（多线程标记整理算法）](https://github.com/souyunku/DevBooks/blob/master/并发编程/并发编程最新面试题，常见面试题及答案汇总.md#1Parallel-Old-收集器多线程标记整理算法)  
 **2、** [调优工具](https://github.com/souyunku/DevBooks/blob/master/并发编程/并发编程最新面试题，常见面试题及答案汇总.md#2调优工具)  
 **3、** [谈谈对 OOM 的认识](https://github.com/souyunku/DevBooks/blob/master/并发编程/并发编程最新面试题，常见面试题及答案汇总.md#3谈谈对-OOM-的认识)  
-**4、** [死锁与活锁的区别，死锁与饥饿的区别？](https://github.com/souyunku/DevBooks/blob/master/并发编程/并发编程最新面试题，常见面试题及答案汇总.md#4死锁与活锁的区别，死锁与饥饿的区别)  
+**4、** [死锁与活锁的区别，死锁与饥饿的区别？](https://github.com/souyunku/DevBooks/blob/master/并发编程/并发编程最新面试题，常见面试题及答案汇总.md#4死锁与活锁的区别死锁与饥饿的区别)  
 **5、** [synchronized 和 ReentrantLock 区别是什么？](https://github.com/souyunku/DevBooks/blob/master/并发编程/并发编程最新面试题，常见面试题及答案汇总.md#5synchronized-和-ReentrantLock-区别是什么)  
 **6、** [什么是线程调度器(Thread Scheduler)和时间分片(Time Slicing)？](https://github.com/souyunku/DevBooks/blob/master/并发编程/并发编程最新面试题，常见面试题及答案汇总.md#6什么是线程调度器Thread-Scheduler和时间分片Time-Slicing)  
 **7、** [复制算法（copying）](https://github.com/souyunku/DevBooks/blob/master/并发编程/并发编程最新面试题，常见面试题及答案汇总.md#7复制算法copying)  
@@ -1299,10 +1272,10 @@
 **1、** [Serial Old 收集器（单线程标记整理算法 ）](https://github.com/souyunku/DevBooks/blob/master/并发编程/并发编程面试题及答案整理，2021年最新，汇总版.md#1Serial-Old-收集器单线程标记整理算法-)  
 **2、** [虚拟机栈(线程私有)](https://github.com/souyunku/DevBooks/blob/master/并发编程/并发编程面试题及答案整理，2021年最新，汇总版.md#2虚拟机栈线程私有)  
 **3、** [你能保证 GC 执行吗？](https://github.com/souyunku/DevBooks/blob/master/并发编程/并发编程面试题及答案整理，2021年最新，汇总版.md#3你能保证-GC-执行吗)  
-**4、** [同步方法和同步块，哪个是更好的选择？](https://github.com/souyunku/DevBooks/blob/master/并发编程/并发编程面试题及答案整理，2021年最新，汇总版.md#4同步方法和同步块，哪个是更好的选择)  
-**5、** [你说你做过JVM参数调优和参数配置，请问如何查看JVM系统默认值](https://github.com/souyunku/DevBooks/blob/master/并发编程/并发编程面试题及答案整理，2021年最新，汇总版.md#5你说你做过JVM参数调优和参数配置，请问如何查看JVM系统默认值)  
+**4、** [同步方法和同步块，哪个是更好的选择？](https://github.com/souyunku/DevBooks/blob/master/并发编程/并发编程面试题及答案整理，2021年最新，汇总版.md#4同步方法和同步块哪个是更好的选择)  
+**5、** [你说你做过JVM参数调优和参数配置，请问如何查看JVM系统默认值](https://github.com/souyunku/DevBooks/blob/master/并发编程/并发编程面试题及答案整理，2021年最新，汇总版.md#5你说你做过JVM参数调优和参数配置请问如何查看JVM系统默认值)  
 **6、** [JVM怎么判断一个对象是不是要回收？](https://github.com/souyunku/DevBooks/blob/master/并发编程/并发编程面试题及答案整理，2021年最新，汇总版.md#6JVM怎么判断一个对象是不是要回收)  
-**7、** [假如生产环境CPU占用过高，请谈谈你的分析思路和定位。](https://github.com/souyunku/DevBooks/blob/master/并发编程/并发编程面试题及答案整理，2021年最新，汇总版.md#7假如生产环境CPU占用过高，请谈谈你的分析思路和定位。)  
+**7、** [假如生产环境CPU占用过高，请谈谈你的分析思路和定位。](https://github.com/souyunku/DevBooks/blob/master/并发编程/并发编程面试题及答案整理，2021年最新，汇总版.md#7假如生产环境CPU占用过高请谈谈你的分析思路和定位。)  
 **8、** [Java 中能创建 volatile 数组吗？](https://github.com/souyunku/DevBooks/blob/master/并发编程/并发编程面试题及答案整理，2021年最新，汇总版.md#8Java-中能创建-volatile-数组吗)  
 **9、** [JVM的引用类型有哪些？](https://github.com/souyunku/DevBooks/blob/master/并发编程/并发编程面试题及答案整理，2021年最新，汇总版.md#9JVM的引用类型有哪些)  
 **10、** [调优命令有哪些？](https://github.com/souyunku/DevBooks/blob/master/并发编程/并发编程面试题及答案整理，2021年最新，汇总版.md#10调优命令有哪些)  
@@ -1330,7 +1303,7 @@
 **2、** [什么是线程池？](https://github.com/souyunku/DevBooks/blob/master/并发编程/并发编程高级面试题及答案，2021版.md#2什么是线程池)  
 **3、** [多线程中 synchronized 锁升级的原理是什么？](https://github.com/souyunku/DevBooks/blob/master/并发编程/并发编程高级面试题及答案，2021版.md#3多线程中-synchronized-锁升级的原理是什么)  
 **4、** [栈帧里面包含哪些东西？](https://github.com/souyunku/DevBooks/blob/master/并发编程/并发编程高级面试题及答案，2021版.md#4栈帧里面包含哪些东西)  
-**5、** [类加载为什么要使用双亲委派模式，有没有什么场景是打破了这个模式？](https://github.com/souyunku/DevBooks/blob/master/并发编程/并发编程高级面试题及答案，2021版.md#5类加载为什么要使用双亲委派模式，有没有什么场景是打破了这个模式)  
+**5、** [类加载为什么要使用双亲委派模式，有没有什么场景是打破了这个模式？](https://github.com/souyunku/DevBooks/blob/master/并发编程/并发编程高级面试题及答案，2021版.md#5类加载为什么要使用双亲委派模式有没有什么场景是打破了这个模式)  
 **6、** [什么是多线程中的上下文切换？](https://github.com/souyunku/DevBooks/blob/master/并发编程/并发编程高级面试题及答案，2021版.md#6什么是多线程中的上下文切换)  
 **7、** [Java对象的布局了解过吗？](https://github.com/souyunku/DevBooks/blob/master/并发编程/并发编程高级面试题及答案，2021版.md#7Java对象的布局了解过吗)  
 **8、** [Java 中 WeakReference 与 SoftReference 的区别？](https://github.com/souyunku/DevBooks/blob/master/并发编程/并发编程高级面试题及答案，2021版.md#8Java-中-WeakReference-与-SoftReference-的区别)  
@@ -1341,16 +1314,16 @@
 
 ## 并发编程高级面试题及答案，企业真面试题
 
-**1、** [在 Java 中，对象什么时候可以被垃圾回收？](https://github.com/souyunku/DevBooks/blob/master/并发编程/并发编程高级面试题及答案，企业真面试题.md#1在-Java-中，对象什么时候可以被垃圾回收)  
-**2、** [stackoverflow错误，permgen space错误](https://github.com/souyunku/DevBooks/blob/master/并发编程/并发编程高级面试题及答案，企业真面试题.md#2stackoverflow错误，permgen-space错误)  
+**1、** [在 Java 中，对象什么时候可以被垃圾回收？](https://github.com/souyunku/DevBooks/blob/master/并发编程/并发编程高级面试题及答案，企业真面试题.md#1在-Java-中对象什么时候可以被垃圾回收)  
+**2、** [stackoverflow错误，permgen space错误](https://github.com/souyunku/DevBooks/blob/master/并发编程/并发编程高级面试题及答案，企业真面试题.md#2stackoverflow错误permgen-space错误)  
 **3、** [运行时常量池的作用是什么?](https://github.com/souyunku/DevBooks/blob/master/并发编程/并发编程高级面试题及答案，企业真面试题.md#3运行时常量池的作用是什么)  
 **4、** [线程之间如何通信及线程之间如何同步](https://github.com/souyunku/DevBooks/blob/master/并发编程/并发编程高级面试题及答案，企业真面试题.md#4线程之间如何通信及线程之间如何同步)  
 **5、** [线程的调度策略](https://github.com/souyunku/DevBooks/blob/master/并发编程/并发编程高级面试题及答案，企业真面试题.md#5线程的调度策略)  
 **6、** [双亲委派机制可以被违背吗？请举例说明。](https://github.com/souyunku/DevBooks/blob/master/并发编程/并发编程高级面试题及答案，企业真面试题.md#6双亲委派机制可以被违背吗请举例说明。)  
 **7、** [多线程同步有哪几种方法？](https://github.com/souyunku/DevBooks/blob/master/并发编程/并发编程高级面试题及答案，企业真面试题.md#7多线程同步有哪几种方法)  
 **8、** [volatile 能使得一个非原子操作变成原子操作吗？](https://github.com/souyunku/DevBooks/blob/master/并发编程/并发编程高级面试题及答案，企业真面试题.md#8volatile-能使得一个非原子操作变成原子操作吗)  
-**9、** [你做过 JVM 调优，说说如何查看 JVM 参数默认值？](https://github.com/souyunku/DevBooks/blob/master/并发编程/并发编程高级面试题及答案，企业真面试题.md#9你做过-JVM-调优，说说如何查看-JVM-参数默认值)  
-**10、** [如果对象的引用被置为null，垃圾收集器是否会立即释放对象占用的内存？](https://github.com/souyunku/DevBooks/blob/master/并发编程/并发编程高级面试题及答案，企业真面试题.md#10如果对象的引用被置为null，垃圾收集器是否会立即释放对象占用的内存)  
+**9、** [你做过 JVM 调优，说说如何查看 JVM 参数默认值？](https://github.com/souyunku/DevBooks/blob/master/并发编程/并发编程高级面试题及答案，企业真面试题.md#9你做过-JVM-调优说说如何查看-JVM-参数默认值)  
+**10、** [如果对象的引用被置为null，垃圾收集器是否会立即释放对象占用的内存？](https://github.com/souyunku/DevBooks/blob/master/并发编程/并发编程高级面试题及答案，企业真面试题.md#10如果对象的引用被置为null垃圾收集器是否会立即释放对象占用的内存)  
 
 ### [此处，仅展示前10道，查看更多30道...](https://github.com/souyunku/DevBooks/blob/master/并发编程/并发编程高级面试题及答案，企业真面试题.md)  
 
@@ -1363,7 +1336,7 @@
 **5、** [G1 收集器](https://github.com/souyunku/DevBooks/blob/master/并发编程/并发编程高级面试题合集，附答案解析.md#5G1-收集器)  
 **6、** [Java中ConcurrentHashMap的并发度是什么？](https://github.com/souyunku/DevBooks/blob/master/并发编程/并发编程高级面试题合集，附答案解析.md#6Java中ConcurrentHashMap的并发度是什么)  
 **7、** [JAVA软引用](https://github.com/souyunku/DevBooks/blob/master/并发编程/并发编程高级面试题合集，附答案解析.md#7JAVA软引用)  
-**8、** [JVM 数据运行区，哪些会造成 OOM 的情况？](https://github.com/souyunku/DevBooks/blob/master/并发编程/并发编程高级面试题合集，附答案解析.md#8JVM-数据运行区，哪些会造成-OOM-的情况)  
+**8、** [JVM 数据运行区，哪些会造成 OOM 的情况？](https://github.com/souyunku/DevBooks/blob/master/并发编程/并发编程高级面试题合集，附答案解析.md#8JVM-数据运行区哪些会造成-OOM-的情况)  
 **9、** [一个线程运行时发生异常会怎样？](https://github.com/souyunku/DevBooks/blob/master/并发编程/并发编程高级面试题合集，附答案解析.md#9一个线程运行时发生异常会怎样)  
 **10、** [Java线程数过多会造成什么异常？](https://github.com/souyunku/DevBooks/blob/master/并发编程/并发编程高级面试题合集，附答案解析.md#10Java线程数过多会造成什么异常)  
 
@@ -1386,7 +1359,7 @@
 
 ## 并发编程高级面试题，中级面试题，大汇总
 
-**1、** [讲讲什么情况下会出现内存溢出，内存泄漏？](https://github.com/souyunku/DevBooks/blob/master/并发编程/并发编程高级面试题，中级面试题，大汇总.md#1讲讲什么情况下会出现内存溢出，内存泄漏)  
+**1、** [讲讲什么情况下会出现内存溢出，内存泄漏？](https://github.com/souyunku/DevBooks/blob/master/并发编程/并发编程高级面试题，中级面试题，大汇总.md#1讲讲什么情况下会出现内存溢出内存泄漏)  
 **2、** [单例模式的线程安全性](https://github.com/souyunku/DevBooks/blob/master/并发编程/并发编程高级面试题，中级面试题，大汇总.md#2单例模式的线程安全性)  
 **3、** [多线程的劣势：](https://github.com/souyunku/DevBooks/blob/master/并发编程/并发编程高级面试题，中级面试题，大汇总.md#3多线程的劣势：)  
 **4、** [什么是Daemon线程？它有什么意义？](https://github.com/souyunku/DevBooks/blob/master/并发编程/并发编程高级面试题，中级面试题，大汇总.md#4什么是Daemon线程它有什么意义)  
@@ -1409,7 +1382,7 @@
 **6、** [什么是端到端微服务测试？](https://github.com/souyunku/DevBooks/blob/master/Spring/Spring基础面试题及答案，最新版.md#6什么是端到端微服务测试)  
 **7、** [什么是JavaConfig？](https://github.com/souyunku/DevBooks/blob/master/Spring/Spring基础面试题及答案，最新版.md#7什么是JavaConfig)  
 **8、** [@Component, @Controller, @Repository, [@Service ](/Service ) 有何区别？](https://github.com/souyunku/DevBooks/blob/master/Spring/Spring基础面试题及答案，最新版.md#8@Component,-@Controller,-@Repository,-[@Service-]/Service--有何区别)  
-**9、** [当 SpringBoot 应用程序作为 Java 应用程序运行时，后台会发生什么？](https://github.com/souyunku/DevBooks/blob/master/Spring/Spring基础面试题及答案，最新版.md#9当-SpringBoot-应用程序作为-Java-应用程序运行时，后台会发生什么)  
+**9、** [当 SpringBoot 应用程序作为 Java 应用程序运行时，后台会发生什么？](https://github.com/souyunku/DevBooks/blob/master/Spring/Spring基础面试题及答案，最新版.md#9当-SpringBoot-应用程序作为-Java-应用程序运行时后台会发生什么)  
 **10、** [什么是Spring Cloud？](https://github.com/souyunku/DevBooks/blob/master/Spring/Spring基础面试题及答案，最新版.md#10什么是Spring-Cloud)  
 
 ### [此处，仅展示前10道，查看更多30道...](https://github.com/souyunku/DevBooks/blob/master/Spring/Spring基础面试题及答案，最新版.md)  
@@ -1418,7 +1391,7 @@
 
 **1、** [如何实现动态Zuul网关路由转发](https://github.com/souyunku/DevBooks/blob/master/Spring/Spring最新2021年面试题及答案，汇总版.md#1如何实现动态Zuul网关路由转发)  
 **2、** [SpringCloud Config 可以实现实时刷新吗？](https://github.com/souyunku/DevBooks/blob/master/Spring/Spring最新2021年面试题及答案，汇总版.md#2SpringCloud-Config-可以实现实时刷新吗)  
-**3、** [项目中前后端分离部署，所以需要解决跨域的问题。](https://github.com/souyunku/DevBooks/blob/master/Spring/Spring最新2021年面试题及答案，汇总版.md#3项目中前后端分离部署，所以需要解决跨域的问题。)  
+**3、** [项目中前后端分离部署，所以需要解决跨域的问题。](https://github.com/souyunku/DevBooks/blob/master/Spring/Spring最新2021年面试题及答案，汇总版.md#3项目中前后端分离部署所以需要解决跨域的问题。)  
 **4、** [SpringBoot中的监视器是什么?](https://github.com/souyunku/DevBooks/blob/master/Spring/Spring最新2021年面试题及答案，汇总版.md#4SpringBoot中的监视器是什么)  
 **5、** [什么是 JavaConfig？](https://github.com/souyunku/DevBooks/blob/master/Spring/Spring最新2021年面试题及答案，汇总版.md#5什么是-JavaConfig)  
 **6、** [22。你能否给出关于休息和微服务的要点？](https://github.com/souyunku/DevBooks/blob/master/Spring/Spring最新2021年面试题及答案，汇总版.md#622。你能否给出关于休息和微服务的要点)  
@@ -1432,7 +1405,7 @@
 ## Spring最新2021年面试题大汇总，附答案
 
 **1、** [[@Autowired ](/Autowired ) 注解有什么用？](https://github.com/souyunku/DevBooks/blob/master/Spring/Spring最新2021年面试题大汇总，附答案.md#1[@Autowired-]/Autowired--注解有什么用)  
-**2、** [熔断的原理，以及如何恢复？](https://github.com/souyunku/DevBooks/blob/master/Spring/Spring最新2021年面试题大汇总，附答案.md#2熔断的原理，以及如何恢复)  
+**2、** [熔断的原理，以及如何恢复？](https://github.com/souyunku/DevBooks/blob/master/Spring/Spring最新2021年面试题大汇总，附答案.md#2熔断的原理以及如何恢复)  
 **3、** [SpringBoot 中的 starter 到底是什么 ?](https://github.com/souyunku/DevBooks/blob/master/Spring/Spring最新2021年面试题大汇总，附答案.md#3SpringBoot-中的-starter-到底是什么-)  
 **4、** [如果前台有很多个参数传入,并且这些参数都是一个对象的,那么怎么样快速得到这个对象？](https://github.com/souyunku/DevBooks/blob/master/Spring/Spring最新2021年面试题大汇总，附答案.md#4如果前台有很多个参数传入,并且这些参数都是一个对象的,那么怎么样快速得到这个对象)  
 **5、** [开启 SpringBoot 特性有哪几种方式？](https://github.com/souyunku/DevBooks/blob/master/Spring/Spring最新2021年面试题大汇总，附答案.md#5开启-SpringBoot-特性有哪几种方式)  
@@ -1452,7 +1425,7 @@
 **4、** [Spring AOP and AspectJ AOP 有什么区别？](https://github.com/souyunku/DevBooks/blob/master/Spring/Spring最新2021年面试题附答案解析，大汇总.md#4Spring-AOP-and-AspectJ-AOP-有什么区别)  
 **5、** [如何在自定义端口上运行 SpringBoot应用程序?](https://github.com/souyunku/DevBooks/blob/master/Spring/Spring最新2021年面试题附答案解析，大汇总.md#5如何在自定义端口上运行-SpringBoot应用程序)  
 **6、** [[@Required ](/Required ) 注解](https://github.com/souyunku/DevBooks/blob/master/Spring/Spring最新2021年面试题附答案解析，大汇总.md#6[@Required-]/Required--注解)  
-**7、** [如何重新加载SpringBoot上的更改，而无需重新启动服务器？](https://github.com/souyunku/DevBooks/blob/master/Spring/Spring最新2021年面试题附答案解析，大汇总.md#7如何重新加载SpringBoot上的更改，而无需重新启动服务器)  
+**7、** [如何重新加载SpringBoot上的更改，而无需重新启动服务器？](https://github.com/souyunku/DevBooks/blob/master/Spring/Spring最新2021年面试题附答案解析，大汇总.md#7如何重新加载SpringBoot上的更改而无需重新启动服务器)  
 **8、** [什么是YAML?](https://github.com/souyunku/DevBooks/blob/master/Spring/Spring最新2021年面试题附答案解析，大汇总.md#8什么是YAML)  
 **9、** [什么是Oauth？](https://github.com/souyunku/DevBooks/blob/master/Spring/Spring最新2021年面试题附答案解析，大汇总.md#9什么是Oauth)  
 **10、** [你如何理解 SpringBoot 中的 Starters？](https://github.com/souyunku/DevBooks/blob/master/Spring/Spring最新2021年面试题附答案解析，大汇总.md#10你如何理解-SpringBoot-中的-Starters)  
@@ -1485,7 +1458,7 @@
 **7、** [SpringBoot 的核心注解是哪个？它主要由哪几个注解组成的？](https://github.com/souyunku/DevBooks/blob/master/Spring/Spring最新基础面试题及答案整理.md#7SpringBoot-的核心注解是哪个它主要由哪几个注解组成的)  
 **8、** [PACT如何运作？](https://github.com/souyunku/DevBooks/blob/master/Spring/Spring最新基础面试题及答案整理.md#8PACT如何运作)  
 **9、** [我们如何监视所有 SpringBoot 微服务？](https://github.com/souyunku/DevBooks/blob/master/Spring/Spring最新基础面试题及答案整理.md#9我们如何监视所有-SpringBoot-微服务)  
-**10、** [多个消费者调⽤同⼀接⼝，eruka默认的分配⽅式是什么？](https://github.com/souyunku/DevBooks/blob/master/Spring/Spring最新基础面试题及答案整理.md#10多个消费者调⽤同⼀接⼝，eruka默认的分配⽅式是什么)  
+**10、** [多个消费者调⽤同⼀接⼝，eruka默认的分配⽅式是什么？](https://github.com/souyunku/DevBooks/blob/master/Spring/Spring最新基础面试题及答案整理.md#10多个消费者调⽤同⼀接⼝eruka默认的分配⽅式是什么)  
 
 ### [此处，仅展示前10道，查看更多30道...](https://github.com/souyunku/DevBooks/blob/master/Spring/Spring最新基础面试题及答案整理.md)  
 
@@ -1499,7 +1472,7 @@
 **6、** [Spring MVC的异常处理？](https://github.com/souyunku/DevBooks/blob/master/Spring/Spring最新面试题2021年，常见面试题及答案汇总.md#6Spring-MVC的异常处理)  
 **7、** [Spring对DAO的支持](https://github.com/souyunku/DevBooks/blob/master/Spring/Spring最新面试题2021年，常见面试题及答案汇总.md#7Spring对DAO的支持)  
 **8、** [您将如何在微服务上执行安全测试？](https://github.com/souyunku/DevBooks/blob/master/Spring/Spring最新面试题2021年，常见面试题及答案汇总.md#8您将如何在微服务上执行安全测试)  
-**9、** [在使用微服务架构时，您面临哪些挑战？](https://github.com/souyunku/DevBooks/blob/master/Spring/Spring最新面试题2021年，常见面试题及答案汇总.md#9在使用微服务架构时，您面临哪些挑战)  
+**9、** [在使用微服务架构时，您面临哪些挑战？](https://github.com/souyunku/DevBooks/blob/master/Spring/Spring最新面试题2021年，常见面试题及答案汇总.md#9在使用微服务架构时您面临哪些挑战)  
 **10、** [Spring Cloud和SpringBoot版本对应关系](https://github.com/souyunku/DevBooks/blob/master/Spring/Spring最新面试题2021年，常见面试题及答案汇总.md#10Spring-Cloud和SpringBoot版本对应关系)  
 
 ### [此处，仅展示前10道，查看更多30道...](https://github.com/souyunku/DevBooks/blob/master/Spring/Spring最新面试题2021年，常见面试题及答案汇总.md)  
@@ -1529,14 +1502,14 @@
 **6、** [什么是DispatcherServlet](https://github.com/souyunku/DevBooks/blob/master/Spring/Spring最新面试题及答案附答案汇总.md#6什么是DispatcherServlet)  
 **7、** [什么是不同类型的微服务测试？](https://github.com/souyunku/DevBooks/blob/master/Spring/Spring最新面试题及答案附答案汇总.md#7什么是不同类型的微服务测试)  
 **8、** [eureka服务注册与发现原理](https://github.com/souyunku/DevBooks/blob/master/Spring/Spring最新面试题及答案附答案汇总.md#8eureka服务注册与发现原理)  
-**9、** [前后端分离，如何维护接口文档 ?](https://github.com/souyunku/DevBooks/blob/master/Spring/Spring最新面试题及答案附答案汇总.md#9前后端分离，如何维护接口文档-)  
+**9、** [前后端分离，如何维护接口文档 ?](https://github.com/souyunku/DevBooks/blob/master/Spring/Spring最新面试题及答案附答案汇总.md#9前后端分离如何维护接口文档-)  
 **10、** [什么是SpringBoot？](https://github.com/souyunku/DevBooks/blob/master/Spring/Spring最新面试题及答案附答案汇总.md#10什么是SpringBoot)  
 
 ### [此处，仅展示前10道，查看更多30道...](https://github.com/souyunku/DevBooks/blob/master/Spring/Spring最新面试题及答案附答案汇总.md)  
 
 ## Spring最新面试题，2021年面试题及答案汇总
 
-**1、** [微服务同时调用多个接口，怎么支持事务的啊？](https://github.com/souyunku/DevBooks/blob/master/Spring/Spring最新面试题，2021年面试题及答案汇总.md#1微服务同时调用多个接口，怎么支持事务的啊)  
+**1、** [微服务同时调用多个接口，怎么支持事务的啊？](https://github.com/souyunku/DevBooks/blob/master/Spring/Spring最新面试题，2021年面试题及答案汇总.md#1微服务同时调用多个接口怎么支持事务的啊)  
 **2、** [什么是执行器停机？](https://github.com/souyunku/DevBooks/blob/master/Spring/Spring最新面试题，2021年面试题及答案汇总.md#2什么是执行器停机)  
 **3、** [Spring Cloud Stream](https://github.com/souyunku/DevBooks/blob/master/Spring/Spring最新面试题，2021年面试题及答案汇总.md#3Spring-Cloud-Stream)  
 **4、** [IOC的优点是什么？](https://github.com/souyunku/DevBooks/blob/master/Spring/Spring最新面试题，2021年面试题及答案汇总.md#4IOC的优点是什么)  
@@ -1570,10 +1543,10 @@
 **2、** [接⼝限流⽅法？](https://github.com/souyunku/DevBooks/blob/master/Spring/Spring面试题及答案整理汇总，2021年最新版.md#2接⼝限流⽅法)  
 **3、** [如何使用SpringBoot实现异常处理?](https://github.com/souyunku/DevBooks/blob/master/Spring/Spring面试题及答案整理汇总，2021年最新版.md#3如何使用SpringBoot实现异常处理)  
 **4、** [区分 BeanFactory 和 ApplicationContext。](https://github.com/souyunku/DevBooks/blob/master/Spring/Spring面试题及答案整理汇总，2021年最新版.md#4区分-BeanFactory-和-ApplicationContext。)  
-**5、** [如何重新加载SpringBoot上的更改，而无需重新启动服务器？](https://github.com/souyunku/DevBooks/blob/master/Spring/Spring面试题及答案整理汇总，2021年最新版.md#5如何重新加载SpringBoot上的更改，而无需重新启动服务器)  
+**5、** [如何重新加载SpringBoot上的更改，而无需重新启动服务器？](https://github.com/souyunku/DevBooks/blob/master/Spring/Spring面试题及答案整理汇总，2021年最新版.md#5如何重新加载SpringBoot上的更改而无需重新启动服务器)  
 **6、** [spring boot 核心的两个配置文件：](https://github.com/souyunku/DevBooks/blob/master/Spring/Spring面试题及答案整理汇总，2021年最新版.md#6spring-boot-核心的两个配置文件：)  
 **7、** [自动装配有哪些局限性 ?](https://github.com/souyunku/DevBooks/blob/master/Spring/Spring面试题及答案整理汇总，2021年最新版.md#7自动装配有哪些局限性-)  
-**8、** [如何重新加载 SpringBoot上的更改，而无需重新启动服务器？](https://github.com/souyunku/DevBooks/blob/master/Spring/Spring面试题及答案整理汇总，2021年最新版.md#8如何重新加载-SpringBoot上的更改，而无需重新启动服务器)  
+**8、** [如何重新加载 SpringBoot上的更改，而无需重新启动服务器？](https://github.com/souyunku/DevBooks/blob/master/Spring/Spring面试题及答案整理汇总，2021年最新版.md#8如何重新加载-SpringBoot上的更改而无需重新启动服务器)  
 **9、** [SpringBoot 的核心配置文件有哪几个？它们的区别是什么？](https://github.com/souyunku/DevBooks/blob/master/Spring/Spring面试题及答案整理汇总，2021年最新版.md#9SpringBoot-的核心配置文件有哪几个它们的区别是什么)  
 **10、** [Ribbon是什么？](https://github.com/souyunku/DevBooks/blob/master/Spring/Spring面试题及答案整理汇总，2021年最新版.md#10Ribbon是什么)  
 
@@ -1584,7 +1557,7 @@
 **1、** [什么是依赖注入？](https://github.com/souyunku/DevBooks/blob/master/Spring/Spring面试题及答案整理，2021年最新，汇总版.md#1什么是依赖注入)  
 **2、** [什么是Netflix Feign？它的优点是什么？](https://github.com/souyunku/DevBooks/blob/master/Spring/Spring面试题及答案整理，2021年最新，汇总版.md#2什么是Netflix-Feign它的优点是什么)  
 **3、** [微服务设计的基础是什么？](https://github.com/souyunku/DevBooks/blob/master/Spring/Spring面试题及答案整理，2021年最新，汇总版.md#3微服务设计的基础是什么)  
-**4、** [在微服务中，如何保护服务?](https://github.com/souyunku/DevBooks/blob/master/Spring/Spring面试题及答案整理，2021年最新，汇总版.md#4在微服务中，如何保护服务)  
+**4、** [在微服务中，如何保护服务?](https://github.com/souyunku/DevBooks/blob/master/Spring/Spring面试题及答案整理，2021年最新，汇总版.md#4在微服务中如何保护服务)  
 **5、** [[@Required ](/Required ) 注解有什么用？](https://github.com/souyunku/DevBooks/blob/master/Spring/Spring面试题及答案整理，2021年最新，汇总版.md#5[@Required-]/Required--注解有什么用)  
 **6、** [[@RequestMapping ](/RequestMapping ) 注解](https://github.com/souyunku/DevBooks/blob/master/Spring/Spring面试题及答案整理，2021年最新，汇总版.md#6[@RequestMapping-]/RequestMapping--注解)  
 **7、** [我们如何连接一个像 MySQL 或者Orcale 一样的外部数据库？](https://github.com/souyunku/DevBooks/blob/master/Spring/Spring面试题及答案整理，2021年最新，汇总版.md#7我们如何连接一个像-MySQL-或者Orcale-一样的外部数据库)  
@@ -1601,7 +1574,7 @@
 **3、** [运行 SpringBoot 有哪几种方式？](https://github.com/souyunku/DevBooks/blob/master/Spring/Spring面试题大全带答案，持续更新.md#3运行-SpringBoot-有哪几种方式)  
 **4、** [SpringBoot 还提供了其它的哪些 Starter Project Options？](https://github.com/souyunku/DevBooks/blob/master/Spring/Spring面试题大全带答案，持续更新.md#4SpringBoot-还提供了其它的哪些-Starter-Project-Options)  
 **5、** [架构师在微服务架构中的角色是什么？](https://github.com/souyunku/DevBooks/blob/master/Spring/Spring面试题大全带答案，持续更新.md#5架构师在微服务架构中的角色是什么)  
-**6、** [在Spring AOP 中，关注点和横切关注的区别是什么？](https://github.com/souyunku/DevBooks/blob/master/Spring/Spring面试题大全带答案，持续更新.md#6在Spring-AOP-中，关注点和横切关注的区别是什么)  
+**6、** [在Spring AOP 中，关注点和横切关注的区别是什么？](https://github.com/souyunku/DevBooks/blob/master/Spring/Spring面试题大全带答案，持续更新.md#6在Spring-AOP-中关注点和横切关注的区别是什么)  
 **7、** [什么是 SpringBoot？](https://github.com/souyunku/DevBooks/blob/master/Spring/Spring面试题大全带答案，持续更新.md#7什么是-SpringBoot)  
 **8、** [什么是Spring Initializer?](https://github.com/souyunku/DevBooks/blob/master/Spring/Spring面试题大全带答案，持续更新.md#8什么是Spring-Initializer)  
 **9、** [什么是 AOP 目标对象?](https://github.com/souyunku/DevBooks/blob/master/Spring/Spring面试题大全带答案，持续更新.md#9什么是-AOP-目标对象)  
@@ -1617,7 +1590,7 @@
 **4、** [SpringBoot中的监视器是什么？](https://github.com/souyunku/DevBooks/blob/master/Spring/Spring面试题大汇总，2021年附答案解析.md#4SpringBoot中的监视器是什么)  
 **5、** [我们如何进行跨功能测试？](https://github.com/souyunku/DevBooks/blob/master/Spring/Spring面试题大汇总，2021年附答案解析.md#5我们如何进行跨功能测试)  
 **6、** [什么是Spring Cloud？](https://github.com/souyunku/DevBooks/blob/master/Spring/Spring面试题大汇总，2021年附答案解析.md#6什么是Spring-Cloud)  
-**7、** [springcloud核⼼组件及其作⽤，以及springcloud⼯作原理：](https://github.com/souyunku/DevBooks/blob/master/Spring/Spring面试题大汇总，2021年附答案解析.md#7springcloud核⼼组件及其作⽤，以及springcloud⼯作原理：)  
+**7、** [springcloud核⼼组件及其作⽤，以及springcloud⼯作原理：](https://github.com/souyunku/DevBooks/blob/master/Spring/Spring面试题大汇总，2021年附答案解析.md#7springcloud核⼼组件及其作⽤以及springcloud⼯作原理：)  
 **8、** [开启 SpringBoot 特性有哪几种方式？](https://github.com/souyunku/DevBooks/blob/master/Spring/Spring面试题大汇总，2021年附答案解析.md#8开启-SpringBoot-特性有哪几种方式)  
 **9、** [自动装配有什么局限？](https://github.com/souyunku/DevBooks/blob/master/Spring/Spring面试题大汇总，2021年附答案解析.md#9自动装配有什么局限)  
 **10、** [什么是 spring bean？](https://github.com/souyunku/DevBooks/blob/master/Spring/Spring面试题大汇总，2021年附答案解析.md#10什么是-spring-bean)  
@@ -1628,7 +1601,7 @@
 
 **1、** [注解原理是什么](https://github.com/souyunku/DevBooks/blob/master/Spring/Spring面试题大汇总，2021面试题及答案汇总.md#1注解原理是什么)  
 **2、** [spring boot监听器流程?](https://github.com/souyunku/DevBooks/blob/master/Spring/Spring面试题大汇总，2021面试题及答案汇总.md#2spring-boot监听器流程)  
-**3、** [哪种依赖注入方式你建议使用，构造器注入，还是 Setter方法注入？](https://github.com/souyunku/DevBooks/blob/master/Spring/Spring面试题大汇总，2021面试题及答案汇总.md#3哪种依赖注入方式你建议使用，构造器注入，还是-Setter方法注入)  
+**3、** [哪种依赖注入方式你建议使用，构造器注入，还是 Setter方法注入？](https://github.com/souyunku/DevBooks/blob/master/Spring/Spring面试题大汇总，2021面试题及答案汇总.md#3哪种依赖注入方式你建议使用构造器注入还是-Setter方法注入)  
 **4、** [什么是Spring Profiles？](https://github.com/souyunku/DevBooks/blob/master/Spring/Spring面试题大汇总，2021面试题及答案汇总.md#4什么是Spring-Profiles)  
 **5、** [什么是 JavaConfig？](https://github.com/souyunku/DevBooks/blob/master/Spring/Spring面试题大汇总，2021面试题及答案汇总.md#5什么是-JavaConfig)  
 **6、** [Spring Cloud 和dubbo区别?](https://github.com/souyunku/DevBooks/blob/master/Spring/Spring面试题大汇总，2021面试题及答案汇总.md#6Spring-Cloud-和dubbo区别)  
@@ -1642,14 +1615,14 @@
 ## Spring高级面试题及答案，2021版
 
 **1、** [有几种不同类型的自动代理？](https://github.com/souyunku/DevBooks/blob/master/Spring/Spring高级面试题及答案，2021版.md#1有几种不同类型的自动代理)  
-**2、** [如何重新加载SpringBoot上的更改，而无需重新启动服务器？](https://github.com/souyunku/DevBooks/blob/master/Spring/Spring高级面试题及答案，2021版.md#2如何重新加载SpringBoot上的更改，而无需重新启动服务器)  
+**2、** [如何重新加载SpringBoot上的更改，而无需重新启动服务器？](https://github.com/souyunku/DevBooks/blob/master/Spring/Spring高级面试题及答案，2021版.md#2如何重新加载SpringBoot上的更改而无需重新启动服务器)  
 **3、** [SpringBoot 的核心配置文件有哪几个？它们的区别是什么？](https://github.com/souyunku/DevBooks/blob/master/Spring/Spring高级面试题及答案，2021版.md#3SpringBoot-的核心配置文件有哪几个它们的区别是什么)  
 **4、** [Nginx与Ribbon的区别](https://github.com/souyunku/DevBooks/blob/master/Spring/Spring高级面试题及答案，2021版.md#4Nginx与Ribbon的区别)  
 **5、** [你可以在Spring中注入一个null 和一个空字符串吗？](https://github.com/souyunku/DevBooks/blob/master/Spring/Spring高级面试题及答案，2021版.md#5你可以在Spring中注入一个null-和一个空字符串吗)  
 **6、** [Container在微服务中的用途是什么？](https://github.com/souyunku/DevBooks/blob/master/Spring/Spring高级面试题及答案，2021版.md#6Container在微服务中的用途是什么)  
 **7、** [为什么人们会犹豫使用微服务？](https://github.com/souyunku/DevBooks/blob/master/Spring/Spring高级面试题及答案，2021版.md#7为什么人们会犹豫使用微服务)  
 **8、** [SpringBoot 中如何实现定时任务 ?](https://github.com/souyunku/DevBooks/blob/master/Spring/Spring高级面试题及答案，2021版.md#8SpringBoot-中如何实现定时任务-)  
-**9、** [如何重新加载 SpringBoot 上的更改，而无需重新启动服务器？SpringBoot项目如何热部署？](https://github.com/souyunku/DevBooks/blob/master/Spring/Spring高级面试题及答案，2021版.md#9如何重新加载-SpringBoot-上的更改，而无需重新启动服务器SpringBoot项目如何热部署)  
+**9、** [如何重新加载 SpringBoot 上的更改，而无需重新启动服务器？SpringBoot项目如何热部署？](https://github.com/souyunku/DevBooks/blob/master/Spring/Spring高级面试题及答案，2021版.md#9如何重新加载-SpringBoot-上的更改而无需重新启动服务器SpringBoot项目如何热部署)  
 **10、** [如何在SpringBoot应用程序中实现Spring安全性？](https://github.com/souyunku/DevBooks/blob/master/Spring/Spring高级面试题及答案，2021版.md#10如何在SpringBoot应用程序中实现Spring安全性)  
 
 ### [此处，仅展示前10道，查看更多30道...](https://github.com/souyunku/DevBooks/blob/master/Spring/Spring高级面试题及答案，2021版.md)  
@@ -1694,7 +1667,7 @@
 **6、** [Eureka和ZooKeeper都可以提供服务注册与发现的功能,请说说两个的区别](https://github.com/souyunku/DevBooks/blob/master/Spring/Spring高级面试题整理及答案.md#6Eureka和ZooKeeper都可以提供服务注册与发现的功能,请说说两个的区别)  
 **7、** [什么是 Spring Batch？](https://github.com/souyunku/DevBooks/blob/master/Spring/Spring高级面试题整理及答案.md#7什么是-Spring-Batch)  
 **8、** [什么是SpringBoot？](https://github.com/souyunku/DevBooks/blob/master/Spring/Spring高级面试题整理及答案.md#8什么是SpringBoot)  
-**9、** [如果在拦截请求中，我想拦截get方式提交的方法,怎么配置](https://github.com/souyunku/DevBooks/blob/master/Spring/Spring高级面试题整理及答案.md#9如果在拦截请求中，我想拦截get方式提交的方法,怎么配置)  
+**9、** [如果在拦截请求中，我想拦截get方式提交的方法,怎么配置](https://github.com/souyunku/DevBooks/blob/master/Spring/Spring高级面试题整理及答案.md#9如果在拦截请求中我想拦截get方式提交的方法,怎么配置)  
 **10、** [什么是 WebSockets？](https://github.com/souyunku/DevBooks/blob/master/Spring/Spring高级面试题整理及答案.md#10什么是-WebSockets)  
 
 ### [此处，仅展示前10道，查看更多30道...](https://github.com/souyunku/DevBooks/blob/master/Spring/Spring高级面试题整理及答案.md)  
@@ -1717,14 +1690,14 @@
 ## SpringBoot最新2021年面试题及答案，汇总版
 
 **1、** [如何使用SpringBoot实现异常处理？](https://github.com/souyunku/DevBooks/blob/master/SpringBoot/SpringBoot最新2021年面试题及答案，汇总版.md#1如何使用SpringBoot实现异常处理)  
-**2、** [如何重新加载SpringBoot上的更改，而无需重新启动服务器？](https://github.com/souyunku/DevBooks/blob/master/SpringBoot/SpringBoot最新2021年面试题及答案，汇总版.md#2如何重新加载SpringBoot上的更改，而无需重新启动服务器)  
+**2、** [如何重新加载SpringBoot上的更改，而无需重新启动服务器？](https://github.com/souyunku/DevBooks/blob/master/SpringBoot/SpringBoot最新2021年面试题及答案，汇总版.md#2如何重新加载SpringBoot上的更改而无需重新启动服务器)  
 **3、** [SpringBoot 的核心注解是哪个？它主要由哪几个注解组成的？](https://github.com/souyunku/DevBooks/blob/master/SpringBoot/SpringBoot最新2021年面试题及答案，汇总版.md#3SpringBoot-的核心注解是哪个它主要由哪几个注解组成的)  
-**4、** [如何重新加载SpringBoot上的更改，而无需重新启动服务器？](https://github.com/souyunku/DevBooks/blob/master/SpringBoot/SpringBoot最新2021年面试题及答案，汇总版.md#4如何重新加载SpringBoot上的更改，而无需重新启动服务器)  
+**4、** [如何重新加载SpringBoot上的更改，而无需重新启动服务器？](https://github.com/souyunku/DevBooks/blob/master/SpringBoot/SpringBoot最新2021年面试题及答案，汇总版.md#4如何重新加载SpringBoot上的更改而无需重新启动服务器)  
 **5、** [运行 SpringBoot 有哪几种方式？](https://github.com/souyunku/DevBooks/blob/master/SpringBoot/SpringBoot最新2021年面试题及答案，汇总版.md#5运行-SpringBoot-有哪几种方式)  
 **6、** [什么是 YAML？](https://github.com/souyunku/DevBooks/blob/master/SpringBoot/SpringBoot最新2021年面试题及答案，汇总版.md#6什么是-YAML)  
 **7、** [什么是Spring Profiles？](https://github.com/souyunku/DevBooks/blob/master/SpringBoot/SpringBoot最新2021年面试题及答案，汇总版.md#7什么是Spring-Profiles)  
 **8、** [SpringBoot 是否可以使用 XML 配置 ?](https://github.com/souyunku/DevBooks/blob/master/SpringBoot/SpringBoot最新2021年面试题及答案，汇总版.md#8SpringBoot-是否可以使用-XML-配置-)  
-**9、** [如何重新加载 SpringBoot上的更改，而无需重新启动服务器？](https://github.com/souyunku/DevBooks/blob/master/SpringBoot/SpringBoot最新2021年面试题及答案，汇总版.md#9如何重新加载-SpringBoot上的更改，而无需重新启动服务器)  
+**9、** [如何重新加载 SpringBoot上的更改，而无需重新启动服务器？](https://github.com/souyunku/DevBooks/blob/master/SpringBoot/SpringBoot最新2021年面试题及答案，汇总版.md#9如何重新加载-SpringBoot上的更改而无需重新启动服务器)  
 **10、** [SpringBoot 2.X 有什么新特性？与 1.X 有什么区别？](https://github.com/souyunku/DevBooks/blob/master/SpringBoot/SpringBoot最新2021年面试题及答案，汇总版.md#10SpringBoot-2X-有什么新特性与-1X-有什么区别)  
 
 ### [此处，仅展示前10道，查看更多30道...](https://github.com/souyunku/DevBooks/blob/master/SpringBoot/SpringBoot最新2021年面试题及答案，汇总版.md)  
@@ -1761,7 +1734,7 @@
 
 ## SpringBoot最新2021年面试题，高级面试题及附答案解析
 
-**1、** [shiro和oauth还有cas他们之间的关系是什么？问下您公司权限是如何设计，还有就是这几个概念的区别。](https://github.com/souyunku/DevBooks/blob/master/SpringBoot/SpringBoot最新2021年面试题，高级面试题及附答案解析.md#1shiro和oauth还有cas他们之间的关系是什么问下您公司权限是如何设计，还有就是这几个概念的区别。)  
+**1、** [shiro和oauth还有cas他们之间的关系是什么？问下您公司权限是如何设计，还有就是这几个概念的区别。](https://github.com/souyunku/DevBooks/blob/master/SpringBoot/SpringBoot最新2021年面试题，高级面试题及附答案解析.md#1shiro和oauth还有cas他们之间的关系是什么问下您公司权限是如何设计还有就是这几个概念的区别。)  
 **2、** [如何使用 SpringBoot 部署到不同的服务器？](https://github.com/souyunku/DevBooks/blob/master/SpringBoot/SpringBoot最新2021年面试题，高级面试题及附答案解析.md#2如何使用-SpringBoot-部署到不同的服务器)  
 **3、** [spring boot监听器流程?](https://github.com/souyunku/DevBooks/blob/master/SpringBoot/SpringBoot最新2021年面试题，高级面试题及附答案解析.md#3spring-boot监听器流程)  
 **4、** [如何在 SpringBoot 启动的时候运行一些特定的代码？](https://github.com/souyunku/DevBooks/blob/master/SpringBoot/SpringBoot最新2021年面试题，高级面试题及附答案解析.md#4如何在-SpringBoot-启动的时候运行一些特定的代码)  
@@ -1830,7 +1803,7 @@
 **7、** [什么是 Swagger？你用 SpringBoot 实现了它吗？](https://github.com/souyunku/DevBooks/blob/master/SpringBoot/SpringBoot最新面试题，2021年面试题及答案汇总.md#7什么是-Swagger你用-SpringBoot-实现了它吗)  
 **8、** [如何在 SpringBoot中禁用 Actuator端点安全性?](https://github.com/souyunku/DevBooks/blob/master/SpringBoot/SpringBoot最新面试题，2021年面试题及答案汇总.md#8如何在-SpringBoot中禁用-Actuator端点安全性)  
 **9、** [SpringBoot多数据源拆分的思路](https://github.com/souyunku/DevBooks/blob/master/SpringBoot/SpringBoot最新面试题，2021年面试题及答案汇总.md#9SpringBoot多数据源拆分的思路)  
-**10、** [前后端分离，如何维护接口文档 ?](https://github.com/souyunku/DevBooks/blob/master/SpringBoot/SpringBoot最新面试题，2021年面试题及答案汇总.md#10前后端分离，如何维护接口文档-)  
+**10、** [前后端分离，如何维护接口文档 ?](https://github.com/souyunku/DevBooks/blob/master/SpringBoot/SpringBoot最新面试题，2021年面试题及答案汇总.md#10前后端分离如何维护接口文档-)  
 
 ### [此处，仅展示前10道，查看更多30道...](https://github.com/souyunku/DevBooks/blob/master/SpringBoot/SpringBoot最新面试题，2021年面试题及答案汇总.md)  
 
@@ -1851,8 +1824,8 @@
 
 ## SpringCloud最新2021年面试题大汇总，附答案
 
-**1、** [eureka和zookeeper都可以提供服务注册与发现的功能，请说说两个的区别？](https://github.com/souyunku/DevBooks/blob/master/SpringCloud/SpringCloud最新2021年面试题大汇总，附答案.md#1eureka和zookeeper都可以提供服务注册与发现的功能，请说说两个的区别)  
-**2、** [在使用微服务架构时，您面临哪些挑战？](https://github.com/souyunku/DevBooks/blob/master/SpringCloud/SpringCloud最新2021年面试题大汇总，附答案.md#2在使用微服务架构时，您面临哪些挑战)  
+**1、** [eureka和zookeeper都可以提供服务注册与发现的功能，请说说两个的区别？](https://github.com/souyunku/DevBooks/blob/master/SpringCloud/SpringCloud最新2021年面试题大汇总，附答案.md#1eureka和zookeeper都可以提供服务注册与发现的功能请说说两个的区别)  
+**2、** [在使用微服务架构时，您面临哪些挑战？](https://github.com/souyunku/DevBooks/blob/master/SpringCloud/SpringCloud最新2021年面试题大汇总，附答案.md#2在使用微服务架构时您面临哪些挑战)  
 **3、** [什么是双因素身份验证？](https://github.com/souyunku/DevBooks/blob/master/SpringCloud/SpringCloud最新2021年面试题大汇总，附答案.md#3什么是双因素身份验证)  
 **4、** [什么是服务降级](https://github.com/souyunku/DevBooks/blob/master/SpringCloud/SpringCloud最新2021年面试题大汇总，附答案.md#4什么是服务降级)  
 **5、** [Nginx与Ribbon的区别](https://github.com/souyunku/DevBooks/blob/master/SpringCloud/SpringCloud最新2021年面试题大汇总，附答案.md#5Nginx与Ribbon的区别)  
@@ -1874,7 +1847,7 @@
 **6、** [什么是REST / RESTful以及它的用途是什么？](https://github.com/souyunku/DevBooks/blob/master/SpringCloud/SpringCloud最新2021年面试题附答案解析，大汇总.md#6什么是REST-/-RESTful以及它的用途是什么)  
 **7、** [如何配置SpringBoot应用程序日志记录？](https://github.com/souyunku/DevBooks/blob/master/SpringCloud/SpringCloud最新2021年面试题附答案解析，大汇总.md#7如何配置SpringBoot应用程序日志记录)  
 **8、** [微服务的端到端测试意味着什么？](https://github.com/souyunku/DevBooks/blob/master/SpringCloud/SpringCloud最新2021年面试题附答案解析，大汇总.md#8微服务的端到端测试意味着什么)  
-**9、** [多个消费者调⽤同⼀接⼝，eruka默认的分配⽅式是什么？](https://github.com/souyunku/DevBooks/blob/master/SpringCloud/SpringCloud最新2021年面试题附答案解析，大汇总.md#9多个消费者调⽤同⼀接⼝，eruka默认的分配⽅式是什么)  
+**9、** [多个消费者调⽤同⼀接⼝，eruka默认的分配⽅式是什么？](https://github.com/souyunku/DevBooks/blob/master/SpringCloud/SpringCloud最新2021年面试题附答案解析，大汇总.md#9多个消费者调⽤同⼀接⼝eruka默认的分配⽅式是什么)  
 **10、** [您对微服务有何了解？](https://github.com/souyunku/DevBooks/blob/master/SpringCloud/SpringCloud最新2021年面试题附答案解析，大汇总.md#10您对微服务有何了解)  
 
 ### [此处，仅展示前10道，查看更多30道...](https://github.com/souyunku/DevBooks/blob/master/SpringCloud/SpringCloud最新2021年面试题附答案解析，大汇总.md)  
@@ -1889,7 +1862,7 @@
 **6、** [既然Nginx可以实现网关？为什么还需要使用Zuul框架](https://github.com/souyunku/DevBooks/blob/master/SpringCloud/SpringCloud最新2021年面试题，高级面试题及附答案解析.md#6既然Nginx可以实现网关为什么还需要使用Zuul框架)  
 **7、** [dubbo服务注册与发现原理](https://github.com/souyunku/DevBooks/blob/master/SpringCloud/SpringCloud最新2021年面试题，高级面试题及附答案解析.md#7dubbo服务注册与发现原理)  
 **8、** [负载平衡的意义什么？](https://github.com/souyunku/DevBooks/blob/master/SpringCloud/SpringCloud最新2021年面试题，高级面试题及附答案解析.md#8负载平衡的意义什么)  
-**9、** [Spring Cloud抛弃了Dubbo 的RPC通信，采用的是基于HTTP的REST方式。](https://github.com/souyunku/DevBooks/blob/master/SpringCloud/SpringCloud最新2021年面试题，高级面试题及附答案解析.md#9Spring-Cloud抛弃了Dubbo-的RPC通信，采用的是基于HTTP的REST方式。)  
+**9、** [Spring Cloud抛弃了Dubbo 的RPC通信，采用的是基于HTTP的REST方式。](https://github.com/souyunku/DevBooks/blob/master/SpringCloud/SpringCloud最新2021年面试题，高级面试题及附答案解析.md#9Spring-Cloud抛弃了Dubbo-的RPC通信采用的是基于HTTP的REST方式。)  
 **10、** [服务注册和发现是什么意思？Spring Cloud如何实现？](https://github.com/souyunku/DevBooks/blob/master/SpringCloud/SpringCloud最新2021年面试题，高级面试题及附答案解析.md#10服务注册和发现是什么意思Spring-Cloud如何实现)  
 
 ### [此处，仅展示前10道，查看更多30道...](https://github.com/souyunku/DevBooks/blob/master/SpringCloud/SpringCloud最新2021年面试题，高级面试题及附答案解析.md)  
@@ -1902,7 +1875,7 @@
 **4、** [什么是客户证书？](https://github.com/souyunku/DevBooks/blob/master/SpringCloud/SpringCloud最新面试题2021年，常见面试题及答案汇总.md#4什么是客户证书)  
 **5、** [微服务设计的基础是什么？](https://github.com/souyunku/DevBooks/blob/master/SpringCloud/SpringCloud最新面试题2021年，常见面试题及答案汇总.md#5微服务设计的基础是什么)  
 **6、** [Spring Cloud 是什么](https://github.com/souyunku/DevBooks/blob/master/SpringCloud/SpringCloud最新面试题2021年，常见面试题及答案汇总.md#6Spring-Cloud-是什么)  
-**7、** [springcloud核⼼组件及其作⽤，以及springcloud⼯作原理：](https://github.com/souyunku/DevBooks/blob/master/SpringCloud/SpringCloud最新面试题2021年，常见面试题及答案汇总.md#7springcloud核⼼组件及其作⽤，以及springcloud⼯作原理：)  
+**7、** [springcloud核⼼组件及其作⽤，以及springcloud⼯作原理：](https://github.com/souyunku/DevBooks/blob/master/SpringCloud/SpringCloud最新面试题2021年，常见面试题及答案汇总.md#7springcloud核⼼组件及其作⽤以及springcloud⼯作原理：)  
 **8、** [什么是Hystrix?](https://github.com/souyunku/DevBooks/blob/master/SpringCloud/SpringCloud最新面试题2021年，常见面试题及答案汇总.md#8什么是Hystrix)  
 **9、** [什么是持续监测？](https://github.com/souyunku/DevBooks/blob/master/SpringCloud/SpringCloud最新面试题2021年，常见面试题及答案汇总.md#9什么是持续监测)  
 **10、** [什么是Netflix Feign？它的优点是什么？](https://github.com/souyunku/DevBooks/blob/master/SpringCloud/SpringCloud最新面试题2021年，常见面试题及答案汇总.md#10什么是Netflix-Feign它的优点是什么)  
@@ -1942,7 +1915,7 @@
 ## ZooKeeper最新2021年面试题大汇总，附答案
 
 **1、** [ZAB和Paxos算法的联系与区别？](https://github.com/souyunku/DevBooks/blob/master/ZooKeeper/ZooKeeper最新2021年面试题大汇总，附答案.md#1ZAB和Paxos算法的联系与区别)  
-**2、** [A是根节点，如何表达A子节点下的B节点？](https://github.com/souyunku/DevBooks/blob/master/ZooKeeper/ZooKeeper最新2021年面试题大汇总，附答案.md#2A是根节点，如何表达A子节点下的B节点)  
+**2、** [A是根节点，如何表达A子节点下的B节点？](https://github.com/souyunku/DevBooks/blob/master/ZooKeeper/ZooKeeper最新2021年面试题大汇总，附答案.md#2A是根节点如何表达A子节点下的B节点)  
 **3、** [删除指定节点？注意？](https://github.com/souyunku/DevBooks/blob/master/ZooKeeper/ZooKeeper最新2021年面试题大汇总，附答案.md#3删除指定节点注意)  
 **4、** [说几个zookeeper常用的命令。](https://github.com/souyunku/DevBooks/blob/master/ZooKeeper/ZooKeeper最新2021年面试题大汇总，附答案.md#4说几个zookeeper常用的命令。)  
 **5、** [Zookeeper 都有哪些功能？](https://github.com/souyunku/DevBooks/blob/master/ZooKeeper/ZooKeeper最新2021年面试题大汇总，附答案.md#5Zookeeper-都有哪些功能)  
@@ -1950,7 +1923,7 @@
 **7、** [ZAB的两种基本模式？](https://github.com/souyunku/DevBooks/blob/master/ZooKeeper/ZooKeeper最新2021年面试题大汇总，附答案.md#7ZAB的两种基本模式)  
 **8、** [zk 节点宕机如何处理？](https://github.com/souyunku/DevBooks/blob/master/ZooKeeper/ZooKeeper最新2021年面试题大汇总，附答案.md#8zk-节点宕机如何处理)  
 **9、** [ZAB协议？](https://github.com/souyunku/DevBooks/blob/master/ZooKeeper/ZooKeeper最新2021年面试题大汇总，附答案.md#9ZAB协议)  
-**10、** [chubby 是什么，和 zookeeper 比你怎么看？](https://github.com/souyunku/DevBooks/blob/master/ZooKeeper/ZooKeeper最新2021年面试题大汇总，附答案.md#10chubby-是什么，和-zookeeper-比你怎么看)  
+**10、** [chubby 是什么，和 zookeeper 比你怎么看？](https://github.com/souyunku/DevBooks/blob/master/ZooKeeper/ZooKeeper最新2021年面试题大汇总，附答案.md#10chubby-是什么和-zookeeper-比你怎么看)  
 
 ### [此处，仅展示前10道，查看更多30道...](https://github.com/souyunku/DevBooks/blob/master/ZooKeeper/ZooKeeper最新2021年面试题大汇总，附答案.md)  
 
@@ -1991,7 +1964,7 @@
 **3、** [客户端注册 Watcher 实现](https://github.com/souyunku/DevBooks/blob/master/ZooKeeper/ZooKeeper最新面试题2021年，常见面试题及答案汇总.md#3客户端注册-Watcher-实现)  
 **4、** [Zookeeper通知机制](https://github.com/souyunku/DevBooks/blob/master/ZooKeeper/ZooKeeper最新面试题2021年，常见面试题及答案汇总.md#4Zookeeper通知机制)  
 **5、** [更新指定节点信息？](https://github.com/souyunku/DevBooks/blob/master/ZooKeeper/ZooKeeper最新面试题2021年，常见面试题及答案汇总.md#5更新指定节点信息)  
-**6、** [集群最少要几台机器，集群规则是怎样的？集群中有 3 台服务器，其中一个节点宕机，这个时候 Zookeeper 还可以使用吗？](https://github.com/souyunku/DevBooks/blob/master/ZooKeeper/ZooKeeper最新面试题2021年，常见面试题及答案汇总.md#6集群最少要几台机器，集群规则是怎样的集群中有-3-台服务器，其中一个节点宕机，这个时候-Zookeeper-还可以使用吗)  
+**6、** [集群最少要几台机器，集群规则是怎样的？集群中有 3 台服务器，其中一个节点宕机，这个时候 Zookeeper 还可以使用吗？](https://github.com/souyunku/DevBooks/blob/master/ZooKeeper/ZooKeeper最新面试题2021年，常见面试题及答案汇总.md#6集群最少要几台机器集群规则是怎样的集群中有-3-台服务器其中一个节点宕机这个时候-Zookeeper-还可以使用吗)  
 **7、** [Zookeeper默认端口？](https://github.com/souyunku/DevBooks/blob/master/ZooKeeper/ZooKeeper最新面试题2021年，常见面试题及答案汇总.md#7Zookeeper默认端口)  
 **8、** [ZooKeeper可以实现哪些功能？](https://github.com/souyunku/DevBooks/blob/master/ZooKeeper/ZooKeeper最新面试题2021年，常见面试题及答案汇总.md#8ZooKeeper可以实现哪些功能)  
 **9、** [集群角色？](https://github.com/souyunku/DevBooks/blob/master/ZooKeeper/ZooKeeper最新面试题2021年，常见面试题及答案汇总.md#9集群角色)  
@@ -2005,27 +1978,27 @@
 **2、** [举一个例子说明mapreduce是怎么运行的。](https://github.com/souyunku/DevBooks/blob/master/大数据/大数据最新2021年面试题及答案，汇总版.md#2举一个例子说明mapreduce是怎么运行的。)  
 **3、** [什么是Kafka？](https://github.com/souyunku/DevBooks/blob/master/大数据/大数据最新2021年面试题及答案，汇总版.md#3什么是Kafka)  
 **4、** [hadoop中常用的数据压缩算法](https://github.com/souyunku/DevBooks/blob/master/大数据/大数据最新2021年面试题及答案，汇总版.md#4hadoop中常用的数据压缩算法)  
-**5、** [有一个1G大小的一个文件，里面每一行是一个词，词的大小不超过16字节，内存限制大小是1M。返回频数最高的100个词。](https://github.com/souyunku/DevBooks/blob/master/大数据/大数据最新2021年面试题及答案，汇总版.md#5有一个1G大小的一个文件，里面每一行是一个词，词的大小不超过16字节，内存限制大小是1M。返回频数最高的100个词。)  
+**5、** [有一个1G大小的一个文件，里面每一行是一个词，词的大小不超过16字节，内存限制大小是1M。返回频数最高的100个词。](https://github.com/souyunku/DevBooks/blob/master/大数据/大数据最新2021年面试题及答案，汇总版.md#5有一个1G大小的一个文件里面每一行是一个词词的大小不超过16字节内存限制大小是1M。返回频数最高的100个词。)  
 **6、** [hdfs的体系结构](https://github.com/souyunku/DevBooks/blob/master/大数据/大数据最新2021年面试题及答案，汇总版.md#6hdfs的体系结构)  
 **7、** [Hadoop集群可以运行的3个模式？](https://github.com/souyunku/DevBooks/blob/master/大数据/大数据最新2021年面试题及答案，汇总版.md#7Hadoop集群可以运行的3个模式)  
 **8、** [Hive中存放是什么？](https://github.com/souyunku/DevBooks/blob/master/大数据/大数据最新2021年面试题及答案，汇总版.md#8Hive中存放是什么)  
 **9、** [RDD缓存](https://github.com/souyunku/DevBooks/blob/master/大数据/大数据最新2021年面试题及答案，汇总版.md#9RDD缓存)  
-**10、** [描述一下hadoop中，有哪些地方使用到了缓存机制，作用分别是什么？](https://github.com/souyunku/DevBooks/blob/master/大数据/大数据最新2021年面试题及答案，汇总版.md#10描述一下hadoop中，有哪些地方使用到了缓存机制，作用分别是什么)  
+**10、** [描述一下hadoop中，有哪些地方使用到了缓存机制，作用分别是什么？](https://github.com/souyunku/DevBooks/blob/master/大数据/大数据最新2021年面试题及答案，汇总版.md#10描述一下hadoop中有哪些地方使用到了缓存机制作用分别是什么)  
 
 ### [此处，仅展示前10道，查看更多30道...](https://github.com/souyunku/DevBooks/blob/master/大数据/大数据最新2021年面试题及答案，汇总版.md)  
 
 ## 大数据最新2021年面试题大汇总，附答案
 
 **1、** [为什么会出现hadoop](https://github.com/souyunku/DevBooks/blob/master/大数据/大数据最新2021年面试题大汇总，附答案.md#1为什么会出现hadoop)  
-**2、** [Hbase行键列族的概念，物理模型，表的设计原则？](https://github.com/souyunku/DevBooks/blob/master/大数据/大数据最新2021年面试题大汇总，附答案.md#2Hbase行键列族的概念，物理模型，表的设计原则)  
-**3、** [请说明hive中Sort By、Order By、Cluster By，Distribute By各代表什么意思？](https://github.com/souyunku/DevBooks/blob/master/大数据/大数据最新2021年面试题大汇总，附答案.md#3请说明hive中Sort-ByOrder-ByCluster-By，Distribute-By各代表什么意思)  
+**2、** [Hbase行键列族的概念，物理模型，表的设计原则？](https://github.com/souyunku/DevBooks/blob/master/大数据/大数据最新2021年面试题大汇总，附答案.md#2Hbase行键列族的概念物理模型表的设计原则)  
+**3、** [请说明hive中Sort By、Order By、Cluster By，Distribute By各代表什么意思？](https://github.com/souyunku/DevBooks/blob/master/大数据/大数据最新2021年面试题大汇总，附答案.md#3请说明hive中Sort-ByOrder-ByCluster-ByDistribute-By各代表什么意思)  
 **4、** [flush的过程](https://github.com/souyunku/DevBooks/blob/master/大数据/大数据最新2021年面试题大汇总，附答案.md#4flush的过程)  
 **5、** [storm特点](https://github.com/souyunku/DevBooks/blob/master/大数据/大数据最新2021年面试题大汇总，附答案.md#5storm特点)  
-**6、** [在2.5亿个整数中找出不重复的整数，注，内存不足以容纳这2.5亿个整数。](https://github.com/souyunku/DevBooks/blob/master/大数据/大数据最新2021年面试题大汇总，附答案.md#6在25亿个整数中找出不重复的整数，注，内存不足以容纳这25亿个整数。)  
+**6、** [在2.5亿个整数中找出不重复的整数，注，内存不足以容纳这2.5亿个整数。](https://github.com/souyunku/DevBooks/blob/master/大数据/大数据最新2021年面试题大汇总，附答案.md#6在25亿个整数中找出不重复的整数注内存不足以容纳这25亿个整数。)  
 **7、** [数据本地性是在哪个环节确定的？](https://github.com/souyunku/DevBooks/blob/master/大数据/大数据最新2021年面试题大汇总，附答案.md#7数据本地性是在哪个环节确定的)  
-**8、** [如果在SSH中添加key，是否还需要设置密码？](https://github.com/souyunku/DevBooks/blob/master/大数据/大数据最新2021年面试题大汇总，附答案.md#8如果在SSH中添加key，是否还需要设置密码)  
+**8、** [如果在SSH中添加key，是否还需要设置密码？](https://github.com/souyunku/DevBooks/blob/master/大数据/大数据最新2021年面试题大汇总，附答案.md#8如果在SSH中添加key是否还需要设置密码)  
 **9、** [Hbase的rowKey怎么创建比较好？列簇怎么创建比较好？](https://github.com/souyunku/DevBooks/blob/master/大数据/大数据最新2021年面试题大汇总，附答案.md#9Hbase的rowKey怎么创建比较好列簇怎么创建比较好)  
-**10、** [为什么要用flume导入hdfs，hdfs的架构是怎样的？](https://github.com/souyunku/DevBooks/blob/master/大数据/大数据最新2021年面试题大汇总，附答案.md#10为什么要用flume导入hdfs，hdfs的架构是怎样的)  
+**10、** [为什么要用flume导入hdfs，hdfs的架构是怎样的？](https://github.com/souyunku/DevBooks/blob/master/大数据/大数据最新2021年面试题大汇总，附答案.md#10为什么要用flume导入hdfshdfs的架构是怎样的)  
 
 ### [此处，仅展示前10道，查看更多30道...](https://github.com/souyunku/DevBooks/blob/master/大数据/大数据最新2021年面试题大汇总，附答案.md)  
 
@@ -2036,11 +2009,11 @@
 **3、** [Hadoop的shuffle过程](https://github.com/souyunku/DevBooks/blob/master/大数据/大数据最新2021年面试题附答案解析，大汇总.md#3Hadoop的shuffle过程)  
 **4、** [Hadoop性能调优？](https://github.com/souyunku/DevBooks/blob/master/大数据/大数据最新2021年面试题附答案解析，大汇总.md#4Hadoop性能调优)  
 **5、** [怎么样才能实现去掉reduce阶段](https://github.com/souyunku/DevBooks/blob/master/大数据/大数据最新2021年面试题附答案解析，大汇总.md#5怎么样才能实现去掉reduce阶段)  
-**6、** [海量日志数据，提取出某日访问百度次数最多的那个IP。](https://github.com/souyunku/DevBooks/blob/master/大数据/大数据最新2021年面试题附答案解析，大汇总.md#6海量日志数据，提取出某日访问百度次数最多的那个IP。)  
-**7、** [请列出你所知道的hadoop调度器，并简要说明其工作方法](https://github.com/souyunku/DevBooks/blob/master/大数据/大数据最新2021年面试题附答案解析，大汇总.md#7请列出你所知道的hadoop调度器，并简要说明其工作方法)  
+**6、** [海量日志数据，提取出某日访问百度次数最多的那个IP。](https://github.com/souyunku/DevBooks/blob/master/大数据/大数据最新2021年面试题附答案解析，大汇总.md#6海量日志数据提取出某日访问百度次数最多的那个IP。)  
+**7、** [请列出你所知道的hadoop调度器，并简要说明其工作方法](https://github.com/souyunku/DevBooks/blob/master/大数据/大数据最新2021年面试题附答案解析，大汇总.md#7请列出你所知道的hadoop调度器并简要说明其工作方法)  
 **8、** [MR程序运行的时候会有什么比较常见的问题？](https://github.com/souyunku/DevBooks/blob/master/大数据/大数据最新2021年面试题附答案解析，大汇总.md#8MR程序运行的时候会有什么比较常见的问题)  
-**9、** [上千万或上亿数据（有重复），统计其中出现次数最多的前N个数据。](https://github.com/souyunku/DevBooks/blob/master/大数据/大数据最新2021年面试题附答案解析，大汇总.md#9上千万或上亿数据有重复，统计其中出现次数最多的前N个数据。)  
-**10、** [你认为用java ， streaming ， pipe方式开发map/reduce ， 各有哪些优点](https://github.com/souyunku/DevBooks/blob/master/大数据/大数据最新2021年面试题附答案解析，大汇总.md#10你认为用java-，-streaming-，-pipe方式开发map/reduce-，-各有哪些优点)  
+**9、** [上千万或上亿数据（有重复），统计其中出现次数最多的前N个数据。](https://github.com/souyunku/DevBooks/blob/master/大数据/大数据最新2021年面试题附答案解析，大汇总.md#9上千万或上亿数据有重复统计其中出现次数最多的前N个数据。)  
+**10、** [你认为用java ， streaming ， pipe方式开发map/reduce ， 各有哪些优点](https://github.com/souyunku/DevBooks/blob/master/大数据/大数据最新2021年面试题附答案解析，大汇总.md#10你认为用java--streaming--pipe方式开发map/reduce--各有哪些优点)  
 
 ### [此处，仅展示前10道，查看更多30道...](https://github.com/souyunku/DevBooks/blob/master/大数据/大数据最新2021年面试题附答案解析，大汇总.md)  
 
@@ -2054,7 +2027,7 @@
 **6、** [数据导入hive的方式](https://github.com/souyunku/DevBooks/blob/master/大数据/大数据最新2021年面试题，高级面试题及附答案解析.md#6数据导入hive的方式)  
 **7、** [什么是udf](https://github.com/souyunku/DevBooks/blob/master/大数据/大数据最新2021年面试题，高级面试题及附答案解析.md#7什么是udf)  
 **8、** [怎么保证Kafka集群的负载均衡？](https://github.com/souyunku/DevBooks/blob/master/大数据/大数据最新2021年面试题，高级面试题及附答案解析.md#8怎么保证Kafka集群的负载均衡)  
-**9、** [简要描述如何安装配置apache的一个开源hadoop，只描述即可，无需列出具体步骤，列出具体步骤更好。](https://github.com/souyunku/DevBooks/blob/master/大数据/大数据最新2021年面试题，高级面试题及附答案解析.md#9简要描述如何安装配置apache的一个开源hadoop，只描述即可，无需列出具体步骤，列出具体步骤更好。)  
+**9、** [简要描述如何安装配置apache的一个开源hadoop，只描述即可，无需列出具体步骤，列出具体步骤更好。](https://github.com/souyunku/DevBooks/blob/master/大数据/大数据最新2021年面试题，高级面试题及附答案解析.md#9简要描述如何安装配置apache的一个开源hadoop只描述即可无需列出具体步骤列出具体步骤更好。)  
 **10、** [spark调优](https://github.com/souyunku/DevBooks/blob/master/大数据/大数据最新2021年面试题，高级面试题及附答案解析.md#10spark调优)  
 
 ### [此处，仅展示前10道，查看更多30道...](https://github.com/souyunku/DevBooks/blob/master/大数据/大数据最新2021年面试题，高级面试题及附答案解析.md)  
@@ -2068,7 +2041,7 @@
 **5、** [hive能像关系型数据库那样建多个库吗？](https://github.com/souyunku/DevBooks/blob/master/大数据/大数据最新面试题2021年，常见面试题及答案汇总.md#5hive能像关系型数据库那样建多个库吗)  
 **6、** [VM是否可以称为Pseudo？](https://github.com/souyunku/DevBooks/blob/master/大数据/大数据最新面试题2021年，常见面试题及答案汇总.md#6VM是否可以称为Pseudo)  
 **7、** [Hive生产环境中为什么建议使用外部表？](https://github.com/souyunku/DevBooks/blob/master/大数据/大数据最新面试题2021年，常见面试题及答案汇总.md#7Hive生产环境中为什么建议使用外部表)  
-**8、** [请描述一下开发过程中如何对上面的程序进行性能分析，对性能分析进行优化的过程。](https://github.com/souyunku/DevBooks/blob/master/大数据/大数据最新面试题2021年，常见面试题及答案汇总.md#8请描述一下开发过程中如何对上面的程序进行性能分析，对性能分析进行优化的过程。)  
+**8、** [请描述一下开发过程中如何对上面的程序进行性能分析，对性能分析进行优化的过程。](https://github.com/souyunku/DevBooks/blob/master/大数据/大数据最新面试题2021年，常见面试题及答案汇总.md#8请描述一下开发过程中如何对上面的程序进行性能分析对性能分析进行优化的过程。)  
 **9、** [hbase和hive的区别](https://github.com/souyunku/DevBooks/blob/master/大数据/大数据最新面试题2021年，常见面试题及答案汇总.md#9hbase和hive的区别)  
 **10、** [如何重启Namenode？](https://github.com/souyunku/DevBooks/blob/master/大数据/大数据最新面试题2021年，常见面试题及答案汇总.md#10如何重启Namenode)  
 
@@ -2078,9 +2051,9 @@
 
 **1、** [假如一个分区的数据逐步错误怎么通过hivesql删除](https://github.com/souyunku/DevBooks/blob/master/大数据/大数据最新面试题及答案附答案汇总.md#1假如一个分区的数据逐步错误怎么通过hivesql删除)  
 **2、** [查看所有的topic](https://github.com/souyunku/DevBooks/blob/master/大数据/大数据最新面试题及答案附答案汇总.md#2查看所有的topic)  
-**3、** [我们使用Ubuntu及Cloudera，那么我们该去哪里下载Hadoop，或者是默认就与Ubuntu一起安装？](https://github.com/souyunku/DevBooks/blob/master/大数据/大数据最新面试题及答案附答案汇总.md#3我们使用Ubuntu及Cloudera，那么我们该去哪里下载Hadoop，或者是默认就与Ubuntu一起安装)  
-**4、** [请列出正常的hadoop集群中hadoop都分别需要启动 哪些进程，他们的作用分别都是什么，请尽量列的详细一些。](https://github.com/souyunku/DevBooks/blob/master/大数据/大数据最新面试题及答案附答案汇总.md#4请列出正常的hadoop集群中hadoop都分别需要启动-哪些进程，他们的作用分别都是什么，请尽量列的详细一些。)  
-**5、** [mapreduce的调度模式（题意模糊，可以理解为yarn的调度模式，也可以理解为mr的内部工作流程）](https://github.com/souyunku/DevBooks/blob/master/大数据/大数据最新面试题及答案附答案汇总.md#5mapreduce的调度模式题意模糊，可以理解为yarn的调度模式，也可以理解为mr的内部工作流程)  
+**3、** [我们使用Ubuntu及Cloudera，那么我们该去哪里下载Hadoop，或者是默认就与Ubuntu一起安装？](https://github.com/souyunku/DevBooks/blob/master/大数据/大数据最新面试题及答案附答案汇总.md#3我们使用Ubuntu及Cloudera那么我们该去哪里下载Hadoop或者是默认就与Ubuntu一起安装)  
+**4、** [请列出正常的hadoop集群中hadoop都分别需要启动 哪些进程，他们的作用分别都是什么，请尽量列的详细一些。](https://github.com/souyunku/DevBooks/blob/master/大数据/大数据最新面试题及答案附答案汇总.md#4请列出正常的hadoop集群中hadoop都分别需要启动-哪些进程他们的作用分别都是什么请尽量列的详细一些。)  
+**5、** [mapreduce的调度模式（题意模糊，可以理解为yarn的调度模式，也可以理解为mr的内部工作流程）](https://github.com/souyunku/DevBooks/blob/master/大数据/大数据最新面试题及答案附答案汇总.md#5mapreduce的调度模式题意模糊可以理解为yarn的调度模式也可以理解为mr的内部工作流程)  
 **6、** [用mapreduce怎么处理数据倾斜问题](https://github.com/souyunku/DevBooks/blob/master/大数据/大数据最新面试题及答案附答案汇总.md#6用mapreduce怎么处理数据倾斜问题)  
 **7、** [Kafka的消息发送](https://github.com/souyunku/DevBooks/blob/master/大数据/大数据最新面试题及答案附答案汇总.md#7Kafka的消息发送)  
 **8、** [创建topic：](https://github.com/souyunku/DevBooks/blob/master/大数据/大数据最新面试题及答案附答案汇总.md#8创建topic：)  
@@ -2094,11 +2067,11 @@
 **1、** [如何从SU转到Cloudera？](https://github.com/souyunku/DevBooks/blob/master/大数据/大数据最新面试题，2021年面试题及答案汇总.md#1如何从SU转到Cloudera)  
 **2、** [为什么SSH本地主机需要密码？](https://github.com/souyunku/DevBooks/blob/master/大数据/大数据最新面试题，2021年面试题及答案汇总.md#2为什么SSH本地主机需要密码)  
 **3、** [如何解决spark数据倾斜](https://github.com/souyunku/DevBooks/blob/master/大数据/大数据最新面试题，2021年面试题及答案汇总.md#3如何解决spark数据倾斜)  
-**4、** [hive有哪些保存元数据的方式，各有什么特点](https://github.com/souyunku/DevBooks/blob/master/大数据/大数据最新面试题，2021年面试题及答案汇总.md#4hive有哪些保存元数据的方式，各有什么特点)  
+**4、** [hive有哪些保存元数据的方式，各有什么特点](https://github.com/souyunku/DevBooks/blob/master/大数据/大数据最新面试题，2021年面试题及答案汇总.md#4hive有哪些保存元数据的方式各有什么特点)  
 **5、** [怎么在海量数据中找出重复次数最多的一个？](https://github.com/souyunku/DevBooks/blob/master/大数据/大数据最新面试题，2021年面试题及答案汇总.md#5怎么在海量数据中找出重复次数最多的一个)  
 **6、** [存储特点](https://github.com/souyunku/DevBooks/blob/master/大数据/大数据最新面试题，2021年面试题及答案汇总.md#6存储特点)  
 **7、** [如何在浏览器中查找Namenode？](https://github.com/souyunku/DevBooks/blob/master/大数据/大数据最新面试题，2021年面试题及答案汇总.md#7如何在浏览器中查找Namenode)  
-**8、** [当你输入hadoopfsck 造成“connection refused java exception’”时，系统究竟发生了什么？](https://github.com/souyunku/DevBooks/blob/master/大数据/大数据最新面试题，2021年面试题及答案汇总.md#8当你输入hadoopfsck-造成“connection-refused-java-exception’时，系统究竟发生了什么)  
+**8、** [当你输入hadoopfsck 造成“connection refused java exception’”时，系统究竟发生了什么？](https://github.com/souyunku/DevBooks/blob/master/大数据/大数据最新面试题，2021年面试题及答案汇总.md#8当你输入hadoopfsck-造成“connection-refused-java-exception’时系统究竟发生了什么)  
 **9、** [RDD的弹性表现在哪几点？](https://github.com/souyunku/DevBooks/blob/master/大数据/大数据最新面试题，2021年面试题及答案汇总.md#9RDD的弹性表现在哪几点)  
 **10、** [HDFS写文件的步骤：](https://github.com/souyunku/DevBooks/blob/master/大数据/大数据最新面试题，2021年面试题及答案汇总.md#10HDFS写文件的步骤：)  
 
@@ -2114,7 +2087,7 @@
 **6、** [Memcached 与Redis 的区别？](https://github.com/souyunku/DevBooks/blob/master/Redis/Redis最新2021年面试题及答案，汇总版.md#6Memcached-与Redis-的区别)  
 **7、** [WATCH命令和基于CAS的乐观锁：](https://github.com/souyunku/DevBooks/blob/master/Redis/Redis最新2021年面试题及答案，汇总版.md#7WATCH命令和基于CAS的乐观锁：)  
 **8、** [Reids工具命令](https://github.com/souyunku/DevBooks/blob/master/Redis/Redis最新2021年面试题及答案，汇总版.md#8Reids工具命令)  
-**9、** [假如 Redis 里面有 1 亿个key，其中有 10w 个key 是以某个固定的已知的前缀开头的，如果将它们全部找出来？](https://github.com/souyunku/DevBooks/blob/master/Redis/Redis最新2021年面试题及答案，汇总版.md#9假如-Redis-里面有-1-亿个key，其中有-10w-个key-是以某个固定的已知的前缀开头的，如果将它们全部找出来)  
+**9、** [假如 Redis 里面有 1 亿个key，其中有 10w 个key 是以某个固定的已知的前缀开头的，如果将它们全部找出来？](https://github.com/souyunku/DevBooks/blob/master/Redis/Redis最新2021年面试题及答案，汇总版.md#9假如-Redis-里面有-1-亿个key其中有-10w-个key-是以某个固定的已知的前缀开头的如果将它们全部找出来)  
 **10、** [Redis key 的过期时间和永久有效分别怎么设置？](https://github.com/souyunku/DevBooks/blob/master/Redis/Redis最新2021年面试题及答案，汇总版.md#10Redis-key-的过期时间和永久有效分别怎么设置)  
 
 ### [此处，仅展示前10道，查看更多30道...](https://github.com/souyunku/DevBooks/blob/master/Redis/Redis最新2021年面试题及答案，汇总版.md)  
@@ -2137,9 +2110,9 @@
 ## Redis最新2021年面试题附答案解析，大汇总
 
 **1、** [Reids持久化触发条件](https://github.com/souyunku/DevBooks/blob/master/Redis/Redis最新2021年面试题附答案解析，大汇总.md#1Reids持久化触发条件)  
-**2、** [微信公众号：Java资讯库，回复“架构”](https://github.com/souyunku/DevBooks/blob/master/Redis/Redis最新2021年面试题附答案解析，大汇总.md#2微信公众号：Java资讯库，回复“架构)  
+**2、** [微信公众号：Java资讯库，回复“架构”](https://github.com/souyunku/DevBooks/blob/master/Redis/Redis最新2021年面试题附答案解析，大汇总.md#2微信公众号：Java资讯库回复“架构)  
 **3、** [Redis 的持久化机制是什么？各自的优缺点？](https://github.com/souyunku/DevBooks/blob/master/Redis/Redis最新2021年面试题附答案解析，大汇总.md#3Redis-的持久化机制是什么各自的优缺点)  
-**4、** [，或是关注](https://github.com/souyunku/DevBooks/blob/master/Redis/Redis最新2021年面试题附答案解析，大汇总.md#4，或是关注)  
+**4、** [，或是关注](https://github.com/souyunku/DevBooks/blob/master/Redis/Redis最新2021年面试题附答案解析，大汇总.md#4或是关注)  
 **5、** [缓冲内存](https://github.com/souyunku/DevBooks/blob/master/Redis/Redis最新2021年面试题附答案解析，大汇总.md#5缓冲内存)  
 **6、** [Redis常见性能问题和解决方案：](https://github.com/souyunku/DevBooks/blob/master/Redis/Redis最新2021年面试题附答案解析，大汇总.md#6Redis常见性能问题和解决方案：)  
 **7、** [Redis有哪几种数据淘汰策略？](https://github.com/souyunku/DevBooks/blob/master/Redis/Redis最新2021年面试题附答案解析，大汇总.md#7Redis有哪几种数据淘汰策略)  
@@ -2151,7 +2124,7 @@
 
 ## Redis最新2021年面试题，高级面试题及附答案解析
 
-**1、** [MySQL 里有 2000w 数据，Redis 中只存 20w 的数据，如何保证Redis 中的数据都是热点数据？](https://github.com/souyunku/DevBooks/blob/master/Redis/Redis最新2021年面试题，高级面试题及附答案解析.md#1MySQL-里有-2000w-数据，Redis-中只存-20w-的数据，如何保证Redis-中的数据都是热点数据)  
+**1、** [MySQL 里有 2000w 数据，Redis 中只存 20w 的数据，如何保证Redis 中的数据都是热点数据？](https://github.com/souyunku/DevBooks/blob/master/Redis/Redis最新2021年面试题，高级面试题及附答案解析.md#1MySQL-里有-2000w-数据Redis-中只存-20w-的数据如何保证Redis-中的数据都是热点数据)  
 **2、** [惰性删除](https://github.com/souyunku/DevBooks/blob/master/Redis/Redis最新2021年面试题，高级面试题及附答案解析.md#2惰性删除)  
 **3、** [为什么Redis需要把所有数据放到内存中？](https://github.com/souyunku/DevBooks/blob/master/Redis/Redis最新2021年面试题，高级面试题及附答案解析.md#3为什么Redis需要把所有数据放到内存中)  
 **4、** [Redis是单线程](https://github.com/souyunku/DevBooks/blob/master/Redis/Redis最新2021年面试题，高级面试题及附答案解析.md#4Redis是单线程)  
@@ -2190,21 +2163,21 @@
 **7、** [RDB和AOF的优缺点](https://github.com/souyunku/DevBooks/blob/master/Redis/Redis最新面试题及答案附答案汇总.md#7RDB和AOF的优缺点)  
 **8、** [Redis集群的主从复制模型是怎样的？](https://github.com/souyunku/DevBooks/blob/master/Redis/Redis最新面试题及答案附答案汇总.md#8Redis集群的主从复制模型是怎样的)  
 **9、** [Redis 中设置过期时间主要通过以下四种方式](https://github.com/souyunku/DevBooks/blob/master/Redis/Redis最新面试题及答案附答案汇总.md#9Redis-中设置过期时间主要通过以下四种方式)  
-**10、** [使用过 Redis 做异步队列么，你是怎么用的？](https://github.com/souyunku/DevBooks/blob/master/Redis/Redis最新面试题及答案附答案汇总.md#10使用过-Redis-做异步队列么，你是怎么用的)  
+**10、** [使用过 Redis 做异步队列么，你是怎么用的？](https://github.com/souyunku/DevBooks/blob/master/Redis/Redis最新面试题及答案附答案汇总.md#10使用过-Redis-做异步队列么你是怎么用的)  
 
 ### [此处，仅展示前10道，查看更多30道...](https://github.com/souyunku/DevBooks/blob/master/Redis/Redis最新面试题及答案附答案汇总.md)  
 
 ## Redis最新面试题，2021年面试题及答案汇总
 
-**1、** [Redis是单线程的，但Redis为什么这么快？](https://github.com/souyunku/DevBooks/blob/master/Redis/Redis最新面试题，2021年面试题及答案汇总.md#1Redis是单线程的，但Redis为什么这么快)  
+**1、** [Redis是单线程的，但Redis为什么这么快？](https://github.com/souyunku/DevBooks/blob/master/Redis/Redis最新面试题，2021年面试题及答案汇总.md#1Redis是单线程的但Redis为什么这么快)  
 **2、** [如何选择合适的持久化方式？](https://github.com/souyunku/DevBooks/blob/master/Redis/Redis最新面试题，2021年面试题及答案汇总.md#2如何选择合适的持久化方式)  
 **3、** [Redis官方为什么不提供Windows版本？](https://github.com/souyunku/DevBooks/blob/master/Redis/Redis最新面试题，2021年面试题及答案汇总.md#3Redis官方为什么不提供Windows版本)  
 **4、** [Redis 的同步机制了解么？](https://github.com/souyunku/DevBooks/blob/master/Redis/Redis最新面试题，2021年面试题及答案汇总.md#4Redis-的同步机制了解么)  
-**5、** [Pipeline 有什么好处，为什么要用pipeline？](https://github.com/souyunku/DevBooks/blob/master/Redis/Redis最新面试题，2021年面试题及答案汇总.md#5Pipeline-有什么好处，为什么要用pipeline)  
+**5、** [Pipeline 有什么好处，为什么要用pipeline？](https://github.com/souyunku/DevBooks/blob/master/Redis/Redis最新面试题，2021年面试题及答案汇总.md#5Pipeline-有什么好处为什么要用pipeline)  
 **6、** [Redis的全称是什么？](https://github.com/souyunku/DevBooks/blob/master/Redis/Redis最新面试题，2021年面试题及答案汇总.md#6Redis的全称是什么)  
 **7、** [Redis 最适合的场景](https://github.com/souyunku/DevBooks/blob/master/Redis/Redis最新面试题，2021年面试题及答案汇总.md#7Redis-最适合的场景)  
 **8、** [删除key](https://github.com/souyunku/DevBooks/blob/master/Redis/Redis最新面试题，2021年面试题及答案汇总.md#8删除key)  
-**9、** [Redis是单线程的，如何提高多核CPU的利用率？](https://github.com/souyunku/DevBooks/blob/master/Redis/Redis最新面试题，2021年面试题及答案汇总.md#9Redis是单线程的，如何提高多核CPU的利用率)  
+**9、** [Redis是单线程的，如何提高多核CPU的利用率？](https://github.com/souyunku/DevBooks/blob/master/Redis/Redis最新面试题，2021年面试题及答案汇总.md#9Redis是单线程的如何提高多核CPU的利用率)  
 **10、** [什么是Redis?](https://github.com/souyunku/DevBooks/blob/master/Redis/Redis最新面试题，2021年面试题及答案汇总.md#10什么是Redis)  
 
 ### [此处，仅展示前10道，查看更多30道...](https://github.com/souyunku/DevBooks/blob/master/Redis/Redis最新面试题，2021年面试题及答案汇总.md)  
@@ -2272,7 +2245,7 @@
 ## React最新面试题，2021年面试题及答案汇总
 
 **1、** [pureComponent和FunctionComponent区别](https://github.com/souyunku/DevBooks/blob/master/React/React最新面试题，2021年面试题及答案汇总.md#1pureComponent和FunctionComponent区别)  
-**2、** [nextTick知道吗，实现原理是什么？](https://github.com/souyunku/DevBooks/blob/master/React/React最新面试题，2021年面试题及答案汇总.md#2nextTick知道吗，实现原理是什么)  
+**2、** [nextTick知道吗，实现原理是什么？](https://github.com/souyunku/DevBooks/blob/master/React/React最新面试题，2021年面试题及答案汇总.md#2nextTick知道吗实现原理是什么)  
 **3、** [为什么选择使用框架而不是原生?](https://github.com/souyunku/DevBooks/blob/master/React/React最新面试题，2021年面试题及答案汇总.md#3为什么选择使用框架而不是原生)  
 **4、** [为什么浏览器无法读取JSX？](https://github.com/souyunku/DevBooks/blob/master/React/React最新面试题，2021年面试题及答案汇总.md#4为什么浏览器无法读取JSX)  
 **5、** [解释 React 中 render() 的目的。](https://github.com/souyunku/DevBooks/blob/master/React/React最新面试题，2021年面试题及答案汇总.md#5解释-React-中-render-的目的。)  
@@ -2280,7 +2253,7 @@
 **7、** [如何更新组件的状态？](https://github.com/souyunku/DevBooks/blob/master/React/React最新面试题，2021年面试题及答案汇总.md#7如何更新组件的状态)  
 **8、** [Store 在 Redux 中的意义是什么？](https://github.com/souyunku/DevBooks/blob/master/React/React最新面试题，2021年面试题及答案汇总.md#8Store-在-Redux-中的意义是什么)  
 **9、** [列出 Redux 的组件。](https://github.com/souyunku/DevBooks/blob/master/React/React最新面试题，2021年面试题及答案汇总.md#9列出-Redux-的组件。)  
-**10、** [与 ES5 相比，React 的 ES6 语法有何不同？](https://github.com/souyunku/DevBooks/blob/master/React/React最新面试题，2021年面试题及答案汇总.md#10与-ES5-相比，React-的-ES6-语法有何不同)  
+**10、** [与 ES5 相比，React 的 ES6 语法有何不同？](https://github.com/souyunku/DevBooks/blob/master/React/React最新面试题，2021年面试题及答案汇总.md#10与-ES5-相比React-的-ES6-语法有何不同)  
 
 ### [此处，仅展示前10道，查看更多30道...](https://github.com/souyunku/DevBooks/blob/master/React/React最新面试题，2021年面试题及答案汇总.md)  
 
@@ -2288,14 +2261,14 @@
 
 **1、** [如何防止出现 blackholed 问题？](https://github.com/souyunku/DevBooks/blob/master/RabbitMQ/RabbitMQ最新2021年面试题大汇总，附答案.md#1如何防止出现-blackholed-问题)  
 **2、** [Binding绑定？](https://github.com/souyunku/DevBooks/blob/master/RabbitMQ/RabbitMQ最新2021年面试题大汇总，附答案.md#2Binding绑定)  
-**3、** [如何解决消息队列的延时以及过期失效问题？消息队列满了以后该怎么处理？有几百万消息持续积压几小时，怎么办？](https://github.com/souyunku/DevBooks/blob/master/RabbitMQ/RabbitMQ最新2021年面试题大汇总，附答案.md#3如何解决消息队列的延时以及过期失效问题消息队列满了以后该怎么处理有几百万消息持续积压几小时，怎么办)  
+**3、** [如何解决消息队列的延时以及过期失效问题？消息队列满了以后该怎么处理？有几百万消息持续积压几小时，怎么办？](https://github.com/souyunku/DevBooks/blob/master/RabbitMQ/RabbitMQ最新2021年面试题大汇总，附答案.md#3如何解决消息队列的延时以及过期失效问题消息队列满了以后该怎么处理有几百万消息持续积压几小时怎么办)  
 **4、** [消费者接收消息过程？](https://github.com/souyunku/DevBooks/blob/master/RabbitMQ/RabbitMQ最新2021年面试题大汇总，附答案.md#4消费者接收消息过程)  
 **5、** [RabbitMQ work工作模式(资源的竞争)](https://github.com/souyunku/DevBooks/blob/master/RabbitMQ/RabbitMQ最新2021年面试题大汇总，附答案.md#5RabbitMQ-work工作模式资源的竞争)  
 **6、** [集群中的节点类型？](https://github.com/souyunku/DevBooks/blob/master/RabbitMQ/RabbitMQ最新2021年面试题大汇总，附答案.md#6集群中的节点类型)  
 **7、** [vhost 是什么? 起什么作用?](https://github.com/souyunku/DevBooks/blob/master/RabbitMQ/RabbitMQ最新2021年面试题大汇总，附答案.md#7vhost-是什么-起什么作用)  
 **8、** [RabbitMQ的特点?](https://github.com/souyunku/DevBooks/blob/master/RabbitMQ/RabbitMQ最新2021年面试题大汇总，附答案.md#8RabbitMQ的特点)  
 **9、** [事务机制？](https://github.com/souyunku/DevBooks/blob/master/RabbitMQ/RabbitMQ最新2021年面试题大汇总，附答案.md#9事务机制)  
-**10、** [多个消费者监听一个队列时，消息如何分发?](https://github.com/souyunku/DevBooks/blob/master/RabbitMQ/RabbitMQ最新2021年面试题大汇总，附答案.md#10多个消费者监听一个队列时，消息如何分发)  
+**10、** [多个消费者监听一个队列时，消息如何分发?](https://github.com/souyunku/DevBooks/blob/master/RabbitMQ/RabbitMQ最新2021年面试题大汇总，附答案.md#10多个消费者监听一个队列时消息如何分发)  
 
 ### [此处，仅展示前10道，查看更多30道...](https://github.com/souyunku/DevBooks/blob/master/RabbitMQ/RabbitMQ最新2021年面试题大汇总，附答案.md)  
 
@@ -2320,7 +2293,7 @@
 **2、** [什么是Binding绑定？](https://github.com/souyunku/DevBooks/blob/master/RabbitMQ/RabbitMQ最新2021年面试题，高级面试题及附答案解析.md#2什么是Binding绑定)  
 **3、** [AMQP协议3层？](https://github.com/souyunku/DevBooks/blob/master/RabbitMQ/RabbitMQ最新2021年面试题，高级面试题及附答案解析.md#3AMQP协议3层)  
 **4、** [向不存在的 exchange 发 publish 消息会发生什么？向不存在的 queue 执行consume 动作会发生什么？](https://github.com/souyunku/DevBooks/blob/master/RabbitMQ/RabbitMQ最新2021年面试题，高级面试题及附答案解析.md#4向不存在的-exchange-发-publish-消息会发生什么向不存在的-queue-执行consume-动作会发生什么)  
-**5、** [在单 node 系统和多 node 构成的 cluster 系统中声明 queue、exchange ，以及进行 binding 会有什么不同？](https://github.com/souyunku/DevBooks/blob/master/RabbitMQ/RabbitMQ最新2021年面试题，高级面试题及附答案解析.md#5在单-node-系统和多-node-构成的-cluster-系统中声明-queueexchange-，以及进行-binding-会有什么不同)  
+**5、** [在单 node 系统和多 node 构成的 cluster 系统中声明 queue、exchange ，以及进行 binding 会有什么不同？](https://github.com/souyunku/DevBooks/blob/master/RabbitMQ/RabbitMQ最新2021年面试题，高级面试题及附答案解析.md#5在单-node-系统和多-node-构成的-cluster-系统中声明-queueexchange-以及进行-binding-会有什么不同)  
 **6、** [交换器4种类型？](https://github.com/souyunku/DevBooks/blob/master/RabbitMQ/RabbitMQ最新2021年面试题，高级面试题及附答案解析.md#6交换器4种类型)  
 **7、** [RabbitMQ topic 主题模式(路由模式的一种)](https://github.com/souyunku/DevBooks/blob/master/RabbitMQ/RabbitMQ最新2021年面试题，高级面试题及附答案解析.md#7RabbitMQ-topic-主题模式路由模式的一种)  
 **8、** [使用RabbitMQ有什么好处？](https://github.com/souyunku/DevBooks/blob/master/RabbitMQ/RabbitMQ最新2021年面试题，高级面试题及附答案解析.md#8使用RabbitMQ有什么好处)  
@@ -2334,7 +2307,7 @@
 **1、** [vhost?](https://github.com/souyunku/DevBooks/blob/master/RabbitMQ/RabbitMQ最新面试题2021年，常见面试题及答案汇总.md#1vhost)  
 **2、** [如何保证RabbitMQ消息的顺序性？](https://github.com/souyunku/DevBooks/blob/master/RabbitMQ/RabbitMQ最新面试题2021年，常见面试题及答案汇总.md#2如何保证RabbitMQ消息的顺序性)  
 **3、** [Queue队列？](https://github.com/souyunku/DevBooks/blob/master/RabbitMQ/RabbitMQ最新面试题2021年，常见面试题及答案汇总.md#3Queue队列)  
-**4、** [如何保证消息不被重复消费？或者说，如何保证消息消费时的幂等性？](https://github.com/souyunku/DevBooks/blob/master/RabbitMQ/RabbitMQ最新面试题2021年，常见面试题及答案汇总.md#4如何保证消息不被重复消费或者说，如何保证消息消费时的幂等性)  
+**4、** [如何保证消息不被重复消费？或者说，如何保证消息消费时的幂等性？](https://github.com/souyunku/DevBooks/blob/master/RabbitMQ/RabbitMQ最新面试题2021年，常见面试题及答案汇总.md#4如何保证消息不被重复消费或者说如何保证消息消费时的幂等性)  
 **5、** [AMQP是什么?](https://github.com/souyunku/DevBooks/blob/master/RabbitMQ/RabbitMQ最新面试题2021年，常见面试题及答案汇总.md#5AMQP是什么)  
 **6、** [Consumer Cancellation Notification 机制用于什么场景？](https://github.com/souyunku/DevBooks/blob/master/RabbitMQ/RabbitMQ最新面试题2021年，常见面试题及答案汇总.md#6Consumer-Cancellation-Notification-机制用于什么场景)  
 **7、** [消息如何分发？](https://github.com/souyunku/DevBooks/blob/master/RabbitMQ/RabbitMQ最新面试题2021年，常见面试题及答案汇总.md#7消息如何分发)  
@@ -2363,13 +2336,13 @@
 
 **1、** [能列出 10 个使用 Elasticsearch 作为其搜索引擎或数据库的公司吗？](https://github.com/souyunku/DevBooks/blob/master/Elasticsearch/Elasticsearch最新2021年面试题大汇总，附答案.md#1能列出-10-个使用-Elasticsearch-作为其搜索引擎或数据库的公司吗)  
 **2、** [详细描述一下 Elasticsearch 搜索的过程？](https://github.com/souyunku/DevBooks/blob/master/Elasticsearch/Elasticsearch最新2021年面试题大汇总，附答案.md#2详细描述一下-Elasticsearch-搜索的过程)  
-**3、** [对于GC方面，在使用Elasticsearch时要注意什么？](https://github.com/souyunku/DevBooks/blob/master/Elasticsearch/Elasticsearch最新2021年面试题大汇总，附答案.md#3对于GC方面，在使用Elasticsearch时要注意什么)  
+**3、** [对于GC方面，在使用Elasticsearch时要注意什么？](https://github.com/souyunku/DevBooks/blob/master/Elasticsearch/Elasticsearch最新2021年面试题大汇总，附答案.md#3对于GC方面在使用Elasticsearch时要注意什么)  
 **4、** [elasticsearch是如何实现master选举的](https://github.com/souyunku/DevBooks/blob/master/Elasticsearch/Elasticsearch最新2021年面试题大汇总，附答案.md#4elasticsearch是如何实现master选举的)  
-**5、** [elasticsearch 了解多少，说说你们公司 es 的集群架构，索引数据大小，分片有多少，以及一些调优手段 。](https://github.com/souyunku/DevBooks/blob/master/Elasticsearch/Elasticsearch最新2021年面试题大汇总，附答案.md#5elasticsearch-了解多少，说说你们公司-es-的集群架构，索引数据大小，分片有多少，以及一些调优手段-。)  
+**5、** [elasticsearch 了解多少，说说你们公司 es 的集群架构，索引数据大小，分片有多少，以及一些调优手段 。](https://github.com/souyunku/DevBooks/blob/master/Elasticsearch/Elasticsearch最新2021年面试题大汇总，附答案.md#5elasticsearch-了解多少说说你们公司-es-的集群架构索引数据大小分片有多少以及一些调优手段-。)  
 **6、** [在 Elasticsearch 中删除索引的语法是什么？](https://github.com/souyunku/DevBooks/blob/master/Elasticsearch/Elasticsearch最新2021年面试题大汇总，附答案.md#6在-Elasticsearch-中删除索引的语法是什么)  
 **7、** [logstash 如何与 Elasticsearch 结合使用？](https://github.com/souyunku/DevBooks/blob/master/Elasticsearch/Elasticsearch最新2021年面试题大汇总，附答案.md#7logstash-如何与-Elasticsearch-结合使用)  
-**8、** [Elasticsearch 中的节点（比如共 20 个），其中的 10 个选了一个master，另外 10 个选了另一个 master，怎么办？](https://github.com/souyunku/DevBooks/blob/master/Elasticsearch/Elasticsearch最新2021年面试题大汇总，附答案.md#8Elasticsearch-中的节点比如共-20-个，其中的-10-个选了一个master，另外-10-个选了另一个-master，怎么办)  
-**9、** [客户端在和集群连接时，是如何选择特定的节点执行请求的？](https://github.com/souyunku/DevBooks/blob/master/Elasticsearch/Elasticsearch最新2021年面试题大汇总，附答案.md#9客户端在和集群连接时，是如何选择特定的节点执行请求的)  
+**8、** [Elasticsearch 中的节点（比如共 20 个），其中的 10 个选了一个master，另外 10 个选了另一个 master，怎么办？](https://github.com/souyunku/DevBooks/blob/master/Elasticsearch/Elasticsearch最新2021年面试题大汇总，附答案.md#8Elasticsearch-中的节点比如共-20-个其中的-10-个选了一个master另外-10-个选了另一个-master怎么办)  
+**9、** [客户端在和集群连接时，是如何选择特定的节点执行请求的？](https://github.com/souyunku/DevBooks/blob/master/Elasticsearch/Elasticsearch最新2021年面试题大汇总，附答案.md#9客户端在和集群连接时是如何选择特定的节点执行请求的)  
 **10、** [elasticsearch 冷热分离](https://github.com/souyunku/DevBooks/blob/master/Elasticsearch/Elasticsearch最新2021年面试题大汇总，附答案.md#10elasticsearch-冷热分离)  
 
 ### [此处，仅展示前10道，查看更多30道...](https://github.com/souyunku/DevBooks/blob/master/Elasticsearch/Elasticsearch最新2021年面试题大汇总，附答案.md)  
@@ -2377,8 +2350,8 @@
 ## Elasticsearch最新2021年面试题附答案解析，大汇总
 
 **1、** [详细描述一下 Elasticsearch 搜索的过程。](https://github.com/souyunku/DevBooks/blob/master/Elasticsearch/Elasticsearch最新2021年面试题附答案解析，大汇总.md#1详细描述一下-Elasticsearch-搜索的过程。)  
-**2、** [你之前公司的ElasticSearch集群，一个Node一般会分配几个分片？](https://github.com/souyunku/DevBooks/blob/master/Elasticsearch/Elasticsearch最新2021年面试题附答案解析，大汇总.md#2你之前公司的ElasticSearch集群，一个Node一般会分配几个分片)  
-**3、** [在并发情况下，Elasticsearch如果保证读写一致？](https://github.com/souyunku/DevBooks/blob/master/Elasticsearch/Elasticsearch最新2021年面试题附答案解析，大汇总.md#3在并发情况下，Elasticsearch如果保证读写一致)  
+**2、** [你之前公司的ElasticSearch集群，一个Node一般会分配几个分片？](https://github.com/souyunku/DevBooks/blob/master/Elasticsearch/Elasticsearch最新2021年面试题附答案解析，大汇总.md#2你之前公司的ElasticSearch集群一个Node一般会分配几个分片)  
+**3、** [在并发情况下，Elasticsearch如果保证读写一致？](https://github.com/souyunku/DevBooks/blob/master/Elasticsearch/Elasticsearch最新2021年面试题附答案解析，大汇总.md#3在并发情况下Elasticsearch如果保证读写一致)  
 **4、** [ElasticSearch中的倒排索引是什么？](https://github.com/souyunku/DevBooks/blob/master/Elasticsearch/Elasticsearch最新2021年面试题附答案解析，大汇总.md#4ElasticSearch中的倒排索引是什么)  
 **5、** [如何使用 Elastic Reporting ？](https://github.com/souyunku/DevBooks/blob/master/Elasticsearch/Elasticsearch最新2021年面试题附答案解析，大汇总.md#5如何使用-Elastic-Reporting-)  
 **6、** [详细描述一下Elasticsearch搜索的过程？](https://github.com/souyunku/DevBooks/blob/master/Elasticsearch/Elasticsearch最新2021年面试题附答案解析，大汇总.md#6详细描述一下Elasticsearch搜索的过程)  
@@ -2398,7 +2371,7 @@
 **5、** [什么是ElasticSearch脑裂？](https://github.com/souyunku/DevBooks/blob/master/Elasticsearch/Elasticsearch最新2021年面试题，高级面试题及附答案解析.md#5什么是ElasticSearch脑裂)  
 **6、** [您能解释一下X-Pack for Elasticsearch的功能和重要性吗？](https://github.com/souyunku/DevBooks/blob/master/Elasticsearch/Elasticsearch最新2021年面试题，高级面试题及附答案解析.md#6您能解释一下X-Pack-for-Elasticsearch的功能和重要性吗)  
 **7、** [如何在 Elasticsearch中 搜索数据？](https://github.com/souyunku/DevBooks/blob/master/Elasticsearch/Elasticsearch最新2021年面试题，高级面试题及附答案解析.md#7如何在-Elasticsearch中-搜索数据)  
-**8、** [elasticsearch了解多少，说说你们公司es的集群架构，索引数据大小，分片有多少，以及一些调优手段 。](https://github.com/souyunku/DevBooks/blob/master/Elasticsearch/Elasticsearch最新2021年面试题，高级面试题及附答案解析.md#8elasticsearch了解多少，说说你们公司es的集群架构，索引数据大小，分片有多少，以及一些调优手段-。)  
+**8、** [elasticsearch了解多少，说说你们公司es的集群架构，索引数据大小，分片有多少，以及一些调优手段 。](https://github.com/souyunku/DevBooks/blob/master/Elasticsearch/Elasticsearch最新2021年面试题，高级面试题及附答案解析.md#8elasticsearch了解多少说说你们公司es的集群架构索引数据大小分片有多少以及一些调优手段-。)  
 **9、** [19、解释 Elasticsearch 中的相关性和得分？](https://github.com/souyunku/DevBooks/blob/master/Elasticsearch/Elasticsearch最新2021年面试题，高级面试题及附答案解析.md#919解释-Elasticsearch-中的相关性和得分)  
 **10、** [介绍一下你们的个性化搜索方案？](https://github.com/souyunku/DevBooks/blob/master/Elasticsearch/Elasticsearch最新2021年面试题，高级面试题及附答案解析.md#10介绍一下你们的个性化搜索方案)  
 
@@ -2411,7 +2384,7 @@
 **3、** [elasticsearch 数据预热](https://github.com/souyunku/DevBooks/blob/master/Elasticsearch/Elasticsearch最新面试题2021年，常见面试题及答案汇总.md#3elasticsearch-数据预热)  
 **4、** [在索引中更新 Mapping 的语法？](https://github.com/souyunku/DevBooks/blob/master/Elasticsearch/Elasticsearch最新面试题2021年，常见面试题及答案汇总.md#4在索引中更新-Mapping-的语法)  
 **5、** [你是如何做 ElasticSearch 写入调优的？](https://github.com/souyunku/DevBooks/blob/master/Elasticsearch/Elasticsearch最新面试题2021年，常见面试题及答案汇总.md#5你是如何做-ElasticSearch-写入调优的)  
-**6、** [对于 GC 方面，在使用 Elasticsearch 时要注意什么？](https://github.com/souyunku/DevBooks/blob/master/Elasticsearch/Elasticsearch最新面试题2021年，常见面试题及答案汇总.md#6对于-GC-方面，在使用-Elasticsearch-时要注意什么)  
+**6、** [对于 GC 方面，在使用 Elasticsearch 时要注意什么？](https://github.com/souyunku/DevBooks/blob/master/Elasticsearch/Elasticsearch最新面试题2021年，常见面试题及答案汇总.md#6对于-GC-方面在使用-Elasticsearch-时要注意什么)  
 **7、** [Elasticsearch 对于大数据量（上亿量级）的聚合如何实现？](https://github.com/souyunku/DevBooks/blob/master/Elasticsearch/Elasticsearch最新面试题2021年，常见面试题及答案汇总.md#7Elasticsearch-对于大数据量上亿量级的聚合如何实现)  
 **8、** [详细描述一下Elasticsearch索引文档的过程。](https://github.com/souyunku/DevBooks/blob/master/Elasticsearch/Elasticsearch最新面试题2021年，常见面试题及答案汇总.md#8详细描述一下Elasticsearch索引文档的过程。)  
 **9、** [详细描述一下Elasticsearch索引文档的过程](https://github.com/souyunku/DevBooks/blob/master/Elasticsearch/Elasticsearch最新面试题2021年，常见面试题及答案汇总.md#9详细描述一下Elasticsearch索引文档的过程)  
@@ -2421,7 +2394,7 @@
 
 ## Elasticsearch最新面试题，2021年面试题及答案汇总
 
-**1、** [Elasticsearch 在部署时，对 Linux 的设置有哪些优化方法？](https://github.com/souyunku/DevBooks/blob/master/Elasticsearch/Elasticsearch最新面试题，2021年面试题及答案汇总.md#1Elasticsearch-在部署时，对-Linux-的设置有哪些优化方法)  
+**1、** [Elasticsearch 在部署时，对 Linux 的设置有哪些优化方法？](https://github.com/souyunku/DevBooks/blob/master/Elasticsearch/Elasticsearch最新面试题，2021年面试题及答案汇总.md#1Elasticsearch-在部署时对-Linux-的设置有哪些优化方法)  
 **2、** [Elasticsearch对于大数据量（上亿量级）的聚合如何实现？](https://github.com/souyunku/DevBooks/blob/master/Elasticsearch/Elasticsearch最新面试题，2021年面试题及答案汇总.md#2Elasticsearch对于大数据量上亿量级的聚合如何实现)  
 **3、** [elasticsearch 数据的写入过程](https://github.com/souyunku/DevBooks/blob/master/Elasticsearch/Elasticsearch最新面试题，2021年面试题及答案汇总.md#3elasticsearch-数据的写入过程)  
 **4、** [请解释一下 Elasticsearch 中聚合？](https://github.com/souyunku/DevBooks/blob/master/Elasticsearch/Elasticsearch最新面试题，2021年面试题及答案汇总.md#4请解释一下-Elasticsearch-中聚合)  
@@ -2451,7 +2424,7 @@
 
 ## Kafka最新2021年面试题附答案解析，大汇总
 
-**1、** [生产者中，什么情况下会发生 QueueFullException？](https://github.com/souyunku/DevBooks/blob/master/Kafka/Kafka最新2021年面试题附答案解析，大汇总.md#1生产者中，什么情况下会发生-QueueFullException)  
+**1、** [生产者中，什么情况下会发生 QueueFullException？](https://github.com/souyunku/DevBooks/blob/master/Kafka/Kafka最新2021年面试题附答案解析，大汇总.md#1生产者中什么情况下会发生-QueueFullException)  
 **2、** [解释术语“Log Anatomy”](https://github.com/souyunku/DevBooks/blob/master/Kafka/Kafka最新2021年面试题附答案解析，大汇总.md#2解释术语“Log-Anatomy)  
 **3、** [消费者API的作用是什么？](https://github.com/souyunku/DevBooks/blob/master/Kafka/Kafka最新2021年面试题附答案解析，大汇总.md#3消费者API的作用是什么)  
 **4、** [系统工具有哪些类型？](https://github.com/souyunku/DevBooks/blob/master/Kafka/Kafka最新2021年面试题附答案解析，大汇总.md#4系统工具有哪些类型)  
@@ -2468,12 +2441,12 @@
 
 **1、** [讲讲Kafka维护消费状态跟踪的方法](https://github.com/souyunku/DevBooks/blob/master/Kafka/Kafka最新2021年面试题，高级面试题及附答案解析.md#1讲讲Kafka维护消费状态跟踪的方法)  
 **2、** [数据传输的事务定义有哪三种？](https://github.com/souyunku/DevBooks/blob/master/Kafka/Kafka最新2021年面试题，高级面试题及附答案解析.md#2数据传输的事务定义有哪三种)  
-**3、** [Leader总是-1，怎么破？](https://github.com/souyunku/DevBooks/blob/master/Kafka/Kafka最新2021年面试题，高级面试题及附答案解析.md#3Leader总是-1，怎么破)  
+**3、** [Leader总是-1，怎么破？](https://github.com/souyunku/DevBooks/blob/master/Kafka/Kafka最新2021年面试题，高级面试题及附答案解析.md#3Leader总是-1怎么破)  
 **4、** [什么是消费者组？](https://github.com/souyunku/DevBooks/blob/master/Kafka/Kafka最新2021年面试题，高级面试题及附答案解析.md#4什么是消费者组)  
 **5、** [Kafka集群中保留期的目的是什么？](https://github.com/souyunku/DevBooks/blob/master/Kafka/Kafka最新2021年面试题，高级面试题及附答案解析.md#5Kafka集群中保留期的目的是什么)  
 **6、** [Java在Apache Kafka中的重要性是什么？](https://github.com/souyunku/DevBooks/blob/master/Kafka/Kafka最新2021年面试题，高级面试题及附答案解析.md#6Java在Apache-Kafka中的重要性是什么)  
 **7、** [为什么Kafka不支持读写分离？](https://github.com/souyunku/DevBooks/blob/master/Kafka/Kafka最新2021年面试题，高级面试题及附答案解析.md#7为什么Kafka不支持读写分离)  
-**8、** [副本长时间不在ISR中，这意味着什么？](https://github.com/souyunku/DevBooks/blob/master/Kafka/Kafka最新2021年面试题，高级面试题及附答案解析.md#8副本长时间不在ISR中，这意味着什么)  
+**8、** [副本长时间不在ISR中，这意味着什么？](https://github.com/souyunku/DevBooks/blob/master/Kafka/Kafka最新2021年面试题，高级面试题及附答案解析.md#8副本长时间不在ISR中这意味着什么)  
 **9、** [数据传输的事物定义有哪三种？](https://github.com/souyunku/DevBooks/blob/master/Kafka/Kafka最新2021年面试题，高级面试题及附答案解析.md#9数据传输的事物定义有哪三种)  
 **10、** [Kafka中的 zookeeper 起到什么作用？可以不用zookeeper吗？](https://github.com/souyunku/DevBooks/blob/master/Kafka/Kafka最新2021年面试题，高级面试题及附答案解析.md#10Kafka中的-zookeeper-起到什么作用可以不用zookeeper吗)  
 
@@ -2486,7 +2459,7 @@
 **3、** [Kafka的message格式是什么？](https://github.com/souyunku/DevBooks/blob/master/Kafka/Kafka最新面试题2021年，常见面试题及答案汇总.md#3Kafka的message格式是什么)  
 **4、** [Kafka 的消费者如何消费数据](https://github.com/souyunku/DevBooks/blob/master/Kafka/Kafka最新面试题2021年，常见面试题及答案汇总.md#4Kafka-的消费者如何消费数据)  
 **5、** [解释领导者和追随者的概念。](https://github.com/souyunku/DevBooks/blob/master/Kafka/Kafka最新面试题2021年，常见面试题及答案汇总.md#5解释领导者和追随者的概念。)  
-**6、** [如果副本长时间不在ISR中，这意味着什么？](https://github.com/souyunku/DevBooks/blob/master/Kafka/Kafka最新面试题2021年，常见面试题及答案汇总.md#6如果副本长时间不在ISR中，这意味着什么)  
+**6、** [如果副本长时间不在ISR中，这意味着什么？](https://github.com/souyunku/DevBooks/blob/master/Kafka/Kafka最新面试题2021年，常见面试题及答案汇总.md#6如果副本长时间不在ISR中这意味着什么)  
 **7、** [Kafka Unclean 配置代表什么？会对 spark streaming 消费有什么影响？](https://github.com/souyunku/DevBooks/blob/master/Kafka/Kafka最新面试题2021年，常见面试题及答案汇总.md#7Kafka-Unclean-配置代表什么会对-spark-streaming-消费有什么影响)  
 **8、** [Kafka为什么那么快?](https://github.com/souyunku/DevBooks/blob/master/Kafka/Kafka最新面试题2021年，常见面试题及答案汇总.md#8Kafka为什么那么快)  
 **9、** [如何估算Kafka集群的机器数量？](https://github.com/souyunku/DevBooks/blob/master/Kafka/Kafka最新面试题2021年，常见面试题及答案汇总.md#9如何估算Kafka集群的机器数量)  
@@ -2500,7 +2473,7 @@
 **2、** [什么是Kafka中的地域复制？](https://github.com/souyunku/DevBooks/blob/master/Kafka/Kafka最新面试题及答案附答案汇总.md#2什么是Kafka中的地域复制)  
 **3、** [说明Kafka的一个最佳特征。](https://github.com/souyunku/DevBooks/blob/master/Kafka/Kafka最新面试题及答案附答案汇总.md#3说明Kafka的一个最佳特征。)  
 **4、** [Kafka什么情况下会rebalance](https://github.com/souyunku/DevBooks/blob/master/Kafka/Kafka最新面试题及答案附答案汇总.md#4Kafka什么情况下会rebalance)  
-**5、** [Controller发生网络分区（Network Partitioning）时，Kafka会怎么样？](https://github.com/souyunku/DevBooks/blob/master/Kafka/Kafka最新面试题及答案附答案汇总.md#5Controller发生网络分区Network-Partitioning时，Kafka会怎么样)  
+**5、** [Controller发生网络分区（Network Partitioning）时，Kafka会怎么样？](https://github.com/souyunku/DevBooks/blob/master/Kafka/Kafka最新面试题及答案附答案汇总.md#5Controller发生网络分区Network-Partitioning时Kafka会怎么样)  
 **6、** [传统的消息传递方法有哪些类型？](https://github.com/souyunku/DevBooks/blob/master/Kafka/Kafka最新面试题及答案附答案汇总.md#6传统的消息传递方法有哪些类型)  
 **7、** [解释Apache Kafka用例？](https://github.com/souyunku/DevBooks/blob/master/Kafka/Kafka最新面试题及答案附答案汇总.md#7解释Apache-Kafka用例)  
 **8、** [没有zookeeper可以使用Kafka吗？](https://github.com/souyunku/DevBooks/blob/master/Kafka/Kafka最新面试题及答案附答案汇总.md#8没有zookeeper可以使用Kafka吗)  
@@ -2519,7 +2492,7 @@
 **6、** [如何调优Kafka？](https://github.com/souyunku/DevBooks/blob/master/Kafka/Kafka最新面试题，2021年面试题及答案汇总.md#6如何调优Kafka)  
 **7、** [在Kafka集群中保留期的目的是什么？](https://github.com/souyunku/DevBooks/blob/master/Kafka/Kafka最新面试题，2021年面试题及答案汇总.md#7在Kafka集群中保留期的目的是什么)  
 **8、** [解释偏移的作用。](https://github.com/souyunku/DevBooks/blob/master/Kafka/Kafka最新面试题，2021年面试题及答案汇总.md#8解释偏移的作用。)  
-**9、** [Apache Kafka是分布式流处理平台吗？如果是，你能用它做什么？](https://github.com/souyunku/DevBooks/blob/master/Kafka/Kafka最新面试题，2021年面试题及答案汇总.md#9Apache-Kafka是分布式流处理平台吗如果是，你能用它做什么)  
+**9、** [Apache Kafka是分布式流处理平台吗？如果是，你能用它做什么？](https://github.com/souyunku/DevBooks/blob/master/Kafka/Kafka最新面试题，2021年面试题及答案汇总.md#9Apache-Kafka是分布式流处理平台吗如果是你能用它做什么)  
 **10、** [什么是Apache Kafka?](https://github.com/souyunku/DevBooks/blob/master/Kafka/Kafka最新面试题，2021年面试题及答案汇总.md#10什么是Apache-Kafka)  
 
 ### [此处，仅展示前10道，查看更多30道...](https://github.com/souyunku/DevBooks/blob/master/Kafka/Kafka最新面试题，2021年面试题及答案汇总.md)  
@@ -2527,11 +2500,11 @@
 ## MyBatis最新2021年面试题大汇总，附答案
 
 **1、** [Mybaits的优点：](https://github.com/souyunku/DevBooks/blob/master/MyBatis/MyBatis最新2021年面试题大汇总，附答案.md#1Mybaits的优点：)  
-**2、** [Mybatis的Xml映射文件中，不同的Xml映射文件，id是否可以重复？](https://github.com/souyunku/DevBooks/blob/master/MyBatis/MyBatis最新2021年面试题大汇总，附答案.md#2Mybatis的Xml映射文件中，不同的Xml映射文件，id是否可以重复)  
+**2、** [Mybatis的Xml映射文件中，不同的Xml映射文件，id是否可以重复？](https://github.com/souyunku/DevBooks/blob/master/MyBatis/MyBatis最新2021年面试题大汇总，附答案.md#2Mybatis的Xml映射文件中不同的Xml映射文件id是否可以重复)  
 **3、** [ORM是什么](https://github.com/souyunku/DevBooks/blob/master/MyBatis/MyBatis最新2021年面试题大汇总，附答案.md#3ORM是什么)  
-**4、** [通常一个Xml映射文件，都会写一个Dao接口与之对应](https://github.com/souyunku/DevBooks/blob/master/MyBatis/MyBatis最新2021年面试题大汇总，附答案.md#4通常一个Xml映射文件，都会写一个Dao接口与之对应)  
+**4、** [通常一个Xml映射文件，都会写一个Dao接口与之对应](https://github.com/souyunku/DevBooks/blob/master/MyBatis/MyBatis最新2021年面试题大汇总，附答案.md#4通常一个Xml映射文件都会写一个Dao接口与之对应)  
 **5、** [Mybatis 分页查询？](https://github.com/souyunku/DevBooks/blob/master/MyBatis/MyBatis最新2021年面试题大汇总，附答案.md#5Mybatis-分页查询)  
-**6、** [Mybatis 映射文件中，如果 A 标签通过 include 引用了 B 标签的内容，请问，B 标签能](https://github.com/souyunku/DevBooks/blob/master/MyBatis/MyBatis最新2021年面试题大汇总，附答案.md#6Mybatis-映射文件中，如果-A-标签通过-include-引用了-B-标签的内容，请问，B-标签能)  
+**6、** [Mybatis 映射文件中，如果 A 标签通过 include 引用了 B 标签的内容，请问，B 标签能](https://github.com/souyunku/DevBooks/blob/master/MyBatis/MyBatis最新2021年面试题大汇总，附答案.md#6Mybatis-映射文件中如果-A-标签通过-include-引用了-B-标签的内容请问B-标签能)  
 **7、** [Mybatis 都有哪些 Executor 执行器？它们之间的区别是什么？](https://github.com/souyunku/DevBooks/blob/master/MyBatis/MyBatis最新2021年面试题大汇总，附答案.md#7Mybatis-都有哪些-Executor-执行器它们之间的区别是什么)  
 **8、** [简述 Mybatis 的 Xml 映射文件和 Mybatis 内部数据结构之间的映射关系？](https://github.com/souyunku/DevBooks/blob/master/MyBatis/MyBatis最新2021年面试题大汇总，附答案.md#8简述-Mybatis-的-Xml-映射文件和-Mybatis-内部数据结构之间的映射关系)  
 **9、** [Mybatis动态sql有什么用？执行原理？有哪些动态sql？](https://github.com/souyunku/DevBooks/blob/master/MyBatis/MyBatis最新2021年面试题大汇总，附答案.md#9Mybatis动态sql有什么用执行原理有哪些动态sql)  
@@ -2541,15 +2514,15 @@
 
 ## MyBatis最新2021年面试题附答案解析，大汇总
 
-**1、** [这个Dao接口的工作原理是什么？Dao接口里的方法，参数不同时，方法能重载吗](https://github.com/souyunku/DevBooks/blob/master/MyBatis/MyBatis最新2021年面试题附答案解析，大汇总.md#1这个Dao接口的工作原理是什么Dao接口里的方法，参数不同时，方法能重载吗)  
+**1、** [这个Dao接口的工作原理是什么？Dao接口里的方法，参数不同时，方法能重载吗](https://github.com/souyunku/DevBooks/blob/master/MyBatis/MyBatis最新2021年面试题附答案解析，大汇总.md#1这个Dao接口的工作原理是什么Dao接口里的方法参数不同时方法能重载吗)  
 **2、** [什么是Mybatis？](https://github.com/souyunku/DevBooks/blob/master/MyBatis/MyBatis最新2021年面试题附答案解析，大汇总.md#2什么是Mybatis)  
 **3、** [MyBatis 里面的动态 Sql 是怎么设定的?用什么语法?](https://github.com/souyunku/DevBooks/blob/master/MyBatis/MyBatis最新2021年面试题附答案解析，大汇总.md#3MyBatis-里面的动态-Sql-是怎么设定的用什么语法)  
-**4、** [Mybatis 是否支持延迟加载？如果支持，它的实现原理是什么？](https://github.com/souyunku/DevBooks/blob/master/MyBatis/MyBatis最新2021年面试题附答案解析，大汇总.md#4Mybatis-是否支持延迟加载如果支持，它的实现原理是什么)  
+**4、** [Mybatis 是否支持延迟加载？如果支持，它的实现原理是什么？](https://github.com/souyunku/DevBooks/blob/master/MyBatis/MyBatis最新2021年面试题附答案解析，大汇总.md#4Mybatis-是否支持延迟加载如果支持它的实现原理是什么)  
 **5、** [IBatis 和 MyBatis 在核心处理类分别叫什么？](https://github.com/souyunku/DevBooks/blob/master/MyBatis/MyBatis最新2021年面试题附答案解析，大汇总.md#5IBatis-和-MyBatis-在核心处理类分别叫什么)  
 **6、** [请说说MyBatis的工作原理](https://github.com/souyunku/DevBooks/blob/master/MyBatis/MyBatis最新2021年面试题附答案解析，大汇总.md#6请说说MyBatis的工作原理)  
 **7、** [Mybatis都有哪些Executor执行器？它们之间的区别是什么？](https://github.com/souyunku/DevBooks/blob/master/MyBatis/MyBatis最新2021年面试题附答案解析，大汇总.md#7Mybatis都有哪些Executor执行器它们之间的区别是什么)  
 **8、** [Mybatis 动态 sql 是做什么的？都有哪些动态 sql？能简述一下动态 sql 的执行原理不？](https://github.com/souyunku/DevBooks/blob/master/MyBatis/MyBatis最新2021年面试题附答案解析，大汇总.md#8Mybatis-动态-sql-是做什么的都有哪些动态-sql能简述一下动态-sql-的执行原理不)  
-**9、** [Xml映射文件中，除了常见的select|insert|updae|delete标签之外，还有哪些标签？](https://github.com/souyunku/DevBooks/blob/master/MyBatis/MyBatis最新2021年面试题附答案解析，大汇总.md#9Xml映射文件中，除了常见的select|insert|updae|delete标签之外，还有哪些标签)  
+**9、** [Xml映射文件中，除了常见的select|insert|updae|delete标签之外，还有哪些标签？](https://github.com/souyunku/DevBooks/blob/master/MyBatis/MyBatis最新2021年面试题附答案解析，大汇总.md#9Xml映射文件中除了常见的select|insert|updae|delete标签之外还有哪些标签)  
 **10、** [如何获取自动生成的(主)键值?](https://github.com/souyunku/DevBooks/blob/master/MyBatis/MyBatis最新2021年面试题附答案解析，大汇总.md#10如何获取自动生成的主键值)  
 
 ### [此处，仅展示前10道，查看更多30道...](https://github.com/souyunku/DevBooks/blob/master/MyBatis/MyBatis最新2021年面试题附答案解析，大汇总.md)  
@@ -2557,8 +2530,8 @@
 ## MyBatis最新2021年面试题，高级面试题及附答案解析
 
 **1、** [MyBatis与Hibernate有哪些不同？](https://github.com/souyunku/DevBooks/blob/master/MyBatis/MyBatis最新2021年面试题，高级面试题及附答案解析.md#1MyBatis与Hibernate有哪些不同)  
-**2、** [通常一个 Xml 映射文件，都会写一个 Dao 接口与之对应, Dao 的工作原理，是否可以重](https://github.com/souyunku/DevBooks/blob/master/MyBatis/MyBatis最新2021年面试题，高级面试题及附答案解析.md#2通常一个-Xml-映射文件，都会写一个-Dao-接口与之对应,-Dao-的工作原理，是否可以重)  
-**3、** [Xml 映射文件中，除了常见的 select|insert|updae|delete 标签之外，还有哪些标签？](https://github.com/souyunku/DevBooks/blob/master/MyBatis/MyBatis最新2021年面试题，高级面试题及附答案解析.md#3Xml-映射文件中，除了常见的-select|insert|updae|delete-标签之外，还有哪些标签)  
+**2、** [通常一个 Xml 映射文件，都会写一个 Dao 接口与之对应, Dao 的工作原理，是否可以重](https://github.com/souyunku/DevBooks/blob/master/MyBatis/MyBatis最新2021年面试题，高级面试题及附答案解析.md#2通常一个-Xml-映射文件都会写一个-Dao-接口与之对应,-Dao-的工作原理是否可以重)  
+**3、** [Xml 映射文件中，除了常见的 select|insert|updae|delete 标签之外，还有哪些标签？](https://github.com/souyunku/DevBooks/blob/master/MyBatis/MyBatis最新2021年面试题，高级面试题及附答案解析.md#3Xml-映射文件中除了常见的-select|insert|updae|delete-标签之外还有哪些标签)  
 **4、** [Mybatis 中如何指定使用哪一种 Executor 执行器？](https://github.com/souyunku/DevBooks/blob/master/MyBatis/MyBatis最新2021年面试题，高级面试题及附答案解析.md#4Mybatis-中如何指定使用哪一种-Executor-执行器)  
 **5、** [接口绑定有几种实现方式,分别是怎么实现的?](https://github.com/souyunku/DevBooks/blob/master/MyBatis/MyBatis最新2021年面试题，高级面试题及附答案解析.md#5接口绑定有几种实现方式,分别是怎么实现的)  
 **6、** [#{}和${}的区别](https://github.com/souyunku/DevBooks/blob/master/MyBatis/MyBatis最新2021年面试题，高级面试题及附答案解析.md#6#{}和${}的区别)  
@@ -2573,13 +2546,13 @@
 
 **1、** [为什么说Mybatis是半自动ORM映射工具？它与全自动的区别在哪里？](https://github.com/souyunku/DevBooks/blob/master/MyBatis/MyBatis最新面试题2021年，常见面试题及答案汇总.md#1为什么说Mybatis是半自动ORM映射工具它与全自动的区别在哪里)  
 **2、** [Mybaits的优点有什么？](https://github.com/souyunku/DevBooks/blob/master/MyBatis/MyBatis最新面试题2021年，常见面试题及答案汇总.md#2Mybaits的优点有什么)  
-**3、** [JDBC编程有哪些不足之处，MyBatis是如何解决的？](https://github.com/souyunku/DevBooks/blob/master/MyBatis/MyBatis最新面试题2021年，常见面试题及答案汇总.md#3JDBC编程有哪些不足之处，MyBatis是如何解决的)  
+**3、** [JDBC编程有哪些不足之处，MyBatis是如何解决的？](https://github.com/souyunku/DevBooks/blob/master/MyBatis/MyBatis最新面试题2021年，常见面试题及答案汇总.md#3JDBC编程有哪些不足之处MyBatis是如何解决的)  
 **4、** [简述Mybatis的Xml映射文件和Mybatis内部数据结构之间的映射关系？](https://github.com/souyunku/DevBooks/blob/master/MyBatis/MyBatis最新面试题2021年，常见面试题及答案汇总.md#4简述Mybatis的Xml映射文件和Mybatis内部数据结构之间的映射关系)  
 **5、** [Mapper 编写有哪几种方式？](https://github.com/souyunku/DevBooks/blob/master/MyBatis/MyBatis最新面试题2021年，常见面试题及答案汇总.md#5Mapper-编写有哪几种方式)  
 **6、** [如何获取生成的主键](https://github.com/souyunku/DevBooks/blob/master/MyBatis/MyBatis最新面试题2021年，常见面试题及答案汇总.md#6如何获取生成的主键)  
 **7、** [Mybatis的表关联的映射？](https://github.com/souyunku/DevBooks/blob/master/MyBatis/MyBatis最新面试题2021年，常见面试题及答案汇总.md#7Mybatis的表关联的映射)  
 **8、** [什么是MyBatis的接口绑定？有哪些实现方式？](https://github.com/souyunku/DevBooks/blob/master/MyBatis/MyBatis最新面试题2021年，常见面试题及答案汇总.md#8什么是MyBatis的接口绑定有哪些实现方式)  
-**9、** [Mybatis的Xml映射文件中，不同的Xml映射文件，id是否可以重复？](https://github.com/souyunku/DevBooks/blob/master/MyBatis/MyBatis最新面试题2021年，常见面试题及答案汇总.md#9Mybatis的Xml映射文件中，不同的Xml映射文件，id是否可以重复)  
+**9、** [Mybatis的Xml映射文件中，不同的Xml映射文件，id是否可以重复？](https://github.com/souyunku/DevBooks/blob/master/MyBatis/MyBatis最新面试题2021年，常见面试题及答案汇总.md#9Mybatis的Xml映射文件中不同的Xml映射文件id是否可以重复)  
 **10、** [Mybatis如何执行批量操作](https://github.com/souyunku/DevBooks/blob/master/MyBatis/MyBatis最新面试题2021年，常见面试题及答案汇总.md#10Mybatis如何执行批量操作)  
 
 ### [此处，仅展示前10道，查看更多30道...](https://github.com/souyunku/DevBooks/blob/master/MyBatis/MyBatis最新面试题2021年，常见面试题及答案汇总.md)  
@@ -2591,24 +2564,24 @@
 **3、** [IBatis 和 MyBatis 在细节上的不同有哪些？](https://github.com/souyunku/DevBooks/blob/master/MyBatis/MyBatis最新面试题，2021年面试题及答案汇总.md#3IBatis-和-MyBatis-在细节上的不同有哪些)  
 **4、** [Mybatis是否可以映射Enum枚举类？](https://github.com/souyunku/DevBooks/blob/master/MyBatis/MyBatis最新面试题，2021年面试题及答案汇总.md#4Mybatis是否可以映射Enum枚举类)  
 **5、** [为什么说Mybatis是半自动ORM映射工具？它与全自动的区别在哪里？](https://github.com/souyunku/DevBooks/blob/master/MyBatis/MyBatis最新面试题，2021年面试题及答案汇总.md#5为什么说Mybatis是半自动ORM映射工具它与全自动的区别在哪里)  
-**6、** [当实体类中的属性名和表中的字段名不一样 ，怎么办](https://github.com/souyunku/DevBooks/blob/master/MyBatis/MyBatis最新面试题，2021年面试题及答案汇总.md#6当实体类中的属性名和表中的字段名不一样-，怎么办)  
-**7、** [简述Mybatis的插件运行原理，以及如何编写一个插件。](https://github.com/souyunku/DevBooks/blob/master/MyBatis/MyBatis最新面试题，2021年面试题及答案汇总.md#7简述Mybatis的插件运行原理，以及如何编写一个插件。)  
+**6、** [当实体类中的属性名和表中的字段名不一样 ，怎么办](https://github.com/souyunku/DevBooks/blob/master/MyBatis/MyBatis最新面试题，2021年面试题及答案汇总.md#6当实体类中的属性名和表中的字段名不一样-怎么办)  
+**7、** [简述Mybatis的插件运行原理，以及如何编写一个插件。](https://github.com/souyunku/DevBooks/blob/master/MyBatis/MyBatis最新面试题，2021年面试题及答案汇总.md#7简述Mybatis的插件运行原理以及如何编写一个插件。)  
 **8、** [使用Mybatis的mapper接口调用时候有哪些要求？](https://github.com/souyunku/DevBooks/blob/master/MyBatis/MyBatis最新面试题，2021年面试题及答案汇总.md#8使用Mybatis的mapper接口调用时候有哪些要求)  
 **9、** [MyBatis 与 Hibernate 有哪些不同？](https://github.com/souyunku/DevBooks/blob/master/MyBatis/MyBatis最新面试题，2021年面试题及答案汇总.md#9MyBatis-与-Hibernate-有哪些不同)  
-**10、** [Mybatis能执行一对多，一对一的联系查询吗，有哪些实现方法](https://github.com/souyunku/DevBooks/blob/master/MyBatis/MyBatis最新面试题，2021年面试题及答案汇总.md#10Mybatis能执行一对多，一对一的联系查询吗，有哪些实现方法)  
+**10、** [Mybatis能执行一对多，一对一的联系查询吗，有哪些实现方法](https://github.com/souyunku/DevBooks/blob/master/MyBatis/MyBatis最新面试题，2021年面试题及答案汇总.md#10Mybatis能执行一对多一对一的联系查询吗有哪些实现方法)  
 
 ### [此处，仅展示前10道，查看更多30道...](https://github.com/souyunku/DevBooks/blob/master/MyBatis/MyBatis最新面试题，2021年面试题及答案汇总.md)  
 
 ## Linux最新2021年面试题及答案，汇总版
 
-**1、** [你的系统目前有许多正在运行的任务，在不重启机器的条件下，有什么方法可以把所有正在运行的进程移除呢？](https://github.com/souyunku/DevBooks/blob/master/Linux/Linux最新2021年面试题及答案，汇总版.md#1你的系统目前有许多正在运行的任务，在不重启机器的条件下，有什么方法可以把所有正在运行的进程移除呢)  
+**1、** [你的系统目前有许多正在运行的任务，在不重启机器的条件下，有什么方法可以把所有正在运行的进程移除呢？](https://github.com/souyunku/DevBooks/blob/master/Linux/Linux最新2021年面试题及答案，汇总版.md#1你的系统目前有许多正在运行的任务在不重启机器的条件下有什么方法可以把所有正在运行的进程移除呢)  
 **2、** [如何查看命令历史记录?](https://github.com/souyunku/DevBooks/blob/master/Linux/Linux最新2021年面试题及答案，汇总版.md#2如何查看命令历史记录)  
-**3、** [写一个脚本，实现判断192.168.1.0/24网络里，当前在线的IP有哪些，能ping通则认为在线](https://github.com/souyunku/DevBooks/blob/master/Linux/Linux最新2021年面试题及答案，汇总版.md#3写一个脚本，实现判断19216810/24网络里，当前在线的IP有哪些，能ping通则认为在线)  
+**3、** [写一个脚本，实现判断192.168.1.0/24网络里，当前在线的IP有哪些，能ping通则认为在线](https://github.com/souyunku/DevBooks/blob/master/Linux/Linux最新2021年面试题及答案，汇总版.md#3写一个脚本实现判断19216810/24网络里当前在线的IP有哪些能ping通则认为在线)  
 **4、** [同步时间命令](https://github.com/souyunku/DevBooks/blob/master/Linux/Linux最新2021年面试题及答案，汇总版.md#4同步时间命令)  
 **5、** [查看设备还有多少磁盘空间?](https://github.com/souyunku/DevBooks/blob/master/Linux/Linux最新2021年面试题及答案，汇总版.md#5查看设备还有多少磁盘空间)  
-**6、** [怎样查看一个linux命令的概要与用法？假设你在/bin目录中偶然看到一个你从没见过的的命令，怎样才能知道它的作用和用法呢？](https://github.com/souyunku/DevBooks/blob/master/Linux/Linux最新2021年面试题及答案，汇总版.md#6怎样查看一个linux命令的概要与用法假设你在/bin目录中偶然看到一个你从没见过的的命令，怎样才能知道它的作用和用法呢)  
+**6、** [怎样查看一个linux命令的概要与用法？假设你在/bin目录中偶然看到一个你从没见过的的命令，怎样才能知道它的作用和用法呢？](https://github.com/souyunku/DevBooks/blob/master/Linux/Linux最新2021年面试题及答案，汇总版.md#6怎样查看一个linux命令的概要与用法假设你在/bin目录中偶然看到一个你从没见过的的命令怎样才能知道它的作用和用法呢)  
 **7、** [什么是环境变量？](https://github.com/souyunku/DevBooks/blob/master/Linux/Linux最新2021年面试题及答案，汇总版.md#7什么是环境变量)  
-**8、** [在工作中，运维人员经常需要跟运营人员打交道，请问运营人员是做什么工作的？](https://github.com/souyunku/DevBooks/blob/master/Linux/Linux最新2021年面试题及答案，汇总版.md#8在工作中，运维人员经常需要跟运营人员打交道，请问运营人员是做什么工作的)  
+**8、** [在工作中，运维人员经常需要跟运营人员打交道，请问运营人员是做什么工作的？](https://github.com/souyunku/DevBooks/blob/master/Linux/Linux最新2021年面试题及答案，汇总版.md#8在工作中运维人员经常需要跟运营人员打交道请问运营人员是做什么工作的)  
 **9、** [使用什么命令查看用过的命令列表?](https://github.com/souyunku/DevBooks/blob/master/Linux/Linux最新2021年面试题及答案，汇总版.md#9使用什么命令查看用过的命令列表)  
 **10、** [什么是硬链接和软链接？](https://github.com/souyunku/DevBooks/blob/master/Linux/Linux最新2021年面试题及答案，汇总版.md#10什么是硬链接和软链接)  
 
@@ -2619,7 +2592,7 @@
 **1、** [说说TCP/IP的七层模型](https://github.com/souyunku/DevBooks/blob/master/Linux/Linux最新2021年面试题大汇总，附答案.md#1说说TCP/IP的七层模型)  
 **2、** [ifconfig命令](https://github.com/souyunku/DevBooks/blob/master/Linux/Linux最新2021年面试题大汇总，附答案.md#2ifconfig命令)  
 **3、** [什么叫网站灰度发布？](https://github.com/souyunku/DevBooks/blob/master/Linux/Linux最新2021年面试题大汇总，附答案.md#3什么叫网站灰度发布)  
-**4、** [grep （grep ：正则表达式）正则表达式，用于字符串的搜索工作(模糊查询)。不懂可以先过](https://github.com/souyunku/DevBooks/blob/master/Linux/Linux最新2021年面试题大汇总，附答案.md#4grep-grep-：正则表达式正则表达式，用于字符串的搜索工作模糊查询。不懂可以先过)  
+**4、** [grep （grep ：正则表达式）正则表达式，用于字符串的搜索工作(模糊查询)。不懂可以先过](https://github.com/souyunku/DevBooks/blob/master/Linux/Linux最新2021年面试题大汇总，附答案.md#4grep-grep-：正则表达式正则表达式用于字符串的搜索工作模糊查询。不懂可以先过)  
 **5、** [删除文件用哪个命令？如果需要连目录及目录下文件一块删除呢？删除空文件夹用什么命令？](https://github.com/souyunku/DevBooks/blob/master/Linux/Linux最新2021年面试题大汇总，附答案.md#5删除文件用哪个命令如果需要连目录及目录下文件一块删除呢删除空文件夹用什么命令)  
 **6、** [awk 详解。](https://github.com/souyunku/DevBooks/blob/master/Linux/Linux最新2021年面试题大汇总，附答案.md#6awk-详解。)  
 **7、** [怎么查看系统支持的所有信号？](https://github.com/souyunku/DevBooks/blob/master/Linux/Linux最新2021年面试题大汇总，附答案.md#7怎么查看系统支持的所有信号)  
@@ -2631,9 +2604,9 @@
 
 ## Linux最新2021年面试题附答案解析，大汇总
 
-**1、** [Squid、Varinsh和Nginx有什么区别，工作中你怎么选择？](https://github.com/souyunku/DevBooks/blob/master/Linux/Linux最新2021年面试题附答案解析，大汇总.md#1SquidVarinsh和Nginx有什么区别，工作中你怎么选择)  
+**1、** [Squid、Varinsh和Nginx有什么区别，工作中你怎么选择？](https://github.com/souyunku/DevBooks/blob/master/Linux/Linux最新2021年面试题附答案解析，大汇总.md#1SquidVarinsh和Nginx有什么区别工作中你怎么选择)  
 **2、** [怎么查看当前进程？怎么执行退出？怎么查看当前路径？](https://github.com/souyunku/DevBooks/blob/master/Linux/Linux最新2021年面试题附答案解析，大汇总.md#2怎么查看当前进程怎么执行退出怎么查看当前路径)  
-**3、** [cp（copy单词缩写，复制功能）](https://github.com/souyunku/DevBooks/blob/master/Linux/Linux最新2021年面试题附答案解析，大汇总.md#3cpcopy单词缩写，复制功能)  
+**3、** [cp（copy单词缩写，复制功能）](https://github.com/souyunku/DevBooks/blob/master/Linux/Linux最新2021年面试题附答案解析，大汇总.md#3cpcopy单词缩写复制功能)  
 **4、** [查看某端口是否被占用?](https://github.com/souyunku/DevBooks/blob/master/Linux/Linux最新2021年面试题附答案解析，大汇总.md#4查看某端口是否被占用)  
 **5、** [哪个命令专门用来查看后台任务?](https://github.com/souyunku/DevBooks/blob/master/Linux/Linux最新2021年面试题附答案解析，大汇总.md#5哪个命令专门用来查看后台任务)  
 **6、** [修改权限?](https://github.com/souyunku/DevBooks/blob/master/Linux/Linux最新2021年面试题附答案解析，大汇总.md#6修改权限)  
@@ -2648,7 +2621,7 @@
 
 **1、** [GNU项目的重要性是什么？](https://github.com/souyunku/DevBooks/blob/master/Linux/Linux最新2021年面试题，高级面试题及附答案解析.md#1GNU项目的重要性是什么)  
 **2、** [更改为北京时间命令](https://github.com/souyunku/DevBooks/blob/master/Linux/Linux最新2021年面试题，高级面试题及附答案解析.md#2更改为北京时间命令)  
-**3、** [mv（move单词缩写，移动功能，该文件名称功能）](https://github.com/souyunku/DevBooks/blob/master/Linux/Linux最新2021年面试题，高级面试题及附答案解析.md#3mvmove单词缩写，移动功能，该文件名称功能)  
+**3、** [mv（move单词缩写，移动功能，该文件名称功能）](https://github.com/souyunku/DevBooks/blob/master/Linux/Linux最新2021年面试题，高级面试题及附答案解析.md#3mvmove单词缩写移动功能该文件名称功能)  
 **4、** [什么是链接文件？](https://github.com/souyunku/DevBooks/blob/master/Linux/Linux最新2021年面试题，高级面试题及附答案解析.md#4什么是链接文件)  
 **5、** [tar （解压 压缩 命令）](https://github.com/souyunku/DevBooks/blob/master/Linux/Linux最新2021年面试题，高级面试题及附答案解析.md#5tar-解压-压缩-命令)  
 **6、** [利用 ps 怎么显示所有的进程? 怎么利用 ps 查看指定进程的信息？](https://github.com/souyunku/DevBooks/blob/master/Linux/Linux最新2021年面试题，高级面试题及附答案解析.md#6利用-ps-怎么显示所有的进程-怎么利用-ps-查看指定进程的信息)  
@@ -2665,12 +2638,12 @@
 **2、** [复制文件用哪个命令？如果需要连同文件夹一块复制呢？如果需要有提示功能呢？](https://github.com/souyunku/DevBooks/blob/master/Linux/Linux最新面试题2021年，常见面试题及答案汇总.md#2复制文件用哪个命令如果需要连同文件夹一块复制呢如果需要有提示功能呢)  
 **3、** [关机linux](https://github.com/souyunku/DevBooks/blob/master/Linux/Linux最新面试题2021年，常见面试题及答案汇总.md#3关机linux)  
 **4、** [Grep 命令有什么用？ 如何忽略大小写？ 如何查找不含该串的行?](https://github.com/souyunku/DevBooks/blob/master/Linux/Linux最新面试题2021年，常见面试题及答案汇总.md#4Grep-命令有什么用-如何忽略大小写-如何查找不含该串的行)  
-**5、** [统计ip访问情况，要求分析nginx访问日志，找出访问页面数量在前十位的ip](https://github.com/souyunku/DevBooks/blob/master/Linux/Linux最新面试题2021年，常见面试题及答案汇总.md#5统计ip访问情况，要求分析nginx访问日志，找出访问页面数量在前十位的ip)  
+**5、** [统计ip访问情况，要求分析nginx访问日志，找出访问页面数量在前十位的ip](https://github.com/souyunku/DevBooks/blob/master/Linux/Linux最新面试题2021年，常见面试题及答案汇总.md#5统计ip访问情况要求分析nginx访问日志找出访问页面数量在前十位的ip)  
 **6、** [绝对路径用什么符号表示？当前目录、上层目录用什么表示？主目录用什么表示? 切换目录用什么命令？](https://github.com/souyunku/DevBooks/blob/master/Linux/Linux最新面试题2021年，常见面试题及答案汇总.md#6绝对路径用什么符号表示当前目录上层目录用什么表示主目录用什么表示-切换目录用什么命令)  
 **7、** [使用哪一个命令可以查看自己文件系统的磁盘空间配额呢？](https://github.com/souyunku/DevBooks/blob/master/Linux/Linux最新面试题2021年，常见面试题及答案汇总.md#7使用哪一个命令可以查看自己文件系统的磁盘空间配额呢)  
 **8、** [Linux 下命令有哪几种可使用的通配符？分别代表什么含义?](https://github.com/souyunku/DevBooks/blob/master/Linux/Linux最新面试题2021年，常见面试题及答案汇总.md#8Linux-下命令有哪几种可使用的通配符分别代表什么含义)  
 **9、** [什么是 inode ？](https://github.com/souyunku/DevBooks/blob/master/Linux/Linux最新面试题2021年，常见面试题及答案汇总.md#9什么是-inode-)  
-**10、** [每天晚上 12 点，打包站点目录/var/www/html 备份到/data 目录下（最好每次备份按时间生成不同的备份包）](https://github.com/souyunku/DevBooks/blob/master/Linux/Linux最新面试题2021年，常见面试题及答案汇总.md#10每天晚上-12-点，打包站点目录/var/www/html-备份到/data-目录下最好每次备份按时间生成不同的备份包)  
+**10、** [每天晚上 12 点，打包站点目录/var/www/html 备份到/data 目录下（最好每次备份按时间生成不同的备份包）](https://github.com/souyunku/DevBooks/blob/master/Linux/Linux最新面试题2021年，常见面试题及答案汇总.md#10每天晚上-12-点打包站点目录/var/www/html-备份到/data-目录下最好每次备份按时间生成不同的备份包)  
 
 ### [此处，仅展示前10道，查看更多30道...](https://github.com/souyunku/DevBooks/blob/master/Linux/Linux最新面试题2021年，常见面试题及答案汇总.md)  
 
@@ -2682,7 +2655,7 @@
 **4、** [Linux 的目录结构是怎样的？](https://github.com/souyunku/DevBooks/blob/master/Linux/Linux最新面试题及答案附答案汇总.md#4Linux-的目录结构是怎样的)  
 **5、** [Linux 开机启动过程？](https://github.com/souyunku/DevBooks/blob/master/Linux/Linux最新面试题及答案附答案汇总.md#5Linux-开机启动过程)  
 **6、** [什么是运维？什么是游戏运维？](https://github.com/souyunku/DevBooks/blob/master/Linux/Linux最新面试题及答案附答案汇总.md#6什么是运维什么是游戏运维)  
-**7、** [ll （ll：list的缩写，查看列表详情）查看当前目录下的所有详细信息和文件夹（ll 结果是详细,有时间,是否可读写等信息）](https://github.com/souyunku/DevBooks/blob/master/Linux/Linux最新面试题及答案附答案汇总.md#7ll-ll：list的缩写，查看列表详情查看当前目录下的所有详细信息和文件夹ll-结果是详细,有时间,是否可读写等信息)  
+**7、** [ll （ll：list的缩写，查看列表详情）查看当前目录下的所有详细信息和文件夹（ll 结果是详细,有时间,是否可读写等信息）](https://github.com/souyunku/DevBooks/blob/master/Linux/Linux最新面试题及答案附答案汇总.md#7ll-ll：list的缩写查看列表详情查看当前目录下的所有详细信息和文件夹ll-结果是详细,有时间,是否可读写等信息)  
 **8、** [验证网络可链接命令是什么？什么原理？](https://github.com/souyunku/DevBooks/blob/master/Linux/Linux最新面试题及答案附答案汇总.md#8验证网络可链接命令是什么什么原理)  
 **9、** [more （more：更多的意思）分页查看文件命令（不能快速定位到最后一页）](https://github.com/souyunku/DevBooks/blob/master/Linux/Linux最新面试题及答案附答案汇总.md#9more-more：更多的意思分页查看文件命令不能快速定位到最后一页)  
 **10、** [如何选择 Linux 操作系统版本?](https://github.com/souyunku/DevBooks/blob/master/Linux/Linux最新面试题及答案附答案汇总.md#10如何选择-Linux-操作系统版本)  
@@ -2723,12 +2696,12 @@
 
 **1、** [mongodb的结构介绍](https://github.com/souyunku/DevBooks/blob/master/MongoDB/MongoDB最新2021年面试题附答案解析，大汇总.md#1mongodb的结构介绍)  
 **2、** [ObjectID"有哪些部分组成](https://github.com/souyunku/DevBooks/blob/master/MongoDB/MongoDB最新2021年面试题附答案解析，大汇总.md#2ObjectID"有哪些部分组成)  
-**3、** [如果用户移除对象的属性，该属性是否从存储层中删除？](https://github.com/souyunku/DevBooks/blob/master/MongoDB/MongoDB最新2021年面试题附答案解析，大汇总.md#3如果用户移除对象的属性，该属性是否从存储层中删除)  
+**3、** [如果用户移除对象的属性，该属性是否从存储层中删除？](https://github.com/souyunku/DevBooks/blob/master/MongoDB/MongoDB最新2021年面试题附答案解析，大汇总.md#3如果用户移除对象的属性该属性是否从存储层中删除)  
 **4、** [什么是集合(表)](https://github.com/souyunku/DevBooks/blob/master/MongoDB/MongoDB最新2021年面试题附答案解析，大汇总.md#4什么是集合表)  
 **5、** [更新操作立刻fsync到磁盘?](https://github.com/souyunku/DevBooks/blob/master/MongoDB/MongoDB最新2021年面试题附答案解析，大汇总.md#5更新操作立刻fsync到磁盘)  
 **6、** [为什么要在MongoDB中使用分析器](https://github.com/souyunku/DevBooks/blob/master/MongoDB/MongoDB最新2021年面试题附答案解析，大汇总.md#6为什么要在MongoDB中使用分析器)  
 **7、** [解释什么是MongoDB？](https://github.com/souyunku/DevBooks/blob/master/MongoDB/MongoDB最新2021年面试题附答案解析，大汇总.md#7解释什么是MongoDB)  
-**8、** [MongoDB支持存储过程吗？如果支持的话，怎么用？](https://github.com/souyunku/DevBooks/blob/master/MongoDB/MongoDB最新2021年面试题附答案解析，大汇总.md#8MongoDB支持存储过程吗如果支持的话，怎么用)  
+**8、** [MongoDB支持存储过程吗？如果支持的话，怎么用？](https://github.com/souyunku/DevBooks/blob/master/MongoDB/MongoDB最新2021年面试题附答案解析，大汇总.md#8MongoDB支持存储过程吗如果支持的话怎么用)  
 **9、** [MongoDB的优势有哪些](https://github.com/souyunku/DevBooks/blob/master/MongoDB/MongoDB最新2021年面试题附答案解析，大汇总.md#9MongoDB的优势有哪些)  
 **10、** [为什么要在MongoDB中用"Code"数据类型](https://github.com/souyunku/DevBooks/blob/master/MongoDB/MongoDB最新2021年面试题附答案解析，大汇总.md#10为什么要在MongoDB中用"Code"数据类型)  
 
@@ -2738,7 +2711,7 @@
 
 **1、** [为什么用MOngoDB？](https://github.com/souyunku/DevBooks/blob/master/MongoDB/MongoDB最新2021年面试题，高级面试题及附答案解析.md#1为什么用MOngoDB)  
 **2、** [如何使用"AND"或"OR"条件循环查询集合中的文档](https://github.com/souyunku/DevBooks/blob/master/MongoDB/MongoDB最新2021年面试题，高级面试题及附答案解析.md#2如何使用"AND"或"OR"条件循环查询集合中的文档)  
-**3、** [31如何理解MongoDB中的GridFS机制，MongoDB为何使用GridFS来存储文件？](https://github.com/souyunku/DevBooks/blob/master/MongoDB/MongoDB最新2021年面试题，高级面试题及附答案解析.md#331如何理解MongoDB中的GridFS机制，MongoDB为何使用GridFS来存储文件)  
+**3、** [31如何理解MongoDB中的GridFS机制，MongoDB为何使用GridFS来存储文件？](https://github.com/souyunku/DevBooks/blob/master/MongoDB/MongoDB最新2021年面试题，高级面试题及附答案解析.md#331如何理解MongoDB中的GridFS机制MongoDB为何使用GridFS来存储文件)  
 **4、** [为什么MongoDB的数据文件很大？](https://github.com/souyunku/DevBooks/blob/master/MongoDB/MongoDB最新2021年面试题，高级面试题及附答案解析.md#4为什么MongoDB的数据文件很大)  
 **5、** [我怎么查看 Mongo 正在使用的链接？](https://github.com/souyunku/DevBooks/blob/master/MongoDB/MongoDB最新2021年面试题，高级面试题及附答案解析.md#5我怎么查看-Mongo-正在使用的链接)  
 **6、** [提到在MongoDB中使用索引的基本语法是什么？](https://github.com/souyunku/DevBooks/blob/master/MongoDB/MongoDB最新2021年面试题，高级面试题及附答案解析.md#6提到在MongoDB中使用索引的基本语法是什么)  
@@ -2754,12 +2727,12 @@
 **1、** [使用索引的理由](https://github.com/souyunku/DevBooks/blob/master/Oracle/Oracle最新2021年面试题大汇总，附答案.md#1使用索引的理由)  
 **2、** [什么是绑定变量?](https://github.com/souyunku/DevBooks/blob/master/Oracle/Oracle最新2021年面试题大汇总，附答案.md#2什么是绑定变量)  
 **3、** [如何建立一个备份控制文件？](https://github.com/souyunku/DevBooks/blob/master/Oracle/Oracle最新2021年面试题大汇总，附答案.md#3如何建立一个备份控制文件)  
-**4、** [本地管理表空间和字典管理表空间的特点，ASSM有什么特点？](https://github.com/souyunku/DevBooks/blob/master/Oracle/Oracle最新2021年面试题大汇总，附答案.md#4本地管理表空间和字典管理表空间的特点，ASSM有什么特点)  
+**4、** [本地管理表空间和字典管理表空间的特点，ASSM有什么特点？](https://github.com/souyunku/DevBooks/blob/master/Oracle/Oracle最新2021年面试题大汇总，附答案.md#4本地管理表空间和字典管理表空间的特点ASSM有什么特点)  
 **5、** [Coalescing做了什么？](https://github.com/souyunku/DevBooks/blob/master/Oracle/Oracle最新2021年面试题大汇总，附答案.md#5Coalescing做了什么)  
 **6、** [解释冷备份和热备份的不同点以及各自的优点](https://github.com/souyunku/DevBooks/blob/master/Oracle/Oracle最新2021年面试题大汇总，附答案.md#6解释冷备份和热备份的不同点以及各自的优点)  
-**7、** [当用户进程出错，哪个后台进程负责清理它](https://github.com/souyunku/DevBooks/blob/master/Oracle/Oracle最新2021年面试题大汇总，附答案.md#7当用户进程出错，哪个后台进程负责清理它)  
+**7、** [当用户进程出错，哪个后台进程负责清理它](https://github.com/souyunku/DevBooks/blob/master/Oracle/Oracle最新2021年面试题大汇总，附答案.md#7当用户进程出错哪个后台进程负责清理它)  
 **8、** [如何建立一个备份控制文件?](https://github.com/souyunku/DevBooks/blob/master/Oracle/Oracle最新2021年面试题大汇总，附答案.md#8如何建立一个备份控制文件)  
-**9、** [在千万级的数据库查询中，如何提高效率？](https://github.com/souyunku/DevBooks/blob/master/Oracle/Oracle最新2021年面试题大汇总，附答案.md#9在千万级的数据库查询中，如何提高效率)  
+**9、** [在千万级的数据库查询中，如何提高效率？](https://github.com/souyunku/DevBooks/blob/master/Oracle/Oracle最新2021年面试题大汇总，附答案.md#9在千万级的数据库查询中如何提高效率)  
 **10、** [事务的特性（ACID）是指什么？](https://github.com/souyunku/DevBooks/blob/master/Oracle/Oracle最新2021年面试题大汇总，附答案.md#10事务的特性ACID是指什么)  
 
 ### [此处，仅展示前10道，查看更多30道...](https://github.com/souyunku/DevBooks/blob/master/Oracle/Oracle最新2021年面试题大汇总，附答案.md)  
@@ -2774,7 +2747,7 @@
 **6、** [如何搜集表的各种状态数据？](https://github.com/souyunku/DevBooks/blob/master/Oracle/Oracle最新2021年面试题附答案解析，大汇总.md#6如何搜集表的各种状态数据)  
 **7、** [Oracle跟SQL Server 2005的区别？](https://github.com/souyunku/DevBooks/blob/master/Oracle/Oracle最新2021年面试题附答案解析，大汇总.md#7Oracle跟SQL-Server-2005的区别)  
 **8、** [解释什么是Partitioning（分区）以及它的优点。](https://github.com/souyunku/DevBooks/blob/master/Oracle/Oracle最新2021年面试题附答案解析，大汇总.md#8解释什么是Partitioning分区以及它的优点。)  
-**9、** [说一下，Oracle的分区有几种](https://github.com/souyunku/DevBooks/blob/master/Oracle/Oracle最新2021年面试题附答案解析，大汇总.md#9说一下，Oracle的分区有几种)  
+**9、** [说一下，Oracle的分区有几种](https://github.com/souyunku/DevBooks/blob/master/Oracle/Oracle最新2021年面试题附答案解析，大汇总.md#9说一下Oracle的分区有几种)  
 **10、** [解释$$ORACLE_HOME和$$ORACLE_BASE的区别？](https://github.com/souyunku/DevBooks/blob/master/Oracle/Oracle最新2021年面试题附答案解析，大汇总.md#10解释$$ORACLE_HOME和$$ORACLE_BASE的区别)  
 
 ### [此处，仅展示前10道，查看更多30道...](https://github.com/souyunku/DevBooks/blob/master/Oracle/Oracle最新2021年面试题附答案解析，大汇总.md)  
@@ -2786,7 +2759,7 @@
 **3、** [如何增加buffer cache的命中率?](https://github.com/souyunku/DevBooks/blob/master/Oracle/Oracle最新2021年面试题，高级面试题及附答案解析.md#3如何增加buffer-cache的命中率)  
 **4、** [提及11g版本2中Oracle Forms Services中引入的新功能是什么?](https://github.com/souyunku/DevBooks/blob/master/Oracle/Oracle最新2021年面试题，高级面试题及附答案解析.md#4提及11g版本2中Oracle-Forms-Services中引入的新功能是什么)  
 **5、** [如何变动数据文件的大小？](https://github.com/souyunku/DevBooks/blob/master/Oracle/Oracle最新2021年面试题，高级面试题及附答案解析.md#5如何变动数据文件的大小)  
-**6、** [如何在不影响子表的前提下，重建一个母表](https://github.com/souyunku/DevBooks/blob/master/Oracle/Oracle最新2021年面试题，高级面试题及附答案解析.md#6如何在不影响子表的前提下，重建一个母表)  
+**6、** [如何在不影响子表的前提下，重建一个母表](https://github.com/souyunku/DevBooks/blob/master/Oracle/Oracle最新2021年面试题，高级面试题及附答案解析.md#6如何在不影响子表的前提下重建一个母表)  
 **7、** [TEMPORARY tablespace和PERMANENT tablespace 的区别是？](https://github.com/souyunku/DevBooks/blob/master/Oracle/Oracle最新2021年面试题，高级面试题及附答案解析.md#7TEMPORARY-tablespace和PERMANENT-tablespace-的区别是)  
 **8、** [集合操作符](https://github.com/souyunku/DevBooks/blob/master/Oracle/Oracle最新2021年面试题，高级面试题及附答案解析.md#8集合操作符)  
 **9、** [解释materialized views的作用](https://github.com/souyunku/DevBooks/blob/master/Oracle/Oracle最新2021年面试题，高级面试题及附答案解析.md#9解释materialized-views的作用)  
@@ -2804,7 +2777,7 @@
 **6、** [提到一个项目的“验证LOV”属性?提到lov和list项目有什么区别?](https://github.com/souyunku/DevBooks/blob/master/Oracle/Oracle最新面试题2021年，常见面试题及答案汇总.md#6提到一个项目的“验证LOV属性提到lov和list项目有什么区别)  
 **7、** [说说Oracle中经常使用到的函数](https://github.com/souyunku/DevBooks/blob/master/Oracle/Oracle最新面试题2021年，常见面试题及答案汇总.md#7说说Oracle中经常使用到的函数)  
 **8、** [说下 oracle 中 dml、ddl、dcl 的使用有哪些](https://github.com/souyunku/DevBooks/blob/master/Oracle/Oracle最新面试题2021年，常见面试题及答案汇总.md#8说下-oracle-中-dmlddldcl-的使用有哪些)  
-**9、** [说一下，什么是Oracle分区](https://github.com/souyunku/DevBooks/blob/master/Oracle/Oracle最新面试题2021年，常见面试题及答案汇总.md#9说一下，什么是Oracle分区)  
+**9、** [说一下，什么是Oracle分区](https://github.com/souyunku/DevBooks/blob/master/Oracle/Oracle最新面试题2021年，常见面试题及答案汇总.md#9说一下什么是Oracle分区)  
 **10、** [给出两个检查表结构的方法](https://github.com/souyunku/DevBooks/blob/master/Oracle/Oracle最新面试题2021年，常见面试题及答案汇总.md#10给出两个检查表结构的方法)  
 
 ### [此处，仅展示前10道，查看更多30道...](https://github.com/souyunku/DevBooks/blob/master/Oracle/Oracle最新面试题2021年，常见面试题及答案汇总.md)  
@@ -2817,7 +2790,7 @@
 **4、** [解释冷备份和热备份的不同点以及各自的优点](https://github.com/souyunku/DevBooks/blob/master/Oracle/Oracle最新面试题，2021年面试题及答案汇总.md#4解释冷备份和热备份的不同点以及各自的优点)  
 **5、** [可以从表单执行动态SQL吗?](https://github.com/souyunku/DevBooks/blob/master/Oracle/Oracle最新面试题，2021年面试题及答案汇总.md#5可以从表单执行动态SQL吗)  
 **6、** [给出两种相关约束?](https://github.com/souyunku/DevBooks/blob/master/Oracle/Oracle最新面试题，2021年面试题及答案汇总.md#6给出两种相关约束)  
-**7、** [解释 冷备份 和 热备份 的不同点，以及各自的优点？](https://github.com/souyunku/DevBooks/blob/master/Oracle/Oracle最新面试题，2021年面试题及答案汇总.md#7解释-冷备份-和-热备份-的不同点，以及各自的优点)  
+**7、** [解释 冷备份 和 热备份 的不同点，以及各自的优点？](https://github.com/souyunku/DevBooks/blob/master/Oracle/Oracle最新面试题，2021年面试题及答案汇总.md#7解释-冷备份-和-热备份-的不同点以及各自的优点)  
 **8、** [如何判断谁往表里增加了一条纪录？](https://github.com/souyunku/DevBooks/blob/master/Oracle/Oracle最新面试题，2021年面试题及答案汇总.md#8如何判断谁往表里增加了一条纪录)  
 **9、** [给出在STAR SCHEMA中的两种表及它们分别含有的数据](https://github.com/souyunku/DevBooks/blob/master/Oracle/Oracle最新面试题，2021年面试题及答案汇总.md#9给出在STAR-SCHEMA中的两种表及它们分别含有的数据)  
 **10、** [如何转换init.ora到spfile?](https://github.com/souyunku/DevBooks/blob/master/Oracle/Oracle最新面试题，2021年面试题及答案汇总.md#10如何转换initora到spfile)  
@@ -2861,7 +2834,7 @@
 **3、** [nignx配置](https://github.com/souyunku/DevBooks/blob/master/Nginx/Nginx最新2021年面试题大汇总，附答案.md#3nignx配置)  
 **4、** [请解释`ngx_http_upstream_module`的作用是什么?](https://github.com/souyunku/DevBooks/blob/master/Nginx/Nginx最新2021年面试题大汇总，附答案.md#4请解释`ngx_http_upstream_module`的作用是什么)  
 **5、** [什么是C10K问题?](https://github.com/souyunku/DevBooks/blob/master/Nginx/Nginx最新2021年面试题大汇总，附答案.md#5什么是C10K问题)  
-**6、** [在 Nginx 中，如何使用未定义的服务器名称来阻止处理请求?](https://github.com/souyunku/DevBooks/blob/master/Nginx/Nginx最新2021年面试题大汇总，附答案.md#6在-Nginx-中，如何使用未定义的服务器名称来阻止处理请求)  
+**6、** [在 Nginx 中，如何使用未定义的服务器名称来阻止处理请求?](https://github.com/souyunku/DevBooks/blob/master/Nginx/Nginx最新2021年面试题大汇总，附答案.md#6在-Nginx-中如何使用未定义的服务器名称来阻止处理请求)  
 **7、** [解释如何在 Nginx 服务器上添加模块?](https://github.com/souyunku/DevBooks/blob/master/Nginx/Nginx最新2021年面试题大汇总，附答案.md#7解释如何在-Nginx-服务器上添加模块)  
 **8、** [Nginx 是如何实现高并发的？](https://github.com/souyunku/DevBooks/blob/master/Nginx/Nginx最新2021年面试题大汇总，附答案.md#8Nginx-是如何实现高并发的)  
 **9、** [突发限制访问频率（突发流量）](https://github.com/souyunku/DevBooks/blob/master/Nginx/Nginx最新2021年面试题大汇总，附答案.md#9突发限制访问频率突发流量)  
@@ -2923,7 +2896,7 @@
 **5、** [为什么学python](https://github.com/souyunku/DevBooks/blob/master/Python/Python最新2021年面试题大汇总，附答案.md#5为什么学python)  
 **6、** [Redis如何实现主从复制？以及数据同步机制？](https://github.com/souyunku/DevBooks/blob/master/Python/Python最新2021年面试题大汇总，附答案.md#6Redis如何实现主从复制以及数据同步机制)  
 **7、** [列表和元组之间的区别是？](https://github.com/souyunku/DevBooks/blob/master/Python/Python最新2021年面试题大汇总，附答案.md#7列表和元组之间的区别是)  
-**8、** [从0-99这100个数中随机取出10个，要求不能重复](https://github.com/souyunku/DevBooks/blob/master/Python/Python最新2021年面试题大汇总，附答案.md#8从0-99这100个数中随机取出10个，要求不能重复)  
+**8、** [从0-99这100个数中随机取出10个，要求不能重复](https://github.com/souyunku/DevBooks/blob/master/Python/Python最新2021年面试题大汇总，附答案.md#8从0-99这100个数中随机取出10个要求不能重复)  
 **9、** [如何实现响应式布局](https://github.com/souyunku/DevBooks/blob/master/Python/Python最新2021年面试题大汇总，附答案.md#9如何实现响应式布局)  
 **10、** [什么是覆盖索引](https://github.com/souyunku/DevBooks/blob/master/Python/Python最新2021年面试题大汇总，附答案.md#10什么是覆盖索引)  
 
@@ -2933,9 +2906,9 @@
 
 **1、** [_init_在Python中有什么用？](https://github.com/souyunku/DevBooks/blob/master/Python/Python最新2021年面试题附答案解析，大汇总.md#1_init_在Python中有什么用)  
 **2、** [简述事务及其特性](https://github.com/souyunku/DevBooks/blob/master/Python/Python最新2021年面试题附答案解析，大汇总.md#2简述事务及其特性)  
-**3、** [区分Python中的remove，del和pop？](https://github.com/souyunku/DevBooks/blob/master/Python/Python最新2021年面试题附答案解析，大汇总.md#3区分Python中的remove，del和pop)  
+**3、** [区分Python中的remove，del和pop？](https://github.com/souyunku/DevBooks/blob/master/Python/Python最新2021年面试题附答案解析，大汇总.md#3区分Python中的removedel和pop)  
 **4、** [什么是arp协议](https://github.com/souyunku/DevBooks/blob/master/Python/Python最新2021年面试题附答案解析，大汇总.md#4什么是arp协议)  
-**5、** [编写程序，计算文件中单词的出现频率](https://github.com/souyunku/DevBooks/blob/master/Python/Python最新2021年面试题附答案解析，大汇总.md#5编写程序，计算文件中单词的出现频率)  
+**5、** [编写程序，计算文件中单词的出现频率](https://github.com/souyunku/DevBooks/blob/master/Python/Python最新2021年面试题附答案解析，大汇总.md#5编写程序计算文件中单词的出现频率)  
 **6、** [索引再什么情况下遵循最左前缀的规则？](https://github.com/souyunku/DevBooks/blob/master/Python/Python最新2021年面试题附答案解析，大汇总.md#6索引再什么情况下遵循最左前缀的规则)  
 **7、** [路由器和交换机的区别](https://github.com/souyunku/DevBooks/blob/master/Python/Python最新2021年面试题附答案解析，大汇总.md#7路由器和交换机的区别)  
 **8、** [描述以下字典的items()方法和iteritems()方法有啥不同？](https://github.com/souyunku/DevBooks/blob/master/Python/Python最新2021年面试题附答案解析，大汇总.md#8描述以下字典的items方法和iteritems方法有啥不同)  
@@ -2948,10 +2921,10 @@
 
 **1、** [python的底层网络交互模块有哪些](https://github.com/souyunku/DevBooks/blob/master/Python/Python最新2021年面试题，高级面试题及附答案解析.md#1python的底层网络交互模块有哪些)  
 **2、** [有一个多层嵌套的列表A=[1,2,3,[4,1,['j1',1,[1,2,3,'aa']]]],请写一段代码将A中的元素全部打印出来](https://github.com/souyunku/DevBooks/blob/master/Python/Python最新2021年面试题，高级面试题及附答案解析.md#2有一个多层嵌套的列表A=[1,2,3,[4,1,['j1',1,[1,2,3,'aa']]]],请写一段代码将A中的元素全部打印出来)  
-**3、** [Python中append，insert和extend的区别?](https://github.com/souyunku/DevBooks/blob/master/Python/Python最新2021年面试题，高级面试题及附答案解析.md#3Python中append，insert和extend的区别)  
+**3、** [Python中append，insert和extend的区别?](https://github.com/souyunku/DevBooks/blob/master/Python/Python最新2021年面试题，高级面试题及附答案解析.md#3Python中appendinsert和extend的区别)  
 **4、** [在Python中如何使用多进制数字？](https://github.com/souyunku/DevBooks/blob/master/Python/Python最新2021年面试题，高级面试题及附答案解析.md#4在Python中如何使用多进制数字)  
 **5、** [Python有什么特点？](https://github.com/souyunku/DevBooks/blob/master/Python/Python最新2021年面试题，高级面试题及附答案解析.md#5Python有什么特点)  
-**6、** [query作为sql模板，args为将要传入的参数](https://github.com/souyunku/DevBooks/blob/master/Python/Python最新2021年面试题，高级面试题及附答案解析.md#6query作为sql模板，args为将要传入的参数)  
+**6、** [query作为sql模板，args为将要传入的参数](https://github.com/souyunku/DevBooks/blob/master/Python/Python最新2021年面试题，高级面试题及附答案解析.md#6query作为sql模板args为将要传入的参数)  
 **7、** [在Python中如何实现多线程？](https://github.com/souyunku/DevBooks/blob/master/Python/Python最新2021年面试题，高级面试题及附答案解析.md#7在Python中如何实现多线程)  
 **8、** [Redis默认多少个db](https://github.com/souyunku/DevBooks/blob/master/Python/Python最新2021年面试题，高级面试题及附答案解析.md#8Redis默认多少个db)  
 **9、** [一行代码实现删除列表中的所有的重复的值](https://github.com/souyunku/DevBooks/blob/master/Python/Python最新2021年面试题，高级面试题及附答案解析.md#9一行代码实现删除列表中的所有的重复的值)  
@@ -2962,14 +2935,14 @@
 ## Python最新基础面试题及答案整理
 
 **1、** [简述触发器、函数、视图和存储过程](https://github.com/souyunku/DevBooks/blob/master/Python/Python最新基础面试题及答案整理.md#1简述触发器函数视图和存储过程)  
-**2、** [如果Redis中的某个列表中的数据量非常大，如何实现循环显示每一个值？](https://github.com/souyunku/DevBooks/blob/master/Python/Python最新基础面试题及答案整理.md#2如果Redis中的某个列表中的数据量非常大，如何实现循环显示每一个值)  
+**2、** [如果Redis中的某个列表中的数据量非常大，如何实现循环显示每一个值？](https://github.com/souyunku/DevBooks/blob/master/Python/Python最新基础面试题及答案整理.md#2如果Redis中的某个列表中的数据量非常大如何实现循环显示每一个值)  
 **3、** [如何查找一个字符串中特定的字符？find和index的差异？](https://github.com/souyunku/DevBooks/blob/master/Python/Python最新基础面试题及答案整理.md#3如何查找一个字符串中特定的字符find和index的差异)  
 **4、** [ascii、Unicode、utf-8、gbk的区别](https://github.com/souyunku/DevBooks/blob/master/Python/Python最新基础面试题及答案整理.md#4asciiUnicodeutf-8gbk的区别)  
 **5、** [如何以就地操作方式打乱一个列表的元素？](https://github.com/souyunku/DevBooks/blob/master/Python/Python最新基础面试题及答案整理.md#5如何以就地操作方式打乱一个列表的元素)  
 **6、** [如何保证Redis中的数据都是热点数据](https://github.com/souyunku/DevBooks/blob/master/Python/Python最新基础面试题及答案整理.md#6如何保证Redis中的数据都是热点数据)  
 **7、** [简述面向对象的三大特性？](https://github.com/souyunku/DevBooks/blob/master/Python/Python最新基础面试题及答案整理.md#7简述面向对象的三大特性)  
 **8、** [python中进制转换](https://github.com/souyunku/DevBooks/blob/master/Python/Python最新基础面试题及答案整理.md#8python中进制转换)  
-**9、** [编写程序，检查序列是否为回文](https://github.com/souyunku/DevBooks/blob/master/Python/Python最新基础面试题及答案整理.md#9编写程序，检查序列是否为回文)  
+**9、** [编写程序，检查序列是否为回文](https://github.com/souyunku/DevBooks/blob/master/Python/Python最新基础面试题及答案整理.md#9编写程序检查序列是否为回文)  
 **10、** [sys.path.append('xxx')的作用](https://github.com/souyunku/DevBooks/blob/master/Python/Python最新基础面试题及答案整理.md#10syspathappend'xxx'的作用)  
 
 ### [此处，仅展示前10道，查看更多30道...](https://github.com/souyunku/DevBooks/blob/master/Python/Python最新基础面试题及答案整理.md)  
@@ -2980,8 +2953,8 @@
 **2、** [在Python中有多少种运算符？解释一下算数运算符。](https://github.com/souyunku/DevBooks/blob/master/Python/Python最新面试题2021年，常见面试题及答案汇总.md#2在Python中有多少种运算符解释一下算数运算符。)  
 **3、** [实例变量和类变量的区别](https://github.com/souyunku/DevBooks/blob/master/Python/Python最新面试题2021年，常见面试题及答案汇总.md#3实例变量和类变量的区别)  
 **4、** [曾经使用过哪些前端框架](https://github.com/souyunku/DevBooks/blob/master/Python/Python最新面试题2021年，常见面试题及答案汇总.md#4曾经使用过哪些前端框架)  
-**5、** [编写程序，检查数字是否为Armstrong](https://github.com/souyunku/DevBooks/blob/master/Python/Python最新面试题2021年，常见面试题及答案汇总.md#5编写程序，检查数字是否为Armstrong)  
-**6、** [为什么数据很大的时候使用limit offset分页时，越往后翻速度越慢，如何优化？](https://github.com/souyunku/DevBooks/blob/master/Python/Python最新面试题2021年，常见面试题及答案汇总.md#6为什么数据很大的时候使用limit-offset分页时，越往后翻速度越慢，如何优化)  
+**5、** [编写程序，检查数字是否为Armstrong](https://github.com/souyunku/DevBooks/blob/master/Python/Python最新面试题2021年，常见面试题及答案汇总.md#5编写程序检查数字是否为Armstrong)  
+**6、** [为什么数据很大的时候使用limit offset分页时，越往后翻速度越慢，如何优化？](https://github.com/souyunku/DevBooks/blob/master/Python/Python最新面试题2021年，常见面试题及答案汇总.md#6为什么数据很大的时候使用limit-offset分页时越往后翻速度越慢如何优化)  
 **7、** [什么是鸭子模型？](https://github.com/souyunku/DevBooks/blob/master/Python/Python最新面试题2021年，常见面试题及答案汇总.md#7什么是鸭子模型)  
 **8、** [深拷贝和浅拷贝之间的区别是什么？](https://github.com/souyunku/DevBooks/blob/master/Python/Python最新面试题2021年，常见面试题及答案汇总.md#8深拷贝和浅拷贝之间的区别是什么)  
 **9、** [DNS域名解析过程](https://github.com/souyunku/DevBooks/blob/master/Python/Python最新面试题2021年，常见面试题及答案汇总.md#9DNS域名解析过程)  
@@ -2994,7 +2967,7 @@
 **1、** [生成器与函数的区别？](https://github.com/souyunku/DevBooks/blob/master/Python/Python最新面试题及答案整理，汇总版.md#1生成器与函数的区别)  
 **2、** [is和==的区别](https://github.com/souyunku/DevBooks/blob/master/Python/Python最新面试题及答案整理，汇总版.md#2is和==的区别)  
 **3、** [Redis中默认有多少个哈希槽](https://github.com/souyunku/DevBooks/blob/master/Python/Python最新面试题及答案整理，汇总版.md#3Redis中默认有多少个哈希槽)  
-**4、** [在python中如何拷贝一个对象，并说明他们之间的区别](https://github.com/souyunku/DevBooks/blob/master/Python/Python最新面试题及答案整理，汇总版.md#4在python中如何拷贝一个对象，并说明他们之间的区别)  
+**4、** [在python中如何拷贝一个对象，并说明他们之间的区别](https://github.com/souyunku/DevBooks/blob/master/Python/Python最新面试题及答案整理，汇总版.md#4在python中如何拷贝一个对象并说明他们之间的区别)  
 **5、** [如何高效的找到Redis中所有以felix开头的key](https://github.com/souyunku/DevBooks/blob/master/Python/Python最新面试题及答案整理，汇总版.md#5如何高效的找到Redis中所有以felix开头的key)  
 **6、** [解释Python中的help()和dir()函数](https://github.com/souyunku/DevBooks/blob/master/Python/Python最新面试题及答案整理，汇总版.md#6解释Python中的help和dir函数)  
 **7、** [解释一下Python中的身份运算符](https://github.com/souyunku/DevBooks/blob/master/Python/Python最新面试题及答案整理，汇总版.md#7解释一下Python中的身份运算符)  
@@ -3013,15 +2986,15 @@
 **5、** [什么是LVS](https://github.com/souyunku/DevBooks/blob/master/Python/Python最新面试题及答案附答案汇总.md#5什么是LVS)  
 **6、** [什么是rpc](https://github.com/souyunku/DevBooks/blob/master/Python/Python最新面试题及答案附答案汇总.md#6什么是rpc)  
 **7、** [列举你所了解的所有Python2和Python3的区别](https://github.com/souyunku/DevBooks/blob/master/Python/Python最新面试题及答案附答案汇总.md#7列举你所了解的所有Python2和Python3的区别)  
-**8、** [写代码：如何由tuple1=('a','b','c','d','e')，和tuple2=(1,2,3,4,5)得到res={'a': 1, 'b': 2, 'c': 3, 'd': 4, 'e': 5}](https://github.com/souyunku/DevBooks/blob/master/Python/Python最新面试题及答案附答案汇总.md#8写代码：如何由tuple1='a','b','c','d','e'，和tuple2=1,2,3,4,5得到res={'a':-1,-'b':-2,-'c':-3,-'d':-4,-'e':-5})  
-**9、** [如果已经建立了TCP连接，但是客户端突然出现故障了怎么办](https://github.com/souyunku/DevBooks/blob/master/Python/Python最新面试题及答案附答案汇总.md#9如果已经建立了TCP连接，但是客户端突然出现故障了怎么办)  
+**8、** [写代码：如何由tuple1=('a','b','c','d','e')，和tuple2=(1,2,3,4,5)得到res={'a': 1, 'b': 2, 'c': 3, 'd': 4, 'e': 5}](https://github.com/souyunku/DevBooks/blob/master/Python/Python最新面试题及答案附答案汇总.md#8写代码：如何由tuple1='a','b','c','d','e'和tuple2=1,2,3,4,5得到res={'a':-1,-'b':-2,-'c':-3,-'d':-4,-'e':-5})  
+**9、** [如果已经建立了TCP连接，但是客户端突然出现故障了怎么办](https://github.com/souyunku/DevBooks/blob/master/Python/Python最新面试题及答案附答案汇总.md#9如果已经建立了TCP连接但是客户端突然出现故障了怎么办)  
 **10、** [什么是lambda函数？](https://github.com/souyunku/DevBooks/blob/master/Python/Python最新面试题及答案附答案汇总.md#10什么是lambda函数)  
 
 ### [此处，仅展示前10道，查看更多30道...](https://github.com/souyunku/DevBooks/blob/master/Python/Python最新面试题及答案附答案汇总.md)  
 
 ## Python最新面试题，2021年面试题及答案汇总
 
-**1、** [阅读以下代码，写输出结果](https://github.com/souyunku/DevBooks/blob/master/Python/Python最新面试题，2021年面试题及答案汇总.md#1阅读以下代码，写输出结果)  
+**1、** [阅读以下代码，写输出结果](https://github.com/souyunku/DevBooks/blob/master/Python/Python最新面试题，2021年面试题及答案汇总.md#1阅读以下代码写输出结果)  
 **2、** [python和java、php、c、c#、c++ 等其他语言对比？](https://github.com/souyunku/DevBooks/blob/master/Python/Python最新面试题，2021年面试题及答案汇总.md#2python和javaphpcc#c++-等其他语言对比)  
 **3、** [vue中的路由拦截器的作用](https://github.com/souyunku/DevBooks/blob/master/Python/Python最新面试题，2021年面试题及答案汇总.md#3vue中的路由拦截器的作用)  
 **4、** [如何修改本地hosts文件](https://github.com/souyunku/DevBooks/blob/master/Python/Python最新面试题，2021年面试题及答案汇总.md#4如何修改本地hosts文件)  
@@ -3040,7 +3013,7 @@
 **2、** [什么时GIL锁](https://github.com/souyunku/DevBooks/blob/master/Python/Python最新面试题，常见面试题及答案汇总.md#2什么时GIL锁)  
 **3、** [简述Redis的有几种持久化策略以及比较？](https://github.com/souyunku/DevBooks/blob/master/Python/Python最新面试题，常见面试题及答案汇总.md#3简述Redis的有几种持久化策略以及比较)  
 **4、** [python解释器种类以及特点](https://github.com/souyunku/DevBooks/blob/master/Python/Python最新面试题，常见面试题及答案汇总.md#4python解释器种类以及特点)  
-**5、** [一个数如果恰好等于它的因子之和，这个数就称为‘完数’，比如6=1+2+3，编程找出1000以内的所有的完数。](https://github.com/souyunku/DevBooks/blob/master/Python/Python最新面试题，常见面试题及答案汇总.md#5一个数如果恰好等于它的因子之和，这个数就称为‘完数’，比如6=1+2+3，编程找出1000以内的所有的完数。)  
+**5、** [一个数如果恰好等于它的因子之和，这个数就称为‘完数’，比如6=1+2+3，编程找出1000以内的所有的完数。](https://github.com/souyunku/DevBooks/blob/master/Python/Python最新面试题，常见面试题及答案汇总.md#5一个数如果恰好等于它的因子之和这个数就称为‘完数’比如6=1+2+3编程找出1000以内的所有的完数。)  
 **6、** [Python支持多重继承吗？](https://github.com/souyunku/DevBooks/blob/master/Python/Python最新面试题，常见面试题及答案汇总.md#6Python支持多重继承吗)  
 **7、** [TCP和UDP的区别](https://github.com/souyunku/DevBooks/blob/master/Python/Python最新面试题，常见面试题及答案汇总.md#7TCP和UDP的区别)  
 **8、** [简述多进程开发中join和deamon的区别](https://github.com/souyunku/DevBooks/blob/master/Python/Python最新面试题，常见面试题及答案汇总.md#8简述多进程开发中join和deamon的区别)  
@@ -3069,8 +3042,8 @@
 **1、** [如何将打开res aw目录中的数据库文件?](https://github.com/souyunku/DevBooks/blob/master/Android/Android最新2021年面试题大汇总，附答案.md#1如何将打开res-aw目录中的数据库文件)  
 **2、** [都使用过哪些自定义控件](https://github.com/souyunku/DevBooks/blob/master/Android/Android最新2021年面试题大汇总，附答案.md#2都使用过哪些自定义控件)  
 **3、** [android 中有哪几种解析xml的类？官方推荐哪种？以及它们的原理和区别。](https://github.com/souyunku/DevBooks/blob/master/Android/Android最新2021年面试题大汇总，附答案.md#3android-中有哪几种解析xml的类官方推荐哪种以及它们的原理和区别。)  
-**4、** [Android 中的动画有哪几类，它们的特点和区别是什么](https://github.com/souyunku/DevBooks/blob/master/Android/Android最新2021年面试题大汇总，附答案.md#4Android-中的动画有哪几类，它们的特点和区别是什么)  
-**5、** [如果后台的Activity由于某原因被系统回收了，如何在被系统回收之前保存当前状态？](https://github.com/souyunku/DevBooks/blob/master/Android/Android最新2021年面试题大汇总，附答案.md#5如果后台的Activity由于某原因被系统回收了，如何在被系统回收之前保存当前状态)  
+**4、** [Android 中的动画有哪几类，它们的特点和区别是什么](https://github.com/souyunku/DevBooks/blob/master/Android/Android最新2021年面试题大汇总，附答案.md#4Android-中的动画有哪几类它们的特点和区别是什么)  
+**5、** [如果后台的Activity由于某原因被系统回收了，如何在被系统回收之前保存当前状态？](https://github.com/souyunku/DevBooks/blob/master/Android/Android最新2021年面试题大汇总，附答案.md#5如果后台的Activity由于某原因被系统回收了如何在被系统回收之前保存当前状态)  
 **6、** [Android root机制](https://github.com/souyunku/DevBooks/blob/master/Android/Android最新2021年面试题大汇总，附答案.md#6Android-root机制)  
 **7、** [android的数据存储](https://github.com/souyunku/DevBooks/blob/master/Android/Android最新2021年面试题大汇总，附答案.md#7android的数据存储)  
 **8、** [自定义view的基本流程](https://github.com/souyunku/DevBooks/blob/master/Android/Android最新2021年面试题大汇总，附答案.md#8自定义view的基本流程)  
@@ -3083,11 +3056,11 @@
 
 **1、** [如何提升Service进程优先级](https://github.com/souyunku/DevBooks/blob/master/Android/Android最新2021年面试题附答案解析，大汇总.md#1如何提升Service进程优先级)  
 **2、** [activity的启动模式有哪些？是什么含义](https://github.com/souyunku/DevBooks/blob/master/Android/Android最新2021年面试题附答案解析，大汇总.md#2activity的启动模式有哪些是什么含义)  
-**3、** [Intent 传递数据时，可以传递哪些类型数据？](https://github.com/souyunku/DevBooks/blob/master/Android/Android最新2021年面试题附答案解析，大汇总.md#3Intent-传递数据时，可以传递哪些类型数据)  
+**3、** [Intent 传递数据时，可以传递哪些类型数据？](https://github.com/souyunku/DevBooks/blob/master/Android/Android最新2021年面试题附答案解析，大汇总.md#3Intent-传递数据时可以传递哪些类型数据)  
 **4、** [如何修改 Activity 进入和退出动画](https://github.com/souyunku/DevBooks/blob/master/Android/Android最新2021年面试题附答案解析，大汇总.md#4如何修改-Activity-进入和退出动画)  
 **5、** [Activity间通过Intent传递数据大小有没有限制？](https://github.com/souyunku/DevBooks/blob/master/Android/Android最新2021年面试题附答案解析，大汇总.md#5Activity间通过Intent传递数据大小有没有限制)  
 **6、** [请介绍下Android的数据存储方式。](https://github.com/souyunku/DevBooks/blob/master/Android/Android最新2021年面试题附答案解析，大汇总.md#6请介绍下Android的数据存储方式。)  
-**7、** [activity，fragment传值问题](https://github.com/souyunku/DevBooks/blob/master/Android/Android最新2021年面试题附答案解析，大汇总.md#7activity，fragment传值问题)  
+**7、** [activity，fragment传值问题](https://github.com/souyunku/DevBooks/blob/master/Android/Android最新2021年面试题附答案解析，大汇总.md#7activityfragment传值问题)  
 **8、** [Hander原理](https://github.com/souyunku/DevBooks/blob/master/Android/Android最新2021年面试题附答案解析，大汇总.md#8Hander原理)  
 **9、** [Android中touch事件的传递机制是怎样的?](https://github.com/souyunku/DevBooks/blob/master/Android/Android最新2021年面试题附答案解析，大汇总.md#9Android中touch事件的传递机制是怎样的)  
 **10、** [请描述下Activity的生命周期。](https://github.com/souyunku/DevBooks/blob/master/Android/Android最新2021年面试题附答案解析，大汇总.md#10请描述下Activity的生命周期。)  
@@ -3096,29 +3069,29 @@
 
 ## Android最新2021年面试题，高级面试题及附答案解析
 
-**1、** [启动一个程序，可以主界面点击图标进入，也可以从一个程序中跳转过去，二者有什么区别？](https://github.com/souyunku/DevBooks/blob/master/Android/Android最新2021年面试题，高级面试题及附答案解析.md#1启动一个程序，可以主界面点击图标进入，也可以从一个程序中跳转过去，二者有什么区别)  
+**1、** [启动一个程序，可以主界面点击图标进入，也可以从一个程序中跳转过去，二者有什么区别？](https://github.com/souyunku/DevBooks/blob/master/Android/Android最新2021年面试题，高级面试题及附答案解析.md#1启动一个程序可以主界面点击图标进入也可以从一个程序中跳转过去二者有什么区别)  
 **2、** [Android i18n](https://github.com/souyunku/DevBooks/blob/master/Android/Android最新2021年面试题，高级面试题及附答案解析.md#2Android-i18n)  
 **3、** [recyclerView嵌套卡顿解决如何解决](https://github.com/souyunku/DevBooks/blob/master/Android/Android最新2021年面试题，高级面试题及附答案解析.md#3recyclerView嵌套卡顿解决如何解决)  
 **4、** [android系统的优势和不足](https://github.com/souyunku/DevBooks/blob/master/Android/Android最新2021年面试题，高级面试题及附答案解析.md#4android系统的优势和不足)  
 **5、** [jni 的调用过程?](https://github.com/souyunku/DevBooks/blob/master/Android/Android最新2021年面试题，高级面试题及附答案解析.md#5jni-的调用过程)  
 **6、** [16Android性能优化](https://github.com/souyunku/DevBooks/blob/master/Android/Android最新2021年面试题，高级面试题及附答案解析.md#616Android性能优化)  
 **7、** [Manifest.xml文件中主要包括哪些信息？](https://github.com/souyunku/DevBooks/blob/master/Android/Android最新2021年面试题，高级面试题及附答案解析.md#7Manifestxml文件中主要包括哪些信息)  
-**8、** [如果Listview中的数据源发生改变，如何更新listview中的数据](https://github.com/souyunku/DevBooks/blob/master/Android/Android最新2021年面试题，高级面试题及附答案解析.md#8如果Listview中的数据源发生改变，如何更新listview中的数据)  
-**9、** [属性动画，例如一个 button 从 A 移动到 B 点，B 点还是可以响应点击事件，这个原理是什么？](https://github.com/souyunku/DevBooks/blob/master/Android/Android最新2021年面试题，高级面试题及附答案解析.md#9属性动画，例如一个-button-从-A-移动到-B-点，B-点还是可以响应点击事件，这个原理是什么)  
+**8、** [如果Listview中的数据源发生改变，如何更新listview中的数据](https://github.com/souyunku/DevBooks/blob/master/Android/Android最新2021年面试题，高级面试题及附答案解析.md#8如果Listview中的数据源发生改变如何更新listview中的数据)  
+**9、** [属性动画，例如一个 button 从 A 移动到 B 点，B 点还是可以响应点击事件，这个原理是什么？](https://github.com/souyunku/DevBooks/blob/master/Android/Android最新2021年面试题，高级面试题及附答案解析.md#9属性动画例如一个-button-从-A-移动到-B-点B-点还是可以响应点击事件这个原理是什么)  
 **10、** [Fragment与activity如何传值和交互？](https://github.com/souyunku/DevBooks/blob/master/Android/Android最新2021年面试题，高级面试题及附答案解析.md#10Fragment与activity如何传值和交互)  
 
 ### [此处，仅展示前10道，查看更多30道...](https://github.com/souyunku/DevBooks/blob/master/Android/Android最新2021年面试题，高级面试题及附答案解析.md)  
 
 ## Android最新面试题2021年，常见面试题及答案汇总
 
-**1、** [Android中activity，context，application有什么不同。](https://github.com/souyunku/DevBooks/blob/master/Android/Android最新面试题2021年，常见面试题及答案汇总.md#1Android中activity，context，application有什么不同。)  
+**1、** [Android中activity，context，application有什么不同。](https://github.com/souyunku/DevBooks/blob/master/Android/Android最新面试题2021年，常见面试题及答案汇总.md#1Android中activitycontextapplication有什么不同。)  
 **2、** [Service 里面可以弹吐司么](https://github.com/souyunku/DevBooks/blob/master/Android/Android最新面试题2021年，常见面试题及答案汇总.md#2Service-里面可以弹吐司么)  
-**3、** [你一般在开发项目中都使用什么设计模式？如何来重构，优化你的代码？](https://github.com/souyunku/DevBooks/blob/master/Android/Android最新面试题2021年，常见面试题及答案汇总.md#3你一般在开发项目中都使用什么设计模式如何来重构，优化你的代码)  
+**3、** [你一般在开发项目中都使用什么设计模式？如何来重构，优化你的代码？](https://github.com/souyunku/DevBooks/blob/master/Android/Android最新面试题2021年，常见面试题及答案汇总.md#3你一般在开发项目中都使用什么设计模式如何来重构优化你的代码)  
 **4、** [什么是嵌入式实时操作系统, Android 操作系统属于实时操作系统吗?](https://github.com/souyunku/DevBooks/blob/master/Android/Android最新面试题2021年，常见面试题及答案汇总.md#4什么是嵌入式实时操作系统,-Android-操作系统属于实时操作系统吗)  
 **5、** [谈谈你对 Bitmap 的理解, 什么时候应该手动调用 bitmap.recycle()](https://github.com/souyunku/DevBooks/blob/master/Android/Android最新面试题2021年，常见面试题及答案汇总.md#5谈谈你对-Bitmap-的理解,-什么时候应该手动调用-bitmaprecycle)  
 **6、** [SharedPreference跨进程使用会怎么样？如何保证跨进程使用安全？](https://github.com/souyunku/DevBooks/blob/master/Android/Android最新面试题2021年，常见面试题及答案汇总.md#6SharedPreference跨进程使用会怎么样如何保证跨进程使用安全)  
 **7、** [Android 应用中验证码登陆都有哪些实现方案](https://github.com/souyunku/DevBooks/blob/master/Android/Android最新面试题2021年，常见面试题及答案汇总.md#7Android-应用中验证码登陆都有哪些实现方案)  
-**8、** [事件分发中的 onTouch 和 onTouchEvent 有什么区别，又该如何使用？](https://github.com/souyunku/DevBooks/blob/master/Android/Android最新面试题2021年，常见面试题及答案汇总.md#8事件分发中的-onTouch-和-onTouchEvent-有什么区别，又该如何使用)  
+**8、** [事件分发中的 onTouch 和 onTouchEvent 有什么区别，又该如何使用？](https://github.com/souyunku/DevBooks/blob/master/Android/Android最新面试题2021年，常见面试题及答案汇总.md#8事件分发中的-onTouch-和-onTouchEvent-有什么区别又该如何使用)  
 **9、** [ListView的优化方案](https://github.com/souyunku/DevBooks/blob/master/Android/Android最新面试题2021年，常见面试题及答案汇总.md#9ListView的优化方案)  
 **10、** [什么是 IntentService？有何优点？](https://github.com/souyunku/DevBooks/blob/master/Android/Android最新面试题2021年，常见面试题及答案汇总.md#10什么是-IntentService有何优点)  
 
@@ -3131,7 +3104,7 @@
 **3、** [RecyclerView和ListView的区别](https://github.com/souyunku/DevBooks/blob/master/Android/Android最新面试题及答案附答案汇总.md#3RecyclerView和ListView的区别)  
 **4、** [Fragment中add与replace的区别？](https://github.com/souyunku/DevBooks/blob/master/Android/Android最新面试题及答案附答案汇总.md#4Fragment中add与replace的区别)  
 **5、** [什么是IntentService？有何优点？](https://github.com/souyunku/DevBooks/blob/master/Android/Android最新面试题及答案附答案汇总.md#5什么是IntentService有何优点)  
-**6、** [android中的动画有哪几类，它们的特点和区别是什么](https://github.com/souyunku/DevBooks/blob/master/Android/Android最新面试题及答案附答案汇总.md#6android中的动画有哪几类，它们的特点和区别是什么)  
+**6、** [android中的动画有哪几类，它们的特点和区别是什么](https://github.com/souyunku/DevBooks/blob/master/Android/Android最新面试题及答案附答案汇总.md#6android中的动画有哪几类它们的特点和区别是什么)  
 **7、** [Android中的长度单位详解](https://github.com/souyunku/DevBooks/blob/master/Android/Android最新面试题及答案附答案汇总.md#7Android中的长度单位详解)  
 **8、** [View和SurfaceView的区别](https://github.com/souyunku/DevBooks/blob/master/Android/Android最新面试题及答案附答案汇总.md#8View和SurfaceView的区别)  
 **9、** [描述一下android的系统架构](https://github.com/souyunku/DevBooks/blob/master/Android/Android最新面试题及答案附答案汇总.md#9描述一下android的系统架构)  
@@ -3141,7 +3114,7 @@
 
 ## Android最新面试题，2021年面试题及答案汇总
 
-**1、** [如果后台的Activity由于某原因被系统回收了，如何在被系统回收之前保存当前状态？](https://github.com/souyunku/DevBooks/blob/master/Android/Android最新面试题，2021年面试题及答案汇总.md#1如果后台的Activity由于某原因被系统回收了，如何在被系统回收之前保存当前状态)  
+**1、** [如果后台的Activity由于某原因被系统回收了，如何在被系统回收之前保存当前状态？](https://github.com/souyunku/DevBooks/blob/master/Android/Android最新面试题，2021年面试题及答案汇总.md#1如果后台的Activity由于某原因被系统回收了如何在被系统回收之前保存当前状态)  
 **2、** [ListView 如何定位到指定位置](https://github.com/souyunku/DevBooks/blob/master/Android/Android最新面试题，2021年面试题及答案汇总.md#2ListView-如何定位到指定位置)  
 **3、** [请解释下Android程序运行时权限与文件系统权限的区别。](https://github.com/souyunku/DevBooks/blob/master/Android/Android最新面试题，2021年面试题及答案汇总.md#3请解释下Android程序运行时权限与文件系统权限的区别。)  
 **4、** [Adapter是什么？你所接触过的adapter有那些？](https://github.com/souyunku/DevBooks/blob/master/Android/Android最新面试题，2021年面试题及答案汇总.md#4Adapter是什么你所接触过的adapter有那些)  
@@ -3171,9 +3144,9 @@
 
 ## Vue最新2021年面试题大汇总，附答案
 
-**1、** [你都做过哪些Vue的性能优化，编码阶段](https://github.com/souyunku/DevBooks/blob/master/Vue/Vue最新2021年面试题大汇总，附答案.md#1你都做过哪些Vue的性能优化，编码阶段)  
+**1、** [你都做过哪些Vue的性能优化，编码阶段](https://github.com/souyunku/DevBooks/blob/master/Vue/Vue最新2021年面试题大汇总，附答案.md#1你都做过哪些Vue的性能优化编码阶段)  
 **2、** [vue与react、angular的比较？](https://github.com/souyunku/DevBooks/blob/master/Vue/Vue最新2021年面试题大汇总，附答案.md#2vue与reactangular的比较)  
-**3、** [Vue里面router-link在电脑上有用，在安卓上没反应怎么解决？](https://github.com/souyunku/DevBooks/blob/master/Vue/Vue最新2021年面试题大汇总，附答案.md#3Vue里面router-link在电脑上有用，在安卓上没反应怎么解决)  
+**3、** [Vue里面router-link在电脑上有用，在安卓上没反应怎么解决？](https://github.com/souyunku/DevBooks/blob/master/Vue/Vue最新2021年面试题大汇总，附答案.md#3Vue里面router-link在电脑上有用在安卓上没反应怎么解决)  
 **4、** [JS中的深拷贝与浅拷贝的区别？](https://github.com/souyunku/DevBooks/blob/master/Vue/Vue最新2021年面试题大汇总，附答案.md#4JS中的深拷贝与浅拷贝的区别)  
 **5、** [keep-alive了解吗](https://github.com/souyunku/DevBooks/blob/master/Vue/Vue最新2021年面试题大汇总，附答案.md#5keep-alive了解吗)  
 **6、** [Vue2.x组件通信有哪些方式？](https://github.com/souyunku/DevBooks/blob/master/Vue/Vue最新2021年面试题大汇总，附答案.md#6Vue2x组件通信有哪些方式)  
@@ -3187,7 +3160,7 @@
 ## Vue最新2021年面试题附答案解析，大汇总
 
 **1、** [什么是vue生命周期？](https://github.com/souyunku/DevBooks/blob/master/Vue/Vue最新2021年面试题附答案解析，大汇总.md#1什么是vue生命周期)  
-**2、** [undefined，null 和 undeclared 有什么区别？](https://github.com/souyunku/DevBooks/blob/master/Vue/Vue最新2021年面试题附答案解析，大汇总.md#2undefined，null-和-undeclared-有什么区别)  
+**2、** [undefined，null 和 undeclared 有什么区别？](https://github.com/souyunku/DevBooks/blob/master/Vue/Vue最新2021年面试题附答案解析，大汇总.md#2undefinednull-和-undeclared-有什么区别)  
 **3、** [vue修改打包后静态资源路径的修改](https://github.com/souyunku/DevBooks/blob/master/Vue/Vue最新2021年面试题附答案解析，大汇总.md#3vue修改打包后静态资源路径的修改)  
 **4、** [解释一下 "use strict" ? “](https://github.com/souyunku/DevBooks/blob/master/Vue/Vue最新2021年面试题附答案解析，大汇总.md#4解释一下-"use-strict"--“)  
 **5、** [解释JS中的事件冒泡和事件捕获](https://github.com/souyunku/DevBooks/blob/master/Vue/Vue最新2021年面试题附答案解析，大汇总.md#5解释JS中的事件冒泡和事件捕获)  
@@ -3204,7 +3177,7 @@
 **1、** [父组件更新过程](https://github.com/souyunku/DevBooks/blob/master/Vue/Vue最新2021年面试题，高级面试题及附答案解析.md#1父组件更新过程)  
 **2、** [列出JS基本和非基本数据类型之间的一些区别？](https://github.com/souyunku/DevBooks/blob/master/Vue/Vue最新2021年面试题，高级面试题及附答案解析.md#2列出JS基本和非基本数据类型之间的一些区别)  
 **3、** [如何封装一个vue组件？](https://github.com/souyunku/DevBooks/blob/master/Vue/Vue最新2021年面试题，高级面试题及附答案解析.md#3如何封装一个vue组件)  
-**4、** [开发人员经常使用字母 “vm” 作为变量名来声明根 Vue 实例。例如 const vm = new Vue()。在这种情况下，“vm”指的是什么？](https://github.com/souyunku/DevBooks/blob/master/Vue/Vue最新2021年面试题，高级面试题及附答案解析.md#4开发人员经常使用字母-“vm-作为变量名来声明根-Vue-实例。例如-const-vm-=-new-Vue。在这种情况下，“vm指的是什么)  
+**4、** [开发人员经常使用字母 “vm” 作为变量名来声明根 Vue 实例。例如 const vm = new Vue()。在这种情况下，“vm”指的是什么？](https://github.com/souyunku/DevBooks/blob/master/Vue/Vue最新2021年面试题，高级面试题及附答案解析.md#4开发人员经常使用字母-“vm-作为变量名来声明根-Vue-实例。例如-const-vm-=-new-Vue。在这种情况下“vm指的是什么)  
 **5、** [params和query的区别](https://github.com/souyunku/DevBooks/blob/master/Vue/Vue最新2021年面试题，高级面试题及附答案解析.md#5params和query的区别)  
 **6、** [JS中的匿名函数是什么？](https://github.com/souyunku/DevBooks/blob/master/Vue/Vue最新2021年面试题，高级面试题及附答案解析.md#6JS中的匿名函数是什么)  
 **7、** [如何将 JS 日期转换为ISO标准](https://github.com/souyunku/DevBooks/blob/master/Vue/Vue最新2021年面试题，高级面试题及附答案解析.md#7如何将-JS-日期转换为ISO标准)  
@@ -3248,7 +3221,7 @@
 
 **1、** [v-for中的key的理解？](https://github.com/souyunku/DevBooks/blob/master/Vue/Vue最新面试题及答案附答案汇总.md#1v-for中的key的理解)  
 **2、** [vue-loader是什么？使用它的用途有哪些？](https://github.com/souyunku/DevBooks/blob/master/Vue/Vue最新面试题及答案附答案汇总.md#2vue-loader是什么使用它的用途有哪些)  
-**3、** [vuejs与angularjs以及react的区别，与AngularJS的区别](https://github.com/souyunku/DevBooks/blob/master/Vue/Vue最新面试题及答案附答案汇总.md#3vuejs与angularjs以及react的区别，与AngularJS的区别)  
+**3、** [vuejs与angularjs以及react的区别，与AngularJS的区别](https://github.com/souyunku/DevBooks/blob/master/Vue/Vue最新面试题及答案附答案汇总.md#3vuejs与angularjs以及react的区别与AngularJS的区别)  
 **4、** [v-model是什么？怎么使用？ vue中标签怎么绑定事件？](https://github.com/souyunku/DevBooks/blob/master/Vue/Vue最新面试题及答案附答案汇总.md#4v-model是什么怎么使用-vue中标签怎么绑定事件)  
 **5、** [vue-roter的钩子函数？](https://github.com/souyunku/DevBooks/blob/master/Vue/Vue最新面试题及答案附答案汇总.md#5vue-roter的钩子函数)  
 **6、** [$$emit 、$$on 、$$once 、$$off理解？](https://github.com/souyunku/DevBooks/blob/master/Vue/Vue最新面试题及答案附答案汇总.md#6$$emit-$$on-$$once-$$off理解)  
@@ -3263,10 +3236,10 @@
 
 **1、** [解释JS中的MUL函数](https://github.com/souyunku/DevBooks/blob/master/Vue/Vue最新面试题，2021年面试题及答案汇总.md#1解释JS中的MUL函数)  
 **2、** [axios及安装?](https://github.com/souyunku/DevBooks/blob/master/Vue/Vue最新面试题，2021年面试题及答案汇总.md#2axios及安装)  
-**3、** [如何确保在单文件组件中定义的 CSS 样式仅应用于该组件，而不被用于其他组件？](https://github.com/souyunku/DevBooks/blob/master/Vue/Vue最新面试题，2021年面试题及答案汇总.md#3如何确保在单文件组件中定义的-CSS-样式仅应用于该组件，而不被用于其他组件)  
+**3、** [如何确保在单文件组件中定义的 CSS 样式仅应用于该组件，而不被用于其他组件？](https://github.com/souyunku/DevBooks/blob/master/Vue/Vue最新面试题，2021年面试题及答案汇总.md#3如何确保在单文件组件中定义的-CSS-样式仅应用于该组件而不被用于其他组件)  
 **4、** [解释一下什么是 promise ？](https://github.com/souyunku/DevBooks/blob/master/Vue/Vue最新面试题，2021年面试题及答案汇总.md#4解释一下什么是-promise-)  
 **5、** [JS中的substr()和substring()函数有什么区别](https://github.com/souyunku/DevBooks/blob/master/Vue/Vue最新面试题，2021年面试题及答案汇总.md#5JS中的substr和substring函数有什么区别)  
-**6、** [axios+tp5进阶中，调用axios.post(‘api/user’)是进行的什么操作？axios.put(‘api/user/8′)呢？](https://github.com/souyunku/DevBooks/blob/master/Vue/Vue最新面试题，2021年面试题及答案汇总.md#6axios+tp5进阶中，调用axiospost‘api/user’是进行的什么操作axiosput‘api/user/8′呢)  
+**6、** [axios+tp5进阶中，调用axios.post(‘api/user’)是进行的什么操作？axios.put(‘api/user/8′)呢？](https://github.com/souyunku/DevBooks/blob/master/Vue/Vue最新面试题，2021年面试题及答案汇总.md#6axios+tp5进阶中调用axiospost‘api/user’是进行的什么操作axiosput‘api/user/8′呢)  
 **7、** [销毁过程](https://github.com/souyunku/DevBooks/blob/master/Vue/Vue最新面试题，2021年面试题及答案汇总.md#7销毁过程)  
 **8、** [vue-router 是什么?它有哪些组件](https://github.com/souyunku/DevBooks/blob/master/Vue/Vue最新面试题，2021年面试题及答案汇总.md#8vue-router-是什么它有哪些组件)  
 **9、** [vue的solt的用法？](https://github.com/souyunku/DevBooks/blob/master/Vue/Vue最新面试题，2021年面试题及答案汇总.md#9vue的solt的用法)  
@@ -3282,7 +3255,7 @@
 **4、** [什么是类？](https://github.com/souyunku/DevBooks/blob/master/前端/前端最新2021年面试题及答案，汇总版.md#4什么是类)  
 **5、** [什么是原型、原型链？](https://github.com/souyunku/DevBooks/blob/master/前端/前端最新2021年面试题及答案，汇总版.md#5什么是原型原型链)  
 **6、** [webSocket如何兼容低浏览器？(阿里)](https://github.com/souyunku/DevBooks/blob/master/前端/前端最新2021年面试题及答案，汇总版.md#6webSocket如何兼容低浏览器阿里)  
-**7、** [网页验证码是干嘛的，是为了解决什么安全问题？](https://github.com/souyunku/DevBooks/blob/master/前端/前端最新2021年面试题及答案，汇总版.md#7网页验证码是干嘛的，是为了解决什么安全问题)  
+**7、** [网页验证码是干嘛的，是为了解决什么安全问题？](https://github.com/souyunku/DevBooks/blob/master/前端/前端最新2021年面试题及答案，汇总版.md#7网页验证码是干嘛的是为了解决什么安全问题)  
 **8、** [keep-alive](https://github.com/souyunku/DevBooks/blob/master/前端/前端最新2021年面试题及答案，汇总版.md#8keep-alive)  
 **9、** [display,float,position的关系](https://github.com/souyunku/DevBooks/blob/master/前端/前端最新2021年面试题及答案，汇总版.md#9display,float,position的关系)  
 **10、** [为什么操作 DOM 慢？（浏览器绘制过程）](https://github.com/souyunku/DevBooks/blob/master/前端/前端最新2021年面试题及答案，汇总版.md#10为什么操作-DOM-慢浏览器绘制过程)  
@@ -3291,7 +3264,7 @@
 
 ## 前端最新2021年面试题大汇总，附答案
 
-**1、** [null，undefined 的区别？](https://github.com/souyunku/DevBooks/blob/master/前端/前端最新2021年面试题大汇总，附答案.md#1null，undefined-的区别)  
+**1、** [null，undefined 的区别？](https://github.com/souyunku/DevBooks/blob/master/前端/前端最新2021年面试题大汇总，附答案.md#1nullundefined-的区别)  
 **2、** [使用 CSS 预处理器吗？](https://github.com/souyunku/DevBooks/blob/master/前端/前端最新2021年面试题大汇总，附答案.md#2使用-CSS-预处理器吗)  
 **3、** [new 关键字有什么作用？](https://github.com/souyunku/DevBooks/blob/master/前端/前端最新2021年面试题大汇总，附答案.md#3new-关键字有什么作用)  
 **4、** [在jq中 mouseover mouseenter mouseout mouseleave 和 hover有什么关联?](https://github.com/souyunku/DevBooks/blob/master/前端/前端最新2021年面试题大汇总，附答案.md#4在jq中-mouseover-mouseenter-mouseout-mouseleave-和-hover有什么关联)  
@@ -3315,7 +3288,7 @@
 **7、** [HTML元素的显示优先级？](https://github.com/souyunku/DevBooks/blob/master/前端/前端最新2021年面试题附答案解析，大汇总.md#7HTML元素的显示优先级)  
 **8、** [路由跳转方式](https://github.com/souyunku/DevBooks/blob/master/前端/前端最新2021年面试题附答案解析，大汇总.md#8路由跳转方式)  
 **9、** [那些操作会造成内存泄漏？](https://github.com/souyunku/DevBooks/blob/master/前端/前端最新2021年面试题附答案解析，大汇总.md#9那些操作会造成内存泄漏)  
-**10、** [什么是 IIFE，它的用途是什么？](https://github.com/souyunku/DevBooks/blob/master/前端/前端最新2021年面试题附答案解析，大汇总.md#10什么是-IIFE，它的用途是什么)  
+**10、** [什么是 IIFE，它的用途是什么？](https://github.com/souyunku/DevBooks/blob/master/前端/前端最新2021年面试题附答案解析，大汇总.md#10什么是-IIFE它的用途是什么)  
 
 ### [此处，仅展示前10道，查看更多30道...](https://github.com/souyunku/DevBooks/blob/master/前端/前端最新2021年面试题附答案解析，大汇总.md)  
 
@@ -3326,10 +3299,10 @@
 **3、** [谈谈你对webpack的看法](https://github.com/souyunku/DevBooks/blob/master/前端/前端最新2021年面试题，高级面试题及附答案解析.md#3谈谈你对webpack的看法)  
 **4、** [什么是作用域？](https://github.com/souyunku/DevBooks/blob/master/前端/前端最新2021年面试题，高级面试题及附答案解析.md#4什么是作用域)  
 **5、** [如何清除一个定时器?](https://github.com/souyunku/DevBooks/blob/master/前端/前端最新2021年面试题，高级面试题及附答案解析.md#5如何清除一个定时器)  
-**6、** [通过new创建一个对象的时候，函数内部有哪些改变###](https://github.com/souyunku/DevBooks/blob/master/前端/前端最新2021年面试题，高级面试题及附答案解析.md#6通过new创建一个对象的时候，函数内部有哪些改变###)  
+**6、** [通过new创建一个对象的时候，函数内部有哪些改变###](https://github.com/souyunku/DevBooks/blob/master/前端/前端最新2021年面试题，高级面试题及附答案解析.md#6通过new创建一个对象的时候函数内部有哪些改变###)  
 **7、** [this指向的各种情况都有什么？](https://github.com/souyunku/DevBooks/blob/master/前端/前端最新2021年面试题，高级面试题及附答案解析.md#7this指向的各种情况都有什么)  
 **8、** [position跟display、overflow、float这些特性相互叠加后会怎么样？](https://github.com/souyunku/DevBooks/blob/master/前端/前端最新2021年面试题，高级面试题及附答案解析.md#8position跟displayoverflowfloat这些特性相互叠加后会怎么样)  
-**9、** [合理的页面布局中常听过结构与表现分离，那么结构是什么？表现是什么？](https://github.com/souyunku/DevBooks/blob/master/前端/前端最新2021年面试题，高级面试题及附答案解析.md#9合理的页面布局中常听过结构与表现分离，那么结构是什么表现是什么)  
+**9、** [合理的页面布局中常听过结构与表现分离，那么结构是什么？表现是什么？](https://github.com/souyunku/DevBooks/blob/master/前端/前端最新2021年面试题，高级面试题及附答案解析.md#9合理的页面布局中常听过结构与表现分离那么结构是什么表现是什么)  
 **10、** [H5新特性：](https://github.com/souyunku/DevBooks/blob/master/前端/前端最新2021年面试题，高级面试题及附答案解析.md#10H5新特性：)  
 
 ### [此处，仅展示前10道，查看更多30道...](https://github.com/souyunku/DevBooks/blob/master/前端/前端最新2021年面试题，高级面试题及附答案解析.md)  
@@ -3341,7 +3314,7 @@
 **3、** [JS有哪些内置对象](https://github.com/souyunku/DevBooks/blob/master/前端/前端最新基础面试题及答案整理.md#3JS有哪些内置对象)  
 **4、** [JavaScript 中的虚值是什么？](https://github.com/souyunku/DevBooks/blob/master/前端/前端最新基础面试题及答案整理.md#4JavaScript-中的虚值是什么)  
 **5、** [Label 的作用是什么？是怎么用的？](https://github.com/souyunku/DevBooks/blob/master/前端/前端最新基础面试题及答案整理.md#5Label-的作用是什么是怎么用的)  
-**6、** [实现不使用 border 画出1px高的线，在不同浏览器的Quirks mode和CSS Compat模式下都能保持同一效果**](https://github.com/souyunku/DevBooks/blob/master/前端/前端最新基础面试题及答案整理.md#6实现不使用-border-画出1px高的线，在不同浏览器的Quirks-mode和CSS-Compat模式下都能保持同一效果**)  
+**6、** [实现不使用 border 画出1px高的线，在不同浏览器的Quirks mode和CSS Compat模式下都能保持同一效果**](https://github.com/souyunku/DevBooks/blob/master/前端/前端最新基础面试题及答案整理.md#6实现不使用-border-画出1px高的线在不同浏览器的Quirks-mode和CSS-Compat模式下都能保持同一效果**)  
 **7、** [一个满屏品字布局如何设计?](https://github.com/souyunku/DevBooks/blob/master/前端/前端最新基础面试题及答案整理.md#7一个满屏品字布局如何设计)  
 **8、** [CSS优先级算法如何计算？](https://github.com/souyunku/DevBooks/blob/master/前端/前端最新基础面试题及答案整理.md#8CSS优先级算法如何计算)  
 **9、** [你有哪些性能优化的方法？](https://github.com/souyunku/DevBooks/blob/master/前端/前端最新基础面试题及答案整理.md#9你有哪些性能优化的方法)  
@@ -3357,7 +3330,7 @@
 **4、** [::before 和 :after中双冒号和单冒号有什么区别？解释一下这2个伪元素的作用](https://github.com/souyunku/DevBooks/blob/master/前端/前端最新面试题2021年，常见面试题及答案汇总.md#4::before-和-:after中双冒号和单冒号有什么区别解释一下这2个伪元素的作用)  
 **5、** [用于预格式化文本的标签是？](https://github.com/souyunku/DevBooks/blob/master/前端/前端最新面试题2021年，常见面试题及答案汇总.md#5用于预格式化文本的标签是)  
 **6、** [什么是移动端的300ms延迟？什么是点击穿透？解决方案?](https://github.com/souyunku/DevBooks/blob/master/前端/前端最新面试题2021年，常见面试题及答案汇总.md#6什么是移动端的300ms延迟什么是点击穿透解决方案)  
-**7、** [微信小程序，加载性能优化方法](https://github.com/souyunku/DevBooks/blob/master/前端/前端最新面试题2021年，常见面试题及答案汇总.md#7微信小程序，加载性能优化方法)  
+**7、** [微信小程序，加载性能优化方法](https://github.com/souyunku/DevBooks/blob/master/前端/前端最新面试题2021年，常见面试题及答案汇总.md#7微信小程序加载性能优化方法)  
 **8、** [请解释什么是事件代理](https://github.com/souyunku/DevBooks/blob/master/前端/前端最新面试题2021年，常见面试题及答案汇总.md#8请解释什么是事件代理)  
 **9、** [如何理解同步和异步？](https://github.com/souyunku/DevBooks/blob/master/前端/前端最新面试题2021年，常见面试题及答案汇总.md#9如何理解同步和异步)  
 **10、** [手动实现 `Array.prototype.map 方法`](https://github.com/souyunku/DevBooks/blob/master/前端/前端最新面试题2021年，常见面试题及答案汇总.md#10手动实现-`Arrayprototypemap-方法`)  
@@ -3366,7 +3339,7 @@
 
 ## 前端最新面试题及答案整理，汇总版
 
-**1、** [png、jpg、gif 这些图片格式解释一下，分别什么时候用。有没有了解过webp？](https://github.com/souyunku/DevBooks/blob/master/前端/前端最新面试题及答案整理，汇总版.md#1pngjpggif-这些图片格式解释一下，分别什么时候用。有没有了解过webp)  
+**1、** [png、jpg、gif 这些图片格式解释一下，分别什么时候用。有没有了解过webp？](https://github.com/souyunku/DevBooks/blob/master/前端/前端最新面试题及答案整理，汇总版.md#1pngjpggif-这些图片格式解释一下分别什么时候用。有没有了解过webp)  
 **2、** [常见的浏览器兼容问题？](https://github.com/souyunku/DevBooks/blob/master/前端/前端最新面试题及答案整理，汇总版.md#2常见的浏览器兼容问题)  
 **3、** [25.Jq如何判断元素显示隐藏？](https://github.com/souyunku/DevBooks/blob/master/前端/前端最新面试题及答案整理，汇总版.md#325Jq如何判断元素显示隐藏)  
 **4、** [如何创建一个没有 prototype(原型)的对象？](https://github.com/souyunku/DevBooks/blob/master/前端/前端最新面试题及答案整理，汇总版.md#4如何创建一个没有-prototype原型的对象)  
@@ -3382,7 +3355,7 @@
 ## 前端最新面试题及答案附答案汇总
 
 **1、** [什么是事件捕获？](https://github.com/souyunku/DevBooks/blob/master/前端/前端最新面试题及答案附答案汇总.md#1什么是事件捕获)  
-**2、** [px，em，rem的区别？](https://github.com/souyunku/DevBooks/blob/master/前端/前端最新面试题及答案附答案汇总.md#2px，em，rem的区别)  
+**2、** [px，em，rem的区别？](https://github.com/souyunku/DevBooks/blob/master/前端/前端最新面试题及答案附答案汇总.md#2pxemrem的区别)  
 **3、** [如何检查对象中是否存在某个属性？](https://github.com/souyunku/DevBooks/blob/master/前端/前端最新面试题及答案附答案汇总.md#3如何检查对象中是否存在某个属性)  
 **4、** [Class 与 Style 如何动态绑定？](https://github.com/souyunku/DevBooks/blob/master/前端/前端最新面试题及答案附答案汇总.md#4Class-与-Style-如何动态绑定)  
 **5、** [简述一下你对 HTML 语义化的理解？](https://github.com/souyunku/DevBooks/blob/master/前端/前端最新面试题及答案附答案汇总.md#5简述一下你对-HTML-语义化的理解)  
@@ -3401,7 +3374,7 @@
 **3、** [谈谈你对AMD、CMD的理解](https://github.com/souyunku/DevBooks/blob/master/前端/前端最新面试题，2021年面试题及答案汇总.md#3谈谈你对AMDCMD的理解)  
 **4、** [HTTP状态码及其含义](https://github.com/souyunku/DevBooks/blob/master/前端/前端最新面试题，2021年面试题及答案汇总.md#4HTTP状态码及其含义)  
 **5、** [你做的页面在哪些流览器测试过？这些浏览器的内核分别是什么?](https://github.com/souyunku/DevBooks/blob/master/前端/前端最新面试题，2021年面试题及答案汇总.md#5你做的页面在哪些流览器测试过这些浏览器的内核分别是什么)  
-**6、** [JavaScript原型，原型链 ? 有什么特点？](https://github.com/souyunku/DevBooks/blob/master/前端/前端最新面试题，2021年面试题及答案汇总.md#6JavaScript原型，原型链--有什么特点)  
+**6、** [JavaScript原型，原型链 ? 有什么特点？](https://github.com/souyunku/DevBooks/blob/master/前端/前端最新面试题，2021年面试题及答案汇总.md#6JavaScript原型原型链--有什么特点)  
 **7、** [defer和async](https://github.com/souyunku/DevBooks/blob/master/前端/前端最新面试题，2021年面试题及答案汇总.md#7defer和async)  
 **8、** [编写一个 getElementsByClassName 封装函数?](https://github.com/souyunku/DevBooks/blob/master/前端/前端最新面试题，2021年面试题及答案汇总.md#8编写一个-getElementsByClassName-封装函数)  
 **9、** [sass和less有什么区别?](https://github.com/souyunku/DevBooks/blob/master/前端/前端最新面试题，2021年面试题及答案汇总.md#9sass和less有什么区别)  
@@ -3412,13 +3385,13 @@
 ## 前端最新面试题，常见面试题及答案汇总
 
 **1、** [Jq中有几种选择器?分别是什么?](https://github.com/souyunku/DevBooks/blob/master/前端/前端最新面试题，常见面试题及答案汇总.md#1Jq中有几种选择器分别是什么)  
-**2、** [null，undefined 的区别？](https://github.com/souyunku/DevBooks/blob/master/前端/前端最新面试题，常见面试题及答案汇总.md#2null，undefined-的区别)  
+**2、** [null，undefined 的区别？](https://github.com/souyunku/DevBooks/blob/master/前端/前端最新面试题，常见面试题及答案汇总.md#2nullundefined-的区别)  
 **3、** [display:inline-block 什么时候不会显示间隙？(携程)](https://github.com/souyunku/DevBooks/blob/master/前端/前端最新面试题，常见面试题及答案汇总.md#3display:inline-block-什么时候不会显示间隙携程)  
 **4、** [iframe 有那些缺点？](https://github.com/souyunku/DevBooks/blob/master/前端/前端最新面试题，常见面试题及答案汇总.md#4iframe-有那些缺点)  
 **5、** [spa应用](https://github.com/souyunku/DevBooks/blob/master/前端/前端最新面试题，常见面试题及答案汇总.md#5spa应用)  
 **6、** [请解释一下CSS3的flexbox（弹性盒布局模型）,以及适用场景？](https://github.com/souyunku/DevBooks/blob/master/前端/前端最新面试题，常见面试题及答案汇总.md#6请解释一下CSS3的flexbox弹性盒布局模型,以及适用场景)  
 **7、** [页面可见性（Page Visibility API） 可以有哪些用途？](https://github.com/souyunku/DevBooks/blob/master/前端/前端最新面试题，常见面试题及答案汇总.md#7页面可见性Page-Visibility-API-可以有哪些用途)  
-**8、** [`HTML5`的离线储存怎么使用，工作原理能不能解释一下？](https://github.com/souyunku/DevBooks/blob/master/前端/前端最新面试题，常见面试题及答案汇总.md#8`HTML5`的离线储存怎么使用，工作原理能不能解释一下)  
+**8、** [`HTML5`的离线储存怎么使用，工作原理能不能解释一下？](https://github.com/souyunku/DevBooks/blob/master/前端/前端最新面试题，常见面试题及答案汇总.md#8`HTML5`的离线储存怎么使用工作原理能不能解释一下)  
 **9、** [什么是默认参数？](https://github.com/souyunku/DevBooks/blob/master/前端/前端最新面试题，常见面试题及答案汇总.md#9什么是默认参数)  
 **10、** [组件之间的传值通信](https://github.com/souyunku/DevBooks/blob/master/前端/前端最新面试题，常见面试题及答案汇总.md#10组件之间的传值通信)  
 
@@ -3434,7 +3407,7 @@
 **6、** [实现异步的方式有哪些？](https://github.com/souyunku/DevBooks/blob/master/前端/前端面试题及答案整理汇总，2021年最新版.md#6实现异步的方式有哪些)  
 **7、** [自执行函数?用于什么场景？好处?](https://github.com/souyunku/DevBooks/blob/master/前端/前端面试题及答案整理汇总，2021年最新版.md#7自执行函数用于什么场景好处)  
 **8、** [强制转换 显式转换 隐式转换?](https://github.com/souyunku/DevBooks/blob/master/前端/前端面试题及答案整理汇总，2021年最新版.md#8强制转换-显式转换-隐式转换)  
-**9、** [设置元素浮动后，该元素的display值是多少？](https://github.com/souyunku/DevBooks/blob/master/前端/前端面试题及答案整理汇总，2021年最新版.md#9设置元素浮动后，该元素的display值是多少)  
+**9、** [设置元素浮动后，该元素的display值是多少？](https://github.com/souyunku/DevBooks/blob/master/前端/前端面试题及答案整理汇总，2021年最新版.md#9设置元素浮动后该元素的display值是多少)  
 **10、** [undefined 和 null 有什么区别？](https://github.com/souyunku/DevBooks/blob/master/前端/前端面试题及答案整理汇总，2021年最新版.md#10undefined-和-null-有什么区别)  
 
 ### [此处，仅展示前10道，查看更多30道...](https://github.com/souyunku/DevBooks/blob/master/前端/前端面试题及答案整理汇总，2021年最新版.md)  
@@ -3442,7 +3415,7 @@
 ## 前端面试题及答案整理，2021年最新，汇总版
 
 **1、** [web开发中会话跟踪的方法有哪些](https://github.com/souyunku/DevBooks/blob/master/前端/前端面试题及答案整理，2021年最新，汇总版.md#1web开发中会话跟踪的方法有哪些)  
-**2、** [微信小程序，页面数据传递](https://github.com/souyunku/DevBooks/blob/master/前端/前端面试题及答案整理，2021年最新，汇总版.md#2微信小程序，页面数据传递)  
+**2、** [微信小程序，页面数据传递](https://github.com/souyunku/DevBooks/blob/master/前端/前端面试题及答案整理，2021年最新，汇总版.md#2微信小程序页面数据传递)  
 **3、** [简述下 this 和定义属性和方法的时候有什么区别?Prototype？](https://github.com/souyunku/DevBooks/blob/master/前端/前端面试题及答案整理，2021年最新，汇总版.md#3简述下-this-和定义属性和方法的时候有什么区别Prototype)  
 **4、** [你如何对网站的文件和资源进行优化？](https://github.com/souyunku/DevBooks/blob/master/前端/前端面试题及答案整理，2021年最新，汇总版.md#4你如何对网站的文件和资源进行优化)  
 **5、** [`in` 运算符和 `Object.hasOwnProperty` 方法有什么区别？](https://github.com/souyunku/DevBooks/blob/master/前端/前端面试题及答案整理，2021年最新，汇总版.md#5`in`-运算符和-`ObjecthasOwnProperty`-方法有什么区别)  
@@ -3459,9 +3432,9 @@
 **1、** [HTML5有哪些新特性,移除了那些元素？如何处理HTML5新标签的浏览器兼容问题？如何区分HTML和HTML5**](https://github.com/souyunku/DevBooks/blob/master/前端/前端面试题大汇总，2021年附答案解析.md#1HTML5有哪些新特性,移除了那些元素如何处理HTML5新标签的浏览器兼容问题如何区分HTML和HTML5**)  
 **2、** [$$.map和$$.each有什么区别###](https://github.com/souyunku/DevBooks/blob/master/前端/前端面试题大汇总，2021年附答案解析.md#2$$map和$$each有什么区别###)  
 **3、** [disabled readyonly?](https://github.com/souyunku/DevBooks/blob/master/前端/前端面试题大汇总，2021年附答案解析.md#3disabled-readyonly)  
-**4、** [如果需要手动写动画，你认为最小时间间隔是多久，为什么？](https://github.com/souyunku/DevBooks/blob/master/前端/前端面试题大汇总，2021年附答案解析.md#4如果需要手动写动画，你认为最小时间间隔是多久，为什么)  
+**4、** [如果需要手动写动画，你认为最小时间间隔是多久，为什么？](https://github.com/souyunku/DevBooks/blob/master/前端/前端面试题大汇总，2021年附答案解析.md#4如果需要手动写动画你认为最小时间间隔是多久为什么)  
 **5、** [什么是事件冒泡？](https://github.com/souyunku/DevBooks/blob/master/前端/前端面试题大汇总，2021年附答案解析.md#5什么是事件冒泡)  
-**6、** [每个HTML文件里开头都有个很重要的东西，Doctype，知道这是干什么的吗？](https://github.com/souyunku/DevBooks/blob/master/前端/前端面试题大汇总，2021年附答案解析.md#6每个HTML文件里开头都有个很重要的东西，Doctype，知道这是干什么的吗)  
+**6、** [每个HTML文件里开头都有个很重要的东西，Doctype，知道这是干什么的吗？](https://github.com/souyunku/DevBooks/blob/master/前端/前端面试题大汇总，2021年附答案解析.md#6每个HTML文件里开头都有个很重要的东西Doctype知道这是干什么的吗)  
 **7、** [`var`,`let`和`const`的区别是什么？](https://github.com/souyunku/DevBooks/blob/master/前端/前端面试题大汇总，2021年附答案解析.md#7`var`,`let`和`const`的区别是什么)  
 **8、** [你对浏览器的理解？](https://github.com/souyunku/DevBooks/blob/master/前端/前端面试题大汇总，2021年附答案解析.md#8你对浏览器的理解)  
 **9、** [display有哪些值？说明他们的作用?](https://github.com/souyunku/DevBooks/blob/master/前端/前端面试题大汇总，2021年附答案解析.md#9display有哪些值说明他们的作用)  
@@ -3475,7 +3448,7 @@
 **2、** [简述下你理解的面向对象？](https://github.com/souyunku/DevBooks/blob/master/前端/前端高级面试题及答案，2021版.md#2简述下你理解的面向对象)  
 **3、** [异步加载JS的方式有哪些？](https://github.com/souyunku/DevBooks/blob/master/前端/前端高级面试题及答案，2021版.md#3异步加载JS的方式有哪些)  
 **4、** [为什么要有同源限制？](https://github.com/souyunku/DevBooks/blob/master/前端/前端高级面试题及答案，2021版.md#4为什么要有同源限制)  
-**5、** [什么是Ajax和JSON，它们的优点和缺点](https://github.com/souyunku/DevBooks/blob/master/前端/前端高级面试题及答案，2021版.md#5什么是Ajax和JSON，它们的优点和缺点)  
+**5、** [什么是Ajax和JSON，它们的优点和缺点](https://github.com/souyunku/DevBooks/blob/master/前端/前端高级面试题及答案，2021版.md#5什么是Ajax和JSON它们的优点和缺点)  
 **6、** [什么是哈希表？](https://github.com/souyunku/DevBooks/blob/master/前端/前端高级面试题及答案，2021版.md#6什么是哈希表)  
 **7、** [请大概描述下页面访问cookie的限制条件](https://github.com/souyunku/DevBooks/blob/master/前端/前端高级面试题及答案，2021版.md#7请大概描述下页面访问cookie的限制条件)  
 **8、** [HTML全局属性(global attribute)有哪些](https://github.com/souyunku/DevBooks/blob/master/前端/前端高级面试题及答案，2021版.md#8HTML全局属性global-attribute有哪些)  
@@ -3490,7 +3463,7 @@
 **2、** [WEB标准以及W3C标准是什么?](https://github.com/souyunku/DevBooks/blob/master/前端/前端高级面试题及答案，企业真面试题.md#2WEB标准以及W3C标准是什么)  
 **3、** [title与h1的区别、b与strong的区别、i与em的区别](https://github.com/souyunku/DevBooks/blob/master/前端/前端高级面试题及答案，企业真面试题.md#3title与h1的区别b与strong的区别i与em的区别)  
 **4、** [有哪些数据类型？](https://github.com/souyunku/DevBooks/blob/master/前端/前端高级面试题及答案，企业真面试题.md#4有哪些数据类型)  
-**5、** [微信小程序，生命周期](https://github.com/souyunku/DevBooks/blob/master/前端/前端高级面试题及答案，企业真面试题.md#5微信小程序，生命周期)  
+**5、** [微信小程序，生命周期](https://github.com/souyunku/DevBooks/blob/master/前端/前端高级面试题及答案，企业真面试题.md#5微信小程序生命周期)  
 **6、** [简述对Web 语义化的理解？](https://github.com/souyunku/DevBooks/blob/master/前端/前端高级面试题及答案，企业真面试题.md#6简述对Web-语义化的理解)  
 **7、** [有哪些方法可以处理 JS 中的异步代码？](https://github.com/souyunku/DevBooks/blob/master/前端/前端高级面试题及答案，企业真面试题.md#7有哪些方法可以处理-JS-中的异步代码)  
 **8、** [MVVM](https://github.com/souyunku/DevBooks/blob/master/前端/前端高级面试题及答案，企业真面试题.md#8MVVM)  
@@ -3518,12 +3491,12 @@
 
 **1、** [Function.prototype.apply 方法的用途是什么？](https://github.com/souyunku/DevBooks/blob/master/前端/前端高级面试题整理及答案.md#1Functionprototypeapply-方法的用途是什么)  
 **2、** [AJAX 是什么？](https://github.com/souyunku/DevBooks/blob/master/前端/前端高级面试题整理及答案.md#2AJAX-是什么)  
-**3、** [网页验证码是干嘛的，是为了解决什么安全问题](https://github.com/souyunku/DevBooks/blob/master/前端/前端高级面试题整理及答案.md#3网页验证码是干嘛的，是为了解决什么安全问题)  
+**3、** [网页验证码是干嘛的，是为了解决什么安全问题](https://github.com/souyunku/DevBooks/blob/master/前端/前端高级面试题整理及答案.md#3网页验证码是干嘛的是为了解决什么安全问题)  
 **4、** [b 与 strong 的区别和 i 与 em 的区别？](https://github.com/souyunku/DevBooks/blob/master/前端/前端高级面试题整理及答案.md#4b-与-strong-的区别和-i-与-em-的区别)  
 **5、** [javascript有哪些方法定义对象](https://github.com/souyunku/DevBooks/blob/master/前端/前端高级面试题整理及答案.md#5javascript有哪些方法定义对象)  
 **6、** [关于建站安全防护](https://github.com/souyunku/DevBooks/blob/master/前端/前端高级面试题整理及答案.md#6关于建站安全防护)  
 **7、** [渲染页面时常见哪些不良现象？（浏览器渲染过程）](https://github.com/souyunku/DevBooks/blob/master/前端/前端高级面试题整理及答案.md#7渲染页面时常见哪些不良现象浏览器渲染过程)  
-**8、** [请描述一下 cookies，sessionStorage 和 localStorage 的区别？](https://github.com/souyunku/DevBooks/blob/master/前端/前端高级面试题整理及答案.md#8请描述一下-cookies，sessionStorage-和-localStorage-的区别)  
+**8、** [请描述一下 cookies，sessionStorage 和 localStorage 的区别？](https://github.com/souyunku/DevBooks/blob/master/前端/前端高级面试题整理及答案.md#8请描述一下-cookiessessionStorage-和-localStorage-的区别)  
 **9、** [JS的基本数据类型](https://github.com/souyunku/DevBooks/blob/master/前端/前端高级面试题整理及答案.md#9JS的基本数据类型)  
 **10、** [title 与 h1 的区别？](https://github.com/souyunku/DevBooks/blob/master/前端/前端高级面试题整理及答案.md#10title-与-h1-的区别)  
 
@@ -3533,10 +3506,10 @@
 
 **1、** [get和post的区别](https://github.com/souyunku/DevBooks/blob/master/前端/前端高级面试题，中级面试题，大汇总.md#1get和post的区别)  
 **2、** [jquery和zepto有什么区别?](https://github.com/souyunku/DevBooks/blob/master/前端/前端高级面试题，中级面试题，大汇总.md#2jquery和zepto有什么区别)  
-**3、** [有一个高度自适应的div，里面有两个div，一个高度100px，希望另一个填满剩下的高度](https://github.com/souyunku/DevBooks/blob/master/前端/前端高级面试题，中级面试题，大汇总.md#3有一个高度自适应的div，里面有两个div，一个高度100px，希望另一个填满剩下的高度)  
+**3、** [有一个高度自适应的div，里面有两个div，一个高度100px，希望另一个填满剩下的高度](https://github.com/souyunku/DevBooks/blob/master/前端/前端高级面试题，中级面试题，大汇总.md#3有一个高度自适应的div里面有两个div一个高度100px希望另一个填满剩下的高度)  
 **4、** [面试人事面](https://github.com/souyunku/DevBooks/blob/master/前端/前端高级面试题，中级面试题，大汇总.md#4面试人事面)  
 **5、** [绝对定位和相对定位的区别](https://github.com/souyunku/DevBooks/blob/master/前端/前端高级面试题，中级面试题，大汇总.md#5绝对定位和相对定位的区别)  
-**6、** [页面从输入URL到页面加载显示完成，这个过程中都发生了什么？](https://github.com/souyunku/DevBooks/blob/master/前端/前端高级面试题，中级面试题，大汇总.md#6页面从输入URL到页面加载显示完成，这个过程中都发生了什么)  
+**6、** [页面从输入URL到页面加载显示完成，这个过程中都发生了什么？](https://github.com/souyunku/DevBooks/blob/master/前端/前端高级面试题，中级面试题，大汇总.md#6页面从输入URL到页面加载显示完成这个过程中都发生了什么)  
 **7、** [JSON 的了解？**](https://github.com/souyunku/DevBooks/blob/master/前端/前端高级面试题，中级面试题，大汇总.md#7JSON-的了解**)  
 **8、** [上一个项目是什么？主要负责哪些？购物车流程?支付功能?](https://github.com/souyunku/DevBooks/blob/master/前端/前端高级面试题，中级面试题，大汇总.md#8上一个项目是什么主要负责哪些购物车流程支付功能)  
 **9、** [视差滚动效果？](https://github.com/souyunku/DevBooks/blob/master/前端/前端高级面试题，中级面试题，大汇总.md#9视差滚动效果)  
@@ -3581,11 +3554,11 @@
 **3、** [window.onload ==? DOMContentLoaded ?](https://github.com/souyunku/DevBooks/blob/master/JavaScript/JavaScript最新2021年面试题附答案解析，大汇总.md#3windowonload-==-DOMContentLoaded-)  
 **4、** [split() join()?](https://github.com/souyunku/DevBooks/blob/master/JavaScript/JavaScript最新2021年面试题附答案解析，大汇总.md#4split-join)  
 **5、** [什么是类？](https://github.com/souyunku/DevBooks/blob/master/JavaScript/JavaScript最新2021年面试题附答案解析，大汇总.md#5什么是类)  
-**6、** [JavaScript原型，原型链 ? 有什么特点？](https://github.com/souyunku/DevBooks/blob/master/JavaScript/JavaScript最新2021年面试题附答案解析，大汇总.md#6JavaScript原型，原型链--有什么特点)  
+**6、** [JavaScript原型，原型链 ? 有什么特点？](https://github.com/souyunku/DevBooks/blob/master/JavaScript/JavaScript最新2021年面试题附答案解析，大汇总.md#6JavaScript原型原型链--有什么特点)  
 **7、** [什么是事件捕获？](https://github.com/souyunku/DevBooks/blob/master/JavaScript/JavaScript最新2021年面试题附答案解析，大汇总.md#7什么是事件捕获)  
 **8、** [作用域和执行上下文的区别是什么？](https://github.com/souyunku/DevBooks/blob/master/JavaScript/JavaScript最新2021年面试题附答案解析，大汇总.md#8作用域和执行上下文的区别是什么)  
 **9、** [与深拷贝有何区别？如何实现？](https://github.com/souyunku/DevBooks/blob/master/JavaScript/JavaScript最新2021年面试题附答案解析，大汇总.md#9与深拷贝有何区别如何实现)  
-**10、** [null，undefined 的区别？](https://github.com/souyunku/DevBooks/blob/master/JavaScript/JavaScript最新2021年面试题附答案解析，大汇总.md#10null，undefined-的区别)  
+**10、** [null，undefined 的区别？](https://github.com/souyunku/DevBooks/blob/master/JavaScript/JavaScript最新2021年面试题附答案解析，大汇总.md#10nullundefined-的区别)  
 
 ### [此处，仅展示前10道，查看更多40道...](https://github.com/souyunku/DevBooks/blob/master/JavaScript/JavaScript最新2021年面试题附答案解析，大汇总.md)  
 
@@ -3593,8 +3566,8 @@
 
 **1、** [常见web安全及防护原理](https://github.com/souyunku/DevBooks/blob/master/JavaScript/JavaScript最新2021年面试题，高级面试题及附答案解析.md#1常见web安全及防护原理)  
 **2、** [Jq绑定事件的几种方式？on bind ?](https://github.com/souyunku/DevBooks/blob/master/JavaScript/JavaScript最新2021年面试题，高级面试题及附答案解析.md#2Jq绑定事件的几种方式on-bind-)  
-**3、** [为什么在调用这个函数时，代码中的`b`会变成一个全局变量?](https://github.com/souyunku/DevBooks/blob/master/JavaScript/JavaScript最新2021年面试题，高级面试题及附答案解析.md#3为什么在调用这个函数时，代码中的`b`会变成一个全局变量)  
-**4、** [一个页面从输入 URL 到页面加载显示完成，这个过程中都发生了什么？（流程说的越详细越好）](https://github.com/souyunku/DevBooks/blob/master/JavaScript/JavaScript最新2021年面试题，高级面试题及附答案解析.md#4一个页面从输入-URL-到页面加载显示完成，这个过程中都发生了什么流程说的越详细越好)  
+**3、** [为什么在调用这个函数时，代码中的`b`会变成一个全局变量?](https://github.com/souyunku/DevBooks/blob/master/JavaScript/JavaScript最新2021年面试题，高级面试题及附答案解析.md#3为什么在调用这个函数时代码中的`b`会变成一个全局变量)  
+**4、** [一个页面从输入 URL 到页面加载显示完成，这个过程中都发生了什么？（流程说的越详细越好）](https://github.com/souyunku/DevBooks/blob/master/JavaScript/JavaScript最新2021年面试题，高级面试题及附答案解析.md#4一个页面从输入-URL-到页面加载显示完成这个过程中都发生了什么流程说的越详细越好)  
 **5、** [什么是缓存及它有什么作用？](https://github.com/souyunku/DevBooks/blob/master/JavaScript/JavaScript最新2021年面试题，高级面试题及附答案解析.md#5什么是缓存及它有什么作用)  
 **6、** [什么是高阶函数？](https://github.com/souyunku/DevBooks/blob/master/JavaScript/JavaScript最新2021年面试题，高级面试题及附答案解析.md#6什么是高阶函数)  
 **7、** [什么是移动端的300ms延迟？什么是点击穿透？解决方案?](https://github.com/souyunku/DevBooks/blob/master/JavaScript/JavaScript最新2021年面试题，高级面试题及附答案解析.md#7什么是移动端的300ms延迟什么是点击穿透解决方案)  
@@ -3614,7 +3587,7 @@
 **6、** [在jq中 mouseover mouseenter mouseout mouseleave 和 hover有什么关联?](https://github.com/souyunku/DevBooks/blob/master/JavaScript/JavaScript最新面试题2021年，常见面试题及答案汇总.md#6在jq中-mouseover-mouseenter-mouseout-mouseleave-和-hover有什么关联)  
 **7、** [eval是做什么的？](https://github.com/souyunku/DevBooks/blob/master/JavaScript/JavaScript最新面试题2021年，常见面试题及答案汇总.md#7eval是做什么的)  
 **8、** [Javascript如何实现继承？](https://github.com/souyunku/DevBooks/blob/master/JavaScript/JavaScript最新面试题2021年，常见面试题及答案汇总.md#8Javascript如何实现继承)  
-**9、** [JavaScript有几种类型的值？，你能画一下他们的内存图吗？](https://github.com/souyunku/DevBooks/blob/master/JavaScript/JavaScript最新面试题2021年，常见面试题及答案汇总.md#9JavaScript有几种类型的值，你能画一下他们的内存图吗)  
+**9、** [JavaScript有几种类型的值？，你能画一下他们的内存图吗？](https://github.com/souyunku/DevBooks/blob/master/JavaScript/JavaScript最新面试题2021年，常见面试题及答案汇总.md#9JavaScript有几种类型的值你能画一下他们的内存图吗)  
 **10、** [如何清除一个定时器?](https://github.com/souyunku/DevBooks/blob/master/JavaScript/JavaScript最新面试题2021年，常见面试题及答案汇总.md#10如何清除一个定时器)  
 
 ### [此处，仅展示前10道，查看更多40道...](https://github.com/souyunku/DevBooks/blob/master/JavaScript/JavaScript最新面试题2021年，常见面试题及答案汇总.md)  
@@ -3638,7 +3611,7 @@
 
 **1、** [渐进增强和优雅降级](https://github.com/souyunku/DevBooks/blob/master/JavaScript/JavaScript最新面试题及答案附答案汇总.md#1渐进增强和优雅降级)  
 **2、** [Jq中get和eq有什么区别？](https://github.com/souyunku/DevBooks/blob/master/JavaScript/JavaScript最新面试题及答案附答案汇总.md#2Jq中get和eq有什么区别)  
-**3、** [函数fn1 函数fn2 函数fn3，如果想在三个函数都执行完成后执行某一个事件应该如何实现?](https://github.com/souyunku/DevBooks/blob/master/JavaScript/JavaScript最新面试题及答案附答案汇总.md#3函数fn1-函数fn2-函数fn3，如果想在三个函数都执行完成后执行某一个事件应该如何实现)  
+**3、** [函数fn1 函数fn2 函数fn3，如果想在三个函数都执行完成后执行某一个事件应该如何实现?](https://github.com/souyunku/DevBooks/blob/master/JavaScript/JavaScript最新面试题及答案附答案汇总.md#3函数fn1-函数fn2-函数fn3如果想在三个函数都执行完成后执行某一个事件应该如何实现)  
 **4、** [什么是NaN？以及如何检查值是否为NaN？](https://github.com/souyunku/DevBooks/blob/master/JavaScript/JavaScript最新面试题及答案附答案汇总.md#4什么是NaN以及如何检查值是否为NaN)  
 **5、** [闭包](https://github.com/souyunku/DevBooks/blob/master/JavaScript/JavaScript最新面试题及答案附答案汇总.md#5闭包)  
 **6、** [ajax的缺点](https://github.com/souyunku/DevBooks/blob/master/JavaScript/JavaScript最新面试题及答案附答案汇总.md#6ajax的缺点)  
@@ -3656,7 +3629,7 @@
 **3、** [Function.prototype.apply 方法的用途是什么？](https://github.com/souyunku/DevBooks/blob/master/JavaScript/JavaScript最新面试题，2021年面试题及答案汇总.md#3Functionprototypeapply-方法的用途是什么)  
 **4、** [什么是作用域和作用域链？](https://github.com/souyunku/DevBooks/blob/master/JavaScript/JavaScript最新面试题，2021年面试题及答案汇总.md#4什么是作用域和作用域链)  
 **5、** [Node的应用场景](https://github.com/souyunku/DevBooks/blob/master/JavaScript/JavaScript最新面试题，2021年面试题及答案汇总.md#5Node的应用场景)  
-**6、** [JavaScript原型，原型链 ? 有什么特点？](https://github.com/souyunku/DevBooks/blob/master/JavaScript/JavaScript最新面试题，2021年面试题及答案汇总.md#6JavaScript原型，原型链--有什么特点)  
+**6、** [JavaScript原型，原型链 ? 有什么特点？](https://github.com/souyunku/DevBooks/blob/master/JavaScript/JavaScript最新面试题，2021年面试题及答案汇总.md#6JavaScript原型原型链--有什么特点)  
 **7、** [JavaScript提供了哪几种“异步模式”？](https://github.com/souyunku/DevBooks/blob/master/JavaScript/JavaScript最新面试题，2021年面试题及答案汇总.md#7JavaScript提供了哪几种“异步模式)  
 **8、** [为什么函数被称为一等公民？](https://github.com/souyunku/DevBooks/blob/master/JavaScript/JavaScript最新面试题，2021年面试题及答案汇总.md#8为什么函数被称为一等公民)  
 **9、** [如何知道是否在元素中使用了`event.preventDefault()`方法？](https://github.com/souyunku/DevBooks/blob/master/JavaScript/JavaScript最新面试题，2021年面试题及答案汇总.md#9如何知道是否在元素中使用了`eventpreventDefault`方法)  
@@ -3666,11 +3639,11 @@
 
 ## HTML最新2021年面试题大汇总，附答案
 
-**1、** [Flash、Ajax 各自的优缺点，在使用中如何取舍？](https://github.com/souyunku/DevBooks/blob/master/HTML/HTML最新2021年面试题大汇总，附答案.md#1FlashAjax-各自的优缺点，在使用中如何取舍)  
+**1、** [Flash、Ajax 各自的优缺点，在使用中如何取舍？](https://github.com/souyunku/DevBooks/blob/master/HTML/HTML最新2021年面试题大汇总，附答案.md#1FlashAjax-各自的优缺点在使用中如何取舍)  
 **2、** [`<img>` 的 title 和 alt 有什么区别？](https://github.com/souyunku/DevBooks/blob/master/HTML/HTML最新2021年面试题大汇总，附答案.md#2`<img>`-的-title-和-alt-有什么区别)  
 **3、** [xhtml和html有什么区别?](https://github.com/souyunku/DevBooks/blob/master/HTML/HTML最新2021年面试题大汇总，附答案.md#3xhtml和html有什么区别)  
 **4、** [label的作用是什么? 是怎么用的?**](https://github.com/souyunku/DevBooks/blob/master/HTML/HTML最新2021年面试题大汇总，附答案.md#4label的作用是什么-是怎么用的**)  
-**5、** [cookies，sessionStorage和localStorage的区别](https://github.com/souyunku/DevBooks/blob/master/HTML/HTML最新2021年面试题大汇总，附答案.md#5cookies，sessionStorage和localStorage的区别)  
+**5、** [cookies，sessionStorage和localStorage的区别](https://github.com/souyunku/DevBooks/blob/master/HTML/HTML最新2021年面试题大汇总，附答案.md#5cookiessessionStorage和localStorage的区别)  
 **6、** [什么是BFC？](https://github.com/souyunku/DevBooks/blob/master/HTML/HTML最新2021年面试题大汇总，附答案.md#6什么是BFC)  
 **7、** [link 标签定义](https://github.com/souyunku/DevBooks/blob/master/HTML/HTML最新2021年面试题大汇总，附答案.md#7link-标签定义)  
 **8、** [如何在页面上实现一个圆形的可点击区域](https://github.com/souyunku/DevBooks/blob/master/HTML/HTML最新2021年面试题大汇总，附答案.md#8如何在页面上实现一个圆形的可点击区域)  
@@ -3682,9 +3655,9 @@
 ## HTML最新2021年面试题附答案解析，大汇总
 
 **1、** [常见的浏览器内核有哪些](https://github.com/souyunku/DevBooks/blob/master/HTML/HTML最新2021年面试题附答案解析，大汇总.md#1常见的浏览器内核有哪些)  
-**2、** [网页验证码是干嘛的，是为了解决什么安全问题？](https://github.com/souyunku/DevBooks/blob/master/HTML/HTML最新2021年面试题附答案解析，大汇总.md#2网页验证码是干嘛的，是为了解决什么安全问题)  
+**2、** [网页验证码是干嘛的，是为了解决什么安全问题？](https://github.com/souyunku/DevBooks/blob/master/HTML/HTML最新2021年面试题附答案解析，大汇总.md#2网页验证码是干嘛的是为了解决什么安全问题)  
 **3、** [HTTP状态码及其含义](https://github.com/souyunku/DevBooks/blob/master/HTML/HTML最新2021年面试题附答案解析，大汇总.md#3HTTP状态码及其含义)  
-**4、** [前端页面有哪三层构成，分别是什么?作用是什么?](https://github.com/souyunku/DevBooks/blob/master/HTML/HTML最新2021年面试题附答案解析，大汇总.md#4前端页面有哪三层构成，分别是什么作用是什么)  
+**4、** [前端页面有哪三层构成，分别是什么?作用是什么?](https://github.com/souyunku/DevBooks/blob/master/HTML/HTML最新2021年面试题附答案解析，大汇总.md#4前端页面有哪三层构成分别是什么作用是什么)  
 **5、** [空元素定义](https://github.com/souyunku/DevBooks/blob/master/HTML/HTML最新2021年面试题附答案解析，大汇总.md#5空元素定义)  
 **6、** [行内元素有哪些？块级元素有哪些？ 空(void)元素有那些？行内元素和块级元素有什么区别？](https://github.com/souyunku/DevBooks/blob/master/HTML/HTML最新2021年面试题附答案解析，大汇总.md#6行内元素有哪些块级元素有哪些-空void元素有那些行内元素和块级元素有什么区别)  
 **7、** [box-sizing、transition、translate分别是什么？](https://github.com/souyunku/DevBooks/blob/master/HTML/HTML最新2021年面试题附答案解析，大汇总.md#7box-sizingtransitiontranslate分别是什么)  
@@ -3701,11 +3674,11 @@
 **3、** [html5有哪些新特性、移除了那些元素？](https://github.com/souyunku/DevBooks/blob/master/HTML/HTML最新2021年面试题，高级面试题及附答案解析.md#3html5有哪些新特性移除了那些元素)  
 **4、** [为什么操作 DOM 慢？（浏览器绘制过程）](https://github.com/souyunku/DevBooks/blob/master/HTML/HTML最新2021年面试题，高级面试题及附答案解析.md#4为什么操作-DOM-慢浏览器绘制过程)  
 **5、** [img的alt与title有何异同？ strong与em的异同？](https://github.com/souyunku/DevBooks/blob/master/HTML/HTML最新2021年面试题，高级面试题及附答案解析.md#5img的alt与title有何异同-strong与em的异同)  
-**6、** [合理的页面布局中常听过结构与表现分离，那么结构是什么？表现是什么？](https://github.com/souyunku/DevBooks/blob/master/HTML/HTML最新2021年面试题，高级面试题及附答案解析.md#6合理的页面布局中常听过结构与表现分离，那么结构是什么表现是什么)  
-**7、** [页面导入样式时，使用 link 和 [@import ](/import ) 有什么区别？](https://github.com/souyunku/DevBooks/blob/master/HTML/HTML最新2021年面试题，高级面试题及附答案解析.md#7页面导入样式时，使用-link-和-[@import-]/import--有什么区别)  
+**6、** [合理的页面布局中常听过结构与表现分离，那么结构是什么？表现是什么？](https://github.com/souyunku/DevBooks/blob/master/HTML/HTML最新2021年面试题，高级面试题及附答案解析.md#6合理的页面布局中常听过结构与表现分离那么结构是什么表现是什么)  
+**7、** [页面导入样式时，使用 link 和 [@import ](/import ) 有什么区别？](https://github.com/souyunku/DevBooks/blob/master/HTML/HTML最新2021年面试题，高级面试题及附答案解析.md#7页面导入样式时使用-link-和-[@import-]/import--有什么区别)  
 **8、** [常见的浏览器内核比较](https://github.com/souyunku/DevBooks/blob/master/HTML/HTML最新2021年面试题，高级面试题及附答案解析.md#8常见的浏览器内核比较)  
 **9、** [标签上title 与 alt 属性的区别是什么?](https://github.com/souyunku/DevBooks/blob/master/HTML/HTML最新2021年面试题，高级面试题及附答案解析.md#9标签上title-与-alt-属性的区别是什么)  
-**10、** [实现不使用 border 画出1px高的线，在不同浏览器的Quirks mode和CSS Compat模式下都能保持同一效果**](https://github.com/souyunku/DevBooks/blob/master/HTML/HTML最新2021年面试题，高级面试题及附答案解析.md#10实现不使用-border-画出1px高的线，在不同浏览器的Quirks-mode和CSS-Compat模式下都能保持同一效果**)  
+**10、** [实现不使用 border 画出1px高的线，在不同浏览器的Quirks mode和CSS Compat模式下都能保持同一效果**](https://github.com/souyunku/DevBooks/blob/master/HTML/HTML最新2021年面试题，高级面试题及附答案解析.md#10实现不使用-border-画出1px高的线在不同浏览器的Quirks-mode和CSS-Compat模式下都能保持同一效果**)  
 
 ### [此处，仅展示前10道，查看更多30道...](https://github.com/souyunku/DevBooks/blob/master/HTML/HTML最新2021年面试题，高级面试题及附答案解析.md)  
 
@@ -3714,7 +3687,7 @@
 **1、** [b 与 strong 的区别和 i 与 em 的区别？](https://github.com/souyunku/DevBooks/blob/master/HTML/HTML最新面试题2021年，常见面试题及答案汇总.md#1b-与-strong-的区别和-i-与-em-的区别)  
 **2、** [渲染页面时常见哪些不良现象？（浏览器渲染过程）](https://github.com/souyunku/DevBooks/blob/master/HTML/HTML最新面试题2021年，常见面试题及答案汇总.md#2渲染页面时常见哪些不良现象浏览器渲染过程)  
 **3、** [webSocket如何兼容低浏览器](https://github.com/souyunku/DevBooks/blob/master/HTML/HTML最新面试题2021年，常见面试题及答案汇总.md#3webSocket如何兼容低浏览器)  
-**4、** [网页验证码是干嘛的，是为了解决什么安全问题](https://github.com/souyunku/DevBooks/blob/master/HTML/HTML最新面试题2021年，常见面试题及答案汇总.md#4网页验证码是干嘛的，是为了解决什么安全问题)  
+**4、** [网页验证码是干嘛的，是为了解决什么安全问题](https://github.com/souyunku/DevBooks/blob/master/HTML/HTML最新面试题2021年，常见面试题及答案汇总.md#4网页验证码是干嘛的是为了解决什么安全问题)  
 **5、** [在新窗口打开链接的方法是？](https://github.com/souyunku/DevBooks/blob/master/HTML/HTML最新面试题2021年，常见面试题及答案汇总.md#5在新窗口打开链接的方法是)  
 **6、** [知道的网页制作会用到的图片格式有哪些？](https://github.com/souyunku/DevBooks/blob/master/HTML/HTML最新面试题2021年，常见面试题及答案汇总.md#6知道的网页制作会用到的图片格式有哪些)  
 **7、** [HTML5 有哪些新特性、移除了那些元素？](https://github.com/souyunku/DevBooks/blob/master/HTML/HTML最新面试题2021年，常见面试题及答案汇总.md#7HTML5-有哪些新特性移除了那些元素)  
