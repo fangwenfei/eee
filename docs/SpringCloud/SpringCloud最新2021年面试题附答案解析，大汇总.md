@@ -2,161 +2,150 @@
 
 ### 其实，博主还整理了，更多大厂面试题，直接下载吧
 
-### 下载链接：[高清172份，累计 7701 页大厂面试题  PDF](https://www.souyunku.com/?p=67)
+### 下载链接：[高清172份，累计 7701 页大厂面试题  PDF](https://github.com/souyunku/DevBooks/blob/master/docs/index.md)
 
-### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/?p=67)
-
-
-
-### 1、Spring Cloud Task
-
-Spring Cloud Task的目标是为SpringBoot应用程序提供创建短运行期微服务的功能。在Spring Cloud Task中，我们可以灵活地动态运行任何任务，按需分配资源并在任务完成后检索结果。Tasks是Spring Cloud Data Flow中的一个基础项目，允许用户将几乎任何SpringBoot应用程序作为一个短期任务执行。
+### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png)
 
 
-### 2、SpringCloud的优缺点
 
-**优点：**
+### 1、什么是Netflix Feign？它的优点是什么？
 
-**1、** 耦合度比较低。不会影响其他模块的开发。
+Feign是受到Retrofit，JAXRS-2.0和WebSocket启发的java客户端联编程序。Feign的第一个目标是将约束分母的复杂性统一到http apis，而不考虑其稳定性。在employee-consumer的例子中，我们使用了employee-producer使用REST模板公开的REST服务。
 
-**2、** 减轻团队的成本，可以并行开发，不用关注其他人怎么开发，先关注自己的开发。
+但是我们必须编写大量代码才能执行以下步骤
 
-**3、** 配置比较简单，基本用注解就能实现，不用使用过多的配置文件。
+**1、** 使用功能区进行负载平衡。
 
-**4、** 微服务跨平台的，可以用任何一种语言开发。
+**2、** 获取服务实例，然后获取基本URL。
 
-**5、** 每个微服务可以有自己的独立的数据库也有用公共的数据库。
+**3、** 利用REST模板来使用服务。 前面的代码如下
 
-**6、** 直接写后端的代码，不用关注前端怎么开发，直接写自己的后端代码即可，然后暴露接口，通过组件进行服务通信。
+```
+@Controller
+public class ConsumerControllerClient {
 
-**缺点：**
+@Autowired
+private LoadBalancerClient loadBalancer;
 
-1、部署比较麻烦，给运维工程师带来一定的麻烦。
+public void getEmployee() throws RestClientException, IOException {
 
-2、针对数据的管理比麻烦，因为微服务可以每个微服务使用一个数据库。
+    ServiceInstance serviceInstance=loadBalancer.choose("employee-producer");
 
-3、系统集成测试比较麻烦
+    System.out.println(serviceInstance.getUri());
 
-4、性能的监控比较麻烦。【最好开发一个大屏监控系统】
+    String baseUrl=serviceInstance.getUri().toString();
 
-总的来说优点大过于缺点，目前看来Spring Cloud是一套非常完善的分布式框架，目前很多企业开始用微服务、Spring Cloud的优势是显而易见的。因此对于想研究微服务架构的同学来说，学习Spring Cloud是一个不错的选择。
+    baseUrl=baseUrl+"/employee";
+
+    RestTemplate restTemplate = new RestTemplate();
+    ResponseEntity<String> response=null;
+    try{
+    response=restTemplate.exchange(baseUrl,
+            HttpMethod.GET, getHeaders(),String.class);
+    }catch (Exception ex)
+    {
+        System.out.println(ex);
+    }
+    System.out.println(response.getBody());
+```
+
+之前的代码，有像NullPointer这样的例外的机会，并不是最优的。我们将看到如何使用Netflix Feign使呼叫变得更加轻松和清洁。如果Netflix Ribbon依赖关系也在类路径中，那么Feign默认也会负责负载平衡。
 
 
-### 3、Spring Cloud Gateway
+### 2、什么是微服务中的反应性扩展？
 
-Spring cloud gateway是spring官方基于Spring 5.0、SpringBoot2.0和Project Reactor等技术开发的网关，Spring Cloud Gateway旨在为微服务架构提供简单、有效和统一的API路由管理方式，Spring Cloud Gateway作为Spring Cloud生态系统中的网关，目标是替代Netflix Zuul，其不仅提供统一的路由方式，并且还基于Filer链的方式提供了网关基本的功能，例如：安全、监控/埋点、限流等。
+Reactive Extensions也称为Rx。这是一种设计方法，我们通过调用多个服务来收集结果，然后编译组合响应。这些调用可以是同步或异步，阻塞或非阻塞。Rx是分布式系统中非常流行的工具，与传统流程相反。
+
+希望这些微服务面试问题可以帮助您进行微服务架构师访谈。
+
+翻译来源：[https://www.edureka.co/blog/interview-questions/microservices-interview-questions/](https://www.edureka.co/blog/interview-questions/microservices-interview-questions/)
 
 
-### 4、Spring Cloud Task
+
+### 3、Spring Cloud Sleuth
+
+在微服务中，通常根据业务模块分服务，项目中前端发起一个请求，后端可能跨几个服务调用才能完成这个请求（如下图）。如果系统越来越庞大，服务之间的调用与被调用关系就会变得很复杂，假如一个请求中需要跨几个服务调用，其中一个服务由于网络延迟等原因挂掉了，那么这时候我们需要分析具体哪一个服务出问题了就会显得很困难。Spring Cloud Sleuth服务链路跟踪功能就可以帮助我们快速的发现错误根源以及监控分析每条请求链路上的性能等等。 ![](https://gitee.com/souyunkutech/souyunku-home/raw/master/images/souyunku-web/2020/5/2/023/45/68_1.png#alt=68%5C_1.png)
+
+
+### 4、SpringCloud Config 可以实现实时刷新吗？
+
+springcloud config实时刷新采用SpringCloud Bus消息总线。
+
+
+### 5、如何覆盖SpringBoot项目的默认属性？
+
+这可以通过在application.properties文件中指定属性来完成。 例如，在Spring MVC应用程序中，您必须指定后缀和前缀。这可以通过在application.properties文件中输入下面提到的属性来完成。
+
+```
+对于后缀 - spring.mvc.view.suffix: .jsp
+对于前缀 - spring.mvc.view.prefix: /WEB-INF/
+```
+
+
+### 6、Web，RESTful API在微服务中的作用是什么？
+
+微服务架构基于一个概念，其中所有服务应该能够彼此交互以构建业务功能。因此，要实现这一点，每个微服务必须具有接口。这使得Web API成为微服务的一个非常重要的推动者。RESTful API基于Web的开放网络原则，为构建微服务架构的各个组件之间的接口提供了最合理的模型。
+
+
+### 7、在使用微服务架构时，您面临哪些挑战？
+
+开发一些较小的微服务听起来很容易，但开发它们时经常遇到的挑战如下。
+
+自动化组件：难以自动化，因为有许多较小的组件。因此，对于每个组件，我们必须遵循Build，Deploy和Monitor的各个阶段。
+
+易感性：将大量组件维护在一起变得难以部署，维护，监控和识别问题。它需要在所有组件周围具有很好的感知能力。
+
+配置管理：有时在各种环境中维护组件的配置变得困难。
+
+调试：很难找到错误的每一项服务。维护集中式日志记录和仪表板以调试问题至关重要。
+
+
+### 8、第⼀层缓存：
+
+readOnlyCacheMap，本质上是ConcurrentHashMap：这是⼀个JVM的CurrentHashMap只读缓存，这个主要是为了供客户端获取注册信息时使⽤，其缓存更新，依赖于定时器的更新，通过和readWriteCacheMap 的值做对⽐，如果数据不⼀致，则以readWriteCacheMap 的数据为准。readOnlyCacheMap 缓存更新的定时器时间间隔，默认为30秒
+
+#
+### 9、Spring Cloud Task
 
 用于快速构建短暂、有限数据处理任务的微服务框架，用于向应用中添加功能性和非功能性的特性。
 
 
-### 5、什么是持续集成（CI）？
+### 10、什么是无所不在的语言？
 
-持续集成（CI）是每次团队成员提交版本控制更改时自动构建和测试代码的过程。这鼓励开发人员通过在每个小任务完成后将更改合并到共享版本控制存储库来共享代码和单元测试。
+如果您必须定义泛在语言（UL），那么它是特定域的开发人员和用户使用的通用语言，通过该语言可以轻松解释域。
 
-
-### 6、Ribbon和Feign调用服务的区别
-
-**1、** 调用方式同：Ribbon需要我们自己构建Http请求，模拟Http请求然后通过RestTemplate发给其他服务，步骤相当繁琐
-
-**2、** 而Feign则是在Ribbon的基础上进行了一次改进，采用接口的形式，将我们需要调用的服务方法定义成抽象方法保存在本地就可以了，不需要自己构建Http请求了，直接调用接口就行了，不过要注意，调用方法要和本地抽象方法的签名完全一致。
+无处不在的语言必须非常清晰，以便它将所有团队成员放在同一页面上，并以机器可以理解的方式进行翻译。
 
 
-### 7、PACT在微服务架构中的用途是什么？
-
-PACT是一个开源工具，允许测试服务提供者和消费者之间的交互，与合同隔离，从而提高微服务集成的可靠性。
-
-微服务中的用法
-
-用于在微服务中实现消费者驱动的合同。
-
-测试微服务的消费者和提供者之间的消费者驱动的合同。
-
-查看即将到来的批次
-
-
-### 8、什么是耦合？
-
-组件之间依赖关系强度的度量被认为是耦合。一个好的设计总是被认为具有高内聚力和低耦合性。
-
-
-### 9、SpringCloud限流：
-
-**1、** 我们可以通过semaphore.maxConcurrentRequests,coreSize,maxQueueSize和queueSizeRejectionThreshold设置信号量模式下的最⼤并发量、线程池⼤⼩、缓冲区⼤⼩和缓冲区降级阈值。
-
-```
-#不设置缓冲区，当请求数超过coreSize时直接降级
-hystrix.threadpool.userThreadPool.maxQueueSize=-1超时时间⼤于我们的timeout接⼝返回时间
-hystrix.command.userCommandKey.execution.isolation.thread.timeoutInMilliseconds=15000
-```
-
-这个时候我们连续多次请求/user/command/timeout接⼝，在第⼀个请求还没有成功返回时，查看输出⽇志可以发现只有第⼀个请求正常的进⼊到user-service的接⼝中，其它请求会直接返回降级信息。这样我们就实现了对服务请求的限流。
-
-**2、** 漏桶算法：⽔（请求）先进⼊到漏桶⾥，漏桶以⼀定的速度出⽔，当⽔流⼊速度过⼤会直接溢出，可以看出漏桶算法能强⾏限制数据的传输速率。
-
-![](https://gitee.com/souyunkutech/souyunku-home/raw/master/images/souyunku-web/2020/5/2/01/44/45_7.png#alt=45%5C_7.png)
-
-**3、** 令牌桶算法：除了要求能够限制数据的平均传输速率外，还要求允许某种程度的突发传输。这时候漏桶算法可能就不合适了，令牌桶算法更为适合。 如图所示，令牌桶算法的原理是系统会以⼀个恒定的速度往桶⾥放⼊令牌，⽽如果请求需要被处理，则需要先从桶⾥获取⼀个令牌，当桶⾥没有令牌可取时，则拒绝服务。
-
-![](https://gitee.com/souyunkutech/souyunku-home/raw/master/images/souyunku-web/2020/5/2/01/44/45_8.png#alt=45%5C_8.png)
-
-
-### 10、服务雪崩？
-
-简介：服务雪崩效应是⼀种因服务提供者的不可⽤导致服务调⽤者的不可⽤,并将不可⽤逐渐放⼤的过程.
-
-![](https://gitee.com/souyunkutech/souyunku-home/raw/master/images/souyunku-web/2020/5/2/01/44/45_12.png#alt=45%5C_12.png)
-
-**形成原因**
-
-**1、** 服务提供者不可
-
-**2、** 重试加⼤流量
-
-**3、** 服务调⽤者不可⽤
-
-**采⽤策略**
-
-**1、** 流量控制
-
-**2、** 改进缓存模式
-
-**3、** 服务⾃动扩容
-
-**4、** 服务调⽤者降级服务
-
-
-### 11、服务降级底层是如何实现的？
-### 12、什么是Oauth？
-### 13、21、在Spring MVC应用程序中使用WebMvcTest注释有什么用处？
-### 14、链路跟踪Sleuth
-### 15、SpringCloud有几种调用接口方式
-### 16、在微服务中，如何保护服务?
-### 17、使用Spring Cloud有什么优势？
-### 18、列举微服务技术栈
-### 19、Spring Cloud解决了哪些问题？
-### 20、Spring Cloud抛弃了Dubbo 的RPC通信，采用的是基于HTTP的REST方式。
-### 21、什么是不同类型的微服务测试？
-### 22、什么是Semantic监控？
-### 23、什么是Hystrix?
-### 24、springcloud如何实现服务的注册?
-### 25、什么是Feign？
-### 26、什么是服务熔断
-### 27、多个消费者调⽤同⼀接⼝，eruka默认的分配⽅式是什么？
-### 28、访问RESTful微服务的方法是什么？
-### 29、SOA和微服务架构之间的主要区别是什么？
-### 30、什么是Spring Cloud？
+### 11、微服务限流 dubbo限流：dubbo提供了多个和请求相关的filter：ActiveLimitFilter ExecuteLimitFilter TPSLimiterFilter
+### 12、springcloud和dubbo有哪些区别
+### 13、什么是网关?
+### 14、Spring Cloud Stream
+### 15、什么是不同类型的微服务测试？
+### 16、接⼝限流⽅法？
+### 17、什么是客户证书？
+### 18、微服务有哪些特点？
+### 19、合同测试你懂什么？
+### 20、微服务之间如何独立通讯的?
+### 21、Spring Cloud和SpringBoot版本对应关系
+### 22、什么是耦合和凝聚力？
+### 23、DiscoveryClient的作用
+### 24、你所知道微服务的技术栈有哪些？列举一二
+### 25、Spring Cloud解决了哪些问题？
+### 26、我们如何进行跨功能测试？
+### 27、我们可以用微服务创建状态机吗？
+### 28、什么是Eureka的自我保护模式，
+### 29、如何实现动态Zuul网关路由转发
+### 30、Spring Cloud Gateway
 
 
 
 
 ## 全部答案，整理好了，直接下载吧
 
-### 下载链接：[全部答案，整理好了](https://www.souyunku.com/?p=67)
+### 下载链接：[全部答案，整理好了](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
 
-### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/?p=67)
+### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
 
 
 ## 最新，高清PDF：172份，7701页，最新整理

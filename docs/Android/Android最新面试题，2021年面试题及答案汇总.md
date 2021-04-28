@@ -2,142 +2,166 @@
 
 ### 其实，博主还整理了，更多大厂面试题，直接下载吧
 
-### 下载链接：[高清172份，累计 7701 页大厂面试题  PDF](https://www.souyunku.com/?p=67)
+### 下载链接：[高清172份，累计 7701 页大厂面试题  PDF](https://github.com/souyunku/DevBooks/blob/master/docs/index.md)
 
-### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/?p=67)
-
-
-
-### 1、广播接受者的生命周期？
-
-```
-广播接收者的生命周期非常短。当执行onRecieve方法之后，广播就会销毁
-在广播接受者不能进行耗时较长的操作
-在广播接收者不要创建子线程。广播接收者完成操作后，所在进程会变成空进程，很容易被系统回收
-```
+### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png)
 
 
-### 2、Service 和 Activity 在同一个线程吗
 
-默认情况下service与activity在同一个线程，都在main Thread，或者ui线程中。
+### 1、Fragment 如何实现类似 Activity 栈的压栈和出栈效果的？
 
-如果在清单文件中指定service的process属性，那么service就在另一个进程中运行。
-
-
-### 3、Android dvm的进程和Linux的进程, 应用程序的进程是否为同一个概念
-
-DVM指dalivk的虚拟机。每一个Android应用程序都在它自己的进程中运行，都拥有一个独立的Dalvik虚拟机实例。而每一个DVM都是在Linux 中的一个进程，所以说可以认为是同一个概念。
+Fragment 的事物管理器内部维持了一个双向链表结构，该结构可以记录我们每次 add 的Fragment 和 replace 的 Fragment，然后当我们点击 back 按钮的时候会自动帮我们实现退栈操作。
 
 
-### 4、说说 ContentProvider、ContentResolver、ContentObserver 之间的关系
+### 2、为什么Android引入广播机制?
 
-```
-ContentProvider：内容提供者，对外提供数据的操作，contentProvider.notifyChanged(uir)：可以更新数据
-contentResolver：内容解析者，解析ContentProvider返回的数据
-ContentObServer:内容监听者，监听数据的改变，contentResolver.registerContentObServer()
-```
+**1、** 从MVC的角度考虑(应用程序内) 其实回答这个问题的时候还可以这样问，android为什么要有那4大组件，现在的移动开发模型基本上也是照搬的web那一套MVC架构，只不过是改了点嫁妆而已。
 
+**2、** android的四大组件本质上就是为了实现移动或者说嵌入式设备上的MVC架构
 
-### 5、Fragment 在你们项目中的使用
+**3、** 它们之间有时候是一种相互依存的关系，有时候又是一种补充关系，引入广播机制可以方便几大组件的信息和数据交互。
 
-Fragment 是 android3.0 以后引入的的概念，做局部内容更新更方便，原来为了到达这一点要把多个布局放到一个 activity 里面，现在可以用多 Fragment 来代替，只有在需要的时候才加载Fragment，提高性能。
+**4、** 程序间互通消息(例如在自己的应用程序内监听系统来电)
 
-**Fragment 的好处：**
+**5、** 效率上(参考UDP的广播协议在局域网的方便性)
 
-**1、** Fragment 可以使你能够将 activity 分离成多个可重用的组件，每个都有它自己的生命周期和UI。
-
-**2、** Fragment 可以轻松得创建动态灵活的 UI 设计，可以适应于不同的屏幕尺寸。从手机到平板电脑。
-
-**3、** Fragment 是一个独立的模块,紧紧地与 activity 绑定在一起。可以运行中动态地移除、加入、交换等。
-
-**4、** Fragment 提供一个新的方式让你在不同的安卓设备上统一你的 UI。
-
-**5、** Fragment 解决 Activity 间的切换不流畅，轻量切换。
-
-**6、** Fragment 替代 TabActivity 做导航，性能更好。
-
-**7、** Fragment 在 4.2.版本中新增嵌套 fragment 使用方法，能够生成更好的界面效果。
+**6、** 设计模式上(反转控制的一种应用，类似监听者模式)
 
 
-### 6、如何将SQLite数据库(dictionary.db文件)与apk文件一起发布
+### 3、AIDL 的全称是什么?如何工作?能处理哪些类型的数据？
 
-解可以将dictionary.db文件复制到Eclipse Android工程中的res aw目录中。所有在res aw目录中的文件不会被压缩，这样可以直接提取该目录中的文件。可以将dictionary.db文件复制到res aw目录中
+AIDL 全称 Android Interface Definition Language（AndRoid 接口描述语言） 是一种接口描述语言; 编译器可以通过 aidl 文件生成一段代码，通过预先定义的接口达到两个进程内部通信进程跨界对象访问的目的。需要完成两件事情：
 
+**1、** 引入 AIDL 的相关类.;
 
-### 7、Activity间通过Intent传递数据大小有没有限制？
+**2、** 调用 aidl 产生的 class
 
-Intent在传递数据时是有大小限制的，这里官方并未详细说明，不过通过实验的方法可以测出数据应该被限制在1MB之内（1024KB），笔者采用的是传递Bitmap的方法，发现当图片大小超过1024（准确地说是1020左右）的时候，程序就会出现闪退、停止运行等异常(不同的手机反应不同)，因此可以判断Intent的传输容量在1MB之内。
-
-
-### 8、Fragment 的 replace 和 add 方法的区别
-
-Fragment 本身并没有 replace 和 add 方法，FragmentManager才有replace和add方法。我们经常使用的一个架构就是通过RadioGroup切换Fragment，每个 Fragment 就是一个功能模块。
-
-Fragment 的容器一个 FrameLayout，add 的时候是把所有的 Fragment 一层一层的叠加到了。FrameLayout 上了，而 replace 的话首先将该容器中的其他 Fragment 去除掉然后将当前Fragment添加到容器中。
-
-一个 Fragment 容器中只能添加一个 Fragment 种类，如果多次添加则会报异常，导致程序终止，而 replace 则无所谓，随便切换。因为通过 add 的方法添加的 Fragment，每个 Fragment 只能添加一次，因此如果要想达到切换效果需要通过 Fragment 的的 hide 和 show 方法结合者使用。将要显示的 show 出来，将其他 hide起来。这个过程 Fragment 的生命周期没有变化。
-
-通过 replace 切换 Fragment，每次都会执行上一个 Fragment 的 onDestroyView，新 Fragment的 onCreateView、onStart、onResume 方法。基于以上不同的特点我们在使用的使用一定要结合着生命周期操作我们的视图和数据。
+理论上, 参数可以传递基本数据类型和 String, 还有就是 Bundle 的派生类, 不过在 Eclipse 中,目前的 ADT 不支持 Bundle 做为参数。
 
 
-### 9、9.进程和线程的区别
+### 4、android系统的优势和不足
 
-概念：进程包括多个线程，一个程序一个进程，多线程的优点可以提高执行效率，提高资源利用率
+Android平台手机 5大优势：
 
-创建：Thread类和Runnable接口
+**一、开放性**
 
-**常用方法有：**
+在优势方面，Android平台首先就是其开发性，开发的平台允许任何移动终端厂商加入到Android联盟中来。显著的开放性可以使其拥有更多的开发者，随着用户和应用的日益丰富，一个崭新的平台也将很快走向成熟。开放性对于Android的发展而言，有利于积累人气，这里的人气包括消费者和厂商，而对于消费者来讲，随大的受益正是丰富的软件资源。开放的平台也会带来更大竞争，如此一来，消费者将可以用更低的价位购得心仪的手机。
 
-**1、** start()用于启动线程
+**二、挣脱运营商的束缚**
 
-**2、** run()调用线程对象中的run方法
+在过去很长的一段时间，特别是在欧美地区，手机应用往往受到运营商制约，使用什么功能接入什么网络，几乎都受到运营商的控制。从去年iPhone 上市 ，用户可以更加方便地连接网络，运营商的制约减少。随着EDGE、HSDPA这些2G至3G移动网络的逐步过渡和提升，手机随意接入网络已不是运营商口中的笑谈，当你可以通过手机IM软件方便地进行即时聊天时，再回想不久前天价的彩信和图铃下载业务，是不是像噩梦一样？互联网巨头Google推动的Android终端天生就有网络特色，将让用户离互联网更近。
 
-**3、** join()合并插队到当前线程
+**三、丰富的硬件选择**
 
-**4、** sellp()睡眠释放cpu资源
+这一点还是与Android平台的开放性相关，由于Android的开放性，众多的厂商会推出千奇百怪，功能特色各具的多种产品。功能上的差异和特色，却不会影响到数据同步、甚至软件的兼容，好比你从诺基亚 Symbian风格手机 一下改用苹果 iPhone ，同时还可将Symbian中优秀的软件带到iPhone上使用、联系人等资料更是可以方便地转移，是不是非常方便呢？
 
-**5、** setPriority()设置线程优先级
+**四、不受任何限制的开发商**
+
+Android平台提供给第三方开发商一个十分宽泛、自由的环境，不会受到各种条条框框的阻扰，可想而知，会有多少新颖别致的软件会诞生。但也有其两面性，血腥、暴力、情色方面的程序和游戏如可控制正是留给Android难题之一。
+
+**五、无缝结合的Google应用**
+
+如今叱诧互联网的Google已经走过10年度历史，从搜索巨人到全面的互联网渗透，Google服务如地图、邮件、搜索等已经成为连接用户和互联网的重要纽带，而Android平台手机将无缝结合这些优秀的Google服务。
+
+**再说Android的5大不足：**
+
+**一、安全和隐私**
+
+由于手机 与互联网的紧密联系，个人隐私很难得到保守。除了上网过程中经意或不经意留下的个人足迹，Google这个巨人也时时站在你的身后，洞穿一切，因此，互联网的深入将会带来新一轮的隐私危机。
+
+**二、首先开卖Android手机的不是最大运营商**
+
+众所周知，T-Mobile在23日，于美国纽约发布 了Android首款手机G1。但是在北美市场，最大的两家运营商乃AT&T和Verizon，而目前所知取得Android手机销售权的仅有 T-Mobile和Sprint，其中T-Mobile的3G网络相对于其他三家也要逊色不少，因此，用户可以买账购买G1，能否体验到最佳的3G网络服务则要另当别论了！
+
+**三、运营商仍然能够影响到Android手机**
+
+在国内市场，不少用户对购得移动定制机不满，感觉所购的手机被人涂画了广告一般。这样的情况在国外市场同样出现。Android手机的另一发售运营商Sprint就将在其机型中内置其手机商店程序。
+
+**四、同类机型用户减少**
+
+在不少手机论坛都会有针对某一型号的子论坛，对一款手机的使用心得交流，并分享软件资源。而对于Android平台手机，由于厂商丰富，产品类型多样，这样使用同一款机型的用户越来越少，缺少统一机型的程序强化。举个稍显不当的例子，现在山寨机泛滥，品种各异，就很少有专门针对某个型号山寨机的讨论和群组，除了哪些功能异常抢眼、颇受追捧的机型以外。
+
+**五、过分依赖开发商缺少标准配置**
+
+在使用PC端的Windows Xp系统的时候，都会内置微软Windows Media Player这样一个浏览器程序，用户可以选择更多样的播放器，如Realplay或暴风影音等。但入手开始使用默认的程序同样可以应付多样的需要。在 Android平台中，由于其开放性，软件更多依赖第三方厂商，比如Android系统的SDK中就没有内置音乐 播放器，全部依赖第三方开发，缺少了产品的统一性。
 
 
-### 10、定位项目中，如何选取定位方案，如何平衡耗电与实时位置的精度？
+### 5、activity在屏幕旋转时的生命周期
 
-开始定位，Application 持有一个全局的公共位置对象，然后隔一定时间自动刷新位置，每次刷新成功都把新的位置信息赋值到全局的位置对象， 然后每个需要使用位置请求的地方都使用全局的位置信息进行请求。
-
-**1、** 该方案好处：请求的时候无需再反复定位，每次请求都使用全局的位置对象，节省时间。
-
-**2、** 该方案弊端：耗电，每隔一定时间自动刷新位置，对电量的消耗比较大。
-
-按需定位，每次请求前都进行定位。这样做的好处是比较省电，而且节省资源，但是请求时间会变得相对较长。
+不设置Activity的android:configChanges时，切屏会重新调用各个生命周期，切横屏时会执行一次，切竖屏时会执行两次；设置Activity的android:configChanges="orientation"时，切屏还是会重新调用各个生命周期，切横、竖屏时只会执行一次；设置Activity的android:configChanges="orientation|keyboardHidden"时，切屏不会重新调用各个生命周期，只会执行onConfigurationChanged方法
 
 
-### 11、View的分发机制，滑动冲突
-### 12、如何将SQLite数据库(dictionary.db文件)与apk文件一起发布?
-### 13、Service和Thread的区别？
-### 14、补间动画
-### 15、Android中4大组件
-### 16、简述TCP，UDP，Socket
-### 17、开发中都使用过哪些框架、平台
-### 18、ListView 如何提高其效率？
-### 19、Hander原理
-### 20、怎样对 android 进行优化？
-### 21、Android 中的动画有哪几类，它们的特点和区别是什么
-### 22、请介绍下 ContentProvider 是如何实现数据共享的
-### 23、如何启用Service，如何停用Service。
-### 24、GLSurfaceView
-### 25、子线程发消息到主线程进行更新 UI，除了 handler 和 AsyncTask，还有什么？
-### 26、如何在 ScrollView 中如何嵌入 ListView
-### 27、View和SurfaceView的区别
-### 28、启动一个程序，可以主界面点击图标进入，也可以从一个程序中跳转过去，二者有什么区别？
-### 29、Android本身的api并未声明会抛出异常，则其在运行时有无可能抛出runtime异常，你遇到过吗？诺有的话会导致什么问题？如何解决？
+### 6、如何将打开res aw目录中的数据库文件?
+
+解在Android中不能直接打开res aw目录中的数据库文件，而需要在程序第一次启动时将该文件复制到手机内存或SD卡的某个目录中，然后再打开该数据库文件。
+
+复制的基本方法是使用getResources().openRawResource方法获得res aw目录中资源的 InputStream对象，然后将该InputStream对象中的数据写入其他的目录中相应文件中。在Android SDK中可以使用SQLiteDatabase.openOrCreateDatabase方法来打开任意目录中的SQLite数据库文件。
+
+
+### 7、Android的四大组件是哪些，它们的作用？
+
+****
+
+**1、** Activity：Activity是Android程序与用户交互的窗口，是Android构造块中最基本的一种，它需要为保持各界面的状态，做很多持久化的事情，妥善管理生命周期以及一些跳转逻辑
+
+**2、** service：后台服务于Activity，封装有一个完整的功能逻辑实现，接受上层指令，完成相关的事物，定义好需要接受的Intent提供同步和异步的接口
+
+**3、** Content Provider：是Android提供的第三方应用数据的访问方案，可以派生Content Provider类，对外提供数据，可以像数据库一样进行选择排序，屏蔽内部数据的存储细节，向外提供统一的借口模型，大大简化上层应用，对数据的整合提供了更方便的途径
+
+**4、** BroadCast Receiver：接受一种或者多种Intent作触发事件，接受相关消息，做一些简单处理，转换成一条Notification，统一了Android的事件广播模型
+
+
+### 8、如何对 Android 应用进行性能分析
+
+如果不考虑使用其他第三方性能分析工具的话，我们可以直接使用 ddms 中的工具，其实 ddms 工具已经非常的强大了。ddms 中有 traceview、heap、allocation tracker 等工具都可以帮助我们分析应用的方法执行时间效率和内存使用情况。
+
+Traceview 是 Android 平台特有的数据采集和分析工具，它主要用于分析 Android 中应用程序的 hotspot（瓶颈）。Traceview 本身只是一个数据分析工具，而数据的采集则需要使用 AndroidSDK 中的 Debug 类或者利用 DDMS 工具。
+
+heap 工具可以帮助我们检查代码中是否存在会造成内存泄漏的地方。
+
+allocation tracker 是内存分配跟踪工具
+
+
+### 9、什么是ANR 如何避免它？
+
+ANR：Application Not Responding。在Android中，活动管理器和窗口管理器这两个系统服务负责监视应用程序的响应，当用户操作的在5s内应用程序没能做出反应，BroadcastReceiver在10秒内没有执行完毕，就会出现应用程序无响应对话框，这既是ANR。
+
+避免方法：Activity应该在它的关键生命周期方法（如onCreate()和onResume()）里尽可能少的去做创建操作。潜在的耗时操作，例如网络或数据库操作，或者高耗时的计算如改变位图尺寸，应该在子线程里（或者异步方式）来完成。主线程应该为子线程提供一个Handler，以便完成时能够提交给主线程。
+
+
+### 10、Android root机制
+
+root指的是你有权限可以再系统上对所有档案有 "读" "写" "执行"的权力。root机器不是真正能让你的应用程序具有root权限。它原理就跟linux下的像sudo这样的命令。在系统的bin目录下放个su程序并属主是root并有suid权限。则通过su执行的命令都具有Android root权限。当然使用临时用户权限想把su拷贝的/system/bin目录并改属性并不是一件容易的事情。这里用到2个工具跟2个命令。把busybox拷贝到你有权限访问的目录然后给他赋予4755权限，你就可以用它做很多事了。
+
+
+### 11、启动一个程序，可以主界面点击图标进入，也可以从一个程序中跳转过去，二者有什么区别？
+### 12、ListView的优化方案
+### 13、如何退出Activity
+### 14、在 service 的生命周期方法 onstartConmand()可不可以执行网络操作？如何在 service 中执行网络操作？
+### 15、Android系统的架构
+### 16、9.进程和线程的区别
+### 17、Android中activity，context，application有什么不同。
+### 18、子线程中能不能 new handler？为什么？
+### 19、请解释下 Android 程序运行时权限与文件系统权限的区别？
+### 20、View和SurfaceView的区别
+### 21、SQLite支持事务吗?添加删除如何提高性能?
+### 22、Android与服务器交互的方式中的对称加密和非对称加密是什么?
+### 23、注册广播有几种方式，这些方式有何优缺点？请谈谈Android引入广播机制的用意。
+### 24、wait和 sleep 的区别
+### 25、Activity的状态有几种？
+### 26、请介绍下Android的数据存储方式。
+### 27、谈谈Android的IPC（进程间通信）机制
+### 28、Fragment的生命周期
+### 29、activity，fragment传值问题
 
 
 
 
 ## 全部答案，整理好了，直接下载吧
 
-### 下载链接：[全部答案，整理好了](https://www.souyunku.com/?p=67)
+### 下载链接：[全部答案，整理好了](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
 
-### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/?p=67)
+### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
 
 
 ## 最新，高清PDF：172份，7701页，最新整理

@@ -2,111 +2,170 @@
 
 ### 其实，博主还整理了，更多大厂面试题，直接下载吧
 
-### 下载链接：[高清172份，累计 7701 页大厂面试题  PDF](https://www.souyunku.com/?p=67)
+### 下载链接：[高清172份，累计 7701 页大厂面试题  PDF](https://github.com/souyunku/DevBooks/blob/master/docs/index.md)
 
-### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/?p=67)
-
-
-
-### 1、什么是纯组件？
-
-_纯（Pure）_ 组件是可以编写的最简单、最快的组件。它们可以替换任何只有 render() 的组件。这些组件增强了代码的简单性和应用的性能。
+### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png)
 
 
-### 2、React组件通信如何实现?
 
-**React组件间通信方式:**
+### 1、简单说一下Vue2.x响应式数据原理
 
-**1、** 父组件向子组件通讯: 父组件可以向子组件通过传 props 的方式，向子组件进行通讯
-
-**2、** 子组件向父组件通讯: props+回调的方式,父组件向子组件传递props进行通讯，此props为作用域为父组件自身的函数，子组件调用该函数，将子组件想要传递的信息，作为参数，传递到父组件的作用域中
-
-**3、** 兄弟组件通信: 找到这两个兄弟节点共同的父节点,结合上面两种方式由父节点转发信息进行通信
-
-**4、** 跨层级通信: `Context`设计目的是为了共享那些对于一个组件树而言是“全局”的数据，例如当前认证的用户、主题或首选语言,对于跨越多层的全局数据通过`Context`通信再适合不过
-
-**5、** 发布订阅模式: 发布者发布事件，订阅者监听事件并做出反应,我们可以通过引入event模块进行通信
-
-**6、** 全局状态管理工具: 借助Redux或者Mobx等全局状态管理工具进行通信,这种工具会维护一个全局状态中心Store,并根据不同的事件产生新的状态
-
-![](https://gitee.com/souyunkutech/souyunku-home/raw/master/images/souyunku-web/2020/4/30/1939/39/97_2.png#alt=97%5C_2.png)
+Vue在初始化数据时，会使用`Object.defineProperty`重新定义data中的所有属性，当页面使用对应属性时，首先会进行依赖收集(收集当前组件的`watcher`)如果属性发生变化会通知相关依赖进行更新操作(`发布订阅`)。
 
 
-### 3、React中的状态是什么？它是如何使用的？
+### 2、再说一下虚拟Dom以及key属性的作用
 
-状态是 React 组件的核心，是数据的来源，必须尽可能简单。基本上状态是确定组件呈现和行为的对象。与props 不同，它们是可变的，并创建动态和交互式组件。可以通过 `this.state()` 访问它们。
+由于在浏览器中操作DOM是很昂贵的。频繁的操作DOM，会产生一定的性能问题。这就是虚拟Dom的`产生原因`。
+
+Vue2的Virtual DOM借鉴了开源库`snabbdom`的实现。
+
+`Virtual DOM本质就是用一个原生的JS对象去描述一个DOM节点。是对真实DOM的一层抽象。`(也就是源码中的VNode类，它定义在src/core/vdom/vnode.js中。)
+
+VirtualDOM映射到真实DOM要经历VNode的create、diff、patch等阶段。
+
+**「key的作用是尽可能的复用 DOM 元素。」**
+
+新旧 children 中的节点只有顺序是不同的时候，最佳的操作应该是通过移动元素的位置来达到更新的目的。
+
+需要在新旧 children 的节点中保存映射关系，以便能够在旧 children 的节点中找到可复用的节点。key也就是children中节点的唯一标识。
 
 
-### 4、React中的合成事件是什么？
+### 3、如何模块化 React 中的代码？
 
-合成事件是围绕浏览器原生事件充当跨浏览器包装器的对象。它们将不同浏览器的行为合并为一个 API。这样做是为了确保事件在不同浏览器中显示一致的属性。
+可以使用 export 和 import 属性来模块化代码。它们有助于在不同的文件中单独编写组件。
+
+```
+//ChildComponent.jsx
+export default class ChildComponent extends React.Component {
+    render() {
+        return(
+              <div>
+                  <h1>This is a child component</h1>
+              </div>
+        );
+    }
+}
+
+//ParentComponent.jsx
+import ChildComponent from './childcomponent.js';
+class ParentComponent extends React.Component {
+    render() {
+        return(
+             <div>
+                <App />
+             </div>
+        );
+    }
+}
+```
 
 
-### 5、什么是 Props?
-
-Props 是 React 中属性的简写。它们是只读组件，必须保持纯，即不可变。它们总是在整个应用中从父组件传递到子组件。子组件永远不能将 prop 送回父组件。这有助于维护单向数据流，通常用于呈现动态生成的数据。
-
-
-### 6、你对受控组件和非受控组件了解多少？
-| 受控组件 | 非受控组件 |
+### 4、Redux与Flux有何不同？
+| Flux | Redux |
 | --- | --- |
-| 1、没有维持自己的状态 | 1、保持着自己的状态 |
-| 2.数据由父组件控制 | 2.数据由 DOM 控制 |
-| 3、通过 props 获取当前值，然后通过回调通知更改 | 3、Refs 用于获取其当前值 |
+| 1、Store 包含状态和更改逻辑 | 1、Store 和更改逻辑是分开的 |
+| 2、有多个 Store | 2、只有一个 Store |
+| 3、所有 Store 都互不影响且是平级的 | 3、带有分层 reducer 的单一 Store |
+| 4、有单一调度器 | 4、没有调度器的概念 |
+| 5、React 组件订阅 store | 5、容器组件是有联系的 |
+| 6、状态是可变的 | 6、状态是不可改变的 |
 
 
 
-### 7、你理解“在React中，一切都是组件”这句话。
-
-组件是 React 应用 UI 的构建块。这些组件将整个 UI 分成小的独立并可重用的部分。每个组件彼此独立，而不会影响 UI 的其余部分。
-
-
-### 8、再说一下Computed和Watch
+### 5、再说一下Computed和Watch
 
 `Computed`本质是一个具备缓存的watcher，依赖的属性发生变化就会更新视图。 适用于计算比较消耗性能的计算场景。当表达式过于复杂时，在模板中放入过多逻辑会让模板难以维护，可以将复杂的逻辑放入计算属性中处理。
 
 `Watch`没有缓存性，更多的是观察的作用，可以监听某些数据执行回调。当我们需要深度监听对象中的属性时，可以打开`deep：true`选项，这样便会对对象中的每一项进行监听。这样会带来性能问题，优化的话可以使用`字符串形式`监听，如果没有写到组件中，不要忘记使用`unWatch手动注销`哦。
 
 
-### 9、React Router与常规路由有何不同？
-| 主题 | 常规路由 | React 路由 |
-| --- | --- | --- |
-| 参与的页面 | 每个视图对应一个新文件 | 只涉及单个HTML页面 |
-| URL 更改 | HTTP 请求被发送到服务器并且接收相应的 HTML 页面 | 仅更改历史记录属性 |
-| 体验 | 用户实际在每个视图的不同页面切换 | 用户认为自己正在不同的页面间切换 |
+### 6、react 的渲染过程中兄弟节点之间是怎么处理的也就是key值不一样的时候
+
+通常我们输出节点的时候都是`map`一个数组然后返回一个`ReactNode`为了方便`react`内部进行优化我们必须给每一个`reactNode`添加`key`这个`key prop`在设计值处不是给开发者用的而是给react用的大概的作用就是给每一个reactNode添加一个身份标识方便react进行识别在重渲染过程中如果key一样若组件属性有所变化则`react`只更新组件对应的属性没有变化则不更新如果`key`不一样则`react`先销毁该组件然后重新创建该组件
 
 
-### 10、说一下v-if和v-show的区别
+### 7、React有哪些限制？
 
-当条件不成立时，`v-if`不会渲染DOM元素，`v-show`操作的是样式(display)，切换当前DOM的显示和隐藏。
+**React的限制如下：**
+
+**1、**  React 只是一个库，而不是一个完整的框架
+
+**2、**  它的库非常庞大，需要时间来理解
+
+**3、**  新手程序员可能很难理解
+
+**4、**  编码变得复杂，因为它使用内联模板和 JSX
 
 
-### 11、react-router里的标签和`<a>`标签有什么区别
-### 12、react hooks它带来了那些便利
-### 13、如何将两个或多个组件嵌入到一个组件中？
-### 14、什么是高阶组件(HOC)
-### 15、createElement 与 cloneElement 的区别是什么
-### 16、setState到底是异步还是同步?
-### 17、为什么浏览器无法读取JSX？
-### 18、什么是React？
-### 19、那你知道Vue3.x响应式数据原理吗？
-### 20、列出一些应该使用 Refs 的情况。
-### 21、为什么虚拟dom会提高性能
-### 22、React的请求应该放在哪个生命周期中?
-### 23、如何在 React 中创建表单
-### 24、setState
-### 25、redux中如何进行异步操作?
-### 26、什么是Redux？
-### 27、列出 Redux 的组件。
+### 8、说一下Vue的生命周期
+
+`beforeCreate`是new Vue()之后触发的第一个钩子，在当前阶段data、methods、computed以及watch上的数据和方法都不能被访问。
+
+`created`在实例创建完成后发生，当前阶段已经完成了数据观测，也就是可以使用数据，更改数据，在这里更改数据不会触发updated函数。可以做一些初始数据的获取，在当前阶段无法与Dom进行交互，如果非要想，可以通过vm.$nextTick来访问Dom。
+
+`beforeMount`发生在挂载之前，在这之前template模板已导入渲染函数编译。而当前阶段虚拟Dom已经创建完成，即将开始渲染。在此时也可以对数据进行更改，不会触发updated。
+
+`mounted`在挂载完成后发生，在当前阶段，真实的Dom挂载完毕，数据完成双向绑定，可以访问到Dom节点，使用$refs属性对Dom进行操作。
+
+`beforeUpdate`发生在更新之前，也就是响应式数据发生更新，虚拟dom重新渲染之前被触发，你可以在当前阶段进行更改数据，不会造成重渲染。
+
+`updated`发生在更新完成之后，当前阶段组件Dom已完成更新。要注意的是避免在此期间更改数据，因为这可能会导致无限循环的更新。
+
+`beforeDestroy`发生在实例销毁之前，在当前阶段实例完全可以被使用，我们可以在这时进行善后收尾工作，比如清除计时器。
+
+`destroyed`发生在实例销毁之后，这个时候只剩下了dom空壳。组件已被拆解，数据绑定被卸除，监听被移出，子实例也统统被销毁。
+
+
+### 9、React如何进行组件/逻辑复用?
+
+抛开已经被官方弃用的Mixin,组件抽象的技术目前有三种比较主流:
+
+**1、** 高阶组件
+
+**2、** 属性代理
+
+**3、** 反向继承
+
+**4、** 渲染属性
+
+**5、** react-hooks
+
+
+### 10、Redux设计理念
+
+`Redux`是将整个应用状态存储到一个地方上称为`store`,里面保存着一个状态树`store` `tree`,组件可以派发(`dispatch`)行为(`action`)给`store`,而不是直接通知其他组件组件内部通过订阅`store`中的状态`state`来刷新自己的视图
+
+![80_2.png][80_2.png]
+
+image
+
+
+### 11、你都做过哪些Vue的性能优化？
+### 12、react和vue的区别
+### 13、react hooks它带来了那些便利
+### 14、什么是控制组件？
+### 15、列出 React Router 的优点。
+### 16、Redux实现原理解析
+### 17、传入 setState 函数的第二个参数的作用是什么
+### 18、为什么虚拟dom会提高性能
+### 19、为什么浏览器无法读取JSX？
+### 20、React组件生命周期的阶段是什么？
+### 21、你的接口请求一般放在哪个生命周期中？
+### 22、mixin、hoc、render props、react-hooks的优劣如何？
+### 23、MVC框架的主要问题是什么？
+### 24、Redux 有哪些优点？
+### 25、什么是高阶组件(HOC)
+### 26、列出一些应该使用 Refs 的情况。
+### 27、redux中间件有哪些，做什么用？
 
 
 
 
 ## 全部答案，整理好了，直接下载吧
 
-### 下载链接：[全部答案，整理好了](https://www.souyunku.com/?p=67)
+### 下载链接：[全部答案，整理好了](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
 
-### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/?p=67)
+### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
 
 
 ## 最新，高清PDF：172份，7701页，最新整理

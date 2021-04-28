@@ -2,227 +2,138 @@
 
 ### 其实，博主还整理了，更多大厂面试题，直接下载吧
 
-### 下载链接：[高清172份，累计 7701 页大厂面试题  PDF](https://www.souyunku.com/?p=67)
+### 下载链接：[高清172份，累计 7701 页大厂面试题  PDF](https://github.com/souyunku/DevBooks/blob/master/docs/index.md)
 
-### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/?p=67)
+### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png)
 
 
 
-### 1、简述Mybatis的插件运行原理，以及如何编写一个插件。
+### 1、简述Mybatis的Xml映射文件和Mybatis内部数据结构之间的映射关系？
 
-Mybatis仅可以编写针对ParameterHandler、ResultSetHandler、StatementHandler、Executor这4种接口的插件，Mybatis使用JDK的动态代理，为需要拦截的接口生成代理对象以实现接口方法拦截功能，每当执行这4种接口对象的方法时，就会进入拦截方法，具体就是InvocationHandler的invoke()方法，当然，只会拦截那些你指定需要拦截的方法。
+Mybatis将所有Xml配置信息都封装到All-In-One重量级对象Configuration内部。在Xml映射文件中，`<parameterMap>`标签会被解析为ParameterMap对象，其每个子元素会被解析为ParameterMapping对象。`<resultMap>`标签会被解析为ResultMap对象，其每个子元素会被解析为ResultMapping对象。每一个`<select>`、`<insert>`、`<update>`、`<delete>`标签均会被解析为MappedStatement对象，标签内的sql会被解析为BoundSql对象。
 
-编写插件：实现Mybatis的Interceptor接口并复写intercept()方法，然后在给插件编写注解，指定要拦截哪一个接口的哪些方法即可，记住，别忘了在配置文件中配置你编写的插件。
 
+### 2、MyBatis框架的缺点：
 
+**1、** SQL语句的编写工作量较大，尤其当字段多、关联表多时，对开发人员编写SQL语句的功底有一定要求。
 
-### 2、Mybatis中如何指定使用哪一种Executor执行器？
+**2、** SQL语句依赖于数据库，导致数据库移植性差，不能随意更换数据库。
 
-在Mybatis配置文件中，在设置（settings）可以指定默认的ExecutorType执行器类型，也可以手动给DefaultSqlSessionFactory的创建SqlSession的方法传递ExecutorType类型参数，如SqlSession openSession(ExecutorType execType)。
 
-配置默认的执行器。SIMPLE 就是普通的执行器；REUSE 执行器会重用预处理语句（prepared statements）； BATCH 执行器将重用语句并执行批量更新。
+### 3、Mybatis 是否支持延迟加载？如果支持，它的实现原理是什么？
 
+**1、** Mybatis 仅支持 association 关联对象和 collection 关联集合对象的延迟加载，association
 
-### 3、MyBatis 里面的动态 Sql 是怎么设定的?用什么语法?
+指的就是一对一，collection 指的就是一对多查询。在 Mybatis 配置文件中，可以配置是否
 
-MyBatis 里面的动态 Sql 一般是通过 if 节点来实现,通过 OGNL 语法来实现,但是如果要
+启用延迟加载 lazyLoadingEnabled=true|false。
 
-写的完整,必须配合 where,trim 节点,where 节点是判断包含节点有内容就插入 where,否则不
+**2、** 它的原理是，使用 CGLIB 创建目标对象的代理对象，当调用目标方法时，进入拦截器方
 
-插入,trim 节点是用来判断如果动态语句是以 and 或 or 开始,那么会自动把这个 and 或者 or
+法，比如调用 a.getB().getName()，拦截器 invoke()方法发现 a.getB()是 null 值，那么就会单
 
-取掉。
+独发送事先保存好的查询关联 B 对象的 sql，把 B 查询上来，然后调用 a.setB(b)，于是 a 的
 
+对象 b 属性就有值了，接着完成 a.getB().getName()方法的调用。这就是延迟加载的基本原
 
-### 4、#{}和${}的区别是什么？
+理。
 
-**1、** #{}是预编译处理，${}是字符串替换。
 
-**2、** Mybatis 在处理#{}时，会将 sql 中的#{}替换为?号，调用 PreparedStatement 的 set 方法
+### 4、MyBatis与hibernate有哪些不同？
 
-来赋值；
+**1、** Mybatis MyBatis 是支持定制化 SQL、存储过程以及高级映射的一种持久层框架。MyBatis 避免了几乎所有的 JDBC 代码和手动设置参数以及获取结果集。Mybatis它不完全是一个ORM(对象关系映射)框架；它需要程序员自己编写部分SQL语句。 mybatis可以通过xml或者注解的方式灵活的配置要运行的SQL语句，并将java对象和SQL语句映射生成最终的执行的SQL，最后将SQL执行的结果在映射生成java对象。 Mybatis程序员可以直接的编写原生态的SQL语句，可以控制SQL执行性能，灵活度高，适合软件需求变换频繁的企业。 缺点：Mybatis无法做到数据库无关性，如果需要实现支持多种数据库的软件，则需要自定义多套SQL映射文件，工作量大。
 
-**3、** Mybatis 在处理$${}时，就是把$${}替换成变量的值。
+**2、** Hibernate Hibernate是支持定制化 SQL、存储过程以及高级映射的一种持久层框架。 Hibernate对象-关系映射能力强，数据库的无关性好，Hirberate可以自动生成SQL语句，对于关系模型要求高的软件，如果用HIrbernate开发可以节省很多时间。
 
-**4、** 使用#{}可以有效的防止 SQL 注入，提高系统安全性。
 
+### 5、Mybatis是如何进行分页的？分页插件的原理是什么？
 
-### 5、Mybatis的一级、二级缓存
+Mybatis使用RowBounds对象进行分页，它是针对ResultSet结果集执行的内存分页，而非物理分页。可以在sql内直接书写带有物理分页的参数来完成物理分页功能，也可以使用分页插件来完成物理分页。
 
-**1、** 一级缓存: 基于 PerpetualCache 的 HashMap 本地缓存，其存储作用域为 Session，当 Session flush 或 close 之后，该 Session 中的所有 Cache 就将清空，默认打开一级缓存。
+分页插件的基本原理是使用Mybatis提供的插件接口，实现自定义插件，在插件的拦截方法内拦截待执行的sql，然后重写sql，根据dialect方言，添加对应的物理分页语句和物理分页参数。
 
-**2、** 二级缓存与一级缓存其机制相同，默认也是采用 PerpetualCache，HashMap 存储，不同在于其存储作用域为 Mapper(Namespace)，并且可自定义存储源，如 Ehcache。默认不打开二级缓存，要开启二级缓存，使用二级缓存属性类需要实现Serializable序列化接口(可用来保存对象的状态),可在它的映射文件中配置`<cache/>`
 
-**3、** 对于缓存数据更新机制，当某一个作用域(一级缓存 Session/二级缓存Namespaces)的进行了C/U/D 操作后，默认该作用域下所有 select 中的缓存将被 clear。
+### 6、使用Mybatis的mapper接口调用时候有哪些要求？
 
+**1、** Mapper接口方法名和Mapper.xml中定义的每个SQL的id相同；
 
-### 6、Mybatis映射文件中，如果A标签通过include引用了B标签的内容
+**2、** Mapper接口方法的输入参数类型和mapper.xml中定义的每个sqlparameterType类型相同
 
-**请问，B标签能否定义在A标签的后面，还是说必须定义在A标签的前面？**
+**3、** Mapper接口方法的输入输出参数类型和mapper.xml中定义的每个sql的resultType的类型相同
 
-虽然Mybatis解析Xml映射文件是按照顺序解析的，但是，被引用的B标签依然可以定义在任何地方，Mybatis都可以正确识别。
+**4、** Mapper.xml文件中的namespace，就是接口的类路径。
 
-原理是，Mybatis解析A标签，发现A标签引用了B标签，但是B标签尚未解析到，尚不存在，此时，Mybatis会将A标签标记为未解析状态，然后继续解析余下的标签，包含B标签，待所有标签解析完毕，Mybatis会重新解析那些被标记为未解析的标签，此时再解析A标签时，B标签已经存在，A标签也就可以正常解析完成了。
 
+### 7、使用MyBatis的mapper接口调用时有哪些要求？
 
-### 7、Mybatis如何执行批量操作
+**1、** Mapper接口方法名和mapper.xml中定义的每个sql的id相同；
 
-**使用foreach标签**
+**2、** Mapper接口方法的输入参数类型和mapper.xml中定义的每个sql 的parameterType的类型相同；
 
-foreach的主要用在构建in条件中，它可以在SQL语句中进行迭代一个集合。foreach标签的属性主要有item，index，collection，open，separator，close。
+**3、** Mapper接口方法的输出参数类型和mapper.xml中定义的每个sql的resultType的类型相同；
 
-**1、** item   表示集合中每一个元素进行迭代时的别名，随便起的变量名；
+**4、** Mapper.xml文件中的namespace即是mapper接口的类路径。
 
-**2、** index   指定一个名字，用于表示在迭代过程中，每次迭代到的位置，不常用；
 
-**3、** open   表示该语句以什么开始，常用“(”；
+### 8、Mybatis动态sql是做什么的？都有哪些动态sql？
 
-**4、** separator 表示在每次进行迭代之间以什么符号作为分隔符，常用“,”；
+**能简述一下动态sql的执行原理吗？**
 
-**5、** close   表示以什么结束，常用“)”。
+Mybatis动态sql可以让我们在Xml映射文件内，以标签的形式编写动态sql，完成逻辑判断和动态拼接sql的功能，Mybatis提供了9种动态sql标签trim|where|set|foreach|if|choose|when|otherwise|bind。
 
-在使用foreach的时候最关键的也是最容易出错的就是collection属性，该属性是必须指定的，但是在不同情况下，该属性的值是不一样的，主要有一下3种情况：
+其执行原理为，使用OGNL从sql参数对象中计算表达式的值，根据表达式的值动态拼接sql，以此来完成动态sql的功能。
 
-**1、** 如果传入的是单参数且参数类型是一个List的时候，collection属性值为list
 
-**2、** 如果传入的是单参数且参数类型是一个array数组的时候，collection的属性值为array
+### 9、Mybatis都有哪些Executor执行器？它们之间的区别是什么？
 
-**3、** 如果传入的参数是多个的时候，我们就需要把它们封装成一个Map了，当然单参数也可以封装成map，实际上如果你在传入参数的时候，在MyBatis里面也是会把它封装成一个Map的，
+Mybatis有三种基本的Executor执行器，SimpleExecutor、ReuseExecutor、BatchExecutor。
 
-map的key就是参数名，所以这个时候collection属性值就是传入的List或array对象在自己封装的map里面的key
+**SimpleExecutor**：
 
-**具体用法如下：**
+每执行一次update或select，就开启一个Statement对象，用完立刻关闭Statement对象。
 
-```
-<!-- 批量保存(foreach插入多条数据两种方法)
-   int addEmpsBatch(@Param("emps") List<Employee> emps); -->
-<!-- MySQL下批量保存，可以foreach遍历 MySQL支持values(),(),()语法 --> //推荐使用
+**ReuseExecutor**：
 
-<insert id="addEmpsBatch">
-INSERT INTO emp(ename,gender,email,did)
-VALUES
-<foreach collection="emps" item="emp" separator=",">
-    (#{emp.eName},#{emp.gender},#{emp.email},#{emp.dept.id})
-</foreach>
-</insert>
-```
+执行update或select，以sql作为key查找Statement对象，存在就使用，不存在就创建，用完后，不关闭Statement对象，而是放置于Map<String, Statement>内，供下一次使用。简言之，就是重复使用Statement对象。
 
-```
-<!-- 这种方式需要数据库连接属性allowMutiQueries=true的支持
-如jdbc.url=jdbc:MySQL://localhost:3306/mybatis?allowMultiQueries=true -->  
+**BatchExecutor**：
 
-<insert id="addEmpsBatch">
-<foreach collection="emps" item="emp" separator=";">                                 
-    INSERT INTO emp(ename,gender,email,did)
-    VALUES(#{emp.eName},#{emp.gender},#{emp.email},#{emp.dept.id})
-</foreach>
-</insert>
-```
+执行update（没有select，JDBC批处理不支持select），将所有sql都添加到批处理中（addBatch()），等待统一执行（executeBatch()），它缓存了多个Statement对象，每个Statement对象都是addBatch()完毕后，等待逐一执行executeBatch()批处理。与JDBC批处理相同。
 
-**使用ExecutorType.BATCH**
+作用范围：Executor的这些特点，都严格限制在SqlSession生命周期范围内。
 
-Mybatis内置的ExecutorType有3种，默认为simple,该模式下它为每个语句的执行创建一个新的预处理语句，单条提交sql；而batch模式重复使用已经预处理的语句，并且批量执行所有更新语句，显然batch性能将更优； 但batch模式也有自己的问题，比如在Insert操作时，在事务没有提交之前，是没有办法获取到自增的id，这在某型情形下是不符合业务要求的
 
-**具体用法如下：**
-
-```
-//批量保存方法测试
-@Test  
-public void testBatch() throws IOException{
-    SqlSessionFactory sqlSessionFactory = getSqlSessionFactory();
-    //可以执行批量操作的sqlSession
-    SqlSession openSession = sqlSessionFactory.openSession(ExecutorType.BATCH);
-
-    //批量保存执行前时间
-    long start = System.currentTimeMillis();
-    try {
-        EmployeeMapper mapper = openSession.getMapper(EmployeeMapper.class);
-        for (int i = 0; i < 1000; i++) {
-            mapper.addEmp(new Employee(UUID.randomUUID().toString().substring(0, 5), "b", "1"));
-        }
-
-        openSession.commit();
-        long end = System.currentTimeMillis();
-        //批量保存执行后的时间
-        System.out.println("执行时长" + (end - start));
-        //批量 预编译sql一次==》设置参数==》10000次==》执行1次   677
-        //非批量  （预编译=设置参数=执行 ）==》10000次   1121
-
-    } finally {
-        openSession.close();
-    }
-}
-```
-
-**mapper和mapper.xml如下**
-
-```
-    public interface EmployeeMapper {   
-        //批量保存员工
-        Long addEmp(Employee employee);
-    }
-```
-
-```
-    <mapper namespace="com.jourwon.mapper.EmployeeMapper"
-         <!--批量保存员工 -->
-        <insert id="addEmp">
-            insert into employee(lastName,email,gender)
-            values(#{lastName},#{email},#{gender})
-        </insert>
-    </mapper>
-```
-
-
-### 8、Mybatis 都有哪些 Executor 执行器？它们之间的区别是什么？
-
-Mybatis 有三种基本的 Executor 执行器，SimpleExecutor、ReuseExecutor、
-
-BatchExecutor。1、SimpleExecutor：每执行一次 update 或 select，就开启一个 Statement 对
-
-象，用完立刻关闭 Statement 对象。2、ReuseExecutor：执行 update 或 select，以 sql 作为
-
-key 查找 Statement 对象，存在就使用，不存在就创建，用完后，不关闭 Statement 对象，
-
-而是放置于 Map3、BatchExecutor：完成批处理。
-
-
-### 9、MyBatis实现一对多有几种方式,怎么操作的？
-
-有联合查询和嵌套查询。联合查询是几个表联合查询,只查询一次,通过在resultMap里面的collection节点配置一对多的类就可以完成；嵌套查询是先查一个表,根据这个表里面的 结果的外键id,去再另外一个表里面查询数据,也是通过配置collection,但另外一个表的查询通过select节点配置。
-
-
-### 10、Mybatis的Xml映射文件中，不同的Xml映射文件，id是否可以重复？
-
-不同的Xml映射文件，如果配置了namespace，那么id可以重复；如果没有配置namespace，那么id不能重复；毕竟namespace不是必须的，只是最佳实践而已。
-
-原因就是namespace+id是作为Map<String, MappedStatement>的key使用的，如果没有namespace，就剩下id，那么，id重复会导致数据互相覆盖。有了namespace，自然id就可以重复，namespace不同，namespace+id自然也就不同。
-
-
-### 11、#{}和${}的区别是什么？
-### 12、在mapper中如何传递多个参数
-### 13、MyBatis 实现一对一有几种方式?具体怎么操作的？
-### 14、JDBC编程有哪些不足之处，MyBatis是如何解决的？
-### 15、什么是MyBatis的接口绑定？有哪些实现方式？
-### 16、Mybatis 的 Xml 映射文件中，不同的 Xml 映射文件，id 是否可以重复？
-### 17、Mybatis 是否可以映射 Enum 枚举类？
-### 18、Mybatis是如何将sql执行结果封装为目标对象并返回的？都有哪些映射形式？
-### 19、Mybatis的表关联的映射？
-### 20、Mybatis动态SQL？
-### 21、什么是 MyBatis 的接口绑定,有什么好处？
-### 22、Mybatis动态sql是做什么的？都有哪些动态sql？
-### 23、Xml映射文件中，除了常见的select|insert|updae|delete标签之外，还有哪些标签？
-### 24、在mapper中如何传递多个参数?
-### 25、MyBatis框架的缺点有什么？
+### 10、Mybatis是如何将sql执行结果封装为目标对象并返回的？都有哪些映射形式？
+
+**1、** 第一种是使用标签，逐一定义数据库列名和对象属性名之间的映射关系。
+
+**2、** 第二种是使用sql列的别名功能，将列的别名书写为对象属性名。有了列名与属性名的映射关系后，Mybatis通过反射创建对象，同时使用反射给对象的属性逐一赋值并返回，那些找不到映射关系的属性，是无法完成赋值的。
+
+
+### 11、Mybatis 都有哪些 Executor 执行器？它们之间的区别是什么？
+### 12、Mybais 常用注解 ？
+### 13、通常一个Xml映射文件，都会写一个Dao接口与之对应
+### 14、Mybatis 的 Xml 映射文件中，不同的 Xml 映射文件，id 是否可以重复？
+### 15、Mybatis 动态 sql 是做什么的？都有哪些动态 sql？能简述一下动态 sql 的执行原理不？
+### 16、JDBC编程有哪些不足之处，Mybatis是如何解决这些问题的？
+### 17、Xml映射文件中，除了常见的select|insert|updae|delete标签之外，还有哪些标签？
+### 18、Mybatis中如何指定使用哪一种Executor执行器？
+### 19、Mybatis的一级、二级缓存
+### 20、Mybatis 是如何进行分页的？分页插件的原理是什么？
+### 21、MyBatis框架适用场合：
+### 22、什么是Mybatis？
+### 23、Mybatis 执行批量插入，能返回数据库主键列表吗？
+### 24、Mybatis 分页查询？
+### 25、#{}和${}的区别是什么？
 
 
 
 
 ## 全部答案，整理好了，直接下载吧
 
-### 下载链接：[全部答案，整理好了](https://www.souyunku.com/?p=67)
+### 下载链接：[全部答案，整理好了](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
 
-### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/?p=67)
+### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
 
 
 ## 最新，高清PDF：172份，7701页，最新整理

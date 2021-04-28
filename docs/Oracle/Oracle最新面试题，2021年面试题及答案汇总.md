@@ -2,91 +2,77 @@
 
 ### 其实，博主还整理了，更多大厂面试题，直接下载吧
 
-### 下载链接：[高清172份，累计 7701 页大厂面试题  PDF](https://www.souyunku.com/?p=67)
+### 下载链接：[高清172份，累计 7701 页大厂面试题  PDF](https://github.com/souyunku/DevBooks/blob/master/docs/index.md)
 
-### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/?p=67)
-
-
-
-### 1、如何在不影响子表的前提下，重建一个母表
-
-子表的外键强制实效，重建母表，激活外键
+### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png)
 
 
-### 2、事务的特性（ACID）是指什么？
 
-**1、** 原子性（Atomic）： 事务中的各项操作，要么全做要么全不做，任何一项操作的失败都会导致整个事务的失败。
+### 1、解释$$ORACLE\_HOME和$$ORACLE_BASE的区别?
 
-**2、** 一致性（Consistent）： 事务结束后系统状态是一样的。
-
-**3、** 隔离性（Isolated）: 并发执行的事务彼此无法看到对方的中间状态。
-
-**4、** 持久性（Durable）:事务完成后，即使发生灾难性故障，通过日志和同步备份可以在故障发生后重建数据。
+ORACLE_BASE是oracle的根目录，ORACLE_HOME是oracle产品的目录。
 
 
-### 3、你必须利用备份恢复数据库，但是你没有控制文件，该如何解决问题呢?
+### 2、Oracle跟SQL Server 2005的区别？
 
-重建控制文件，用带backup control file 子句的recover 命令恢复数据库。
+**宏观上：**
 
+**1、** 最大的区别在于平台，oracle可以运行在不同的平台上，sql server只能运行在windows平台上，由于windows平台的稳定性和安全性影响了sql server的稳定性和安全性
 
-### 4、如何建立一个备份控制文件?
+**2、** oracle使用的脚本语言为PL-SQL，而sql server使用的脚本为T-SQL
 
-Alter database backup control file to trace.
+**微观上：**
 
-
-### 5、触发器的作用有哪些？
-
-**1、** 触发器可通过数据库中的相关表实现级联更改；通过级联引用完整性约束可以更有效地执行这些更改。
-
-**2、** 触发器可以强制比用 CHECK 约束定义的约束更为复杂的约束。与 CHECK 约束不同，触发器可以引用其它表中的列。例如，触发器可以使用另一个表中的 SELECT 比较插入或更新的数据，以及执行其它操作，如修改数据或显示用户定义错误信息。
-
-**3、** 触发器还可以强制执行业务规则
-
-**4、** 触发器也可以评估数据修改前后的表状态，并根据其差异采取对策。
+**1、** 从数据类型,数据库的结构等等回答
 
 
-### 6、解释什么是死锁，如何解决Oracle中的死锁？
+### 3、给出在STAR SCHEMA中的两种表及它们分别含有的数据
 
-简言之就是存在加了锁而没有解锁，可能是使用锁没有提交或者回滚事务，如果是表级锁则不能操作表，客户端处于等在状态，如果是行级锁则不能操作锁定行
+Fact tables 和dimension tables. fact table 包含大量的主要的信息而 dimension tables 存放对fact table 某些属性描述的
 
-**解决办法：**
-
-**1、** 查找出被锁的表
-
-**1、** select b.owner,b.object_name,a.session_id,a.locked_mode
-
-**2、** from v$locked_object a,dba_objects b
-
-**3、** where b.object_id = a.object_id;
-
-**1、** select b.username,b.sid,b.serial#,logon_time
-
-**2、** from v$$locked_object a,v$$session b
-
-**3、** where a.session_id = b.sid order by b.logon_time;
-
-**2、** 杀进程中的会话
-
-alter system kill session "sid,serial#";
+信息
 
 
-### 7、解释冷备份和热备份的不同点以及各自的优点
+### 4、比较truncate和delete 命令
 
-热备份针对归档模式的数据库，在数据库仍旧处于工作状态时进行备份。而冷备份指在数据库关闭后，进行备份，适用于所有模式的数据库。热备份的优 点在于当备份时，数据库仍旧可以被使用并且可以将数据库恢复到任意一个时间点。冷备份的优点在于它的备份和恢复操作相当简单，并且由于冷备份的数据库可以 工作在非归档模式下,数据库性能会比归档模式稍好。（因为不必将archive log写入硬盘）
-
-
-### 8、本地管理表空间和字典管理表空间的特点，ASSM有什么特点？
-
-本地管理表空间(LocallyManaged Tablespace简称LMT)，8i以后出现的一种新的表空间的管理模式，通过位图来管理表空间的空间使用。字典管理表空间(Dictionary-ManagedTablespace简称DMT)8i以前包括以后都还可以使用的一种表空间管理模式，通过数据字典管理表空间的空间使用。动段空间管理（ASSM)，它首次出现在Oracle920里有了ASSM，链接列表freelist被位图所取代，它是一个二进制的数组，能够迅速有效地管理存储扩展和剩余区块(free block)，因此能够改善分段存储本质，ASSM表空间上创建的段还有另外一个称呼叫Bitmap ManagedSegments(BMB 段)
+两者都可以用来删除表中所有的记录。区别在于：truncate是DDL操作，它移动HWK，不需要 rollback segment .而Delete是DML操作, 需要rollback segment 且花费较长时间.
 
 
-### 9、日志的作用是什么
+### 5、MySQL数据库与Oracle 数据库有什么区别？
 
-记录数据库事务,最大限度地保证数据的一致性与安全性
+**1、** 应用方面，MySQL 是中小型应用的数据库。一般用于个人和中小型企业。Oracle 属于大型数据库，一般用于具有相当规模的企业应用。
 
-重做日志文件：含对数据库所做的更改记录，这样万一出现故障可以启用数据恢复,一个数据库至少需要两个重做日志文件
+**2、** 自动增长的数据类型方面： MySQL有自动增长的数据类型。Oracle 没有自动增长的数据类型。需要建立一个自增序列。
 
-归档日志文件：是重做日志文件的脱机副本，这些副本可能对于从介质失败中进行恢复很必要。
+**3、** group by 用法： MySQL 中group by 在SELECT 语句中可以随意使用，但在ORACLE 中如果查询语句中有组函数，那么其他列必须是组函数处理过的或者是group by子句中的列，否则会报错。
+
+**4、** 引导方面： MySQL中可以用单引号、双引号包起字符串，Oracle 中只可以用单引号包起字符串
+
+
+### 6、说明如何在指定的块中迭代项目和记录?
+
+要遍历指定块中的项目和记录，可以使用NEXT_FIELD来迭代特定块中的项，并且NEXT_RECORD遍历块中的记录。
+
+
+### 7、给出数据库正常启动所经历的几种状态 ?
+
+STARTUP NOMOUNT ?C 数据库实例启动
+
+STARTUP MOUNT - 数据库装载
+
+STARTUP OPEN ?C 数据库打开
+
+
+### 8、如何生成explain plan?
+
+运行utlxplan.sql. 建立plan 表
+
+针对特定SQL语句，使用 explain plan set statement_id = 'tst1' into plan_table运行utlxplp.sql 或 utlxpls.sql察看explain plan
+
+
+### 9、ORA-01555的应对方法？
+
+具体的出错信息是snapshot too old within rollback seg , 通常可以通过增大rollback seg来解决问题。当然也需要察看一下具体造成错误的SQL文本
 
 
 ### 10、oracle的锁又几种,定义分别是什么;
@@ -170,31 +156,31 @@ ORACLE使用共享池存储分析与优化过的SQL语句及PL/SQL程序，使�
 
 
 
-### 11、哪个column可以用来区别V$$视图和GV$$视图?
-### 12、不借助第三方工具，怎样查看sql的执行计划
-### 13、给出两种相关约束?
+### 11、索引是用来干什么的？有那些约束建立索引？
+### 12、oracle中存储过程，游标和函数的区别
+### 13、解释materialized views的作用
 ### 14、说下 oracle的锁又几种,定义分别是什么;
-### 15、描述什么是 redo logs
-### 16、索引是用来干什么的？有那些约束建立索引？
-### 17、创建数据库时自动建立的tablespace名称？
-### 18、给出两个检查表结构的方法
-### 19、哪个后台进程刷新materialized views?
-### 20、哪个VIEW用来判断tablespace的剩余空间
-### 21、Oracle 分区在什么情况下使用
-### 22、存储过程 、函数 、游标 在项目中怎么用的：
-### 23、Oracle的游标在存储过程里是放在begin与end的里面还是外面？
-### 24、Audit trace 存放在哪个oracle目录结构中?
-### 25、解释TABLE Function的用途
-### 26、给出数据库正常启动所经历的几种状态 ?
+### 15、怎样创建一个一个索引,索引使用的原则,有什么优点和缺点
+### 16、如何启动SESSION级别的TRACE
+### 17、FACT Table上需要建立何种索引？
+### 18、你刚刚编译了一个PL/SQL Package但是有错误报道，如何显示出错信息？
+### 19、如何在tablespace里增加数据文件？
+### 20、解释data block , extent 和 segment的区别？
+### 21、创建用户时，需要赋予新用户什么权限才能使它联上数据库。
+### 22、说下 oracle 中 dml、ddl、dcl 的使用有哪些
+### 23、给出在STAR SCHEMA中的两种表及它们分别含有的数据
+### 24、用于网络连接的2个文件？
+### 25、如何进行强制LOG SWITCH?
+### 26、存储过程的操作 当它抛出异常的时候 你是如何解决的用了什么技术
 
 
 
 
 ## 全部答案，整理好了，直接下载吧
 
-### 下载链接：[全部答案，整理好了](https://www.souyunku.com/?p=67)
+### 下载链接：[全部答案，整理好了](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
 
-### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/?p=67)
+### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
 
 
 ## 最新，高清PDF：172份，7701页，最新整理

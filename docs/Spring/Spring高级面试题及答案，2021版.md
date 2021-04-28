@@ -2,177 +2,148 @@
 
 ### 其实，博主还整理了，更多大厂面试题，直接下载吧
 
-### 下载链接：[高清172份，累计 7701 页大厂面试题  PDF](https://www.souyunku.com/?p=67)
+### 下载链接：[高清172份，累计 7701 页大厂面试题  PDF](https://github.com/souyunku/DevBooks/blob/master/docs/index.md)
 
-### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/?p=67)
+### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png)
 
 
 
-### 1、SpringBoot 的核心注解是哪个？它主要由哪几个注解组成的？
+### 1、您使用了哪些 starter maven 依赖项？
 
-启动类上面的注解是@SpringBootApplication，它也是 SpringBoot 的核心注解，主要组合包含了以下 3 个注解：
+**使用了下面的一些依赖项**
 
-@SpringBootConfiguration：组合了 [@Configuration ](/Configuration ) 注解，实现配置文件的功能。
+**1、**  spring-boot-starter-web 嵌入tomcat和web开发需要servlet与jsp支持
 
-[@EnableAutoConfiguration：打开自动配置的功能，也可以关闭某个自动配置的选项，如关闭数据源自动配置功能：@SpringBootApplication(exclude ](/EnableAutoConfiguration：打开自动配置的功能，也可以关闭某个自动配置的选项，如关闭数据源自动配置功能：@SpringBootApplication(exclude ) = { DataSourceAutoConfiguration.class })。
+**2、**  spring-boot-starter-data-jpa 数据库支持
 
-@ComponentScan：Spring组件扫描。
+**3、**  spring-boot-starter-data-Redis Redis数据库支持
 
+**4、**  spring-boot-starter-data-solr solr支持
 
-### 2、什么是Spring Cloud Bus?
+**5、**  mybatis-spring-boot-starter 第三方的mybatis集成starter
 
-spring cloud bus 将分布式的节点用轻量的消息代理连接起来，它可以用于广播配置文件的更改或者服务直接的通讯，也可用于监控。
+自定义的starter(如果自己开发过就可以说出来)
 
-如果修改了配置文件，发送一次请求，所有的客户端便会重新读取配置文件。
 
-**使用:**
+### 2、SpringBoot支持哪些嵌入式容器？
 
-**1、** 添加依赖
+无论何时创建Java应用程序，都可以通过两种方法进行部署： 使用外部的应用程序容器。 将容器嵌入jar文件中。 SpringBoot包含Jetty，Tomcat和Undertow服务器，所有服务器都是嵌入式的。 Jetty - 用于大量项目，Eclipse Jetty可以嵌入到框架，应用程序服务器，工具和集群中。 Tomcat - Apache Tomcat是一个开源JavaServer Pages实现，可以很好地与嵌入式系统配合使用。 Undertow - 一个灵活而突出的Web服务器，它使用小型单一处理程序来开发Web服务器。
 
-**2、** 配置rabbimq
 
+### 3、创建一个 SpringBoot Project 的最简单的方法是什么？
 
-### 3、什么是Semantic监控？
+Spring Initializer 是创建 SpringBoot Projects 的一个很好的工具
 
-它结合了对整个应用程序的监控以及自动化测试。语义监控的主要好处是找出对您的业务更有利可图的因素。 从业务角度来看，语义监控以及服务层监控可以监控微服务。一旦检测到问题，它们就可以实现更快的隔离和 错误分类，从而减少修复所需的主要时间。它对服务层和事务层进行分类，以确定受可用性或性能不佳影响的事务。
 
+### 4、Spring Cloud Zookeeper
 
-### 4、SpringBoot 自动配置原理
+基于Apache Zookeeper的服务治理组件。
 
-**1、** SpringBoot启动的时候加载主配置类，开启了自动配置功能 @EnableAutoConfiguration
 
-**2、** @EnableAutoConfiguration 作用:
+### 5、SpringBoot 的核心配置文件有哪几个？它们的区别是什么？
 
-将类路径下 META-INF/spring.factories 里面配置的所有EnableAutoConfiguration的值加入到了容器中;
+SpringBoot 的核心配置文件是 application 和 bootstrap 配置文件。
 
-每一个这样的 xxxAutoConfiguration类都是容器中的一个组件，都加入到容器中;用他们来做自动配置;
+application 配置文件这个容易理解，主要用于 SpringBoot 项目的自动化配置。
 
-**3、** 每一个自动配置类进行自动配置功能;
+bootstrap 配置文件有以下几个应用场景。
 
-根据当前不同的条件判断，决定这个配置类是否生效；
+使用 Spring Cloud Config 配置中心时，这时需要在 bootstrap 配置文件中添加连接到配置中心的配置属性来加载外部配置中心的配置信息；
 
-**4、** 一但这个配置类生效;这个配置类就会给容器中添加各种组件;这些组件的属性是从对应的properties类中获取 的，这些类里面的每一个属性又是和配置文件绑定的;
+一些固定的不能被覆盖的属性；
 
-**5、** 所有在配置文件中能配置的属性都是在xxxxProperties类中封装者‘;配置文件能配置什么就可以参照某个功 能对应的这个属性类
+一些加密/解密的场景；
 
 
-### 5、区分构造函数注入和 setter 注入。
-| 构造函数注入 | setter 注入 |
-| --- | --- |
-| 没有部分注入 | 有部分注入 |
-| 不会覆盖 setter 属性 | 会覆盖 setter 属性 |
-| 任意修改都会创建一个新实例 | 任意修改不会创建一个新实例 |
-| 适用于设置很多属性 | 适用于设置少量属性 |
+### 6、JPA 和 Hibernate 有哪些区别？
 
+简而言之
 
+JPA 是一个规范或者接口
 
-### 6、Mock或Stub有什么区别？
+Hibernate 是 JPA 的一个实现
 
-存根
+当我们使用 JPA 的时候，我们使用 javax.persistence 包中的注释和接口时，不需要使用 hibernate 的导入包。
 
-一个有助于运行测试的虚拟对象。
+我们建议使用 JPA 注释，因为哦我们没有将其绑定到 Hibernate 作为实现。后来（我知道 - 小于百分之一的几率），我们可以使用另一种 JPA 实现。
 
-在某些可以硬编码的条件下提供固定行为。
 
-永远不会测试存根的任何其他行为。
+### 7、什么是Hystrix?
 
-例如，对于空堆栈，您可以创建一个只为empty（）方法返回true的存根。因此，这并不关心堆栈中是否存在元素。
+Hystrix 是一个延迟和容错库，旨在隔离远程系统，服务和第三方库的访问点，当出现故障是不可避免的故障时，停止级联故障并在复杂的分布式系统中实现弹性。通常对于使用微服务架构开发的系统，涉及到许多微服务，这些微服务彼此协作， 随着微服务数量的增加，这个问题变得更加复杂。我们将使用 Hystrix 的 Fallback 方法来处理，假设由于某种原因，公开的服务接口抛出异常，我们在这种情况下使用 Hystrix 定义一个回退方法。这种后备方法应该具有与公开服务相同的返回类型，如果暴露服务中出现异常，回退方法将返回对应信息。
 
-嘲笑
 
-一个虚拟对象，其中最初设置了某些属性。
+### 8、什么是 Spring IOC 容器？
 
-此对象的行为取决于set属性。
+Spring 框架的核心是 Spring 容器。 容器创建对象，将它们装配在一起，配置它们并管理它们的完整生命周期。 Spring 容器使用依赖注入来管理组成应用程序的组件。 容器通过读取提供的配置元数据来接收对象进行实例化，配置和组装的指令。 该元数据可以通过 XML，Java 注解或 Java 代码提供。
 
-也可以测试对象的行为。
 
-例如，对于Customer对象，您可以通过设置名称和年龄来模拟它。您可以将age设置为12，然后测试isAdult（）方法，该方法将在年龄大于18时返回true。因此，您的Mock Customer对象适用于指定的条件。
+### 9、自动装配有什么局限？
 
+**1、** 覆盖的可能性 - 您始终可以使用 和 设置指定依赖项，这将覆盖自动装配。
 
-### 7、Web，RESTful API在微服务中的作用是什么？
+**2、** 基本元数据类型 - 简单属性（如原数据类型，字符串和类）无法自动装配。
 
-微服务架构基于一个概念，其中所有服务应该能够彼此交互以构建业务功能。因此，要实现这一点，每个微服务必须具有接口。这使得Web API成为微服务的一个非常重要的推动者。RESTful API基于Web的开放网络原则，为构建微服务架构的各个组件之间的接口提供了最合理的模型。
+**3、** 令人困惑的性质 - 总是喜欢使用明确的装配，因为自动装配不太精确。
 
+###你用过哪些重要的 Spring 注解
 
-### 8、如何使用 SpringBoot 自动重装我的应用程序？
+**1、** [@Controller ](/Controller ) - 用于 Spring MVC 项目中的控制器类。
 
-使用 SpringBoot 开发工具。
+**2、** [@Service ](/Service ) - 用于服务类。
 
-把 SpringBoot 开发工具添加进入你的项目是简单的。
+**3、** [@RequestMapping ](/RequestMapping ) - 用于在控制器处理程序方法中配置 URI 映射。
 
-把下面的依赖项添加至你的 SpringBoot Project pom.xml 中
+**4、** [@ResponseBody ](/ResponseBody ) - 用于发送 Object 作为响应，通常用于发送 XML 或 JSON 数据作为响应。
 
-重启应用程序，然后就可以了。
+**5、** [@PathVariable ](/PathVariable ) - 用于将动态值从 URI 映射到处理程序方法参数。
 
-同样的，如果你想自动装载页面，有可以看看 FiveReload
+**6、** [@Autowired ](/Autowired ) - 用于在 spring bean 中自动装配依赖项。
 
-```
-http://www.logicbig.com/tutorials/spring-framework/spring-boot/boot-live-reload/.
-```
+**7、** [@Qualifier ](/Qualifier ) - 使用 [@Autowired ](/Autowired ) 注解，以避免在存在多个 bean 类型实例时出现混淆。
 
-在我测试的时候，发现了 LiveReload 漏洞，如果你测试时也发现了，请一定要告诉我们。
-
-
-### 9、什么是嵌入式服务器？我们为什么要使用嵌入式服务器呢?
-
-思考一下在你的虚拟机上部署应用程序需要些什么。
-
-**第一步：**安装 Java
-
-**第二步：**安装 Web 或者是应用程序的服务器（Tomat/Wbesphere/Weblogic 等等）
-
-**第三步：**部署应用程序 war 包
-
-如果我们想简化这些步骤，应该如何做呢？
-
-让我们来思考如何使服务器成为应用程序的一部分？
-
-你只需要一个安装了 Java 的虚拟机，就可以直接在上面部署应用程序了，
-
-这个想法是嵌入式服务器的起源。
-
-当我们创建一个可以部署的应用程序的时候，我们将会把服务器（例如，tomcat）嵌入到可部署的服务器中。
-
-例如，对于一个 SpringBoot 应用程序来说，你可以生成一个包含 Embedded Tomcat 的应用程序 jar。你就可以想运行正常 Java 应用程序一样来运行 web 应用程序了。
-
-嵌入式服务器就是我们的可执行单元包含服务器的二进制文件（例如，tomcat.jar）。
-
-
-### 10、解释AOP模块
-
-AOP模块用于发给我们的Spring应用做面向切面的开发， 很多支持由AOP联盟提供，这样就确保了Spring和其他AOP框架的共通性。这个模块将元数据编程引入Spring。
-
-
-### 11、Spring Cloud和SpringBoot版本对应关系
-### 12、SpringBoot中的监视器是什么？
-### 13、如何实现SpringBoot应用程序的安全性？
-### 14、eureka服务注册与发现原理
-### 15、使用Spring框架的好处是什么？
-### 16、SpringCloud Config 可以实现实时刷新吗？
-### 17、什么是 JavaConfig？
-### 18、什么是 JavaConfig？
-### 19、你怎样定义类的作用域?
-### 20、如何配置SpringBoot应用程序日志记录？
-### 21、Docker的目的是什么？
-### 22、什么是Spring beans?
-### 23、Ribbon底层实现原理
-### 24、有几种不同类型的自动代理？
-### 25、解释JDBC抽象和DAO模块。
-### 26、康威定律是什么？
-### 27、spring DAO 有什么用？
-### 28、一个Spring的应用看起来象什么？
-### 29、什么是服务熔断
-### 30、Spring MVC与Struts2区别
-### 31、有哪些类型的通知（Advice）？
+**8、** [@Scope ](/Scope ) - 用于配置 spring bean 的范围。
+
+**9、** @Configuration，[@ComponentScan ](/ComponentScan ) 和 [@Bean ](/Bean ) - 用于基于 java 的配置。
+
+**10、** @Aspect，@Before，@After，@Around，[@Pointcut ](/Pointcut ) - 用于切面编程（AOP）
+
+
+### 10、如何实现 SpringBoot 应用程序的安全性？
+
+为了实现 SpringBoot 的安全性，我们使用 spring-boot-starter-security 依赖项，并且必须添加安全配置。它只需要很少的代码。配置类将必须扩展WebSecurityConfigurerAdapter 并覆盖其方法。
+
+
+### 11、如何禁用特定的自动配置类？
+### 12、Springboot 有哪些优点？
+### 13、Spring MVC怎么和AJAX相互调用的？
+### 14、使用Spring框架的好处是什么？
+### 15、spring boot扫描流程?
+### 16、什么是 AOP切点
+### 17、spring bean 容器的生命周期是什么样的？
+### 18、您对Distributed Transaction有何了解？
+### 19、是否可以在SpringBoot中覆盖或替换嵌入式Tomcat？
+### 20、什么是Spring的依赖注入？
+### 21、熔断的原理，以及如何恢复？
+### 22、[@Qualifier ](/Qualifier ) 注解
+### 23、spring-boot-starter-parent 有什么用 ?
+### 24、SpringBoot和SpringCloud的区别？
+### 25、微服务之间是如何独⽴通讯的
+### 26、多个消费者调⽤同⼀接⼝，eruka默认的分配⽅式是什么？
+### 27、eureka缓存机制：
+### 28、什么是WebSockets？
+### 29、Spring由哪些模块组成?
+### 30、Spring Cloud和各子项目版本对应关系
+### 31、什么是持续监测？
 
 
 
 
 ## 全部答案，整理好了，直接下载吧
 
-### 下载链接：[全部答案，整理好了](https://www.souyunku.com/?p=67)
+### 下载链接：[全部答案，整理好了](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
 
-### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/?p=67)
+### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
 
 
 ## 最新，高清PDF：172份，7701页，最新整理

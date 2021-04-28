@@ -2,134 +2,110 @@
 
 ### 其实，博主还整理了，更多大厂面试题，直接下载吧
 
-### 下载链接：[高清172份，累计 7701 页大厂面试题  PDF](https://www.souyunku.com/?p=67)
+### 下载链接：[高清172份，累计 7701 页大厂面试题  PDF](https://github.com/souyunku/DevBooks/blob/master/docs/index.md)
 
-### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/?p=67)
-
-
-
-### 1、使用存储过程访问数据库比直接用SQL语句访问有何优点？
-
-**1、** 存储过程是预编译过的，执行时不须编译，执行速度更快。
-
-**2、** 存储过程封装了多条SQL，便于维护数据的完整性与一致性。
-
-**3、** 实现代码复用。
+### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png)
 
 
-### 2、MySQL数据库与Oracle 数据库有什么区别？
 
-**1、** 应用方面，MySQL 是中小型应用的数据库。一般用于个人和中小型企业。Oracle 属于大型数据库，一般用于具有相当规模的企业应用。
+### 1、给出两个检查表结构的方法
 
-**2、** 自动增长的数据类型方面： MySQL有自动增长的数据类型。Oracle 没有自动增长的数据类型。需要建立一个自增序列。
+**1、** DESCRIBE命令
 
-**3、** group by 用法： MySQL 中group by 在SELECT 语句中可以随意使用，但在ORACLE 中如果查询语句中有组函数，那么其他列必须是组函数处理过的或者是group by子句中的列，否则会报错。
-
-**4、** 引导方面： MySQL中可以用单引号、双引号包起字符串，Oracle 中只可以用单引号包起字符串
+**2、**  DBMS_METADATA.GET_DDL 包
 
 
-### 3、说下 Oracle中function和procedure的区别？
+### 2、解释冷备份和热备份的不同点以及各自的优点
 
-**1、** 可以理解函数是存储过程的一种
-
-**2、** 函数可以没有参数,但是一定需要一个返回值，存储过程可以没有参数,不需要返回值
-
-**3、** 函数return返回值没有返回参数模式，存储过程通过out参数返回值, 如果需要返回多个参数则建议使用存储过程
-
-**4、** 在sql数据操纵语句中只能调用函数而不能调用存储过程
+热备份针对归档模式的数据库，在数据库仍旧处于工作状态时进行备份。而冷备份指在数据库关闭后，进行备份，适用于所有模式的数据库。热备份的优 点在于当备份时，数据库仍旧可以被使用并且可以将数据库恢复到任意一个时间点。冷备份的优点在于它的备份和恢复操作相当简单，并且由于冷备份的数据库可以 工作在非归档模式下,数据库性能会比归档模式稍好。（因为不必将archive log写入硬盘）
 
 
-### 4、简述oracle中 dml、ddl、dcl的使用
+### 3、存储过程 、函数 、游标 在项目中怎么用的：
 
-**1、** Dml 数据操纵语言，如select、update、delete，insert
+**存储过程：**
 
-**2、** Ddl 数据定义语言，如create table 、drop table 等等
+**2、** 能够批量执行的一组SQL语句，且容易控制事务。但没有返回值，可以通过设置in out|out类型的参数返回结果
 
-**3、** Dcl 数据控制语言， 如 commit、 rollback、grant、 invoke等
+**3、** 存储过程可以没有参数,不需要返回值
 
+**函数：**
 
-### 5、如何增加buffer cache的命中率？
+与存储过程相似，函数可以没有参数,但是一定需要一个返回值
 
-在数据库较繁忙时，适用buffer cache advisory 工具，查询v$db_cache_advice . 如果有必要更改，可以使用 alter system set
+**游标：**
 
-db_cache_size 命令
-
-
-### 6、如何启动SESSION级别的TRACE
-
-解答:
-
-DBMS_SESSION.SET_SQL_TRACE
-
-ALTER SESSION SET SQL_TRACE = TRUE;
-
-49.###
-
-这两个ORACLE工具都是用来将数据导入数据库的。
-
-区别是：IMPORT工具只能处理由另一个ORACLE工具EXPORT生成
-
-的数据。而SQL*LOADER可以导入不同的ASCII格式的数据源
+游标类似指针，游标可以执行多个不相关的操作.如果希望当产生了结果集后,对结果集中的数据进行多 种不相关的数据操作
 
 
-### 7、解释什么是Oracle Forms?
+### 4、触发器的作用有哪些？
 
-Oracle Forms是用于创建与Oracle数据库交互的软件产品。它有一个IDE，包括一个属性表，对象导航器和使用PL/SQL的代码编辑器。
+**1、** 触发器可通过数据库中的相关表实现级联更改；通过级联引用完整性约束可以更有效地执行这些更改。
 
+**2、** 触发器可以强制比用 CHECK 约束定义的约束更为复杂的约束。与 CHECK 约束不同，触发器可以引用其它表中的列。例如，触发器可以使用另一个表中的 SELECT 比较插入或更新的数据，以及执行其它操作，如修改数据或显示用户定义错误信息。
 
-### 8、delete 与Truncate区别？
+**3、** 触发器还可以强制执行业务规则
 
-**1、** Truncate 是DDL 语句，DELETE 是DML语句。
-
-**2、** Truncate 的速度远快于DELETE；
-
-原因是： 当执行DELETE操作时所有表数据先被COPY到回滚表空间，数据量不同花费时间长短不一。而TRUNCATE 是直接删除数据不进回滚表空间。
-
-**1、** delete 数据可以运行Rollback 进行数据回滚。而Truncate 则是永久删除不能回滚。
-
-**2、** Truncate 操作不会触发表上的delete触发器，而delete 会正常触发。
-
-**3、** Truncate 语句不能带where 条件意味着只能全部数据删除，而DELETE可带where 条件进行删除数据。
-
-**4、** Truncate 操作会重置表的高水位线（High Water Mark）,而delete 不会。
+**4、** 触发器也可以评估数据修改前后的表状态，并根据其差异采取对策。
 
 
-### 9、如何加密PL/SQL程序？
+### 5、给出两个检查表结构的方法
 
-WRAP
+1.DESCRIBE命令
 
-
-### 10、哪个VIEW用来检查数据文件的大小？
-
-DBA_DATA_FILES
+2.DBMS_METADATA.GET_DDL 包
 
 
-### 11、在Oracle Forms Report中，Record组列的最大长度是多少?什么是不同类型的记录组?
-### 12、TEMPORARY tablespace和PERMANENT tablespace 的区别是？
-### 13、哪个column可以用来区别V$$视图和GV$$视图?
-### 14、解释$$ORACLE_HOME和$$ORACLE_BASE的区别？
-### 15、举出两个判断DDL改动的方法？
-### 16、如何判断数据库的时区？
-### 17、如何搜集表的各种状态数据？
-### 18、解释CALL_FORM，NEW_FORM和OPEN_FORM之间有什么区别?
-### 19、给出两个检查表结构的方法
-### 20、什么是绑定变量?
-### 21、ORA-01555的应对方法？
-### 22、集合操作符
-### 23、说一下，Oracle的分区有几种
-### 24、解释冷备份和热备份的不同点以及各自的优点
-### 25、如何生成explain plan?
-### 26、回滚段的作用是什么
-### 27、ORA-01555的应对方法？
+### 6、给出两种相关约束?
+
+主键和外键
+
+
+### 7、解释data block , extent 和 segment的区别（这里建议用英文术语）
+
+data block是数据库中最小的逻辑存储单元。当数据库的对象需要更多的物理存储空间时，连续的data block就组成了extent . 一个数据库对象拥有的所有extents被称为该对象的segment.
+
+
+### 8、FACT Table上需要建立何种索引?
+
+位图索引 (bitmap index)
+
+
+### 9、比较truncate和delete 命令
+
+两者都可以用来删除表中所有的记录。区别在于：truncate是DDL操作，它移动HWK，不需要rollback segment .而Delete是DML操作, 需要rollback segment 且花费较长时间.
+
+
+### 10、描述什么是 redo logs
+
+Redo Logs 是用于存放数据库数据改动状况的物理和逻辑结构。可以用来修复数据库.
+
+
+### 11、解释冷备份和热备份的不同点以及各自的优点
+### 12、解释归档和非归档模式之间的不同和它们各自的优缺点
+### 13、提及11g版本2中Oracle Forms Services中引入的新功能是什么?
+### 14、Oracle的游标在存储过程里是放在begin与end的里面还是外面？
+### 15、解释data block , extent 和 segment的区别（这里建议用英文术语）
+### 16、解释TABLE Function的用途
+### 17、简单描述table / segment / extent / block之间的关系？
+### 18、解释什么是Partitioning（分区）以及它的优点。
+### 19、如何转换init.ora到spfile?
+### 20、提示窗体中触发的顺序是什么?
+### 21、Audit trace 存放在哪个oracle目录结构中?
+### 22、如何增加buffer cache的命中率?
+### 23、可以从表单执行动态SQL吗?
+### 24、SGA主要有那些部分，主要作用是什么?
+### 25、如何搜集表的各种状态数据？
+### 26、delete 与Truncate区别？
+### 27、在千万级的数据库查询中，如何提高效率？
 
 
 
 
 ## 全部答案，整理好了，直接下载吧
 
-### 下载链接：[全部答案，整理好了](https://www.souyunku.com/?p=67)
+### 下载链接：[全部答案，整理好了](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
 
-### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/?p=67)
+### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
 
 
 ## 最新，高清PDF：172份，7701页，最新整理

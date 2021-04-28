@@ -2,122 +2,131 @@
 
 ### 其实，博主还整理了，更多大厂面试题，直接下载吧
 
-### 下载链接：[高清172份，累计 7701 页大厂面试题  PDF](https://www.souyunku.com/?p=67)
+### 下载链接：[高清172份，累计 7701 页大厂面试题  PDF](https://github.com/souyunku/DevBooks/blob/master/docs/index.md)
 
-### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/?p=67)
-
-
-
-### 1、SpringBoot 的核心注解是哪个？它主要由哪几个注解组成的？
-
-启动类上面的注解是@SpringBootApplication，它也是 SpringBoot 的核心注解，主要组合包含了以下 3 个注解：
-
-@SpringBootConfiguration：组合了 [@Configuration ](/Configuration ) 注解，实现配置文件的功能。
-
-@EnableAutoConfiguration：打开自动配置的功能，也可以关闭某个自动配置的选项，如关闭数据源自动配置功能： [@SpringBootApplication(exclude ](/SpringBootApplication(exclude ) = { DataSourceAutoConfiguration.class })。
-
-@ComponentScan：Spring组件扫描。
+### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png)
 
 
-### 2、什么是 Spring Batch？
 
-SpringBoot Batch 提供可重用的函数，这些函数在处理大量记录时非常重要，包括日志/跟踪，事务管理，作业处理统计信息，作业重新启动，跳过和资源管理。它还提供了更先进的技术服务和功能，通过优化和分区技术，可以实现极高批量和高性能批处理作业。简单以及复杂的大批量批处理作业可以高度可扩展的方式利用框架处理重要大量的信息。
+### 1、SpringBoot 的配置文件有哪几种格式？它们有什么区别？
 
+.properties 和 .yml，它们的区别主要是书写格式不同。
 
-### 3、什么是YAML？
+**1、** properties
 
-YAML是一种人类可读的数据序列化语言。它通常用于配置文件。 与属性文件相比，如果我们想要在配置文件中添加复杂的属性，YAML文件就更加结构化，而且更少混淆。可以看出YAML具有分层配置数据。
+```
+app.user.name = javastack
+```
 
+**2、** yml
 
-### 4、如何使用 SpringBoot 实现分页和排序？
+```
+app:
+ user:
+ name: javastack
+```
 
-使用 SpringBoot 实现分页非常简单。使用 Spring Data-JPA 可以实现将可分页的传递给存储库方法。
-
-
-### 5、Spring、SpringBoot、SpringMVC的区别？
-
-**1、** Spring框架就像一个家族，有众多衍生产品，例如boot、mvc、jpa等等。但他们的基础都是Spring的ioc、aop。ioc提供了依赖注入的容器，aop解决了面向横切面编程，然后在此两者的基础上实现了其它延伸产品的高级功能；
-
-**2、** springMVC是基于Servlet的一个MVC框架主要解决WEB开发的问题；
-
-**3、** 为了简化开发的使用，从而创造性地推出了SpringBoot框架，默认优于配置
+另外，.yml 格式不支持 [@PropertySource ](/PropertySource ) 注解导入配置。
 
 
-### 6、SpringBoot有哪些优点？
+### 2、什么是SpringBoot ？
 
-**SpringBoot的优点有：**
+**1、** 用来简化spring应用的初始搭建以及开发过程 使用特定的方式来进行配置（properties或yml文件）
 
-**1、** 减少开发，测试时间和努力。
+**2、** 创建独立的spring引用程序 main方法运行
 
-**2、** 使用JavaConfig有助于避免使用XML。
+**3、** 嵌入的Tomcat 无需部署war文件
 
-**3、** 避免大量的Maven导入和各种版本冲突。
+**4、** 简化maven配置
 
-**4、** 提供意见发展方法。
+**5、** 自动配置spring添加对应功能starter自动化配置
 
-**5、** 通过提供默认值快速开始开发。
-
-**6、** 没有单独的Web服务器需要。这意味着你不再需要启动Tomcat，Glassfish或其他任何东西。
-
-**7、** 需要更少的配置 因为没有web.xml文件。只需添加用@ Configuration注释的类，然后添加用@Bean注释的方法，Spring将自动加载对象并像以前一样对其进行管理。您甚至可以将@Autowired添加到bean方法中，以使Spring自动装入需要的依赖关系中。
-
-**8、** 基于环境的配置 使用这些属性，您可以将您正在使用的环境传递到应用程序：-Dspring.profiles.active = {enviornment}。在加载主应用程序属性文件后，Spring将在（application{environment} .properties）中加载后续的应用程序属性文件。
+**6、** spring boot来简化spring应用开发，约定大于配置，去繁从简，just run就能创建一个独立的，产品级别的应用
 
 
-### 7、SpringBoot多数据源事务如何管理
+### 3、什么是 Spring Batch?
 
-第一种方式是在service层的@TransactionManager中使用transactionManager指定DataSourceConfig中配置的事务
-
-第二种是使用jta-atomikos实现分布式事务管理
+`SpringBoot Batch`提供可重用的函数，这些函数在处理大量记录时非常重要；包括日志/跟踪，事务管理，作业处理统计信息，作业重新启动，跳过和资源管理。它还提供了更先进的技术服务和功能，通过优化和分区技术，可以实现极高批量和高性能批处理作业。简单以及复杂的大批量批处理作业可以高度可扩展的方式利用框架处理重要大量的信息。
 
 
-### 8、如何集成SpringBoot和ActiveMQ？
 
-对于集成SpringBoot和ActiveMQ，我们使用
+### 4、什么是 Swagger？你用 SpringBoot 实现了它吗？
 
-依赖关系。 它只需要很少的配置，并且不需要样板代码。
-
-
-### 9、什么是 Spring Profiles？
-
-Spring Profiles 允许用户根据配置文件（dev，test，prod 等）来注册 bean。因此，当应用程序在开发中运行时，只有某些 bean 可以加载，而在 PRODUCTION中，某些其他 bean 可以加载。假设我们的要求是 Swagger 文档仅适用于 QA 环境，并且禁用所有其他文档。这可以使用配置文件来完成。SpringBoot 使得使用配置文件非常简单。
+Swagger 广泛用于可视化 API，使用 Swagger UI 为前端开发人员提供在线沙箱。Swagger 是用于生成 RESTful Web 服务的可视化表示的工具，规范和完整框架实现。它使文档能够以与服务器相同的速度更新。当通过 Swagger 正确定义时，消费者可以使用最少量的实现逻辑来理解远程服务并与其进行交互。因此，Swagger消除了调用服务时的猜测。
 
 
-### 10、如何在 SpringBoot 中禁用 Actuator 端点安全性？
+### 5、什么是执行器停机？
 
-默认情况下，所有敏感的 HTTP 端点都是安全的，只有具有 ACTUATOR 角色的用户才能访问它们。安全性是使用标准的 HttpServletRequest.isUserInRole 方法实施的。我们可以使用来禁用安全性。只有在执行机构端点在防火墙后访问时，才建议禁用安全性。
+关机是允许应用程序正常关机的端点。默认情况下，此功能不启用。你可以在应用程序属性文件中使用management . endpoint . shut down . enabled = true来启用此选项。但是该方法请谨慎使用。
 
 
-### 11、SpringBoot 实现热部署有哪几种方式？
-### 12、@SpringBootApplication注释在内部有什么用处?
-### 13、如何使用 SpringBoot 实现异常处理？
-### 14、什么是FreeMarker模板？
-### 15、能否举一个例子来解释更多 Staters 的内容？
-### 16、比较一下 Spring Security 和 Shiro 各自的优缺点 ?
-### 17、开启SpringBoot特性有哪几种方式？（创建SpringBoot项目的两种方式）
+### 6、如何使用 SpringBoot 实现全局异常处理？
+
+Spring 提供了一种使用 ControllerAdvice 处理异常的非常有用的方法。 我们通过实现一个 ControlerAdvice 类，来处理控制器类抛出的所有异常。
+
+
+### 7、什么是Spring Initializer?
+
+这个问题并不难，但面试官总是以此测试候选人的专业知识。
+
+Spring Initializer是一个网络应用程序，它可以生成一个SpringBoot项目，包含快速启动所需的一切。和往常一样，我们需要一个好的项目框架；它有助于你正确创建项目结构/框架。
+
+
+### 8、@SpringBootApplication注释在内部有什么用处?
+
+作为Spring引导文档，@SpringBootApplication注释等同于同时使用@Configuration、@EnableAutoConfiguration和@ComponentScan及其默认属性。SpringBoot允许开发人员使用单个注释而不是多个注释。但是，众所周知，Spring提供了松散耦合的特性，我们可以根据项目需要为每个注释使用这些特性。
+
+
+### 9、当 SpringBoot 应用程序作为 Java 应用程序运行时，后台会发生什么？
+
+如果你使用 Eclipse IDE，Eclipse maven 插件确保依赖项或者类文件的改变一经添加，就会被编译并在目标文件中准备好！在这之后，就和其它的 Java 应用程序一样了。
+
+当你启动 java 应用程序的时候，spring boot 自动配置文件就会魔法般的启用了。
+
+当 SpringBoot 应用程序检测到你正在开发一个 web 应用程序的时候，它就会启动 tomcat。
+
+
+### 10、SpringBoot 自动配置原理是什么？
+
+注解 @EnableAutoConfiguration, @Configuration, [@ConditionalOnClass ](/ConditionalOnClass ) 就是自动配置的核心，
+
+@EnableAutoConfiguration 给容器导入META-INF/spring.factories 里定义的自动配置类。
+
+筛选有效的自动配置类。
+
+每一个自动配置类结合对应的 xxxProperties.java 读取配置文件进行自动配置功能
+
+
+### 11、SpringBoot 2、X 有什么新特性？与 1、X 有什么区别？
+### 12、SpringBoot性能如何优化
+### 13、SpringBoot读取配置文件的方式
+### 14、如何使用SpringBoot实现分页和排序？
+### 15、开启 SpringBoot 特性有哪几种方式？
+### 16、如何不通过任何配置来选择 Hibernate 作为 JPA 的默认实现？
+### 17、如何重新加载SpringBoot上的更改，而无需重新启动服务器？
 ### 18、保护 SpringBoot 应用有哪些方法？
-### 19、怎么设计无状态服务？
-### 20、在 Spring Initializer 中，如何改变一个项目的包名字？
-### 21、您使用了哪些starter maven依赖项？
-### 22、SpringBoot如何配置log4j？
-### 23、SpringBoot 有哪几种读取配置的方式？
-### 24、SpringBoot 自动配置原理是什么？
-### 25、什么是 Spring Data ?
-### 26、Spring Initializr 是创建 SpringBoot Projects 的唯一方法吗？
-### 27、什么是JavaConfig？
-### 28、什么是Swagger？你用SpringBoot实现了它吗？
-### 29、@RestController和@Controller的区别
-### 30、什么是 SpringBoot Stater ？
-### 31、什么是 JavaConfig？
+### 19、什么是 JavaConfig？
+### 20、如何使用SpringBoot实现异常处理?
+### 21、开启SpringBoot特性有哪几种方式？（创建SpringBoot项目的两种方式）
+### 22、您使用了哪些starter maven依赖项？
+### 23、@RestController和@Controller的区别
+### 24、SpringBoot需要独立的容器运行？
+### 25、SpringBoot有哪些优点？
+### 26、什么是 YAML？
+### 27、什么是 SpringBoot？
+### 28、Spring 、SpringBoot 和 Spring Cloud 的关系?
+### 29、SpringBoot、Spring MVC 和 Spring 有什么区别？
+### 30、SpringBoot中的监视器是什么?
+### 31、如何实现 SpringBoot应用程序的安全性?
 
 
 
 
 ## 全部答案，整理好了，直接下载吧
 
-### 下载链接：[全部答案，整理好了](https://www.souyunku.com/?p=67)
+### 下载链接：[全部答案，整理好了](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
 
-### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/?p=67)
+### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
 
 
 ## 最新，高清PDF：172份，7701页，最新整理

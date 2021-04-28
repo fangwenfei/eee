@@ -2,146 +2,149 @@
 
 ### 其实，博主还整理了，更多大厂面试题，直接下载吧
 
-### 下载链接：[高清172份，累计 7701 页大厂面试题  PDF](https://www.souyunku.com/?p=67)
+### 下载链接：[高清172份，累计 7701 页大厂面试题  PDF](https://github.com/souyunku/DevBooks/blob/master/docs/index.md)
 
-### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/?p=67)
-
-
-
-### 1、spring boot扫描流程?
-
-**1、** 调用run方法中的`refreshContext`方法
-
-**2、** 用AbstractApplicationContext中的`refresh`方法
-
-**3、** 委托给`invokeBeanFactoryPostProcessors`去处理调用链
-
-**4、** 其中一个方法`postProcessBeanDefinitionRegistry会`去调用`processConfigBeanDefinitions`解析`beandefinitions`
-
-**5、** 在`processConfigBeanDefinitions`中有一个`parse`方法，其中有`componentScanParser.parse`的方法，这个方法会扫描当前路径下所有`Component`组件
+### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png)
 
 
-### 2、服务注册和发现是什么意思？Spring Cloud如何实现？
 
-当我们开始一个项目时，我们通常在属性文件中进行所有的配置。随着越来越多的服务开发和部署，添加和修改这些属性变得更加复杂。有些服务可能会下降，而某些位置可能会发生变化。手动更改属性可能会产生问题。 Eureka服务注册和发现可以在这种情况下提供帮助。由于所有服务都在Eureka服务器上注册并通过调用Eureka服务器完成查找，因此无需处理服务地点的任何更改和处理。
+### 1、什么是REST / RESTful以及它的用途是什么？
 
+Representational State Transfer（REST）/ RESTful Web服务是一种帮助计算机系统通过Internet进行通信的架构风格。这使得微服务更容易理解和实现。
 
-### 3、如何在SpringBoot中禁用Actuator端点安全性？
-
-默认情况下，所有敏感的HTTP端点都是安全的，只有具有ACTUATOR角色的用户才能访问它们。安全性是使用标准的HttpServletRequest.isUserInRole方法实施的。 我们可以使用
-
-来禁用安全性。只有在执行机构端点在防火墙后访问时，才建议禁用安全性。
+微服务可以使用或不使用RESTful API实现，但使用RESTful API构建松散耦合的微服务总是更容易。
 
 
-### 4、Spring MVC的优点
+### 2、[@Required ](/Required ) 注解有什么用？
 
-**1、** 可以支持各种视图技术,而不仅仅局限于JSP；
-
-**2、** 与Spring框架集成（如IoC容器、AOP等）；
-
-**3、** 清晰的角色分配：前端控制器(dispatcherServlet) , 请求到处理器映射（handlerMapping), 处理器适配器（HandlerAdapter), 视图解析器（ViewResolver）。
-
-**4、** 支持各种请求资源的映射策略。
+[@Required ](/Required ) 应用于 bean 属性 setter 方法。 此注解仅指示必须在配置时使用 bean 定义中的显式属性值或使用自动装配填充受影响的 bean 属性。 如果尚未填充受影响的 bean 属性，则容器将抛出 BeanInitializationException。
 
 
-### 5、YAML 配置的优势在哪里 ?
+### 3、Nginx与Ribbon的区别
 
-YAML 现在可以算是非常流行的一种配置文件格式了，无论是前端还是后端，都可以见到 YAML 配置。那么 YAML 配置和传统的 properties 配置相比到底有哪些优势呢？
-
-**1、** 配置有序，在一些特殊的场景下，配置有序很关键
-
-**2、** 支持数组，数组中的元素可以是基本数据类型也可以是对象
-
-3、简洁
-
-相比 properties 配置文件，YAML 还有一个缺点，就是不支持 [@PropertySource ](/PropertySource ) 注解导入自定义的 YAML 配置。
+Nginx是反向代理同时可以实现负载均衡，nginx拦截客户端请求采用负载均衡策略根据upstream配置进行转发，相当于请求通过nginx服务器进行转发。Ribbon是客户端负载均衡，从注册中心读取目标服务器信息，然后客户端采用轮询策略对服务直接访问，全程在客户端操作。
 
 
-### 6、什么是Spring IOC 容器？
+### 4、什么是Spring IOC 容器？
 
 Spring IOC 负责创建对象，管理对象（通过依赖注入（DI），装配对象，配置对象，并且管理这些对象的整个生命周期。
 
 
-### 7、微服务的优点
+### 5、什么是Netflix Feign？它的优点是什么？
 
-**单⼀职责：**
+Feign是受到Retrofit，JAXRS-2.0和WebSocket启发的java客户端联编程序。Feign的第一个目标是将约束分母的复杂性统一到http apis，而不考虑其稳定性。在employee-consumer的例子中，我们使用了employee-producer使用REST模板公开的REST服务。
 
-每个微服务仅负责⾃⼰业务领域的功能；
+**但是我们必须编写大量代码才能执行以下步骤**
 
-**⾃治：**
+使用功能区进行负载平衡。
 
-⼀个微服务就是⼀个独⽴的实体，它可以独⽴部署、升级，服务与服务之间通过REST等形式的标准接⼝进⾏通信，并且⼀个微服务实例可以被替换成另⼀种实现，⽽对其它的微服务不产⽣影响。
+获取服务实例，然后获取基本URL。
 
-**逻辑清晰：**
+利用REST模板来使用服务。前面的代码如下
 
-微服务单⼀职责特性使微服务看起来逻辑清晰，易于维护。
+```
+@Controller
+public class ConsumerControllerClient {
+@Autowired
+private LoadBalancerClient loadBalancer;
 
-**简化部署：**
+public void getEmployee() throws RestClientException, IOException {
 
-单系统中修改⼀处需要部署整个系统，⽽微服务中修改⼀处可单独部署⼀个服务
+    ServiceInstance serviceInstance=loadBalancer.choose("employee-producer");
 
-**可扩展：**
+    System.out.println(serviceInstance.getUri());
 
-应对系统业务增⻓的⽅法通常采⽤横向（Scale out）或纵向（Scale up）的⽅向进⾏扩展。分布式系统中通常要采⽤Scale out的⽅式进⾏扩展。
+    String baseUrl=serviceInstance.getUri().toString();
 
-**灵活组合：**
+    baseUrl=baseUrl+"/employee";
 
-**技术异构：**
+    RestTemplate restTemplate = new RestTemplate();
+    ResponseEntity<String> response=null;
+    try{
+    response=restTemplate.exchange(baseUrl,
+            HttpMethod.GET, getHeaders(),String.class);
+    }catch (Exception ex)
+    {
+        System.out.println(ex);
+    }
+    System.out.println(response.getBody());
+}
+```
 
-不同的服务之间，可以根据⾃⼰的业务特点选择不通的技术架构，如数据库等。
-
-
-### 8、如何使用 SpringBoot 实现全局异常处理？
-
-Spring 提供了一种使用 ControllerAdvice 处理异常的非常有用的方法。 我们通过实现一个 ControlerAdvice 类，来处理控制器类抛出的所有异常。
-
-
-### 9、什么是bean的自动装配？
-
-Spring 容器能够自动装配相互合作的bean，这意味着容器不需要和配置，能通过Bean工厂自动处理bean之间的协作。
-
-
-### 10、Spring MVC怎么样设定重定向和转发的？
-
-**转发：**
-
-在返回值前面加"forward:"，譬如"forward:user.do?name=method4"
-
-**重定向：**
-
-在返回值前面加"redirect:"，譬如"redirect:[www.baidu.com](http://www.baidu.com)"
+之前的代码，有像NullPointer这样的例外的机会，并不是最优的。我们将看到如何使用Netflix Feign使呼叫变得更加轻松和清洁。如果Netflix Ribbon依赖关系也在类路径中，那么Feign默认也会负责负载平衡。
 
 
-### 11、[@Required ](/Required ) 注解
-### 12、springcloud核⼼组件及其作⽤，以及springcloud⼯作原理：
-### 13、PACT在微服务架构中的用途是什么？
-### 14、Spring MVC 框架有什么用？
-### 15、列举 IoC 的一些好处
-### 16、Ribbon和Feign调用服务的区别
-### 17、如何在 SpringBoot中禁用 Actuator端点安全性?
-### 18、Eureka和ZooKeeper都可以提供服务注册与发现的功能,请说说两个的区别
-### 19、什么是SpringBoot？
-### 20、SpringBoot和springcloud认识
-### 21、哪种依赖注入方式你建议使用，构造器注入，还是 Setter方法注入？
-### 22、SpringBoot 的核心注解是哪个？它主要由哪几个注解组成的？
-### 23、Spring Cloud Zookeeper
-### 24、eureka和zookeeper都可以提供服务注册与发现的功能，请说说两个的区别？
-### 25、使用Spring通过什么方式访问Hibernate?
-### 26、SpringBoot 的核心配置文件有哪几个？它们的区别是什么？
-### 27、Spring Cache 三种常用的缓存注解和意义？
-### 28、什么是 spring 的内部 bean？
-### 29、Spring Cloud Netflix(重点，这些组件用的最多)
-### 30、服务网关的作用
-### 31、什么是双因素身份验证？
+### 6、SpringBoot 中的 starter 到底是什么 ?
+
+首先，这个 Starter 并非什么新的技术点，基本上还是基于 Spring 已有功能来实现的。首先它提供了一个自动化配置类，一般命名为 `XXXAutoConfiguration` ，在这个配置类中通过条件注解来决定一个配置是否生效（条件注解就是 Spring 中原本就有的），然后它还会提供一系列的默认配置，也允许开发者根据实际情况自定义相关配置，然后通过类型安全的属性(spring、factories)注入将这些配置属性注入进来，新注入的属性会代替掉默认属性。正因为如此，很多第三方框架，我们只需要引入依赖就可以直接使用了。当然，开发者也可以自定义 Starter
+
+
+### 7、什么是YAML?
+
+YAML是一种人类可读的数据序列化语言。它通常用于`配置文件`。 与属性文件相比，如果我们想要在配置文件中添加复杂的属性，YAML文件就更加结构化，而且更少混淆。可以看出YAML具有`分层配置数据`。
+
+
+### 8、如何实现 SpringBoot应用程序的安全性?
+
+使用 `spring--startersecurityboot`--依赖项，并且必须添加安全配置。配置类将必须扩展 `WebSecurityConfigurerAdapter`并覆盖其方法。
+
+
+### 9、自动装配有哪些方式？
+
+Spring 容器能够自动装配 bean。也就是说，可以通过检查 BeanFactory 的内容让 Spring 自动解析 bean 的协作者。
+
+自动装配的不同模式：
+
+**1、** 这是默认设置，表示没有自动装配。应使用显式 bean 引用进行装配。byName
+
+**2、** 它根据 bean 的名称注入对象依赖项。它匹配并装配其属性与 XML 文件中由相同名称定义的 bean。byType
+
+**3、** 它根据类型注入对象依赖项。如果属性的类型与 XML 文件中的一个 bean 名称匹配，则匹配并装配属性。构造函数
+
+**4、** 它通过调用类的构造函数来注入依赖项。它有大量的参数。autodetect
+
+**5、** 首先容器尝试通过构造函数使用 autowire 装配，如果不能，则尝试通过 byType 自动装配。
+
+
+### 10、如何在自定义端口上运行SpringBoot应用程序？
+
+为了在自定义端口上运行SpringBoot应用程序，您可以在application.properties中指定端口。
+
+```
+ server.port = 8090
+```
+
+
+### 11、解释不同方式的自动装配
+### 12、在 Spring中如何注入一个java集合？
+### 13、如何集成 SpringBoot 和 ActiveMQ？
+### 14、服务注册和发现是什么意思？Spring Cloud 如何实现？
+### 15、创建一个 SpringBoot Project 的最简单的方法是什么？
+### 16、为什么在微服务中需要Reports报告和Dashboards仪表板？
+### 17、为什么要使用 Spring Cloud 熔断器？
+### 18、SpringBoot、Spring MVC 和 Spring 有什么区别？
+### 19、什么是Spring Cloud？
+### 20、SpringBoot 有哪几种读取配置的方式？
+### 21、什么是切点（JoinPoint）
+### 22、微服务的优点
+### 23、如何使用 SpringBoot 生成一个 WAR 文件？
+### 24、Mock或Stub有什么区别？
+### 25、什么是 Spring Data ?
+### 26、什么是Spring Cloud？
+### 27、spring 提供了哪些配置方式？
+### 28、SpringBoot 有哪些优点？
+### 29、Spring框架的事务管理有哪些优点？
+### 30、Spring Cloud Security
+### 31、什么是Spring Cloud Bus?
 
 
 
 
 ## 全部答案，整理好了，直接下载吧
 
-### 下载链接：[全部答案，整理好了](https://www.souyunku.com/?p=67)
+### 下载链接：[全部答案，整理好了](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
 
-### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/?p=67)
+### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
 
 
 ## 最新，高清PDF：172份，7701页，最新整理

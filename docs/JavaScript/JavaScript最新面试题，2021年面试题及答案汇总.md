@@ -2,289 +2,261 @@
 
 ### 其实，博主还整理了，更多大厂面试题，直接下载吧
 
-### 下载链接：[高清172份，累计 7701 页大厂面试题  PDF](https://www.souyunku.com/?p=67)
+### 下载链接：[高清172份，累计 7701 页大厂面试题  PDF](https://github.com/souyunku/DevBooks/blob/master/docs/index.md)
 
-### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/?p=67)
-
-
-
-### 1、Ajax原理
-
-**1、** `Ajax`的原理简单来说是在用户和服务器之间加了—个中间层(`AJAX`引擎)，通过`XmlHttpRequest`对象来向服务器发异步请求，从服务器获得数据，然后用`javascrip`t来操作`DOM`而更新页面。使用户操作与服务器响应异步化。这其中最关键的一步就是从服务器获得请求数据
-
-**2、** `Ajax`的过程只涉及`JavaScript`、`XMLHttpRequest`和`DOM`。`XMLHttpRequest`是`aja`x的核心机制
-
-```
- // 1、创建连接
-    var xhr = null;
-    xhr = new XMLHttpRequest()
-    // 2、连接服务器
-    xhr.open('get', url, true)
-    // 3、发送请求
-    xhr.send(null);
-    // 4、接受请求
-    xhr.onreadystatechange = function(){
-        if(xhr.readyState == 4){
-            if(xhr.status == 200){
-                success(xhr.responseText);
-            } else { // fail
-                fail && fail(xhr.status);
-            }
-        }
-    }
-```
+### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png)
 
 
-### 2、说说你对promise的了解
 
-依照 `Promise/A+` 的定义，`Promise` 有四种状态：
+### 1、怎么理解Promise对象？
 
-**1、** `pending:` 初始状态, 非 `fulfilled` 或 `rejected.`
+**`Promise`对象有如下两个特点：**
 
-**2、** `fulfilled:` 成功的操作.
+**1、** 对象的状态不受外界影响。`Promise`对象共有三种状态`pending`、`fulfilled`、`rejected`。状态值只会被异步结果决定，其他任何操作无法改变。
 
-**3、** `rejected:` 失败的操作.
+**2、** 状态一旦成型，就不会再变，且任何时候都可得到这个结果。状态值会由`pending`变为`fulfilled`或`rejected`，这时即为`resolved`。
 
-**4、** `settled: Promise`已被`fulfilled`或`rejected`，且不是`pending`
+**Promise的缺点有如下三个缺点：**
 
-另外， `fulfilled`与 `rejected`一起合称 `settled`
+**1、** `Promise`一旦执行便无法被取消；
 
-`Promise` 对象用来进行延迟(`deferred`) 和异步(`asynchronous`) 计算
+**2、** 不可设置回调函数，其内部发生的错误无法捕获；
 
-**Promise 的构造函数**
+**3、** 当处于`pending`状态时，无法得知其具体发展到了哪个阶段。
 
-构造一个 `Promise`，最基本的用法如下：
+**`Pomise`中常用的方法有：**
+
+**1、** `Promise.prototype.then()`：`Promise`实例的状态发生改变时，会调用`then`内部的回调函数。`then`方法接受两个参数（第一个为`resolved`状态时时执行的回调，第一个为`rejected`状态时时执行的回调）
+
+**2、** `Promise.prototype.catch()`：`.then(null, rejection)`或`.then(undefined, rejection)`的别名，用于指定发生错误时的回调函数。
+
+
+### 2、什么是 event.currentTarget？？
+
+`event.currentTarget`是我们在其上显式附加事件处理程序的元素。
+
+假设有如下的 HTML 结构：
 
 ```
-var promise = new Promise(function(resolve, reject) {
-
-        if (...) {  // succeed
-
-            resolve(result);
-
-        } else {   // fails
-
-            reject(Error(errMessage));
-
-        }
-    });
+<div onclick="clickFunc(event)" style="text-align: center;margin:15px;
+border:1px solid red;border-radius:3px;">
+  <div style="margin: 25px; border:1px solid royalblue;border-radius:3px;">
+      <div style="margin:25px;border:1px solid skyblue;border-radius:3px;">
+        <button style="margin:10px">
+           Button
+        </button>
+      </div>
+  </div>
+</div>
 ```
 
-`Promise` 实例拥有 `then` 方法（具有 `then` 方法的对象，通常被称为`thenable`）。它的使用方法如下：
+JS 代码如下：
 
 ```
-promise.then(onFulfilled, onRejected)
-```
-
-接收两个函数作为参数，一个在 `fulfilled` 的时候被调用，一个在`rejected`的时候被调用，接收参数就是 `future`，`onFulfilled` 对应`resolve`, `onRejected`对应 `reject`
-
-
-### 3、简述ajax执行流程
-
-```
-基本步骤：
-var xhr =null;//创建对象 
-if(window.XMLHttpRequest){
-       xhr = new XMLHttpRequest();
-}else{
-       xhr = new ActiveXObject("Microsoft.XMLHTTP");
-}
-xhr.open(“方式”,”地址”,”标志位”);//初始化请求 
-   xhr.setRequestHeader(“”,””);//设置http头信息 
-xhr.onreadystatechange =function(){}//指定回调函数 
-xhr.send();//发送请求
-```
-
-
-### 4、那些操作会造成内存泄漏？
-
-内存泄漏指任何对象在您不再拥有或需要它之后仍然存在
-
-`setTimeout` 的第一个参数使用字符串而非函数的话，会引发内存泄漏
-
-闭包使用不当
-
-
-### 5、实现异步的方式有哪些？
-
-**1、** 回调函数模式：将需要异步执行的函数作为回调函数执行，其缺点在于处理复杂逻辑异步逻辑时，会造成回调地狱(回调嵌套层数太多，代码结构混乱)；
-
-**2、** 事件监听模式：采用事件驱动的思想，当某一事件发生时触发执行异步函数，其缺点在于整个代码全部得变为事件驱动模式，难以分辨主流程；
-
-**3、** 发布订阅模式：当异步任务执行完成时发布消息给信号中心，其他任务通过在信号中心中订阅消息来确定自己是否开始执行；
-
-**4、** Promise(ES6)：`Promise`对象共有三种状态`pending`(初始化状态)、`fulfilled`(成功状态)、`rejected`(失败状态)。
-
-**5、** async/await(ES7)：基于`Promise`实现的异步函数； （6）利用生成器实现。
-
-
-### 6、实现继承的方法有哪些？？？
-
-实现继承的方法有：
-
-**class+extends继承（ES6）**
-
-```
-//类模板
-class Animal {
-    constructor(name) {
-        this.name = name
-    }
-}
-//继承类
-class Cat extends Animal { //重点。extends方法，内部用constructor+super
-    constructor(name) {
-        super(name);
-        //super作为函数调用时，代表父类的构造函数
-    } //constructor可省略
-    eat() {
-        console.log("eating")
-    }
+function clickFunc(event) {
+  console.log(event.currentTarget);
 }
 ```
 
-**原型继承**
+如果单击 `button`，即使我们单击该 `button`，它也会打印最外面的`div`标签。在此示例中，我们可以得出结论，`event.currentTarget`是附加事件处理程序的元素。
+
+
+### 3、`require`/`import`之间的区别？
+
+**1、** `require`是CommonJS语法，`import`是ES6语法；
+
+**2、** `require`只在后端服务器支持，`import`在高版本浏览器及Node中都可以支持；
+
+**3、** `require`引入的是原始导出值的复制，`import`则是导出值的引用；
+
+**4、** `require`时运行时动态加载，`import`是静态编译；
+
+**5、** `require`调用时默认不是严格模式，`import`则默认调用严格模式.
+
+### 4、this指向的各种情况都有什么？
+
+this的指向只有在调用时才能被确定，因为`this`是执行上下文的一部分。
+
+**全局作用域中的函数：其内部`this`指向`window`：**
 
 ```
-//类模板
-function Animal(name) {
-    this.name = name;
+var a = 1;
+function fn(){
+console.log(this.a)
 }
-//添加原型方法
-Animal.prototype.eat = function() {
-    console.log("eating")
+fn() //输出1
+```
+
+**对象内部的函数：其内部`this`指向对象本身：**
+
+```
+var a = 1;
+var obj = {
+a:2,
+fn:function(){
+console.log(this.a)
+}
 }
 
-function Cat(furColor) {
-    this.color = color;
-};
-//继承类
-Cat.prototype = new Animal() //重点：子实例的原型等于父类的实例
+obj.fn() //输出2
 ```
 
-**借用构造函数继承**
+**构造函数：其内部`this`指向生成的实例：**
 
 ```
-function Animal(name){
-    this.name = name
+function createP(name,age){
+this.name = name //this.name指向P
+this.age = age //this.age指向P
 }
-function Cat(){
-    Animal.call(this,"CatName")//重点，调用父类的call方法
+var p = new createP("老李",46)
+```
+
+**由`apply`、`call`、`bind`改造的函数：其`this`指向第一个参数：**
+
+```
+function add(c,d){
+return this.a + this.b + c + d
 }
+var o = {a:1,b:2)
+add.call(o,5,7) //输出15
 ```
 
-**寄生组合式继承（重点）**
+箭头函数：箭头函数没有自己的`this`，看其外层的是否有函数，如果有，外层函数的`this`就是内部箭头函数的`this`，如果没有，则`this`是`window`。
 
 
-### 7、Function.prototype.bind 的用途是什么？
+### 5、JS是如何实现异步的？
 
-`bind()` 方法创建一个新的函数，在 `bind()` 被调用时，这个新函数的 `this` 被指定为 `bind()` 的第一个参数，而其余参数将作为新函数的参数，供调用时使用。
+JS引擎是单线程的，但又能实现异步的原因在于事件循环和任务队列体系。
+
+**事件循环：**
+
+**1、** JS 会创建一个类似于 `while (true)` 的循环，每执行一次循环体的过程称之为 `Tick`。每次 `Tick` 的过程就是查看是否有待处理事件，如果有则取出相关事件及回调函数放入执行栈中由主线程执行。待处理的事件会存储在一个任务队列中，也就是每次 `Tick` 会查看任务队列中是否有需要执行的任务。
+
+**任务队列：**
+
+**1、** 异步操作会将相关回调添加到任务队列中。而不同的异步操作添加到任务队列的时机也不同，如 `onclick`, `setTimeout`, `ajax` 处理的方式都不同，这些异步操作是由浏览器内核的 `webcore` 来执行的，浏览器内核包含3种 webAPI，分别是 `DOM Binding`、`network`、`timer`模块。
+
+**2、** `onclick` 由 `DOM Binding` 模块来处理，当事件触发的时候，回调函数会立即添加到任务队列中。 `setTimeout` 由 `timer` 模块来进行延时处理，当时间到达的时候，才会将回调函数添加到任务队列中。 `ajax` 由`network` 模块来处理，在网络请求完成返回之后，才将回调添加到任务队列中。
+
+**主线程：**
+
+**1、** JS 只有一个线程，称之为主线程。而事件循环是主线程中执行栈里的代码执行完毕之后，才开始执行的。所以，主线程中要执行的代码时间过长，会阻塞事件循环的执行，也就会阻塞异步操作的执行。
+
+**2、** 只有当主线程中执行栈为空的时候（即同步代码执行完后），才会进行事件循环来观察要执行的事件回调，当事件循环检测到任务队列中有事件就取出相关回调放入执行栈中由主线程执行。
+
+
+### 6、new操作符具体干了什么呢?
+
+**1、** 创建一个空对象，并且 `this` 变量引用该对象，同时还继承了该函数的原型
+
+**2、** 属性和方法被加入到 `this` 引用的对象中
+
+**3、** 新创建的对象由 `this` 所引用，并且最后隐式的返回 `this`
+
+
+### 7、typeof？typeof [ ]返回数据类型是？
 
 ```
-import React from 'react';
-class MyComponent extends React.Component {
-   constructor(props){
-      super(props); 
-      this.state = {
-         value : ""
-      }  
-      this.handleChange = this.handleChange.bind(this); 
-      // 将 “handleChange” 方法绑定到 “MyComponent” 组件
-   }
-
-   handleChange(e){
-     //do something amazing here
-   }
-
-   render(){
-    return (
-      <>
-        <input type={this.props.type}
-                value={this.state.value}
-             onChange={this.handleChange}                      
-          />
-      </>
-    )
-   }
-}
+//判断基本数据类型；var a=[];typeof a输出object；
+//本来判断一个对象类型用typeof是最好的，不过对于Array类型是不适用的，
+//可以使用 instanceof操作符：
+       var arrayStr=new Array("1","2","3","4","5");    
+       alert(arrayStr instanceof Array); 
+//当然以上在一个简单的页面布局里面是没有问题的，如果是复杂页面情况，
+//入获取的是frame内部的Array对象，可以用这个函数判断：
+       function isArray(obj) {      
+          return Object.prototype.toString.call(obj) === '[object Array]';       
+       }
 ```
 
 
-### 8、那些操作会造成内存泄漏？
+### 8、Gc机制是什么？为什么闭包不会被回收变量和函数？
 
-**1、** 内存泄漏指任何对象在您不再拥有或需要它之后仍然存在
+**1、** Gc垃圾回收机制;
 
-**2、** `setTimeout` 的第一个参数使用字符串而非函数的话，会引发内存泄漏
-
-**3、** 闭包、控制台日志、循环（在两个对象彼此引用且彼此保留时，就会产生一个循环）
+**2、** 外部变量没释放，所以指向的大函数内的小函数也释放不了
 
 
-### 9、Node的应用场景
+### 9、'use strict' 是干嘛用的？
 
-**特点：**
+`"use strict"` 是 **ES5** 特性，它使我们的代码在函数或整个脚本中处于**严格模式**。**严格模式**帮助我们在代码的早期避免 bug，并为其添加限制。
 
-**1、** 它是一个`Javascript`运行环境
+**严格模式**的一些限制：
 
-**2、** 依赖于`Chrome V8`引擎进行代码解释
+**1、** 变量必须声明后再使用
 
-**3、** 事件驱动
+**2、** 函数的参数不能有同名属性，否则报错
 
-**4、** 非阻塞`I/O`
+**3、** 不能使用`with`语句
 
-**5、** 单进程，单线程
+**4、** 不能对只读属性赋值，否则报错
 
-**优点：**
+**5、** 不能使用前缀 0 表示八进制数，否则报错
 
-**1、** 高并发（最重要的优点）
+**6、** 不能删除不可删除的属性，否则报错
 
-**缺点：**
+**7、** 不能删除变量`delete prop`，会报错，只能删除属性`delete global[prop]`
 
-**1、** 只支持单`核CPU`，不能充分利用`CPU`
+**8、** `eval`不能在它的外层作用域引入变量
 
-**2、** 可靠性低，一旦代码某个环节崩溃，整个系统都崩溃
+**9、** `eval`和`arguments`不能被重新赋值
+
+**10、** `arguments`不会自动反映函数参数的变化
+
+**11、** 不能使用`arguments.callee`
+
+**12、** 不能使用`arguments.caller`
+
+**13、** 禁止`this`指向全局对象
+
+**14、** 不能使用`fn.caller`和`fn.arguments`获取函数调用的堆栈
+
+**15、** 增加了保留字（比如`protected`、`static`和`interface`）
+
+设立”严格模式”的目的，主要有以下几个：
+
+**1、** 消除Javascript语法的一些不合理、不严谨之处，减少一些怪异行为;
+
+**2、** 消除代码运行的一些不安全之处，保证代码运行的安全；
+
+**3、** 提高编译器效率，增加运行速度；
+
+**4、** 为未来新版本的Javascript做好铺垫。
 
 
-### 10、上一个项目是什么？主要负责哪些？购物车流程?支付功能?
+### 10、window.onload ==? DOMContentLoaded ?
 
-**主要负责哪些就讲主要做哪些功能模块：**
-
-1）商品模块:
-
-**1、** 商品列表：商品排序 商品筛选 商品过滤 商品查询 商品推荐
-
-**2、** 商品详情:类型推荐 商品简介 商品详情 商品评价 售后维护
-
-2)购物车模块：商品编号、数量、价格、总额、运费、运输选项、运费总计、从购物车删除选项、更新数量、结账、继续购物、商品描述、库存信息
+一般情况下，DOMContentLoaded事件要在window.onload之前执行，当DOM树构建完成的时候就会执行DOMContentLoaded事件，而window.onload是在页面载入完成的时候，才执行，这其中包括图片等元素。大多数时候我们只是想在DOM树构建完成后，绑定事件到元素，我们并不需要图片元素，加上有时候加载外域图片的速度非常缓慢。
 
 
-### 11、如何改变this指针的指向？
-### 12、数组的排序方法（sort）？排序？汉字排序？
-### 13、JavaScript原型，原型链 ? 有什么特点？
-### 14、函数表达式和函数声明之间有什么区别？
-### 15、请解释什么是事件代理
-### 16、什么是构造函数？与普通函数有什么区别?
-### 17、`Function.prototype.call` 方法的用途是什么？
-### 18、什么是类？
-### 19、怎么理解宏任务，微任务？？？
-### 20、什么是事件冒泡？
-### 21、说几条写JavaScript的基本规范？
-### 22、谈谈你对webpack的看法
-### 23、EventLoop事件循环是什么？
-### 24、回调函数?
-### 25、Jq中如何将一个jq对象转化为dom对象？
-### 26、offsetWidth/offsetHeight,clientWidth/clientHeight与scrollWidth/scrollHeight的区别
-### 27、如何copy一个dom元素？
-### 28、异步编程？
-### 29、ES6或ECMAScript 2015有哪些新特性？
+### 11、手动实现 `Array.prototype.map 方法`
+### 12、如何创建一个没有 prototype(原型)的对象？
+### 13、如何确保ajax或连接不走缓存路径
+### 14、Ajax原理
+### 15、什么是NaN？以及如何检查值是否为NaN？
+### 16、Jq绑定事件的几种方式？on bind ?
+### 17、jsonp原理？ 缺点?
+### 18、回调函数?
+### 19、什么是类？
+### 20、如何添加一个dom对象到body中?innerHTML和innerText区别?
+### 21、异步编程？
+### 22、什么是高阶函数？
+### 23、`in` 运算符和 `Object.hasOwnProperty` 方法有什么区别？
+### 24、split() join()?
+### 25、$$('div+.ab')和$$('.ab+div') 哪个效率高？
+### 26、什么是闭包？
+### 27、ES6或ECMAScript 2015有哪些新特性？
+### 28、异步加载JS的方式有哪些？
+### 29、什么是执行上下文和执行栈？
 
 
 
 
 ## 全部答案，整理好了，直接下载吧
 
-### 下载链接：[全部答案，整理好了](https://www.souyunku.com/?p=67)
+### 下载链接：[全部答案，整理好了](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
 
-### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/?p=67)
+### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
 
 
 ## 最新，高清PDF：172份，7701页，最新整理

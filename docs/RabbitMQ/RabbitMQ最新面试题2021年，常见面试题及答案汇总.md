@@ -2,55 +2,112 @@
 
 ### 其实，博主还整理了，更多大厂面试题，直接下载吧
 
-### 下载链接：[高清172份，累计 7701 页大厂面试题  PDF](https://www.souyunku.com/?p=67)
+### 下载链接：[高清172份，累计 7701 页大厂面试题  PDF](https://github.com/souyunku/DevBooks/blob/master/docs/index.md)
 
-### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/?p=67)
-
-
-
-### 1、AMQP模型的几大组件？
-
-**1、** 交换器 (Exchange)：消息代理服务器中用于把消息路由到队列的组件。
-
-**2、** 队列 (Queue)：用来存储消息的数据结构，位于硬盘或内存中。
-
-**3、** 绑定 (Binding)： 一套规则，告知交换器消息应该将消息投递给哪个队列。
+### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png)
 
 
-### 2、什么是Binding绑定？
 
-通过绑定将交换器和队列关联起来，一般会指定一个BindingKey,这样RabbitMq就知道如何正确路由消息到队列了。
+### 1、cluster 中 node 的失效会对 consumer 产生什么影响？若是在 cluster 中创建了mirrored queue ，这时 node 失效会对 consumer 产生什么影响？
 
+若是 consumer 所连接的那个 node 失效（无论该 node 是否为 consumer 所订阅queue 的 owner node），则 consumer 会在发现 TCP 连接断开时，按标准行为执行重连逻辑，并根据“Assume Nothing”原则重建相应的 fabric 即可。
 
-### 3、生产者消息运转？
-
-1.Producer先连接到Broker,建立连接Connection,开启一个信道(Channel)。
-
-2.Producer声明一个交换器并设置好相关属性。
-
-3.Producer声明一个队列并设置好相关属性。
-
-4.Producer通过路由键将交换器和队列绑定起来。
-
-5.Producer发送消息到Broker,其中包含路由键、交换器等信息。
-
-6.相应的交换器根据接收到的路由键查找匹配的队列。
-
-7.如果找到，将消息存入对应的队列，如果没有找到，会根据生产者的配置丢弃或者退回给生产者。
-
-8.关闭信道。
-
-9.管理连接。
+若是失效的 node 为consumer 订阅 queue 的 owner node，则 consumer 只能通过 Consumer CancellationNotification 机制来检测与该 queue 订阅关系的终止，否则会出现傻等却没有任何消息来到的问题。
 
 
-### 4、RabbitMQ 包括哪些要素？
+### 2、你们公司生产环境用的是什么消息中间件？
 
-1. 生产者 ：消息的创建者，发送到RabbitMQ
-2. 消费者 ：连接到RabbitMQ，订阅到队列上，消费消息，持续订阅（basicConsumer）和单条订阅（basicGet）
-3. 消息 ：包含有效载荷和标签，有效载荷指要传输的数据，标签描述了有效载荷，并且RabbitMQ用它来决定谁获得消息，消费者只能拿到有效载荷，并不知道生产者是谁。
+这个首先你可以说下你们公司选用的是什么消息中间件，比如用的是RabbitMQ，然后可以初步给一些你对不同MQ中间件技术的选型分析。
+
+**举个例子：**
+
+比如说ActiveMQ是老牌的消息中间件，国内很多公司过去运用的还是非常广泛的，功能很强大。
+
+**1、** 但是问题在于没法确认ActiveMQ可以支撑互联网公司的高并发、高负载以及高吞吐的复杂场景，在国内互联网公司落地较少。而且使用较多的是一些传统企业，用ActiveMQ做异步调用和系统解耦。
+
+**2、** 然后你可以说说RabbitMQ，他的好处在于可以支撑高并发、高吞吐、性能很高，同时有非常完善便捷的后台管理界面可以使用。
+
+**3、** 另外，他还支持集群化、高可用部署架构、消息高可靠支持，功能较为完善。
+
+**4、** 而且经过调研，国内各大互联网公司落地大规模RabbitMQ集群支撑自身业务的case较多，国内各种中小型互联网公司使用RabbitMQ的实践也比较多。
+
+**5、** 除此之外，RabbitMQ的开源社区很活跃，较高频率的迭代版本，来修复发现的bug以及进行各种优化，因此综合考虑过后，公司采取了RabbitMQ。
+
+**6、** 但是RabbitMQ也有一点缺陷，就是他自身是基于erlang语言开发的，所以导致较为难以分析里面的源码，也较难进行深层次的源码定制和改造，毕竟需要较为扎实的erlang语言功底才可以。
+
+**7、** 然后可以聊聊RocketMQ，是阿里开源的，经过阿里的生产环境的超高并发、高吞吐的考验，性能卓越，同时还支持分布式事务等特殊场景。
+
+**8、** 而且RocketMQ是基于Java语言开发的，适合深入阅读源码，有需要可以站在源码层面解决线上生产问题，包括源码的二次开发和改造。
+
+**9、** 另外就是Kafka。Kafka提供的消息中间件的功能明显较少一些，相对上述几款MQ中间件要少很多。
+
+**10、** 但是Kafka的优势在于专为超高吞吐量的实时日志采集、实时数据同步、实时数据计算等场景来设计。
+
+**11、** 因此Kafka在大数据领域中配合实时计算技术（比如Spark Streaming、Storm、Flink）使用的较多。但是在传统的MQ中间件使用场景中较少采用。
 
 
-### 5、如何自动删除长时间没有消费的消息？
+### 3、如何保证消息的可靠性投递?
+
+发送方确认模式：将信道设置成confirm模式（发送方确认模式），则所有在信道上的消息都会被指派一个唯一的ID。
+
+一旦消息被投递到目的队列后，或者消息被写入磁盘后（可持久化的消息），信道会发送一个确认给生产者（包含消息唯一ID）。如果RabbitMQ发生内部错误从而导致消息丢失，会发送一条nack（not acknowledged，未确认）消息。
+
+发送方确认模式是异步的，生产者应用程序在等待确认的同时，可以继续发送消息。当确认消息到达生产者应用程序，生产者应用程序的回调方法就会被触发来处理确认消息。
+
+接收方确认机制：消费者接收每一条消息后都必须进行确认（消息接收和消息确认是两个不同操作）。只有消费者确认了消息，RabbitMQ才能安全地把消息从队列中删除。
+
+这里并没有用到超时机制，RabbitMQ仅通过Consumer的连接中断来确认是否需要重新发送消息。也就是说，只要连接不中断，RabbitMQ给了Consumer足够长的时间来处理消息。保证数据的最终一致性；下面罗列几种特殊情况：
+
+如果消费者接收到消息，在确认之前断开了连接或取消订阅，RabbitMQ会认为消息没有被分发，然后重新分发给下一个订阅的消费者。（可能存在消息重复消费的隐患，需要去重）
+
+如果消费者接收到消息却没有确认消息，连接也未断开，则RabbitMQ认为该消费者繁忙，将不会给该消费者分发更多的消息。
+
+
+### 4、多个消费者监听一个队列时，消息如何分发?
+
+轮询: 默认的策略，消费者轮流，平均地接收消息
+
+公平分发: 根据消费者的能力来分发消息，给空闲的消费者发送更多消息
+
+**当消费者有x条消息没有响应ACK时，不再给这个消费者发送消息**
+
+```
+channel.basicQos(int x)
+```
+
+
+### 5、RabbitMQ 什么是信道？
+
+信道：是生产者、消费者与RabbitMQ通信的渠道，生产者publish或是消费者subscribe一个队列都是通过信道来通信的。信道是建立在TCP连接上的虚拟连接。就是说RabbitMQ在一条TCP上建立成百上千个信道来达到多个线程处理，这个TCP被多个线程共享，每个线程对应一个信道，信道在RabbitMQ都有一个唯一的ID，保证了信道私有性，对应上唯一的线程使用。
+
+**疑问：为什么不建立多个TCP连接？**
+
+原因是RabbitMQ需要保证性能，系统为每个线程开辟一个TCP是非常消耗性能的，美妙成百上千的建立销毁TCP会严重消耗系统性能；所以RabbitMQ选择建立多个信道（建立在TCP的虚拟连接）连接到RabbitMQ上
+
+
+### 6、消息如何被优先消费？
+
+生产者
+
+```
+Map<String, Object> argss = new HashMap<String, Object>();
+argss.put("x-max-priority",10);
+```
+
+消费者
+
+```
+AMQP.BasicProperties properties = new AMQP.BasicProperties.Builder()
+    .priority(5) // 优先级，默认为5，配合队列的 x-max-priority 属性使用
+```
+
+
+### 7、routing_key 和 binding_key 的最大长度是多少？
+
+255 字节。
+
+
+### 8、如何自动删除长时间没有消费的消息？
 
 ```
 // 通过队列属性设置消息过期时间
@@ -63,81 +120,46 @@ AMQP.BasicProperties properties = new AMQP.BasicProperties.Builder()
 ```
 
 
-### 6、消息基于什么传输?
+### 9、RoutingKey路由键？
 
-由于TCP连接的创建和销毁开销较大，且并发数受系统资源限制，会造成性能瓶颈。RabbitMQ使用信道的方式来传输数据。信道是建立在真实的TCP连接内的虚拟连接，且每条TCP连接上的信道数量没有限制。
-
-
-### 7、事务机制？
-
-RabbitMQ 客户端中与事务机制相关的方法有三个:
-
-channel.txSelect 用于将当前的信道设置成事务模式。
-
-channel 、txCommit 用于提交事务 。
-
-channel 、txRollback 用于事务回滚,如果在事务提交执行之前由于 RabbitMQ 异常崩溃或者其他原因抛出异常,通过txRollback来回滚。
+生产者将消息发送给交换器的时候，会指定一个RoutingKey,用来指定这个消息的路由规则，这个RoutingKey需要与交换器类型和绑定键(BindingKey)联合使用才能最终生效。
 
 
-### 8、消息基于什么传输？
+### 10、RabbitMQ队列结构？
 
-由于 TCP 连接的创建和销毁开销较大，且并发数受系统资源限制，会造成性能瓶颈。RabbitMQ 使用信道的方式来传输数据。信道是建立在真实的 TCP 连接内的虚拟连接，且每条 TCP 连接上的信道数量没有限制。
+**通常由以下两部分组成：**
 
+rabbit_amqqueue_process：负责协议相关的消息处理，即接收生产者的消息、向消费者交付消息、处理消息的确认(包括生产端的 confirm 和消费端的 ack) 等。
 
-### 9、RabbitMQ有那些基本概念？
-
-**1、** Broker：简单来说就是消息队列服务器实体
-
-**2、** Exchange：消息交换机，它指定消息按什么规则，路由到哪个队列
-
-**3、** Queue：消息队列载体，每个消息都会被投入到一个或多个队列
-
-**4、** Binding：绑定，它的作用就是把exchange和queue按照路由规则绑定起来
-
-**5、** Routing Key：路由关键字，exchange根据这个关键字进行消息投递
-
-**6、** VHost：vhost 可以理解为虚拟 broker ，即 mini-RabbitMQ server。其内部均含有独立的 queue、exchange 和 binding 等，但最最重要的是，其拥有独立的权限系统，可以做到 vhost 范围的用户控制。当然，从 RabbitMQ 的全局角度，vhost 可以作为不同权限隔离的手段（一个典型的例子就是不同的应用可以跑在不同的 vhost 中）。
-
-**7、** Producer：消息生产者，就是投递消息的程序
-
-**8、** Consumer：消息消费者，就是接受消息的程序
-
-**9、** Channel：消息通道，在客户端的每个连接里，可建立多个channel，每个channel代表一个会话任务
-
-由`Exchange`、`Queue`、`RoutingKey`三个才能决定一个从Exchange到Queue的唯一的线路。
+backing_queue：是消息存储的具体形式和引擎，并向 rabbit amqqueue process 提供相关的接口以供调用。
 
 
-### 10、如何保证消息的顺序性?
-
-一个队列只有一个消费者的情况下才能保证顺序，否则只能通过全局ID实现（每条消息都一个msgId，关联的消息拥有一个parentMsgId。可以在消费端实现前一条消息未消费，不处理下一条消息；也可以在生产端实现前一条消息未处理完毕，不下一条消息）
-
-
-### 11、消费者接收消息过程？
-### 12、RabbitMQ 中的 Broker 是指什么？Cluster 又是指什么？
-### 13、客户端连接到 cluster 中的任意 node 上是否都能正常工作？
-### 14、Queue队列？
-### 15、如何确保消息正确地发送至RabbitMQ？ 如何确保消息接收方消费了消息？
-### 16、RabbitMQ事务机制？
-### 17、如何保证RabbitMQ消息的可靠传输？
-### 18、解耦、异步、削峰是什么？。
-### 19、如何防止出现 blackholed 问题？
-### 20、RabbitMQ 允许发送的 message 最大可达多大？
-### 21、vhost 是什么？起什么作用？
-### 22、交换器无法根据自身类型和路由键找到符合条件队列时，有哪些处理？
-### 23、AMQP协议3层？
-### 24、RabbitMQ的工作模式有几种？
-### 25、消息怎么路由？
-### 26、RAM node 和 disk node 的区别？
-### 27、rabbitmq的集群
+### 11、RabbitMQ消息确认过程？
+### 12、消息如何分发？
+### 13、什么是Binding绑定？
+### 14、使用rabbitmq的场景
+### 15、AMQP协议3层？
+### 16、消息怎么路由？
+### 17、为什么 heavy RPC 的使用场景下不建议采用 disk node ？
+### 18、AMQP是什么?
+### 19、RabbitMQ的集群模式有几种？
+### 20、RabbitMQ事务机制？
+### 21、如何保证RabbitMQ消息的可靠传输？
+### 22、延迟队列？
+### 23、如何保证消息的顺序性?
+### 24、为什么说保证 message 被可靠持久化的条件是 queue 和 exchange 具有durable 属性，同时 message 具有 persistent 属性才行？
+### 25、如何确保消息正确地发送至 RabbitMQ？ 如何确保消息接收方消费了消息？
+### 26、vhost?
+### 27、如何防止出现 blackholed 问题？
 
 
 
 
 ## 全部答案，整理好了，直接下载吧
 
-### 下载链接：[全部答案，整理好了](https://www.souyunku.com/?p=67)
+### 下载链接：[全部答案，整理好了](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
 
-### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/?p=67)
+### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
 
 
 ## 最新，高清PDF：172份，7701页，最新整理

@@ -2,156 +2,170 @@
 
 ### 其实，博主还整理了，更多大厂面试题，直接下载吧
 
-### 下载链接：[高清172份，累计 7701 页大厂面试题  PDF](https://www.souyunku.com/?p=67)
+### 下载链接：[高清172份，累计 7701 页大厂面试题  PDF](https://github.com/souyunku/DevBooks/blob/master/docs/index.md)
 
-### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/?p=67)
-
-
-
-### 1、如何切换目录？
-
-语法: cd destination
-
-destination : 相对文件路径或绝对文件路径
-
-可以跳到存在的任意目录。
+### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png)
 
 
-### 2、移动文件用哪个命令？改名用哪个命令？
+
+### 1、mkdir （mkdir：创建目录） 创建目录
+
+```
+mkdir 文件夹名称 ;在此目录创建文件夹
+mkdir /opt/java/jdk ;在指定目录创建文件夹
+```
+
+
+### 2、建立软链接(快捷方式)，以及硬链接的命令。
 
 **答案：**
 
-mv mv
+**1、** 软链接： ln -s slink source
+
+**2、** 硬链接： ln link source
 
 
-### 3、什么是 inode ？
+### 3、删除文件?强制删除？递归删除?
 
-> 一般来说，面试不会问 inode 。但是 inode 是一个重要概念，是理解 Unix/Linux 文件系统和硬盘储存的基础。
+语法: rm destination
 
+-i 询问是否删除,-r 递归删除，-f 强制删除。
 
-**1、** 理解inode，要从文件储存说起。
-
-**2、** 文件储存在硬盘上，硬盘的最小存储单位叫做"扇区"（Sector）。每个扇区储存512字节（相当于0.5KB）。
-
-**3、** 操作系统读取硬盘的时候，不会一个个扇区地读取，这样效率太低，而是一次性连续读取多个扇区，即一次性读取一个"块"（block）。这种由多个扇区组成的"块"，是文件存取的最小单位。"块"的大小，最常见的是4KB，即连续八个 sector组成一个 block。
-
-**4、** 文件数据都储存在"块"中，那么很显然，我们还必须找到一个地方储存文件的元信息，比如文件的创建者、文件的创建日期、文件的大小等等。这种储存文件元信息的区域就叫做inode，中文译名为"索引节点"。
-
-**5、** 每一个文件都有对应的inode，里面包含了与该文件有关的一些信息。
-
-**简述 Linux 文件系统通过 i 节点把文件的逻辑结构和物理结构转换的工作过程？**
-
-> 如果看的一脸懵逼，也没关系。一般来说，面试官不太会问这个题目。
-
-
-Linux 通过 inode 节点表将文件的逻辑结构和物理结构进行转换。
-
-**1、** inode 节点是一个 64 字节长的表，表中包含了文件的相关信息，其中有文件的大小、文件所有者、文件的存取许可方式以及文件的类型等重要信息。在 inode 节点表中最重要的内容是磁盘地址表。在磁盘地址表中有 13 个块号，文件将以块号在磁盘地址表中出现的顺序依次读取相应的块。
-
-**2、** Linux 文件系统通过把 inode 节点和文件名进行连接，当需要读取该文件时，文件系统在当前目录表中查找该文件名对应的项，由此得到该文件相对应的 inode 节点号，通过该 inode 节点的磁盘地址表把分散存放的文件物理块连接成文件的逻辑结构。
-
-
-### 4、rm（remove：移除的意思）删除文件，或文件夹
+rm不能删除有文件的目录,需要递归删除。
 
 ```
--f或--force 强制删除文件或目录。删除文件不包括文件夹的文件
--r或-R或--recursive 递归处理，将指定目录下的所有文件及子目录一并删除。 
--rf 强制删除文件夹及内容
-
-rm 文件名 ;安全删除命令  （yes删除 no取消）
-rm -rf 强制删除文件夹及内容
-rm -rf* 删除当前目录下的所有内容。
-rm -rf /* 删除Linux系统根目录下所有的内容。系统将完蛋。
+?  xktest rm jdk
+rm: jdk: is a directory
+?  xktest rm -r jdk
+?  xktest ls
 ```
 
-
-### 5、Linux 有哪些系统日志文件？
-
-比较重要的是 `/var/log/messages` 日志文件。
-
-该日志文件是许多进程日志文件的汇总，从该文件可以看出任何入侵企图或成功的入侵。
-
-> 另外，如果胖友的系统里有 ELK 日志集中收集，它也会被收集进去。
-
-
-
-### 6、关机linux
+rm -i 询问删除,建议大家平时删除多用 -i，确定一下再删除。
 
 ```
-Linux centos 关机命令：halt
+?  xktest touch tomcat
+?  xktest rm -i tomcat
+remove tomcat? n
+```
+
+rm -rf 会直接删除，没有警告信息，使用必须谨慎**。
+
+
+### 4、什么是 Linux 内核？
+
+Linux 系统的核心是内核。内核控制着计算机系统上的所有硬件和软件，在必要时分配硬件，并根据需要执行软件。
+
+**1、** 系统内存管理
+
+**2、** 应用程序管理
+
+**3、** 硬件设备管理
+
+**4、** 文件系统管理
+
+
+### 5、同步时间命令
+
+```
+ntpdate ntp1.aliyun.com
 ```
 
 
-### 7、怎样一页一页地查看一个大文件的内容呢？
-
-**答案：**
-
-通过管道将命令”cat file_name.txt” 和 ’more’ 连接在一起可以实现这个需要.
+### 6、每天晚上 12 点，打包站点目录/var/www/html 备份到/data 目录下（最好每次备份按时间生成不同的备份包）
 
 ```
-[root@localhost ~]# cat file_name.txt | more
-```
-
-
-### 8、du 和 df 的定义，以及区别？
-
-**答案：**
-
-du 显示目录或文件的大小
-
-**1、** df 显示每个<文件>所在的文件系统的信息，默认是显示所有文件系统。
-
-**2、** （文件系统分配其中的一些磁盘块用来记录它自身的一些数据，如 i 节点，磁盘分布图，间接块，超级块等。这些数据对大多数用户级的程序来说是不可见的，通常称为 Meta Data。） du 命令是用户级的程序，它不考虑 Meta Data，而 df 命令则查看文件系统的磁盘分配图并考虑 Meta Data。
-
-**3、** df 命令获得真正的文件系统数据，而 du 命令只查看文件系统的部分情况。
-
-
-### 9、什么是Linux
-
-Linux是一套免费使用和自由传播的类似Unix操作系统，一般的WEB项目都是部署都是放在Linux操作系统上面。 Linux是一个基于POSIX和Unix的多用户、多任务、支持多线程和多CPU的操作系统。它能运行主要的Unix工具软件、应用程序和网络协议。它支持32位和64位硬件。Linux继承了Unix以网络为核心的设计思想，是一个性能稳定的多用户网络操作系统。
-
-
-### 10、awk 详解。
-
-**答案：**
-
-```
-awk '{pattern + action}' {filenames}
-#cat /etc/passwd |awk -F ':' '{print 1"\t"7}' //-F 的意思是以':'分隔 root /bin/bash
-daemon /bin/sh 搜索/etc/passwd 有 root 关键字的所有行
-
-#awk -F: '/root/' /etc/passwd root:x:0:0:root:/root:/bin/bash
+# cat a.sh 
+#/bin/bash
+cd /var/www/ && /bin/tar zcf /data/html-`date +%m-%d%H`.tar.gz html/
+# crontab –e
+00 00 * * * /bin/sh /root/a.sh
 ```
 
 
-### 11、同步时间命令
-### 12、ping （用于检测与目标的连通性）语法：ping ip地址
-### 13、绝对路径用什么符号表示？当前目录、上层目录用什么表示？主目录用什么表示? 切换目录用什么命令？
-### 14、什么是root帐户
-### 15、GNU项目的重要性是什么？
-### 16、Tomcat和Resin有什么区别，工作中你怎么选择？
-### 17、使用什么命令查看 ip 地址及接口信息？
-### 18、查找匹配数据？反向搜？
-### 19、bash shell 中的hash 命令有什么作用？
-### 20、请执行命令取出 linux 中 eth0 的 IP 地址(请用 cut，有能力者也可分别用 awk,sed 命令答)
-### 21、什么是Linux？
-### 22、制表符自动补全？
-### 23、搜索文件用什么命令? 格式是怎么样的?
-### 24、请写出下面 linux SecureCRT 命令行快捷键命令的功能？
-### 25、Unix和Linux有什么区别？
-### 26、发现一个病毒文件你删了他又自动创建怎么解决
-### 27、什么叫CDN？
-### 28、RAID 是什么?
-### 29、复制文件用哪个命令？如果需要连同文件夹一块复制呢？如果需要有提示功能呢？
+
+### 7、验证网络可链接命令是什么？什么原理？
+
+ping。这个 ping 命令发送一个特殊的网络数据包(叫做 IMCP ECHO REQUEST)到一台指定的主机。大多数接收这个包的网络设备将会回复它，来允许网络连接验证。
+
+![80_5.png][80_5.png]image-20200421142307602
+
+一旦启动，ping会持续在特定时间（默认1秒）发送数据包。
+
+
+### 8、什么是BASH？
+
+BASH是Bourne Again SHell的缩写。它由Steve Bourne编写，作为原始Bourne Shell（由/ bin / sh表示）的替代品。它结合了原始版本的Bourne Shell的所有功能，以及其他功能，使其更容易使用。从那以后，它已被改编为运行Linux的大多数系统的默认shell。
+
+
+### 9、重新命名文件？移动文件？
+
+语法 ： mv soucre target
+
+重命名:
+
+```
+?  xktest ls
+?  xktest touch java
+?  xktest ls
+java
+?  xktest mv java java1.8
+?  xktest ls
+java1.8
+```
+
+移动文件:
+
+新建jdk目录把java1.8文件移动到jdk目录下。
+
+```
+?  xktest ls
+java1.8
+?  xktest mkdir jdk
+?  xktest mv java1.8 jdk
+?  xktest ls -R
+jdk
+ ./jdk:
+java1.8
+```
+
+
+### 10、cp（copy单词缩写，复制功能）
+
+```
+cp /opt/java/java.log /opt/logs/ ;把java.log 复制到/opt/logs/下
+cp /opt/java/java.log /opt/logs/aaa.log ;把java.log 复制到/opt/logs/下并且改名为aaa.log
+cp -r /opt/java /opt/logs ;把文件夹及内容复制到logs文件中
+```
+
+
+### 11、发现一个病毒文件你删了他又自动创建怎么解决
+### 12、Linux系统缺省的运行级别？
+### 13、如何切换目录？
+### 14、移动文件用哪个命令？改名用哪个命令？
+### 15、keepalive的工作原理和如何做到健康检查
+### 16、Windows和Linux的区别
+### 17、| 管道命令（把多个命令组合起来使用）
+### 18、Grep 命令有什么用？ 如何忽略大小写？ 如何查找不含该串的行?
+### 19、开源的优势是什么？
+### 20、Linux 中进程有哪几种状态？在 ps 显示出来的信息中，分别用什么符号表示的？
+### 21、服务器开不了机怎么解决一步步的排查
+### 22、你的系统目前有许多正在运行的任务，在不重启机器的条件下，有什么方法可以把所有正在运行的进程移除呢？
+### 23、什么叫网站灰度发布？
+### 24、Linux 性能调优都有哪几种方法？
+### 25、写一个脚本，实现判断192.168.1.0/24网络里，当前在线的IP有哪些，能ping通则认为在线
+### 26、Linux 的目录结构是怎样的？
+### 27、GNU项目的重要性是什么？
+### 28、如何执行可以执行文件?
+### 29、Linux广泛使用的归档数据方法?
 
 
 
 
 ## 全部答案，整理好了，直接下载吧
 
-### 下载链接：[全部答案，整理好了](https://www.souyunku.com/?p=67)
+### 下载链接：[全部答案，整理好了](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
 
-### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/?p=67)
+### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
 
 
 ## 最新，高清PDF：172份，7701页，最新整理

@@ -2,142 +2,172 @@
 
 ### 其实，博主还整理了，更多大厂面试题，直接下载吧
 
-### 下载链接：[高清172份，累计 7701 页大厂面试题  PDF](https://www.souyunku.com/?p=67)
+### 下载链接：[高清172份，累计 7701 页大厂面试题  PDF](https://github.com/souyunku/DevBooks/blob/master/docs/index.md)
 
-### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/?p=67)
-
-
-
-### 1、哪些是重要的bean生命周期方法？ 你能重载它们吗？
-
-有两个重要的bean 生命周期方法，第一个是setup ， 它是在容器加载bean的时候被调用。第二个方法是 teardown 它是在容器卸载类的时候被调用。
-
-The bean 标签有两个重要的属性（init-method和destroy-method）。用它们你可以自己定制初始化和注销方法。它们也有相应的注解（@PostConstruct和@PreDestroy）。
+### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png)
 
 
-### 2、访问RESTful微服务的方法是什么？
 
-另一个经常被问到的微服务面试问题是如何访问RESTful微服务？你可以通过两种方法做到这一点：
+### 1、微服务测试的主要障碍是什么？
 
-**1、** 使用负载平衡的REST模板。
+说到缺点，这里是另一个微服务面试问题，将围绕测试微服务时面临的挑战。
 
-**2、** 使用多个微服务。
+**1、** 在开始编写集成测试的测试用例之前，测试人员应该全面了解对所有入站和出站过程。
 
+**2、** 当独立的团队正在开发不同的功能时，协作可能会被证明是一项非常困难的任务。很难找到空闲时间窗口来执行完整的回归测试。
 
-### 3、SpringBoot 中的监视器是什么？
+**3、** 随着微服务数量的增加，系统的复杂性也随之增加。
 
-Spring boot actuator 是 spring 启动框架中的重要功能之一。Spring boot 监视器可帮助您访问生产环境中正在运行的应用程序的当前状态。有几个指标必须在生产环境中进行检查和监控。即使一些外部应用程序可能正在使用这些服务来向相关人员触发警报消息。监视器模块公开了一组可直接作为 HTTP URL 访问的REST 端点来检查状态。
-
-
-### 4、SpringBoot、Spring MVC 和 Spring 有什么区别？
-
-**1、** Spring
-
-Spring最重要的特征是依赖注入。所有 SpringModules 不是依赖注入就是 IOC 控制反转。
-
-当我们恰当的使用 DI 或者是 IOC 的时候，我们可以开发松耦合应用。松耦合应用的单元测试可以很容易的进行。
-
-**2、** Spring MVC
-
-Spring MVC 提供了一种分离式的方法来开发 Web 应用。通过运用像 DispatcherServelet，MoudlAndView 和 ViewResolver 等一些简单的概念，开发 Web 应用将会变的非常简单。
-
-**3、** SpringBoot
-
-Spring 和 SpringMVC 的问题在于需要配置大量的参数。
-
-SpringBoot 通过一个自动配置和启动的项来目解决这个问题。为了更快的构建产品就绪应用程序，SpringBoot 提供了一些非功能性特征。
+**4、** 在从单片架构过渡期间，测试人员必须确保组件之间的内部通信没有中断。
 
 
-### 5、自动装配有什么局限？
+### 2、能否举一个例子来解释更多 Staters 的内容？
 
-覆盖的可能性 - 您始终可以使用 `<constructor-arg>` 和 `<property>` 设置指定依赖项，这将覆盖自动装配。基本元数据类型 - 简单属性（如原数据类型，字符串和类）无法自动装配。令人困惑的性质 - 总是喜欢使用明确的装配，因为自动装配不太精确。
+让我们来思考一个 Stater 的例子 -SpringBoot Stater Web。
 
+如果你想开发一个 web 应用程序或者是公开 REST 服务的应用程序。SpringBoot Start Web 是首选。让我们使用 Spring Initializr 创建一个 SpringBoot Start Web 的快速项目。
 
-### 6、什么是不同类型的双因素身份认证？
+**依赖项可以被分为：**
 
-执行双因素身份验证需要三种类型的凭据：
+**1、** Spring - core，beans，context，aop
 
-**1、** 一件你知道的事情——比如密码、密码或屏幕锁定模式。
+**2、** Web MVC - （Spring MVC）
 
-**2、** 您拥有的物理凭证，如OTP、电话或ATM卡，换句话说，您在外部或第三方设备中拥有的任何类型的凭证。
+**3、** Jackson - for JSON Binding
 
-**3、** 您的物理身份–如语音认证或生物特征安全，如指纹或眼睛扫描仪。
+**4、** Validation - Hibernate,Validation API
 
+**5、** Enbedded Servlet Container - Tomcat
 
-### 7、如何设置服务发现？
+**6、** Logging - logback,slf4j
 
-有多种方法可以设置服务发现。我将选择我认为效率最高的那个，Netflix的Eureka。这是一个简单的程序，不会对应用程序造成太大影响。此外，它支持多种类型的Web应用程序。 Eureka配置包括两个步骤 - 客户端配置和服务器配置。
+任何经典的 Web 应用程序都会使用所有这些依赖项。SpringBoot Starter Web 预先打包了这些依赖项。
 
-使用属性文件可以轻松完成客户端配置。在clas spath中，Eureka搜索一个eureka-client.properties文件。它还搜索由特定于环境的属性文件中的环境引起的覆盖。
-
-对于服务器配置，您必须首先配置客户端。完成后，服务器启动一个客户端，该客户端用于查找其他服务器。。默认情况下，Eureka服务器使用客户端配置来查找对等服务器。
-
-
-### 8、什么是 Aspect 切面
-
-AOP核心就是切面，它将多个类的通用行为封装成可重用的模块，该模块含有一组API提供横切功能。比如，一个日志模块可以被称作日志的AOP切面。根据需求的不同，一个应用程序可以有若干切面。在Spring AOP中，切面通过带有@Aspect注解的类实现。
+作为一个开发者，我不需要再担心这些依赖项和它们的兼容版本。
 
 
-### 9、列举微服务技术栈
+### 3、开启 SpringBoot 特性有哪几种方式？
 
-**1、** 服务⽹关Zuul
+**1、**  继承spring-boot-starter-parent项目
 
-**2、** 服务注册发现Eureka+Ribbon
-
-**3、** 服务配置中⼼Apollo
-
-**4、** 认证授权中⼼Spring Security OAuth2
-
-**5、** 服务框架SpringBoot
-
-**6、** 数据总线Kafka
-
-**7、** ⽇志监控ELK
-
-**8、** 调⽤链监控CAT
-
-**9、** Metrics监控KairosDB
-
-**10、** 健康检查和告警ZMon
-
-**11、** 限流熔断和流聚合Hystrix/Turbine
+**2、**  导入spring-boot-dependencies项目依赖
 
 
-### 10、什么是 Swagger？你用 SpringBoot 实现了它吗？
+### 4、Spring Cloud Config
 
-Swagger 广泛用于可视化 API，使用 Swagger UI 为前端开发人员提供在线沙箱。Swagger 是用于生成 RESTful Web 服务的可视化表示的工具，规范和完整框架实现。它使文档能够以与服务器相同的速度更新。当通过 Swagger 正确定义时，消费者可以使用最少量的实现逻辑来理解远程服务并与其进行交互。因此，Swagger消除了调用服务时的猜测。
+集中配置管理工具，分布式系统中统一的外部配置管理，默认使用Git来存储配置，可以支持客户端配置的刷新及加密、解密操作。
 
 
-### 11、开启 SpringBoot 特性有哪几种方式？
-### 12、自动装配有哪些方式？
-### 13、Spring支持的事务管理类型
-### 14、什么是SpringBoot？
-### 15、什么是OAuth？
-### 16、请描述Spring MVC的工作流程？描述一下 DispatcherServlet 的工作流程？
-### 17、微服务有哪些特点？
-### 18、什么是 spring bean？
-### 19、如何给Spring 容器提供配置元数据?
-### 20、怎样在方法里面得到Request,或者Session？
-### 21、spring JDBC API 中存在哪些类？
-### 22、什么是织入。什么是织入应用的不同点？
-### 23、spring cloud 和dubbo区别?
-### 24、[@Controller ](/Controller ) 注解
-### 25、SpringBoot 还提供了其它的哪些 Starter Project Options？
-### 26、SpringBoot 的核心注解是哪个？它主要由哪几个注解组成的？
-### 27、spring boot 核心配置文件是什么？bootstrap.properties 和 application.properties 有何区别 ?
-### 28、为什么需要域驱动设计（DDD）？
-### 29、在微服务中，如何保护服务?
-### 30、SpringBoot 如何设置支持跨域请求？
-### 31、ApplicationContext通常的实现是什么?
+### 5、Eureka和ZooKeeper都可以提供服务注册与发现的功能,请说说两个的区别
+
+**1、** ZooKeeper中的节点服务挂了就要选举 在选举期间注册服务瘫痪,虽然服务最终会恢复,但是选举期间不可用的， 选举就是改微服务做了集群，必须有一台主其他的都是从
+
+**2、** Eureka各个节点是平等关系,服务器挂了没关系，只要有一台Eureka就可以保证服务可用，数据都是最新的。 如果查询到的数据并不是最新的，就是因为Eureka的自我保护模式导致的
+
+**3、** Eureka本质上是一个工程,而ZooKeeper只是一个进程
+
+**4、** Eureka可以很好的应对因网络故障导致部分节点失去联系的情况,而不会像ZooKeeper 一样使得整个注册系统瘫痪
+
+**5、** ZooKeeper保证的是CP，Eureka保证的是AP
+
+**CAP：**
+
+**1、** C：一致性>Consistency; 取舍：(强一致性、单调一致性、会话一致性、最终一致性、弱一致性)
+
+**2、** A：可用性>Availability;
+
+**3、** P：分区容错性>Partition tolerance;
+
+
+### 6、什么是JavaConfig？
+
+Spring JavaConfig是Spring社区的产品，它提供了配置Spring IoC容器的纯Java方法。因此它有助于避免使用XML配置。使用JavaConfig的优点在于：
+
+面向对象的配置。由于配置被定义为JavaConfig中的类，因此用户可以充分利用Java中的面向对象功能。一个配置类可以继承另一个，重写它的@Bean方法等。
+
+减少或消除XML配置。基于依赖注入原则的外化配置的好处已被证明。但是，许多开发人员不希望在XML和Java之间来回切换。
+
+JavaConfig为开发人员提供了一种纯Java方法来配置与XML配置概念相似的Spring容器。
+
+从技术角度来讲，只使用JavaConfig配置类来配置容器是可行的，但实际上很多人认为将JavaConfig与XML混合匹配是理想的。
+
+类型安全和重构友好。JavaConfig提供了一种类型安全的方法来配置Spring容器。由于Java 5.0对泛型的支持，现在可以按类型而不是按名称检索bean，不需要任何强制转换或基于字符串的查找
+
+
+### 7、什么是执行器停机？
+
+关机是允许应用程序正常关机的端点。默认情况下，此功能不启用。你可以在应用程序属性文件中使用management . endpoint . shut down . enabled = true来启用此选项。但是该方法请谨慎使用。
+
+
+### 8、SpringBoot如何配置log4j？
+
+在引用log4j之前，需要先排除项目创建时候带的日志，因为那个是Logback，然后再引入log4j的依赖，引入依赖之后，去src/main/resources目录下的log4j-spring.properties配置文件，就可以开始对应用的日志进行配置使用。
+
+
+### 9、第⼀层缓存：
+
+readOnlyCacheMap，本质上是ConcurrentHashMap：这是⼀个JVM的CurrentHashMap只读缓存，这个主要是为了供客户端获取注册信息时使⽤，其缓存更新，依赖于定时器的更新，通过和readWriteCacheMap 的值做对⽐，如果数据不⼀致，则以readWriteCacheMap 的数据为准。readOnlyCacheMap 缓存更新的定时器时间间隔，默认为30秒
+
+#
+### 10、SpringCloud的优缺点
+
+**优点：**
+
+**1、** 耦合度比较低。不会影响其他模块的开发。
+
+**2、** 减轻团队的成本，可以并行开发，不用关注其他人怎么开发，先关注自己的开发。
+
+**3、** 配置比较简单，基本用注解就能实现，不用使用过多的配置文件。
+
+**4、** 微服务跨平台的，可以用任何一种语言开发。
+
+**5、** 每个微服务可以有自己的独立的数据库也有用公共的数据库。
+
+**6、** 直接写后端的代码，不用关注前端怎么开发，直接写自己的后端代码即可，然后暴露接口，通过组件进行服务通信。
+
+**缺点：**
+
+1、部署比较麻烦，给运维工程师带来一定的麻烦。
+
+2、针对数据的管理比麻烦，因为微服务可以每个微服务使用一个数据库。
+
+3、系统集成测试比较麻烦
+
+4、性能的监控比较麻烦。【最好开发一个大屏监控系统】
+
+总的来说优点大过于缺点，目前看来Spring Cloud是一套非常完善的分布式框架，目前很多企业开始用微服务、Spring Cloud的优势是显而易见的。因此对于想研究微服务架构的同学来说，学习Spring Cloud是一个不错的选择。
+
+
+### 11、Spring Cloud和SpringBoot版本对应关系
+### 12、SpringBoot 2.X 有什么新特性？与 1.X 有什么区别？
+### 13、什么是自动配置？
+### 14、什么是消费者驱动的合同（CDC）？
+### 15、spring boot 核心配置文件是什么？bootstrap.properties 和 application.properties 有何区别 ?
+### 16、在Spring框架中如何更有效地使用JDBC?
+### 17、什么是耦合？
+### 18、Actuator在SpringBoot中的作用
+### 19、区分 BeanFactory 和 ApplicationContext。
+### 20、微服务架构如何运作？
+### 21、21、在Spring MVC应用程序中使用WebMvcTest注释有什么用处？
+### 22、微服务架构的优缺点是什么？
+### 23、我们如何在测试中消除非决定论？
+### 24、什么是微服务架构
+### 25、如何实现SpringBoot应用程序的安全性？
+### 26、什么是 Spring 配置文件？
+### 27、spring cloud 断路器的作用是什么？
+### 28、微服务之间是如何独立通讯的
+### 29、使⽤中碰到的坑
+### 30、什么是 AOP 目标对象?
+### 31、Spring Cloud的版本关系
 
 
 
 
 ## 全部答案，整理好了，直接下载吧
 
-### 下载链接：[全部答案，整理好了](https://www.souyunku.com/?p=67)
+### 下载链接：[全部答案，整理好了](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
 
-### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/?p=67)
+### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
 
 
 ## 最新，高清PDF：172份，7701页，最新整理

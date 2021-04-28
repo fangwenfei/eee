@@ -2,158 +2,112 @@
 
 ### 其实，博主还整理了，更多大厂面试题，直接下载吧
 
-### 下载链接：[高清172份，累计 7701 页大厂面试题  PDF](https://www.souyunku.com/?p=67)
+### 下载链接：[高清172份，累计 7701 页大厂面试题  PDF](https://github.com/souyunku/DevBooks/blob/master/docs/index.md)
 
-### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/?p=67)
-
-
-
-### 1、为什么我们需要 spring-boot-maven-plugin?
-
-spring-boot-maven-plugin 提供了一些像 jar 一样打包或者运行应用程序的命令。
-
-**1、** spring-boot:run 运行你的 SpringBooty 应用程序。
-
-**2、** spring-boot：repackage 重新打包你的 jar 包或者是 war 包使其可执行
-
-**3、** spring-boot：start 和 spring-boot：stop 管理 SpringBoot 应用程序的生命周期（也可以说是为了集成测试）。
-
-**4、** spring-boot:build-info 生成执行器可以使用的构造信息。
+### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png)
 
 
-### 2、列举 IoC 的一些好处。
 
-**IoC 的一些好处是：**
+### 1、SpringBoot运行项目的几种方式？
 
-**1、** 它将最小化应用程序中的代码量。
+打包用命令或者放到容器中运行
 
-**2、** 它将使您的应用程序易于测试，因为它不需要单元测试用例中的任何单例或 JNDI 查找机制。
+**1、** 打成jar包，使用java -jar xxx.jar运行
 
-**3、** 它以最小的影响和最少的侵入机制促进松耦合。
+**2、** 打成war包，放到tomcat里面运行
 
-**4、** 它支持即时的实例化和延迟加载服务。
+直接用maven插件运行   maven spring-boot：run
 
-
-### 3、可以通过多少种方式完成依赖注入？
-
-通常，依赖注入可以通过三种方式完成，即：
-
-**1、** 构造函数注入
-
-**2、** setter 注入
-
-**3、** 接口注入
-
-在 Spring Framework 中，仅使用构造函数和 setter 注入。
+直接执行main方法运行
 
 
-### 4、如何在 SpringBoot 中添加通用的 JS 代码？
+### 2、SpringBoot Starter的工作原理
 
-在源文件夹下，创建一个名为 static 的文件夹。然后，你可以把你的静态的内容放在这里面。
+`我个人理解SpringBoot就是由各种Starter组合起来的，我们自己也可以开发Starter`
 
-例如，myapp.js 的路径是 resources\static\js\myapp.js
+在sprinBoot启动时由@SpringBootApplication注解会自动去maven中读取每个starter中的spring、factories文件,该文件里配置了所有需要被创建spring容器中的bean，并且进行自动配置把bean注入SpringContext中 //（SpringContext是Spring的配置文件）
 
-**
 
-你可以参考它在 jsp 中的使用方法：**
+### 3、SpringBoot多数据源拆分的思路
 
-错误：HAL browser gives me unauthorized error - Full authenticaition is required to access this resource.
+先在properties配置文件中配置两个数据源，创建分包mapper，使用@ConfigurationProperties读取properties中的配置，使用@MapperScan注册到对应的mapper包中
 
-该如何来修复这个错误呢？
 
-两种方法：
+### 4、您对微服务架构中的语义监控有何了解？
 
-方法 1：关闭安全验证
+语义监控，也称为 综合监控， 将自动化测试与监控应用程序相结合，以检测业务失败因素。
 
-application.properties
+
+### 5、什么是通知（Advice）？
+
+特定 JoinPoint 处的 Aspect 所采取的动作称为 Advice。Spring AOP 使用一个 Advice 作为拦截器，在 JoinPoint “周围”维护一系列的拦截器。
+
+
+### 6、如何集成SpringBoot和ActiveMQ？
+
+对于集成SpringBoot和ActiveMQ，我们使用spring-boot-starter-activemq 依赖关系。 它只需要很少的配置，并且不需要样板代码。
+
+
+### 7、微服务限流 http限流：我们使⽤nginx的limitzone来完成：
 
 ```
-management.security.enabled:FALSE
+//这个表示使⽤ip进⾏限流 zone名称为req_one 分配了10m 空间使⽤漏桶算法 每秒钟允许1个请求
+limit_req_zone $binary_remote_addr zone=req_one:10m rate=1r/s; //这边burst表示可以瞬间超过20个请求 由于没有noDelay参数因此需要排队 如果超过这20个那么直接返回503
+limit_req zone=req_three burst=20;
 ```
 
-方法二：在日志中搜索密码并传递至请求标头中
+
+### 8、如何设置服务发现？
+
+有多种方法可以设置服务发现。我将选择我认为效率最高的那个，Netflix的Eureka。这是一个简单的程序，不会对应用程序造成太大影响。此外，它支持多种类型的Web应用程序。 Eureka配置包括两个步骤 - 客户端配置和服务器配置。
+
+使用属性文件可以轻松完成客户端配置。在clas spath中，Eureka搜索一个eureka-client.properties文件。它还搜索由特定于环境的属性文件中的环境引起的覆盖。
+
+对于服务器配置，您必须首先配置客户端。完成后，服务器启动一个客户端，该客户端用于查找其他服务器。。默认情况下，Eureka服务器使用客户端配置来查找对等服务器。
 
 
-### 5、Spring MVC常用的注解有哪些？
+### 9、谈谈服务雪崩效应
 
-**1、** @RequestMapping：用于处理请求 url 映射的注解，可用于类或方法上。用于类上，则表示类中的所有响应请求的方法都是以该地址作为父路径。
+雪崩效应是在大型互联网项目中，当某个服务发生宕机时，调用这个服务的其他服务也会发生宕机，大型项目的微服务之间的调用是互通的，这样就会将服务的不可用逐步扩大到各个其他服务中，从而使整个项目的服务宕机崩溃.发生雪崩效应的原因有以下几点
 
-**2、** @RequestBody：注解实现接收http请求的json数据，将json转换为java对象。
-
-**3、** @ResponseBody：注解实现将conreoller方法返回对象转化为json对象响应给客户。
-
-**4、** @Conntroller：控制器的注解，表示是表现层,不能用用别的注解代替
+单个服务的代码存在bug、2请求访问量激增导致服务发生崩溃(如大型商城的枪红包，秒杀功能)、3.服务器的硬件故障也会导致部分服务不可用.
 
 
-### 6、什么是SpringBoot ？
+### 10、服务降级底层是如何实现的？
 
-**1、** 用来简化spring应用的初始搭建以及开发过程 使用特定的方式来进行配置（properties或yml文件）
-
-**2、** 创建独立的spring引用程序 main方法运行
-
-**3、** 嵌入的Tomcat 无需部署war文件
-
-**4、** 简化maven配置
-
-**5、** 自动配置spring添加对应功能starter自动化配置
-
-**6、** spring boot来简化spring应用开发，约定大于配置，去繁从简，just run就能创建一个独立的，产品级别的应用
+Hystrix实现服务降级的功能是通过重写HystrixCommand中的getFallback()方法，当Hystrix的run方法或construct执行发生错误时转而执行getFallback()方法。
 
 
-### 7、如何在 SpringBoot 启动的时候运行一些特定的代码？
-
-可以实现接口 ApplicationRunner 或者 CommandLineRunner，这两个接口实现方式一样，它们都只提供了一个 run 方法
-
-
-### 8、什么是Spring的MVC框架？
-
-Spring 配备构建Web 应用的全功能MVC框架。Spring可以很便捷地和其他MVC框架集成，如Struts，Spring 的MVC框架用控制反转把业务对象和控制逻辑清晰地隔离。它也允许以声明的方式把请求参数和业务对象绑定。
-
-
-### 9、什么是耦合和凝聚力？
-
-组件之间依赖关系强度的度量被认为是**耦合**。一个好的设计总是被认为具有**高内聚力和低耦合性**。 面试官经常会问起凝聚力。它也是另一个测量单位。更像是一个模块内部的元素保持结合的程度。 必须记住，设计微服务的一个重要关键是低耦合和高内聚的组合。当低耦合时，服务对其他服务的依赖很少。这样可以保持服务的完整性。在高内聚性中，将所有相关逻辑保存在服务中成为可能。否则，服务将尝试彼此通信，从而影响整体性能。
-
-
-### 10、Spring、SpringBoot、SpringMVC的区别？
-
-**1、** Spring框架就像一个家族，有众多衍生产品，例如boot、mvc、jpa等等。但他们的基础都是Spring的ioc、aop。ioc提供了依赖注入的容器，aop解决了面向横切面编程，然后在此两者的基础上实现了其它延伸产品的高级功能；
-
-**2、** springMVC是基于Servlet的一个MVC框架主要解决WEB开发的问题；
-
-**3、** 为了简化开发的使用，从而创造性地推出了SpringBoot框架，默认优于配置
-
-
-### 11、Container在微服务中的用途是什么？
-### 12、DiscoveryClient的作用
-### 13、spring 支持集中 bean scope？
-### 14、什么是Feign？
-### 15、Spring Cloud和各子项目版本对应关系
-### 16、SpringBoot事物的使用
-### 17、什么是Spring MVC？简单介绍下你对Spring MVC的理解？
-### 18、如何重新加载SpringBoot上的更改，而无需重新启动服务器？
-### 19、网关与过滤器有什么区别
-### 20、不同版本的 Spring Framework 有哪些主要功能？
-### 21、开启 SpringBoot 特性有哪几种方式？
-### 22、什么是Spring Cloud？
-### 23、SpringBoot 需要独立的容器运行吗？
-### 24、解释对象/关系映射集成模块。
-### 25、负载平衡的意义什么？
-### 26、什么是Spring Cloud Zuul（服务网关）
-### 27、SpringBoot 中如何解决跨域问题 ?
-### 28、什么是编织（Weaving）？
-### 29、什么是 AOP 代理?
-### 30、@Controller注解的作用
-### 31、如何使用SpringBoot实现分页和排序？
+### 11、Spring支持的事务管理类型
+### 12、微服务架构有哪些优势？
+### 13、如何在 SpringBoot 中添加通用的 JS 代码？
+### 14、SpringBoot 是否可以使用 XML 配置 ?
+### 15、什么是微服务
+### 16、[@Autowired ](/Autowired ) 注解
+### 17、列举 Spring Framework 的优点。
+### 18、什么是有界上下文？
+### 19、如何使用SpringBoot实现分页和排序？
+### 20、SpringBoot 2.X 有什么新特性？与 1.X 有什么区别？
+### 21、Zookeeper如何 保证CP
+### 22、ZuulFilter常用有那些方法
+### 23、什么是嵌入式服务器？我们为什么要使用嵌入式服务器呢?
+### 24、使用 SpringBoot 开发分布式微服务时，我们面临什么问题
+### 25、如何理解 Spring 中的代理？
+### 26、spring 支持集中 bean scope？
+### 27、什么是 Spring Cloud Bus？
+### 28、您将如何在微服务上执行安全测试？
+### 29、什么是Spring Cloud Zuul（服务网关）
+### 30、请描述Spring MVC的工作流程？描述一下 DispatcherServlet 的工作流程？
+### 31、ApplicationContext通常的实现是什么?
 
 
 
 
 ## 全部答案，整理好了，直接下载吧
 
-### 下载链接：[全部答案，整理好了](https://www.souyunku.com/?p=67)
+### 下载链接：[全部答案，整理好了](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
 
-### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/?p=67)
+### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
 
 
 ## 最新，高清PDF：172份，7701页，最新整理

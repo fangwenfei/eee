@@ -2,130 +2,176 @@
 
 ### 其实，博主还整理了，更多大厂面试题，直接下载吧
 
-### 下载链接：[高清172份，累计 7701 页大厂面试题  PDF](https://www.souyunku.com/?p=67)
+### 下载链接：[高清172份，累计 7701 页大厂面试题  PDF](https://github.com/souyunku/DevBooks/blob/master/docs/index.md)
 
-### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/?p=67)
-
-
-
-### 1、eureka的缺点：
-
-某个服务不可⽤时，各个Eureka Client不能及时的知道，需要1~3个⼼跳周期才能感知，但是，由于基于Netflix的服务调⽤端都会使⽤Hystrix来容错和降级，当服务调⽤不可⽤时Hystrix也能及时感知到，通过熔断机制来降级服务调⽤，因此弥补了基于客户端服务发现的时效性的缺点。
-
-
-### 2、Spring Cloud Gateway
-
-API网关组件，对请求提供路由及过滤功能。
-
-
-### 3、SpringBoot 中如何实现定时任务 ?
-
-定时任务也是一个常见的需求，SpringBoot 中对于定时任务的支持主要还是来自 Spring 框架。
-
-在 SpringBoot 中使用定时任务主要有两种不同的方式，一个就是使用 Spring 中的 [@Scheduled ](/Scheduled ) 注解，另一个则是使用第三方框架 Quartz。
-
-使用 Spring 中的 [@Scheduled ](/Scheduled ) 的方式主要通过 [@Scheduled ](/Scheduled ) 注解来实现。
-
-使用 Quartz ，则按照 Quartz 的方式，定义 Job 和 Trigger 即可。
+### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png)
 
 
 
-### 4、SpringBoot有哪些优点？
+### 1、springcloud和dubbo有哪些区别
 
-**1、** 减少开发，测试时间和努力。
+**1、** Dubbo具有调度、发现、监控、治理等功能，⽀持相当丰富的服务治理能⼒。Dubbo架构下，注册中⼼对等集群，并会缓存服务列表已被数据库失效时继续提供发现功能，本身的服务发现结构有很强的可⽤性与健壮性，⾜够⽀持⾼访问量的⽹站。
 
-**2、** 使用JavaConfig有助于避免使用XML。
+**2、** 虽然Dubbo ⽀持短连接⼤数据量的服务提供模式，但绝⼤多数情况下都是使⽤⻓连接⼩数据量的模式提供服务使⽤的。所以，对于类似于电商等同步调⽤场景多并且能⽀撑搭建Dubbo 这套⽐较复杂环境的成本的产品⽽⾔，Dubbo 确实是⼀个可以考虑的选择。但如果产品业务中由于后台业务逻辑复杂、时间⻓⽽导致异步逻辑⽐较多的话，可能Dubbo 并不合适。同时，对于⼈⼿不⾜的初创产品⽽⾔，这么重的架构维护起来也不是很⽅便。
 
-**3、** 避免大量的Maven导入和各种版本冲突。
+**3、** Spring Cloud由众多⼦项⽬组成，如Spring Cloud Config、Spring Cloud Netflix、Spring Cloud Consul 等，提供了搭建分布式系统及微服务常⽤的⼯具，如配置管理、服务发现、断路器、智能路由、微代理、控制总线、⼀次性token、全局锁、选主、分布式会话和集群状态等，满⾜了构建微服务所需的所有解决⽅案。⽐如使⽤Spring Cloud Config 可以实现统⼀配置中⼼，对配置进⾏统⼀管理；使⽤Spring Cloud Netflix 可以实现Netflix 组件的功能 - 服务发现（Eureka）、智能路由（Zuul）、客户端负载均衡（Ribbon）。
 
-**4、** 提供意见发展方法。
+**4、** Dubbo 提供了各种 Filter，对于上述中“⽆”的要素，可以通过扩展 Filter 来完善。
 
-**5、** 通过提供默认值快速开始开发。
+**5、** dubbo的开发难度较⼤，原因是dubbo的jar包依赖问题很多⼤型⼯程⽆法解决。
 
-**6、** 没有单独的Web服务器需要。这意味着你不再需要启动Tomcat，Glassfish或其他任何东西。
-
-**7、** 需要更少的配置 因为没有web.xml文件。只需添加用@ Configuration注释的类，然后添加用@Bean注释的方法，Spring将自动加载对象并像以前一样对其进行管理。您甚至可以将@Autowired添加到bean方法中，以使Spring自动装入需要的依赖关系中。
-
-**8、** 基于环境的配置 使用这些属性，您可以将您正在使用的环境传递到应用程序：-Dspring.profiles.active = {enviornment}。在加载主应用程序属性文件后，Spring将在（application{environment} .properties）中加载后续的应用程序属性文件。
+![](https://gitee.com/souyunkutech/souyunku-home/raw/master/images/souyunku-web/2020/5/2/01/44/45_3.png#alt=45%5C_3.png)
 
 
-### 5、保护 SpringBoot 应用有哪些方法？
+### 2、有哪些不同类型的IOC（依赖注入）方式？
 
-**1、** 在生产中使用HTTPS
+**1、** 构造器依赖注入：构造器依赖注入通过容器触发一个类的构造器来实现的，该类有一系列参数，每个参数代表一个对其他类的依赖。
 
-**2、** 使用Snyk检查你的依赖关系
-
-**3、** 升级到最新版本
-
-**4、** 启用CSRF保护
-
-**5、** 使用内容安全策略防止XSS攻击
+**2、** Setter方法注入：Setter方法注入是容器通过调用无参构造器或无参static工厂 方法实例化bean之后，调用该bean的setter方法，即实现了基于setter的依赖注入。
 
 
-### 6、分布式配置中心有那些框架？
+### 3、Spring Cloud Stream
 
-Apollo、zookeeper、springcloud config。
+轻量级事件驱动微服务框架，可以使用简单的声明式模型来发送及接收消息，主要实现为Apache Kafka及RabbitMQ。
 
 
-### 7、在Spring MVC应用程序中使用WebMvcTest注释有什么用处？
+### 4、什么是Spring MVC框架的控制器？
 
-WebMvcTest注释用于单元测试Spring MVC应用程序。我们只想启动ToTestController。执行此单元测试时，不会启动所有其他控制器和映射。
+控制器提供一个访问应用程序的行为，此行为通常通过服务接口实现。控制器解析用户输入并将其转换为一个由视图呈现给用户的模型。Spring用一个非常抽象的方式实现了一个控制层，允许用户创建多种用途的控制器。
+
+
+### 5、解释Spring支持的几种bean的作用域。
+
+**Spring框架支持以下五种bean的作用域：**
+
+**1、** singleton : bean在每个Spring ioc 容器中只有一个实例。
+
+**2、** prototype：一个bean的定义可以有多个实例。
+
+**3、** request：每次http请求都会创建一个bean，该作用域仅在基于web的Spring ApplicationContext情形下有效。
+
+**4、** session：在一个HTTP Session中，一个bean定义对应一个实例。该作用域仅在基于web的Spring ApplicationContext情形下有效。
+
+**5、** global-session：在一个全局的HTTP Session中，一个bean定义对应一个实例。该作用域仅在基于web的Spring ApplicationContext情形下有效。
+
+缺省的Spring bean 的作用域是Singleton.
+
+
+### 6、链路跟踪Sleuth
+
+当我们项目中引入Spring Cloud Sleuth后，每次链路请求都会添加一串追踪信息，格式是[server-name, main-traceId,sub-spanId,boolean]：
+
+**1、** server-name：服务结点名称。
+
+**2、** main-traceId：一条链路唯一的ID，为TraceID。
+
+**3、** sub-spanId：链路中每一环的ID，为SpanID。
+
+**4、** boolean：是否将信息输出到Zipkin等服务收集和展示。
+
+Sleuth的实现是基于HTTP的，为了在数据的收集过程中不能影响到正常业务，Sleuth会在每个请求的Header上添加跟踪需求的重要信息。这样在数据收集时，只需要将Header上的相关信息发送给对应的图像工具即可，图像工具根据上传的数据，按照Span对应的逻辑进行分析、展示。
+
+
+
+### 7、什么是feigin？它的优点是什么？
+
+**1、** feign采用的是基于接口的注解
+
+**2、** feign整合了ribbon，具有负载均衡的能力
+
+**3、** 整合了Hystrix，具有熔断的能力
+
+**使用:**
+
+**1、** 添加pom依赖。
+
+**2、** 启动类添加[@EnableFeignClients ](/EnableFeignClients )
+
+**3、** 定义一个接口@FeignClient(name=“xxx”)指定调用哪个服务
+
+
+### 8、[@Autowired ](/Autowired ) 注解有什么用？
+
+[@Autowired ](/Autowired ) 可以更准确地控制应该在何处以及如何进行自动装配。
+
+此注解用于在 setter 方法，构造函数，具有任意名称或多个参数的属性或方法上自动装配 bean。 默认情况下，它是类型驱动的注入。
+
+
+### 9、区分构造函数注入和 setter 注入。
+| 构造函数注入 | setter 注入 |
+| --- | --- |
+| 没有部分注入 | 有部分注入 |
+| 不会覆盖 setter 属性 | 会覆盖 setter 属性 |
+| 任意修改都会创建一个新实例 | 任意修改不会创建一个新实例 |
+| 适用于设置很多属性 | 适用于设置少量属性 |
+
+
+
+### 10、[@Qualifier ](/Qualifier ) 注解有什么用？
+
+当您创建多个相同类型的 bean 并希望仅使用属性装配其中一个 bean 时，您可以使用[@Qualifier ](/Qualifier ) 注解和 [@Autowired ](/Autowired ) 通过指定应该装配哪个确切的 bean 来消除歧义。
+
+例如，这里我们分别有两个类，Employee 和 EmpAccount。在 EmpAccount 中，使用[@Qualifier ](/Qualifier ) 指定了必须装配 id 为 emp1 的 bean。
+
+Employee.java
 
 ```
-@WebMvcTest(value = ToTestController.class, secure = false):
+public class Employee {
+    private String name;
+    @Autowired
+    public void setName(String name) {
+        this.name=name;
+    }
+    public string getName() {
+        return name;
+    }
+}
+```
+
+EmpAccount.java
+
+```
+public class EmpAccount {
+    private Employee emp;
+
+    @Autowired
+    @Qualifier(emp1)
+    public void showName() {
+        System.out.println(“Employee name : ”+emp.getName);
+    }
+}
 ```
 
 
-### 8、SpringBoot多数据源拆分的思路
-
-先在properties配置文件中配置两个数据源，创建分包mapper，使用@ConfigurationProperties读取properties中的配置，使用@MapperScan注册到对应的mapper包中
-
-
-### 9、SpringBoot 怎么用好自动配置，精髓:
-
-**1、** SpringBoot启动会加载大量的自动配置类
-
-**2、** 我们看我们需要的功能有没有SpringBoot默认写好的自动配置类;
-
-**3、** 我们再来看这个自动配置类中到底配置了哪些组件;(只要我们要用的组件有，我们就不需要再来配置了
-
-**4、** 给容器中自动配置类添加组件的时候，会从properties类中获取某些属性。我们就可以在配置文件中指定这 些属性的值;
-
-
-### 10、JdbcTemplate
-
-JdbcTemplate 类提供了很多便利的方法解决诸如把数据库数据转变成基本数据类型或对象，执行写好的或可调用的数据库操作语句，提供自定义的数据错误处理。
-
-
-### 11、spring cloud 断路器的作用是什么？
-### 12、什么是 JavaConfig？
-### 13、Spring由哪些模块组成?
-### 14、Eureka和ZooKeeper都可以提供服务注册与发现的功能,请说说两个的区别
-### 15、spring 中有多少种 IOC 容器？
-### 16、SpringBoot常用的starter有哪些?
-### 17、SpringBoot 支持哪些日志框架？推荐和默认的日志框架是哪个？
-### 18、什么是断路器
-### 19、什么是 AOP 引入?
-### 20、分布式配置中心的作用？
-### 21、什么是客户证书？
-### 22、您对微服务有何了解？
-### 23、设计微服务的最佳实践是什么？
-### 24、为什么在微服务中需要Reports报告和Dashboards仪表板？
-### 25、什么是 Spring 配置文件？
-### 26、您使用了哪些 starter maven 依赖项？
-### 27、您使用了哪些starter maven依赖项？
-### 28、springcloud和dubbo有哪些区别
-### 29、[@Qualifier ](/Qualifier ) 注解有什么用？
-### 30、微服务中如何实现 session 共享 ?
+### 11、YAML 配置的优势在哪里 ?
+### 12、列举 Spring Framework 的优点。
+### 13、如何不通过任何配置来选择 Hibernate 作为 JPA 的默认实现？
+### 14、什么是Spring MVC？简单介绍下你对Spring MVC的理解？
+### 15、什么是 Spring 配置文件？
+### 16、怎么样把ModelMap里面的数据放入Session里面？
+### 17、什么是 spring bean？
+### 18、什么是 AOP 代理?
+### 19、谈谈服务降级、熔断、服务隔离
+### 20、什么是Spring beans?
+### 21、如何在不使用BasePACKAGE过滤器的情况下排除程序包？
+### 22、@ResponseBody注解的作用
+### 23、SpringBoot事物的使用
+### 24、什么是SpringBoot？
+### 25、[@Controller ](/Controller ) 注解
+### 26、AOP 有哪些实现方式？
+### 27、什么是 Spring Profiles？
+### 28、SpringBoot自动配置的原理是什么？
+### 29、什么是不同类型的双因素身份认证？
+### 30、Spring Cloud Task
 
 
 
 
 ## 全部答案，整理好了，直接下载吧
 
-### 下载链接：[全部答案，整理好了](https://www.souyunku.com/?p=67)
+### 下载链接：[全部答案，整理好了](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
 
-### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/?p=67)
+### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
 
 
 ## 最新，高清PDF：172份，7701页，最新整理

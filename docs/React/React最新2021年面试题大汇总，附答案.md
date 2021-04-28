@@ -2,172 +2,198 @@
 
 ### 其实，博主还整理了，更多大厂面试题，直接下载吧
 
-### 下载链接：[高清172份，累计 7701 页大厂面试题  PDF](https://www.souyunku.com/?p=67)
+### 下载链接：[高清172份，累计 7701 页大厂面试题  PDF](https://github.com/souyunku/DevBooks/blob/master/docs/index.md)
 
-### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/?p=67)
-
-
-
-### 1、react性能优化方案
-
-**1、** 重写 `shouldComponentUpdate`来避免不必要的 `dom`操作
-
-**2、** 使用 `production` 版本的 `react.js`
-
-**3、** 使用 `key`来帮助 `React`识别列表中所有子组件的最小变化
+### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png)
 
 
-### 2、redux的工作流程?
 
-首先，我们看下几个核心概念：
+### 1、如何更新组件的状态？
 
-Store：保存数据的地方，你可以把它看成一个容器，整个应用只能有一个Store。
+可以用 `this.setState()`更新组件的状态。
 
-State：Store对象包含所有数据，如果想得到某个时点的数据，就要对Store生成快照，这种时点的数据集合，就叫做State。
+```
+class MyComponent extends React.Component {
+    constructor() {
+        super();
+        this.state = {
+            name: 'Maxx',
+            id: '101'
+        }
+    }
+    render()
+        {
+            setTimeout(()=>{this.setState({name:'Jaeha', id:'222'})},2000)
+            return (
+                <div>
+                    <h1>Hello {this.state.name}</h1>
+                    <h2>Your Id is {this.state.id}</h2>
+                </div>
+            );
+        }
+    }
+ReactDOM.render(
+    <MyComponent/>, document.getElementById('content')
+);
+```
 
-Action：State的变化，会导致View的变化。但是，用户接触不到State，只能接触到View。所以，State的变化必须是View导致的。Action就是View发出的通知，表示State应该要发生变化了。
 
-Action Creator：View要发送多少种消息，就会有多少种Action。如果都手写，会很麻烦，所以我们定义一个函数来生成Action，这个函数就叫Action Creator。
+### 2、为什么要用redux
 
-Reducer：Store收到Action以后，必须给出一个新的State，这样View才会发生变化。这种State的计算过程就叫做Reducer。Reducer是一个函数，它接受Action和当前State作为参数，返回一个新的State。
-
-dispatch：是View发出Action的唯一方法。 然后我们过下整个工作流程：
-
-首先，用户（通过View）发出Action，发出方式就用到了dispatch方法。
-
-然后，Store自动调用Reducer，并且传入两个参数：当前State和收到的Action，Reducer会返回新的State
-
-State一旦有变化，Store就会调用监听函数，来更新View。 到这儿为止，一次用户交互流程结束。可以看到，在整个流程中数据都是单向流动的，这种方式保证了流程的清晰。
+在`React`中数据在组件中是单向流动的数据从一个方向父组件流向子组件通过`props`,所以两个非父子组件之间通信就相对麻烦`redux`的出现就是为了解决`state`里面的数据问题
 
 
-### 3、你对 Time Slice的理解?
+### 3、diff算法?
+
+**1、** 把树形结构按照层级分解只比较同级元素。
+
+**2、** 给列表结构的每个单元添加唯一的key属性方便比较。
+
+**3、** `React` 只会匹配相同 `class` 的 `component`这里面的class指的是组件的名字
+
+**4、** 合并操作调用 `component` 的 `setState` 方法的时候, React 将其标记为 - `dirty`.到每一个事件循环结束, `React` 检查所有标记 `dirty`的 `component`重新绘制.
+
+**5、** 选择性子树渲染。开发人员可以重写 `shouldComponentUpdate`提高 `diff`的性能
+
+
+### 4、React 中 refs 的作用是什么
+
+`Refs` 是 `React` 提供给我们的安全访问 `DOM`元素或者某个组件实例的句柄可以为元素添加ref属性然后在回调函数中接受该元素在 `DOM` 树中的句柄该值会作为回调函数的第一个参数返回
+
+
+### 5、setState到底是异步还是同步?
+
+答案: 有时表现出异步,有时表现出同步
+
+setState只在合成事件和钩子函数中是“异步”的，在原生事件和setTimeout 中都是同步的。
+
+setState 的“异步”并不是说内部由异步代码实现，其实本身执行的过程和代码都是同步的，只是合成事件和钩子函数的调用顺序在更新之前，导致在合成事件和钩子函数中没法立马拿到更新后的值，形成了所谓的“异步”，当然可以通过第二个参数 setState(partialState, callback) 中的callback拿到更新后的结果。
+
+setState 的批量更新优化也是建立在“异步”（合成事件、钩子函数）之上的，在原生事件和setTimeout 中不会批量更新，在“异步”中如果对同一个值进行多次setState，setState的批量更新策略会对其进行覆盖，取最后一次的执行，如果是同时setState多个不同的值，在更新时会对其进行合并批量更新。 #React组件通信
+
+
+### 6、简述flux 思想
+
+**1、** Flux 的最大特点就是数据的"单向流动"。
+
+**2、** 用户访问 `View`
+
+**3、** View发出用户的 `Action`
+
+**4、** `Dispatcher` 收到Action要求 `Store` 进行相应的更新
+
+**5、** `Store` 更新后发出一个"`change`"事件
+
+**6、** `View` 收到"`change`"事件后更新页面
+
+
+### 7、你对 Time Slice的理解?
 
 **时间分片**
 
-**1、** React 在渲染render的时候不会阻塞现在的线程
+**1、** React 在渲染（render）的时候，不会阻塞现在的线程
 
-**2、** 如果你的设备足够快你会感觉渲染是同步的
+**2、** 如果你的设备足够快，你会感觉渲染是同步的
 
-**3、** 如果你设备非常慢你会感觉还算是灵敏的
+**3、** 如果你设备非常慢，你会感觉还算是灵敏的
 
-**4、** 虽然是异步渲染但是你将会看到完整的渲染而不是一个组件一行行的渲染出来
+**4、** 虽然是异步渲染，但是你将会看到完整的渲染，而不是一个组件一行行的渲染出来
 
 **5、** 同样书写组件的方式
 
-**6、** 也就是说这是React背后在做的事情对于我们开发者来说是透明的具体是什么样的效果呢
+也就是说，这是React背后在做的事情，对于我们开发者来说，是透明的，具体是什么样的效果呢？
+
+![](https://gitee.com/souyunkutech/souyunku-home/raw/master/images/souyunku-web/2020/4/30/1939/39/97_3.png#alt=97%5C_3.png)![](https://gitee.com/souyunkutech/souyunku-home/raw/master/images/souyunku-web/2020/4/30/1939/39/97_4.png#alt=97%5C_4.png)有图表三个图表，有一个输入框，以及上面的三种模式
+
+**这个组件非常的巨大，而且在输入框**每次**输入东西的时候，就会进去一直在渲染。**为了更好的看到渲染的性能，Dan为我们做了一个表。
+
+**我们先看看，同步模式：**
+
+![](https://gitee.com/souyunkutech/souyunku-home/raw/master/images/souyunku-web/2020/4/30/1939/39/97_5.png#alt=97%5C_5.png)![](https://gitee.com/souyunkutech/souyunku-home/raw/master/images/souyunku-web/2020/4/30/1939/39/97_6.png#alt=97%5C_6.png)
+
+同步模式下，我们都知道，我们没输入一个字符，React就开始渲染，当React渲染一颗巨大的树的时候，是非常卡的，所以才会有shouldUpdate的出现，在这里Dan也展示了，这种卡！
+
+**我们再来看看第二种（Debounced模式）：**
+
+![](https://gitee.com/souyunkutech/souyunku-home/raw/master/images/souyunku-web/2020/4/30/1939/39/97_7.png#alt=97%5C_7.png)![](https://gitee.com/souyunkutech/souyunku-home/raw/master/images/souyunku-web/2020/4/30/1939/39/97_8.png#alt=97%5C_8.png)
+
+Debounced模式简单的来说，就是延迟渲染，比如，当你输入完成以后，再开始渲染所有的变化。
+
+这么做的坏处就是，至少不会阻塞用户的输入了，但是依然有非常严重的卡顿。
+
+**切换到异步模式：**
+
+![](https://gitee.com/souyunkutech/souyunku-home/raw/master/images/souyunku-web/2020/4/30/1939/39/97_9.png#alt=97%5C_9.png)![](https://gitee.com/souyunkutech/souyunku-home/raw/master/images/souyunku-web/2020/4/30/1939/39/97_10.png#alt=97%5C_10.png)
+
+异步渲染模式就是不阻塞当前线程，继续跑。在视频里可以看到所有的输入，表上都会是原谅色的。
+
+时间分片正是基于可随时打断、重启的Fiber架构,可打断当前任务,优先处理紧急且重要的任务,保证页面的流畅运行.
 
 
-### 4、如何模块化 React 中的代码？
+### 8、Vue中组件生命周期调用顺序说一下
 
-可以使用 export 和 import 属性来模块化代码。它们有助于在不同的文件中单独编写组件。
+**1、** 组件的调用顺序都是`先父后子`,渲染完成的顺序是`先子后父`。
 
-```
-//ChildComponent.jsx
-export default class ChildComponent extends React.Component {
-    render() {
-        return(
-              <div>
-                  <h1>This is a child component</h1>
-              </div>
-        );
-    }
-}
+**2、** 组件的销毁操作是`先父后子`，销毁完成的顺序是`先子后父`。
 
-//ParentComponent.jsx
-import ChildComponent from './childcomponent.js';
-class ParentComponent extends React.Component {
-    render() {
-        return(
-             <div>
-                <App />
-             </div>
-        );
-    }
-}
-```
+**加载渲染过程**
+
+`父beforeCreate->父created->父beforeMount->子beforeCreate->子created->子beforeMount- >子mounted->父mounted`
+
+**子组件更新过程**
+
+`父beforeUpdate->子beforeUpdate->子updated->父updated`
+
+**父组件更新过程**
+
+`父 beforeUpdate -> 父 updated`
+
+**销毁过程**
+
+`父beforeDestroy->子beforeDestroy->子destroyed->父destroyed`
 
 
-### 5、React有哪些优化性能是手段?
+### 9、setState
 
-性能优化的手段很多时候是通用的详情见前端性能优化加载篇
+在了解`setState`之前我们先来简单了解下 `React` 一个包装结构: `Transaction`:
 
+**事务 (Transaction)**
 
-### 6、为什么需要 React 中的路由？
-
-Router 用于定义多个路由，当用户定义特定的 URL 时，如果此 URL 与 Router 内定义的任何 “路由” 的路径匹配，则用户将重定向到该特定路由。所以基本上我们需要在自己的应用中添加一个 Router 库，允许创建多个路由，每个路由都会向我们提供一个独特的视图
-
-```
-<switch>
-    <route exact path=’/’ component={Home}/>
-    <route path=’/posts/:id’ component={Newpost}/>
-    <route path=’/posts’   component={Post}/>
-</switch>
-```
+是 `React` 中的一个调用结构用于包装一个方法结构为: `initialize` - `perform(method)` - `close`。通过事务可以统一管理一个方法的开始与结束处于事务流中表示进程正在执行一些操作
 
 
-### 7、Redux设计理念
+### 10、那你能讲一讲MVVM吗？
 
-`Redux`是将整个应用状态存储到一个地方上称为`store`,里面保存着一个状态树`store` `tree`,组件可以派发(`dispatch`)行为(`action`)给`store`,而不是直接通知其他组件组件内部通过订阅`store`中的状态`state`来刷新自己的视图
-
-![80_2.png][80_2.png]
-
-image
+MVVM是`Model-View-ViewModel`缩写，也就是把`MVC`中的`Controller`演变成`ViewModel`。Model层代表数据模型，View代表UI组件，ViewModel是View和Model层的桥梁，数据会绑定到viewModel层并自动将数据渲染到页面中，视图变化的时候会通知viewModel层更新数据。
 
 
-### 8、简单说一下Vue2.x响应式数据原理
-
-Vue在初始化数据时，会使用`Object.defineProperty`重新定义data中的所有属性，当页面使用对应属性时，首先会进行依赖收集(收集当前组件的`watcher`)如果属性发生变化会通知相关依赖进行更新操作(`发布订阅`)。
-
-
-### 9、概述下 React 中的事件处理逻辑
-
-为了解决跨浏览器兼容性问题`React` 会将浏览器原生事件`Browser Native Event`封装为合成事件`SyntheticEvent`传入设置的事件处理器中。这里的合成事件提供了与原生事件相同的接口不过它们屏蔽了底层浏览器的细节差异保证了行为的一致性。另外有意思的是React 并没有直接将事件附着到子元素上而是以单一事件监听器的方式将所有的事件发送到顶层进行处理。这样 `React` 在更新 `DOM` 的时候就不需要考虑如何去处理附着在 `DOM` 上的事件监听器最终达到优化性能的目的
-
-
-### 10、如何在React中创建一个事件？
-
-```
-class Display extends React.Component({
-    show(evt) {
-        // code
-    },
-    render() {
-        // Render the div with an onClick prop (value is a function)
-        return (
-            <div onClick={this.show}>Click Me!</div>
-        );
-    }
-});
-```
-
-
-### 11、shouldComponentUpdate 的作用
-### 12、Redux 有哪些优点？
-### 13、React如何进行组件/逻辑复用?
-### 14、组件中的data为什么是一个函数？
-### 15、Vue事件绑定原理说一下
-### 16、你了解 Virtual DOM 吗？解释一下它的工作原理。
-### 17、react旧版生命周期函数
-### 18、你能用HOC做什么？
-### 19、区分有状态和无状态组件。
-### 20、React与Angular有何不同？
-### 21、什么是控制组件？
-### 22、React组件通信如何实现？
-### 23、Vue2.x和Vue3.x渲染器的diff算法分别说一下
-### 24、hash路由和history路由实现原理说一下
-### 25、区分Real DOM和Virtual DOM
-### 26、为什么React Router v4中使用 switch 关键字 ？
-### 27、如何更新组件的状态？
-### 28、React实现的移动应用中如果出现卡顿有哪些可以考虑的优化方案
+### 11、概述下 React 中的事件处理逻辑
+### 12、你是如何理解fiber的?
+### 13、react-redux是如何工作的?
+### 14、React中的状态是什么？它是如何使用的？
+### 15、Store 在 Redux 中的意义是什么？
+### 16、React与Angular有何不同？
+### 17、diff算法?
+### 18、react 的虚拟dom是怎么实现的
+### 19、什么是纯组件？
+### 20、nextTick知道吗，实现原理是什么？
+### 21、组件中的data为什么是一个函数？
+### 22、redux的工作流程?
+### 23、React最新的生命周期是怎样的?
+### 24、为什么选择使用框架而不是原生?
+### 25、你对“单一事实来源”有什么理解？
+### 26、你对受控组件和非受控组件了解多少？
+### 27、如何将两个或多个组件嵌入到一个组件中？
+### 28、什么是React？
 
 
 
 
 ## 全部答案，整理好了，直接下载吧
 
-### 下载链接：[全部答案，整理好了](https://www.souyunku.com/?p=67)
+### 下载链接：[全部答案，整理好了](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
 
-### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/?p=67)
+### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
 
 
 ## 最新，高清PDF：172份，7701页，最新整理

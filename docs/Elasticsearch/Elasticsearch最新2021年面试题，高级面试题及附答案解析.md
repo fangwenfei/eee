@@ -2,65 +2,60 @@
 
 ### 其实，博主还整理了，更多大厂面试题，直接下载吧
 
-### 下载链接：[高清172份，累计 7701 页大厂面试题  PDF](https://www.souyunku.com/?p=67)
+### 下载链接：[高清172份，累计 7701 页大厂面试题  PDF](https://github.com/souyunku/DevBooks/blob/master/docs/index.md)
 
-### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/?p=67)
-
-
-
-### 1、lucence内部结构是什么？
-
-`面试官`：想了解你的知识面的广度和深度。
-
-![](https://gitee.com/souyunkutech/souyunku-home/raw/master/images/souyunku-web/2019/08/0814/01/img_4.png#alt=img%5C_4.png)
-
-Lucene是有索引和搜索的两个过程，包含索引创建，索引，搜索三个要点。可以基于这个脉络展开一些。
-
-最近面试一些公司，被问到的关于Elasticsearch和搜索引擎相关的问题，以及自己总结的回答。
-
-
-### 2、拼写纠错是如何实现的？
-
-**1、拼写纠错是基于编辑距离来实现**；编辑距离是一种标准的方法，它用来表示经过插入、删除和替换操作从一个字符串转换到另外一个字符串的最小操作步数；
-
-**2、编辑距离的计算过程：**比如要计算 batyu 和 beauty 的编辑距离，先创建一个7×8 的表（batyu 长度为 5，coffee 长度为 6，各加 2），接着，在如下位置填入
-
-黑色数字。
-
-**其他格的计算过程是取以下三个值的最小值：**
-
-如果最上方的字符等于最左方的字符，则为左上方的数字。否则为左上方的数字 +1。（对于 3,3 来说为 0）左方数字+1（对于 3,3 格来说为 2）上方数字+1（对于 3,3 格来说为 2）
-
-最终取右下角的值即为编辑距离的值 3。
-
-![70_10.png][70_10.png]
-
-对于拼写纠错，我们考虑构造一个度量空间（Metric Space），该空间内任何关
-
-系满足以下三条基本条件：
-
-> d(x,y) = 0 -- 假如 x 与 y 的距离为 0，则 x=y
-
-d(x,y) = d(y,x) -- x 到 y 的距离等同于 y 到 x 的距离
-
-d(x,y) + d(y,z) >= d(x,z) -- 三角不等式
-
-
-**1、** 根据三角不等式，则满足与 query 距离在 n 范围内的另一个字符转 B，其与 A的距离最大为 d+n，最小为 d-n。
-
-**2、** BK 树的构造就过程如下：每个节点有任意个子节点，每条边有个值表示编辑距离。所有子节点到父节点的边上标注 n 表示编辑距离恰好为 n。比如，我们有棵树父节点是”book”和两个子
-
-**点”cake”和”books”，”book”到”books”的边标号 ：**
-
-**1、** ”book”到”cake”的边上标号.
-
-**2、** 从字典里构造好树后，无论何时你想插入新单词时.计算该单词与根节点的编辑距离，并且查找数值为 d(neweord, root)的边。递归得与各子节点进行比较，直到没有子节点，你就可以创建新的子节点并将新单词保存在那。比如，插入”boo”到刚才上述例子的树中，我们先检查根节点，查找 d(“book”, “boo”) = 1 的边，然后检查标号为1 的边的子节点，得到单词”books”。我们再计算距离 d(“books”, “boo”)=2，则将新单词插在”books”之后，边标号为 2。
-
-**3、** 查询相似词如下：计算单词与根节点的编辑距离 d，然后递归查找每个子节点标号为 d-n 到 d+n（包含）的边。假如被检查的节点与搜索单词的距离 d 小于n，则返回该节点并继续查询。比如输入 cape 且最大容忍距离为 1，则先计算和根的编辑距离 d(“book”,“cape”)=4，然后接着找和根节点之间编辑距离为 3 到5 的，这个就找到了cake 这个节点，计算 d(“cake”, “cape”)=1，满足条件所以返回 cake，然后再找和 cake 节点编辑距离是 0 到 2 的，分别找到 cape 和cart 节点，这样就得到 cape 这个满足条件的结果。
+### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png)
 
 
 
-### 3、迁移 Migration API 如何用作 Elasticsearch？
+### 1、lucence 内部结构是什么？
+
+面试官：想了解你的知识面的广度和深度。
+
+解
+
+Lucene 是有索引和搜索的两个过程，包含索引创建，索引，搜索三个要点。可以基于这个脉络展开一些。
+
+最近面试一些公司，被问到的关于 Elasticsearch 和搜索引擎相关的问题，以及自己总结的回答。
+
+
+### 2、解释一下 Elasticsearch Node？
+
+节点是 Elasticsearch 的实例。实际业务中，我们会说：ES集群包含3个节点、7个节点。
+
+这里节点实际就是：一个独立的 Elasticsearch 进程，一般将一个节点部署到一台独立的服务器或者虚拟机、容器中。
+
+不同节点根据角色不同，可以划分为：
+
+**主节点**
+
+帮助配置和管理在整个集群中添加和删除节点。
+
+**数据节点**
+
+存储数据并执行诸如CRUD（创建/读取/更新/删除）操作，对数据进行搜索和聚合的操作。
+
+**1、** 客户端节点（或者说：协调节点） 将集群请求转发到主节点，将与数据相关的请求转发到数据节点
+
+**2、** 摄取节点
+
+用于在索引之前对文档进行预处理。
+
+
+### 3、Elasticsearch 支持哪些配置管理工具？
+
+**1、** Ansible
+
+**2、** Chef
+
+**3、** Puppet
+
+**4、** Salt Stack
+
+是 DevOps 团队使用的 Elasticsearch支持的配置工具。
+
+
+### 4、迁移 Migration API 如何用作 Elasticsearch？
 
 迁移 API简化了X-Pack索引从一个版本到另一个版本的升级。
 
@@ -69,124 +64,90 @@ d(x,y) + d(y,z) >= d(x,z) -- 三角不等式
 [https://www.elastic.co/guide/en/elasticsearch/reference/current/migration-api.html](https://www.elastic.co/guide/en/elasticsearch/reference/current/migration-api.html)
 
 
-### 4、详细描述一下Elasticsearch搜索的过程？
+### 5、REST API在 Elasticsearch 方面有哪些优势？
 
-`面试官`：想了解ES搜索的底层原理，不再只关注业务层面了。
+REST API是使用超文本传输协议的系统之间的通信，该协议以 XML 和 JSON格式传输数据请求。
 
-搜索拆解为“query then fetch” 两个阶段。
+REST 协议是无状态的，并且与带有服务器和存储数据的用户界面分开，从而增强了用户界面与任何类型平台的可移植性。它还提高了可伸缩性，允许独立实现组件，因此应用程序变得更加灵活。
 
-**query阶段的目的**：定位到位置，但不取。
+REST API与平台和语言无关，只是用于数据交换的语言是XML或JSON。
 
-步骤拆解如下：
-
-**1、** 假设一个索引数据有5主+1副本 共10分片，一次请求会命中（主或者副本分片中）的一个。
-
-**2、** 每个分片在本地进行查询，结果返回到本地有序的优先队列中。
-
-**3、** 第2）步骤的结果发送到协调节点，协调节点产生一个全局的排序列表。
-
-**fetch阶段的目的**：取数据。
-
-路由节点获取所有文档，返回给客户端。
+借助：REST API 查看集群信息或者排查问题都非常方便。
 
 
-### 5、elasticsearch 全文检索
+### 6、什么是Elasticsearch Analyzer？
 
-(1) 客户端使用RestFul API向对应的node发送查询请求
-
-(2)协调节点将请求转发到所有节点（primary或者replica）所有节点将对应的数据查询之后返回对应的doc id 返回给协调节点
-
-(3)协调节点将doc进行排序聚合
-
-(4) 协调节点再根据doc id 把查询请求发送到对应shard的node，返回document
+分析器用于文本分析，它可以是内置分析器也可以是自定义分析器。
 
 
-### 6、elasticsearch 索引数据多了怎么办，如何调优，部署
+### 7、Elasticsearch 支持哪些类型的查询？
 
-面试官：想了解大数据量的运维能力。
+查询主要分为两种类型：精确匹配、全文检索匹配。
 
-解索引数据的规划，应在前期做好规划，正所谓“设计先行，编码在后”，这样才能有效的避免突如其来的数据激增导致集群处理能力不足引发的线上客户检索或者其他业务受到影响。
-
-如何调优，正如问题 1 所说，这里细化一下：
-
-**动态索引层面**
-
-基于模板+时间+rollover api 滚动创建索引，举例：设计阶段定义：blog 索引的模板格式为：blog_index_时间戳的形式，每天递增数据。
-
-这样做的好处：不至于数据量激增导致单个索引数据量非常大，接近于上线 2 的32 次幂-1，索引存储达到了 TB+甚至更大。
-
-一旦单个索引很大，存储等各种风险也随之而来，所以要提前考虑+及早避免。
-
-**存储层面**
-
-冷热数据分离存储，热数据（比如最近 3 天或者一周的数据），其余为冷数据。
-
-对于冷数据不会再写入新数据，可以考虑定期 force_merge 加 shrink 压缩操作，节省存储空间和检索效率。
-
-**部署层面**
-
-一旦之前没有规划，这里就属于应急策略。结合 ES 自身的支持动态扩展的特点，动态新增机器的方式可以缓解集群压力，注意：如果之前主节点等规划合理，不需要重启集群也能完成动态新增的。
+1. 精确匹配，例如 term、exists、term set、 range、prefix、 ids、 wildcard、regexp、 fuzzy等。
+2. 全文检索，例如match、match_phrase、multi_match、match_phrase_prefix、query_string 等
 
 
-### 7、解释一下 Elasticsearch 的 分片？
+### 8、详细描述一下 Elasticsearch 搜索的过程。
 
-当文档数量增加，硬盘容量和处理能力不足时，对客户端请求的响应将延迟。
+**1、** 搜索被执行成一个两阶段过程，我们称之为 Query Then Fetch；
 
-在这种情况下，将索引数据分成小块的过程称为分片，可改善数据搜索结果的获取。
+**2、** 在初始查询阶段时，查询会广播到索引中每一个分片拷贝（主分片或者副本分片）。每个分片在本地执行搜索并构建一个匹配文档的大小为 from + size 的优先队列。
 
+PS：在搜索的时候是会查询 Filesystem Cache 的，但是有部分数据还在 Memory Buffer，所以搜索是近实时的。
 
-### 8、在Elasticsearch中 cat API的功能是什么？
+**3、** 每个分片返回各自优先队列中 所有文档的 ID 和排序值 给协调节点，它合并这些值到自己的优先队列中来产生一个全局排序后的结果列表。
 
-cat API 命令提供了Elasticsearch 集群的分析、概述和运行状况，其中包括与别名，分配，索引，节点属性等有关的信息。
+**4、** 接下来就是 取回阶段，协调节点辨别出哪些文档需要被取回并向相关的分片提交多个 GET 请求。每个分片加载并 _丰富_ 文档，如果有需要的话，接着返回文档给协调节点。一旦所有的文档都被取回了，协调节点返回结果给客户端。
 
-这些 cat 命令使用查询字符串作为其参数，并以J SON 文档格式返回结果信息。
+**5、** 补充：Query Then Fetch 的搜索类型在文档相关性打分的时候参考的是本分片的数据，这样在文档数量较少的时候可能不够准确，DFS Query Then Fetch 增加了一个预查询的处理，询问 Term 和 Document frequency，这个评分更准确，但是性能会变差。
 
-
-### 9、ElasticSearch中的倒排索引是什么？
-
-倒排索引是搜索引擎的核心，搜索引擎的主要目标是在查找发生搜索条件的文档时提供快速搜索。倒排索引是一种像数据结构一样的散列图，可将用户从单词导向文档或网页，它是搜索引擎的核心。其主要目标是快速搜索从数百万文件中查找数据。
+![70_6.png][70_6.png]
 
 
-### 10、对于 GC 方面，在使用 Elasticsearch 时要注意什么？
+### 9、Kibana在Elasticsearch的哪些地方以及如何使用？
 
-**1、** SEE
+Kibana是ELK Stack –日志分析解决方案的一部分。
 
-**2、** 倒排词典的索引需要常驻内存，无法 GC，需要监控 data node 上 segmentmemory 增长趋势。
+它是一种开放源代码的可视化工具，可以以拖拽、自定义图表的方式直观分析数据，极大降低的数据分析的门槛。
 
-**3、** 各类缓存，field cache, filter cache, indexing cache, bulk queue 等等，要设置合理的大小，并且要应该根据最坏的情况来看 heap 是否够用，也就是各类缓存全部占满的时候，还有 heap 空间可以分配给其他任务吗？避免采用 clear cache等“自欺欺人”的方式来释放内存。
-
-**4、** 避免返回大量结果集的搜索与聚合。确实需要大量拉取数据的场景，可以采用scan & scroll api 来实现。
-
-**5、** cluster stats 驻留内存并无法水平扩展，超大规模集群可以考虑分拆成多个集群通过 tribe node 连接。
-
-**6、** 想知道 heap 够不够，必须结合实际应用场景，并对集群的 heap 使用情况做持续的监控。
+未来会向类似：商业智能和分析软件 - Tableau 发展。
 
 
-### 11、拼写纠错是如何实现的？
-### 12、介绍一下你们的个性化搜索方案？
-### 13、Elasticsearch 支持哪些配置管理工具？
-### 14、Elasticsearch 中的节点（比如共 20 个），其中的 10 个选了一个master，另外 10 个选了另一个 master，怎么办？
-### 15、对于GC方面，在使用Elasticsearch时要注意什么？
-### 16、能列出 10 个使用 Elasticsearch 作为其搜索引擎或数据库的公司吗？
-### 17、你可以列出 Elasticsearch 各种类型的分析器吗？
-### 18、您能解释一下 Elasticsearch 中的 Explore API 吗？
-### 19、Elasticsearch 在部署时，对 Linux 的设置有哪些优化方法
-### 20、你之前公司的ElasticSearch集群，一个Node一般会分配几个分片？
-### 21、客户端在和集群连接时，如何选择特定的节点执行请求的？
-### 22、解释一下 Elasticsearch 集群中的 Type 的概念 ？
-### 23、Elasticsearch对于大数据量（上亿量级）的聚合如何实现？
-### 24、ES在生产集群的部署架构是什么，每个索引有多大的数据量，每个索引有多少分片
-### 25、什么是ElasticSearch索引？
-### 26、在并发情况下，Elasticsearch如果保证读写一致？
+### 10、ElasticSearch是如何实现Master选举的？
+
+ElasticSearch的选举是ZenDiscovery模块负责的，主要包含Ping（节点之间通过这个RPC来发现彼此）和Unicast（单播模块包含一个主机列表以控制哪些节点需要ping通）这两部分；
+
+对所有可以成为master的节点（node.master: true）根据nodeId字典排序，每次选举每个节点都把自己所知道节点排一次序，然后选出第一个（第0位）节点，暂且认为它是master节点。
+
+如果对某个节点的投票数达到一定的值（可以成为master节点数n/2+1）并且该节点自己也选举自己， 那这个节点就是master。否则重新选举一直到满足上述条件。
+
+
+### 11、解释一下 Elasticsearch 的 分片？
+### 12、elasticsearch 是如何实现 master 选举的
+### 13、Elasticsearch 是如何实现 Master 选举的？
+### 14、elasticsearch是如何实现master选举的
+### 15、详细描述一下 Elasticsearch 更新和删除文档的过程。
+### 16、您能解释一下X-Pack for Elasticsearch的功能和重要性吗？
+### 17、你能否列出与 Elasticsearch 有关的主要可用字段数据类型？
+### 18、详细描述一下Elasticsearch搜索的过程。
+### 19、你可以列出 Elasticsearch 各种类型的分析器吗？
+### 20、详细描述一下Elasticsearch搜索的过程？
+### 21、可以列出X-Pack API 吗？
+### 22、请解释有关 Elasticsearch的 NRT？
+### 23、elasticsearch 数据的写入原理
+### 24、ElasticSearch如何监控集群状态？
+### 25、安装 Elasticsearch 需要依赖什么组件吗？
+### 26、能列出 10 个使用 Elasticsearch 作为其搜索引擎或数据库的公司吗？
 
 
 
 
 ## 全部答案，整理好了，直接下载吧
 
-### 下载链接：[全部答案，整理好了](https://www.souyunku.com/?p=67)
+### 下载链接：[全部答案，整理好了](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
 
-### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/?p=67)
+### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
 
 
 ## 最新，高清PDF：172份，7701页，最新整理

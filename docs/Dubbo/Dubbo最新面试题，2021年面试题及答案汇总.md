@@ -2,103 +2,134 @@
 
 ### 其实，博主还整理了，更多大厂面试题，直接下载吧
 
-### 下载链接：[高清172份，累计 7701 页大厂面试题  PDF](https://www.souyunku.com/?p=67)
+### 下载链接：[高清172份，累计 7701 页大厂面试题  PDF](https://github.com/souyunku/DevBooks/blob/master/docs/index.md)
 
-### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/?p=67)
-
-
-
-### 1、你觉得用 Dubbo 好还是 Spring Cloud 好？
-
-扩展性的问题，没有好坏，只有适合不适合，不过我好像更倾向于使用 Dubbo, Spring Cloud 版本升级太快，组件更新替换太频繁，配置太繁琐，还有很多我觉得是没有 Dubbo 顺手的地方。
+### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png)
 
 
-### 2、RPC使用了哪些关键技术，反序列化
 
-当B机器接收到A机器的应用发来的请求之后，又需要对接收到的参数等信息进行反序列化操作（序列化的逆操作），即将二进制信息恢复为内存中的表达方式，然后再找到对应的方法（寻址的一部分）进行本地调用（一般是通过生成代理Proxy去调用, 通常会有JDK动态代理、CGLIB动态代理、Javassist生成字节码技术等），之后得到调用的返回值。
+### 1、RPC使用了哪些关键技术，服务注册中心
 
-
-### 3、Dubbo服务之间的调用是阻塞的吗？
-
-默认是同步等待结果阻塞的，支持异步调用，Dubbo 是基于 NIO 的非阻塞实现并行调用，客户端不需要启动多线程即可完成并行调用多个远程服务，相对多线程开销较小，异步调用会返回一个 Future 对象。
+可选：Redis、Zookeeper、Consul 、Etcd。一般使用ZooKeeper提供服务注册与发现功能，解决单点故障以及分布式部署的问题(注册中心)。
 
 
-### 4、Dubbo 和 Dubbox 之间的区别？
+### 2、Dubbo服务降级，失败重试怎么做？
 
-Dubbox 是继 Dubbo 停止维护后，当当网基于 Dubbo 做的一个扩展项目，如加了服务可 Restful 调用，更新了开源组件等。
-
-
-### 5、在使用过程中都遇到了些什么问题？
-
-如序列化问题。
+可以通过dubbo:reference 中设置mock="return null"。mock的值也可以修改为true，然后在跟接口同一个路径下实现一个Mock类，命名规则是"接口名称+Mock"后缀。然后在Mock类里实现自己的降级逻辑。
 
 
-### 6、Dubbo 使用过程中都遇到了些什么问题？
 
-在注册中心找不到对应的服务,检查 service 实现类是否添加了[@service ](/service ) 注解无法连接到注册中心,检查配置文件中的对应的测试 ip 是否正确
+### 3、服务上线怎么不影响旧版本？
 
-
-### 7、你还了解别的分布式框架吗？
-
-别的还有 Spring cloud、Facebook 的 Thrift、Twitter 的 Finagle 等。
+采用多版本开发，不影响旧版本。
 
 
-### 8、Dubbo 在安全机制方面是如何解决？
+### 4、Dubbo 支持哪些协议，它们的优缺点有哪些？
 
-Dubbo 通过 Token 令牌防止用户绕过注册中心直连，然后在注册中心上管理授权。Dubbo 还提供服务黑白名单，来控制服务所允许的调用方。
+**1、** Dubbo： 单一长连接和 NIO 异步通讯，适合大并发小数据量的服务调用，以及消费者远大于提供者。传输协议 TCP，异步 Hessian 序列化。
 
+**2、** RMI： 采用 JDK 标准的 RMI 协议实现，传输参数和返回参数对象需要实现 Serializable 接口，使用 Java 标准序列化机制，使用阻塞式短连接，传输数据包大小混合，消费者和提供者个数差不多，可传文件，传输协议 TCP。 多个短连接 TCP 协议传输，同步传输，适用常规的远程服务调用和 RMI 互操作。在依赖低版本的 Common-Collections 包，Java 序列化存在安全漏洞。
 
-### 9、RPC使用了哪些关键技术，从调用者的角度看：
+**3、** WebService：基于 WebService 的远程调用协议，集成 CXF 实现，提供和原生 WebService 的互操作。多个短连接，基于 HTTP 传输，同步传输，适用系统集成和跨语言调用。
 
-服务的调用者启动的时候根据自己订阅的服务向服务注册中心查找服务提供者的地址等信息；
+**4、** HTTP： 基于 Http 表单提交的远程调用协议，使用 Spring 的 HttpInvoke 实现。多个短连接，传输协议 HTTP，传入参数大小混合，提供者个数多于消费者，需要给应用程序和浏览器 JS 调用。
 
-当服务调用者消费的服务上线或者下线的时候，注册中心会告知该服务的调用者；
+**5、** Hessian：集成 Hessian 服务，基于 HTTP 通讯，采用 Servlet 暴露服务，Dubbo 内嵌 Jetty 作为服务器时默认实现，提供与 Hession 服务互操作。多个短连接，同步 HTTP 传输，Hessian 序列化，传入参数较大，提供者大于消费者，提供者压力较大，可传文件。
 
-服务调用者下线的时候，则取消订阅。
+**6、** Memcache：基于 Memcache实现的 RPC 协议。
 
-
-### 10、Dubbo 推荐用什么协议？
-
-- dubbo://（推荐）
-- rmi://
-- hessian://
-- http://
-- webservice://
-- thrift://
-- Memcached://
-- Redis://
-- rest://
+**7、** Redis：基于 Redis 实现的RPC协议。
 
 
-### 11、Dubbo SPI 和 Java SPI 区别？
-### 12、什么是RPC
-### 13、Dubbo 和 Spring Cloud 的区别？
-### 14、Dubbo 支持哪些协议，它们的优缺点有哪些？
-### 15、RPC使用了哪些关键技术，动态代理
-### 16、Dubbo SPI 和 Java SPI 区别？
-### 17、Dubbo的集群容错方案有哪些？
-### 18、一般使用什么注册中心？还有别的选择吗？
-### 19、服务提供者能实现失效踢出是什么原理？
-### 20、Dubbo 的整体架构设计有哪些分层?
-### 21、一般使用什么注册中心？还有别的选择吗？
-### 22、Dubbo 是什么？
-### 23、RPC使用了哪些关键技术，序列化
-### 24、Dubbo 的使用场景有哪些？
-### 25、服务上线怎么兼容旧版本？
-### 26、说说核心的配置有哪些？
-### 27、RPC使用了哪些关键技术，RPC的实现原理架构图
-### 28、Dubbo的集群容错方案有哪些？
-### 29、Dubbo 和 Dubbox 之间的区别？
-### 30、服务调用超时会怎么样？
+### 5、服务调用超时问题怎么解决？
+
+dubbo 在调用服务不成功时，默认是会重试两次的。
+
+
+### 6、Dubbo 支持分布式事务吗？
+
+目前暂时不支持，可与通过 tcc-transaction框架实现
+
+介绍：tcc-transaction是开源的TCC补偿性分布式事务框架
+
+Git地址：[https://github.com/changmingxie/tcc-transaction](https://github.com/changmingxie/tcc-transaction)
+
+TCC-Transaction 通过 Dubbo 隐式传参的功能，避免自己对业务代码的入侵。
+
+
+### 7、Dubbo 支持哪些序列化方式？
+
+默认使用 Hessian 序列化，还有 Duddo、FastJson、Java 自带序列化。
+
+
+### 8、服务调用是阻塞的吗？
+
+默认是阻塞的，可以异步调用，没有返回值的可以这么做。
+
+
+### 9、画一画服务注册与发现的流程图？
+
+![](http://dubbo.apache.org/img/architecture.png#alt=)
+
+
+### 10、dubbo 服务负载均衡策略？
+
+**Random LoadBalance**
+
+随机，按权重设置随机概率。在一个截面上碰撞的概率高，但调用量越大分布越均匀，而且按概率使用权重后也比较均匀，有利于动态调整提供者权重。(权重可以在 dubbo 管控台配置)
+
+**RoundRobin LoadBalance**
+
+轮循，按公约后的权重设置轮循比率。存在慢的提供者累积请求问题，比如：第二台机器很慢，但没挂，当请求调到第二台时就卡在那，久而久之，所有请求都卡在调到第二台上。
+
+**LeastActive LoadBalance**
+
+最少活跃调用数，相同活跃数的随机，活跃数指调用前后计数差。使慢的提供者收到更少请求，因为越慢的提供者的调用前后计数差会越大。
+
+**ConsistentHash LoadBalance**
+
+一致性 Hash，相同参数的请求总是发到同一提供者。当某一台提供者挂时，原本发往该提供者的请求，基于虚拟节点，平摊到其它提供者，不会引起剧烈变动。缺省只对第一个参数 Hash，如果要修改，请配置
+
+```
+<dubbo:parameter key="hash.arguments" value="0,1" />
+```
+
+缺省用 160 份虚拟节点，如果要修改，请配置
+
+```
+<dubbo:parameter key="hash.nodes" value="320" />
+```
+
+
+### 11、Dubbo 超时时间怎样设置？
+### 12、dubbo 通信协议 dubbo 协议为什么不能传大包；
+### 13、dubbo推荐用什么协议？
+### 14、Dubbo 和 Dubbox 之间的区别？
+### 15、Dubbo有哪几种集群容错方案，默认是哪种？
+### 16、在使用过程中都遇到了些什么问题？ 如何解决的？
+### 17、默认使用什么序列化框架，你知道的还有哪些？
+### 18、服务调用超时问题怎么解决
+### 19、Dubbo 的使用场景有哪些？
+### 20、同一个服务多个注册的情况下可以直连某一个服务吗？
+### 21、RPC使用了哪些关键技术，RMI
+### 22、Dubbo 有哪些注册中心？
+### 23、集群容错怎么做？
+### 24、Dubbo 使用的是什么通信框架?
+### 25、RPC使用了哪些关键技术，序列化和反序列化
+### 26、RPC使用了哪些关键技术，protobuf-rpc-pro
+### 27、Dubbo集群提供了哪些负载均衡策略？
+### 28、Dubbo 如何优雅停机？
+### 29、dubbo 通信协议 dubbo 协议为什么要消费者比提供者个数多？
+### 30、Dubbo Monitor 实现原理？
 
 
 
 
 ## 全部答案，整理好了，直接下载吧
 
-### 下载链接：[全部答案，整理好了](https://www.souyunku.com/?p=67)
+### 下载链接：[全部答案，整理好了](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
 
-### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/?p=67)
+### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
 
 
 ## 最新，高清PDF：172份，7701页，最新整理

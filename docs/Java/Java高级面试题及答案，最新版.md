@@ -2,125 +2,147 @@
 
 ### 其实，博主还整理了，更多大厂面试题，直接下载吧
 
-### 下载链接：[高清172份，累计 7701 页大厂面试题  PDF](https://www.souyunku.com/?p=67)
+### 下载链接：[高清172份，累计 7701 页大厂面试题  PDF](https://github.com/souyunku/DevBooks/blob/master/docs/index.md)
 
-### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/?p=67)
-
-
-
-### 1、什么叫线程安全？servlet是线程安全吗?
-
-线程安全是编程中的术语，指某个函数、函数库在多线程环境中被调用时，能够正确地处理多个线程之间的共享变量，使程序功能正确完成。
-
-Servlet不是线程安全的，servlet是单实例多线程的，当多个线程同时访问同一个方法，是不能保证共享变量的线程安全性的。
-
-Struts2的action是多实例多线程的，是线程安全的，每个请求过来都会new一个新的action分配给这个请求，请求完成后销毁。
-
-SpringMVC的Controller是线程安全的吗？不是的，和Servlet类似的处理流程。
-
-Struts2好处是不用考虑线程安全问题；Servlet和SpringMVC需要考虑线程安全问题，但是性能可以提升不用处理太多的gc，可以使用ThreadLocal来处理多线程的问题。
-
-
-### 2、例如： if(a+1.0=4.0)，这样做好吗？
-
-不好，因为计算机在浮点型数据运算的时候，会有误差，尽量在布尔表达式中不使用浮点型数据(if,while,switch中判断条件不使用浮点型)
-
-
-### 3、Java 中能创建 volatile 数组吗？
-
-能，Java 中可以创建 volatile 类型数组，不过只是一个指向数组的引用，而不是整个数组。意思是，如果改变引用指向的数组，将会受到 volatile 的保护，但是如果多个线程同时改变数组的元素，volatile 标示符就不能起到之前的保护作用了。
-
-
-### 4、怎么利用 JUnit 来测试一个方法的异常？
-
-[http://javarevisited.blogspot.sg/2013/04/JUnit-tutorial-example-test-exception-thrown-by-java-method.html](http://javarevisited.blogspot.sg/2013/04/JUnit-tutorial-example-test-exception-thrown-by-java-method.html)
-
-
-### 5、有哪些打破了双亲委托机制的案例？
-
-**1、** Tomcat可以加载自己目录下的class文件，并不会传递给父类的加载器。
-
-**2、** Java的SPI，发起者是 `BootstrapClassLoader`， `BootstrapClassLoader`已经是最上层的了。它直接获取了 `AppClassLoader`进行驱动加载，和双亲委派是相反的。。
-
-
-### 6、Array与ArrayList有什么不一样？
-
-Array与ArrayList都是用来存储数据的集合。ArrayList底层是使用数组实现的，但是arrayList对数组进行了封装和功能扩展，拥有许多原生数组没有的一些功能。我们可以理解成ArrayList是Array的一个升级版。
-
-
-### 7、阐述final、finally、finalize的区别。
+### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png)
 
 
 
-**1、** final：修饰符（关键字）有三种用法：如果一个类被声明为final，意味着它不能再派生出新的子类，即不能被继承，因此它和abstract是反义词。将变量声明为final，可以保证它们在使用中不被改变，被声明为final的变量必须在声明时给定初值，而在以后的引用中只能读取不可修改。被声明为final的方法也同样只能使用，不能在子类中被重写。
+### 1、Java都有那些开发平台？
 
-**2、** finally：通常放在try…catch…的后面构造总是执行代码块，这就意味着程序无论正常执行还是发生异常，这里的代码只要JVM不关闭都能执行，可以将释放外部资源的代码写在finally块中。
+**1、** JAVA SE：主要用在客户端开发
 
-**3、** finalize：Object类中定义的方法，Java中允许使用finalize()方法在垃圾收集器将对象从内存中清除出去之前做必要的清理工作。这个方法是由垃圾收集器在销毁对象时调用的，通过重写finalize()方法可以整理系统资源或者执行其他清理工作。
+**2、** JAVA EE：主要用在web应用程序开发
 
-
-### 8、抽象类能使用 final 修饰吗？
-
-不能，定义抽象类就是让其他类继承的，如果定义为 final 该类就不能被继承，这样彼此就会产生矛盾，所以 final 不能修饰抽象类，如下图所示，编辑器也会提示错误信息：
-
-![](https://gitee.com/souyunkutech/souyunku-home/raw/master/images/souyunku-web/2020/4/30/2012/47/79_1.png#alt=79%5C_1.png)
+**3、** JAVA ME：主要用在嵌入式应用程序开发
 
 
-### 9、什么是阻塞式方法？
+### 2、CopyOnWriteArrayList 的使用场景?
 
-阻塞式方法是指程序会一直等待该方法完成期间不做其他事情，ServerSocket的accept()方法就是一直等待客户端连接。这里的阻塞是指调用结果返回之前，当前线程会被挂起，直到得到结果之后才会返回。此外，还有异步和非阻塞式方法在任务完成前就返回。
-
-
-### 10、线程的 run()和 start()有什么区别？
-
-**1、** 每个线程都是通过某个特定Thread对象所对应的方法run()来完成其操作的，run()方法称为线程体。通过调用Thread类的start()方法来启动一个线程。
-
-**2、** start() 方法用于启动线程，run() 方法用于执行线程的运行时代码。run() 可以重复调用，而 start() 只能调用一次。
-
-**3、** start()方法来启动一个线程，真正实现了多线程运行。调用start()方法无需等待run方法体代码执行完毕，可以直接继续执行其他的代码； 此时线程是处于就绪状态，并没有运行。 然后通过此Thread类调用方法run()来完成其运行状态， run()方法运行结束， 此线程终止。然后CPU再调度其它线程。
-
-**4、** run()方法是在本线程里的，只是线程里的一个函数，而不是多线程的。 如果直接调用run()，其实就相当于是调用了一个普通函数而已，直接待用run()方法必须等待run()方法执行完毕才能执行下面的代码，所以执行路径还是只有一条，根本就没有线程的特征，所以在多线程执行时要使用start()方法而不是run()方法。
+合适读多写少的场景。
 
 
-### 11、静态嵌套类(Static Nested Class)和内部类（Inner Class）的不同？
-### 12、怎么获取 Java 程序使用的内存？堆使用的百分比？
-### 13、如何开启和查看 GC 日志？
-### 14、各种回收算法
-### 15、单例模式使用注意事项：
-### 16、你所知道的web服务器有哪些？
-### 17、什么是 Class 文件？ Class 文件主要的信息结构有哪些？
-### 18、Java线程具有五中基本状态
-### 19、打印昨天的当前时刻。
-### 20、Java中Semaphore是什么？
-### 21、构造方法有哪些特性？
-### 22、说说类加载的过程
-### 23、多线程中 synchronized 锁升级的原理是什么？
-### 24、Serial Old 收集器（单线程标记整理算法 ）
-### 25、什么是线程池？
-### 26、存在两个类，B 继承 A，C 继承 B，我们能将 B 转换为 C 么？如 C = (C) B；
-### 27、生产环境用的什么JDK？如何配置的垃圾收集器？
-### 28、synchronized和ReentrantLock的区别
-### 29、你知道哪些内存分配与回收策略？
-### 30、抽象的关键字是什么？
-### 31、HashMap为什么不直接使用hashCode()处理后的哈希值直接作为table的下标？
-### 32、在调用子类构造方法之前会先调用父类没有参数的构造方法，其目的是？
-### 33、说下有哪些类加载器？
-### 34、你对 Time Slice的理解?
-### 35、如果对象的引用被置为null，垃圾收集器是否会立即释放对象占用的内存？
-### 36、可以直接调用Thread类的run ()方法么？
-### 37、当打开其他程序的网页时，使用的target属性是哪个？
-### 38、什么是Vector
-### 39、什么时候会造成堆外内存溢出？
-### 40、什么是ThreadLocal变量？
+### 3、你如何确保main()方法所在的线程是Java 程序最后结束的线程？
+
+我们可以使用Thread类的join()方法来确保所有程序创建的线程在main()方法退出前结束。
+
+
+### 4、Java 中怎么获取一份线程 dump 文件？
+
+在 Linux 下，你可以通过命令 kill -3 PID （Java 进程的进程 ID）来获取 Java 应用的 dump 文件。在 Windows 下，你可以按下 Ctrl + Break 来获取。这样 JVM 就会将线程的 dump 文件打印到标准输出或错误文件中，它可能打印在控制台或者日志文件中，具体位置依赖应用的配置。如果你使用Tomcat。
+
+
+### 5、Object类常用方法有那些？
+
+**1、** Equals
+
+**2、** Hashcode
+
+**3、** toString
+
+**4、** wait
+
+**5、** notify
+
+**6、** clone
+
+**7、** getClass
+
+
+### 6、原型模式的应用场景
+
+**1、** 类初始化需要消化非常多的资源，这个资源包括数据、硬件资源等。这时我们就可以通过原型拷贝避免这些消耗。
+
+**2、** 通过new产生的一个对象需要非常繁琐的数据准备或者权限，这时可以使用原型模式。
+
+**3、** 一个对象需要提供给其他对象访问，而且各个调用者可能都需要修改其值时，可以考虑使用原型模式拷贝多个对象供调用者使用，即保护性拷贝。
+
+我们Spring框架中的多例就是使用原型
+
+
+### 7、Servlet生命周期内调用的方法过程？
+
+**1、** Init()
+
+**2、** Service()
+
+**3、** doGet或者doPost
+
+**4、** destroy
+
+
+### 8、JVM的引用类型有哪些？
+
+引用内型：
+
+**强引用：**
+
+当内存不足的时候，JVM宁可出现OutOfMemoryError错误停止，也需要进行保存，并且不会将此空间回收。在引用期间和栈有联系就无法被回收
+
+**软引用：**
+
+当内存不足的时候，进行对象的回收处理，往往用于高速缓存中；mybatis就是其中
+
+**弱引用：**
+
+不管内存是否紧张，只要有垃圾了就立即回收
+
+**幽灵引用：**
+
+和没有引用是一样的
+
+
+### 9、Java 中，怎样才能打印出数组中的重复元素？
+
+解决方案
+
+[http://javarevisited.blogspot.com/2015/06/3-ways-to-find-duplicate-elements-in-array-java.html](http://javarevisited.blogspot.com/2015/06/3-ways-to-find-duplicate-elements-in-array-java.html)
+
+
+### 10、Java中Semaphore是什么？
+
+Java中的Semaphore是一种新的同步类，它是一个计数信号。从概念上讲，从概念上讲，信号量维护了一个许可集合。如有必要，在许可可用前会阻塞每一个 acquire()，然后再获取该许可。每个 release()添加一个许可，从而可能释放一个正在阻塞的获取者。但是，不使用实际的许可对象，Semaphore只对可用许可的号码进行计数，并采取相应的行动。信号量常常用于多线程的代码中，比如数据库连接池。
+
+
+### 11、聚集索引与非聚集索引有什么区别？
+### 12、HashMap 与 HashTable 有什么区别？
+### 13、怎么利用 JUnit 来测试一个方法的异常？
+### 14、String s = new String(“xyz”);创建了几个字符串对象？
+### 15、用哪两种方式来实现集合的排序？
+### 16、Js如何跳转到到一个指定页面
+### 17、comparable 和 comparator的区别？
+### 18、单例防止反射漏洞攻击
+### 19、说出 5 个 JDK 1.8 引入的新特性？
+### 20、Java 堆的结构是什么样子的？什么是堆中的永久代（Perm Gen space）
+### 21、你对线程优先级的理解是什么？
+### 22、程序计数器(线程私有)
+### 23、永久代
+### 24、mixin、hoc、render props、react-hooks的优劣如何？
+### 25、Serial 与 Parallel GC 之间的不同之处？
+### 26、为什么HashTable是线程安全的？
+### 27、说一下垃圾分代收集的过程
+### 28、为什么你应该在循环中检查等待条件?
+### 29、谈谈永久代
+### 30、什么是多线程环境下的伪共享（false sharing）？
+### 31、volatile关键字的原理是什么？干什么用的？
+### 32、如何部署一个web项目？
+### 33、在 Java 程序中怎么保证多线程的运行安全？
+### 34、关于 OOP 和设计模式的面试题
+### 35、线程的 run()和 start()有什么区别？
+### 36、接口和抽象类的区别是什么？
+### 37、什么是Callable和Future?
+### 38、当一个线程进入一个对象的synchronized方法A之后，其它线程是否可进入此对象的synchronized方法B？
+### 39、什么是Web Service（Web服务）
+### 40、什么是Daemon线程？它有什么意义？
 
 
 
 
 ## 全部答案，整理好了，直接下载吧
 
-### 下载链接：[全部答案，整理好了](https://www.souyunku.com/?p=67)
+### 下载链接：[全部答案，整理好了](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
 
-### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/?p=67)
+### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
 
 
 ## 最新，高清PDF：172份，7701页，最新整理

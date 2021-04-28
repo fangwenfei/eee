@@ -2,151 +2,202 @@
 
 ### 其实，博主还整理了，更多大厂面试题，直接下载吧
 
-### 下载链接：[高清172份，累计 7701 页大厂面试题  PDF](https://www.souyunku.com/?p=67)
+### 下载链接：[高清172份，累计 7701 页大厂面试题  PDF](https://github.com/souyunku/DevBooks/blob/master/docs/index.md)
 
-### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/?p=67)
-
-
-
-### 1、MyBatis框架适用场合：
-
-**1、** MyBatis专注于SQL本身，是一个足够灵活的DAO层解决方案；
-
-**2、** 对性能的要求很高，或者需求变化较多的项目，如互联网项目，MyBatis将是不错的选择。
+### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png)
 
 
-### 2、接口绑定有几种实现方式,分别是怎么实现的?
 
-接口绑定有两种实现方式,一种是通过注解绑定,就是在接口的方法上面加上
+### 1、Mybatis 中如何执行批处理？
 
-@Select[@Update ](/Update ) 等注解里面包含 Sql 语句来绑定,另外一种就是通过 xml 里面写 SQL 来绑
-
-定,在这种情况下,要指定 xml 映射文件里面的 namespace 必须为接口的全路径名.
+使用 BatchExecutor 完成批处理。
 
 
-### 3、Mybatis都有哪些Executor执行器？它们之间的区别是什么？
+### 2、什么是MyBatis的接口绑定？有哪些实现方式？
 
-Mybatis有三种基本的Executor执行器，SimpleExecutor、ReuseExecutor、BatchExecutor。
+接口绑定，就是在MyBatis中任意定义接口,然后把接口里面的方法和SQL语句绑定, 我们直接调用接口方法就可以,这样比起原来了SqlSession提供的方法我们可以有更加灵活的选择和设置。
 
-**SimpleExecutor**：
-
-每执行一次update或select，就开启一个Statement对象，用完立刻关闭Statement对象。
-
-**ReuseExecutor**：
-
-执行update或select，以sql作为key查找Statement对象，存在就使用，不存在就创建，用完后，不关闭Statement对象，而是放置于Map<String, Statement>内，供下一次使用。简言之，就是重复使用Statement对象。
-
-**BatchExecutor**：
-
-执行update（没有select，JDBC批处理不支持select），将所有sql都添加到批处理中（addBatch()），等待统一执行（executeBatch()），它缓存了多个Statement对象，每个Statement对象都是addBatch()完毕后，等待逐一执行executeBatch()批处理。与JDBC批处理相同。
-
-作用范围：Executor的这些特点，都严格限制在SqlSession生命周期范围内。
+接口绑定有两种实现方式,一种是通过注解绑定，就是在接口的方法上面加上 @Select、@Update等注解，里面包含Sql语句来绑定；另外一种就是通过xml里面写SQL来绑定, 在这种情况下,要指定xml映射文件里面的namespace必须为接口的全路径名。当Sql语句比较简单时候,用注解绑定, 当SQL语句比较复杂时候,用xml绑定,一般用xml绑定的比较多。
 
 
-### 4、#{}和${}的区别是什么？
+### 3、如何获取自动生成的(主)键值？
 
-`#{}`是预编译处理，${}是字符串替换。
-
-Mybatis在处理#{}时，会将sql中的#{}替换为?号，调用PreparedStatement的set方法来赋值；
-
-Mybatis在处理$${}时，就是把$${}替换成变量的值。
-
-使用#{}可以有效的防止SQL注入，提高系统安全性。
+配置文件设置 usegeneratedkeys 为 true
 
 
-### 5、这个Dao接口的工作原理是什么？Dao接口里的方法，参数不同时，方法能重载吗
+### 4、在mapper中如何传递多个参数
 
-Dao接口的工作原理是JDK动态代理，Mybatis运行时会使用JDK动态代理为Dao接口生成代理proxy对象，代理对象proxy会拦截接口方法，转而执行MappedStatement所代表的sql，然后将sql执行结果返回。
+**方法1：顺序传参法**
 
-Dao接口里的方法，是不能重载的，因为是全限名+方法名的保存和寻找策略。
+```
+public User selectUser(String name, int deptId);
 
+<select id="selectUser" resultMap="UserResultMap">
+select * from user
+where user_name ={0} and dept_id ={1}
+</select>
+```
 
-### 6、什么是Mybatis？
+**1、** #{}里面的数字代表传入参数的顺序。
 
-**1、** Mybatis是一个半ORM（对象关系映射）框架，它内部封装了JDBC，开发时只需要关注SQL语句本身，不需要花费精力去处理加载驱动、创建连接、创建statement等繁杂的过程；
+**2、** 这种方法不建议使用，sql层表达不直观，且一旦顺序调整容易出错。
 
-**2、** MyBatis 可以使用 XML 或注解来配置和映射原生信息，将 POJO映射成数据库中的记录，避免了几乎所有的 JDBC 代码和手动设置参数以及获取结果集；
+**方法2：@Param注解传参法**
 
-**3、** 通过xml 文件或注解的方式将要执行的各种 statement 配置起来，并通过java对象和 statement中[MySQL](https://www.wkcto.com/courses/MySQL.html)的动态参数进行映射生成最终执行的sql语句，最后由mybatis框架执行sql并将结果映射为java对象并返回。
+```
+public User selectUser(@Param("userName") String name, int @Param("deptId") deptId);
 
+<select id="selectUser" resultMap="UserResultMap">
+select * from user
+where user_name ={userName} and dept_id ={deptId}
+</select>
+```
 
-### 7、如何获取自动生成的(主)键值?
+**1、** #{}里面的名称对应的是注解@Param括号里面修饰的名称。
 
-insert 方法总是返回一个int值 ，这个值代表的是插入的行数。
+**2、** 这种方法在参数不多的情况还是比较直观的，（推荐使用）
 
-如果采用自增长策略，自动生成的键值在 insert 方法执行完后可以被设置到传入的参数对象中。
+**方法3：Map传参法**
 
-**示例：**
+```
+public User selectUser(Map<String, Object> params);
 
-```xml
-<insert id=”insertname” usegeneratedkeys=”true” keyproperty=”id”>
-        insert into names (name) values (#{name})
-        </insert>
-        name name = new name();
-        name.setname(“fred”);
-
-        int rows = mapper.insertname(name);
-        // 完成后,id已经被设置到对象中
-        system.out.println(“rows inserted = ” + rows);
-        system.out.println(“generated key value = ” + name.getid());
+<select id="selectUser" parameterType="java.util.Map" resultMap="UserResultMap">
+select * from user
+where user_name ={userName} and dept_id ={deptId}
+</select>
 ```
 
 
-### 8、Mybatis是如何进行分页的？分页插件的原理是什么？
+### 5、模糊查询like语句该怎么写
 
-Mybatis使用Row Bounds对象进行分页，它是针对Result Set结果集执行的内存分页，而非物理分页。可以在sql内直接书写带有物理分页的参数来完成物理分页功能，也可以使用分页插件来完成物理分页。
+- 1 ’%${question}%’ 可能引起SQL注入，不推荐
+- 2 "%"#{question}"%" 注意：因为#{…}解析成sql语句时候，会在变量外侧自动加单引号’ '，所以这里 % 需要使用双引号" "，不能使用单引号 ’ '，不然会查不到任何结果。
+- 3 CONCAT(’%’,#{question},’%’) 使用CONCAT()函数，（推荐）
+- 4 使用bind标签（不推荐）
 
-分页原理：分页插件的基本原理是使用Mybatis提供的插件接口，实现自定义插件，在插件的拦截方法内拦截待执行的sql，然后重写sql，根据dialect方言，添加对应的物理分页语句和物理分页参数。
-
-
-### 9、JDBC编程有哪些不足之处，Mybatis是如何解决这些问题的？
-
-**1、** 数据库连接的创建、释放频繁造成系统资源浪费从而影响了性能，如果使用数据库连接池就可以解决这个问题。当然JDBC同样能够使用数据源。
-
-**2、** 在SQLMapConfig.xml中配置数据连接池，使用数据库连接池管理数据库连接。
-
-**3、** SQL语句在写代码中不容易维护，事件需求中SQL变化的可能性很大，SQL变动需要改变JAVA代码。解决：将SQL语句配置在mapper.xml文件中与java代码分离。
-
-**4、** 向SQL语句传递参数麻烦，因为SQL语句的where条件不一定，可能多，也可能少，占位符需要和参数一一对应。解决：Mybatis自动将java对象映射到sql语句。
-
-**5、** 对结果集解析麻烦，sql变化导致解析代码变化，且解析前需要遍历，如果能将数据库记录封装成pojo对象解析比较方便。解决：Mbatis自动将SQL执行结果映射到java对象。
+```
+<select id="listUserLikeUsername" resultType="com.jourwon.pojo.User">
+  <bind name="pattern" value="'%' + username + '%'" />
+  select id,sex,age,username,password from person where username LIKE{pattern}
+</select>
+```
 
 
-### 10、IBatis 和 MyBatis 在细节上的不同有哪些？
+### 6、Mybatis是否支持延迟加载？如果支持，它的实现原理是什么？
 
-**1、** 在 sql 里面变量命名有原来的#变量# 变成了#{变量}
+Mybatis仅支持association关联对象和collection关联集合对象的延迟加载，association指的就是一对一，collection指的就是一对多查询。在Mybatis配置文件中，可以配置是否启用延迟加载lazyLoadingEnabled=true|false。
 
-**2、** 原来的$$变量$$变成了${变量}
+它的原理是，使用CGLIB创建目标对象的代理对象，当调用目标方法时，进入拦截器方法，比如调用a.getB().getName()，拦截器invoke()方法发现a.getB()是null值，那么就会单独发送事先保存好的查询关联B对象的sql，把B查询上来，然后调用a.setB(b)，于是a的对象b属性就有值了，接着完成a.getB().getName()方法的调用。这就是延迟加载的基本原理。
 
-**3、** 原来在 sql 节点里面的 class 都换名字交 type
-
-**4、** 原来的 queryForObject queryForList 变成了 selectOne selectList5、原来的别名设置在映
+当然了，不光是Mybatis，几乎所有的包括Hibernate，支持延迟加载的原理都是一样的。
 
 
-### 11、什么是Mybatis？
-### 12、当实体类中的属性名和表中的字段名不一样 ，怎么办
-### 13、模糊查询 like 语句该怎么写
-### 14、MyBatis的功能架构是怎样的
-### 15、模糊查询like语句该怎么写?
-### 16、MyBatis 的好处是什么？
-### 17、Mybatis的编程步骤是什么样的？
-### 18、MyBatis与Hibernate有哪些不同？
-### 19、Mybatis 能执行一对一、一对多的关联查询吗？都有哪些实现方式，以及它们之间的区
-### 20、JDBC编程有哪些不足之处，MyBatis是如何解决这些问题的？
-### 21、Mybatis 分页查询？
-### 22、Mybatis 执行批量插入，能返回数据库主键列表吗？
-### 23、使用 MyBatis 的 mapper 接口调用时有哪些要求？
-### 24、Mybatis与Spring 的整合？
-### 25、Mybatis 中如何执行批处理？
+### 7、Mybaits的优点有什么？
+
+**1、** 基于SQL语句编程，相当灵活，不会对应用程序或者数据库的现有设计造成任何影响，SQL写在XML里，解除sql与程序代码的耦合，便于统一管理；提供XML标签，支持编写动态SQL语句，并可重用；
+
+**2、** 与JDBC相比，减少了50%以上的代码量，消除了JDBC大量冗余的代码，不需要手动开关连接；
+
+**3、** 很好的与各种数据库兼容；
+
+**4、** 能够与Spring很好的集成；
+
+**5、** 提供映射标签，支持对象与数据库的ORM字段关系映射；提供对象关系映射标签，支持对象关系组件维护。
+
+
+### 8、MyBatis是什么？
+
+Mybatis 是一个半 ORM（对象关系映射）框架，它内部封装了 JDBC，开发时只需要关注 SQL 语句本身，不需要花费精力去处理加载驱动、创建连接、创建statement 等繁杂的过程。程序员直接编写原生态 sql，可以严格控制 sql 执行性能，灵活度高。
+
+MyBatis 可以使用 XML 或注解来配置和映射原生信息，将 POJO 映射成数据库中的记录，避免了几乎所有的 JDBC 代码和手动设置参数以及获取结果集。
+
+
+### 9、在mapper中如何传递多个参数?
+
+**1、** 第一种：
+
+**DAO层的函数**
+
+```java
+public UserselectUser(String name,String area);
+        对应的xml,#{0}代表接收的是dao层中的第一个参数，#{1}代表dao层中第二参数，更多参数一致往后加即可。
+```
+
+```xml
+<select id="selectUser"resultMap="BaseResultMap">
+    select *  fromuser_user_t   whereuser_name = #{0} anduser_area=#{1}
+</select>
+```
+
+**2、** 第二种： 使用 [@param ](/param ) 注解:
+
+```java
+public interface usermapper {
+    user selectuser(@param(“username”) string username,@param(“hashedpassword”) string hashedpassword);
+}
+```
+
+然后,就可以在xml像下面这样使用(推荐封装为一个map,作为单个参数传递给mapper):
+
+```xml
+<select id=”selectuser” resulttype=”user”>
+        select id, username, hashedpassword
+        from some_table
+        where username = #{username}
+        and hashedpassword = #{hashedpassword}
+        </select>
+```
+
+**3、** 第三种：多个参数封装成map
+
+```java
+try {
+        //映射文件的命名空间.SQL片段的ID，就可以调用对应的映射文件中的SQL
+        //由于我们的参数超过了两个，而方法中只有一个Object参数收集，因此我们使用Map集合来装载我们的参数
+        Map < String, Object > map = new HashMap();
+        map.put("start", start);
+        map.put("end", end);
+        return sqlSession.selectList("StudentID.pagination", map);
+        } catch (Exception e) {
+        e.printStackTrace();
+        sqlSession.rollback();
+        throw e;
+        } finally {
+        MybatisUtil.closeSqlSession();
+        }
+```
+
+
+### 10、为什么说Mybatis是半自动ORM映射工具？它与全自动的区别在哪里？
+
+Hibernate属于全自动ORM映射工具，使用Hibernate查询关联对象或者关联集合对象时，可以根据对象关系模型直接获取，所以它是全自动的。而Mybatis在查询关联对象或关联集合对象时，需要手动编写sql来完成，所以，称之为半自动ORM映射工具。
+
+
+### 11、简述Mybatis的插件运行原理，以及如何编写一个插件。
+### 12、MyBatis 里面的动态 Sql 是怎么设定的?用什么语法?
+### 13、Mybatis 是如何将 sql 执行结果封装为目标对象并返回的？都有哪些映射形式？
+### 14、为什么需要预编译
+### 15、Mybatis 能执行一对一、一对多的关联查询吗？都有哪些实现方式，以及它们之间的区
+### 16、如何获取自动生成的(主)键值?
+### 17、Mybatis如何执行批量操作
+### 18、这个Dao接口的工作原理是什么？Dao接口里的方法，参数不同时，方法能重载吗
+### 19、#{}和${}的区别是什么？
+### 20、Mybatis优缺点
+### 21、使用MyBatis的mapper接口调用时有哪些要求？
+### 22、Mybatis是否可以映射Enum枚举类？
+### 23、Mybatis与Spring 的整合？
+### 24、模糊查询 like 语句该怎么写
+### 25、传统JDBC开发存在什么问题？
 
 
 
 
 ## 全部答案，整理好了，直接下载吧
 
-### 下载链接：[全部答案，整理好了](https://www.souyunku.com/?p=67)
+### 下载链接：[全部答案，整理好了](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
 
-### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/?p=67)
+### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
 
 
 ## 最新，高清PDF：172份，7701页，最新整理

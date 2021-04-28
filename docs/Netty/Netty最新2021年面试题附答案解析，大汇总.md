@@ -2,213 +2,162 @@
 
 ### 其实，博主还整理了，更多大厂面试题，直接下载吧
 
-### 下载链接：[高清172份，累计 7701 页大厂面试题  PDF](https://www.souyunku.com/?p=67)
+### 下载链接：[高清172份，累计 7701 页大厂面试题  PDF](https://github.com/souyunku/DevBooks/blob/master/docs/index.md)
 
-### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/?p=67)
-
-
-
-### 1、JDK原生NIO程序的问题
-
-JDK原生也有一套网络应用程序API，但是存在一系列问题，主要如下：
-
-**1、** NIO的类库和API繁杂，使用麻烦，你需要熟练掌握Selector、ServerSocketChannel、SocketChannel、ByteBuffer等
-
-**2、** 需要具备其它的额外技能做铺垫，例如熟悉Java多线程编程，因为NIO编程涉及到Reactor模式，你必须对多线程和网路编程非常熟悉，才能编写出高质量的NIO程序
-
-**3、** 可靠性能力补齐，开发工作量和难度都非常大。例如客户端面临断连重连、网络闪断、半包读写、失败缓存、网络拥塞和异常码流的处理等等，NIO编程的特点是功能开发相对容易，但是可靠性能力补齐工作量和难度都非常大
-
-**4、** JDK NIO的BUG，例如臭名昭著的epoll bug，它会导致Selector空轮询，最终导致CPU 100%。官方声称在JDK1.6版本的update18修复了该问题，但是直到JDK1.7版本该问题仍旧存在，只不过该bug发生概率降低了一些而已，它并没有被根本解决
+### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png)
 
 
-### 2、NIOEventLoopGroup 源码？
 
-NioEventLoopGroup(其实是 MultithreadEventExecutorGroup)内部维护一个类型为EventExecutor children [], 默认大小是处理器核数 * 2, 这样就构成了一个线程池，初始化EventExecutor 时 NioEventLoopGroup 重载 newChild 方法，所以 children 元素的实际类型为NioEventLoop。
+### 1、AIO 是什么？
 
-线程启动时调用 SingleThreadEventExecutor 的构造方法，执行 NioEventLoop 类的 run 方法，首先会调用 hasTasks()方法判断当前 taskQueue 是否有元素。如果 taskQueue 中有元素，执行selectNow() 方法，最终执行 selector.selectNow()，该方法会立即返回。如果taskQueue 没有元素，执行 select(oldWakenUp) 方法
-
-select ( oldWakenUp) 方法解决了 Nio 中的 bug，selectCnt 用来记录 selector.select 方法的执行次数和标识是否执行过 selector.selectNow()，若触发了 epoll 的空轮询 bug，则会反复执行 selector.select(timeoutMillis)，变量 selectCnt 会逐渐变大，当 selectCnt 达到阈值（默认 512），则执行 rebuildSelector 方法，进行 selector 重建，解决 cpu 占用 100%的 bug。
-
-rebuildSelector 方法先通过 openSelector 方法创建一个新的 selector。然后将 old selector 的selectionKey 执行 cancel。最后将 old selector 的 channel 重新注册到新的 selector 中。rebuild 后，需要重新执行方法 selectNow，检查是否有已 ready 的 selectionKey。
-
-接下来调用 processSelectedKeys 方法（处理 I/O 任务），当 selectedKeys != null 时，调用processSelectedKeysOptimized 方法，迭代 selectedKeys 获取就绪的 IO 事件的 selectkey 存
-
-放在数组 selectedKeys 中,然后为每个事件都调用processSelectedKey来处理它，processSelectedKey 中分别处理 OP_READ；OP_WRITE；OP_CONNECT 事件。
-
-最后调用 runAllTasks 方法（非 IO 任务），该方法首先会调用 fetchFromScheduledTaskQueue方法，把 scheduledTaskQueue 中已经超过延迟执行时间的任务移到 taskQueue 中等待被执行，然后依次从 taskQueue 中取任务执行，每执行 64 个任务，进行耗时检查，如果已执行时间超过预先设定的执行时间，则停止执行非 IO 任务，避免非 IO 任务太多，影响 IO 任务的执行。
-
-每个 NioEventLoop 对应一个线程和一个 Selector，NioServerSocketChannel 会主动注册到某一个 NioEventLoop 的 Selector 上，NioEventLoop 负责事件轮询。
-
-Outbound 事件都是请求事件, 发起者是 Channel，处理者是 unsafe，通过 Outbound 事件进行通知，传播方向是 tail 到 head。Inbound 事件发起者是 unsafe，事件的处理者是Channel, 是通知事件，传播方向是从头到尾。
-
-内存管理机制，首先会预申请一大块内存 Arena，Arena 由许多 Chunk 组成，而每个 Chunk默认由 2048 个 page 组成。Chunk 通过 AVL 树的形式组织 Page，每个叶子节点表示一个Page，而中间节点表示内存区域，节点自己记录它在整个 Arena 中的偏移地址。当区域被分配出去后，中间节点上的标记位会被标记，这样就表示这个中间节点以下的所有节点都已被分配了。大于 8k 的内存分配在 poolChunkList 中，而 PoolSubpage 用于分配小于 8k 的内存，它会把一个 page 分割成多段，进行内存分配。
-
-ByteBuf 的特点：支持自动扩容（4M），保证 put 方法不会抛出异常、通过内置的复合缓冲类型，实现零拷贝（zero-copy）；不需要调用 flip()来切换读/写模式，读取和写入索引分开；方法链；引用计数基于 AtomicIntegerFieldUpdater 用于内存回收；PooledByteBuf 采用二叉树来实现一个内存池，集中管理内存的分配和释放，不用每次使用都新建一个缓冲区对象。UnpooledHeapByteBuf 每次都会新建一个缓冲区对象。
+AIO ，全称 Asynchronous IO ，也叫 NIO2 ，是一种非阻塞 + 异步的通信模式。在 NIO 的基础上，引入了新的异步通道的概念，并提供了异步文件通道和异步套接字通道的实现。AIO 并没有采用 NIO 的多路复用器，而是使用异步通道的概念。其 read，write 方法的返回类型，都是 Future 对象。而 Future 模型是异步的，其核心思想是：去主函数等待时间。
 
 
-### 3、Netty 是什么？
+### 2、默认情况 Netty 起多少线程？何时启动？
 
-**1、**  Netty 是一个 **基于 NIO** 的 client-server(客户端服务器)框架，使用它可以快速简单地开发网络应用程序。
-
-**2、**  它极大地简化并优化了 TCP 和 UDP 套接字服务器等网络编程,并且性能以及安全性等很多方面甚至都要更好。
-
-**3、**  **支持多种协议** 如 FTP，SMTP，HTTP 以及各种二进制和基于文本的传统协议。
-
-用官方的总结就是：**Netty 成功地找到了一种在不妥协可维护性和性能的情况下实现易于开发，性能，稳定性和灵活性的方法。**
-
-除了上面介绍的之外，很多开源项目比如我们常用的 Dubbo、RocketMQ、Elasticsearch、gRPC 等等都用到了 Netty。
-
-网络编程我愿意称 Netty 为王 。
+Netty 默认是 CPU 处理器数的两倍，bind 完之后启动。
 
 
-### 4、Netty 的使用场景
+### 3、什么是Netty
 
-**1、** 构建高性能、低时延的各种 Java 中间件，Netty 主要作为基础通信框架提供高性能、低时延的通信服务。例如：RocketMQ ，分布式消息队列。Dubbo ，服务调用框架。Spring WebFlux ，基于响应式的 Web 框架。
+**1、** Netty 是一款提供异步的、事件驱动的网络应用程序框架和工具，用以快速开发高性能、高可靠性的网络服务器和客户端程序。
 
-**2、** 公有或者私有协议栈的基础通信框架，例如可以基于 Netty 构建异步、高性能的 WebSocket、Protobuf 等协议的支持。
-
-**3、** 各领域应用，例如大数据、游戏等，Netty 作为高性能的通信框架用于内部各模块的数据分发、传输和汇总等，实现模块之间高性能通信。
+**2、** 也就是说，Netty 是一个基于 NIO 的客户、服务器端编程框架。使用 Netty 可以确保你快速和简单地开发出一个网络应用，例如实现了某种协议的客户，服务端应用。Netty 相当简化和流线化了网络应用的编程开发过程，例如，TCP 和 UDP 的 socket 服务开发。
 
 
-### 5、Netty 是什么？
+### 4、Netty 支持哪些心跳类型设置？
 
-Netty是 一个异步事件驱动的网络应用程序框架，用于快速开发可维护的高性能协议服务器和客户端。Netty是基于nio的，它封装了jdk的nio，让我们使用起来更加方法灵活。
+readerIdleTime：为读超时时间（即测试端一定时间内未接受到被测试端消息）。
 
+writerIdleTime：为写超时时间（即测试端一定时间内向被测试端发送消息）。
 
-### 6、Netty 如何实现高性能
-
-**1、** 线程模型 ：更加优雅的 Reactor 模式实现、灵活的线程模型、利用 EventLoop 等创新性的机制，可以非常高效地管理成百上千的 Channel 。
-
-**2、** 内存池设计 ：使用池化的 Direct Buffer 等技术，在提高 IO 性能的同时，减少了对象的创建和销毁。并且，Netty的内部实现是用一颗二叉查找树，更好的管理内存分配情况。
-
-**3、** 内存零拷贝 ：使用 Direct Buffer ，可以使用 Zero-Copy 机制（避免上下分切换频繁）。
-
-**4、** 协议支持 ：提供对 Protobuf 等高性能序列化协议支持。
+allIdleTime：所有类型的超时时间。
 
 
-### 7、Netty 空闲检测
+### 5、简单解析一下服务端的创建过程具体是怎样的：
 
-IdleStateHandler ，用于检测连接的读写是否处于空闲状态。如果是，则会触发 IdleStateEvent 。
+首先你创建了两个 NioEventLoopGroup 对象实例：bossGroup 和 workerGroup。
 
+bossGroup : 用于处理客户端的 TCP 连接请求。
 
-### 8、客户端代码
+workerGroup ：负责每一条连接的具体读写数据的处理逻辑，真正负责 I/O 读写操作，交由对应的 Handler 处理。
+
+举个例子：我们把公司的老板当做 bossGroup，员工当做 workerGroup，bossGroup 在外面接完活之后，扔给 workerGroup 去处理。一般情况下我们会指定 bossGroup 的 线程数为 1（并发连接量不大的时候） ，workGroup 的线程数量为 **CPU 核心数 _2_ 。另外，根据源码来看，使用 NioEventLoopGroup 类的无参构造函数设置线程数量的默认值就是 CPU 核心数 2** 。
+
+接下来 我们创建了一个服务端启动引导/辅助类：ServerBootstrap，这个类将引导我们进行服务端的启动工作。
+
+通过 .group() 方法给引导类 ServerBootstrap 配置两大线程组，确定了线程模型。
+
+通过下面的代码，我们实际配置的是多线程模型，这个在上面提到过。
 
 ```
- //1.创建一个 NioEventLoopGroup 对象实例
- EventLoopGroup group = new NioEventLoopGroup();
- try {
-     //2.创建客户端启动引导/辅助类：Bootstrap
-     Bootstrap b = new Bootstrap();
-     //3.指定线程组
-     b.group(group)
-             //4.指定 IO 模型
-             .channel(NioSocketChannel.class)
-             .handler(new ChannelInitializer<SocketChannel>() {
-                 @Override
-                 public void initChannel(SocketChannel ch) throws Exception {
-                     ChannelPipeline p = ch.pipeline();
-                     // 5.这里可以自定义消息的业务处理逻辑
-                     p.addLast(new HelloClientHandler(message));
-                 }
-             });
-     // 6.尝试建立连接
-     ChannelFuture f = b.connect(host, port).sync();
-     // 7.等待连接关闭（阻塞，直到Channel关闭）
-     f.channel().closeFuture().sync();
- } finally {
-     group.shutdownGracefully();
- }
+EventLoopGroup bossGroup = new NioEventLoopGroup(1);
+EventLoopGroup workerGroup = new NioEventLoopGroup();
 ```
 
-继续分析一下客户端的创建流程：
+通过channel()方法给引导类 ServerBootstrap指定了 IO 模型为NIO
 
-1.创建一个 NioEventLoopGroup 对象实例
+**1、** NioServerSocketChannel ：指定服务端的 IO 模型为 NIO，与 BIO 编程模型中的ServerSocket对应
 
-2.创建客户端启动的引导类是 Bootstrap
-
-3.通过 .group() 方法给引导类 Bootstrap 配置一个线程组
-
-4.通过channel()方法给引导类 Bootstrap指定了 IO 模型为NIO
-
-5.通过 .childHandler()给引导类创建一个ChannelInitializer ，然后制定了客户端消息的业务处理逻辑 HelloClientHandler 对象
-
-6.调用 Bootstrap 类的 connect()方法进行连接，这个方法需要指定两个参数：
-
-inetHost : ip 地址
-
-inetPort : 端口号
-
-```
-public ChannelFuture connect(String inetHost, int inetPort) {
-    return this.connect(InetSocketAddress.createUnresolved(inetHost, inetPort));
-}
-public ChannelFuture connect(SocketAddress remoteAddress) {
-    ObjectUtil.checkNotNull(remoteAddress, "remoteAddress");
-    this.validate();
-    return this.doResolveAndConnect(remoteAddress, this.config.localAddress());
-}
-```
-
-connect 方法返回的是一个 Future 类型的对象
-
-```
-public interface ChannelFuture extends Future<Void> {
-  ......
-}
-```
-
-也就是说这个方是异步的，我们通过 addListener 方法可以监听到连接是否成功，进而打印出连接信息。具体做法很简单，只需要对代码进行以下改动：
-
-```
-ChannelFuture f = b.connect(host, port).addListener(future -> {
-  if (future.isSuccess()) {
-    System.out.println("连接成功!");
-  } else {
-    System.err.println("连接失败!");
-  }
-}).sync();
-```
+**2、** NioSocketChannel : 指定客户端的 IO 模型为 NIO， 与 BIO 编程模型中的Socket对应5.通过 .childHandler()给引导类创建一个ChannelInitializer ，然后制定了服务端消息的业务处理逻辑 HelloServerHandler 对象6.调用 ServerBootstrap 类的 bind()方法绑定端口
 
 
-### 9、Netty 和 Tomcat 的区别？
+### 6、Netty 的可扩展如何体现
 
-作用不同：Tomcat 是 Servlet 容器，可以视为 Web 服务器，而 Netty 是异步事件驱动的网络应用程序框架和工具用于简化网络编程，例如TCP和UDP套接字服务器。
+**1、** 提供大量系统参数 ：供用户按需设置，增强系统的场景定制性。
 
-协议不同：Tomcat 是基于 http 协议的 Web 服务器，而 Netty 能通过编程自定义各种协议，因为 Netty 本身自己能编码/解码字节流，所有 Netty 可以实现，HTTP 服务器、FTP 服务器、UDP 服务器、RPC 服务器、WebSocket 服务器、Redis 的 Proxy 服务器、MySQL 的 Proxy 服务器等等。
+**2、** 提供大量的工厂类 ：通过重载这些工厂类，可以按需创建出用户需要的对象。
 
+**3、** 基于接口的开发 ：关键的类库都提供了接口或抽象类，便于用户自定义实现。
 
-### 10、为什么需要心跳机制？Netty 中心跳机制了解么？
-
-在 TCP 保持长连接的过程中，可能会出现断网等网络异常出现，异常发生的时候， client 与 server 之间如果没有交互的话，它们是无法发现对方已经掉线的。为了解决这个问题, 我们就需要引入 **心跳机制** 。
-
-心跳机制的工作原理是: 在 client 与 server 之间在一定时间内没有数据交互时, 即处于 idle 状态时, 客户端或服务器就会发送一个特殊的数据包给对方, 当接收方收到这个数据报文后, 也立即发送一个特殊的数据报文, 回应发送方, 此即一个 PING-PONG 交互。所以, 当某一端收到心跳消息后, 就知道了对方仍然在线, 这就确保 TCP 连接的有效性.
-
-TCP 实际上自带的就有长连接选项，本身是也有心跳包机制，也就是 TCP 的选项：SO_KEEPALIVE。但是，TCP 协议层面的长连接灵活性不够。所以，一般情况下我们都是在应用层协议上实现自定义心跳机制的，也就是在 Netty 层面通过编码实现。通过 Netty 实现心跳机制的话，核心类是 IdleStateHandler 。
+**4、** 责任链模式 ：ChannelPipeline 基于责任链模式开发，便于业务逻辑的拦截、定制和扩展。
 
 
-### 11、如何选择序列化协议？
-### 12、Netty 的高性能体现在哪方面
-### 13、NIO 是什么？
-### 14、详细看说下 Netty 中的线程模型吧！
-### 15、BIO 是什么？
-### 16、Netty 的可扩展如何体现
-### 17、BIO、NIO 有什么区别？
-### 18、Netty怎样实现零拷贝
-### 19、Netty的高可靠体现在哪几方面
-### 20、Netty 应用场景了解么？
-### 21、Netty 的核心组件介绍下
-### 22、什么是 TCP 粘包/拆包?有什么解决办法呢？
-### 23、Netty 中的零拷贝体现在几个方面：
-### 24、Netty 的特点？
-### 25、Netty的特点是什么（ 为什么选择 Netty ）
-### 26、Netty 中有哪种重要组件？
-### 27、Netty 发送消息有几种方式？
-### 28、Netty 的优势有哪些？
-### 29、Netty 的零拷贝了解么？
-### 30、Netty自己实现的ByteBuf有什么优点
-### 31、NIO的组成？
-### 32、了解哪几种序列化协议
-### 33、Netty 服务端和客户端的启动过程了解么？
+### 7、NIO 是什么？
+
+**1、** NIO ，全称 New IO ，也叫 Non-Block IO ，是一种非阻塞 + 同步的通信模式。Java NIO( New IO 或者 Non Blocking IO ) ，从 Java 1.4 版本开始引入的非阻塞 IO ，用于替换标准( 有些文章也称为传统，或者 Blocking IO 。下文统称为 BIO ) Java IO API 的 IO API 。
+
+**2、** NIO 相对于 BIO 来说一大进步。客户端和服务器之间通过 Channel 通信。NIO 可以在 Channel 进行读写操作。这些 Channel 都会被注册在 Selector 多路复用器上。Selector 通过一个线程不停的轮询这些 Channel 。找出已经准备就绪的 Channel 执行 IO 操作。
+
+
+### 8、Netty 线程模型了解么？
+
+说一下 Netty 线程模型吧！
+
+大部分网络框架都是基于 Reactor 模式设计开发的。
+
+**Reactor 模式基于事件驱动，采用多路复用将事件分发给相应的 Handler 处理，非常适合处理海量 IO 的场景**。
+
+在 Netty 主要靠 NioEventLoopGroup 线程池来实现具体的线程模型的 。
+
+我们实现服务端的时候，一般会初始化两个线程组：
+
+**1、** bossGroup :接收连接。
+
+**2、** workerGroup ：负责具体的处理，交由对应的 Handler 处理。
+
+
+### 9、NIO 的组成？
+
+**Buffer：**与 Channel 进行交互，数据是从 Channel 读入缓冲区，从缓冲区写入 Channel 中的
+
+**flip 方法 ：** 反转此缓冲区，将 position 给 limit，然后将 position 置为 0，其实就是切换读写模式
+
+**clear 方法 ：**清除此缓冲区，将 position 置为 0，把 capacity 的值给 limit。
+
+**rewind 方法 ：** 重绕此缓冲区，将 position 置为 0
+
+**DirectByteBuffer** ：可减少一次系统空间到用户空间的拷贝。但 Buffer 创建和销毁的成本更高，不可控，通常会用内存池来提高性能。直接缓冲区主要分配给那些易受基础系统的本机 I/O 操作影响的大型、持久的缓冲区。如果数据量比较小的中小应用情况下，可以考虑使用 heapBuffer，由 JVM 进行管理。
+
+**Channel：**表示 IO 源与目标打开的连接，是双向的，但不能直接访问数据，只能与 Buffer进行交互。通过源码可知，FileChannel 的 read 方法和 write 方法都导致数据复制了两次！
+
+**Selector：**可使一个单独的线程管理多个 Channel，open 方法可创建 Selector，register 方法向多路复用器器注册通道，可以监听的事件类型：读、写、连接、accept。注册事件后会产生一个SelectionKey：它表示 SelectableChannel 和 Selector 之间的注册关系，**wakeup 方法**：使尚未返回的第一个选择操作立即返回，唤醒的原因是：注册了新的 channel 或者事件；channel 关闭，取消注册；优先级更高的事件触发（如定时器事件），希望及时处理。
+
+Selector 在 Linux 的实现类是 EPollSelectorImpl，委托给 EPollArrayWrapper 实现，其中三个native 方法是对 epoll 的封装，而 EPollSelectorImpl、implRegister 方法，通过调用 epoll_ctl向 epoll 实例中注册事件，还将注册的文件描述符(fd)与 SelectionKey 的对应关系添加到fdToKey 中，这个 map 维护了文件描述符与 SelectionKey 的映射。
+
+fdToKey 有时会变得非常大，因为注册到 Selector 上的 Channel 非常多（百万连接）；过期或失效的 Channel 没有及时关闭。fdToKey 总是串行读取的，而读取是在 select 方法中进行的，该方法是非线程安全的。
+
+** Pipe：**两个线程之间的单向数据连接，数据会被写到 sink 通道，从 source 通道读取
+
+**NIO 的服务端建立过程：Selector.open()：**打开一个 Selector；  **ServerSocketChannel.open()：**
+
+创建服务端的 Channel；  ** bind()：**绑定到某个端口上。并配置非阻塞模式； **  register()：**注册Channel 和关注的事件到 Selector 上；  **select()：**轮询拿到已经就绪的事件
+
+
+### 10、Netty的线程模型？
+
+Netty通过Reactor模型基于多路复用器接收并处理用户请求，内部实现了两个线程池，boss线程池和work线程池，其中boss线程池的线程负责处理请求的accept事件，当接收到accept事件的请求时，把对应的socket封装到一个NioSocketChannel中，并交给work线程池，其中work线程池负责请求的read和write事件，由对应的Handler处理。
+
+单线程模型：所有I/O操作都由一个线程完成，即多路复用、事件分发和处理都是在一个Reactor线程上完成的。既要接收客户端的连接请求,向服务端发起连接，又要发送/读取请求或应答/响应消息。一个NIO 线程同时处理成百上千的链路，性能上无法支撑，速度慢，若线程进入死循环，整个程序不可用，对于高负载、大并发的应用场景不合适。
+
+多线程模型：有一个NIO 线程（Acceptor） 只负责监听服务端，接收客户端的TCP 连接请求；NIO 线程池负责网络IO 的操作，即消息的读取、解码、编码和发送；1 个NIO 线程可以同时处理N 条链路，但是1 个链路只对应1 个NIO 线程，这是为了防止发生并发操作问题。但在并发百万客户端连接或需要安全认证时，一个Acceptor 线程可能会存在性能不足问题。
+
+主从多线程模型：Acceptor 线程用于绑定监听端口，接收客户端连接，将SocketChannel 从主线程池的Reactor 线程的多路复用器上移除，重新注册到Sub 线程池的线程上，用于处理I/O 的读写等操作，从而保证mainReactor只负责接入认证、握手等操作；
+
+
+### 11、原生的NIO存在Epoll Bug有什么BUG、Netty 是怎么解决的
+### 12、Netty为什么说使用简单
+### 13、TCP 粘包/拆包的原因及解决方法？
+### 14、Netty 的特点？
+### 15、NIOEventLoopGroup源码？
+### 16、NIO的组成？
+### 17、Netty自己实现的ByteBuf有什么优点
+### 18、了解哪几种序列化协议
+### 19、TCP 粘包/拆包的原因及解决方法？
+### 20、Netty 的线程模型？
+### 21、为什么要用 Netty？
+### 22、Netty为什么要实现内存管理
+### 23、了解哪几种序列化协议？
+### 24、TCP 粘包 / 拆包的产生原因，应该这么解决
+### 25、Netty 的核心组件介绍下
+### 26、JDK原生NIO程序的问题
+### 27、Bootstrap 和 ServerBootstrap 了解么？
+### 28、Netty如何实现重连
+### 29、Netty 中的零拷贝体现在几个方面：
+### 30、如何选择序列化协议？
+### 31、BIO 是什么？
+### 32、Netty 中有哪种重要组件？
+### 33、Netty 和 Tomcat 的区别？
 ### 34、什么是 Netty 的零拷贝？
 
 
@@ -216,9 +165,9 @@ TCP 实际上自带的就有长连接选项，本身是也有心跳包机制，�
 
 ## 全部答案，整理好了，直接下载吧
 
-### 下载链接：[全部答案，整理好了](https://www.souyunku.com/?p=67)
+### 下载链接：[全部答案，整理好了](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
 
-### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/?p=67)
+### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
 
 
 ## 最新，高清PDF：172份，7701页，最新整理

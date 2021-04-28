@@ -2,225 +2,295 @@
 
 ### 其实，博主还整理了，更多大厂面试题，直接下载吧
 
-### 下载链接：[高清172份，累计 7701 页大厂面试题  PDF](https://www.souyunku.com/?p=67)
+### 下载链接：[高清172份，累计 7701 页大厂面试题  PDF](https://github.com/souyunku/DevBooks/blob/master/docs/index.md)
 
-### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/?p=67)
-
-
-
-### 1、js的几种继承方式？
-
-**1、** 使用对象冒充实现继承
-
-**2、** 采用call、Apply方法改变函数上下文实现继承
-
-**3、** 原型链方式继承
-
-
-### 2、什么是移动端的300ms延迟？什么是点击穿透？解决方案?
-
-移动端300ms延迟：假定这么一个场景。用户在 浏览器里边点击了一个链接。由于用户可以进行双击缩放或者双击滚动的操作，当用户一次点击屏幕之后，浏览器并不能立刻判断用户是确实要打开这个链接，还是想要进行双击操作。因此，浏览器 就等待 300 毫秒，以判断用户是否再次点击了屏幕。也就是说，当我们点击页面的时候移动端浏览器并不是立即作出反应，而是会等上一小会儿才会出现点击的效果。
-
-点击穿透：假如页面上有两个元素A和B。B元素在A元素之上。我们在B元素的touchstart事件上注册了一个回调函数，该回调函数的作用是隐藏B元素。我们发现，当我们点击B元素，B元素被隐藏了，随后，A元素触发了click事件。这是因为在移动端浏览器，事件执行的顺序是touchstart touchend click。而click事件有300ms的延迟，当touchstart事件把B元素隐藏之后，隔了300ms，浏览器触发了click事件，但是此时B元素不见了，所以该事件被派发到了A元素身上。如果A元素是一个链接，那此时页面就会意外地跳转。
-
-300ms延迟解决方案：
-
-(1) 禁用缩放，在html文档头部加meta标签如下：
+### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png)
 
 
 
+### 1、|| 运算符能做什么
 
-(4) FastClick为解决移动端浏览器300毫秒延迟开发的一个轻量级的库
-
-点击穿透解决方案：
-
-（1）只用touch
-
-（2）只用click
-
-（3）tap后延迟350ms再隐藏mask
-
-（4）pointer-events
-
-
-### 3、何为防抖和节流？如何实现？
-
-**1、** 防抖和节流都是防止短时间内高频触发事件的方案。
-
-**2、** 防抖的原理是：如果一定时间内多次执行了某事件，则只执行其中的最后一次。
-
-**3、** 节流的原理是：要执行的事件每隔一段时间会被冷却，无法执行。
-
-**4、** 应用场景有：搜索框实时搜索，滚动改变相关的事件。
+`||`也叫或`逻辑或`，在其操作数中找到第一个真值表达式并返回它。这也使用了短路来防止不必要的工作。在支持 ES6 默认函数参数之前，它用于初始化函数中的默认参数值。
 
 ```
-//@fn: 要执行的函数
-//@delay: 设定的时限
-//防抖函数
-function debunce(fn, delay) {
-    let flag = null;
-    return function() {
-        if (flag) clearTimeout(flag)
-        //利用apply改变函数指向，使得封装后的函数可以接收event本身
-        flag = setTimeout(() = > fn.apply(this, arguments), delay)
-    }
+console.log(null || 1 || undefined); // 1
+
+function logName(name) {
+  var n = name || "Mark";
+  console.log(n);
 }
-//节流函数
-function throttle(fn, delay) {
-    let flag = true;
-    return function() {
-        if (!flag) return false;
-        flag = false;
-        setTimeout(() = > {
-            fn.apply(this, arguments)
-            flag = true
-        }, delay)
-    }
+
+logName(); // "Mark"
+```
+
+
+### 2、如何解决跨域问题?
+
+`jsonp`、 `iframe`、`window.name`、`window.postMessage`、服务器上设置代理页面
+
+
+### 3、简述ajax执行流程
+
+```
+基本步骤：
+var xhr =null;//创建对象 
+if(window.XMLHttpRequest){
+       xhr = new XMLHttpRequest();
+}else{
+       xhr = new ActiveXObject("Microsoft.XMLHTTP");
 }
+xhr.open(“方式”,”地址”,”标志位”);//初始化请求 
+   xhr.setRequestHeader(“”,””);//设置http头信息 
+xhr.onreadystatechange =function(){}//指定回调函数 
+xhr.send();//发送请求
 ```
 
 
-### 4、Jq中 attr 和 prop 有什么区别###
+### 4、介绍js的基本数据类型
 
-对于HTML元素本身就带有的固有属性，在处理时，使用prop方法。
-
-对于HTML元素我们自己自定义的DOM属性，在处理时，使用attr方法。
+`Undefined`、`Null`、`Boolean`、`Number`、`String`
 
 
-### 5、如何合并两个数组？数组删除一个元素?
+### 5、闭包
 
-```
-//三种方法。
+闭包是指有权访问另一个函数作用域中变量的函数，创建闭包的最常见的方式就是在一个函数内创建另一个函数，通过另一个函数访问这个函数的局部变量,利用闭包可以突破作用链域
 
-（1）var arr1=[1,2,3];
-        var arr2=[4,5,6];
-        arr1 = arr1.concat(arr2);
-        console.log(arr1); 
-        
-（2）var arr1=[1,2,3];
-        var arr2=[4,5,6];
-        Array.prototype.push.apply(arr1,arr2);
-        console.log(arr1);
-        
-（3）var arr1=[1,2,3];
-    var arr2=[4,5,6];
-    for (var i=0; i < arr2.length; i++) {
-    arr1.push( arr2[i] );
-    }
-    console.log(arr1);
-```
+**闭包的特性：**
+
+**1、** 函数内再嵌套函数
+
+**2、** 内部函数可以引用外层的参数和变量
+
+**3、** 参数和变量不会被垃圾回收机制回收
+
+**说说你对闭包的理解**
+
+使用闭包主要是为了设计私有的方法和变量。闭包的优点是可以避免全局变量的污染，缺点是闭包会常驻内存，会增大内存使用量，使用不当很容易造成内存泄露。在js中，函数即闭包，只有函数才会产生作用域的概念
 
 
-### 6、call & apply 两者之间的区别###
-
-call和apply都是改变this指向的方法，区别在于call可以写多个参数，而apply只能写两个参数，第二个参数是一个数组，用于存放要传的参数。
-
-
-### 7、Function.prototype.apply 和 Function.prototype.call 之间有什么区别？
-
-`apply()`方法可以在使用一个指定的 `this` 值和一个参数数组（或类数组对象）的前提下调用某个函数或方法。`call()`方法类似于`apply()`，不同之处仅仅是`call()`接受的参数是参数列表。
+### 6、强制转换 显式转换 隐式转换?
 
 ```
-const obj1 = {
-result:0
-};
+//强制类型转换：
+Boolean(0)   // =false - 零
+Boolean(new object())   // =true - 对象
+Number(undefined)       // =  NaN
+Number(null)              // =0
+String(null)              // ="null"
+parseInt( )
+parseFloat( )
+JSON.parse( )
+JSON.stringify ( )
+```
 
-const obj2 = {
-result:0
-};
+隐式类型转换：
 
-function reduceAdd(){
-  let result = 0;
-  for(let i = 0, len = arguments.length; i < len; i++){
-    result += arguments[i];
+在使用算术运算符时，运算符两边的数据类型可以是任意的，比如，一个字符串可以和数字相加。之所以不同的数据类型之间可以做运算，是因为JavaScript引擎在运算之前会悄悄的把他们进行了隐式类型转换的
+
+```
+（例如：x+"" //等价于String(x)  
+\+x //等价于Number(x)  
+x-0 //同上  
+!!x //等价于Boolean(x),是双叹号）
+```
+
+**显式转换：**
+
+如果程序要求一定要将某一类型的数据转换为另一种类型，则可以利用强制类型转换运算符进行转换，这种强制转换过程称为显示转换。
+
+显示转换是你定义让这个值类型转换成你要用的值类型，是底到高的转换。例 int 到float就可以直接转，int i=5,想把他转换成char类型，就用显式转换（char）i
+
+
+### 7、那些操作会造成内存泄漏？
+
+**1、** 内存泄漏指任何对象在您不再拥有或需要它之后仍然存在
+
+**2、** `setTimeout` 的第一个参数使用字符串而非函数的话，会引发内存泄漏
+
+**3、** 闭包、控制台日志、循环（在两个对象彼此引用且彼此保留时，就会产生一个循环）
+
+
+### 8、readystate 0~4
+
+0：未初始化状态：此时，已经创建了一个XMLHttpRequest对象
+
+1： 准备发送状态：此时，已经调用了XMLHttpRequest对象的open方法，并且XMLHttpRequest对象已经准备好将一个请求发送到服务器端
+
+2：已经发送状态：此时，已经通过send方法把一个请求发送到服务器端，但是还没有收到一个响应
+
+3：正在接收状态：此时，已经接收到HTTP响应头部信息，但是消息体部分还没有完全接收到
+
+4：完成响应状态：此时，已经完成了HTTP响应的接收
+
+
+### 9、什么是 IIFE，它的用途是什么？
+
+**IIFE**或立即调用的函数表达式是在创建或声明后将被调用或执行的函数。创建**IIFE的**语法是，将`function (){}`包裹在在括号`()`内，然后再用另一个括号`()`调用它，如：`(function(){})()`
+
+```
+(function(){
+  ...
+} ());
+
+(function () {
+  ...
+})();
+
+(function named(params) {
+  ...
+})();
+
+(() => {
+
+});
+
+(function (global) {
+  ...
+})(window);
+
+const utility = (function () {
+  return {
+    ...
   }
-  this.result = result;
-}
-
-reduceAdd.apply(obj1, [1, 2, 3, 4, 5]); // 15
-reduceAdd.call(obj2, 1, 2, 3, 4, 5); // 15
+})
 ```
 
+这些示例都是有效的**IIFE**。倒数第二个救命表明我们可以将参数传递给**IIFE**函数。最后一个示例表明，我们可以将`IIFE`的结果保存到变量中，以便稍后使用。
 
-### 8、split() join()?
+**IIFE**的一个主要作用是避免与全局作用域内的其他变量命名冲突或污染全局命名空间，来个例子。
 
-前者是切割成数组的形式，
+`<script src="https://cdnurl.com/somelibrary.js"></script>`
 
-后者是将数组转换成字符串
+假设我们引入了一个`omelibr.js`的链接，它提供了一些我们在代码中使用的全局函数，但是这个库有两个方法我们没有使用：`createGraph`和`drawGraph`，因为这些方法都有`bug`。我们想实现自己的`createGraph`和`drawGraph`方法。
 
-
-### 9、`require`/`import`之间的区别？
-
-**1、** `require`是CommonJS语法，`import`是ES6语法；
-
-**2、** `require`只在后端服务器支持，`import`在高版本浏览器及Node中都可以支持；
-
-**3、** `require`引入的是原始导出值的复制，`import`则是导出值的引用；
-
-**4、** `require`时运行时动态加载，`import`是静态编译；
-
-**5、** `require`调用时默认不是严格模式，`import`则默认调用严格模式.
-
-### 10、Function.prototype.apply 方法的用途是什么？
-
-`apply()` 方法调用一个具有给定this值的函数，以及作为一个数组（或类似数组对象）提供的参数。
+解决此问题的一种方法是直接覆盖：
 
 ```
-const details = {
-  message: 'Hello World!'
-};
-
-function getMessage(){
-  return this.message;
-}
-
-getMessage.apply(details); // 'Hello World!'
+<script src="https://cdnurl.com/somelibrary.js"></script>
+<script>
+   function createGraph() {
+      // createGraph logic here
+   }
+   function drawGraph() {
+      // drawGraph logic here
+   }
+</script>
 ```
 
-> `call()`方法的作用和 `apply()` 方法类似，区别就是`call()`方法接受的是参数列表，而`apply()`方法接受的是一个参数数组。
+当我们使用这个解决方案时，我们覆盖了库提供给我们的那两个方法。
 
+另一种方式是我们自己改名称：
 
 ```
-const person = {
-  name: "Marko Polo"
-};
-
-function greeting(greetingMessage) {
-  return `${greetingMessage} ${this.name}`;
-}
-
-greeting.apply(person, ['Hello']); // "Hello Marko Polo!"
+<script src="https://cdnurl.com/somelibrary.js"></script>
+<script>
+   function myCreateGraph() {
+      // createGraph logic here
+   }
+   function myDrawGraph() {
+      // drawGraph logic here
+   }
+</script>
 ```
 
+当我们使用这个解决方案时，我们把那些函数调用更改为新的函数名。
 
-### 11、eval是做什么的？
-### 12、DOM 是什么？
-### 13、为什么在调用这个函数时，代码中的`b`会变成一个全局变量?
-### 14、模块化开发怎么做？
-### 15、说说你对作用域链的理解
-### 16、JavaScript提供了哪几种“异步模式”？
-### 17、什么是预编译语音|预编译处理器?
-### 18、new 关键字有什么作用？
-### 19、谈谈你对ES6的理解
-### 20、什么是执行上下文和执行栈？
-### 21、什么是模板字符串？
-### 22、介绍js有哪些内置对象？
-### 23、使用 + 或一元加运算符是将字符串转换为数字的最快方法吗？
-### 24、同步和异步的区别?
-### 25、怎么理解Promise对象？
-### 26、什么是对象解构？
-### 27、undefined 和 null 有什么区别？
-### 28、如何确保ajax或连接不走缓存路径
-### 29、声明函数作用提升?声明变量和声明函数的提升有什么区别
+还有一种方法就是使用**IIFE**：
+
+```
+<script src="https://cdnurl.com/somelibrary.js"></script>
+<script>
+   const graphUtility = (function () {
+      function createGraph() {
+         // createGraph logic here
+      }
+      function drawGraph() {
+         // drawGraph logic here
+      }
+      return {
+         createGraph,
+         drawGraph
+      }
+   })
+</script>
+```
+
+在此解决方案中，我们要声明了`graphUtility` 变量，用来保存**IIFE**执行的结果，该函数返回一个包含两个方法`createGraph`和`drawGraph`的对象。
+
+**IIFE** 还可以用来解决一个常见的面试题：
+
+```
+var li = document.querySelectorAll('.list-group > li');
+for (var i = 0, len = li.length; i < len; i++) {
+   li[i].addEventListener('click', function (e) {
+      console.log(i);
+   })
+```
+
+假设我们有一个带有`list-group`类的`ul`元素，它有`5`个`li`子元素。当我们单击单个`li`元素时，打印对应的下标值。但在此外上述代码不起作用，这里每次点击 `li` 打印 `i` 的值都是`5`，这是由于闭包的原因。
+
+**闭包**只是函数记住其当前作用域，父函数作用域和全局作用域的变量引用的能力。当我们在全局作用域内使用`var`关键字声明变量时，就创建全局变量`i`。因此，当我们单击`li`元素时，它将打印`5`，因为这是稍后在回调函数中引用它时`i`的值。
+
+使用 **IIFE** 可以解决此问题：
+
+`var li = document.querySelectorAll('.list-group > li'); for (var i = 0, len = li.length; i < len; i++) { (function (currentIndex) { li[currentIndex].addEventListener('click', function (e) { console.log(currentIndex); }) })(i); }`
+
+该解决方案之所以行的通，是因为**IIFE**会为每次迭代创建一个新的作用域，我们捕获`i`的值并将其传递给`currentIndex`参数，因此调用**IIFE**时，每次迭代的`currentIndex`值都是不同的。
+
+
+### 10、一个页面从输入 URL 到页面加载显示完成，这个过程中都发生了什么？（流程说的越详细越好）
+
+**1、** 查找浏览器缓存
+
+**2、** DNS解析、查找该域名对应的IP地址、重定向（301）、发出第二个GET请求
+
+**3、** 进行HTTP协议会话
+
+**4、** 客户端发送报头(请求报头)
+
+**5、** 服务器回馈报头(响应报头)
+
+**6、** html文档开始下载
+
+**7、** 文档树建立，根据标记请求所需指定MIME类型的文件
+
+**8、** 文件显示
+
+**浏览器这边做的工作大致分为以下几步：**
+
+**1、** 加载：根据请求的URL进行域名解析，向服务器发起请求，接收文件（HTML、JS、CSS、图象等）。
+
+**2、** 解析：对加载到的资源（HTML、JS、CSS等）进行语法解析，建议相应的内部数据结构（比如HTML的DOM树，JS的（对象）属性表，CSS的样式规则等等）
+
+
+### 11、26.移动端上什么是点击穿透?
+### 12、offsetWidth/offsetHeight,clientWidth/clientHeight与scrollWidth/scrollHeight的区别
+### 13、JavaScript提供了哪几种“异步模式”？
+### 14、event.preventDefault() 和 event.stopPropagation()方法之间有什么区别？
+### 15、Jq中如何将一个jq对象转化为dom对象？
+### 16、如何对登录的账号密码进行加密?
+### 17、隐式和显式转换有什么区别）？
+### 18、javascript创建对象的几种方式？
+### 19、简述下 this 和定义属性和方法的时候有什么区别?Prototype？
+### 20、函数表达式和函数声明之间有什么区别？
+### 21、函数fn1 函数fn2 函数fn3，如果想在三个函数都执行完成后执行某一个事件应该如何实现?
+### 22、js延迟加载的方式有哪些？
+### 23、== 和 === 有什么区别？
+### 24、调用函数，可以使用哪些方法？
+### 25、几种基本数据类型?复杂数据类型?值类型和引用数据类型?堆栈数据结构
+### 26、eval是做什么的？
+### 27、&& 运算符能做什么
+### 28、什么是 event.target ？
+### 29、模块化开发怎么做？
 
 
 
 
 ## 全部答案，整理好了，直接下载吧
 
-### 下载链接：[全部答案，整理好了](https://www.souyunku.com/?p=67)
+### 下载链接：[全部答案，整理好了](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
 
-### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/?p=67)
+### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
 
 
 ## 最新，高清PDF：172份，7701页，最新整理

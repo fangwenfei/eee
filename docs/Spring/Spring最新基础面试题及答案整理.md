@@ -2,178 +2,136 @@
 
 ### 其实，博主还整理了，更多大厂面试题，直接下载吧
 
-### 下载链接：[高清172份，累计 7701 页大厂面试题  PDF](https://www.souyunku.com/?p=67)
+### 下载链接：[高清172份，累计 7701 页大厂面试题  PDF](https://github.com/souyunku/DevBooks/blob/master/docs/index.md)
 
-### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/?p=67)
-
-
-
-### 1、为什么要使用 Spring Cloud 熔断器？
-
-当一个服务调用另一个服务，由于网络原因或者自身原因出现问题时 ，调用者就会等待被调者的响应，当更多的服务请求到这些资源时，导致更多的请求等待，这样就会发生连锁效应，断路器就是解决这一问题的。
-
-**断路器的状态有以下几种：**
-
-**1、** 完全打开：一定时间内，达到一定的次数无法调用，并且多次检测没有恢复的迹象，断路器完全打开，那么下次的请求不会请求到该服务。
-
-**2、** 半开：短时间内有恢复迹象，断路器会将部分请求发送给服务，当能正常调用时，断路器关闭。
-
-**3、** 关闭：服务一直处于正常状态，能正常调用，断路器关闭。
+### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png)
 
 
-### 2、什么是spring?
 
-Spring 是个java企业级应用的开源开发框架。Spring主要用来开发Java应用，但是有些扩展是针对构建J2EE平台的web应用。Spring 框架目标是简化Java企业级应用开发，并通过POJO为基础的编程模型促进良好的编程习惯。
+### 1、path=”users”, collectionResourceRel=”users” 如何与 Spring Data Rest 一起使用？
 
+path- 这个资源要导出的路径段。
 
-### 3、SpringBoot 的自动配置是如何实现的？
-
-SpringBoot 项目的启动注解是：@SpringBootApplication，其实它就是由下面三个注解组成的：
-
-**1、** [@Configuration ](/Configuration )
-
-**2、** [@ComponentScan ](/ComponentScan )
-
-**3、** @EnableAutoConfiguration
-
-其中 @EnableAutoConfiguration 是实现自动配置的入口，该注解又通过 [@Import ](/Import ) 注解导入了AutoConfigurationImportSelector，在该类中加载 META-INF/spring.factories 的配置信息。然后筛选出以 EnableAutoConfiguration 为 key 的数据，加载到 IOC 容器中，实现自动配置功能！
+collectionResourceRel- 生成指向集合资源的链接时使用的 rel 值。在生成 HATEOAS 链接时使用。
 
 
-### 4、描述一下 DispatcherServlet 的工作流程
+### 2、SpringBoot集成mybatis的过程
 
-DispatcherServlet 的工作流程可以用一幅图来说明：
-
-![](https://gitee.com/souyunkutech/souyunku-home/raw/master/images/souyunku-web/2019/08/0816/02/img_7.png#alt=img%5C_7.png)
-
-**1、** 向服务器发送 HTTP 请求，请求被前端控制器 `DispatcherServlet` 捕获。
-
-**2、**  `DispatcherServlet` 根据 -servlet.xml  中的配置对请求的 URL 进行解析，得到请求资源标识符（URI）。然后根据该 URI，调用 `HandlerMapping` 获得该 Handler 配置的所有相关的对象（包括 Handler 对象以及 Handler 对象对应的拦截器），最后以 `HandlerExecutionChain` 对象的形式返回。
-
-**3、**  `DispatcherServlet` 根据获得的 `Handler`，选择一个合适的 `HandlerAdapter`。（附注：如果成功获得 `HandlerAdapter`后，此时将开始执行拦截器的 preHandler(...)方法）。
-
-**4、** 提取 `Request`中的模型数据，填充 `Handler`入参，开始执行 `Handler`（ `Controller`)。在填充 `Handler`的入参过程中，根据你的配置，Spring 将帮你做一些额外的工作：
-
-**1、** HttpMessageConveter：将请求消息（如 Json、xml 等数据）转换成一个对象，将对象转换为指定的响应信息。
-
-**2、** 数据转换：对请求消息进行数据转换。如 `String`转换成 `Integer`、 `Double`等。
-
-**3、** 数据根式化：对请求消息进行数据格式化。如将字符串转换成格式化数字或格式化日期等。
-
-**4、** 数据验证：验证数据的有效性（长度、格式等），验证结果存储到 `BindingResult`或 `Error`中。
-
-**5、** Handler(Controller)执行完成后，向 `DispatcherServlet` 返回一个 `ModelAndView` 对象；
-
-**6、** 根据返回的 `ModelAndView`，选择一个适合的 `ViewResolver`（必须是已经注册到 Spring 容器中的 `ViewResolver`)返回给 `DispatcherServlet`。
-
-**7、**  `ViewResolver` 结合 `Model`和 `View`，来渲染视图。
-
-**8、** 视图负责将渲染结果返回给客户端。
-
-
-### 5、缓存机制：
-
-设置了⼀个每30秒执⾏⼀次的定时任务，定时去服务端获取注册信息。获取之后，存⼊本地内存。
-
-
-### 6、如何解决POST请求中文乱码问题，GET的又如何处理呢？
-
-**解决post请求乱码问题：**
-
-在web.xml中配置一个CharacterEncodingFilter过滤器，设置成utf-8；
+添加mybatis的starter maven依赖
 
 ```
-<filter>
-    <filter-name>CharacterEncodingFilter</filter-name>
-    <filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
-    <init-param>
-        <param-name>encoding</param-name>
-        <param-value>utf-8</param-value>
-    </init-param>
-</filter>
-<filter-mapping>
-    <filter-name>CharacterEncodingFilter</filter-name>
-    <url-pattern>/*</url-pattern>
-</filter-mapping>
+<dependency>
+    <groupId>org.mybatis.spring.boot</groupId>
+    <artifactId>mybatis-spring-boot-starter</artifactId>
+    <version>1.3.2</version>
+</dependency>
 ```
 
-**get请求中文参数出现乱码解决方法有两个：**
+在mybatis的接口中 添加@Mapper注解
 
-修改tomcat配置文件添加编码与工程编码一致，如下：
-
-```
-<ConnectorURIEncoding="utf-8" connectionTimeout="20000" port="8080" protocol="HTTP/1.1" redirectPort="8443"/>
-```
-
-**另外一种方法对参数进行重新编码：**
-
-String userName = new String(request.getParamter(“userName”).getBytes(“ISO8859-1”),“utf-8”)
-
-ISO8859-1是tomcat默认编码，需要将tomcat编码后的内容按utf-8编码。
+在application.yml配置数据源信息
 
 
-### 7、什么是客户证书？
+### 3、什么是 AOP？
 
-客户端系统用于向远程服务器发出经过身份验证的请求的一种数字证书称为**客户端证书**。客户端证书在许多相互认证设计中起着非常重要的作用，为请求者的身份提供了强有力的保证。
-
-
-### 8、SpringBoot微服务中如何实现 session 共享 ?
-
-在微服务中，一个完整的项目被拆分成多个不相同的独立的服务，各个服务独立部署在不同的服务器上，各自的 session 被从物理空间上隔离开了，但是经常，我们需要在不同微服务之间共享 session ，常见的方案就是 Spring Session + Redis 来实现 session 共享。将所有微服务的 session 统一保存在 Redis 上，当各个微服务对 session 有相关的读写操作时，都去操作 Redis 上的 session 。这样就实现了 session 共享，Spring Session 基于 Spring 中的代理过滤器实现，使得 session 的同步操作对开发人员而言是透明的，非常简便。
+AOP(Aspect-Oriented Programming), 即 面向切面编程, 它与 OOP( Object-Oriented Programming, 面向对象编程) 相辅相成, 提供了与 OOP 不同的抽象软件结构的视角、在 OOP 中, 我们以类(class)作为我们的基本单元, 而 AOP 中的基本单元是 Aspect(切面)
 
 
-### 9、SpringBoot多数据源事务如何管理
+### 4、SpringBoot 实现热部署有哪几种方式？
 
-第一种方式是在service层的@TransactionManager中使用transactionManager指定DataSourceConfig中配置的事务
+主要有两种方式：
 
-第二种是使用jta-atomikos实现分布式事务管理
+**1、** Spring Loaded
 
-
-### 10、链路跟踪Sleuth
-
-当我们项目中引入Spring Cloud Sleuth后，每次链路请求都会添加一串追踪信息，格式是[server-name, main-traceId,sub-spanId,boolean]：
-
-**1、** server-name：服务结点名称。
-
-**2、** main-traceId：一条链路唯一的ID，为TraceID。
-
-**3、** sub-spanId：链路中每一环的ID，为SpanID。
-
-**4、** boolean：是否将信息输出到Zipkin等服务收集和展示。
-
-Sleuth的实现是基于HTTP的，为了在数据的收集过程中不能影响到正常业务，Sleuth会在每个请求的Header上添加跟踪需求的重要信息。这样在数据收集时，只需要将Header上的相关信息发送给对应的图像工具即可，图像工具根据上传的数据，按照Span对应的逻辑进行分析、展示。
+**2、** Spring-boot-devtools
 
 
+### 5、解释基于XML Schema方式的切面实现。
 
-### 11、SpringBoot性能如何优化
-### 12、如何在 spring 中启动注解装配？
-### 13、Spring Cloud Sleuth
-### 14、ZuulFilter常用有那些方法
-### 15、SpringBoot 中如何实现定时任务 ?
-### 16、什么是SpringBoot
-### 17、微服务架构如何运作？
-### 18、如何重新加载SpringBoot上的更改，而无需重新启动服务器？
-### 19、如何使用SpringBoot实现分页和排序？
-### 20、SpingMvc中的控制器的注解一般用哪个,有没有别的注解可以替代？
-### 21、Spring 、SpringBoot 和 Spring Cloud 的关系?
-### 22、什么是CSRF攻击？
-### 23、Spring MVC中函数的返回值是什么？
-### 24、什么是不同类型的微服务测试？
-### 25、Spring Cloud Consul
-### 26、微服务的端到端测试意味着什么？
-### 27、什么是嵌入式服务器？我们为什么要使用嵌入式服务器呢?
-### 28、什么是 AOP什么是目标对象?
-### 29、Actuator在SpringBoot中的作用
-### 30、什么是 Spring Batch？
-### 31、有哪些不同类型的IOC（依赖注入）方式？
+在这种情况下，切面由常规类以及基于XML的配置实现。
+
+
+### 6、什么是Semantic监控？
+
+它结合了对整个应用程序的监控以及自动化测试。语义监控的主要好处是找出对您的业务更有利可图的因素。 从业务角度来看，语义监控以及服务层监控可以监控微服务。一旦检测到问题，它们就可以实现更快的隔离和 错误分类，从而减少修复所需的主要时间。它对服务层和事务层进行分类，以确定受可用性或性能不佳影响的事务。
+
+
+### 7、为什么我们不建议在实际的应用程序中使用 Spring Data Rest?
+
+我们认为 Spring Data Rest 很适合快速原型制造！在大型应用程序中使用需要谨慎。
+
+通过 Spring Data REST 你可以把你的数据实体作为 RESTful 服务直接。
+
+当你设计 RESTful 服务器的时候，最佳实践表明，你的接口应该考虑到两件重要的事情：
+
+你的模型范围。
+
+你的客户。
+
+通过 With Spring Data REST，你不需要再考虑这两个方面，只需要作为 TEST 服务实体。
+
+这就是为什么我们建议使用 Spring Data Rest 在快速原型构造上面，或者作为项目的初始解决方法。对于完整演变项目来说，这并不是一个好的注意。
+
+
+### 8、什么是 SpringBoot？
+
+SpringBoot 是 Spring 开源组织下的子项目，是 Spring 组件一站式解决方案，主要是简化了使用 Spring 的难度，简省了繁重的配置，提供了各种启动器，使开发者能快速上手。
+
+
+### 9、什么是 Spring Data？
+
+来自：[//projects.spring.io/spring-](//projects.spring.io/spring-) data/
+
+Spring Data 的使命是在保证底层数据存储特殊性的前提下，为数据访问提供一个熟悉的，一致性的，基于 Spring 的编程模型。这使得使用数据访问技术，关系数据库和非关系数据库，map-reduce 框架以及基于云的数据服务变得很容易。
+
+为了让它更简单一些，Spring Data 提供了不受底层数据源限制的 Abstractions 接口。
+
+你可以定义一简单的库，用来插入，更新，删除和检索代办事项，而不需要编写大量的代码。
+
+
+### 10、使用 Spring 有哪些方式？
+
+**使用 Spring 有以下方式：**
+
+**1、** 作为作为一个成熟的 Spring Web 应用程序。
+
+**2、** 作为第三方 Web 框架，使用 Spring Frameworks 中间层。
+
+**3、** 用于远程使用。
+
+**4、** 作为企业级 Java Bean，它可以包装现有的 POJO（Plain Old Java Objects）。 Bean，它可以包装现有的 POJO（Plain Old Java Objects）。
+
+
+### 11、SpringBoot常用的starter有哪些?
+### 12、微服务之间如何独立通讯的?
+### 13、SpringBoot 有哪些优点？
+### 14、SpringBoot有哪些优点？
+### 15、SpringBoot 的核心注解是哪个？它主要由哪几个注解组成的？
+### 16、什么是 AOP 通知
+### 17、SpringBoot 的配置文件有哪几种格式？它们有什么区别？
+### 18、eureka和zookeeper都可以提供服务注册与发现的功能，请说说两个的区别？
+### 19、什么是Spring引导的执行器？
+### 20、什么是 SpringBoot Stater ？
+### 21、如何重新加载 SpringBoot 上的更改，而无需重新启动服务器？SpringBoot项目如何热部署？
+### 22、注解原理是什么
+### 23、什么是 Spring Profiles？
+### 24、如何给Spring 容器提供配置元数据?
+### 25、SpringBoot 如何设置支持跨域请求？
+### 26、Spring MVC怎么样设定重定向和转发的？
+### 27、[@Required ](/Required ) 注解
+### 28、[@RequestMapping ](/RequestMapping ) 注解有什么用？
+### 29、什么是starter?
+### 30、在使用微服务架构时，您面临哪些挑战？
+### 31、我们如何监视所有 SpringBoot 微服务？
 
 
 
 
 ## 全部答案，整理好了，直接下载吧
 
-### 下载链接：[全部答案，整理好了](https://www.souyunku.com/?p=67)
+### 下载链接：[全部答案，整理好了](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
 
-### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/?p=67)
+### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
 
 
 ## 最新，高清PDF：172份，7701页，最新整理

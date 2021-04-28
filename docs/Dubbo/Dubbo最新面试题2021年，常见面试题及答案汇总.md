@@ -2,118 +2,13 @@
 
 ### 其实，博主还整理了，更多大厂面试题，直接下载吧
 
-### 下载链接：[高清172份，累计 7701 页大厂面试题  PDF](https://www.souyunku.com/?p=67)
+### 下载链接：[高清172份，累计 7701 页大厂面试题  PDF](https://github.com/souyunku/DevBooks/blob/master/docs/index.md)
 
-### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/?p=67)
-
-
-
-### 1、Dubbo 核心功能有哪些？
-
-**1、** Remoting：网络通信框架，提供对多种NIO框架抽象封装，包括“同步转异步”和“请求-响应”模式的信息交换方式。
-
-**2、** Cluster：服务框架，提供基于接口方法的透明远程过程调用，包括多协议支持，以及软负载均衡，失败容错，地址路由，动态配置等集群支持。
-
-**3、** Registry：服务注册，基于注册中心目录服务，使服务消费方能动态的查找服务提供方，使地址透明，使服务提供方可以平滑增加或减少机器。
+### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png)
 
 
-### 2、Dubbo 集群的负载均衡有哪些策略?
 
-Dubbo 提供了常见的集群策略实现，并预扩展点予以自行实现。
-
-**1、** Random LoadBalance: 随机选取提供者策略，有利于动态调整提供者权重。截面碰撞率高，调用次数越多，分布越均匀；
-
-**2、** RoundRobin LoadBalance: 轮循选取提供者策略，平均分布，但是存在请求累积的问题；
-
-**3、** LeastActive LoadBalance: 最少活跃调用策略，解决慢提供者接收更少的请求；
-
-**4、** ConstantHash LoadBalance: 一致性 Hash 策略，使相同参数请求总是发到同一提供者，一台机器宕机，可以基于虚拟节点，分摊至其他提供者，避免引起提供者的剧烈变动；
-
-
-### 3、Dubbo 支持哪些协议，每种协议的应用场景，优缺点？
-
-**1、** dubbo：单一长连接和 NIO 异步通讯，适合大并发小数据量的服务调用，以及消费者远大于提供者。传输协议 TCP，异步， Hessian 序列化；
-
-**2、** rmi：采用 JDK 标准的 rmi 协议实现，传输参数和返回参数对象需要实现Serializable 接口，使用 java 标准序列化机制，使用阻塞式短连接，传输数据包大小混合，消费者和提供者个数差不多，可传文件，传输协议 TCP。多个短连接， TCP 协议传输，同步传输，适用常规的远程服务调用和 rmi 互操作。在依赖低版本的 Common-Collections 包， java 序列化存在安全漏洞；
-
-**3、** http：基于 Http 表单提交的远程调用协议，使用 Spring 的 HttpInvoke 实现。多个短连接，传输协议 HTTP，传入参数大小混合，提供者个数多于消费者，需要给应用程序和浏览器 JS 调用；
-
-**4、** webservice：基于 WebService 的远程调用协议，集成 CXF 实现，提供和原生 WebService 的互操作。多个短连接，基于 HTTP 传输，同步传输，适用系统集成和跨语言调用；
-
-**5、** hessian：集成 Hessian 服务，基于 HTTP 通讯，采用 Servlet 暴露服务，Dubbo 内嵌 Jetty 作为服务器时默认实现，提供与 Hession 服务互操作。多个短连接，同步 HTTP 传输， Hessian 序列化，传入参数较大，提供者大于消费者，提供者压力较大，可传文件；
-
-**6、** Redis：基于 Redis 实现的 RPC 协议
-
-
-### 4、dubbo是什么
-
-dubbo是一个分布式框架，远程服务调用的分布式框架，其核心部分包含：
-
-集群容错：提供基于接口方法的透明远程过程调用，包括多协议支持，以及软负载均衡，失败容错，地址路由，动态配置等集群支持。
-
-远程通讯： 提供对多种基于长连接的NIO框架抽象封装，包括多种线程模型，序列化，以及“请求-响应”模式的信息交换方式。
-
-自动发现：基于注册中心目录服务，使服务消费方能动态的查找服务提供方，使地址透明，使服务提供方可以平滑增加或减少机器。
-
-
-### 5、Dubbo 集群的负载均衡有哪些策略
-
-Dubbo 提供了常见的集群策略实现，并预扩展点予以自行实现。
-
-Random LoadBalance: 随机选取提供者策略，有利于动态调整提供者权重。截面碰撞率高，调用次数越多，分布越均匀；
-
-RoundRobin LoadBalance: 轮循选取提供者策略，平均分布，但是存在请求累积的问题；
-
-LeastActive LoadBalance: 最少活跃调用策略，解决慢提供者接收更少的请求； ConstantHash LoadBalance: 一致性 Hash 策略，使相同参数请求总是发到同一提供者，一台机器宕机，可以基于虚拟节点，分摊至其他提供者，避免引起提供者的剧烈变动；
-
-
-### 6、Dubbo 必须依赖的包有哪些？
-
-Dubbo 必须依赖 JDK，其他为可选。
-
-
-### 7、Dubbo 支持分布式事务吗？
-
-**1、** 目前暂时不支持，可与通过 tcc-transaction 框架实现
-
-**2、** 介绍：tcc-transaction 是开源的 TCC 补偿性分布式事务框架
-
-**3、** TCC-Transaction 通过 Dubbo 隐式传参的功能，避免自己对业务代码的入侵。
-
-
-### 8、Dubbo 服务注册与发现的流程？
-
-**流程说明：**
-
-**1、** Provider(提供者)绑定指定端口并启动服务
-
-**2、** 指供者连接注册中心，并发本机 IP、端口、应用信息和提供服务信息发送至注册中心存储
-
-**3、** Consumer(消费者），连接注册中心 ，并发送应用信息、所求服务信息至注册中心
-
-**4、** 注册中心根据 消费 者所求服务信息匹配对应的提供者列表发送至Consumer 应用缓存。
-
-**5、** Consumer 在发起远程调用时基于缓存的消费者列表择其一发起调用。
-
-**6、** Provider 状态变更会实时通知注册中心、在由注册中心实时推送至Consumer
-
-**设计的原因：**
-
-**1、** Consumer 与 Provider 解偶，双方都可以横向增减节点数。
-
-**2、** 注册中心对本身可做对等集群，可动态增减节点，并且任意一台宕掉后，将自动切换到另一台
-
-**3、** 去中心化，双方不直接依懒注册中心，即使注册中心全部宕机短时间内也不会影响服务的调用
-
-**4、** 服务提供者无状态，任意一台宕掉后，不影响使用
-
-
-### 9、Dubbo支持服务多协议吗？
-
-Dubbo 允许配置多协议，在不同服务上支持不同协议或者同一服务上同时支持多种协议。
-
-
-### 10、Dubbo 超时时间怎样设置？
+### 1、Dubbo 超时时间怎样设置？
 
 **Dubbo 超时时间设置有两种方式：**
 
@@ -122,35 +17,190 @@ Dubbo 允许配置多协议，在不同服务上支持不同协议或者同一�
 服务消费者端设置超时时间，如果在消费者端设置了超时时间，以消费者端为主，即优先级更高。因为服务调用方设置超时时间控制性更灵活。如果消费方超时，服务端线程不会定制，会产生警告。
 
 
-### 11、dubbo 和 dubbox 之间的区别？
-### 12、如何解决服务调用链过长的问题？
-### 13、RPC使用了哪些关键技术，RMI
-### 14、Dubbo 服务器注册与发现的流程？
-### 15、Dubbo 的集群容错方案有哪些？
-### 16、为什么要用Dubbo？
-### 17、说说核心的配置有哪些？
-### 18、Dubbo 在安全方面有哪些措施？
-### 19、dubbo能做什么
-### 20、dubbo 推荐用什么协议？
-### 21、Dubbo 用到哪些设计模式？
-### 22、Dubbo 用到哪些设计模式？
-### 23、Dubbo 支持哪些协议，每种协议的应用场景，优缺点？
-### 24、Dubbo 如何优雅停机？
-### 25、Dubbo 有哪些注册中心？
-### 26、Dubbo 集群提供了哪些负载均衡策略？
-### 27、同一个服务多个注册的情况下可以直连某一个服务吗？
-### 28、集群容错怎么做？
-### 29、Dubbo中zookeeper做注册中心，如果注册中心集群都挂掉，者和订阅者之间还能通信么？
-### 30、RPC使用了哪些关键技术，主流RPC框架有哪些
+### 2、Dubbo 推荐什么协议？
+
+推荐使用 Dubbo 协议。
+
+
+### 3、为什么要用 Dubbo？
+
+随着服务化的进一步发展，服务越来越多，服务之间的调用和依赖关系也越来越复杂，诞生了面向服务的架构体系(SOA)，也因此衍生出了一系列相应的技术，如对服务提供、服务调用、连接处理、通信协议、序列化方式、服务发现、服务路由、日志输出等行为进行封装的服务框架。就这样为分布式系统的服务治理框架就出现了，Dubbo 也就这样产生了。
+
+
+### 4、在使用过程中都遇到了些什么问题？
+
+如序列化问题。
+
+
+### 5、dubbo 服务集群配置（集群容错模式）
+
+在集群调用失败时， Dubbo 提供了多种容错方案，缺省为 failover 重试。可以自行扩展集群容错策略
+
+l Failover Cluster(默认)
+
+失败自动切换，当出现失败，重试其它服务器。(缺省)通常用于读操作，
+
+但重试会带来更长延迟。可通过 retries="2"来设置重试次数(不含第一次)。
+
+```
+<dubbo:service retries="2" cluster="failover"/>或：<dubbo:reference retries="2" cluster="failover"/>cluster="failover"可以不用写,因为默认就是 failover
+```
+
+**Failfast Cluster**
+
+快速失败，只发起一次调用，失败立即报错。通常用于非幂等性的写操作，
+
+比如新增记录。
+
+```
+dubbo:service cluster="failfast" />
+```
+
+或：
+
+```
+<dubbo:reference cluster="failfast" />
+
+cluster="failfast"和 把 cluster="failover"、 retries="0"是一样的效果,retries="0"就是不重
+```
+
+Failsafe Cluster失败安全，出现异常时，直接忽略。通常用于写入审计日志等操作。
+
+```
+<dubbo:service cluster="failsafe" />
+```
+
+或：
+
+```
+<dubbo:reference cluster="failsafe" />
+```
+
+**Failback Cluster**
+
+失败自动恢复，后台记录失败请求，定时重发。通常用于消息通知操作。
+
+```
+<dubbo:service cluster="failback" />
+```
+
+或：
+
+```
+<dubbo:reference cluster="failback" />
+```
+
+Forking Cluster并行调用多个服务器，只要一个成功即返回。通常用于实时性要求较高的读
+
+操作，但需要浪费更多服务资源。可通过 forks="2"来设置最大并行数。
+
+```
+<dubbo:service cluster=“forking" forks="2"/>
+```
+
+或：
+
+```
+<dubbo:reference cluster=“forking" forks="2"/>
+```
+
+
+### 6、如何解决服务调用链过长的问题？
+
+可以结合 zipkin 实现分布式服务追踪。
+
+
+### 7、RPC使用了哪些关键技术，Dubbo
+
+Dubbo是 阿里巴巴公司开源的一个高性能优秀的服务框架，使得应用可通过高性能的 RPC 实现服务的输出和输入功能，可以和 Spring框架无缝集成。
+
+
+### 8、你还了解别的分布式框架吗？
+
+别的还有 spring 的 spring cloud，facebook 的 thrift，twitter 的 finagle 等。冲上云霄，Dubbo Go！GO语言版本都发布了～推荐阅读：Spring Cloud是什么，和Dubbo对比呢？
+
+
+### 9、服务提供者能实现失效踢出是什么原理？
+
+服务失效踢出基于zookeeper的临时节点原理。
+
+
+### 10、Dubbo 用到哪些设计模式？
+
+Dubbo 框架在初始化和通信过程中使用了多种设计模式，可灵活控制类加载、权限控制等功能。
+
+**工厂模式**
+
+Provider 在 export 服务时，会调用 ServiceConfig 的 export 方法。ServiceConfig中有个字段：
+
+```
+private static final Protocol protocol =
+ExtensionLoader.getExtensionLoader(Protocol.class).getAdaptiveExtensi
+on();
+```
+
+**工厂模式**
+
+Provider 在 export 服务时，会调用 ServiceConfig 的 export 方法。ServiceConfig中有个字段：
+
+```
+private static final Protocol protocol =
+ExtensionLoader.getExtensionLoader(Protocol.class).getAdaptiveExtensi
+on();
+```
+
+Dubbo 里有很多这种代码。这也是一种工厂模式，只是实现类的获取采用了 JDKSPI 的机制。这么实现的优点是可扩展性强，想要扩展实现，只需要在 classpath下增加个文件就可以了，代码零侵入。另外，像上面的 Adaptive 实现，可以做到调用时动态决定调用哪个实现，但是由于这种实现采用了动态代理，会造成代码调试比较麻烦，需要分析出实际调用的实现类。
+
+**装饰器模式**
+
+Dubbo 在启动和调用阶段都大量使用了装饰器模式。以 Provider 提供的调用链为例，具体的调用链代码是在 ProtocolFilterWrapper 的 buildInvokerChain 完成的，具体是将注解中含有 group=provider 的 Filter 实现，按照 order 排序，最后的调用顺序是：
+
+```
+EchoFilter -> ClassLoaderFilter -> GenericFilter -> ContextFilter ->
+ExecuteLimitFilter -> TraceFilter -> TimeoutFilter -> MonitorFilter ->
+ExceptionFilter
+```
+
+更确切地说，这里是装饰器和责任链模式的混合使用。例如，EchoFilter 的作用是判断是否是回声测试请求，是的话直接返回内容，这是一种责任链的体现。而像ClassLoaderFilter 则只是在主功能上添加了功能，更改当前线程的 ClassLoader，这是典型的装饰器模式。
+
+**观察者模式**
+
+Dubbo 的 Provider 启动时，需要与注册中心交互，先注册自己的服务，再订阅自己的服务，订阅时，采用了观察者模式，开启一个 listener。注册中心会每 5 秒定时检查是否有服务更新，如果有更新，向该服务的提供者发送一个 notify 消息，provider 接受到 notify 消息后，运行 NotifyListener 的 notify 方法，执行监听器方法。
+
+**动态代理模式**
+
+Dubbo 扩展 JDK SPI 的类 ExtensionLoader 的 Adaptive 实现是典型的动态代理实现。Dubbo 需要灵活地控制实现类，即在调用阶段动态地根据参数决定调用哪个实现类，所以采用先生成代理类的方法，能够做到灵活的调用。生成代理类的代码是 ExtensionLoader 的 createAdaptiveExtensionClassCode 方法。代理类主要逻辑是，获取 URL 参数中指定参数的值作为获取实现类的 key。
+
+
+### 11、Dubbo 如何优雅停机？
+### 12、Dubbo 的集群容错方案有哪些？
+### 13、服务提供者能实现失效踢出是什么原理？
+### 14、你还了解别的分布式框架吗？
+### 15、Dubbo 的整体架构设计有哪些分层?
+### 16、Dubbo 支持哪些序列化方式？
+### 17、Dubbo 超时设置有哪些方式？
+### 18、为什么需要服务治理？
+### 19、服务读写推荐的容错策略是怎样的？
+### 20、Dubbo有哪几种负载均衡策略，默认是哪种？
+### 21、Dubbo 配置文件是如何加载到 Spring 中的？
+### 22、RPC使用了哪些关键技术，动态代理
+### 23、服务上线怎么不影响旧版本？
+### 24、Dubbo 支持分布式事务吗？
+### 25、同一个服务多个注册的情况下可以直连某一个服务吗？
+### 26、Dubbo 服务器注册与发现的流程？
+### 27、Dubbo 和 Dubbox 之间的区别？
+### 28、RPC使用了哪些关键技术，Avro
+### 29、RPC使用了哪些关键技术，从服务提供者的角度看：
+### 30、集群容错怎么做？
 
 
 
 
 ## 全部答案，整理好了，直接下载吧
 
-### 下载链接：[全部答案，整理好了](https://www.souyunku.com/?p=67)
+### 下载链接：[全部答案，整理好了](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
 
-### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/?p=67)
+### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
 
 
 ## 最新，高清PDF：172份，7701页，最新整理

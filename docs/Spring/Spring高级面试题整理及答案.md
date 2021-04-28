@@ -2,165 +2,133 @@
 
 ### 其实，博主还整理了，更多大厂面试题，直接下载吧
 
-### 下载链接：[高清172份，累计 7701 页大厂面试题  PDF](https://www.souyunku.com/?p=67)
+### 下载链接：[高清172份，累计 7701 页大厂面试题  PDF](https://github.com/souyunku/DevBooks/blob/master/docs/index.md)
 
-### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/?p=67)
-
-
-
-### 1、SpringCloud 和 Dubbo 有哪些区别?
-
-首先，他们都是分布式管理框架。
-
-dubbo 是二进制传输，占用带宽会少一点。SpringCloud是http 传输，带宽会多一点，同时使用http协议一般会使用JSON报文，消耗会更大。
-
-dubbo 开发难度较大，所依赖的 jar 包有很多问题大型工程无法解决。SpringCloud 对第三方的继承可以一键式生成，天然集成。
-
-SpringCloud 接口协议约定比较松散，需要强有力的行政措施来限制接口无序升级。
-
-最大的区别:
+### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png)
 
 
-### 2、SpringBoot如何配置log4j？
 
-在引用log4j之前，需要先排除项目创建时候带的日志，因为那个是Logback，然后再引入log4j的依赖，引入依赖之后，去src/main/resources目录下的log4j-spring.properties配置文件，就可以开始对应用的日志进行配置使用。
+### 1、如何使用SpringBoot实现异常处理？
 
-
-### 3、微服务之间是如何独立通讯的
-
-**1、** 远程过程调用（Remote Procedure Invocation）：也就是我们常说的服务的注册与发现，直接通过远程过程调用来访问别的service。
-
-**优点：**
-
-简单，常见,因为没有中间件代理，系统更简单
-
-**缺点：**
-
-**1、** 只支持请求/响应的模式，不支持别的，比如通知、请求/异步响应、发布/订阅、发布/异步响应
-
-**2、** 降低了可用性，因为客户端和服务端在请求过程中必须都是可用的
-
-**2、** 消息：使用异步消息来做服务间通信。服务间通过消息管道来交换消息，从而通信。
-
-**优点:**
-
-**1、** 把客户端和服务端解耦，更松耦合
-
-**2、** 提高可用性，因为消息中间件缓存了消息，直到消费者可以消费
-
-**3、** 支持很多通信机制比如通知、请求/异步响应、发布/订阅、发布/异步响应
-
-**缺点:**
-
-消息中间件有额外的复杂
+Spring提供了一种使用ControllerAdvice处理异常的非常有用的方法。 我们通过实现一个ControlerAdvice类，来处理控制器类抛出的所有异常。
 
 
-### 4、SpringBoot自动配置的原理
+### 2、@Controller注解的作用
 
-在spring程序main方法中 添加@SpringBootApplication或者@EnableAutoConfiguration
+**1、** 在Spring MVC 中，控制器Controller 负责处理由DispatcherServlet 分发的请求，它把用户请求的数据经过业务处理层处理之后封装成一个Model ，然后再把该Model 返回给对应的View 进行展示。在Spring MVC 中提供了一个非常简便的定义Controller 的方法，你无需继承特定的类或实现特定的接口，只需使用[@Controller ](/Controller ) 标记一个类是Controller ，然后使用[@RequestMapping ](/RequestMapping ) 和[@RequestParam ](/RequestParam ) 等一些注解用以定义URL 请求和Controller 方法之间的映射，这样的Controller 就能被外界访问到。此外Controller 不会直接依赖于HttpServletRequest 和HttpServletResponse 等HttpServlet 对象，它们可以通过Controller 的方法参数灵活的获取到。
 
-会自动去maven中读取每个starter中的spring.factories文件 该文件里配置了所有需要被创建spring容器中的bean
+**2、** [@Controller ](/Controller ) 用于标记在一个类上，使用它标记的类就是一个Spring MVC Controller 对象。分发处理器将会扫描使用了该注解的类的方法，并检测该方法是否使用了[@RequestMapping ](/RequestMapping ) 注解。[@Controller ](/Controller ) 只是定义了一个控制器类，而使用[@RequestMapping ](/RequestMapping ) 注解的方法才是真正处理请求的处理器。单单使用[@Controller ](/Controller ) 标记在一个类上还不能真正意义上的说它就是Spring MVC 的一个控制器类，因为这个时候Spring 还不认识它。那么要如何做Spring 才能认识它呢？这个时候就需要我们把这个控制器类交给Spring 来管理。有两种方式：
 
+**3、** 在Spring MVC 的配置文件中定义MyController 的bean 对象。
 
-### 5、path=”users”, collectionResourceRel=”users” 如何与 Spring Data Rest 一起使用？
-
-path- 这个资源要导出的路径段。
-
-collectionResourceRel- 生成指向集合资源的链接时使用的 rel 值。在生成 HATEOAS 链接时使用。
+**4、** 在Spring MVC 的配置文件中告诉Spring 该到哪里去找标记为[@Controller ](/Controller ) 的Controller 控制器。
 
 
-### 6、什么是 SpringBoot 启动类注解：
+### 3、什么是 AOP什么是目标对象?
 
-@SpringBootConfiguration:SpringBoot的配置类; 标注在某个类上，表示这是一个SpringBoot的配置类; @Configuration:配置类上来标注这个注解;配置类 ----- 配置文件;配置类也是容器中的一个组件;[@Component ](/Component )
-
-@EnableAutoConfiguration:开启自动配置功能;
-
-以前我们需要配置的东西，SpringBoot帮我们自动配置;@EnableAutoConfiguration告诉SpringBoot开启自动配置功能;这样自动配置才能生效;
-
-SpringBoot在启动的时候从类路径下的META-INF/spring.factories中获取EnableAutoConfiguration指定的值，将这些值作为自动配置类导入到容器中，自动配置类就失效，帮我们进行自动配置工作
+被一个或者多个切面所通知的对象。它通常是一个代理对象。也指被通知（advised）对象。
 
 
-### 7、什么是feigin？它的优点是什么？
+### 4、当 SpringBoot 应用程序作为 Java 应用程序运行时，后台会发生什么？
 
-**1、** feign采用的是基于接口的注解
+如果你使用 Eclipse IDE，Eclipse maven 插件确保依赖项或者类文件的改变一经添加，就会被编译并在目标文件中准备好！在这之后，就和其它的 Java 应用程序一样了。
 
-**2、** feign整合了ribbon，具有负载均衡的能力
+当你启动 java 应用程序的时候，spring boot 自动配置文件就会魔法般的启用了。
 
-**3、** 整合了Hystrix，具有熔断的能力
+当 SpringBoot 应用程序检测到你正在开发一个 web 应用程序的时候，它就会启动 tomcat。
 
-**使用:**
 
-**1、** 添加pom依赖。
+### 5、服务注册和发现是什么意思？Spring Cloud如何实现？
 
-**2、** 启动类添加[@EnableFeignClients ](/EnableFeignClients )
+当我们开始一个项目时，我们通常在属性文件中进行所有的配置。随着越来越多的服务开发和部署，添加和修改这些属性变得更加复杂。有些服务可能会下降，而某些位置可能会发生变化。手动更改属性可能会产生问题。Eureka服务注册和发现可以在这种情况下提供帮助。由于所有服务都在Eureka服务器上注册并通过调用Eureka服务器完成查找，因此无需处理服务地点的任何更改和处理。
 
-**3、** 定义一个接口@FeignClient(name=“xxx”)指定调用哪个服务
+
+### 6、什么是Idempotence以及它在哪里使用？
+
+幂等性是能够以这样的方式做两次事情的特性，即最终结果将保持不变，即好像它只做了一次。
+
+用法：在远程服务或数据源中使用 Idempotence，这样当它多次接收指令时，它只处理指令一次。
+
+
+### 7、SpringBoot 中如何解决跨域问题 ?
+
+跨域可以在前端通过 JSONP 来解决，但是 JSONP 只可以发送 GET 请求，无法发送其他类型的请求，在 RESTful 风格的应用中，就显得非常鸡肋，因此我们推荐在后端通过 （CORS，Cross-origin resource sharing） 来解决跨域问题。这种解决方案并非 SpringBoot 特有的，在传统的 SSM 框架中，就可以通过 CORS 来解决跨域问题，只不过之前我们是在 XML 文件中配置 CORS ，现在可以通过实现WebMvcConfigurer接口然后重写addCorsMappings方法解决跨域问题。
+
+[@Configuration ](/Configuration )
+
+public class CorsConfig implements WebMvcConfigurer {
+
+```
+@Override
+public void addCorsMappings(CorsRegistry registry) {
+    registry.addMapping("/**")
+            .allowedOrigins("*")
+            .allowCredentials(true)
+            .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
+            .maxAge(3600);
+}
+```
+
+}
 
 
 ### 8、运行 SpringBoot 有哪几种方式？
 
-**1、** 打包用命令或者者放到容器中运行
+**1、** 打包用命令或者放到容器中运行
 
 **2、** 用 Maven/ Gradle 插件运行
 
 **3、** 直接执行 main 方法运行
 
 
-### 9、前后端分离，如何维护接口文档 ?
+### 9、单片，SOA和微服务架构有什么区别？
 
-前后端分离开发日益流行，大部分情况下，我们都是通过 SpringBoot 做前后端分离开发，前后端分离一定会有接口文档，不然会前后端会深深陷入到扯皮中。一个比较笨的方法就是使用 word 或者 md 来维护接口文档，但是效率太低，接口一变，所有人手上的文档都得变。在 SpringBoot 中，这个问题常见的解决方案是 Swagger ，使用 Swagger 我们可以快速生成一个接口文档网站，接口一旦发生变化，文档就会自动更新，所有开发工程师访问这一个在线网站就可以获取到最新的接口文档，非常方便。
+![](https://gitee.com/souyunkutech/souyunku-home/raw/master/images/souyunku-web/2019/08/0816/01/img_7.png#alt=img%5C_7.png)
 
+图6： 单片SOA和微服务之间的比较 – 微服务访谈问题
 
-### 10、[@Required ](/Required ) 注解有什么用？
+单片架构类似于大容器，其中应用程序的所有软件组件组装在一起并紧密封装。
 
-[@Required ](/Required ) 应用于 bean 属性 setter 方法。此注解仅指示必须在配置时使用 bean 定义中的显式属性值或使用自动装配填充受影响的 bean 属性。如果尚未填充受影响的 bean 属性，则容器将抛出 BeanInitializationException。
+一个面向服务的架构是一种相互通信服务的集合。通信可以涉及简单的数据传递，也可以涉及两个或多个协调某些活动的服务。
 
-示例：
-
-```
-public class Employee {
-    private String name;
-    @Required
-    public void setName(String name){
-        this.name=name;
-    }
-    public string getName(){
-        return name;
-    }
-}
-```
+微服务架构是一种架构风格，它将应用程序构建为以业务域为模型的小型自治服务集合。
 
 
-### 11、@PathVariable和@RequestParam的区别
-### 12、如何在不使用BasePACKAGE过滤器的情况下排除程序包？
-### 13、什么是Spring Batch？
-### 14、什么是SpringBoot？
-### 15、[@Autowired ](/Autowired ) 注解有什么用？
-### 16、如何启用/禁用执行器？
-### 17、微服务之间如何独立通讯的?
-### 18、SpringBoot、Spring MVC 和 Spring 有什么区别
-### 19、为什么人们会犹豫使用微服务？
-### 20、你如何理解 SpringBoot 配置加载顺序？
-### 21、什么是端到端微服务测试？
-### 22、微服务的缺点：
-### 23、什么是 AOP切点
-### 24、什么是 FreeMarker 模板？
-### 25、@RequestMapping注解的作用
-### 26、比较一下 Spring Security 和 Shiro 各自的优缺点 ?
-### 27、SpringBoot 有哪些优点？
-### 28、如何集成 SpringBoot 和 ActiveMQ？
-### 29、你对SpringBoot有什么了解？
-### 30、Spring Cloud Netflix
-### 31、SpringBoot 有哪几种读取配置的方式？
+### 10、如何在 spring 中启动注解装配？
+
+默认情况下，Spring 容器中未打开注解装配。 因此，要使用基于注解装配，我们必须通过配置 <context： annotation-config /> 元素在 Spring 配置文件中启用它。
+
+
+### 11、您对Mike Cohn的测试金字塔了解多少？
+### 12、我们可以用微服务创建状态机吗？
+### 13、spring 中有多少种 IOC 容器？
+### 14、spring cloud 和dubbo区别?
+### 15、Spring 、SpringBoot 和 Spring Cloud 的关系?
+### 16、eureka的缺点：
+### 17、保护 SpringBoot 应用有哪些方法？
+### 18、Spring Cloud Security
+### 19、什么是 AOP Aspect 切面
+### 20、eureka服务注册与发现原理
+### 21、Spring Cloud和SpringBoot版本对应关系
+### 22、Async异步调用方法
+### 23、SpringBoot读取配置文件的方式
+### 24、什么是Spring Cloud？
+### 25、SpringBoot 支持哪些日志框架？推荐和默认的日志框架是哪个？
+### 26、你如何理解 SpringBoot 配置加载顺序？
+### 27、Spring Cloud抛弃了Dubbo 的RPC通信，采用的是基于HTTP的REST方式。
+### 28、什么是双因素身份验证？
+### 29、负载平衡的意义什么？
+### 30、SpringBoot的自动配置原理是什么
+### 31、什么是 Spring Batch?
 
 
 
 
 ## 全部答案，整理好了，直接下载吧
 
-### 下载链接：[全部答案，整理好了](https://www.souyunku.com/?p=67)
+### 下载链接：[全部答案，整理好了](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
 
-### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/?p=67)
+### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
 
 
 ## 最新，高清PDF：172份，7701页，最新整理

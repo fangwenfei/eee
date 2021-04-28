@@ -2,234 +2,185 @@
 
 ### 其实，博主还整理了，更多大厂面试题，直接下载吧
 
-### 下载链接：[高清172份，累计 7701 页大厂面试题  PDF](https://www.souyunku.com/?p=67)
+### 下载链接：[高清172份，累计 7701 页大厂面试题  PDF](https://github.com/souyunku/DevBooks/blob/master/docs/index.md)
 
-### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/?p=67)
+### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png)
 
 
 
-### 1、如何将打开res aw目录中的数据库文件?
+### 1、jni 的调用过程?
 
-**1、** 在Android中不能直接打开res aw目录中的数据库文件，而需要在程序第一次启动时将该文件复制到手机内存或SD卡的某个目录中，然后再打开该数据库文件。
+**1、** 安装和下载 Cygwin，下载 Android NDK。
 
-**2、** 复制的基本方法是使用getResources().openRawResource方法获得res aw目录中资源的 InputStream对象，然后将该InputStream对象中的数据写入其他的目录中相应文件中。
+**2、** ndk 项目中 JNI 接口的设计。
 
-**3、** 在Android SDK中可以使用SQLiteDatabase.openOrCreateDatabase方法来打开任意目录中的SQLite数据库文件。
+**3、** 使用 C/C++实现本地方法。
 
+**4、** JNI 生成动态链接库.so 文件。
 
-### 2、Intent 传递数据时，可以传递哪些类型数据？
+**5、** 将动态链接库复制到 java 工程，在 java 工程中调用，运行 java 工程即可。
 
-```
-基本数据类型以及对应的数组类型
-可以传递bundle类型，但是bundle类型的数据需要实现Serializable或者parcelable接口
-```
 
+### 2、音视频相关类
 
-### 3、String,StringBuffer,StringBuilder的区别
+总体来说，分为几个类
 
-String不可改变对象，一旦创建就不能修改
+**1、** 视频录制方面，Camear摄像头录制视频类，MediaProjection屏幕录制视频类
 
-```
-String str="aaa";
-str="bbb";
-```
+**2、** 编码方面，MediaCodec，MediaRecorder
 
-以上代码虽然改变了str，但是执行过程是回收str，把值赋给一个新的str
+**3、** 预览方面，SurfaceView,GLSurfaceView,TextureView,VideoView
 
-StringBuffer创建之后，可以去修改
 
-StringBuilder也可修改，执行效率高于StringBuffer，不安全
+### 3、Activity间通过Intent传递数据大小有没有限制？
 
-当字符赋值少使用String
+Intent在传递数据时是有大小限制的，这里官方并未详细说明，不过通过实验的方法可以测出数据应该被限制在1MB之内（1024KB），笔者采用的是传递Bitmap的方法，发现当图片大小超过1024（准确地说是1020左右）的时候，程序就会出现闪退、停止运行等异常(不同的手机反应不同)，因此可以判断Intent的传输容量在1MB之内。
 
-字符赋值频繁使用StringBuilder
 
-当多个线程同步操作数据，使用StringBuffer
+### 4、如何保存activity的状态？
 
+默认情况下activity的状态系统会自动保存，有些时候需要我们手动调用保存。
 
-### 4、android中的动画有哪几类，它们的特点和区别是什么
+当activity处于onPause，onStop之后，activity处于未活动状态，但是activity对象却仍然存在。当内存不足，onPause，onStop之后的activity可能会被系统摧毁。
 
-两种，一种是Tween动画、还有一种是Frame动画。Tween动画，这种实现方式可以使视图组件移动、放大、缩小以及产生透明度的变化;另一种Frame动画，传统的动画方法，通过顺序的播放排列好的图片来实现，类似电影。
+当通过返回退出activity时，activity状态并不会保存。
 
+保存activity状态需要重写onSavedInstanceState()方法，在执行onPause,onStop之前调用onSavedInstanceState方法，onSavedInstanceState需要一个Bundle类型的参数，我们可以将数据保存到bundle中，通过实参传递给onSavedInstanceState方法。
 
-### 5、AsyncTask使用在哪些场景？它的缺陷是什么？如何解决？
+Activity被销毁后，重新启动时，在onCreate方法中，接受保存的bundle参数，并将之前的数据取出。
 
-AsyncTask 运用的场景就是我们需要进行一些耗时的操作，耗时操作完成后更新主线程，或者在操作过程中对主线程的UI进行更新。
 
-缺陷：AsyncTask中维护着一个长度为128的线程池，同时可以执行5个工作线程，还有一个缓冲队列，当线程池中已有128个线程，缓冲队列已满时，如果 此时向线程提交任务，将会抛出RejectedExecutionException。
+### 5、怎样对 android 进行优化？
 
-解决：由一个控制线程来处理AsyncTask的调用判断线程池是否满了，如果满了则线程睡眠否则请求AsyncTask继续处理。
+**1、** 对 listview 的优化。
 
+**2、** 对图片的优化。
 
-### 6、你一般在开发项目中都使用什么设计模式？如何来重构，优化你的代码？
+**3、** 对内存的优化。
 
-较为常用的就是单例设计模式，工厂设计模式以及观察者设计模式,
+**4、** 具体一些措施
 
-一般需要保证对象在内存中的唯一性时就是用单例模式,例如对数据库操作的 SqliteOpenHelper 的对象。
+**5、** 尽量不要使用过多的静态类 static
 
-工厂模式主要是为创建对象提供过渡接口，以便将创建对象的具体过程屏蔽隔离起来，达到提高灵活性的目的。
+**6、** 数据库使用完成后要记得关闭 cursor
 
-观察者模式定义对象间的一种一对多的依赖关系，当一个对象的状态发生改变时，所有依赖于它的对象都得到通知并被自动更新
+**7、** 广播使用完之后要注销
 
 
-### 7、为什么Android引入广播机制?
+### 6、activity的启动模式有哪些？是什么含义
 
-**1、** 从MVC的角度考虑(应用程序内) 其实回答这个问题的时候还可以这样问，android为什么要有那4大组件，现在的移动开发模型基本上也是照搬的web那一套MVC架构，只不过是改了点嫁妆而已。
+在android里，有4种activity的启动模式，分别为：
 
-**2、** android的四大组件本质上就是为了实现移动或者说嵌入式设备上的MVC架构
+**1、** “standard” (默认)
 
-**3、** 它们之间有时候是一种相互依存的关系，有时候又是一种补充关系，引入广播机制可以方便几大组件的信息和数据交互。
+**2、** “singleTop”
 
-**4、** 程序间互通消息(例如在自己的应用程序内监听系统来电)
+**3、** “singleTask”
 
-**5、** 效率上(参考UDP的广播协议在局域网的方便性)
+**4、** “singleInstance”
 
-**6、** 设计模式上(反转控制的一种应用，类似监听者模式)
+它们主要有如下不同
 
+**1、** 如何决定所属task
 
-### 8、跟activity和Task 有关的 Intent启动方式有哪些？其含义？
+“standard”和”singleTop”的activity的目标task，和收到的Intent的发送者在同一个task内，除非intent包括参数FLAG_ACTIVITY_NEW_TASK
 
-核心的Intent Flag有
+如果提供了FLAG_ACTIVITY_NEW_TASK参数，会启动到别的task里。
 
-**1、** FLAG_ACTIVITY_NEW_TAS
+“singleTask”和”singleInstance”总是把activity作为一个task的根元素，他们不会被启动到一个其他task里
 
-**2、** FLAG_ACTIVITY_CLEAR_TOP
+**2、** 是否允许多个实例
 
-**3、** FLAG_ACTIVITY_RESET_TASK_IF_NEEDED
+“standard”和”singleTop”可以被实例化多次，并且存在于不同的task中，且一个task可以包括一个activity的多个实例；
 
-**4、** FLAG_ACTIVITY_SINGLE_TO
+“singleTask”和”singleInstance”则限制只生成一个实例，并且是task的根元素。 singleTop要求如果创建intent的时候栈顶已经有要创建的Activity的实例，则将intent发送给该实例，而不发送给新的实例
 
-**5、** FLAG_ACTIVITY_NEW_TAS
+**3、** 是否允许其它activity存在于本task内
 
-如果设置，这个Activity会成为历史stack中一个新Task的开始。一个Task（从启动它的Activity到下一个Task中的 Activity）定义了用户可以迁移的Activity原子组。Task可以移动到前台和后台；在某个特定Task中的所有Activity总是保持相同的次序
+“singleInstance”独占一个task，其它activity不能存在那个task里；如果它启动了一个新的activity，不管新的activity的launch mode 如何，新的activity都将会到别的task里运行（如同加了FLAG_ACTIVITY_NEW_TASK参数）。
 
-这个标志一般用于呈现“启动”类型的行为：它们提供用户一系列可以单独完成的事情，与启动它们的Activity完全无关。
+而另外三种模式，则可以和其它activity共存
 
-使用这个标志，如果正在启动的Activity的Task已经在运行的话，那么，新的Activity将不会启动；代替的，当前Task会简单的移入前台。参考FLAG_ACTIVITY_MULTIPLE_TASK标志，可以禁用这一行为。
+**4、** 是否每次都生成新实
 
-这个标志不能用于调用方对已经启动的Activity请求结果。
+“standard”对于没一个启动Intent都会生成一个activity的新实例；
 
-**FLAG_ACTIVITY_CLEAR_TOP**
+“singleTop”的activity如果在task的栈顶的话，则不生成新的该activity的实例，直接使用栈顶的实例，否则，生成该activity的实例。
 
-如果设置，并且这个Activity已经在当前的Task中运行，因此，不再是重新启动一个这个Activity的实例，而是在这个Activity上方的所有Activity都将关闭，然后这个Intent会作为一个新的Intent投递到老的Activity（现在位于顶端）中。
+比如现在task栈元素为A-B-C-D（D在栈顶），这时候给D发一个启动intent，如果D是 “standard”的，则生成D的一个新实例，栈变为A－B－C－D－D
 
-例如，假设一个Task中包含这些Activity：A，B，C，D。如果D调用了startActivity()，并且包含一个指向Activity B的Intent，那么，C和D都将结束，然后B接收到这个Intent，因此，目前stack的状况是：A，B。
+如果D是singleTop的话，则不会生产D的新实例，栈状态仍为A-B-C-D
 
-上例中正在运行的Activity B既可以在onNewIntent()中接收到这个新的Intent，也可以把自己关闭然后重新启动来接收这个Intent。如果它的启动模式声明为 “multiple”(默认值)，并且你没有在这个Intent中设置FLAG_ACTIVITY_SINGLE_TOP标志，那么它将关闭然后重新创建；对于其它的启动模式，或者在这个Intent中设置FLAG_ACTIVITY_SINGLE_TOP标志，都将把这个Intent投递到当前这个实例的onNewIntent()中。
+如果这时候给B发Intent的话，不管B的launchmode是”standard” 还是 “singleTop” ，都会生成B的新实例，栈状态变为A-B-C-D-B
 
-这个启动模式还可以与FLAG_ACTIVITY_NEW_TASK结合起来使用：用于启动一个Task中的根Activity，它会把那个Task中任何运行的实例带入前台，然后清除它直到根Activity。这非常有用，例如，当从Notification Manager处启动一个Activity。
+“singleInstance”是其所在栈的唯一activity，它会每次都被重用
 
-**FLAG_ACTIVITY_RESET_TASK_IF_NEEDED**
+“singleTask”如果在栈顶，则接受intent，否则，该intent会被丢弃，但是该task仍会回到前台
 
-如果设置这个标志，这个activity不管是从一个新的栈启动还是从已有栈推到栈顶，它都将以the front door of the task的方式启动。这就讲导致任何与应用相关的栈都讲重置到正常状态（不管是正在讲activity移入还是移除），如果需要，或者直接重置该栈为初始状态。
+当已经存在的activity实例处理新的intent时候，会调用onNewIntent()方法 如果收到intent生成一个activity实例，那么用户可以通过back键回到上一个状态；如果是已经存在的一个activity来处理这个intent的话，用户不能通过按back键返回到这之前的状态
 
-**FLAG_ACTIVITY_SINGLE_TOP**
 
-如果设置，当这个Activity位于历史stack的顶端运行时，不再启动一个新的
+### 7、属性动画
 
-**FLAG_ACTIVITY_BROUGHT_TO_FRONT**
+属性动画，顾名思义它是对于对象属性的动画。因此，所有补间动画的内容，都可以通过属性动画实现。属性动画的运行机制是通过不断地对值进行操作来实现的，而初始值和结束值之间的动画过渡就是由ValueAnimator这个类来负责计算的。它的内部使用一种时间循环的机制来计算值与值之间的动画过渡，我们只需要将初始值和结束值提供给ValueAnimator，并且告诉它动画所需运行的时长，那么ValueAnimator就会自动帮我们完成从初始值平滑地过渡到结束值这样的效果。除此之外，ValueAnimator还负责管理动画的播放次数、播放模式、以及对动画设置监听器等。
 
-这个标志一般不是由程序代码设置的，如在launchMode中设置singleTask模式时系统帮你设定。
 
-**FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET**
+### 8、android的数据存储
 
-如果设置，这将在Task的Activity stack中设置一个还原点，当Task恢复时，需要清理Activity。也就是说，下一次Task带着 FLAG_ACTIVITY_RESET_TASK_IF_NEEDED标记进入前台时（典型的操作是用户在主画面重启它），这个Activity和它之上的都将关闭，以至于用户不能再返回到它们，但是可以回到之前的Activity。
+**1、** 使用SharedPreferences存储数据；它是Android提供的用来存储一些简单配置信息的一种机制，采用了XML格式将数据存储到设备中。只能在同一个包内使用，不能在不同的包之间使用。
 
-这在你的程序有分割点的时候很有用。例如，一个e-mail应用程序可能有一个操作是查看一个附件，需要启动图片浏览Activity来显示。这个 Activity应该作为e-mail应用程序Task的一部分，因为这是用户在这个Task中触发的操作。然而，当用户离开这个Task，然后从主画面选择e-mail app，我们可能希望回到查看的会话中，但不是查看图片附件，因为这让人困惑。通过在启动图片浏览时设定这个标志，浏览及其它启动的Activity在下次用户返回到mail程序时都将全部清除。
+**2、** 文件存储数据；文件存储方式是一种较常用的方法，在Android中读取/写入文件的方法，与Java中实现I/O的程序是完全一样的，提供了openFileInput()和openFileOutput()方法来读取设备上的文件。
 
-**FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS**
+**3、** SQLite数据库存储数据；SQLite是Android所带的一个标准的数据库，它支持SQL语句，它是一个轻量级的嵌入式数据库。
 
-如果设置，新的Activity不会在最近启动的Activity的列表中保存。
+**4、** 使用ContentProvider存储数据；主要用于应用程序之间进行数据交换，从而能够让其他的应用保存或读取此Content Provider的各种数据类型。
 
-**FLAG_ACTIVITY_FORWARD_RESULT**
+**5、** 网络存储数据；通过网络上提供给我们的存储空间来上传(存储)和下载(获取)我们存储在网络空间中的数据信息。
 
-如果设置，并且这个Intent用于从一个存在的Activity启动一个新的Activity，那么，这个作为答复目标的Activity将会传到这个新的Activity中。这种方式下，新的Activity可以调用setResult(int)，并且这个结果值将发送给那个作为答复目标的 Activity。
 
-**FLAG_ACTIVITY_LAUNCHED_FROM_HISTORY**
+### 9、ListView 如何实现分页加载
 
-这个标志一般不由应用程序代码设置，如果这个Activity是从历史记录里启动的（常按HOME键），那么，系统会帮你设定。
+设置 ListView 的滚动监听器：setOnScrollListener(new OnScrollListener{….})在监听器中有两个方法： 滚动状态发生变化的方法(onScrollStateChanged)和 listView 被滚动时调用的方法(onScroll)
 
-**FLAG_ACTIVITY_MULTIPLE_TASK**
+在滚动状态发生改变的方法中，有三种状态：手指按下移动的状态： SCROLL_STATE_TOUCH_SCROLL:触摸滑动，惯性滚动（滑翔（flgin）状态）： SCROLL_STATE_FLING: 滑翔，静止状态： SCROLL_STATE_IDLE: // 静止，对不同的状态进行处理：
 
-不要使用这个标志，除非你自己实现了应用程序启动器。与FLAG_ACTIVITY_NEW_TASK结合起来使用，可以禁用把已存的Task送入前台的行为。当设置时，新的Task总是会启动来处理Intent，而不管这是是否已经有一个Task可以处理相同的事情。
+分批加载数据，只关心静止状态：关心最后一个可见的条目，如果最后一个可见条目就是数据适配器（集合）里的最后一个，此时可加载更多的数据。在每次加载的时候，计算出滚动的数量，当滚动的数量大于等于总数量的时候，可以提示用户无更多数据了。
 
-由于默认的系统不包含图形Task管理功能，因此，你不应该使用这个标志，除非你提供给用户一种方式可以返回到已经启动的Task。
 
-如果FLAG_ACTIVITY_NEW_TASK标志没有设置，这个标志被忽略。
+### 10、Hander原理
 
-**FLAG_ACTIVITY_NO_ANIMATION**
+Handler，loop轮询检测发送消息到MessagerQuery,MessageQuery对Message入列，Handler回调方法处理消息，重写handMessage方法刷新ui
 
-如果在Intent中设置，并传递给Context.startActivity()的话，这个标志将阻止系统进入下一个Activity时应用 Acitivity迁移动画。这并不意味着动画将永不运行——如果另一个Activity在启动显示之前，没有指定这个标志，那么，动画将被应用。这个标志可以很好的用于执行一连串的操作，而动画被看作是更高一级的事件的驱动。
 
-**FLAG_ACTIVITY_NO_HISTORY**
-
-如果设置，新的Activity将不再历史stack中保留。用户一离开它，这个Activity就关闭了。这也可以通过设置noHistory特性。
-
-**FLAG_ACTIVITY_NO_USER_ACTION**
-
-如果设置，作为新启动的Activity进入前台时，这个标志将在Activity暂停之前阻止从最前方的Activity回调的onUserLeaveHint()。
-
-典型的，一个Activity可以依赖这个回调指明显式的用户动作引起的Activity移出后台。这个回调在Activity的生命周期中标记一个合适的点，并关闭一些Notification。
-
-如果一个Activity通过非用户驱动的事件，如来电或闹钟，启动的，这个标志也应该传递给Context.startActivity，保证暂停的Activity不认为用户已经知晓其Notification。
-
-**FLAG_ACTIVITY_PREVIOUS_IS_TOP**
-
-If set and this intent is being used to launch a new activity from an existing one, the current activity will not be counted as the top activity for deciding whether the new intent should be delivered to the top instead of starting a new one、The previous activity will be used as the top, with the assumption being that the current activity will finish itself immediately.
-
-**FLAG_ACTIVITY_REORDER_TO_FRONT**
-
-如果在Intent中设置，并传递给Context.startActivity()，这个标志将引发已经运行的Activity移动到历史stack的顶端。
-
-例如，假设一个Task由四个Activity组成：A,B,C,D。如果D调用startActivity()来启动Activity B，那么，B会移动到历史stack的顶端，现在的次序变成A,C,D,B。如果FLAG_ACTIVITY_CLEAR_TOP标志也设置的话，那么这个标志将被忽略。
-
-
-### 9、SQLite支持事务吗? 添加删除如何提高性能?
-
-在sqlite插入数据的时候默认一条语句就是一个事务，有多少条数据就有多少次磁盘操作 比如5000条记录也就是要5000次读写磁盘操作。
-
-添加事务处理，把多条记录的插入或者删除作为一个事务
-
-
-### 10、如果有个100M大的文件，需要上传至服务器中，而服务器form表单最大只能上传2M，可以用什么方法。
-
-首先来说使用http协议上传数据，特别在android下，跟form没什么关系。
-
-传统的在web中，在form中写文件上传，其实浏览器所做的就是将我们的数据进行解析组拼成字符串，以流的方式发送到服务器，且上传文件用的都是POST方式，POST方式对大小没什么限制。
-
-回到题目，可以说假设每次真的只能上传2M，那么可能我们只能把文件截断，然后分别上传了，断点上传。
-
-
-
-### 11、Android中的长度单位详解
-### 12、activity的生命周期
-### 13、请描述下Activity的生命周期。
-### 14、Android中的ANR
-### 15、Android中，帧动画
-### 16、如果Listview中的数据源发生改变，如何更新listview中的数据
-### 17、View
-### 18、Service生命周期
-### 19、内存溢出和内存泄漏有什么区别？何时会产生内存泄漏？
-### 20、ListView 如何实现分页加载
-### 21、AsyncTask
-### 22、如何将一个Activity设置成窗口的样式。
-### 23、让Activity变成一个窗口
-### 24、请介绍下ContentProvider是如何实现数据共享的。
-### 25、ListView 如何定位到指定位置
-### 26、SQLite支持事务吗?添加删除如何提高性能?
-### 27、请介绍下Android的数据存储方式。
-### 28、注册广播的几种方法?
-### 29、AIDL的全称是什么？如何工作？能处理哪些类型的数据？
-### 30、Android 线程间通信有哪几种方式（重要）
+### 11、请介绍下 ContentProvider 是如何实现数据共享的
+### 12、Android中4大组件
+### 13、Fragment与activity如何传值和交互？
+### 14、消息推送的方式
+### 15、activity的生命周期
+### 16、请描述一下 Intent 和 IntentFilter
+### 17、sim卡的EF文件是什么？有何作用
+### 18、请解释下在单线程模型中Message、Handler、Message Queue、Looper之间的关系。
+### 19、即时通讯是是怎么做的?
+### 20、ListView 如何提高其效率？
+### 21、Android中touch事件的传递机制是怎样的?
+### 22、了解IntentServices吗?
+### 23、View
+### 24、广播接受者的生命周期？
+### 25、跨进程通信的几种方式
+### 26、AsyncTask
+### 27、什么是 AIDL？如何使用？
+### 28、如果Listview中的数据源发生改变，如何更新listview中的数据
+### 29、Android中，帧动画
+### 30、GLSurfaceView
 
 
 
 
 ## 全部答案，整理好了，直接下载吧
 
-### 下载链接：[全部答案，整理好了](https://www.souyunku.com/?p=67)
+### 下载链接：[全部答案，整理好了](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
 
-### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/?p=67)
+### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
 
 
 ## 最新，高清PDF：172份，7701页，最新整理

@@ -2,114 +2,113 @@
 
 ### 其实，博主还整理了，更多大厂面试题，直接下载吧
 
-### 下载链接：[高清172份，累计 7701 页大厂面试题  PDF](https://www.souyunku.com/?p=67)
+### 下载链接：[高清172份，累计 7701 页大厂面试题  PDF](https://github.com/souyunku/DevBooks/blob/master/docs/index.md)
 
-### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/?p=67)
-
-
-
-### 1、：31, 32, 33, 34, 38, 39, 40Apache Kafka对于有经验的人的面试
-### 2、讲讲Kafka维护消费状态跟踪的方法
-
-**1、** 大部分消息系统在broker端的维护消息被消费的记录：一个消息被分发到consumer后broker就马上进行标记或者等待customer的通知后进行标记。这样也可以在消息在消费后立马就删除以减少空间占用。
-
-**2、** 但是这样会不会有什么问题呢？如果一条消息发送出去之后就立即被标记为消费过的，一旦consumer处理消息时失败了（比如程序崩溃）消息就丢失了。为了解决这个问题，很多消息系统提供了另外一个个功能：当消息被发送出去之后仅仅被标记为已发送状态，当接到consumer已经消费成功的通知后才标记为已被消费的状态。这虽然解决了消息丢失的问题，但产生了新问题，首先如果consumer处理消息成功了但是向broker发送响应时失败了，这条消息将被消费两次。第二个问题时，broker必须维护每条消息的状态，并且每次都要先锁住消息然后更改状态然后释放锁。这样麻烦又来了，且不说要维护大量的状态数据，比如如果消息发送出去但没有收到消费成功的通知，这条消息将一直处于被锁定的状态，
-
-**3、** Kafka采用了不同的策略。Topic被分成了若干分区，每个分区在同一时间只被一个consumer消费。这意味着每个分区被消费的消息在日志中的位置仅仅是一个简单的整数：offset。这样就很容易标记每个分区消费状态就很容易了，仅仅需要一个整数而已。这样消费状态的跟踪就很简单了。
-
-**4、** 这带来了另外一个好处：consumer可以把offset调成一个较老的值，去重新消费老的消息。这对传统的消息系统来说看起来有些不可思议，但确实是非常有用的，谁规定了一条消息只能被消费一次呢？
+### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png)
 
 
-### 3、Kafka的message格式是什么？
 
-一个Kafka的Message由一个**固定长度的header**和一个**变长的消息体body**组成
+### 1、producer 是否直接将数据发送到 broker 的 leader(主节点)？
 
-1. header部分 由一个字节的magic(文件格式)和四个字节的CRC32(用于判断body消息体是否正常)构成。
-2. 当magic的值为1的时候，会在magic和crc32之间多一个字节的数据：attributes(保存一些相关属性，比如是否压缩、压缩格式等等);
-3. 如果magic的值为0，那么不存在attributes属性
-4. body部分 由N个字节构成的一个消息体，包含了具体的key/value消息
+producer 直接将数据发送到 broker 的 leader(主节点)，不需要在多个节点进行分发，为了
 
+帮助 producer 做到这点，所有的 Kafka 节点都可以及时的告知:哪些节点是活动的，目标
 
-### 4、Kafka判断一个节点是否还活着有那两个条件？
-
-**1、** 节点必须可以维护和ZooKeeper的连接，Zookeeper通过心跳机制检查每个节点的连接
-
-**2、** 如果节点是个follower,他必须能及时的同步leader的写操作，延时不能太久
+topic 目标分区的 leader 在哪。这样 producer 就可以直接将消息发送到目的地了
 
 
-### 5、消费者提交消费位移时提交的是当前消费到的最新消息的offset还是offset+1?
+### 2、Kafka的高可用机制是什么？
 
-offset+1
+这个问题比较系统，回答出Kafka的系统特点，leader和follower的关系，消息读写的顺序即可。
 
+[https://www.cnblogs.com/qingyunzong/p/9004703.html](https://www.cnblogs.com/qingyunzong/p/9004703.html)
 
-### 6、Kafka 的设计时什么样的呢？
+[https://www.tuicool.com/articles/BNRza2E](https://www.tuicool.com/articles/BNRza2E)
 
-**1、** Kafka 将消息以 topic 为单位进行归纳
-
-**2、** 将向 Kafka topic 发布消息的程序成为 producers.
-
-**3、** 将预订 topics 并消费消息的程序成为 consumer.
-
-**4、** Kafka 以集群的方式运行，可以由一个或多个服务组成，每个服务叫做一个 broker.
-
-**5、** producers 通过网络将消息发送到 Kafka 集群，集群向消费者提供消息
+[https://yq.aliyun.com/articles/64703](https://yq.aliyun.com/articles/64703)
 
 
-### 7、如果 Leader Crash 时，ISR为空怎么办
+### 3、解释术语“主题复制因子”。
 
-Kafka在Broker端提供了一个配置参数：unclean.leader.election,这个参数有两个值：
-
-**true**（默认）：允许不同步副本成为leader，由于不同步副本的消息较为滞后，此时成为leader，可能会出现消息不一致的情况。
-
-**false**：不允许不同步副本成为leader，此时如果发生ISR列表为空，会一直等待旧leader恢复，降低了可用性。
+在设计Kafka系统时，考虑主题复制是非常重要的。
 
 
-### 8、：3,5,6
+### 4、连接器API的作用是什么？
+
+一个允许运行和构建可重用的生产者或消费者的API，将Kafka主题连接到现有的应用程序或数据系统，我们称之为连接器API。Apache Kafka对于新手的面试
+### 5、什么是Apache Kafka?
+
+Apache Kafka是一个发布 - 订阅开源消息代理应用程序。这个消息传递应用程序是用“scala”编码的。基本上，这个项目是由Apache软件启动的。Kafka的设计模式主要基于事务日志设计。
 
 
-### 9、副本和ISR扮演什么角色？
+### 6、消费者负载均衡策略
 
-基本上，复制日志的节点列表就是副本。特别是对于特定的分区。但是，无论他们是否扮演领导者的角色，他们都是如此。此外，ISR指的是同步副本。在定义ISR时，它是一组与领导者同步的消息副本。
+一个消费者组中的一个分片对应一个消费者成员，他能保证每个消费者成员都能访问，如
 
-
-### 10、数据传输的事物定义有哪三种？
-
-**数据传输的事务定义通常有以下三种级别：**
-
-**1、** 最多一次: 消息不会被重复发送，最多被传输一次，但也有可能一次不传输
-
-**2、** 最少一次: 消息不会被漏发送，最少被传输一次，但也有可能被重复传输、（3）精确的一次（Exactly once）: 不会漏传输也不会重复传输,每个消息都传输被一次而
-
-**3、** 且仅仅被传输一次，这是大家所期望的
+果组中成员太多会有空闲的成员
 
 
-### 11、当ack为-1时，什么情况下，Leader 认为一条消息 Commit了？
-### 12、：41, 42, 43, 44, 45, 47, 49Apache Kafka对于有经验的人的面试
-### 13、解释术语“主题复制因子”。
-### 14、解释Kafka可以接收的消息最大为多少？
-### 15、LEO、LSO、AR、ISR、HW都表示什么含义？
-### 16、为什么要使用Apache Kafka集群？
-### 17、Kafka Producer如何优化写入速度?
-### 18、传统的消息传递方法有哪些类型？
-### 19、在生产者中，何时发生QueueFullException？
-### 20、系统工具有哪些类型？
-### 21、Kafka和Flume之间的主要区别是什么？
-### 22、监控Kafka的框架都有哪些？
-### 23、说明Kafka的一个最佳特征。
-### 24、为什么Kafka的复制至关重要？
-### 25、什么是生产者？
-### 26、Kafka中的数据日志是什么？
-### 27、Kafka中有哪几个组件?
-### 28、什么是消费者或用户？
+### 7、Kafka的一些最显著的应用。
+
+Netflix，Mozilla，Oracle
+
+
+### 8、简单说一下ack机制
+
+ack：producer收到多少broker的答复才算真的发送成功
+
+0表示producer无需等待leader的确认(吞吐最高、数据可靠性最差)
+
+1代表需要leader确认写入它的本地log并立即确认
+
+-1/all 代表所有的ISR都完成后确认(吞吐最低、数据可靠性最高)
+
+
+### 9、Zookeeper对于Kafka的作用是什么？
+
+**1、** Zookeeper是一个开放源码的、高性能的协调服务，它用于Kafka的分布式应用。
+
+**2、** Zookeeper主要用于在集群中不同节点之间进行通信
+
+**3、** 在Kafka中，它被用于提交偏移量，因此如果节点在任何情况下都失败了，它都可以从之前提交的偏移量中获取
+
+**4、** 除此之外，它还执行其他活动，如: leader检测、分布式同步、配置管理、识别新节点何时离开或连接、集群、节点实时状态等等。
+
+
+### 10、Kafka分布式（不是单机）的情况下，如何保证消息的顺序消费?
+
+**1、** Kafka分布式的单位是partition，同一个partition用一个write ahead log组织，所以可以保证FIFO的顺序。不同partition之间不能保证顺序。但是绝大多数用户都可以通过message key来定义，因为同一个key的message可以保证只发送到同一个partition。
+
+**2、** Kafka 中发送1条消息的时候，可以指定(topic, partition, key) 3个参数。partiton 和 key 是可选的。如果你指定了 partition，那就是所有消息发往同1个 partition，就是有序的。并且在消费端，Kafka 保证，1个 partition 只能被1个 consumer 消费。或者你指定 key（比如 order id），具有同1个 key 的所有消息，会发往同1个 partition。
+
+
+### 11、讲讲Kafka维护消费状态跟踪的方法
+### 12、你能用Kafka做什么？
+### 13、监控Kafka的框架都有哪些？
+### 14、Rebalance有什么影响
+### 15、：12,15,20
+### 16、Kafka中的 ISR、AR 又代表什么？ISR 的伸缩又指什么？
+### 17、消费者API的作用是什么？
+### 18、生产者和消费者的命令行是什么？
+### 19、consumer是推还是拉？
+### 20、Kafka Follower如何与Leader同步数据?
+### 21、Kafka Producer 写数据，ACK 为 0，1，-1 时分别代表什么？
+### 22、Java在Apache Kafka中的重要性是什么？
+### 23、Apache Kafka是分布式流处理平台吗？如果是，你能用它做什么？
+### 24、Kafka Unclean 配置代表什么？会对 spark streaming 消费有什么影响？
+### 25、Apache Kafka的缺陷
+### 26、如何估算Kafka集群的机器数量？
+### 27、如果副本长时间不在ISR中，这意味着什么？
+### 28、解释术语“Log Anatomy”
 
 
 
 
 ## 全部答案，整理好了，直接下载吧
 
-### 下载链接：[全部答案，整理好了](https://www.souyunku.com/?p=67)
+### 下载链接：[全部答案，整理好了](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
 
-### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/?p=67)
+### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
 
 
 ## 最新，高清PDF：172份，7701页，最新整理

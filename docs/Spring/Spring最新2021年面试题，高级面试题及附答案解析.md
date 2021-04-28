@@ -2,112 +2,189 @@
 
 ### 其实，博主还整理了，更多大厂面试题，直接下载吧
 
-### 下载链接：[高清172份，累计 7701 页大厂面试题  PDF](https://www.souyunku.com/?p=67)
+### 下载链接：[高清172份，累计 7701 页大厂面试题  PDF](https://github.com/souyunku/DevBooks/blob/master/docs/index.md)
 
-### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/?p=67)
-
-
-
-### 1、Spring Cloud Stream
-
-轻量级事件驱动微服务框架，可以使用简单的声明式模型来发送及接收消息，主要实现为Apache Kafka及RabbitMQ。
+### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png)
 
 
-### 2、shiro和oauth还有cas他们之间的关系是什么？问下您公司权限是如何设计，还有就是这几个概念的区别。
 
-cas和oauth是一个解决单点登录的组件，shiro主要是负责权限安全方面的工作，所以功能点不一致。但往往需要单点登陆和权限控制一起来使用，所以就有 cas+shiro或者oauth+shiro这样的组合。
+### 1、如何重新加载SpringBoot上的更改，而无需重新启动服务器？
 
-token一般是客户端登录后服务端生成的令牌，每次访问服务端会进行校验，一般保存到内存即可，也可以放到其他介质；Redis可以做Session共享，如果前端web服务器有几台负载，但是需要保持用户登录的状态，这场景使用比较常见。
+这可以使用DEV工具来实现。通过这种依赖关系，您可以节省任何更改，嵌入式tomcat将重新启动。
 
-我们公司使用oauth+shiro这样的方式来做后台权限的管理，oauth负责多后台统一登录认证，shiro负责给登录用户赋予不同的访问权限。
+SpringBoot有一个开发工具（DevTools）模块，它有助于提高开发人员的生产力。Java开发人员面临的一个主要挑战是将文件更改自动部署到服务器并自动重启服务器。
 
+开发人员可以重新加载SpringBoot上的更改，而无需重新启动服务器。这将消除每次手动部署更改的需要。SpringBoot在它的第一个版本时没有这个功能。
 
-### 3、创建一个 SpringBoot Project 的最简单的方法是什么？
-
-Spring Initializer 是创建 SpringBoot Projects 的一个很好的工具
+这是开发人员最需要的功能。DevTools模块完全满足开发人员的需求。该模块将在生产环境中被禁用。它还提供H2数据库控制台以更好地测试应用程序。
 
 
-### 4、WebApplicationContext
-
-WebApplicationContext 继承了ApplicationContext 并增加了一些WEB应用必备的特有功能，它不同于一般的ApplicationContext ，因为它能处理主题，并找到被关联的servlet。
-
-
-### 5、什么是 Spring 配置文件？
-
-Spring 配置文件是 XML 文件。该文件主要包含类信息。它描述了这些类是如何配置以及相互引入的。但是，XML 配置文件冗长且更加干净。如果没有正确规划和编写，那么在大项目中管理变得非常困难。
+### 2、不同版本的 Spring Framework 有哪些主要功能？
+| Version | Feature |
+| --- | --- |
+| Spring 2.5 | 发布于 2007 年。这是第一个支持注解的版本。 |
+| Spring 3.0 | 发布于 2009 年。它完全利用了 Java5 中的改进，并为 JEE6 提供了支持。 |
+| Spring 4.0 | 发布于 2013 年。这是第一个完全支持 JAVA8 的版本。 |
 
 
-### 6、SpringBoot的启动器有哪几种?
 
-基本启动器有4种：比如spring-boot-starter、spring-boot-starter-web、spring-boot-starter-aop
+### 3、自动装配有哪些局限性 ?
 
+**自动装配的局限性是：**
 
-### 7、我们如何监视所有 SpringBoot 微服务？
+重写： 你仍需用 和  配置来定义依赖，意味着总要重写自动装配。
 
-SpringBoot 提供监视器端点以监控各个微服务的度量。这些端点对于获取有关应用程序的信息（如它们是否已启动）以及它们的组件（如数据库等）是否正常运行很有帮助。但是，使用监视器的一个主要缺点或困难是，我们必须单独打开应用程序的知识点以了解其状态或健康状况。想象一下涉及 50 个应用程序的微服务，管理员将不得不击中所有 50 个应用程序的执行终端。为了帮助我们处理这种情况，我们将使用位于的开源项目。 它建立在 SpringBoot Actuator 之上，它提供了一个 Web UI，使我们能够可视化多个应用程序的度量。
+基本数据类型：你不能自动装配简单的属性，如基本数据类型，String字符串，和类。
 
-
-### 8、我们可以用微服务创建状态机吗？
-
-我们知道拥有自己的数据库的每个微服务都是一个可独立部署的程序单元，这反过来又让我们可以创建一个状态机。因此，我们可以为特定的微服务指定不同的状态和事件。
-
-例如，我们可以定义Order微服务。订单可以具有不同的状态。Order状态的转换可以是Order微服务中的独立事件。
+模糊特性：自动装配不如显式装配精确，如果有可能，建议使用显式装配。
 
 
-### 9、Spring Cloud解决了哪些问题？
+### 4、IOC的优点是什么？
 
-在使用SpringBoot开发分布式微服务时，我们面临的问题很少由Spring Cloud解决。
-
-与分布式系统相关的复杂性 – 包括网络问题，延迟开销，带宽问题，安全问题。
-
-处理服务发现的能力 – 服务发现允许集群中的进程和服务找到彼此并进行通信。
-
-解决冗余问题 – 冗余问题经常发生在分布式系统中。
-
-负载平衡 – 改进跨多个计算资源（例如计算机集群，网络链接，中央处理单元）的工作负载分布。
-
-减少性能问题 – 减少因各种操作开销导致的性能问题。
+IOC 或 依赖注入把应用的代码量降到最低。它使应用容易测试，单元测试不再需要单例和JNDI查找机制。最小的代价和最小的侵入性使松散耦合得以实现。IOC容器支持加载服务时的饿汉式初始化和懒加载。
 
 
-### 10、如何理解 Spring 中的代理？
+### 5、什么是基于注解的容器配置?
 
-将 Advice 应用于目标对象后创建的对象称为代理。在客户端对象的情况下，目标对象和代理对象是相同的。
+相对于XML文件，注解型的配置依赖于通过字节码元数据装配组件，而非尖括号的声明。
+
+开发者通过在相应的类，方法或属性上使用注解的方式，直接组件类中进行配置，而不是使用xml表述bean的装配关系。
+
+
+### 6、使用 SpringBoot 启动连接到内存数据库 H2 的 JPA 应用程序需要哪些依赖项？
+
+在 SpringBoot 项目中，当你确保下面的依赖项都在类路里面的时候，你可以加载 H2 控制台。
+
+web 启动器
+
+h2
+
+jpa 数据启动器
+
+**其它的依赖项在下面：**
+
+需要注意的一些地方：
+
+一个内部数据内存只在应用程序执行期间存在。这是学习框架的有效方式。
+
+这不是你希望的真是世界应用程序的方式。
+
+在问题“如何连接一个外部数据库？”中，我们解释了如何连接一个你所选择的数据库。
+
+
+### 7、Spring Framework 中有多少个模块，它们分别是什么？
+
+![](https://gitee.com/souyunkutech/souyunku-home/raw/master/images/souyunku-web/2019/08/0816/02/img_1.png#alt=img%5C_1.png)
+
+**Spring 核心容器 – 该层基本上是 Spring Framework 的核心。它包含以下模块：**
+
+**1、** Spring Core
+
+**2、** Spring Bean
+
+**3、** SpEL (Spring Expression Language)
+
+**4、** Spring Context
+
+**数据访问/集成 – 该层提供与数据库交互的支持。它包含以下模块：**
+
+**1、** JDBC (Java DataBase Connectivity)
+
+**2、** ORM (Object Relational Mapping)
+
+**3、** OXM (Object XML Mappers)
+
+**4、** JMS (Java Messaging Service)
+
+**5、** Transaction
+
+**Web – 该层提供了创建 Web 应用程序的支持。它包含以下模块：**
+
+**1、** Web
+
+**2、** Web – Servlet
+
+**3、** Web – Socket
+
+**4、** Web – Portlet
+
+**AOP**
+
+该层支持面向切面编程
+
+**Instrumentation**
+
+该层为类检测和类加载器实现提供支持。
+
+**Test**
+
+该层为使用 JUnit 和 TestNG 进行测试提供支持。
+
+**几个杂项模块:**
+
+Messaging – 该模块为 STOMP 提供支持。它还支持注解编程模型，该模型用于从 WebSocket 客户端路由和处理 STOMP 消息。
+
+Aspects – 该模块为与 AspectJ 的集成提供支持。
+
+
+### 8、如何重新加载SpringBoot上的更改，而无需重新启动服务器？
+
+这可以使用DEV工具来实现。通过这种依赖关系，您可以节省任何更改，嵌入式tomcat将重新启动。SpringBoot有一个开发工具（DevTools）模块，它有助于提高开发人员的生产力。Java开发人员面临的一个主要挑战是将文件更改自动部署到服务器并自动重启服务器。开发人员可以重新加载SpringBoot上的更改，而无需重新启动服务器。这将消除每次手动部署更改的需要。SpringBoot在发布它的第一个版本时没有这个功能。这是开发人员最需要的功能。DevTools模块完全满足开发人员的需求。该模块将在生产环境中被禁用。它还提供H2数据库控制台以更好地测试应用程序。
 
 ```
-Advice + Target Object = Proxy
+<dependency>
+<groupId>org.springframework.boot</groupId>
+<artifactId>spring-boot-devtools</artifactId>
+<optional>true</optional>
 ```
 
 
-### 11、Bean 工厂和 Application contexts 有什么区别？
-### 12、在Spring AOP 中，关注点和横切关注的区别是什么？
-### 13、SpringCloud的优缺点
-### 14、21、在Spring MVC应用程序中使用WebMvcTest注释有什么用处？
-### 15、Spring Framework 有哪些不同的功能？
-### 16、怎么样把ModelMap里面的数据放入Session里面？
-### 17、什么是Spring Profiles？
-### 18、如何实现动态Zuul网关路由转发
-### 19、Ribbon是什么？
-### 20、第⼀层缓存：
-### 21、SpringBoot 支持哪些日志框架？推荐和默认的日志框架是哪个？
-### 22、您对微服务架构中的语义监控有何了解？
-### 23、谈一下领域驱动设计
-### 24、SpringBoot 有哪些优点？
-### 25、什么是 Spring Framework？
-### 26、Spring框架的事务管理有哪些优点？
-### 27、Spring Cloud Task
-### 28、Spring MVC里面拦截器是怎么写的
-### 29、spring boot 核心配置文件是什么？bootstrap、properties 和 application、properties 有何区别 ?
-### 30、SpringBoot支持哪些嵌入式容器？
-### 31、如何实现 SpringBoot 应用程序的安全性？
+### 9、Spring MVC的优点
+
+**1、** 可以支持各种视图技术,而不仅仅局限于JSP；
+
+**2、** 与Spring框架集成（如IoC容器、AOP等）；
+
+**3、** 清晰的角色分配：前端控制器(dispatcherServlet) , 请求到处理器映射（handlerMapping), 处理器适配器（HandlerAdapter), 视图解析器（ViewResolver）。
+
+**4、** 支持各种请求资源的映射策略。
+
+
+### 10、PACT如何运作？
+
+PACT是一个开源工具。它有助于测试消费者和服务提供商之间的互动。消费者服务开发人员首先编写一个测试，该测试定义了与服务提供者的交互模式。测试包括提供者的状态，请求正文和预期的响应。基于此，PACT创建了一个针对其执行测试的存根。输出存储在JSON文件中。
+
+
+### 11、如果在拦截请求中，我想拦截get方式提交的方法,怎么配置
+### 12、spring 中有多少种 IOC 容器？
+### 13、架构师在微服务架构中的角色是什么？
+### 14、如何重新加载SpringBoot上的更改，而无需重新启动服务器？
+### 15、什么是微服务中的反应性扩展？
+### 16、spring JDBC API 中存在哪些类？
+### 17、SpringData 项目所支持的关系数据存储技术：
+### 18、spring 支持集中 bean scope？
+### 19、如何在 SpringBoot 中禁用 Actuator 端点安全性？
+### 20、SpringBoot与SpringCloud 区别
+### 21、微服务之间是如何独立通讯的?
+### 22、BeanFactory – BeanFactory 实现举例。
+### 23、访问RESTful微服务的方法是什么？
+### 24、开启 SpringBoot 特性有哪几种方式？
+### 25、什么是Oauth？
+### 26、Bean 工厂和 Application contexts 有什么区别？
+### 27、为什么要用SpringBoot
+### 28、服务雪崩效应产生的原因
+### 29、JdbcTemplate
+### 30、什么是Eureka的自我保护模式，
+### 31、SpringCloud有几种调用接口方式
 
 
 
 
 ## 全部答案，整理好了，直接下载吧
 
-### 下载链接：[全部答案，整理好了](https://www.souyunku.com/?p=67)
+### 下载链接：[全部答案，整理好了](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
 
-### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/?p=67)
+### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
 
 
 ## 最新，高清PDF：172份，7701页，最新整理

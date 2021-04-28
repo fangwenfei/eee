@@ -2,134 +2,162 @@
 
 ### 其实，博主还整理了，更多大厂面试题，直接下载吧
 
-### 下载链接：[高清172份，累计 7701 页大厂面试题  PDF](https://www.souyunku.com/?p=67)
+### 下载链接：[高清172份，累计 7701 页大厂面试题  PDF](https://github.com/souyunku/DevBooks/blob/master/docs/index.md)
 
-### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/?p=67)
-
-
-
-### 1、IntentService有何优点?
-
-Acitivity的进程，当处理Intent的时候，会产生一个对应的Service； Android的进程处理器现在会尽可能的不kill掉你；非常容易使用
+### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png)
 
 
-### 2、Manifest.xml文件中主要包括哪些信息？
 
-**1、** manifest：根节点，描述了package中所有的内容。
+### 1、Android 引入广播机制的用意
 
-**2、** uses-permission：请求你的package正常运作所需赋予的安全许可。
+从 MVC 的角度考虑(应用程序内) 其实回答这个问题的时候还可以这样问，android 为什么要有那 4 大组件，现在的移动开发模型基本上也是照搬的 web 那一套 MVC 架构，只不过稍微做了修改。android 的四大组件本质上就是为了实现移动或者说嵌入式设备上的 MVC 架构，它们之间有时候是一种相互依存的关系，有时候又是一种补充关系，引入广播机制可以方便几大组件的信息和数据交互。
 
-**3、** permission： 声明了安全许可来限制哪些程序能你package中的组件和功能。
+程序间互通消息(例如在自己的应用程序内监听系统来电)
 
-**4、** instrumentation：声明了用来测试此package或其他package指令组件的代码。
+效率上(参考 UDP 的广播协议在局域网的方便性)
 
-**5、** application：包含package中application级别组件声明的根节点。
-
-**6、** activity：Activity是用来与用户交互的主要工具。
-
-**7、** receiver：IntentReceiver能使的application获得数据的改变或者发生的操作，即使它当前不在运行。
-
-**8、** service：Service是能在后台运行任意时间的组件。
-
-**9、** provider：ContentProvider是用来管理持久化数据并发布给其他应用程序使用的组件。
+设计模式上(反转控制的一种应用，类似监听者模式)
 
 
-### 3、谈谈Android的IPC（进程间通信）机制
+### 2、内存泄露如何查看和解决
 
-IPC是内部进程通信的简称， 是共享"命名管道"的资源。Android中的IPC机制是为了让Activity和Service之间可以随时的进行交互，故在Android中该机制，只适用于Activity和Service之间的通信，类似于远程方法调用，类似于C/S模式的访问。通过定义AIDL接口文件来定义IPC接口。Servier端实现IPC接口，Client端调用IPC接口本地代理。
+概念：有些对象只有有限的生命周期，当他们的任务完成之后，它们将被垃圾回收，如果在对象的生命周期本该结束的时候，这个对象还被一系列的引用，着就会导致内存泄露。
 
+解决方法：使用开源框架LeakCanary检测针对性解决
 
-### 4、Framework 工作方式及原理，Activity 是如何生成一个 view 的，机制是什么？
+**常见的内存泄露有：**
 
-所有的框架都是基于反射 和 配置文件（manifest）的。
+**1、** 单例造成的内存泄露，例如单例中的Context生命周期大于本身Context生命周期
 
-**普通的情况:**
+**2、** 线程使用Hander造成的内存卸扣，当activity已经结束，线程依然在运行更新UI
 
-Activity 创建一个 view 是通过 ondraw 画出来的, 画这个 view 之前呢,还会调用 onmeasure方法来计算显示的大小.
+**3、** 非静态类使用静态变量导致无法回收释放造成泄露
 
-**特殊情况：**
+**4、** WebView网页过多造成内存泄露
 
-Surfaceview 是直接操作硬件的，因为 或者视频播放对帧数有要求，onDraw 效率太低，不够使，Surfaceview 直接把数据写到显存。
-
-
-### 5、activity在屏幕旋转时的生命周期
-
-不设置Activity的android:configChanges时，切屏会重新调用各个生命周期，切横屏时会执行一次，切竖屏时会执行两次；设置Activity的android:configChanges="orientation"时，切屏还是会重新调用各个生命周期，切横、竖屏时只会执行一次；设置Activity的android:configChanges="orientation|keyboardHidden"时，切屏不会重新调用各个生命周期，只会执行onConfigurationChanged方法
+**5、** 资源未关闭造成泄露，例如数据库使用完之后关闭连接
 
 
-### 6、如何退出Activity
+### 3、定位项目中，如何选取定位方案，如何平衡耗电与实时位置的精度？
 
-结束当前activity
+开始定位，Application 持有一个全局的公共位置对象，然后隔一定时间自动刷新位置，每次刷新成功都把新的位置信息赋值到全局的位置对象， 然后每个需要使用位置请求的地方都使用全局的位置信息进行请求。
 
-```
-Finish()
-killProgress()
-System.exit(0)
-```
+**1、** 该方案好处：请求的时候无需再反复定位，每次请求都使用全局的位置对象，节省时间。
 
-关闭应用程序时，结束所有的activity
+**2、** 该方案弊端：耗电，每隔一定时间自动刷新位置，对电量的消耗比较大。
 
-可以创建一个List集合，每新创建一个activity，将该activity的实例放进list中，程序结束时，从集合中取出循环取出activity实例，调用finish()方法结束
+按需定位，每次请求前都进行定位。这样做的好处是比较省电，而且节省资源，但是请求时间会变得相对较长。
 
 
-### 7、Android中activity，context，application有什么不同。
+### 4、如果后台的Activity由于某原因被系统回收了，如何在被系统回收之前保存当前状态？
 
-Content与application都继承与contextWrapper，contextWrapper继承于Context类。
-
-Context：表示当前上下文对象，保存的是上下文中的参数和变量，它可以让更加方便访问到一些资源。
-
-Context通常与activity的生命周期是一样的，application表示整个应用程序的对象。
-
-对于一些生命周期较长的，不要使用context，可以使用application。
-
-在activity中，尽量使用静态内部类，不要使用内部类。内部里作为外部类的成员存在，不是独立于activity，如果内存中还有内存继续引用到context，activity如果被销毁，context还不会结束。
+在onPuase方法中调用onSavedInstanceState()
 
 
-### 8、NDK
+### 5、什么是 IntentService？有何优点？
 
-**1、** NDK是一系列工具集合，NDK提供了一系列的工具，帮助开发者迅速的开发C/C++的动态库，并能自动将so和Java应用打成apk包。
+IntentService 是 Service 的子类，比普通的 Service 增加了额外的功能。先看 Service 本身存在两个问题：
 
-**2、** NDK集成了交叉编译器，并提供了相应的mk文件和隔离cpu、平台等的差异，开发人员只需要简单的修改mk文件就可以创建出so文件。
+**1、** Service 不会专门启动一条单独的进程，Service 与它所在应用位于同一个进程中；
+
+**2、** Service 也不是专门一条新线程，因此不应该在 Service 中直接处理耗时的任务；
+
+**IntentService 特征**
+
+**1、** 会创建独立的 worker 线程来处理所有的 Intent 请求；
+
+**2、** 会创建独立的 worker 线程来处理 onHandleIntent()方法实现的代码，无需处理多线程问题；
+
+**3、** 所有请求处理完成后，IntentService 会自动停止，无需调用 stopSelf()方法停止 Service；
+
+**4、** 为 Service 的 onBind()提供默认实现，返回 null；
+
+**5、** 为 Service 的 onStartCommand 提供默认实现，将请求 Intent 添加到队列中；
 
 
-### 9、wait和 sleep 的区别
+### 6、什么是aar?aar是jar有什么区别?
 
-wait是Object的方法，wait是对象锁，锁定方法不让继续执行，当执行notify方法后就会继续执行，sleep 是Thread的方法，sleep 是使线程睡眠，让出cpu，结束后自动继续执行
+“aar”包是 Android 的类库项目的二进制发行包。
+
+文件扩展名是.aar，maven 项目类型应该也是aar，但文件本身是带有以下各项的 zip 文件：
+
+**1、** /AndroidManifest.xml (mandatory)
+
+**2、** /classes.jar (mandatory)
+
+**3、** /res/ (mandatory)
+
+**4、** /R.txt (mandatory)
+
+**5、** /assets/ (optional)
+
+**6、** /libs/*.jar (optional)
+
+**7、** /jni//*.so (optional)
+
+**8、** /proguard.txt (optional)
+
+**9、** /lint.jar (optional)
+
+这些条目是直接位于 zip 文件根目录的。 其中R.txt 文件是aapt带参数–output-text-symbols的输出结果。
+
+jar打包不能包含资源文件，比如一些drawable文件、xml资源文件之类的,aar可以。
 
 
-### 10、activity，fragment传值问题
+### 7、Serializable 和 Parcelable 的区别？
 
-通过Bundle传值，在activty定义变量传值，扩展fragment创建传值
+如果存储在内存中，推荐使用parcelable，使用serialiable在序列化的时候会产生大量的临时变量，会引起频繁的GC
+
+如果存储在硬盘上，推荐使用Serializable，虽然serializable效率较低
+
+Serializable的实现：只需要实现Serializable接口，就会自动生成一个序列化id
+
+Parcelable的实现：需要实现Parcelable接口，还需要Parcelable.CREATER变量
 
 
-### 11、音视频相关类
-### 12、ListView 可以显示多种类型的条目吗
-### 13、请解释下 Android 程序运行时权限与文件系统权限的区别？
-### 14、消息推送的方式
-### 15、说说mvc模式的原理，它在android中的运用,android的官方建议应用程序的开发采用mvc模式。何谓mvc？
-### 16、dagger2
-### 17、系统上安装了多种浏览器，能否指定某浏览器访问指定页面？请说明原由。
-### 18、recyclerView嵌套卡顿解决如何解决
-### 19、一条最长的短信息约占多少byte?
-### 20、activity，service，intent之间的关系
-### 21、Fragment与activity如何传值和交互？
-### 22、请解释下在单线程模型中Message、Handler、Message Queue、Looper之间的关系。
-### 23、Android中touch事件的传递机制是怎样的?
-### 24、都使用过哪些自定义控件
-### 25、View的绘制原理
-### 26、谈谈你在工作中是怎样解决一个 bug
-### 27、android系统的优势和不足
-### 28、activity之间传递参数，除了intent，广播接收器，contentProvider之外，还有那些方法？
-### 29、了解IntentServices吗?
+### 8、Android i18n
+
+I18n 叫做国际化。android 对i18n和L10n提供了非常好的支持。软件在res/vales 以及 其他带有语言修饰符的文件夹。如： values-zh 这些文件夹中 提供语言，样式，尺寸 xml 资源。
+
+
+### 9、嵌入式操作系统内存管理有哪几种， 各有何特性
+
+页式，段式，段页，用到了MMU,虚拟空间等技术
+
+
+### 10、如果后台的Activity由于某原因被系统回收了，如何在被系统回收之前保存当前状态？
+
+重写onSaveInstanceState()方法，在此方法中保存需要保存的数据，该方法将会在activity被回收之前调用。通过重写onRestoreInstanceState()方法可以从中提取保存好的数据
+
+
+### 11、AsyncTask使用在哪些场景？它的缺陷是什么？如何解决？
+### 12、描述一下android的系统架构
+### 13、谈谈你在工作中是怎样解决一个 bug
+### 14、Framework 工作方式及原理，Activity 是如何生成一个 view 的，机制是什么？
+### 15、你一般在开发项目中都使用什么设计模式？如何来重构，优化你的代码？
+### 16、FragmentPagerAdapter 与 与 FragmentStatePagerAdapter 的区别与使用场景？
+### 17、android中的动画有哪几类，它们的特点和区别是什么
+### 18、一条最长的短信息约占多少byte?
+### 19、ContentProvider与sqlite有什么不一样的？
+### 20、sim卡的EF 文件有何作用
+### 21、Activity启动模式
+### 22、如何切换 fragement,不重新实例化
+### 23、注册广播的几种方法?
+### 24、Android中任务栈的分配
+### 25、如何将一个Activity设置成窗口的样式。
+### 26、说说 LruCache 底层原理
+### 27、View的绘制原理
+### 28、Service和Thread的区别？
+### 29、请介绍下Android中常用的五种布局。
 
 
 
 
 ## 全部答案，整理好了，直接下载吧
 
-### 下载链接：[全部答案，整理好了](https://www.souyunku.com/?p=67)
+### 下载链接：[全部答案，整理好了](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
 
-### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/?p=67)
+### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
 
 
 ## 最新，高清PDF：172份，7701页，最新整理

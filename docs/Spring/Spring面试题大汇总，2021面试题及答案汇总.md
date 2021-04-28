@@ -2,143 +2,127 @@
 
 ### 其实，博主还整理了，更多大厂面试题，直接下载吧
 
-### 下载链接：[高清172份，累计 7701 页大厂面试题  PDF](https://www.souyunku.com/?p=67)
+### 下载链接：[高清172份，累计 7701 页大厂面试题  PDF](https://github.com/souyunku/DevBooks/blob/master/docs/index.md)
 
-### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/?p=67)
-
-
-
-### 1、[@RequestMapping ](/RequestMapping ) 注解有什么用？
-
-[@RequestMapping ](/RequestMapping ) 注解用于将特定 HTTP 请求方法映射到将处理相应请求的控制器中的特定类/方法。此注释可应用于两个级别：
-
-类级别：映射请求的 URL方法级别：映射 URL 以及 HTTP 请求方法
+### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png)
 
 
-### 2、SpringBoot 的核心注解是哪个？它主要由哪几个注解组成的？
 
-启动类上面的注解是@SpringBootApplication，它也是 SpringBoot 的核心注解，主要组合包含了以下 3 个注解：
+### 1、Zuul网关如何搭建集群
 
-@SpringBootConfiguration：组合了 [@Configuration ](/Configuration ) 注解，实现配置文件的功能。
-
-@EnableAutoConfiguration：打开自动配置的功能，也可以关闭某个自动配置的选项，如关闭数据源自动配置功能： [@SpringBootApplication(exclude ](/SpringBootApplication(exclude ) = { DataSourceAutoConfiguration.class }。
-
-@ComponentScan：Spring组件扫描
+使用Nginx的upstream设置Zuul服务集群，通过location拦截请求并转发到upstream，默认使用轮询机制对Zuul集群发送请求。
 
 
-### 3、当 SpringBoot 应用程序作为 Java 应用程序运行时，后台会发生什么？
+### 2、解释JDBC抽象和DAO模块。
 
-如果你使用 Eclipse IDE，Eclipse maven 插件确保依赖项或者类文件的改变一经添加，就会被编译并在目标文件中准备好！在这之后，就和其它的 Java 应用程序一样了。
-
-当你启动 java 应用程序的时候，spring boot 自动配置文件就会魔法般的启用了。
-
-当 SpringBoot 应用程序检测到你正在开发一个 web 应用程序的时候，它就会启动 tomcat。
+通过使用JDBC抽象和DAO模块，保证数据库代码的简洁，并能避免数据库资源错误关闭导致的问题，它在各种不同的数据库的错误信息之上，提供了一个统一的异常访问层。它还利用Spring的AOP 模块给Spring应用中的对象提供事务管理服务。
 
 
-### 4、SpringBoot 的核心注解是哪个？它主要由哪几个注解组成的？
-
-启动类上面的注解是@SpringBootApplication，它也是 SpringBoot 的核心注解，主要组合包含了以下 3 个注解：
-
-@SpringBootConfiguration：组合了 [@Configuration ](/Configuration ) 注解，实现配置文件的功能。
-
-@EnableAutoConfiguration：打开自动配置的功能，也可以关闭某个自动配置的选项，如关闭数据源自动配置功能： [@SpringBootApplication(exclude ](/SpringBootApplication(exclude ) = { DataSourceAutoConfiguration.class })。
-
-@ComponentScan：Spring组件扫描。
-
-
-### 5、SpringBoot 中的 starter 到底是什么 ?
-
-首先，这个 Starter 并非什么新的技术点，基本上还是基于 Spring 已有功能来实现的。首先它提供了一个自动化配置类，一般命名为 `XXXAutoConfiguration` ，在这个配置类中通过条件注解来决定一个配置是否生效（条件注解就是 Spring 中原本就有的），然后它还会提供一系列的默认配置，也允许开发者根据实际情况自定义相关配置，然后通过类型安全的属性(spring、factories)注入将这些配置属性注入进来，新注入的属性会代替掉默认属性。正因为如此，很多第三方框架，我们只需要引入依赖就可以直接使用了。当然，开发者也可以自定义 Starter
-
-
-### 6、什么是SpringBoot？
-
-多年来，随着新功能的增加，spring变得越来越复杂。只需访问https://spring.io/projects
-
-如果必须启动一个新的Spring项目，我们必须添加构建路径或添加Maven依赖关系，配置应用程序服务器，添加spring配置。
-
-因此，开始一个新的spring项目需要很多努力，因为我们现在必须从头开始做所有事情。
-
-SpringBoot是解决这个问题的方法。SpringBoot已经建立在现有spring框架之上。使用spring启动，我们避免了之前我们必须做的所有样板代码和配置。
-
-因此，SpringBoot可以帮助我们以最少的工作量，更加健壮地使用现有的Spring功能。
-
-
-### 7、什么是消费者驱动的合同（CDC）？
-
-这基本上是用于开发微服务的模式，以便它们可以被外部系统使用。当我们处理微服务时，有一个特定的提供者构建它，并且有一个或多个使用微服务的消费者。
-
-通常，提供程序在XML文档中指定接口。但在消费者驱动的合同中，每个服务消费者都传达了提供商期望的接口。
-
-
-### 8、什么是持续监测？
-
-持续监控深入监控覆盖范围，从浏览器内前端性能指标，到应用程序性能，再到主机虚拟化基础架构指标。
-
-
-### 9、Spring支持的ORM
-
-Spring支持以下ORM：
+### 3、spring 支持哪些 ORM 框架
 
 **1、** Hibernate
 
 **2、** iBatis
 
-**3、** JPA (Java Persistence API)
+**3、** JPA
 
-**4、** TopLink
+**4、** JDO
 
-**5、** JDO (Java Data Objects)
-
-**6、** OJB
+**5、** OJB
 
 
-### 10、spring 支持集中 bean scope？
+### 4、spring boot 核心配置文件是什么？bootstrap、properties 和 application、properties 有何区别 ?
 
-**Spring bean 支持 5 种 scope：**
+单纯做 SpringBoot 开发，可能不太容易遇到 bootstrap、properties 配置文件，但是在结合 Spring Cloud 时，这个配置就会经常遇到了，特别是在需要加载一些远程配置文件的时侯。
 
-**1、** Singleton - 每个 Spring IoC 容器仅有一个单实例。
+spring boot 核心的两个配置文件：
 
-**2、** Prototype - 每次请求都会产生一个新的实例。
+bootstrap (、 yml 或者 、 properties)：boostrap 由父 ApplicationContext 加载的，比 applicaton 优先加载，配置在应用程序上下文的引导阶段生效。一般来说我们在 Spring Cloud 配置就会使用这个文件。且 boostrap 里面的属性不能被覆盖；
 
-**3、** Request - 每一次 HTTP 请求都会产生一个新的实例，并且该 bean 仅在当前 HTTP 请求内有效。
-
-**4、** Session - 每一次 HTTP 请求都会产生一个新的 bean，同时该 bean 仅在当前 HTTP session 内有效。
-
-**5、** Global-session - 类似于标准的 HTTP Session 作用域，不过它仅仅在基于 portlet 的 web 应用中才有意义。 Portlet 规范定义了全局 Session 的概念，它被所有构成某个 portlet web 应用的各种不同的 portlet 所共享。 在 global session 作用域中定义的 bean 被限定于全局 portlet Session 的生命周期范围内。 如果你在 web 中使用 global session 作用域来标识 bean，那么 web 会自动当成 session 类型来使用。
-
-**6、** 仅当用户使用支持 Web 的 ApplicationContext 时，最后三个才可用。
+application (、 yml 或者 、 properties)： 由ApplicatonContext 加载，用于 spring boot 项目的自动化配置。
 
 
-### 11、解释Spring框架中bean的生命周期。
-### 12、如何使用 SpringBoot 实现分页和排序？
-### 13、您使用了哪些 starter maven 依赖项？
-### 14、使用 SpringBoot 启动连接到内存数据库 H2 的 JPA 应用程序需要哪些依赖项？
-### 15、Spring MVC的控制器是不是单例模式,如果是,有什么问题,怎么解决？
-### 16、SpringBoot 可以兼容老 Spring 项目吗，如何做？
-### 17、什么是YAML？
-### 18、怎么设计无状态服务？
-### 19、spring 提供了哪些配置方式？
-### 20、什么是Spring Cloud Config?
-### 21、SpringBoot 配置加载顺序?
-### 22、列举 Spring Framework 的优点。
-### 23、如何给Spring 容器提供配置元数据?
-### 24、[@Required ](/Required ) 注解有什么用？
-### 25、SpringBoot有哪些优点？
-### 26、什么是 JavaConfig？
-### 27、什么是 YAML？
-### 28、SpringCloud主要项目
-### 29、架构师在微服务架构中的角色是什么？
-### 30、Bean 工厂和 Application contexts 有什么区别？
+### 5、SpringBoot 的核心注解是哪个？它主要由哪几个注解组成的？
+
+**1、** `@SpringBootConfiguration`：组合了 [@Configuration ](/Configuration ) 注解，实现配置文件的功能。
+
+**2、** `@EnableAutoConfiguration`：打开自动配置的功能，也可以关闭某个自动配置的选项，如关闭数据源自动配置功能。
+
+**3、** `@ComponentScan`：Spring组件扫描。
+
+
+### 6、@RestController和@Controller的区别
+
+共同点：①都是加在类级别上的     ②都可以处理http请求
+
+区   别：@RestController是@Controller和@ResponseBody的结合体
+
+
+### 7、SpringBoot 的核心注解是哪个？它主要由哪几个注解组成的？
+
+启动类上面的注解是@SpringBootApplication，它也是 SpringBoot 的核心注解，主要组合包含了以下 3 个注解：
+
+@SpringBootConfiguration：组合了 [@Configuration ](/Configuration ) 注解，实现配置文件的功能。
+
+@EnableAutoConfiguration：打开自动配置的功能，也可以关闭某个自动配置的选项，如关闭数据源自动配置功能：
+
+[@SpringBootApplication(exclude ](/SpringBootApplication(exclude ) = { DataSourceAutoConfiguration.class })。
+
+@ComponentScan：Spring组件扫描。
+
+
+### 8、PACT在微服务架构中的用途是什么？
+
+PACT是一个开源工具，允许测试服务提供者和消费者之间的交互，与合同隔离，从而提高微服务集成的可靠性。
+
+微服务中的用法
+
+用于在微服务中实现消费者驱动的合同。
+
+测试微服务的消费者和提供者之间的消费者驱动的合同。
+
+查看即将到来的批次
+
+
+### 9、我们如何监视所有 SpringBoot 微服务？
+
+SpringBoot 提供监视器端点以监控各个微服务的度量。这些端点对于获取有关应用程序的信息（如它们是否已启动）以及它们的组件（如数据库等）是否正常运行很有帮助。但是，使用监视器的一个主要缺点或困难是，我们必须单独打开应用程序的知识点以了解其状态或健康状况。想象一下涉及 50 个应用程序的微服务，管理员将不得不击中所有 50 个应用程序的执行终端。
+
+
+### 10、既然Nginx可以实现网关？为什么还需要使用Zuul框架
+
+Zuul是SpringCloud集成的网关，使用Java语言编写，可以对SpringCloud架构提供更灵活的服务。
+
+
+### 11、服务网关的作用
+### 12、SpringBoot 中如何解决跨域问题 ?
+### 13、你能否举一个以 ReadOnly 为事务管理的例子？
+### 14、XMLBeanFactory
+### 15、SpringBoot 的核心注解是哪个？它主要由哪几个注解组成的？
+### 16、什么是Spring Cloud？
+### 17、什么是Spring的内部bean？
+### 18、如何集成SpringBoot和ActiveMQ？
+### 19、什么是 Spring Framework？
+### 20、什么是 Spring Data REST?
+### 21、使用Spring Cloud有什么优势？
+### 22、Spring Cloud Task
+### 23、解释不同方式的自动装配 。
+### 24、什么是Spring Cloud Bus？我们需要它吗？
+### 25、Spring支持的ORM
+### 26、指出在 spring aop 中 concern 和 cross-cutting concern 的不同之处。
+### 27、@PathVariable和@RequestParam的区别
+### 28、您使用了哪些 starter maven 依赖项？
+### 29、什么是织入。什么是织入应用的不同点？
+### 30、什么是嵌入式服务器？我们为什么要使用嵌入式服务器呢?
 
 
 
 
 ## 全部答案，整理好了，直接下载吧
 
-### 下载链接：[全部答案，整理好了](https://www.souyunku.com/?p=67)
+### 下载链接：[全部答案，整理好了](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
 
-### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/?p=67)
+### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
 
 
 ## 最新，高清PDF：172份，7701页，最新整理

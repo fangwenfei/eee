@@ -2,182 +2,191 @@
 
 ### 其实，博主还整理了，更多大厂面试题，直接下载吧
 
-### 下载链接：[高清172份，累计 7701 页大厂面试题  PDF](https://www.souyunku.com/?p=67)
+### 下载链接：[高清172份，累计 7701 页大厂面试题  PDF](https://github.com/souyunku/DevBooks/blob/master/docs/index.md)
 
-### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/?p=67)
-
-
-
-### 1、现有mydict和变量onekey，请写出从mydict中取出onekey的值的方法
-
-> 方法一：mydict[onekey]
-
-这种方法，如果mydict中键不存在的时候程序会报错
-
-方法二：mydict.get(onekey)
-
-这种方法，如果存在，返回值，不存在返回None
-
-方法三：mydict.setdefault(onekey,[])
-
-这种方法：存在的话返回值，不存在的时候创建一个值，值得内容为第二个参数+
+### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png)
 
 
 
-### 2、以下代码输出什么？
+### 1、如何更改列表的数据类型？
 
-```python
-lis=['a','b','c','d','e']
-print(lis[10:])
+要将列表的数据类型进行更改，可以使用tuple()或者set()。
+
 ```
+lst = [1,2,3,4,2]
 
-**答案：[]**
-
-
-### 3、什么是粘包？出现粘包的原因？
-
-**1、** 粘包：多个数据包被连续存储于连续的缓存中，在对数据包进行读取时由于无法确定发生方的发送边界，而采用某一估测值大小来进行数据读出，若双方的size不一致时就会使指发送方发送的若干包数据到接收方接收时粘成一包，从接收缓冲区看，后一包数据的头紧接着前一包数据的尾。
-
-**2、** 出现粘包现象的原因是多方面的，它既可能由发送方造成，也可能由接收方造成。
-
-**3、** 发送方引起的粘包是由TCP协议本身造成的，TCP为提高传输效率，发送方往往要收集到足够多的数据后才发送一包数据。若连续几次发送的数据都很少，通常TCP会根据优化算法把这些数据合成一包后一次发送出去，这样接收方就收到了粘包数据。
-
-**4、** 接收方引起的粘包是由于接收方用户进程不及时接收数据，从而导致粘包现象。这是因为接收方先把收到的数据放在系统接收缓冲区，用户进程从该缓冲区取数据，若下一包数据到达时前一包数据尚未被用户进程取走，则下一包数据放到系统接收缓冲区时就接到前一包数据之后，而用户进程根据预先设定的缓冲区大小从系统接收缓冲区取数据，这样就一次取到了多包数据。
-
-
-### 4、yield from 和 yield 的区别
-
-[简述yield和yield from](https://blog.csdn.net/lamusique/article/details/85845225)
-
-```python
-# 下面a()和b()是等价的
-def a():
-yield from [1,2,3,4,5]
-def b():
-for i in [1,2,3,4,5]:
-yield i
-for i in a():
-print(i)
-for i in b():
-print(i)
-```
-
-yield将一个函数变成一个生成器
-
-yield 返回一个值
-
-yield from后面接可迭代对象，一个一个返回值。
-
-
-### 5、如何实现字符串的反转？如：name=felix，反转成name=xilef
-
-```python
-name = "felix"
-# 方法一：
-name=name[::-1]
-# 方法二：
-name2=list(name)
-name2.reverse()
-name=''.join(name2)
-# 方法三：
-from functools import reduce
-name=reduce(lambda x, y: y+x, name)
+# 更改为集合
+set(lst)    ## {1,2,3,4}
+# 更改为元组
+tuple(lst)  ## (1,2,3,4,2)
 ```
 
 
-### 6、如何在Python中管理内存？
+### 2、用一行Python代码，从给定列表中取出所有的偶数和奇数
 
-Python内存由Python的私有headspace管理。
+```
+a = [1,2,3,4,5,6,7,8,9,10]
+odd, even = [el for el in a if el % 2==1], [el for el in a if el % 2==0]
 
-所有的Python对象和数据结构都位于一个私有堆中。私用堆的分配由Python内存管理器负责。
-
-Python还内置了一个的垃圾收集器，可以回收未使用的内存并释放内存，使其可用于headspace。
-
-
-### 7、pass的使用
-
-通常用来标记一个还未写的代码的位置，pass不做任何事情，一般用来做占位语句，保持程序结构的完整性
-
-
-### 8、axios的作用
-
-**axios是基于promise的用于浏览器和nodejs的HTTP客户端，本身有以下特征：**
-
-**1、** 从浏览器中创建XMLHttpRequest；
-
-**2、** 从nodejs发出http请求
-
-**3、** 支持promiseAPI
-
-**4、** 拦截 请求和响应
-
-**5、** 转换请求和响应数据
-
-**6、** 取消请求
-
-**7、** 自动转换JSON数据
-
-**8、** 客户端支持防止CSRF/XSRF攻击
-
-
-### 9、_init_在Python中有什么用？
-
-“__init__”是Python类中的保留方法。
-
-它被称为构造函数，每当执行代码时都会自动调用它，它主要用于初始化类的所有变量。
-
-
-### 10、写出以下代码的输出结果：
-
-```python
-def test():
-try:
-raise ValueError('something wrong')
-except ValueError as e:
-print('error occured')
-return
-finally:
-print('ok')
-test()
+print(odd,even)
+> ([1, 3, 5, 7, 9], [2, 4, 6, 8, 10])
 ```
 
-结果(finally无论怎样都会执行)
 
-> error occured
+### 3、在什么情况下y!=x-(x-y)会成立？
 
-ok
-
+x，y是两个不相等的非空集合
 
 
-### 11、break、continue、pass是什么？
-### 12、如何高效的找到Redis中所有以felix开头的key
-### 13、解决哈希冲突的算法有哪几种？分别有什么特点？
-### 14、如果Redis中的某个列表中的数据量非常大，如何实现循环显示每一个值？
-### 15、Python的局限性？
-### 16、列表推导式[i for i in range(10)]和生成式表达式(i for i in range(10))的区别
-### 17、select、poll、epoll模型的区别
-### 18、请编写一个函数将ip地址转换成一个整数。如10.3.9.12转换成00001010 00000011 00001001 00001100，然后转换成整数
-### 19、字节码和机器码的区别
-### 20、输入一个字符串，输出该字符串的字符的所有组合。如输入'abc',输出a,b,c,ab,ac,bc,abc.
-### 21、解释Python中的help()和dir()函数
-### 22、什么是断言(assert)?应用场景？
-### 23、MySQL常见的函数
-### 24、实现一个装饰器，通过一次调用，使函数重复执行5次
-### 25、解释一下Python中的三元运算子
-### 26、有两个字符串列表a和b，每个字符串是由逗号隔开的一些字符
-### 27、什么是haproxy？
-### 28、怎样声明多个变量并赋值？
-### 29、对列表[3,1,-4,-2]按照绝对值排序
-### 30、将列表按照下列规则排序：
+### 4、Python中使用的zip函数是什么？
+
+zip函数获取可迭代对象，将它们聚合到一个元组中，然后返回结果。
+
+zip()函数的语法是zip(*iterables)
+
+```
+numbers = [1, 2, 3]
+string = ['one', 'two', 'three'] 
+result = zip(numbers,string)
+
+print(set(result))
+-------------------------------------
+{(3, 'three'), (2, 'two'), (1, 'one')}
+```
+
+
+### 5、编写程序，打印斐波那契数列的前十项
+
+```
+fibo = [0,1]
+[fibo.append(fibo[-2]+fibo[-1]) for i in range(8)]
+
+fibo
+> [0, 1, 1, 2, 3, 5, 8, 13, 21, 34]
+```
+
+
+### 6、索引有什么作用，有哪些分类，有什么好处和坏处？
+
+作用：为了增加查询速度，提高系统性能
+
+**分类：**
+
+**1、** 唯一索引：不允许其中任何两行具有相同索引值的索引。
+
+**2、** 非唯一索引：允许其中任何两行具有相同索引值的索引。
+
+**3、** 主键索引：有一列或列组合，其值唯一标识表中的每一行。
+
+**4、** 聚集索引：表中行的物理顺序与键值的逻辑（索引）顺序相同。一个表只能包含一个聚集索引。
+
+**好处：**
+
+**1、** 帮助用户提高查询速度
+
+**2、** 利用索引的唯一性来控制记录的唯一性
+
+**3、** 可以加速表与表之间的连接
+
+**4、** 降低查询中分组和排序的时间
+
+**坏处：**
+
+**1、** 存储索引占用磁盘空间
+
+**2、** 执行数据修改操作(INSERT、UPDATE、DELETE)产生索引维护
+
+
+### 7、简述多进程开发中join和deamon的区别
+
+**1、** join：当子线程调用join时，主线程会被阻塞，当子线程结束后，主线程才能继续执行。
+
+**2、** deamon：当子进程被设置为守护进程时，主进程结束，不管子进程是否执行完毕，都会随着主进程的结束而结束。
+
+
+### 8、什么是Python中的猴子补丁？
+
+猴子补丁(monkey patching)，是指在运行时动态修改类或模块。
+
+```
+from SomeOtherProduct.SomeModule import SomeClass
+
+def speak(self):
+    return "Hello!"
+
+SomeClass.speak = speak
+```
+
+
+### 9、为什么学python
+
+答题路线：a、python的优点，b、python的应用领域广
+
+**具体：**
+
+优点
+
+**1、** python语法非常优雅，简单易学
+
+**2、** 免费开源
+
+**3、** 跨平台，可以自由移植
+
+**4、** 可扩展，可嵌入性强
+
+**5、** 第三方库丰富
+
+**应用领域**
+
+**1、** 在系统编程中应用广泛，比如说shell工具。
+
+**2、** 在网络爬虫方面功能非常强大，常用的库如scrapy，request等
+
+**3、** 在web开发中使用也很广泛，如很多大型网站都用python开发的，如ins，youtube等，常用的框架如django，flask等
+
+**4、** python在系统运维中应用广泛，尤其在linux运维方面，基本上都是自动化运维。
+
+**5、** 在人工智能，云计算，金融等方面也应用非常广泛。
+
+
+### 10、Redis中watch的作用
+
+**1、** watch 用于在进行事务操作的最后一步也就是在执行exec 之前对某个key进行监视
+
+**2、** 如果这个被监视的key被改动，那么事务就被取消，否则事务正常执行.
+
+**3、** 一般在MULTI 命令前就用watch命令对某个key进行监控.如果想让key取消被监控，可以用unwatch命令
+
+
+### 11、有一个列表lis=['This','is','a','Man','B','!']，对它进行大小写无关的排序
+### 12、列举创建索引但是无法命中索引的情况
+### 13、文件操作时，xreadlines和readlines的区别
+### 14、简述python字符串的驻留机制
+### 15、IO多路复用的作用？
+### 16、列举你所了解的所有Python2和Python3的区别
+### 17、阅读以下代码，写输出结果
+### 18、简述python的深浅拷贝
+### 19、列举Redis支持的过期策略
+### 20、将下面列表中的元素根据位数合并成字典：
+### 21、vue中的路由拦截器的作用
+### 22、双下划线和单下划线的区别
+### 23、数据库锁的作用
+### 24、简述生成器，迭代器，装饰器以及应用场景
+### 25、Python中的Map Function是什么？
+### 26、元组的解封装是什么？
+### 27、什么时GIL锁
+### 28、如何判断一个对象是否可调用？哪些对象是可调用对象？如何定义一个类，使其对象本身就是可调用对象？
+### 29、你对Python类中的self有什么了解？
+### 30、解释Python中的help()和dir()函数
 
 
 
 
 ## 全部答案，整理好了，直接下载吧
 
-### 下载链接：[全部答案，整理好了](https://www.souyunku.com/?p=67)
+### 下载链接：[全部答案，整理好了](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
 
-### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/?p=67)
+### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
 
 
 ## 最新，高清PDF：172份，7701页，最新整理

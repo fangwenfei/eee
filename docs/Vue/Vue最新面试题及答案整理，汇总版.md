@@ -2,179 +2,140 @@
 
 ### 其实，博主还整理了，更多大厂面试题，直接下载吧
 
-### 下载链接：[高清172份，累计 7701 页大厂面试题  PDF](https://www.souyunku.com/?p=67)
+### 下载链接：[高清172份，累计 7701 页大厂面试题  PDF](https://github.com/souyunku/DevBooks/blob/master/docs/index.md)
 
-### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/?p=67)
-
-
-
-### 1、什么是vue生命周期？
-
-Vue 实例从创建到销毁的过程，就是生命周期。也就是从开始创建、初始化数据、编译模板、挂载Dom→渲染、更新→渲染、卸载等一系列过程，我们称这是 Vue 的生命周期。
+### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png)
 
 
-### 2、Vue2.x和Vue3.x渲染器的diff算法分别说一下
 
-简单来说，diff算法有以下过程
+### 1、Vue-router跳转和location.href有什么区别
 
-**1、** 同级比较，再比较子节点
+**1、** 使用location.href='/url'来跳转，简单方便，但是刷新了页面；
 
-**2、** 先判断一方有子节点一方没有子节点的情况(如果新的children没有子节点，将旧的子节点移除)
+**2、** 使用history.pushState('/url')，无刷新页面，静态跳转；
 
-**3、** 比较都有子节点的情况(核心diff)
+**3、** 引进router，然后使用router.push('/url')来跳转，使用了diff算法，实现了按需加载，减少了dom的消耗。
 
-**4、** 递归比较子节点
-
-正常Diff两个树的时间复杂度是`O(n^3)`，但实际情况下我们很少会进行`跨层级的移动DOM`，所以Vue将Diff进行了优化，从`O(n^3) -> O(n)`，只有当新旧children都为多个子节点时才需要用核心的Diff算法进行同层级比较。
-
-Vue2的核心Diff算法采用了`双端比较`的算法，同时从新旧children的两端开始进行比较，借助key值找到可复用的节点，再进行相关操作。相比React的Diff算法，同样情况下可以减少移动节点次数，减少不必要的性能损耗，更加的优雅。
-
-Vue3.x借鉴了 [ivi](https://github.com/localvoid/ivi)算法和 [inferno](https://github.com/infernojs/inferno)算法
-
-在创建VNode时就确定其类型，以及在`mount/patch`的过程中采用`位运算`来判断一个VNode的类型，在这个基础之上再配合核心的Diff算法，使得性能上较Vue2.x有了提升。(实际的实现可以结合Vue3.x源码看。)
-
-该算法中还运用了`动态规划`的思想求解最长递归子序列。
-
-(看到这你还会发现，框架内无处不蕴藏着数据结构和算法的魅力)
+**4、** 其实使用router跳转和使用history.pushState()没什么差别的，因为vue-router就是用了history.pushState()，尤其是在history模式下。
 
 
-### 3、给出模板，描述 Vue 程序的输出。
+### 2、简单说一下Vue2.x响应式数据原理
 
-模板：
+Vue在初始化数据时，会使用`Object.defineProperty`重新定义data中的所有属性，当页面使用对应属性时，首先会进行依赖收集(收集当前组件的`watcher`)如果属性发生变化会通知相关依赖进行更新操作(`发布订阅`)。
+
+
+### 3、VUE的生命周期及理解？
+
+**1、** 总共分为8个阶段，具体为：创建前/后，载入前/后，更新前/后，销毁前/后。
+
+**2、** 创建前/后： 在beforeCreated阶段：ue实例的挂载元素$$el和数据对象data都为undefined，还未初始化；在created阶段，vue实例的数据对象data有了，$$el还没有。
+
+**3、** 载入前/后：在beforeMount阶段，vue实例的$el和data都初始化了，但还是挂载之前为虚拟的dom节点，data.message还未替换；在mounted阶段，vue实例挂载完成，data.message成功渲染。
+
+**4、** 更新前/后：当data变化时，会触发beforeUpdate和updated方法。
+
+**5、** 销毁前/后：在执行destroy方法后，对data的改变不会再触发周期函数，说明此时vue实例已经解除了事件监听以及和dom的绑定，但是dom结构依然存在。
+
+**6、** 具体讲解及应用
+
+**beforeCreate：**在new一个vue实例后，只有一些默认的生命周期钩子和默认事件，其他的东西都还没创建，data和methods中的数据都还没有初始化。不能在这个阶段使用data中的数据和methods中的方法
+
+**create：**data 和 methods都已经被初始化好了，如果要调用 methods 中的方法，或者操作 data 中的数据，最早可以在这个阶段中操作
+
+**beforeMount：**执行到这个钩子的时候，在内存中已经编译好了模板了，但是还没有挂载到页面中，此时，页面还是旧的，不能直接操作页面的dom和获取dom对象
+
+**mounted：**执行到这个钩子的时候，就表示Vue实例已经初始化完成了。此时组件脱离了创建阶段，进入到了运行阶段。如果我们想要通过插件操作页面上的DOM节点，最早可以在和这个阶段中进行
+
+**beforeUpdate：** 当执行这个钩子时，页面中的显示的数据还是旧的，data中的数据是更新后的，页面还没有和最新的数据保持同步
+
+**updated：**页面显示的数据和data中的数据已经保持同步了，都是最新的
+
+**beforeDestory：**Vue实例从运行阶段进入到了销毁阶段，这个时候上所有的data和 methods、指令、过滤器 ……都是处于可用状态。还没有真正被销毁
+
+**destroyed：** 这个时候上所有的data和methods、指令、过滤器 ……都是处于不可用状态。组件已经被销毁了。
+
+
+### 4、axios及安装?
+
+请求后台资源的模块。npm install axios --save装好，
+
+js中使用import进来，然后.get或.post。返回在.then函数中如果成功，失败则是在.catch函数中。
+
+
+### 5、vue-router 是什么?它有哪些组件
+
+vue用来写路由一个插件。router-link、router-view
+
+
+### 6、如何在JS中克隆对象
+
+Object.assign() 方法用于在JS中克隆对象。如：
 
 ```
-{{title}}
-```
-
-App:
-
-```
-new Vue({
-    el: '#app',
-    data: {
-        title: 'Vue.js'
-    }
-})
-```
-
-上面的代码将在 div 中输出字符串 `<h1 style="color: green;">Vue.js</h1>`。之所以将整个标签渲染为字符串，是因为 mustache 模板标签 `{{title}}`将传入的数据视为字符串，而不将其解析为可执行代码。这也有助于缓解把恶意代码注入到页面的 XSS 相关的问题 。这类似于在 JavaScript 中使用 `elementSelector.innerText = text` 语句。
-
-
-### 4、再说一下vue2.x中如何监测数组变化
-
-使用了函数劫持的方式，重写了数组的方法，Vue将data中的数组进行了原型链重写，指向了自己定义的数组原型方法。这样当调用数组api时，可以通知依赖更新。如果数组中包含着引用类型，会对数组中的引用类型再次递归遍历进行监控。这样就实现了监测数组变化。
-
-（能问到这的面试官都比较注重深度，这些常规操作要记牢）
-
-
-### 5、请详细说下你对vue生命周期的理解？
-
-总共分为8个阶段创建前/后，载入前/后，更新前/后，销毁前/后。
-
-**1、** 创建前/后： 在beforeCreated阶段，vue实例的挂载元素$$el和数据对象data都为undefined，还未初始化。在created阶段，vue实例的数据对象data有了，$$el还没有。
-
-**2、** 载入前/后：在beforeMount阶段，vue实例的$el和data都初始化了，但还是挂载之前为虚拟的dom节点，data.message还未替换。在mounted阶段，vue实例挂载完成，data.message成功渲染。
-
-**3、** 更新前/后：当data变化时，会触发beforeUpdate和updated方法。
-
-**4、** 销毁前/后：在执行destroy方法后，对data的改变不会再触发周期函数，说明此时vue实例已经解除了事件监听以及和dom的绑定，但是dom结构依然存在。
-
-
-### 6、说出几种vue当中的指令和它的用法？
-
-v-model双向数据绑定；
-
-v-for循环；
-
-v-if v-show 显示与隐藏；
-
-v-on事件；v-once: 只绑定一次。
-
-
-### 7、解释一下什么是 promise ？
-
-promise是js中的一个对象，用于生成可能在将来产生结果的值。 值可以是已解析的值，也可以是说明为什么未解析该值的原因。
-
-promise 可以有三种状态:
-
-**1、** pending：初始状态，既不是成功也不是失败
-
-**2、** fulfilled：意味着操作完全成功
-
-**3、** rejected：意味着操作失败
-
-一个等待状态的promise对象能够成功后返回一个值，也能失败后带回一个错误 当这两种情况发生的时候，处理函数会排队执行通过then方法会被调用。
-
-
-### 8、computed和watch的用法和区别？
-
-**computed**
-
-**1、** 变量不在 data中定义，而是定义在computed中，写法跟写方法一样，有返回值。函数名直接在页面模板中渲染，不加小括号 。
-
-**2、** 根据传入的变量的变化 进行结果的更新。
-
-**3、** 计算属性基于响应式依赖进行缓存。如其中的任意一个值未发生变化，它调用的就是上一次计算缓存的数据，因此提高了程序的性能。而methods中每调用一次就会重新计算一次，为了进行不必要的资源消耗，选择用计算属性。
-
-**watch**
-
-计算属性的时候 初始化的时候就可以被监听到并且计算 但是watch是发生改变的时候才会触发。
-
-当有一些数据需要随着其它数据变动而变动时，或者当需要在数据变化时执行异步或开销较大的操作时，使用 watch。
-
-**总结：**
-
-**1、** 计算属性变量在computed中定义，属性监听在data中定义。
-
-**2、** 计算属性是声明式的描述一个值依赖了其他值，依赖的值改变后重新计算结果更新DOM。属性监听的是定义的变量，当定义的值发生变化时，执行相对应的函数。
-
-
-### 9、如何在JS中动态添加/删除对象的属性？
-
-咱们可以使用object.property_name = value向对象添加属性，delete object.property_name 用于删除属性。 例如：
-
-```
-let user = new Object();
-// adding a property
-user.name='Anil';
-user.age  =25;
-console.log(user);
-delete user.age;
-console.log(user);
+var x = {myProp: "value"};
+var y = Object.assign({}, x);
 ```
 
 
-### 10、vue更新数组时触发视图更新的方法
+### 7、说一下v-if和v-show的区别
 
-答:push()；pop()；shift()；unshift()；splice()； sort()；reverse()
+当条件不成立时，`v-if`不会渲染DOM元素，`v-show`操作的是样式(display)，切换当前DOM的显示和隐藏。
 
 
-### 11、简单说一下Vue2.x响应式数据原理
-### 12、解释 JS 事件委托模型？
-### 13、Vue模版编译原理知道吗，能简单说一下吗？
-### 14、route和router的区别？
-### 15、v-show和v-if指令的共同点和不同点？
-### 16、请讲述下VUE的MVVM的理解？
-### 17、active-class是哪个组件的属性？
-### 18、JS的作用域链是什么及其作用
-### 19、请详细说下你对vue生命周期的理解？
-### 20、DOM 渲染在 哪个周期中就已经完成？
-### 21、vue与react、angular的比较？
-### 22、的作用是什么?
-### 23、Vue2.x组件通信有哪些方式？
-### 24、nextTick知道吗，实现原理是什么？
-### 25、vue常用的修饰符
-### 26、vue的两个核心点
-### 27、vue的历史记录
+### 8、$route 和 $router 的区别
+
+$$router是VueRouter的实例，在script标签中想要导航到不同的URL,使用$$router.push方法。返回上一个历史history用$$router.to(-1)
+$$route为当前router跳转对象。里面可以获取当前路由的name,path,query,parmas等。
+
+
+### 9、子组件像父组件传递事件？
+
+$emit方法
+
+
+### 10、Vue模版编译原理知道吗，能简单说一下吗？
+
+简单说，Vue的编译过程就是将`template`转化为`render`函数的过程。会经历以下阶段：
+
+**1、** 生成AST树
+
+2、优化
+
+**3、** codegen
+
+首先解析模版，生成`AST语法树`(一种用JavaScript对象的形式来描述整个模板)。 使用大量的正则表达式对模板进行解析，遇到标签、文本的时候都会执行对应的钩子进行相关处理。
+
+Vue的数据是响应式的，但其实模板中并不是所有的数据都是响应式的。有一些数据首次渲染后就不会再变化，对应的DOM也不会变化。那么优化过程就是深度遍历AST树，按照相关条件对树节点进行标记。这些被标记的节点(静态节点)我们就可以`跳过对它们的比对`，对运行时的模板起到很大的优化作用。
+
+编译的最后一步是`将优化后的AST树转换为可执行的代码`。
+
+
+### 11、解释 JS 中的函数提升
+### 12、说一下v-model的原理
+### 13、import 和 exports 是什么？
+### 14、vuejs与angularjs以及react的区别，与AngularJS的区别
+### 15、iframe的优缺点？
+### 16、什么是 vue 生命周期？有什么作用？
+### 17、绑定 HTML 类时，该如何连接类？假设存在一个元素：Process。我们只希望使用名为 “isActive” 的数据属性动态地切换 btnActive 类。
+### 18、vue的solt的用法？
+### 19、vue-router的两种模式
+### 20、如何将 JS 日期转换为ISO标准
+### 21、如何将文件的所有导出作为一个对象？
+### 22、vue单页面和传统的多页面区别？
+### 23、vue中template编译的理解？
+### 24、什么是插槽（slot）？
+### 25、vue更新数组时触发视图更新的方法
+### 26、如何确保在单文件组件中定义的 CSS 样式仅应用于该组件，而不被用于其他组件？
+### 27、vuex是什么？怎么使用？哪种功能场景使用它？
 
 
 
 
 ## 全部答案，整理好了，直接下载吧
 
-### 下载链接：[全部答案，整理好了](https://www.souyunku.com/?p=67)
+### 下载链接：[全部答案，整理好了](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
 
-### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/?p=67)
+### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
 
 
 ## 最新，高清PDF：172份，7701页，最新整理

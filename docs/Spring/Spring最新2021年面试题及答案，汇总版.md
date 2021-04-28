@@ -2,159 +2,154 @@
 
 ### 其实，博主还整理了，更多大厂面试题，直接下载吧
 
-### 下载链接：[高清172份，累计 7701 页大厂面试题  PDF](https://www.souyunku.com/?p=67)
+### 下载链接：[高清172份，累计 7701 页大厂面试题  PDF](https://github.com/souyunku/DevBooks/blob/master/docs/index.md)
 
-### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/?p=67)
+### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png)
 
 
 
-### 1、如何在SpringBoot应用程序中实现Spring安全性？
+### 1、前后端分离，如何维护接口文档 ?
 
-实施需要最少的配置。您需要做的就是spring-boot-starter-security在pom.xml文件中添加starter。您还需要创建一个Spring配置类，它将覆盖所需的方法，同时扩展 WebSecurityConfigurerAdapter 应用程序中的安全性。这是一些示例代码：
+前后端分离开发日益流行，大部分情况下，我们都是通过 SpringBoot 做前后端分离开发，前后端分离一定会有接口文档，不然会前后端会深深陷入到扯皮中。一个比较笨的方法就是使用 word 或者 md 来维护接口文档，但是效率太低，接口一变，所有人手上的文档都得变。在 SpringBoot 中，这个问题常见的解决方案是 Swagger ，使用 Swagger 我们可以快速生成一个接口文档网站，接口一旦发生变化，文档就会自动更新，所有开发工程师访问这一个在线网站就可以获取到最新的接口文档，非常方便。
+
+
+### 2、SpringBoot 的核心注解是哪个？它主要由哪几个注解组成的？
+
+启动类上面的注解是@SpringBootApplication，它也是 SpringBoot 的核心注解，主要组合包含了以下 3 个注解：
+
+@SpringBootConfiguration：组合了 [@Configuration ](/Configuration ) 注解，实现配置文件的功能。
+
+@EnableAutoConfiguration：打开自动配置的功能，也可以关闭某个自动配置的选项，如关闭数据源自动配置功能： [@SpringBootApplication(exclude ](/SpringBootApplication(exclude ) = { DataSourceAutoConfiguration.class })。
+
+@ComponentScan：Spring组件扫描。
+
+
+### 3、SpringBoot、Spring MVC 和 Spring 有什么区别？
+
+**1、** Spring
+
+Spring最重要的特征是依赖注入。所有 SpringModules 不是依赖注入就是 IOC 控制反转。
+
+当我们恰当的使用 DI 或者是 IOC 的时候，我们可以开发松耦合应用。松耦合应用的单元测试可以很容易的进行。
+
+**2、** Spring MVC
+
+Spring MVC 提供了一种分离式的方法来开发 Web 应用。通过运用像 DispatcherServelet，MoudlAndView 和 ViewResolver 等一些简单的概念，开发 Web 应用将会变的非常简单。
+
+**3、** SpringBoot
+
+Spring 和 SpringMVC 的问题在于需要配置大量的参数。
+
+SpringBoot 通过一个自动配置和启动的项来目解决这个问题。为了更快的构建产品就绪应用程序，SpringBoot 提供了一些非功能性特征。
+
+
+### 4、Spring MVC里面拦截器是怎么写的
+
+有两种写法,一种是实现HandlerInterceptor接口，另外一种是继承适配器类，接着在接口方法当中，实现处理逻辑；然后在Spring MVC的配置文件中配置拦截器即可：
 
 ```
-package com.gkatzioura.security.securityendpoints.config;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;@
-Configuration
-public class SecurityConfig extends WebSecurityConfigurerAdapter {@
-    Override
-    protected void configure(HttpSecurity http) throws Exception {
-        http.
-        authorizeRequests().
-        antMatchers("/welcome").
-        permitAll().anyRequest().
-        authenticated().and().
-        formLogin().
-        permitAll().
-        and().
-        logout().
-        permitAll();
-    }
-}
+<!-- 配置Spring MVC的拦截器 -->
+< mvc: interceptors >
+<!-- 配置一个拦截器的Bean就可以了 默认是对所有请求都拦截 -->
+< bean id = "myInterceptor"
+class = "com.zwp.action.MyHandlerInterceptor" > < /bean>
+<!-- 只针对部分请求拦截 -->
+<mvc:interceptor>
+   <mvc:mapping path="/modelMap.do " />
+   <bean class="
+com.
+zwp.action.MyHandlerInterceptorAdapter " />
+</mvc:interceptor>
+</mvc:interceptors>
 ```
 
 
-### 2、SpringCloud由什么组成
+### 5、什么是服务降级
 
-这就有很多了，我讲几个开发中最重要的
+consumer 端：consumer 如果发现某个provider出现异常情况，⽐如，经常超时(可能是熔断引起的降级)，数据错误，这时，consumer可以采取⼀定的策略，降级provider的逻辑，基本的有直接返回固定的数据。
 
-**1、** Spring Cloud Eureka：服务注册与发现
+provider 端：当provider 发现流量激增的时候，为了保护⾃身的稳定性，也可能考虑降级服务。
 
-**2、** Spring Cloud Zuul：服务网关
+**1、** 直接给consumer返回固定数据
 
-**3、** Spring Cloud Ribbon：客户端负载均衡
-
-**4、** Spring Cloud Feign：声明性的Web服务客户端
-
-**5、** Spring Cloud Hystrix：断路器
-
-**6、** Spring Cloud Config：分布式统一配置管理
-
-**7、** 等20几个框架，开源一直在更新
+**2、** 需要实时写⼊数据库的，先缓存到队列⾥，异步写⼊数据库。
 
 
-### 3、什么是Spring Cloud？
+### 6、如何在 spring 中启动注解装配？
 
-在微服务中，SpringCloud是一个提供与外部系统集成的系统。它是一个敏捷的框架，可以短平快构建应用程序。与有限数量的数据处理相关联，它在微服务体系结构中起着非常重要的作用。 **以下为 Spring Cloud 的核心特性**：
-
-**1、** 版本化/分布式配置。
-
-**2、** 服务注册和发现。
-
-**3、** 服务和服务之间的调用。
-
-**4、** 路由。
-
-**5、** 断路器和负载平衡。
-
-**6、** 分布式消息传递。
+默认情况下，Spring 容器中未打开注解装配。因此，要使用基于注解装配，我们必须通过配置 `<context：annotation-config/>` 元素在 Spring 配置文件中启用它。
 
 
-### 4、Spring Cloud Config
+### 7、bootstrap.yml和application.yml有什么区别?
 
-Config能够管理所有微服务的配置文件
+**1、** Spring Cloud 构建于 SpringBoot 之上，在 SpringBoot 中有两种上下文，一种是 bootstrap，另外一种是 application。
 
-集中配置管理工具，分布式系统中统一的外部配置管理，默认使用Git来存储配置，可以支持客户端配置的刷新及加密、解密操作。
+**2、** application 配置文件这个容易理解，主要用于 SpringBoot 项目的`自动化配置`。
 
+**3、** bootstrap 是应用程序的父上下文，也就是说 `bootstrap 加载优先于 applicaton`。
 
-### 5、如何重新加载 SpringBoot上的更改，而无需重新启动服务器？
+**4、** bootstrap 主要用于从`额外的资源来加载配置信息`，还可以在本地外部配置文件中解密属性。
 
-使用DEV工具来实现。 通过这种依赖关系，可以节省任何更改，嵌入式 tomcat将重新启动。 使用SpringBoot有一个开发工具`Dev Tools`模块，可以重新加载 SpringBoot上的更改，而无需重新启动服务器。消除每次手动部署更改的需要。 SpringBoot在发布它的第一个版本时没有这个功能。该模块将在生产环境中被禁用。它还提供H2数据库控制台以更好地测试应用程序。
+**5、** 这两个上下文`共用一个环境`，它是任何Spring应用程序的外部属性的来源。
 
+**6、** bootstrap 里面的属性会`优先加载`，它们默认也不能被本地相同配置覆盖。
 
-### 6、负载平衡的意义什么？
+**7、** boostrap 由父 ApplicationContext 加载，`比 applicaton 优先加载`
 
-在计算中，负载平衡可以改善跨计算机，计算机集群，网络链接，中央处理单元或磁盘驱动器等多种计算资源的工作负载分布。负载平衡旨在优化资源使用，最大化吞吐量，最小化响应时间并避免任何单一资源的过载。使用多个组件进行负载平衡而不是单个组件可能会通过冗余来提高可靠性和可用性。负载平衡通常涉及专用软件或硬件，例如多层交换机或域名系统服务器进程。
-
-
-### 7、spring boot 核心的两个配置文件：
-
-**1、** bootstrap (.yml 或.properties)：boostrap 由父 ApplicationContext 加载的，比 applicaton 优先加载，配置在应用程序上下文的引导阶段生效。一般来说我们在 Spring Cloud Config 或者 Nacos 中会用到它。且 boostrap 里面的属性不能被覆盖；
-
-**2、** application (. yml 或者 . properties)：由ApplicatonContext 加载，用于 spring boot 项目的自动化配置。
+**8、** boostrap 里面的属性`不能被覆盖`
 
 
-### 8、什么是Spring Cloud？
+### 8、各服务之间通信，对Restful和Rpc这2种方式如何做选择？
 
-spring cloud 是一系列框架的有序集合。它利用 spring boot 的开发便利性巧妙地简化了分布式系统基础设施的开发，如服务发现注册、配置中心、消息总线、负载均衡、断路器、数据监控等，都可以用 spring boot 的开发风格做到一键启动和部署。
-
-
-### 9、JPA 和 Hibernate 有哪些区别？
-
-简而言之
-
-JPA 是一个规范或者接口
-
-Hibernate 是 JPA 的一个实现
-
-当我们使用 JPA 的时候，我们使用 javax.persistence 包中的注释和接口时，不需要使用 hibernate 的导入包。
-
-我们建议使用 JPA 注释，因为哦我们没有将其绑定到 Hibernate 作为实现。后来（我知道 - 小于百分之一的几率），我们可以使用另一种 JPA 实现。
+在传统的SOA治理中，使用rpc的居多；Spring Cloud默认使用restful进行服务之间的通讯。rpc通讯效率会比restful要高一些，但是对于大多数公司来讲，这点效率影响甚微。我建议使用restful这种方式，易于在不同语言实现的服务之间通讯。
 
 
-### 10、[@RequestMapping ](/RequestMapping ) 注解有什么用？
+### 9、MVC是什么？MVC设计模式的好处有哪些
 
-[@RequestMapping ](/RequestMapping ) 注解用于将特定 HTTP 请求方法映射到将处理相应请求的控制器中的特定类/方法。
+mvc是一种设计模式（设计模式就是日常开发中编写代码的一种好的方法和经验的总结）。模型（model）-视图（view）-控制器（controller），三层架构的设计模式。用于实现前端页面的展现与后端业务数据处理的分离。
 
-**此注解可应用于两个级别：**
+**mvc设计模式的好处**
 
-类级别： 映射请求的 URL
+**1、** 分层设计，实现了业务系统各个组件之间的解耦，有利于业务系统的可扩展性，可维护性。
 
-方法级别： 映射 URL 以及 HTTP 请求方法
+**2、** 有利于系统的并行开发，提升开发效率。
 
 
-### 11、指出在 spring aop 中 concern 和 cross-cutting concern 的不同之处。
-### 12、Eureka如何 保证AP
-### 13、@ResponseBody注解的作用
-### 14、什么是 Spring IOC 容器？
-### 15、自动装配有哪些局限性 ?
-### 16、什么是基于注解的容器配置?
-### 17、什么是微服务
-### 18、使用Spring框架的好处是什么？
-### 19、什么是领域驱动设计？
-### 20、为什么我们不建议在实际的应用程序中使用 Spring Data Rest?
-### 21、什么是JavaConfig？
-### 22、运行 SpringBoot 有哪几种方式？
-### 23、谈谈服务雪崩效应
-### 24、如何使用SpringBoot实现异常处理？
-### 25、@SpringBootApplication注释在内部有什么用处?
-### 26、如何集成SpringBoot和ActiveMQ？
-### 27、Spring Framework 中有多少个模块，它们分别是什么？
-### 28、SpringBoot有哪些优点？
-### 29、Ribbon和Feign的区别？
-### 30、IOC的优点是什么？
-### 31、spring 提供了哪些配置方式？
+### 10、SpringBoot 支持哪些日志框架？推荐和默认的日志框架是哪个？
+
+SpringBoot 支持 Java Util Logging, Log4j2, Lockback 作为日志框架，如果你使用 Starters 启动器，SpringBoot 将使用 Logback 作为默认日志框架.
+
+
+### 11、是否可以在Spring boot中更改嵌入式Tomcat服务器的端口?
+### 12、spring DAO 有什么用？
+### 13、如何重新加载 SpringBoot上的更改，而无需重新启动服务器？
+### 14、@Component, @Controller, @Repository, [@Service ](/Service ) 有何区别？
+### 15、怎样开启注解装配？
+### 16、什么是Apache Kafka？
+### 17、列举 Spring DAO 抛出的异常。
+### 18、@SpringBootApplication注释在内部有什么用处?
+### 19、什么是 spring 装配
+### 20、Web，RESTful API在微服务中的作用是什么？
+### 21、SpringBoot 配置文件的加载顺序
+### 22、dubbo服务注册与发现原理
+### 23、什么是 JavaConfig？
+### 24、什么是SpringBoot
+### 25、什么是客户证书？
+### 26、@LoadBalanced注解的作用
+### 27、网关的作用是什么
+### 28、SpringBoot 中的 starter 到底是什么 ?
+### 29、spring bean 容器的生命周期是什么样的？
+### 30、什么是 Spring Batch？
+### 31、什么是Hystrix？它如何实现容错？
 
 
 
 
 ## 全部答案，整理好了，直接下载吧
 
-### 下载链接：[全部答案，整理好了](https://www.souyunku.com/?p=67)
+### 下载链接：[全部答案，整理好了](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
 
-### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/?p=67)
+### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
 
 
 ## 最新，高清PDF：172份，7701页，最新整理

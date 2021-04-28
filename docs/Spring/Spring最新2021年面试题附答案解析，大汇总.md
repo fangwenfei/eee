@@ -2,161 +2,135 @@
 
 ### 其实，博主还整理了，更多大厂面试题，直接下载吧
 
-### 下载链接：[高清172份，累计 7701 页大厂面试题  PDF](https://www.souyunku.com/?p=67)
+### 下载链接：[高清172份，累计 7701 页大厂面试题  PDF](https://github.com/souyunku/DevBooks/blob/master/docs/index.md)
 
-### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/?p=67)
+### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png)
 
 
 
-### 1、什么是Spring Cloud Gateway?
+### 1、@RequestMapping注解的作用
 
-Spring Cloud Gateway是Spring Cloud官方推出的第二代网关框架，取代Zuul网关。网关作为流量的，在微服务系统中有着非常作用，网关常见的功能有路由转发、权限校验、限流控制等作用。
+RequestMapping是一个用来处理请求地址映射的注解，可用于类或方法上。用于类上，表示类中的所有响应请求的方法都是以该地址作为父路径。
 
-使用了一个RouteLocatorBuilder的bean去创建路由，除了创建路由RouteLocatorBuilder可以让你添加各种predicates和filters，predicates断言的意思，顾名思义就是根据具体的请求的规则，由具体的route去处理，filters是各种过滤器，用来对请求做各种判断和修改。
+RequestMapping注解有六个属性，下面我们把她分成三类进行说明（下面有相应示例）。
 
+**value， method**
 
-### 2、第⼆层缓存：
+**1、** value： 指定请求的实际地址，指定的地址可以是URI Template 模式（后面将会说明）；
 
-readWriteCacheMap，本质上是Guava缓存：此处存放的是最终的缓存， 当服务下线，过期，注册，状态变更，都会来清除这个缓存⾥⾯的数据。 然后通过CacheLoader进⾏缓存加载，在进⾏readWriteCacheMap.get(key)的时候，⾸先看这个缓存⾥⾯有没有该数据，如果没有则通过CacheLoader的load⽅法去加载，加载成功之后将数据放⼊缓存，同时返回数据。 readWriteCacheMap 缓存过期时间，默认为 180 秒 。
+**2、** method： 指定请求的method类型， GET、POST、PUT、DELETE等；
 
-#
-### 3、什么是 Spring Batch?
+**consumes，produces**
 
-`SpringBoot Batch`提供可重用的函数，这些函数在处理大量记录时非常重要；包括日志/跟踪，事务管理，作业处理统计信息，作业重新启动，跳过和资源管理。它还提供了更先进的技术服务和功能，通过优化和分区技术，可以实现极高批量和高性能批处理作业。简单以及复杂的大批量批处理作业可以高度可扩展的方式利用框架处理重要大量的信息。
+**1、** consumes： 指定处理请求的提交内容类型（Content-Type），例如application/json, text/html;
 
+**2、** produces: 指定返回的内容类型，仅当request请求头中的(Accept)类型中包含该指定类型才返回；
 
+**params，headers**
 
-### 4、SpringBoot 的核心配置文件有哪几个？它们的区别是什么？
+**1、** params： 指定request中必须包含某些参数值是，才让该方法处理。
 
-SpringBoot 的核心配置文件是 application 和 bootstrap 配置文件。
+**2、** headers： 指定request中必须包含某些指定的header值，才能让该方法处理请求。
 
-application 配置文件这个容易理解，主要用于 SpringBoot 项目的自动化配置。
 
-bootstrap 配置文件有以下几个应用场景。
+### 2、什么是Spring Initializer?
 
-使用 Spring Cloud Config 配置中心时，这时需要在 bootstrap 配置文件中添加连接到配置中心的配置属性来加载外部配置中心的配置信息；
+这个问题并不难，但面试官总是以此测试候选人的专业知识。
 
-一些固定的不能被覆盖的属性；
+Spring Initializer是一个网络应用程序，它可以生成一个SpringBoot项目，包含快速启动所需的一切。和往常一样，我们需要一个好的项目框架；它有助于你正确创建项目结构/框架。
 
-一些加密/解密的场景；
 
+### 3、SpringBoot 配置加载顺序?
 
-### 5、什么是 AOP什么是引入?
+**1、** properties文件 2、YAML文件 3、系统环境变量 4、命令行参数
 
-引入允许我们在已存在的类中增加新的方法和属性。
 
+### 4、Spring MVC用什么对象从后台向前台传递数据的？
 
-### 6、[@Autowired ](/Autowired ) 注解
 
-[@Autowired ](/Autowired ) 注解提供了更细粒度的控制，包括在何处以及如何完成自动装配。它的用法和@Required一样，修饰setter方法、构造器、属性或者具有任意名称和/或多个参数的PN方法。
 
+通过ModelMap对象,可以在这个对象里面调用put方法,把对象加到里面,前台就可以通过el表达式拿到。
 
-### 7、Spring AOP and AspectJ AOP 有什么区别？
 
-Spring AOP 基于动态代理方式实现；AspectJ 基于静态代理方式实现。Spring AOP 仅支持方法级别的 PointCut；提供了完全的 AOP 支持，它还支持属性级别的 PointCut。
+### 5、我们如何监视所有SpringBoot微服务？
 
+SpringBoot提供监视器端点以监控各个微服务的度量。这些端点对于获取有关应用程序的信息（如它们是否已启动）以及它们的组件（如数据库等）是否正常运行很有帮助。但是，使用监视器的一个主要缺点或困难是，我们必须单独打开应用程序的知识点以了解其状态或健康状况。想象一下涉及50个应用程序的微服务，管理员将不得不击中所有50个应用程序的执行终端。
 
-### 8、Spring Framework 有哪些不同的功能？
+为了帮助我们处理这种情况，我们将使用位于
 
-**1、** 轻量级 - Spring 在代码量和透明度方面都很轻便。
+的开源项目。 它建立在SpringBoot Actuator之上，它提供了一个Web UI，使我们能够可视化多个应用程序的度量。
 
-**2、** IOC - 控制反转
 
-**3、** AOP - 面向切面编程可以将应用业务逻辑和系统服务分离，以实现高内聚。
+### 6、什么是Spring的MVC框架？
 
-**4、** 容器 - Spring 负责创建和管理对象（Bean）的生命周期和配置。
+Spring 配备构建Web 应用的全功能MVC框架。Spring可以很便捷地和其他MVC框架集成，如Struts，Spring 的MVC框架用控制反转把业务对象和控制逻辑清晰地隔离。它也允许以声明的方式把请求参数和业务对象绑定。
 
-**5、** MVC - 对 web 应用提供了高度可配置性，其他框架的集成也十分方便。
 
-**6、** 事务管理 - 提供了用于事务管理的通用抽象层。 Spring 的事务支持也可用于容器较少的环境。
+### 7、你可以在Spring中注入一个null 和一个空字符串吗？
 
-**7、** JDBC 异常 - Spring 的 JDBC 抽象层提供了一个异常层次结构，简化了错误处理策略。4、Spring Framework 中有多少个模块，它们分别是什么？
+可以。
 
-**1、** Spring 核心容器 – 该层基本上是 Spring Framework 的核心。它包含以下模块：
 
-**2、** Spring Core
+### 8、解释Spring框架中bean的生命周期。
 
-**3、** Spring Bean
+**1、** Spring容器 从XML 文件中读取bean的定义，并实例化bean。
 
-**4、** SpEL (Spring Expression Language)
+**2、** Spring根据bean的定义填充所有的属性。
 
-**5、** Spring Context
+**3、** 如果bean实现了BeanNameAware 接口，Spring 传递bean 的ID 到 setBeanName方法。
 
-**数据访问/集成 – 该层提供与数据库交互的支持。 它包含以下模块：**
+**4、** 如果Bean 实现了 BeanFactoryAware 接口， Spring传递beanfactory 给setBeanFactory 方法。
 
-**1、** JDBC (Java DataBase Connectivity)
+**5、** 如果有任何与bean相关联的BeanPostProcessors，Spring会在postProcesserBeforeInitialization()方法内调用它们。
 
-**2、** ORM (Object Relational Mapping)
+**6、** 如果bean实现IntializingBean了，调用它的afterPropertySet方法，如果bean声明了初始化方法，调用此初始化方法。
 
-**3、** OXM (Object XML Mappers)
+**7、** 如果有BeanPostProcessors 和bean 关联，这些bean的postProcessAfterInitialization() 方法将被调用。
 
-**4、** JMS (Java Messaging Service)
+**8、** 如果bean实现了 DisposableBean，它将调用destroy()方法。
 
-**5、** Transaction
 
-**1、** Web – 该层提供了创建 Web 应用程序的支持。它包含以下模块：AOP – 该层支持面向切面编程
+### 9、[@RequestMapping ](/RequestMapping ) 注解
 
-**2、** Web
+该注解是用来映射一个URL到一个类或一个特定的方处理法上。
 
-**3、** Web – Servlet
 
-**4、** Web – Socket
 
-**5、** Web – Portlet
+### 10、SpringBoot需要独立的容器运行？
 
-**6、** Instrumentation – 该层为类检测和类加载器实现提供支持。
+SpringBoot不需要独立的容器就可以运行，因为在SpringBoot工程发布的jar文件里已经包含了tomcat的jar文件。SpringBoot运行的时候会创建tomcat对象，实现web服务功能。也可以将SpringBoot发布成war文件，放到tomcat文件里面运行
 
-**7、** Test – 该层为使用 JUnit 和 TestNG 进行测试提供支持
 
-**几个杂项模块:**
-
-Messaging – 该模块为 STOMP 提供支持。它还支持注解编程模型，该模型用于从 WebSocket 客户端路由和处理 STOMP 消息。
-
-Aspects – 该模块为与 AspectJ 的集成提供支持。
-
-
-### 9、什么是基于Java的Spring注解配置? 给一些注解的例子.
-
-基于Java的配置，允许你在少量的Java注解的帮助下，进行你的大部分Spring配置而非通过XML文件。
-
-以[@Configuration ](/Configuration ) 注解为例，它用来标记类可以当做一个bean的定义，被Spring IOC容器使用。另一个例子是@Bean注解，它表示此方法将要返回一个对象，作为一个bean注册进Spring应用上下文。
-
-
-### 10、在 Spring Initializer 中，如何改变一个项目的包名字？
-
-好消息是你可以定制它。点击链接“转到完整版本”。你可以配置你想要修改的包名称！
-
-
-### 11、SpringBoot 日志框架：
-### 12、什么是代理?
-### 13、为什么我们需要微服务容器？
-### 14、什么是网关?
-### 15、什么是starter?
-### 16、SpringData 项目所支持的关系数据存储技术：
-### 17、介绍一下 WebApplicationContext
-### 18、微服务有什么特点？
-### 19、spring DAO 有什么用？
-### 20、SpringBoot的自动配置原理是什么
-### 21、Spring Cloud OpenFeign
-### 22、如何禁用特定的自动配置类？
-### 23、如何在SpringBoot中禁用Actuator端点安全性？
-### 24、什么是 Spring Cloud Bus？
-### 25、我们如何在测试中消除非决定论？
-### 26、SpringCloud有几种调用接口方式
-### 27、SpringBoot 的核心注解是哪个？它主要由哪几个注解组成的？
-### 28、Spring Initializr 是创建 SpringBoot Projects 的唯一方法吗？
-### 29、什么是 Spring Data REST?
-### 30、MVC是什么？MVC设计模式的好处有哪些
-### 31、什么是依赖注入？
+### 11、什么是 Aspect 切面
+### 12、Eureka和ZooKeeper都可以提供服务注册与发现的功能,请说说两个的区别
+### 13、可以在SpringBoot application中禁用默认的Web服务器吗？
+### 14、Spring Cloud Config
+### 15、可以通过多少种方式完成依赖注入？
+### 16、SpringCloud 和 Dubbo 有哪些区别?
+### 17、SpringBoot 实现热部署有哪几种方式？
+### 18、如何使用 SpringBoot 部署到不同的服务器？
+### 19、什么是Spring Cloud Config?
+### 20、你对SpringBoot有什么了解？
+### 21、什么是编织（Weaving）？
+### 22、Spring Cloud 和dubbo区别?
+### 23、什么是CSRF攻击？
+### 24、保护 SpringBoot 应用有哪些方法？
+### 25、SpringBoot的启动器有哪几种?
+### 26、什么是无所不在的语言？
+### 27、什么是不同类型的微服务测试？
+### 28、Spring Cloud解决了哪些问题？
+### 29、什么是SpringBoot？
+### 30、YAML 配置的优势在哪里 ?
+### 31、如何重新加载SpringBoot上的更改，而无需重新启动服务器？
 
 
 
 
 ## 全部答案，整理好了，直接下载吧
 
-### 下载链接：[全部答案，整理好了](https://www.souyunku.com/?p=67)
+### 下载链接：[全部答案，整理好了](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
 
-### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/?p=67)
+### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
 
 
 ## 最新，高清PDF：172份，7701页，最新整理

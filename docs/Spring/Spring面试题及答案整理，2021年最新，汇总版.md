@@ -2,115 +2,166 @@
 
 ### 其实，博主还整理了，更多大厂面试题，直接下载吧
 
-### 下载链接：[高清172份，累计 7701 页大厂面试题  PDF](https://www.souyunku.com/?p=67)
+### 下载链接：[高清172份，累计 7701 页大厂面试题  PDF](https://github.com/souyunku/DevBooks/blob/master/docs/index.md)
 
-### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/?p=67)
-
-
-
-### 1、我们如何监视所有 SpringBoot 微服务？
-
-SpringBoot 提供监视器端点以监控各个微服务的度量。这些端点对于获取有关应用程序的信息（如它们是否已启动）以及它们的组件（如数据库等）是否正常运行很有帮助。但是，使用监视器的一个主要缺点或困难是，我们必须单独打开应用程序的知识点以了解其状态或健康状况。想象一下涉及 50 个应用程序的微服务，管理员将不得不击中所有 50 个应用程序的执行终端。
+### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png)
 
 
-### 2、什么是Spring Cloud？
 
-Spring cloud流应用程序启动器是基于SpringBoot的Spring集成应用程序，提供与外部系统的集成。Spring cloud Task，一个生命周期短暂的微服务框架，用于快速构建执行有限数据处理的应用程序。
+### 1、SpringBoot 打成的 jar 和普通的 jar 有什么区别 ?
 
+SpringBoot 项目最终打包成的 jar 是可执行 jar ，这种 jar 可以直接通过 `java -jar xxx、jar` 命令来运行，这种 jar 不可以作为普通的 jar 被其他项目依赖，即使依赖了也无法使用其中的类。
 
-### 3、SpringBoot Starter 的工作原理是什么？
-
-SpringBoot 在启动的时候会干这几件事情：
-
-**1、** SpringBoot 在启动时会去依赖的 Starter 包中寻找 resources/META-INF/spring.factories 文件，然后根据文件中配置的 Jar 包去扫描项目所依赖的 Jar 包。
-
-**2、** 根据 spring.factories 配置加载 AutoConfigure 类
-
-**3、** 根据 [@Conditional ](/Conditional ) 注解的条件，进行自动配置并将 Bean 注入 Spring Context
-
-总结一下，其实就是 SpringBoot 在启动的时候，按照约定去读取 SpringBoot Starter 的配置信息，再根据配置信息对资源进行初始化，并注入到 Spring 容器中。这样 SpringBoot 启动完毕后，就已经准备好了一切资源，使用过程中直接注入对应 Bean 资源即可。
-
-这只是简单的三连环问答，不知道有多少同学能够完整的回答出来。
-
-其实 SpringBoot 中有很多的技术点可以挖掘，今天给大家整理了十个高频 SpringBoot 面试题，希望可以在后期的面试中帮助到大家。
+SpringBoot 的 jar 无法被其他项目依赖，主要还是他和普通 jar 的结构不同。普通的 jar 包，解压后直接就是包名，包里就是我们的代码，而 SpringBoot 打包成的可执行 jar 解压后，在 `\BOOT-INF\classes` 目录下才是我们的代码，因此无法被直接引用。如果非要引用，可以在 pom、xml 文件中增加配置，将 SpringBoot 项目打包成两个 jar ，一个可执行，一个可引用。
 
 
-### 4、Spring Cloud Consul
+### 2、SpringBoot默认支持的日志框架有哪些？可以进行哪些设置？
 
-基于Hashicorp Consul的服务治理组件。
-
-
-### 5、怎样开启注解装配？
-
-注解装配在默认情况下是不开启的，为了使用注解装配，我们必须在Spring配置文件中配置 [context:annotation-config/]()元素。
+SpringBoot支持Java Util Logging，Log4J2，Lockback作为日志框架，如果你使用Starters启动器，SpringBoot将使用Logback作为默认日志框架
 
 
-### 6、如何重新加载 SpringBoot 上的更改，而无需重新启动服务器？SpringBoot项目如何热部署？
+### 3、微服务限流 dubbo限流：dubbo提供了多个和请求相关的filter：ActiveLimitFilter ExecuteLimitFilter TPSLimiterFilter
 
-这可以使用 DEV 工具来实现。通过这种依赖关系，您可以节省任何更改，嵌入式tomcat 将重新启动。SpringBoot 有一个开发工具（DevTools）模块，它有助于提高开发人员的生产力。Java 开发人员面临的一个主要挑战是将文件更改自动部署到服务器并自动重启服务器。开发人员可以重新加载 SpringBoot 上的更改，而无需重新启动服务器。这将消除每次手动部署更改的需要。SpringBoot 在发布它的第一个版本时没有这个功能。这是开发人员最需要的功能。DevTools 模块完全满足开发人员的需求。该模块将在生产环境中被禁用。它还提供 H2 数据库控制台以更好地测试应用程序。
+**1、** ActiveLimitFilter：
 
 ```
-<dependency>
-  <groupId>org、springframework、boot</groupId>
-  <artifactId>spring-boot-devtools</artifactId>
-</dependency>
+@Activate(group = Constants.CONSUMER, value = Constants.ACTIVES_KEY)
+```
+
+**作⽤于客户端，主要作⽤是控制客户端⽅法的并发度；**
+
+当超过了指定的active值之后该请求将等待前⾯的请求完成【何时结束呢？依赖于该⽅法的timeout 如果没有设置timeout的话可能就是多个请求⼀直被阻塞然后等待随机唤醒。
+
+**2、** ExecuteLimitFilter：
+
+```
+@Activate(group = Constants.PROVIDER, value = Constants.EXECUTES_KEY)
+```
+
+作⽤于服务端，⼀旦超出指定的数⽬直接报错 其实是指在服务端的并⾏度【需要注意这些都是指的是在单台服务上⽽不是整个服务集群】
+
+**3、** TPSLimiterFilter：
+
+```
+@Activate(group = Constants.PROVIDER, value = Constants.TPS_LIMIT_RATE_KEY)
+```
+
+**1、** 作⽤于服务端，控制⼀段时间内的请求数；
+
+**2、** 默认情况下取得tps.interval字段表示请求间隔 如果⽆法找到则使⽤60s 根据tps字段表示允许调⽤次数。
+
+**3、** 使⽤AtomicInteger表示允许调⽤的次数 每次调⽤减少1次当结果⼩于0之后返回不允许调⽤
+
+
+### 4、在微服务中，如何保护服务?
+
+一般使用使用Hystrix框架，实现服务隔离来避免出现服务的雪崩效应，从而达到保护服务的效果。当微服务中，高并发的数据库访问量导致服务线程阻塞，使单个服务宕机，服务的不可用会蔓延到其他服务，引起整体服务灾难性后果，使用服务降级能有效为不同的服务分配资源,一旦服务不可用则返回友好提示，不占用其他服务资源，从而避免单个服务崩溃引发整体服务的不可用.
+
+
+### 5、使用 Spring 访问 Hibernate 的方法有哪些？
+
+我们可以通过两种方式使用 Spring 访问 Hibernate：
+
+**1、** 使用 Hibernate 模板和回调进行控制反转
+
+**2、** 扩展 HibernateDAOSupport 并应用 AOP 拦截器节点
+
+
+### 6、如何给Spring 容器提供配置元数据?
+
+这里有三种重要的方法给Spring 容器提供配置元数据。
+
+XML配置文件。
+
+基于注解的配置。
+
+基于java的配置。
+
+
+### 7、Spring Cache 三种常用的缓存注解和意义？
+
+**1、** [@Cacheable ](/Cacheable ) ，用来声明方法是可缓存，将结果存储到缓存中以便后续使用相同参数调用时不需执行实际的方法，直接从缓存中取值。
+
+**2、** @CachePut，使用 [@CachePut ](/CachePut ) 标注的方法在执行前，不会去检查缓存中是否存在之前执行过的结果，而是每次都会执行该方法，并将执行结果以键值对的形式存入指定的缓存中。
+
+**3、** @CacheEvict，是用来标注在需要清除缓存元素的方法或类上的，当标记在一个类上时表示其中所有的方法的执行都会触发缓存的清除操作。
+
+
+### 8、什么是OAuth？
+
+OAuth 代表开放授权协议。这允许通过在HTTP服务上启用客户端应用程序（例如第三方提供商Facebook，GitHub等）来访问资源所有者的资源。因此，您可以在不使用其凭据的情况下与另一个站点共享存储在一个站点上的资源。
+
+
+### 9、项目中前后端分离部署，所以需要解决跨域的问题。
+
+我们使用cookie存放用户登录的信息，在spring拦截器进行权限控制，当权限不符合时，直接返回给用户固定的json结果。
+
+当用户登录以后，正常使用；当用户退出登录状态时或者token过期时，由于拦截器和跨域的顺序有问题，出现了跨域的现象。
+
+我们知道一个http请求，先走filter，到达servlet后才进行拦截器的处理，如果我们把cors放在filter里，就可以优先于权限拦截器执行。
+
+```
+@Configuration
+public class CorsConfig {
+
+    @Bean
+    public CorsFilter corsFilter() {
+        CorsConfiguration corsConfiguration = new CorsConfiguration();
+        corsConfiguration.addAllowedOrigin("*");
+        corsConfiguration.addAllowedHeader("*");
+        corsConfiguration.addAllowedMethod("*");
+        corsConfiguration.setAllowCredentials(true);
+        UrlBasedCorsConfigurationSource urlBasedCorsConfigurationSource = new UrlBasedCorsConfigurationSource();
+        urlBasedCorsConfigurationSource.registerCorsConfiguration("/**", corsConfiguration);
+        return new CorsFilter(urlBasedCorsConfigurationSource);
+    }
+
+}
 ```
 
 
-### 7、微服务之间是如何独⽴通讯的
+### 10、一个Spring的应用看起来象什么？
 
-**1、** Dubbo 使⽤的是 RPC 通信，⼆进制传输，占⽤带宽⼩；
+**1、** 一个定义了一些功能的接口。
 
-**2、** Spring Cloud 使⽤的是 HTTP RESTFul ⽅式。
+**2、** 这实现包括属性，它的Setter ， getter 方法和函数等。
 
-![](https://gitee.com/souyunkutech/souyunku-home/raw/master/images/souyunku-web/2020/5/2/01/44/45_2.png#alt=45%5C_2.png)
+**3、** Spring AOP。
 
+**4、** Spring 的XML 配置文件。
 
-### 8、我们如何进行跨功能测试？
-
-跨功能测试是对非功能性需求的验证，即那些无法像普通功能那样实现的需求。
-
-
-### 9、什么是 spring 装配
-
-当 bean 在 Spring 容器中组合在一起时，它被称为装配或 bean 装配。Spring 容器需要知道需要什么 bean 以及容器应该如何使用依赖注入来将 bean 绑定在一起，同时装配 bean。
+**5、** 使用以上功能的客户端程序。
 
 
-### 10、介绍一下 WebApplicationContext
-
-WebApplicationContext 是 ApplicationContext 的扩展。它具有 Web 应用程序所需的一些额外功能。它与普通的 ApplicationContext 在解析主题和决定与哪个 servlet 关联的能力方面有所不同。
-
-
-
-### 11、springcloud如何实现服务的注册?
-### 12、Zuul网关如何搭建集群
-### 13、网关的作用是什么
-### 14、使用 Spring 有哪些方式？
-### 15、什么是JavaConfig？
-### 16、eureka和zookeeper都可以提供服务注册与发现的功能，请说说两个的区别？
-### 17、SpringBoot 的配置文件有哪几种格式？它们有什么区别？
-### 18、Spring 应用程序有哪些不同组件？
-### 19、SpringCloud限流：
-### 20、什么是无所不在的语言？
-### 21、spring-boot-starter-parent有什么用？
-### 22、Spring Cloud Task
-### 23、合同测试你懂什么？
-### 24、如何使用 SpringBoot 生成一个 WAR 文件？
-### 25、运行 SpringBoot 有哪几种方式？
-### 26、Spring Cloud Config
-### 27、如何使用 SpringBoot 实现异常处理？
-### 28、如何设计一套API接口
-### 29、解释不同方式的自动装配
-### 30、什么是微服务中的反应性扩展？
+### 11、什么是金丝雀释放？
+### 12、分布式配置中心有那些框架？
+### 13、你所知道微服务的技术栈有哪些？列举一二
+### 14、如何使用 SpringBoot 实现分页和排序？
+### 15、spring boot初始化环境变量流程?
+### 16、如何在 SpringBoot 启动的时候运行一些特定的代码？
+### 17、在Spring AOP 中，关注点和横切关注的区别是什么？
+### 18、spring-boot-starter-parent 有什么用 ?
+### 19、spring JDBC API 中存在哪些类？
+### 20、什么是持续集成（CI）？
+### 21、什么是 SpringBoot 启动类注解：
+### 22、SpringBoot、Spring MVC 和 Spring 有什么区别
+### 23、SpringBoot的核心注解是哪个？它主要由哪几个注解组成的？
+### 24、为什么我们需要 spring-boot-maven-plugin?
+### 25、双因素身份验证的凭据类型有哪些？
+### 26、使用Spring通过什么方式访问Hibernate?
+### 27、微服务有什么特点？
+### 28、SpringBoot多数据源事务如何管理
+### 29、SpringBoot 有哪几种读取配置的方式？
+### 30、什么是bean装配?
 
 
 
 
 ## 全部答案，整理好了，直接下载吧
 
-### 下载链接：[全部答案，整理好了](https://www.souyunku.com/?p=67)
+### 下载链接：[全部答案，整理好了](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
 
-### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/?p=67)
+### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
 
 
 ## 最新，高清PDF：172份，7701页，最新整理

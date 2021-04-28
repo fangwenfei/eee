@@ -2,271 +2,231 @@
 
 ### 其实，博主还整理了，更多大厂面试题，直接下载吧
 
-### 下载链接：[高清172份，累计 7701 页大厂面试题  PDF](https://www.souyunku.com/?p=67)
+### 下载链接：[高清172份，累计 7701 页大厂面试题  PDF](https://github.com/souyunku/DevBooks/blob/master/docs/index.md)
 
-### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/?p=67)
-
-
-
-### 1、一般使用什么版本控制工具?svn如何对文件加锁###
-
-svn加锁目的：为了避免多个人同一时间对同一个文件改动的相互覆盖，版本控制系统就必须有一套冲突处理机制。
-
-svn加锁两种策略：乐观加锁：所有签出的文件都是可读写的，对文件的修改不必获得文件的锁，当你修改完文件签入时，会首先要求你更新本地文件，版本控制系统不会覆盖你的本地修改，而是会让你自己合并冲突后签入。
-
-严格加锁：所有签出的文件都是只读的，任何对文件的修改必须要获得文件的锁，如果其他人没有拥有该文件的锁，那么版本控制系统就会授权给你文件的锁，并将文件设置为可编辑的。
-
-svn两种加锁步骤：乐观加锁：选择你想要获取锁定的文件，然后右键菜单点击TortoiseSVN 选取获取锁定。
-
-严格加锁：在想要采取严格加锁的文件或目录上点击右键，使用TortoiseSVN 属性菜单，点击新建属性，选择需要锁定。
+### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png)
 
 
-### 2、javascript创建对象的几种方式？
 
-`javascript`创建对象简单的说,无非就是使用内置对象或各种自定义对象，当然还可以用`JSON`；但写法有很多种，也能混合使用
+### 1、如何检查值是否虚值？
 
-对象字面量的方式
+使用 `Boolean` 函数或者 `!!` 运算符。
+
+
+### 2、有哪些数据类型？
+
+根据 JavaScript 中的变量类型传递方式，分为基本数据类型和引用数据类型两大类七种。
+
+基本数据类型包括Undefined、Null、Boolean、Number、String、Symbol (ES6新增)六种。 引用数据类型只有Object一种，主要包括对象、数组和函数。
+
+**判断数据类型采用`typeof`操作符，有两种语法：**
 
 ```
-person={firstname:"Mark",lastname:"Yun",age:25,eyecolor:"black"};
-```
+typeof 123;//语法一
 
-用`function`来模拟无参的构造函数
+const FG = 123;
+typeof FG;//语法二
 
-```
- function Person(){}
-    var person=new Person();//定义一个function，如果使用new"实例化",该function可以看作是一个Class
-        person.name="Mark";
-        person.age="25";
-        person.work=function(){
-        alert(person.name+" hello...");
-    }
-person.work();
-```
-
-用`function`来模拟参构造函数来实现（用`this`关键字定义构造的上下文属性）
-
-```
-function Pet(name,age,hobby){
-       this.name=name;//this作用域：当前对象
-       this.age=age;
-       this.hobby=hobby;
-       this.eat=function(){
-          alert("我叫"+this.name+",我喜欢"+this.hobby+",是个程序员");
-       }
-    }
-    var maidou =new Pet("麦兜",25,"coding");//实例化、创建对象
-    maidou.eat();//调用eat方法
-```
-
-用工厂方式来创建（内置对象）
-
-```
-var wcDog =new Object();
-     wcDog.name="旺财";
-     wcDog.age=3;
-     wcDog.work=function(){
-       alert("我是"+wcDog.name+",汪汪汪......");
-     }
-     wcDog.work();
-```
-
-用原型方式来创建
-
-```
-function Dog(){
-
-     }
-     Dog.prototype.name="旺财";
-     Dog.prototype.eat=function(){
-     alert(this.name+"是个吃货");
-     }
-     var wangcai =new Dog();
-     wangcai.eat();
-```
-
-用混合方式来创建
-
-```
- function Car(name,price){
-      this.name=name;
-      this.price=price; 
-    }
-     Car.prototype.sell=function(){
-       alert("我是"+this.name+"，我现在卖"+this.price+"万元");
-      }
-    var camry =new Car("凯美瑞",27);
-    camry.sell();
+typeof(null) //返回 object;
+null == undefined //返回true，因为undefined派生自null;
+null === undefined //返回false。
 ```
 
 
-### 3、判断数据类型的方法有哪些？
+### 3、如何理解同步和异步？
 
-**1、** 利用`typeof`可以判断数据的类型；
+同步：按照代码书写顺序一一执行处理指令的一种模式，上一段代码执行完才能执行下一段代码。
 
-**2、** `A instanceof` B可以用来判断A是否为B的实例，但它不能检测 null 和 undefined；
+异步：可以理解为一种并行处理的方式，不必等待一个程序执行完，可以执行其它的任务。
 
-**3、** `B.constructor == A`可以判断A是否为B的原型，但constructor检测 Object与instanceof不一样，还可以处理基本数据类型的检测。
-
-不过函数的 constructor 是不稳定的，这个主要体现在把类的原型进行重写，在重写的过程中很有可能出现把之前的constructor给覆盖了，这样检测出来的结果就是不准确的。
-
-**4、** `Object.prototype.toString.call()`
-
-`Object.prototype.toString.call()` 是最准确最常用的方式。
+JS之所以需要异步的原因在于JS是单线程运行的。常用的异步场景有：定时器、ajax请求、事件绑定。
 
 
-### 4、js延迟加载的方式有哪些？
+### 4、请解释什么是事件代理
 
-`defer`和`async`、动态创建`DOM`方式（用得最多）、按需异步载入`js`
+**1、** 事件代理（`Event Delegation`），又称之为事件委托。是 `JavaScript` 中常用绑定事件的常用技巧。顾名思义，“事件代理”即是把原本需要绑定的事件委托给父元素，让父元素担当事件监听的职务。事件代理的原理是DOM元素的事件冒泡。使用事件代理的好处是可以提高性能
 
+**2、** 可以大量节省内存占用，减少事件注册，比如在`table`上代理所有`td`的`click`事件就非常棒
 
-### 5、有哪些方法可以处理 JS 中的异步代码？
-
-1、回调
-
-**2、** Promise
-
-**3、** async/await
-
-**4、** 还有一些库：async.js, bluebird, q, co
+**3、** 可以实现当新增子对象时无需再次对其绑定
 
 
-### 6、手动实现 `Array.prototype.map 方法`
+### 5、什么是`Set`对象，它是如何工作的？
 
-`map()` 方法创建一个新数组，其结果是该数组中的每个元素都调用一个提供的函数后返回的结果。
+**Set** 对象允许你存储任何类型的唯一值，无论是原始值或者是对象引用。
 
-```
-function map(arr, mapCallback) {
-  // 首先，检查传递的参数是否正确。
-  if (!Array.isArray(arr) || !arr.length || typeof mapCallback !== 'function') { 
-    return [];
-  } else {
-    let result = [];
-    // 每次调用此函数时，我们都会创建一个 result 数组
-    // 因为我们不想改变原始数组。
-    for (let i = 0, len = arr.length; i < len; i++) {
-      result.push(mapCallback(arr[i], i, arr)); 
-      // 将 mapCallback 返回的结果 push 到 result 数组中
-    }
-    return result;
-  }
-}
-```
+我们可以使用`Set`构造函数创建`Set`实例。
 
+`const set1 = new Set(); const set2 = new Set(["a","b","c","d","d","e"]);`
 
-### 7、call和apply 有什么好处？
+我们可以使用`add`方法向`Set`实例中添加一个新值，因为`add`方法返回`Set`对象，所以我们可以以链式的方式再次使用`add`。如果一个值已经存在于`Set`对象中，那么它将不再被添加。
 
-用call和apply:实现更好的继承和扩展，更安全。
+`set2.add("f"); set2.add("g").add("h").add("i").add("j").add("k").add("k"); // 后一个『k』不会被添加到set对象中，因为它已经存在了`
 
+我们可以使用`has`方法检查`Set`实例中是否存在特定的值。
 
-### 8、用过哪些设计模式？
+`set2.has("a") // true set2.has("z") // true`
 
-**工厂模式：**
+我们可以使用`size`属性获得`Set`实例的长度。
 
-**1、** 工厂模式解决了重复实例化的问题，但还有一个问题,那就是识别问题，因为根本无法
+`set2.size // returns 10`
 
-**2、** 主要好处就是可以消除对象间的耦合，通过使用工程方法而不是`new`关键字
+可以使用`clear`方法删除 `Set` 中的数据。
 
-**构造函数模式**
+`set2.clear();`
 
-**1、** 使用构造函数的方法，即解决了重复实例化的问题，又解决了对象识别的问题，该模式与工厂模式的不同之处在于
+我们可以使用`Set`对象来删除数组中重复的元素。
 
-**2、** 直接将属性和方法赋值给 `this`对象;
+`const numbers = [1, 2, 3, 4, 5, 6, 6, 7, 8, 8, 5]; const uniqueNums = [...new Set(numbers)]; // [1,2,3,4,5,6,7,8]`
 
 
-### 9、为什么函数被称为一等公民？
+### 6、undefined 和 null 有什么区别？
 
-在JavaScript中，函数不仅拥有一切传统函数的使用方式（声明和调用），而且可以做到像简单值一样赋值`（var func = function(){}）`、传参`(function func(x,callback){callback();})`、返回`(function(){return function(){}})`，这样的函数也称之为**第一级函数（First-class Function）**。不仅如此，JavaScript中的函数还充当了类的构造函数的作用，同时又是一个`Function`类的实例(instance)。这样的多重身份让JavaScript的函数变得非常重要。
+在理解 `undefined` 和 `null` 的差异之前，我们先来看看它们的相似点。
 
-
-### 10、30.Jq中怎么样编写插件?
+**它们都属于 JavaScript 的 7 种基本类型。**
 
 ```
-//第一种是类级别的插件开发：
-//1.1 添加一个新的全局函数 添加一个全局函数，我们只需如下定义： 
-jQuery.foo = function() {
-     alert('This is a test、This is only a test.');  };   
+let primitiveTypes = ['string','number','null','undefined','boolean','symbol', 'bigint'];
+```
 
-//1.2 增加多个全局函数 添加多个全局函数，可采用如下定义： 
-jQuery.foo = function() {
-       alert('This is a test、This is only a test.');  };  
-jQuery.bar = function(param) {
-      alert('This function takes a parameter, which is "' + param + '".');  };   调用时和一个函数的一样的:jQuery.foo();jQuery.bar();或者$.foo();$.bar('bar');
-//1.3 使用jQuery.extend(object);　 
-jQuery.extend({
-      foo: function() {
-          alert('This is a test、This is only a test.');
-        },
-      bar: function(param) {
-          alert('This function takes a parameter, which is "' + param +'".');
-        }
-     }); 
-//1.4 使用命名空间
-// 虽然在jQuery命名空间中，我们禁止使用了大量的javaScript函数名和变量名。
-// 但是仍然不可避免某些函数或变量名将于其他jQuery插件冲突，因此我们习惯将一些方法
-// 封装到另一个自定义的命名空间。
-jQuery.myPlugin = {         
-foo:function() {         
-  alert('This is a test、This is only a test.');         
- },         
- bar:function(param) {         
-  alert('This function takes a parameter, which is "' + param + '".');   
- }        
-}; 
-//采用命名空间的函数仍然是全局函数，调用时采用的方法： 
-$.myPlugin.foo();        
-$.myPlugin.bar('baz');
-//通过这个技巧（使用独立的插件名），我们可以避免命名空间内函数的冲突。
+它们是属于 falsy 值类型，可以使用 `Boolean(value)` 或 `!!value` 将其转换为布尔值时，值为`false`。
 
-//第二种是对象级别的插件开发
-//形式1： 
-(function($){    
-  $.fn.extend({    
-   pluginName:function(opt,callback){    
-             // Our plugin implementation code goes here、     
-   }    
-  })    
-})(jQuery);  
+```
+console.log(!!null); // false
+console.log(!!undefined); // false
 
-//形式2：
-(function($) {      
-   $.fn.pluginName = function() {    
-        // Our plugin implementation code goes here、   
-   };     
-})(jQuery);
-//形参是$，函数定义完成之后,把jQuery这个实参传递进去.立即调用执行。
-//这样的好处是,我们在写jQuery插件时,也可以使用$这个别名,而不会与prototype引起冲突
+console.log(Boolean(null)); // false
+console.log(Boolean(undefined)); // false
+```
+
+接着来看看它们的区别。
+
+`undefined` 是未指定特定值的变量的默认值，或者没有显式返回值的函数，如：`console.log(1)`，还包括对象中不存在的属性，这些 JS 引擎都会为其分配 `undefined` 值。
+
+```
+let _thisIsUndefined;
+const doNothing = () => {};
+const someObj = {
+  a : "ay",
+  b : "bee",
+  c : "si"
+};
+
+console.log(_thisIsUndefined); // undefined
+console.log(doNothing()); // undefined
+console.log(someObj["d"]); // undefined
+```
+
+`null` 是『不代表任何值的值』。`null`是已明确定义给变量的值。在此示例中，当`fs.readFile`方法未引发错误时，我们将获得`null`值。
+
+```
+fs.readFile('path/to/file', (e,data) => {
+   console.log(e); // 当没有错误发生时，打印 null
+   if(e){
+     console.log(e);
+   }
+   console.log(data);
+ });
+```
+
+在比较`null`和`undefined`时，我们使用`==`时得到`true`，使用`===`时得到`false`:
+
+```
+console.log(null == undefined); // true
+console.log(null === undefined); // false
 ```
 
 
-### 11、异步加载的方式有哪些？
-### 12、什么是高阶函数？
-### 13、$$.map和$$.each有什么区别###
-### 14、如何解决跨域问题?
-### 15、jquery和zepto有什么区别?
-### 16、html和xhtml有什么区别?
-### 17、vue、react、angular
-### 18、谈谈This对象的理解
-### 19、jQuery与jQuery UI 有啥区别？
-### 20、什么是 IIFE，它的用途是什么？
-### 21、defer和async
-### 22、压缩合并目的？http请求的优化方式？
-### 23、调用函数，可以使用哪些方法？
-### 24、函数fn1 函数fn2 函数fn3，如果想在三个函数都执行完成后执行某一个事件应该如何实现?
-### 25、["1", "2", "3"].map(parseInt) 答案是多少？
-### 26、手动实现缓存方法
-### 27、作用域和执行上下文的区别是什么？
+### 7、你有哪些性能优化的方法？
+
+**1、** 减少http请求次数：CSS Sprites, JS、CSS源码压缩、图片大小控制合适；网页Gzip， CDN托管，data缓存 ，图片服务器。
+
+**2、** 前端模板 JS+数据，减少由于HTML标签导致的带宽浪费，前端用变量保存AJAX请求结果，每次操作本地变量，不用请求，减少请求次数
+
+**3、** 用innerHTML代替DOM操作，减少DOM操作次数，优化javascript性能。
+
+**4、** 当需要设置的样式很多时设置className而不是直接操作style。
+
+**5、** 少用全局变量、缓存DOM节点查找的结果。减少IO读取操作。
+
+**6、** 避免使用CSS Expression（css表达式)又称Dynamic properties(动态属性)。
+
+**7、** 图片预加载，将样式表放在顶部，将脚本放在底部 加上时间戳。
+
+**8、** 避免在页面的主体布局中使用table，table要等其中的内容完全下载之后才会显示出来，显示比div+css布局慢。
+
+
+### 8、如何改变this指针的指向？
+
+可以使用`apply`、`call`、`bind`方法改变`this`指向(并不会改变函数的作用域)。比较如下：
+
+**1、** 三者第一个参数都是`this`要指向的对象，也就是想指定的上下文，上下文就是指调用函数的那个对象(没有就指向全局window)；
+
+**2、** `bind`和`call`的第二个参数都是数组，`apply`接收多个参数并用逗号隔开；
+
+**3、** `apply`和`call`只对原函数做改动，`bind`会返回新的函数(要生效还得再调用一次)。
+
+
+### 9、如何解决跨域问题?
+
+Jsonp、iframe、window.name、window.postMessage、服务器上设置代理页面
+
+
+### 10、什么是包装对象（wrapper object）？
+
+我们现在复习一下JS的数据类型，JS数据类型被分为两大类，**基本类型**和**引用类型**。
+
+基本类型：`Undefined`,`Null`,`Boolean`,`Number`,`String`,`Symbol`,`BigInt`
+
+引用类型：`Object`,`Array`,`Date`,`RegExp`等，说白了就是对象。
+
+其中引用类型有方法和属性，但是基本类型是没有的，但我们经常会看到下面的代码：
+
+```
+let name = "marko";
+
+console.log(typeof name); // "string"
+console.log(name.toUpperCase()); // "MARKO"
+```
+
+`name`类型是 `string`，属于基本类型，所以它没有属性和方法，但是在这个例子中，我们调用了一个`toUpperCase()`方法，它不会抛出错误，还返回了对象的变量值。
+
+原因是基本类型的值被临时转换或强制转换为**对象**，因此`name`变量的行为类似于**对象**。除`null`和`undefined`之外的每个基本类型都有自己**包装对象**。也就是：`String`，`Number`，`Boolean`，`Symbol`和`BigInt`。在这种情况下，`name.toUpperCase()`在幕后看起来如下：
+
+`console.log(new String(name).toUpperCase()); // "MARKO"`
+
+在完成访问属性或调用方法之后，新创建的对象将立即被丢弃。
+
+
+### 11、对象的 prototype(原型) 是什么？
+### 12、js延迟加载的方式有哪些？
+### 13、简述下你理解的面向对象？
+### 14、事件流?事件捕获？事件冒泡？
+### 15、谈谈你对ES6的理解
+### 16、使用 + 或一元加运算符是将字符串转换为数字的最快方法吗？
+### 17、常见兼容性问题？
+### 18、判断数据类型的方法有哪些？
+### 19、什么是事件传播?
+### 20、html和xhtml有什么区别?
+### 21、如何知道是否在元素中使用了`event.preventDefault()`方法？
+### 22、怎么理解宏任务，微任务？？？
+### 23、谈谈This对象的理解
+### 24、javascript有哪些方法定义对象
+### 25、ajax中 get 和 post 有什么区别?
+### 26、Jq中如何实现多库并存?
+### 27、JSON 的了解？
 ### 28、AJAX 是什么？
-### 29、如何知道是否在元素中使用了`event.preventDefault()`方法？
+### 29、实现继承的方法有哪些？？？
 
 
 
 
 ## 全部答案，整理好了，直接下载吧
 
-### 下载链接：[全部答案，整理好了](https://www.souyunku.com/?p=67)
+### 下载链接：[全部答案，整理好了](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
 
-### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/?p=67)
+### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
 
 
 ## 最新，高清PDF：172份，7701页，最新整理

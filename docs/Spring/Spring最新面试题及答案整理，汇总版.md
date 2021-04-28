@@ -2,22 +2,46 @@
 
 ### 其实，博主还整理了，更多大厂面试题，直接下载吧
 
-### 下载链接：[高清172份，累计 7701 页大厂面试题  PDF](https://www.souyunku.com/?p=67)
+### 下载链接：[高清172份，累计 7701 页大厂面试题  PDF](https://github.com/souyunku/DevBooks/blob/master/docs/index.md)
 
-### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/?p=67)
-
-
-
-### 1、使⽤中碰到的坑
-
-**1、** 超时：确保Hystrix超时时间配置为⻓于配置的Ribbon超时时间
-
-**2、** feign path：feign客户端在部署时若有contextpath应该设置 path="/***"来匹配你的服务名。
-
-**3、** 版本：SpringBoot和springcloud版本要兼容。
+### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png)
 
 
-### 2、什么是 AOP 通知
+
+### 1、如何设计一套API接口
+
+考虑到API接口的分类可以将API接口分为开发API接口和内网API接口，内网API接口用于局域网，为内部服务器提供服务。开放API接口用于对外部合作单位提供接口调用，需要遵循Oauth2.0权限认证协议。同时还需要考虑安全性、幂等性等问题。
+
+
+### 2、如何实现动态Zuul网关路由转发
+
+通过path配置拦截请求，通过ServiceId到配置中心获取转发的服务列表，Zuul内部使用Ribbon实现本地负载均衡和转发。
+
+
+### 3、什么是SpringBoot？
+
+多年来，随着新功能的增加，spring变得越来越复杂。只需访问https://spring.io/projects
+
+如果必须启动一个新的Spring项目，我们必须添加构建路径或添加Maven依赖关系，配置应用程序服务器，添加spring配置。
+
+因此，开始一个新的spring项目需要很多努力，因为我们现在必须从头开始做所有事情。
+
+SpringBoot是解决这个问题的方法。SpringBoot已经建立在现有spring框架之上。使用spring启动，我们避免了之前我们必须做的所有样板代码和配置。
+
+因此，SpringBoot可以帮助我们以最少的工作量，更加健壮地使用现有的Spring功能。
+
+
+### 4、SpringBoot 需要独立的容器运行吗？
+
+可以不需要，内置了 Tomcat/ Jetty 等容器。
+
+
+### 5、SpringBoot 中的监视器是什么？
+
+Spring boot actuator 是 spring 启动框架中的重要功能之一。Spring boot 监视器可帮助您访问生产环境中正在运行的应用程序的当前状态。有几个指标必须在生产环境中进行检查和监控。即使一些外部应用程序可能正在使用这些服务来向相关人员触发警报消息。监视器模块公开了一组可直接作为 HTTP URL 访问的REST 端点来检查状态。
+
+
+### 6、什么是 AOP 通知
 
 通知是个在方法执行前或执行后要做的动作，实际上是程序执行时要通过SpringAOP框架触发的代码段。
 
@@ -34,135 +58,92 @@ after-throwing: 在方法抛出异常退出时执行的通知。
 around: 在方法执行之前和之后调用的通知。
 
 
-### 3、Springboot 有哪些优点？
+### 7、SpringBoot如何实现打包
 
-**1、** 快速创建独立运行的spring项目与主流框架集成
+进入项目目录在控制台输入mvn clean package，clean是清空已存在的项目包，package进行打包
 
-**2、** 使用嵌入式的servlet容器，应用无需打包成war包
-
-**3、** starters自动依赖与版本控制
-
-**4、** 大量的自动配置，简化开发，也可修改默认值
-
-**5、** 准生产环境的运行应用监控
-
-**6、** 与云计算的天然集成
+或者点击左边选项栏中的Mavne，先点击clean在点击package
 
 
-### 4、什么是 Spring Data ?
+### 8、如何使用SpringBoot实现分页和排序？
 
-Spring Data 是 Spring 的一个子项目。用于简化数据库访问，支持NoSQL 和 关系数据存储。其主要目标是使数据库的访问变得方便快捷。Spring Data 具有如下特点：
+使用SpringBoot实现分页非常简单。使用Spring Data-JPA可以实现将可分页的
 
-**SpringData 项目支持 NoSQL 存储：**
-
-**1、** MongoDB （文档数据库）
-
-**2、** Neo4j（图形数据库）
-
-**3、** Redis（键/值存储）
-
-**4、** Hbase（列族数据库）
+传递给存储库方法。
 
 
-### 5、什么是 CSRF 攻击？
+### 9、Spring Cloud Netflix(重点，这些组件用的最多)
 
-CSRF 代表跨站请求伪造。这是一种攻击，迫使最终用户在当前通过身份验证的Web 应用程序上执行不需要的操作。CSRF 攻击专门针对状态改变请求，而不是数据窃取，因为攻击者无法查看对伪造请求的响应。
+Netflix OSS 开源组件集成，包括Eureka、Hystrix、Ribbon、Feign、Zuul等核心组件。
 
+**1、** Eureka：服务治理组件，包括服务端的注册中心和客户端的服务发现机制；
 
-### 6、项目中前后端分离部署，所以需要解决跨域的问题。
+**2、** Ribbon：负载均衡的服务调用组件，具有多种负载均衡调用策略；
 
-我们使用cookie存放用户登录的信息，在spring拦截器进行权限控制，当权限不符合时，直接返回给用户固定的json结果。
+**3、** Hystrix：服务容错组件，实现了断路器模式，为依赖服务的出错和延迟提供了容错能力；
 
-当用户登录以后，正常使用；当用户退出登录状态时或者token过期时，由于拦截器和跨域的顺序有问题，出现了跨域的现象。
+**4、** Feign：基于Ribbon和Hystrix的声明式服务调用组件；
 
-我们知道一个http请求，先走filter，到达servlet后才进行拦截器的处理，如果我们把cors放在filter里，就可以优先于权限拦截器执行。
+**5、** Zuul：API网关组件，对请求提供路由及过滤功能。
 
-```
-@Configuration
-public class CorsConfig {
-
-    @Bean
-    public CorsFilter corsFilter() {
-        CorsConfiguration corsConfiguration = new CorsConfiguration();
-        corsConfiguration.addAllowedOrigin("*");
-        corsConfiguration.addAllowedHeader("*");
-        corsConfiguration.addAllowedMethod("*");
-        corsConfiguration.setAllowCredentials(true);
-        UrlBasedCorsConfigurationSource urlBasedCorsConfigurationSource = new UrlBasedCorsConfigurationSource();
-        urlBasedCorsConfigurationSource.registerCorsConfiguration("/**", corsConfiguration);
-        return new CorsFilter(urlBasedCorsConfigurationSource);
-    }
-
-}
-```
+`我觉得SpringCloud的福音是Netflix，他把人家的组件都搬来进行封装了，使开发者能快速简单安全的使用`
 
 
-### 7、dubbo服务注册与发现原理
+### 10、SpringBoot 提供了哪些核心功能？
 
-![](https://gitee.com/souyunkutech/souyunku-home/raw/master/images/souyunku-web/2020/5/2/01/44/45_5.png#alt=45%5C_5.png)
+**1、** 独立运行 Spring 项目
 
-![](https://gitee.com/souyunkutech/souyunku-home/raw/master/images/souyunku-web/2020/5/2/01/44/45_6.png#alt=45%5C_6.png)
+**2、** 内嵌 Servlet 容器
 
-调⽤关系说明：
+SpringBoot 可以选择内嵌 Tomcat、Jetty 或者 Undertow，这样我们无须以 war 包形式部署项目。
 
-**1、** 服务容器负责启动,加载,运⾏服务提供者。
+**3、** 提供 Starter 简化 Maven 配置
 
-**2、** 服务提供者在启动时,向注册中⼼注册⾃⼰提供的服务。
+例如，当你使用了 spring-boot-starter-web ，会自动加入如下依赖：`spring-boot-starter-web` 的 pom 文件
 
-**3、** 服务消费者在启动时,向注册中⼼订阅⾃⼰所需的服务。
+**4、** 自动配置 Spring Bean
 
-**4、** 注册中⼼返回服务提供者地址列表给消费者,如果有变更,注册中⼼将基于⻓连接推送变更数据给消费者。
+SpringBoot 检测到特定类的存在，就会针对这个应用做一定的配置，进行自动配置 Bean ，这样会极大地减少我们要使用的配置。
 
-**5、** 服务消费者,从提供者地址列表中,基于软负载均衡算法,选⼀台提供者进⾏调⽤,如果调⽤失败,再选另⼀台调⽤。
+**5、** 准生产的应用监控
 
-**6、** 服务消费者和提供者,在内存中累计调⽤次数和调⽤时间,定时每分钟发送⼀次统计数据到监控中⼼。
+SpringBoot 提供基于 HTTP、JMX、SSH 对运行时的项目进行监控。
 
+**6、** 无代码生成和 XML 配置
 
-### 8、@Component, @Controller, @Repository, [@Service ](/Service ) 有何区别？
-
-@Component：这将 java 类标记为 bean。它是任何 Spring 管理组件的通用构造型。spring 的组件扫描机制现在可以将其拾取并将其拉入应用程序环境中。@Controller：这将一个类标记为 Spring Web MVC 控制器。标有它的 Bean 会自动导入到 IoC 容器中。@Service：此注解是组件注解的特化。它不会对 [@Component ](/Component ) 注解提供任何其他行为。您可以在服务层类中使用 [@Service ](/Service ) 而不是 @Component，因为它以更好的方式指定了意图。@Repository：这个注解是具有类似用途和功能的 [@Component ](/Component ) 注解的特化。它为 DAO 提供了额外的好处。它将 DAO 导入 IoC 容器，并使未经检查的异常有资格转换为 Spring DataAccessException。
-
-
-### 9、SpringBoot 是否可以使用 XML 配置 ?
-
-SpringBoot 推荐使用 Java 配置而非 XML 配置，但是 SpringBoot 中也可以使用 XML 配置，通过 [@ImportResource ](/ImportResource ) 注解可以引入一个 XML 配置。
+SpringBoot 没有引入任何形式的代码生成，它是使用的 Spring 4.0 的条件 [@Condition ](/Condition ) 注解以实现根据条件进行配置。同时使用了 Maven /Gradle 的依赖传递解析机制来实现 Spring 应用里面的自动配置。
 
 
-### 10、什么是 AOP 目标对象?
-
-被一个或者多个切面所通知的对象。它通常是一个代理对象。也指被通知（advised）对象。
-
-
-### 11、如何在自定义端口上运行 SpringBoot 应用程序？
-### 12、常用网关框架有那些？
-### 13、核心容器（应用上下文) 模块。
-### 14、接⼝限流⽅法？
-### 15、SpringBoot默认支持的日志框架有哪些？可以进行哪些设置？
-### 16、SpringBoot与SpringCloud 区别
-### 17、什么是有界上下文？
-### 18、什么是Swagger？你用SpringBoot实现了它吗？
-### 19、spring bean 容器的生命周期是什么样的？
-### 20、SpringBoot需要独立的容器运行？
-### 21、服务注册和发现是什么意思？Spring Cloud 如何实现？
-### 22、SpringBoot 有哪几种读取配置的方式？
-### 23、微服务之间是如何独立通讯的?
-### 24、各服务之间通信，对Restful和Rpc这2种方式如何做选择？
-### 25、Spring MVC的主要组件？
-### 26、列举 spring 支持的事务管理类型
-### 27、什么是 Aspect？
+### 11、怎么设计无状态服务？
+### 12、描述一下 DispatcherServlet 的工作流程
+### 13、SpringBoot中的监视器是什么？
+### 14、第⼆层缓存：
+### 15、列举 spring 支持的事务管理类型
+### 16、如何使用SpringBoot实现异常处理?
+### 17、REST 和RPC对比
+### 18、什么是 Hystrix 断路器？我们需要它吗？
+### 19、微服务同时调用多个接口，怎么支持事务的啊？
+### 20、解释对象/关系映射集成模块。
+### 21、22。你能否给出关于休息和微服务的要点？
+### 22、[@RequestMapping ](/RequestMapping ) 注解
+### 23、[@Autowired ](/Autowired ) 注解有什么用？
+### 24、如果想在拦截的方法里面得到从前台传入的参数,怎么得到？
+### 25、SpingMvc中的控制器的注解一般用哪个,有没有别的注解可以替代？
+### 26、为什么需要域驱动设计（DDD）？
+### 27、合同测试你懂什么？
 ### 28、解释AOP
-### 29、什么是 AOP Aspect 切面
-### 30、什么是 WebSockets？
-### 31、什么是 Apache Kafka？
+### 29、Spring Cloud 实现服务注册和发现的原理是什么？
+### 30、什么是SpringBoot ？
+### 31、什么是断路器
 
 
 
 
 ## 全部答案，整理好了，直接下载吧
 
-### 下载链接：[全部答案，整理好了](https://www.souyunku.com/?p=67)
+### 下载链接：[全部答案，整理好了](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
 
-### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/?p=67)
+### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
 
 
 ## 最新，高清PDF：172份，7701页，最新整理

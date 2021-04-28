@@ -2,198 +2,202 @@
 
 ### 其实，博主还整理了，更多大厂面试题，直接下载吧
 
-### 下载链接：[高清172份，累计 7701 页大厂面试题  PDF](https://www.souyunku.com/?p=67)
+### 下载链接：[高清172份，累计 7701 页大厂面试题  PDF](https://github.com/souyunku/DevBooks/blob/master/docs/index.md)
 
-### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/?p=67)
-
-
-
-### 1、git 和 svn的区别?
-
-SVN是集中式版本控制系统，版本库是集中放在中央服务器的，而干活的时候，用的都是自己的电脑，所以首先要从中央服务器哪里得到最新的版本，然后干活，干完后，需要把自己做完的活推送到中央服务器。集中式版本控制系统是必须联网才能工作，如果在局域网还可以，带宽够大，速度够快，如果在互联网下，如果网速慢的话，就纳闷了。
-
-Git是分布式版本控制系统，那么它就没有中央服务器的，每个人的电脑就是一个完整的版本库，这样，工作的时候就不需要联网了，因为版本都是在自己的电脑上。既然每个人的电脑都有一个完整的版本库，那多个人如何协作呢？比如说自己在电脑上改了文件A，其他人也在电脑上改了文件A，这时，你们两之间只需把各自的修改推送给对方，就可以互相看到对方的修改了。
+### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png)
 
 
-### 2、判断数据类型
 
-**1、** typeof返回的类型都是字符串形式，可以判断function的类型；在判断除Object类型的对象时比较方便。
-
-**2、** 判断已知对象类型的方法： instanceof，后面一定要是对象类型，并且大小写不能错，该方法适合一些条件选择或分支。
-
-
-### 3、常见兼容性问题？
-
-**1、** `png24`位的图片在iE6浏览器上出现背景，解决方案是做成`PNG8`
-
-**2、** 浏览器默认的`margin`和`padding`不同。解决方案是加一个全局的`*{margin:0;padding:0;}`来统一,，但是全局效率很低，一般是如下这样解决：
+### 1、变量作用域?
 
 ```
-body,ul,li,ol,dl,dt,dd,form,input,h1,h2,h3,h4,h5,h6,p{
-    margin:0;
-    padding:0;
+//变量作用域：一个变量的作用域是程序源代码中定义这个变量的区域。全局变量拥有全局作用域，
+//在js代码中任何地方都是有定义的。在函数内声明的变量只在函数体内有定义，它们是局部变量，
+//作用域是局部性的。函数参数也是局部变量，它们只在函数体内有定义。
+var a = "";
+window.b=''”;
+function(e) {
+       var c= "";
+       d="";
+       e="";
 }
-```
-
-`IE`下,`event`对象有`x`,`y`属性,但是没有`pageX`,`pageY`属性
-
-`Firefox`下,`event`对象有`pageX`,`pageY`属性,但是没有`x,y`属性.
-
-
-### 4、你有哪些性能优化的方法？
-
-**1、** 减少http请求次数：CSS Sprites, JS、CSS源码压缩、图片大小控制合适；网页Gzip， CDN托管，data缓存 ，图片服务器。
-
-**2、** 前端模板 JS+数据，减少由于HTML标签导致的带宽浪费，前端用变量保存AJAX请求结果，每次操作本地变量，不用请求，减少请求次数
-
-**3、** 用innerHTML代替DOM操作，减少DOM操作次数，优化javascript性能。
-
-**4、** 当需要设置的样式很多时设置className而不是直接操作style。
-
-**5、** 少用全局变量、缓存DOM节点查找的结果。减少IO读取操作。
-
-**6、** 避免使用CSS Expression（css表达式)又称Dynamic properties(动态属性)。
-
-**7、** 图片预加载，将样式表放在顶部，将脚本放在底部 加上时间戳。
-
-**8、** 避免在页面的主体布局中使用table，table要等其中的内容完全下载之后才会显示出来，显示比div+css布局慢。
-
-
-### 5、Gc机制是什么？为什么闭包不会被回收变量和函数？
-
-**1、** Gc垃圾回收机制;
-
-**2、** 外部变量没释放，所以指向的大函数内的小函数也释放不了
-
-
-### 6、什么是箭头函数？
-
-箭头函数表达式的语法比函数表达式更简洁，并且没有自己的`this`，`arguments`，`super`或`new.target`。箭头函数表达式更适用于那些本来需要匿名函数的地方，并且它不能用作构造函数。
-
-```
-//ES5 Version
-var getCurrentDate = function (){
-  return new Date();
+function go() {
+       console.info(this);//window
+       return function() {
+               console.info(this); // window
+               return {
+                b:function(){
+                       console.info(this); //b的父对象
+                   }
+            }
+       }
 }
-
-//ES6 Version
-const getCurrentDate = () => new Date();
+go()().b();
 ```
 
-在本例中，ES5 版本中有`function(){}`声明和`return`关键字，这两个关键字分别是创建函数和返回值所需要的。在箭头函数版本中，我们只需要`()`括号，不需要 `return` 语句，因为如果我们只有一个表达式或值需要返回，箭头函数就会有一个隐式的返回。
+
+### 2、事件委托？有什么好处?
+
+利用冒泡的原理，把事件加到父级上，触发执行效果
+
+好处：新添加的元素还会有之前的事件；提高性能。
+
+
+### 3、渐进增强和优雅降级
+
+**1、** 渐进增强 ：针对低版本浏览器进行构建页面，保证最基本的功能，然后再针对高级浏览器进行效果、交互等改进和追加功能达到更好的用户体验。
+
+**2、** 优雅降级 ：一开始就构建完整的功能，然后再针对低版本浏览器进行兼容
+
+
+### 4、手动实现`Array.prototype.reduce`方法
+
+`reduce()` 方法对数组中的每个元素执行一个由您提供的`reducer`函数(升序执行)，将其结果汇总为单个返回值。
 
 ```
-//ES5 Version
-function greet(name) {
-  return 'Hello ' + name + '!';
-}
+function reduce(arr, reduceCallback, initialValue) {
+  // 首先，检查传递的参数是否正确。
+  if (!Array.isArray(arr) || !arr.length || typeof reduceCallback !== 'function') 
+  {
+    return [];
+  } else {
+    // 如果没有将initialValue传递给该函数，我们将使用第一个数组项作为initialValue
+    let hasInitialValue = initialValue !== undefined;
+    let value = hasInitialValue ? initialValue : arr[0];
+   、
 
-//ES6 Version
-const greet = (name) => `Hello ${name}`;
-const greet2 = name => `Hello ${name}`;
-```
-
-我们还可以在箭头函数中使用与函数表达式和函数声明相同的参数。如果我们在一个箭头函数中有一个参数，则可以省略括号。
-
-`const getArgs = () => arguments const getArgs2 = (...rest) => rest`
-
-箭头函数不能访问`arguments`对象。所以调用第一个`getArgs`函数会抛出一个错误。相反，我们可以使用**rest**参数来获得在箭头函数中传递的所有参数。
-
-```
-const data = {
-  result: 0,
-  nums: [1, 2, 3, 4, 5],
-  computeResult() {
-    // 这里的“this”指的是“data”对象
-    const addAll = () => {
-      return this.nums.reduce((total, cur) => total + cur, 0)
-    };
-    this.result = addAll();
+    // 如果有传递 initialValue，则索引从 1 开始，否则从 0 开始
+    for (let i = hasInitialValue ? 0 : 1, len = arr.length; i < len; i++) {
+      value = reduceCallback(value, arr[i], i, arr); 
+    }
+    return value;
   }
-};
+}
 ```
 
-箭头函数没有自己的`this`值。它捕获词法作用域函数的`this`值，在此示例中，`addAll`函数将复制`computeResult` 方法中的`this`值，如果我们在全局作用域声明箭头函数，则`this`值为 `window` 对象。
+
+### 5、为什么要有同源限制？
+
+**1、** 同源策略指的是：协议，域名，端口相同，同源策略是一种安全协议
+
+**2、** 举例说明：比如一个黑客程序，他利用`Iframe`把真正的银行登录页面嵌到他的页面上，当你使用真实的用户名，密码登录时，他的页面就可以通过`Javascript`读取到你的表单中`input`中的内容，这样用户名，密码就轻松到手了。
 
 
-### 7、基本数据类型和引用数据类型有什么区别？
+### 6、如何通过原生js 判断一个元素当前是显示还是隐藏状态?
 
-**两者作为函数的参数进行传递时：**
-
-**1、** 基本数据类型传入的是数据的副本，原数据的更改不会影响传入后的数据。
-
-**2、** 引用数据类型传入的是数据的引用地址，原数据的更改会影响传入后的数据。
-
-**两者在内存中的存储位置：**
-
-**1、** 基本数据类型存储在栈中。
-
-**2、** 引用数据类型在栈中存储了指针，该指针指向的数据实体存储在堆中。
+```
+if( document.getElementById("div").css("display")==='none')
+if( document.getElementById("div").css("display")==='block')
+$("#div").is(":hidden"); // 判断是否隐藏
+$("#div").is(":visible")
+```
 
 
-### 8、同步异步?
+### 7、什么是预编译语音|预编译处理器?
 
-**1、** 进程同步：就是在发出一个功能调用时，在没有得到结果之前，该调用就不返回。也就是必须一件一件事做,等前一件做完了才能做下一件事
+Sass是一种CSS预处理器语言，通过编程方式生成CSS代码。因为可编程，所以操控灵活性自由度高，方便实现一些直接编写CSS代码较困难的代码。
 
-**2、** 异步的概念和同步相对。当一个异步过程调用发出后，调用者不能立刻得到结果。实际处理这个调用的部件在完成后，通过状态、通知和回调来通知调用者。
+同时，因为Sass是生成CSS的语言，所以写出来的Sass文件是不能直接用的，必须经过编译器编译成CSS文件才能使用。
 
-
-### 9、与深拷贝有何区别？如何实现？
-
-**浅拷贝只复制指向某个对象的指针，而不复制对象本身。浅拷贝的实现方式有：**
-
-**1、** `Object.assign()`：需注意的是目标对象只有一层的时候，是深拷贝；
-
-**2、** 扩展运算符；
-
-**深拷贝就是在拷贝数据的时候，将数据的所有引用结构都拷贝一份。深拷贝的实现方式有：**
-
-**1、** 手写遍历递归赋值；
-
-**2、** 结合使用`JSON.parse()`和`JSON.stringify()`方法。
+CSS 预处理器是一种语言用来为 CSS 增加一些编程的的特性，无需考虑浏览器的兼容性问题，例如你可以在 CSS 中使用变量、简单的程序逻辑、函数等等在编程语言中的一些基本技巧，可以让你的 CSS 更见简洁，适应性更强，代码更直观等诸多好处。最常用的css预处理器有sass、less css、stylus。
 
 
-### 10、ajax 和 jsonp ？
+### 8、用过哪些设计模式？
 
-**ajax和jsonp的区别：**
+**工厂模式：**
 
-相同点：都是请求一个url
+**1、** 工厂模式解决了重复实例化的问题，但还有一个问题,那就是识别问题，因为根本无法
 
-不同点：ajax的核心是通过xmlHttpRequest获取内容
+**2、** 主要好处就是可以消除对象间的耦合，通过使用工程方法而不是`new`关键字
 
-jsonp的核心则是动态添加
+**构造函数模式**
 
+**1、** 使用构造函数的方法，即解决了重复实例化的问题，又解决了对象识别的问题，该模式与工厂模式的不同之处在于
+
+**2、** 直接将属性和方法赋值给 `this`对象;
+
+
+### 9、谁是c的构造函数?
+
+```
+function ab() {
+         this.say = ""; } 
+ab.constructor = {} ab.name = ''; 
+var c = new ab(); 
+//构造函数默认指向函数本身,ab是一个类,它的构造函数是它本身，
+//然后ab.constructor={};ab的构造函数就指向{}了，c是ab的实例化对象，c的构造函数就是{}
+//通过使用new的时候,创建对象发生了那些改变? 当使用new操作时，会马上开辟一个块内存，
+//创建一个空对象，并将this指向这个对象。接着，执行构造函数ab()，对这个空对象进行构造
+//（构造函数里有什么属性和方法都一一给这个空白对象装配上去，这就是为何它叫构造函数了）。
+```
+
+
+### 10、何为防抖和节流？如何实现？
+
+**1、** 防抖和节流都是防止短时间内高频触发事件的方案。
+
+**2、** 防抖的原理是：如果一定时间内多次执行了某事件，则只执行其中的最后一次。
+
+**3、** 节流的原理是：要执行的事件每隔一段时间会被冷却，无法执行。
+
+**4、** 应用场景有：搜索框实时搜索，滚动改变相关的事件。
+
+```
+//@fn: 要执行的函数
+//@delay: 设定的时限
+//防抖函数
+function debunce(fn, delay) {
+    let flag = null;
+    return function() {
+        if (flag) clearTimeout(flag)
+        //利用apply改变函数指向，使得封装后的函数可以接收event本身
+        flag = setTimeout(() = > fn.apply(this, arguments), delay)
+    }
+}
+//节流函数
+function throttle(fn, delay) {
+    let flag = true;
+    return function() {
+        if (!flag) return false;
+        flag = false;
+        setTimeout(() = > {
+            fn.apply(this, arguments)
+            flag = true
+        }, delay)
+    }
+}
+```
 
 
 ### 11、事件模型
-### 12、attribute和property的区别是什么？
-### 13、说说你对AMD和Commonjs的理解
-### 14、$$('div+.ab')和$$('.ab+div') 哪个效率高？
-### 15、数据持久化技术(ajax)?简述ajax流程###
-### 16、如何对登录的账号密码进行加密?
-### 17、Javascript如何实现继承？
-### 18、`var`,`let`和`const`的区别是什么？
-### 19、promise###
-### 20、什么是跨域？怎么解决跨域问题？
-### 21、简述一下你理解的面向对象？
-### 22、JS是如何实现异步的？
-### 23、什么是默认参数？
-### 24、你对数据校验是怎么样处理的？jquery.validate？
-### 25、!! 运算符能做什么？
-### 26、编写一个 getElementsByClassName 封装函数?
-### 27、谁是c的构造函数?
-### 28、谈谈你对AMD、CMD的理解
-### 29、ajax请求方式有几种（8种）？
-### 30、什么是 event.currentTarget？？
+### 12、如何使用storage 对js文件进行缓存
+### 13、DOM 是什么？
+### 14、与深拷贝有何区别？如何实现？
+### 15、new 关键字有什么作用？
+### 16、什么是作用域和作用域链？
+### 17、基本数据类型和引用数据类型有什么区别？
+### 18、javascript 代码中的"use strict";是什么意思 ? 使用它区别是什么？
+### 19、eval是做什么的？
+### 20、什么是闭包？
+### 21、编写一个 getElementsByClassName 封装函数?
+### 22、promise###
+### 23、JavaScript 中的虚值是什么？
+### 24、$$.map和$$.each有什么区别###
+### 25、如何创建一个对象？
+### 26、谈谈你对AMD、CMD的理解
+### 27、Jq中get和eq有什么区别？
+### 28、js的几种继承方式？
+### 29、Javascript如何实现继承？
+### 30、为什么此代码 `obj.someprop.x` 会引发错误?
 
 
 
 
 ## 全部答案，整理好了，直接下载吧
 
-### 下载链接：[全部答案，整理好了](https://www.souyunku.com/?p=67)
+### 下载链接：[全部答案，整理好了](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
 
-### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/?p=67)
+### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
 
 
 ## 最新，高清PDF：172份，7701页，最新整理

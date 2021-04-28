@@ -2,400 +2,245 @@
 
 ### 其实，博主还整理了，更多大厂面试题，直接下载吧
 
-### 下载链接：[高清172份，累计 7701 页大厂面试题  PDF](https://www.souyunku.com/?p=67)
+### 下载链接：[高清172份，累计 7701 页大厂面试题  PDF](https://github.com/souyunku/DevBooks/blob/master/docs/index.md)
 
-### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/?p=67)
-
-
-
-### 1、渐进增强和优雅降级
-
-**1、** 渐进增强 ：针对低版本浏览器进行构建页面，保证最基本的功能，然后再针对高级浏览器进行效果、交互等改进和追加功能达到更好的用户体验。
-
-**2、** 优雅降级 ：一开始就构建完整的功能，然后再针对低版本浏览器进行兼容
+### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png)
 
 
-### 2、JavaScript 中 `this` 值是什么？
 
-基本上，`this`指的是当前正在执行或调用该函数的对象的值。`this`值的变化取决于我们使用它的上下文和我们在哪里使用它。
+### 1、Promise 是什么？
+
+**Promise** 是异步编程的一种解决方案：从语法上讲，`promise`是一个对象，从它可以获取异步操作的消息；从本意上讲，它是承诺，承诺它过一段时间会给你一个结果。`promise`有三种状态：`pending(等待态)`，`fulfiled(成功态)`，`rejected(失败态)`；状态一旦改变，就不会再变。创造`promise`实例后，它会立即执行。
 
 ```
-const carDetails = {
-  name: "Ford Mustang",
-  yearBought: 2005,
-  getName(){
-    return this.name;
-  },
-  isRegistered: true
-};
-
-console.log(carDetails.getName()); // Ford Mustang
-```
-
-这通常是我们期望结果的，因为在`getName`方法中我们返回`this.name`，在此上下文中，`this`指向的是`carDetails`对象，该对象当前是执行函数的“所有者”对象。
-
-接下我们做些奇怪的事情：
-
-```
-var name = "Ford Ranger";
-var getCarName = carDetails.getName;
-
-console.log(getCarName()); // Ford Ranger
-```
-
-上面打印`Ford Ranger`，这很奇怪，因为在第一个`console.log`语句中打印的是`Ford Mustang`。这样做的原因是`getCarName`方法有一个不同的“所有者”对象，即`window`对象。在全局作用域中使用`var`关键字声明变量会在`window`对象中附加与变量名称相同的属性。请记住，当没有使用`“use strict”`时，在全局作用域中`this`指的是`window`对象。
-
-`console.log(getCarName === window.getCarName); // true console.log(getCarName === this.getCarName); // true`
-
-本例中的`this`和`window`引用同一个对象。
-
-解决这个问题的一种方法是在函数中使用`apply`和`call`方法。
-
-`console.log(getCarName.apply(carDetails)); // Ford Mustang console.log(getCarName.call(carDetails)); // Ford Mustang`
-
-`apply`和`call`方法期望第一个参数是一个对象，该对象是函数内部`this`的值。
-
-`IIFE`或**立即执行的函数表达式**，在全局作用域内声明的函数，对象内部方法中的匿名函数和内部函数的`this`具有默认值，该值指向`window`对象。
-
-```
-(function (){
- console.log(this);
-})(); // 打印 "window" 对象
-
-function iHateThis(){
-  console.log(this);
-}
-
-iHateThis(); // 打印 "window" 对象
-
-const myFavoriteObj = {
- guessThis(){
-    function getName(){
-      console.log(this.name);
-    }
-    getName();
- },
- name: 'Marko Polo',
- thisIsAnnoying(callback){
-   callback();
- }
-};
-
-myFavoriteObj.guessThis(); // 打印 "window" 对象
-myFavoriteObj.thisIsAnnoying(function (){
- console.log(this); // 打印 "window" 对象
+fs.readFile('somefile.txt', function (e, data) {
+  if (e) {
+    console.log(e);
+  }
+  console.log(data);
 });
 ```
 
-如果我们要获取`myFavoriteObj`对象中的`name`属性（即**Marko Polo**）的值，则有两种方法可以解决此问题。
-
-一种是将 `this` 值保存在变量中。
+如果我们在回调内部有另一个异步操作，则此方法存在问题。我们将有一个混乱且不可读的代码。此代码称为 **『回调地狱』**。
 
 ```
-const myFavoriteObj = {
- guessThis(){
-  const self = this; // 把 this 值保存在 self 变量中
-  function getName(){
-    console.log(self.name);
-  }
-  getName();
- },
- name: 'Marko Polo',
- thisIsAnnoying(callback){
-   callback();
-  }
+// 回调地狱
+fs.readFile('somefile.txt', function (e, data) {
+  //your code here
+  fs.readdir('directory', function (e, files) {
+    //your code here
+    fs.mkdir('directory', function (e) {
+      //your code here
+    })
+  })
+})
+```
+
+如果我们在这段代码中使用`promise`，它将更易于阅读、理解和维护。
+
+`promReadFile('file/path') .then(data => { return promReaddir('directory'); }) .then(data => { return promMkdir('directory'); }) .catch(e => { console.log(e); })`
+
+`promise`有三种不同的状态：
+
+**1、** pending：初始状态，完成或失败状态的前一个状态
+
+**2、** fulfilled：操作成功完成
+
+**3、** rejected：操作失败
+
+`pending` 状态的 `Promise` 对象会触发 `fulfilled/rejected` 状态，在其状态处理方法中可以传入参数/失败信息。当操作成功完成时，**Promise** 对象的 `then` 方法就会被调用；否则就会触发 `catch`。如：
+
+```
+const myFirstPromise = new Promise((resolve, reject) => {
+  setTimeout(function(){
+      resolve("成功!"); 
+  }, 250);
+});
+
+myFirstPromise.then((data) => {
+  console.log("Yay! " + data);
+}).catch((e) => {...});
+```
+
+
+### 2、自执行函数?用于什么场景？好处?
+
+**自执行函数:**
+
+**1、** 声明一个匿名函数
+
+**2、** 马上调用这个匿名函数。
+
+作用：创建一个独立的作用域。
+
+**好处：**
+
+防止变量弥散到全局，以免各种js库冲突。隔离作用域避免污染，或者截断作用域链，避免闭包造成引用变量无法释放。利用立即执行特性，返回需要的业务函数或对象，避免每次通过条件判断来处理
+
+场景：一般用于框架、插件等场景
+
+
+### 3、Function.prototype.apply 方法的用途是什么？
+
+`apply()` 方法调用一个具有给定this值的函数，以及作为一个数组（或类似数组对象）提供的参数。
+
+```
+const details = {
+  message: 'Hello World!'
 };
+
+function getMessage(){
+  return this.message;
+}
+
+getMessage.apply(details); // 'Hello World!'
 ```
 
-第二种方式是使用箭头函数
+> `call()`方法的作用和 `apply()` 方法类似，区别就是`call()`方法接受的是参数列表，而`apply()`方法接受的是一个参数数组。
+
 
 ```
-const myFavoriteObj = {
-  guessThis(){
-     const getName = () => { 
-       console.log(this.name);
-     }
-     getName();
-  },
-  name: 'Marko Polo',
-  thisIsAnnoying(callback){
-   callback();
-  }
+const person = {
+  name: "Marko Polo"
 };
-```
 
-箭头函数没有自己的 `this`。它复制了这个封闭的词法作用域中`this`值，在这个例子中，`this`值在`getName`内部函数之外，也就是`myFavoriteObj`对象。
-
-
-### 3、节点类型?判断当前节点类型?
-
-**1、** 元素节点
-
-**2、** 属性节点
-
-**3、** 文本节点
-
-**8、** 注释节点
-
-**9、** 文档节点
-
-通过nodeObject.nodeType判断节点类型：其中，nodeObject 为DOM节点（节点对象）。该属性返回以数字表示的节点类型，例如，元素节点返回 1，属性节点返回 2 。
-
-
-### 4、什么是 `async/await` 及其如何工作？
-
-`async/await`是 JS 中编写异步或非阻塞代码的新方法。它建立在**Promises**之上，让异步代码的可读性和简洁度都更高。
-
-`async/await`是 JS 中编写异步或非阻塞代码的新方法。它建立在`Promises`之上，相对于 Promise 和回调，它的可读性和简洁度都更高。但是，在使用此功能之前，我们必须先学习`Promises`的基础知识，因为正如我之前所说，它是基于`Promise`构建的，这意味着幕后使用仍然是**Promise**。
-
-**使用 Promise**
-
-```
-function callApi() {
-  return fetch("url/to/api/endpoint")
-    .then(resp => resp.json())
-    .then(data => {
-      //do something with "data"
-    }).catch(err => {
-      //do something with "err"
-    });
-}
-```
-
-**使用async/await**
-
-在`async/await`，我们使用 tru/catch 语法来捕获异常。
-
-```
-async function callApi() {
- try {
-   const resp = await fetch("url/to/api/endpoint");
-   const data = await resp.json();
-   //do something with "data"
- } catch (e) {
-   //do something with "err"
- }
-}
-```
-
-**注意**:使用 `async`关键声明函数会隐式返回一个**Promise**。
-
-```
-const giveMeOne = async () => 1;
-giveMeOne()
-  .then((num) => {
-    console.log(num); // logs 1
-  });
-```
-
-**注意:**`await`关键字只能在`async function`中使用。在任何非**async function**的函数中使用`await`关键字都会抛出错误。`await`关键字在执行下一行代码之前等待右侧表达式(可能是一个**Promise**)返回。
-
-```
-const giveMeOne = async () => 1;
-
-function getOne() {
-  try {
-    const num = await giveMeOne();
-    console.log(num);
-  } catch (e) {
-    console.log(e);
-  }
+function greeting(greetingMessage) {
+  return `${greetingMessage} ${this.name}`;
 }
 
-// Uncaught SyntaxError: await is only valid in async function
-
-async function getTwo() {
-  try {
-    const num1 = await giveMeOne(); // 这行会等待右侧表达式执行完成
-    const num2 = await giveMeOne(); 
-    return num1 + num2;
-  } catch (e) {
-    console.log(e);
-  }
-}
-
-await getTwo(); // 2
+greeting.apply(person, ['Hello']); // "Hello Marko Polo!"
 ```
 
 
-### 5、什么是闭包? 堆栈溢出有什么区别？ 内存泄漏? 那些操作会造成内存泄漏？怎么样防止内存泄漏？
-
-**闭包：**
-
-**1、** 就是能够读取其他函数内部变量的函数。
-
-**2、** 堆栈溢出：就是不顾堆栈中分配的局部数据块大小，向该数据块写入了过多的数据，导致数据越界，结果覆盖了别的数据。经常会在递归中发生。
-
-**3、** 内存泄露是指：用动态存储分配函数内存空间，在使用完毕后未释放，导致一直占据该内存单元。直到程序结束。指任何对象在您不再拥有或需要它之后仍然存在。
-
-**造成内存泄漏：**
-
-setTimeout 的第一个参数使用字符串而非函数的话，会引发内存泄漏。
-
-闭包、控制台日志、循环（在两个对象彼此引用且彼此保留时，就会产生一个循环）
-
-防止内存泄露：
-
-**1、** 不要动态绑定事件；
-
-**2、** 不要在动态添加，或者会被动态移除的dom上绑事件，用事件冒泡在父容器监听事件；
-
-**3、** 如果要违反上面的原则，必须提供destroy方法，保证移除dom后事件也被移除，这点可以参考Backbone的源代码，做的比较好；
-
-**4、** 单例化，少创建dom，少绑事件。
-
-
-### 6、手动实现`Array.prototype.filter`方法
-
-`filter()` 方法创建一个新数组, 其包含通过所提供函数实现的测试的所有元素。
+### 4、如何合并两个数组？数组删除一个元素?
 
 ```
-function filter(arr, filterCallback) {
-  // 首先，检查传递的参数是否正确。
-  if (!Array.isArray(arr) || !arr.length || typeof filterCallback !== 'function') 
-  {
-    return [];
-  } else {
-    let result = [];
-     // 每次调用此函数时，我们都会创建一个 result 数组
-     // 因为我们不想改变原始数组。
-    for (let i = 0, len = arr.length; i < len; i++) {
-      // 检查 filterCallback 的返回值是否是真值
-      if (filterCallback(arr[i], i, arr)) { 
-      // 如果条件为真，则将数组元素 push 到 result 中
-        result.push(arr[i]);
-      }
+//三种方法。
+
+（1）var arr1=[1,2,3];
+        var arr2=[4,5,6];
+        arr1 = arr1.concat(arr2);
+        console.log(arr1); 
+        
+（2）var arr1=[1,2,3];
+        var arr2=[4,5,6];
+        Array.prototype.push.apply(arr1,arr2);
+        console.log(arr1);
+        
+（3）var arr1=[1,2,3];
+    var arr2=[4,5,6];
+    for (var i=0; i < arr2.length; i++) {
+    arr1.push( arr2[i] );
     }
-    return result; // return the result array
-  }
+    console.log(arr1);
+```
+
+
+### 5、如何在一行中计算多个表达式的值？
+
+可以使用`逗号`运算符在一行中计算多个表达式。它从左到右求值，并返回右边最后一个项目或最后一个操作数的值。
+
+```
+let x = 5;
+
+x = (x++ , x = addFive(x), x *= 2, x -= 5, x += 10);
+
+function addFive(num) {
+  return num + 5;
 }
 ```
 
-
-### 7、在jq中 mouseover mouseenter mouseout mouseleave 和 hover有什么关联?
-
-mouseenter与mouseover：
-
-不论鼠标指针穿过被选中元素或其子元素，都会触发mouseover事件。
-
-只有在鼠标指针穿过被选元素时，才会触发mouseentr事件。
-
-mouseout与mouseleave：
-
-不论鼠标离开被选元素还是任何子元素，都会触发mouseout事件。
-
-只有在鼠标指针离开被选元素时，才会触发mouseleave事件。
-
-hover:
-
-hover是一个符合方法，相当于mouseenter+mouseleave。
+上面的结果最后得到`x`的值为`27`。首先，我们将`x`的值增加到`6`，然后调用函数`addFive(6)`并将`6`作为参数传递并将结果重新分配给`x`，此时`x`的值为`11`。之后，将`x`的当前值乘以`2`并将其分配给`x`，`x`的更新值为`22`。然后，将`x`的当前值减去`5`并将结果分配给`x` `x`更新后的值为`17`。最后，我们将`x`的值增加`10`，然后将更新的值分配给`x`，最终`x`的值为`27`。
 
 
-### 8、JavaScript 中的虚值是什么？
+### 6、说说严格模式的限制
 
-`const falsyValues = ['', 0, null, undefined, NaN, false];`
+**1、** 变量必须声明后再使用
 
-简单的来说虚值就是是在转换为布尔值时变为 `false` 的值。
+**2、** 函数的参数不能有同名属性，否则报错
+
+**3、** 不能使用`with`语句
+
+**4、** 禁止`this`指向全局对象
 
 
-### 9、手动实现`Array.prototype.reduce`方法
+### 7、什么是回调函数？
 
-`reduce()` 方法对数组中的每个元素执行一个由您提供的`reducer`函数(升序执行)，将其结果汇总为单个返回值。
+**回调函数**是一段可执行的代码段，它作为一个参数传递给其他的代码，其作用是在需要的时候方便调用这段（回调函数）代码。
+
+在JavaScript中函数也是对象的一种，同样对象可以作为参数传递给函数，因此函数也可以作为参数传递给另外一个函数，这个作为参数的函数就是回调函数。
 
 ```
-function reduce(arr, reduceCallback, initialValue) {
-  // 首先，检查传递的参数是否正确。
-  if (!Array.isArray(arr) || !arr.length || typeof reduceCallback !== 'function') 
-  {
-    return [];
-  } else {
-    // 如果没有将initialValue传递给该函数，我们将使用第一个数组项作为initialValue
-    let hasInitialValue = initialValue !== undefined;
-    let value = hasInitialValue ? initialValue : arr[0];
-   、
+const btnAdd = document.getElementById('btnAdd');
 
-    // 如果有传递 initialValue，则索引从 1 开始，否则从 0 开始
-    for (let i = hasInitialValue ? 0 : 1, len = arr.length; i < len; i++) {
-      value = reduceCallback(value, arr[i], i, arr); 
-    }
-    return value;
-  }
-}
+btnAdd.addEventListener('click', function clickCallback(e) {
+    // do something useless
+});
 ```
 
+在本例中，我们等待`id`为`btnAdd`的元素中的`click`事件，如果它被单击，则执行`clickCallback`函数。回调函数向某些数据或事件添加一些功能。
 
-### 10、常见web安全及防护原理
-
-**`sql`注入原理**
-
-就是通过把`SQL`命令插入到`Web`表单递交或输入域名或页面请求的查询字符串，最终达到欺骗服务器执行恶意的SQL命令
-
-**总的来说有以下几点**
-
-永远不要信任用户的输入，要对用户的输入进行校验，可以通过正则表达式，或限制长度，对单引号和双`"-"`进行转换等
-
-**1、** 永远不要使用动态拼装SQL，可以使用参数化的`SQL`或者直接使用存储过程进行数据查询存取
-
-**2、** 永远不要使用管理员权限的数据库连接，为每个应用使用单独的权限有限的数据库连接
-
-**3、** 不要把机密信息明文存放，请加密或者`hash`掉密码和敏感的信息
-
-**XSS原理及防范**
-
-`Xss(cross-site scripting)`攻击指的是攻击者往`Web`页面里插入恶意`html`标签或者`javascript`代码。
-
-**比如：**
-
-攻击者在论坛中放一个看似安全的链接，骗取用户点击后，窃取`cookie`中的用户私密信息；或者攻击者在论坛中加一个恶意表单，当用户提交表单的时候，却把信息传送到攻击者的服务器中，而不是用户原本以为的信任站点
-
-**XSS防范方法**
-
-首先代码里对用户输入的地方和变量都需要仔细检查长度和对`”<”,”>”,”;”,”’”`等字符做过滤；其次任何内容写到页面之前都必须加以encode，避免不小心把`html tag` 弄出来。这一个层面做好，至少可以堵住超过一半的XSS 攻击
-
-**XSS与CSRF有什么区别吗？**
-
-**1、** `XSS`是获取信息，不需要提前知道其他用户页面的代码和数据包。`CSRF`是代替用户完成指定的动作，需要知道其他用户页面的代码和数据包。要完成一次`CSRF`攻击，受害者必须依次完成两个步骤
-
-**2、** 登录受信任网站`A`，并在本地生成`Cookie`
-
-**3、** 在不登出`A`的情况下，访问危险网站`B`
-
-**CSRF的防御**
-
-服务端的`CSRF`方式方法很多样，但总的思想都是一致的，就是在客户端页面增加伪随机数
-
-通过验证码的方法
+数组中的`reduce`、`filter`和`map`方法需要一个回调作为参数。回调的一个很好的类比是，当你打电话给某人，如果他们不接，你留下一条消息，你期待他们回调。调用某人或留下消息的行为是事件或数据，回调是你希望稍后发生的操作。
 
 
-### 11、一个页面从输入 URL 到页面加载显示完成，这个过程中都发生了什么？（流程说的越详细越好）
-### 12、readystate 0~4
-### 13、sass和less有什么区别?
-### 14、什么是作用域？
-### 15、js延迟加载的方式有哪些？
-### 16、&& 运算符能做什么
-### 17、|| 运算符能做什么
-### 18、**
-### 19、为什么在 JS 中比较两个相似的对象时返回 false？
-### 20、同步和异步的区别?
-### 21、什么是`Set`对象，它是如何工作的？
-### 22、new操作符具体干了什么呢?
-### 23、如何在 JS 中创建对象？
-### 24、jsonp原理？ 缺点?
-### 25、javascript有哪些方法定义对象
-### 26、简述下 this 和定义属性和方法的时候有什么区别?Prototype？
-### 27、什么是NaN？以及如何检查值是否为NaN？
-### 28、null，undefined 的区别？
-### 29、除了jsonp 还有什么跨域方式###
-### 30、什么是缓存及它有什么作用？
+### 8、XML和JSON的区别？
+
+**数据体积方面**
+
+`JSON`相对`于XML`来讲，数据的体积小，传递的速度更快些。
+
+**数据交互方面**
+
+`JSON`与`JavaScript`的交互更加方便，更容易解析处理，更好的数据交互
+
+**数据描述方面**
+
+`JSON`对数据的描述性比`XML`较差
+
+**传输速度方面**
+
+`JSON`的速度要远远快于`XML`
+
+
+### 9、call和apply 有什么好处？
+
+用call和apply:实现更好的继承和扩展，更安全。
+
+
+### 10、什么是缓存及它有什么作用？
+
+缓存是建立一个函数的过程，这个函数能够记住之前计算的结果或值。使用缓存函数是为了避免在最后一次使用相同参数的计算中已经执行的函数的计算。这节省了时间，但也有不利的一面，即我们将消耗更多的内存来保存以前的结果。
+
+
+### 11、说说你对AMD和Commonjs的理解
+### 12、什么是移动端的300ms延迟？什么是点击穿透？解决方案?
+### 13、null，undefined 的区别？
+### 14、展开(spread )运算符和 剩余(Rest) 运算符有什么区别？
+### 15、你对数据校验是怎么样处理的？jquery.validate？
+### 16、如何在 JS 中创建对象？
+### 17、25.Jq如何判断元素显示隐藏？
+### 18、什么是原型、原型链？
+### 19、什么是 ES6 模块？
+### 20、什么是事件捕获？
+### 21、如何清除一个定时器?
+### 22、那些操作会造成内存泄漏？
+### 23、什么是提升？
+### 24、在jq中 mouseover mouseenter mouseout mouseleave 和 hover有什么关联?
+### 25、ajax 是什么?
+### 26、**
+### 27、Jq中有几种选择器?分别是什么?
+### 28、Object.seal 和 Object.freeze 方法之间有什么区别？
+### 29、什么是箭头函数？
+### 30、简述下工作流程###
 
 
 
 
 ## 全部答案，整理好了，直接下载吧
 
-### 下载链接：[全部答案，整理好了](https://www.souyunku.com/?p=67)
+### 下载链接：[全部答案，整理好了](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
 
-### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/?p=67)
+### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
 
 
 ## 最新，高清PDF：172份，7701页，最新整理

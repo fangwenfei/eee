@@ -2,159 +2,158 @@
 
 ### 其实，博主还整理了，更多大厂面试题，直接下载吧
 
-### 下载链接：[高清172份，累计 7701 页大厂面试题  PDF](https://www.souyunku.com/?p=67)
+### 下载链接：[高清172份，累计 7701 页大厂面试题  PDF](https://github.com/souyunku/DevBooks/blob/master/docs/index.md)
 
-### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/?p=67)
-
-
-
-### 1、有哪些类加载器？
-
-自 JDK1.2 起 Java 一直保持三层类加载器：
-
-**启动类加载器**
-
-在 JVM 启动时创建，负责加载最核心的类，例如 Object、System 等。无法被程序直接引用，如果需要把加载委派给启动类加载器，直接使用 null 代替即可，因为启动类加载器通常由操作系统实现，并不存在于 JVM 体系。
-
-**平台类加载器**
-
-从 JDK9 开始从扩展类加载器更换为平台类加载器，负载加载一些扩展的系统类，比如 XML、加密、压缩相关的功能类等。
-
-**应用类加载器**
-
-也称系统类加载器，负责加载用户类路径上的类库，可以直接在代码中使用。如果没有自定义类加载器，一般情况下应用类加载器就是默认的类加载器。自定义类加载器通过继承 ClassLoader 并重写 `findClass` 方法实现。
+### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png)
 
 
-### 2、Hashtable 与 HashMap 有什么不同之处？
 
-这两个类有许多不同的地方，下面列出了一部分：
+### 1、怎么检测一个线程是否拥有锁？
 
-a) Hashtable 是 JDK 1 遗留下来的类，而 HashMap 是后来增加的。
-
-b）Hashtable 是同步的，比较慢，但 HashMap 没有同步策略，所以会更快。
-
-c）Hashtable 不允许有个空的 key，但是 HashMap 允许出现一个 null key。
-
-更多的不同之处参见答案。
+在java.lang.Thread中有一个方法叫holdsLock()，它返回true如果当且仅当当前线程拥有某个具体对象的锁。
 
 
-### 3、什么是竞争条件？你怎样发现和解决竞争？
+### 2、什么是竞争条件？你怎样发现和解决竞争？
 
 当多个进程都企图对共享数据进行某种处理，而最后的结果又取决于进程运行的顺序时，则我们认为这发生了竞争条件（race condition）。
 
 
-### 4、如何实现字符串的反转及替换？
+### 3、什么是方法内联？
+
+为了减少方法调用的开销，可以把一些短小的方法，比如`getter/setter`，纳入到目标方法的调用范围之内，就少了一次方法调用，速度就能得到提升，这就是方法内联的概念。
+
+
+### 4、volatile 修饰符的有过什么实践？
+
+一种实践是用 volatile 修饰 long 和 double 变量，使其能按原子类型来读写。double 和 long 都是64位宽，因此对这两种类型的读是分为两部分的，第一次读取第一个 32 位，然后再读剩下的 32 位，这个过程不是原子的，但 Java 中 volatile 型的 long 或 double 变量的读写是原子的。volatile 修复符的另一个作用是提供内存屏障（memory barrier），例如在分布式框架中的应用。简单的说，就是当你写一个 volatile 变量之前，Java 内存模型会插入一个写屏障（write barrier），读一个 volatile 变量之前，会插入一个读屏障（read barrier）。意思就是说，在你写一个 volatile 域时，能保证任何线程都能看到你写的值，同时，在写之前，也能保证任何数值的更新对所有线程是可见的，因为内存屏障会将其他所有写的值更新到缓存。
+
+
+### 5、什么是DAO模式？
 
 
 
-方法很多，可以自己写实现也可以使用String或StringBuffer/StringBuilder中的方法。有一道很常见的面试题是用递归实现字符串反转，代码如下所示：
+DAO（Data Access Object）顾名思义是一个为数据库或其他持久化机制提供了抽象接口的对象，在不暴露底层持久化方案实现细节的前提下提供了各种数据访问操作。在实际的开发中，应该将所有对数据源的访问操作进行抽象化后封装在一个公共API中。用程序设计语言来说，就是建立一个接口，接口中定义了此应用程序中将会用到的所有事务方法。在这个应用程序中，当需要和数据源进行交互的时候则使用这个接口，并且编写一个单独的类来实现这个接口，在逻辑上该类对应一个特定的数据存储。DAO模式实际上包含了两个模式，一是Data Accessor（数据访问器），二是Data Object（数据对象），前者要解决如何访问数据的问题，而后者要解决的是如何用对象封装数据。
+
+
+### 6、实际开发中应用场景哪里用到了模板方法
+
+其实很多框架中都有用到了模板方法模式
+
+**例如：**
+
+数据库访问的封装、Junit单元测试、servlet中关于doGet/doPost方法的调用等等
+
+
+### 7、Java 中会存在内存泄漏吗，请简单描述。
+
+
+
+理论上Java因为有垃圾回收机制（GC）不会存在内存泄露问题（这也是Java被广泛使用于服务器端编程的一个重要原因）；然而在实际开发中，可能会存在无用但可达的对象，这些对象不能被GC回收，因此也会导致内存泄露的发生。例如Hibernate的Session（一级缓存）中的对象属于持久态，垃圾回收器是不会回收这些对象的，然而这些对象中可能存在无用的垃圾对象，如果不及时关闭（close）或清空（flush）一级缓存就可能导致内存泄露。下面例子中的代码也会导致内存泄露。
 
 ```
-    public static String reverse(String originStr) {
-        if(originStr == null || originStr.length() <= 1) 
-            return originStr;
-        return reverse(originStr.substring(1)) + originStr.charAt(0);
+import java.util.Arrays;
+import java.util.EmptyStackException;
+
+public class MyStack<T> {
+    private T[] elements;
+    private int size = 0;
+
+    private static final int INIT_CAPACITY = 16;
+
+    public MyStack() {
+        elements = (T[]) new Object[INIT_CAPACITY];
     }
+
+    public void push(T elem) {
+        ensureCapacity();
+        elements[size++] = elem;
+    }
+
+    public T pop() {
+        if(size == 0) 
+            throw new EmptyStackException();
+        return elements[--size];
+    }
+
+    private void ensureCapacity() {
+        if(elements.length == size) {
+            elements = Arrays.copyOf(elements, 2 * size + 1);
+        }
+    }
+}
 ```
 
-
-### 5、HashMap 与 HashTable 有什么区别？
-
-**1、** **线程安全**： HashMap 是非线程安全的，HashTable 是线程安全的；HashTable 内部的方法基本都经过 `synchronized` 修饰。（如果你要保证线程安全的话就使用 ConcurrentHashMap ）；
-
-**2、** **效率**： 因为线程安全的问题，HashMap 要比 HashTable 效率高一点。另外，HashTable 基本被淘汰，不要在代码中使用它；（如果你要保证线程安全的话就使用 ConcurrentHashMap ）；
-
-**3、** **对Null key 和Null value的支持**： HashMap 中，null 可以作为键，这样的键只有一个，可以有一个或多个键所对应的值为 null。但是在 HashTable 中 put 进的键值只要有一个 null，直接抛NullPointerException。
-
-**4、** **初始容量大小和每次扩充容量大小的不同** ：
-
-**1、** 创建时如果不指定容量初始值，Hashtable 默认的初始大小为11，之后每次扩充，容量变为原来的2n+1。HashMap 默认的初始化大小为16。之后每次扩充，容量变为原来的2倍。
-
-**2、** 创建时如果给定了容量初始值，那么 Hashtable 会直接使用你给定的大小，而 HashMap 会将其扩充为2的幂次方大小。也就是说 HashMap 总是使用2的幂作为哈希表的大小，后面会介绍到为什么是2的幂次方。
-
-**底层数据结构**：
-
-JDK1.8 以后的 HashMap 在解决哈希冲突时有了较大的变化，当链表长度大于阈值（默认为8）时，将链表转化为红黑树，以减少搜索时间。Hashtable 没有这样的机制。
-
-**推荐使用：**
-
-在 Hashtable 的类注释可以看到，Hashtable 是保留类不建议使用，推荐在单线程环境下使用 HashMap 替代，如果需要多线程使用则用 ConcurrentHashMap 替代。
+上面的代码实现了一个栈（先进后出（FILO））结构，乍看之下似乎没有什么明显的问题，它甚至可以通过你编写的各种单元测试。然而其中的pop方法却存在内存泄露的问题，当我们用pop方法弹出栈中的对象时，该对象不会被当作垃圾回收，即使使用栈的程序不再引用这些对象，因为栈内部维护着对这些对象的过期引用（obsolete reference）。在支持垃圾回收的语言中，内存泄露是很隐蔽的，这种内存泄露其实就是无意识的对象保持。如果一个对象引用被无意识的保留起来了，那么垃圾回收器不会处理这个对象，也不会处理该对象引用的其他对象，即使这样的对象只有少数几个，也可能会导致很多的对象被排除在垃圾回收之外，从而对性能造成重大影响，极端情况下会引发Disk Paging（物理内存与硬盘的虚拟内存交换数据），甚至造成OutOfMemoryError。
 
 
-### 6、实现可见性的方法有哪些？
+### 8、Java集合的快速失败机制 “fail-fast”？
 
-synchronized或者Lock：保证同一个时刻只有一个线程获取锁执行代码，锁释放之前把最新的值刷新到主内存，实现可见性。
+是java集合的一种错误检测机制，当多个线程对集合进行结构上的改变的操作时，有可能会产生 fail-fast 机制。
 
+**例如：**假设存在两个线程（线程**1、** 线程2），线程1通过Iterator在遍历集合A中的元素，在某个时候线程2修改了集合A的结构（是结构上面的修改，而不是简单的修改集合元素的内容），那么这个时候程序就会抛出 ConcurrentModificationException 异常，从而产生fail-fast机制。
 
-### 7、XML文档定义有几种形式？它们之间有何本质区别？解析XML文档有哪几种方式？
+**原因：**迭代器在遍历时直接访问集合中的内容，并且在遍历过程中使用一个 modCount 变量。集合在被遍历期间如果内容发生变化，就会改变modCount的值。每当迭代器使用hashNext()/next()遍历下一个元素之前，都会检测modCount变量是否为expectedmodCount值，是的话就返回遍历；否则抛出异常，终止遍历。
 
+**解决办法：**
 
+**1、** 在遍历过程中，所有涉及到改变modCount值得地方全部加上synchronized。
 
-XML文档定义分为DTD和Schema两种形式，二者都是对XML语法的约束，其本质区别在于Schema本身也是一个XML文件，可以被XML解析器解析，而且可以为XML承载的数据定义类型，约束能力较之DTD更强大。对XML的解析主要有DOM（文档对象模型，Document Object Model）、SAX（Simple API for XML）和StAX（Java 6中引入的新的解析XML的方式，Streaming API for XML），其中DOM处理大型文件时其性能下降的非常厉害，这个问题是由DOM树结构占用的内存较多造成的，而且DOM解析方式必须在解析文件之前把整个文档装入内存，适合对XML的随机访问（典型的用空间换取时间的策略）；SAX是事件驱动型的XML解析方式，它顺序读取XML文件，不需要一次全部装载整个文件。当遇到像文件开头，文档结束，或者标签开头与标签结束时，它会触发一个事件，用户通过事件回调代码来处理XML文件，适合对XML的顺序访问；顾名思义，StAX把重点放在流上，实际上StAX与其他解析方式的本质区别就在于应用程序能够把XML作为一个事件流来处理。将XML作为一组事件来处理的想法并不新颖（SAX就是这样做的），但不同之处在于StAX允许应用程序代码把这些事件逐个拉出来，而不用提供在解析器方便时从解析器中接收事件的处理程序。
-
-
-### 8、什么是Executors？
-
-**Executors框架实现的就是线程池的功能**
-
-Executors工厂类中提供的newCachedThreadPool、newFixedThreadPool 、newScheduledThreadPool 、newSingleThreadExecutor 等方法其实也只是ThreadPoolExecutor的构造函数参数不同而已。通过传入不同的参数，就可以构造出适用于不同应用场景下的线程池，
-
-Executor工厂类如何创建线程池图：
-
-![](https://gitee.com/souyunkutech/souyunku-home/raw/master/images/souyunku-web/2020/5/2/045/42/87_7.png#alt=87%5C_7.png)
+**2、** 使用CopyOnWriteArrayList来替换ArrayList
 
 
-### 9、Java的双亲委托机制是什么？
+### 9、finalize()方法什么时候被调用？析构函数(finalization)的目的是什么？
 
-它的意思是，除了顶层的启动类加载器以外，其余的类加载器，在加载之前，都会委派给它的父加载器进行加载。这样一层层向上传递，直到祖先们都无法胜任，它才会真正的加载。
+**1、** 垃圾回收器（garbage colector）决定回收某对象时，就会运行该对象的finalize()方法； finalize是Object类的一个方法，该方法在Object类中的声明protected void finalize() throws Throwable { } 在垃圾回收器执行时会调用被回收对象的finalize()方法，可以覆盖此方法来实现对其资源的回收。注意：一旦垃圾回收器准备释放对象占用的内存，将首先调用该对象的finalize()方法，并且下一次垃圾回收动作发生时，才真正回收对象占用的内存空间
 
-Java默认是这种行为。当然Java中也有很多打破双亲行为的骚操作，比如SPI（JDBC驱动加载），OSGI等。
+**2、** GC本来就是内存回收了，应用还需要在finalization做什么呢？ 答案是大部分时候，什么都不用做(也就是不需要重载)。只有在某些很特殊的情况下，比如你调用了一些native的方法(一般是C写的)，可以要在finaliztion里去调用C的释放函数。
 
-
-### 10、使用sql写出一个分页程序？
-
-Select top 3 * from tb_name where id not in (select top 3 id from tb_name)
+**3、** Finalizetion主要用来释放被对象占用的资源（不是指内存，而是指其他资源，比如文件(File Handle)、端口(ports)、数据库连接(DB Connection)等）。然而，它不能真正有效地工作。
 
 
-### 11、适配器模式和装饰器模式有什么区别？
-### 12、说一下 synchronized 底层实现原理？
-### 13、Collection和Collections的区别？
-### 14、TreeMap 和 TreeSet 在排序时如何比较元素？Collections 工具类中的 sort()方法如何比较元素？
-### 15、GC的回收流程是怎样的？
-### 16、常见的计算机网络协议有那些？
-### 17、HashSet如何检查重复？HashSet是如何保证数据不可重复的？
-### 18、Java 中，如何将字符串 YYYYMMDD 转换为日期？
-### 19、怎样将GB2312编码的字符串转换为ISO-8859-1编码的字符串？
-### 20、Java Concurrency API中的Lock接口(Lock interface)是什么？对比同步它有什么优势？
-### 21、JVM 运行时内存
-### 22、如何选择单例创建方式
-### 23、如何合理分配线程池大小?
-### 24、新生代与复制算法
-### 25、Java 中应该使用什么数据类型来代表价格？
-### 26、JRE、JDK、JVM 及 JIT 之间有什么不同？
-### 27、两个相同的对象会有不同的的 hash code 吗？
-### 28、线程与进程的区别
-### 29、我们可以在 hashcode() 中使用随机数字吗？
-### 30、如果父类只有有参构造方法，那么子类必须要重写父类的构造方法吗？
-### 31、请解释如何配置Tomcat来使用IIS和NTLM ?
-### 32、Swing 是线程安全的？
-### 33、ConcurrentHashMap的并发度是什么
-### 34、死锁的原因
-### 35、String str=”aaa”,与String str=new String(“aaa”)一样吗？
-### 36、JVM 提供的常用工具
-### 37、为什么我们调用start()方法时会执行run()方法，为什么我们不能直接调用run()方法？
-### 38、safepoint 是什么？
-### 39、Java中Synchronized关键字的使用？
-### 40、工厂模式分类
+### 10、什么是分布式垃圾回收（DGC）？它是如何工作的？
+
+DGC 叫做分布式垃圾回收。RMI 使用 DGC 来做自动垃圾回收。因为 RMI 包含了跨虚拟机的远程对象的引用，垃圾回收是很困难的。DGC 使用引用计数算法来给远程对象提供自动内存管理。
+
+
+### 11、&和&&的区别？
+### 12、Java 中的内存映射缓存区是什么？
+### 13、解释内存中的栈(stack)、堆(heap)和方法区(method area)的用法。
+### 14、setState到底是异步还是同步?
+### 15、可达性分析
+### 16、你所知道的web服务器有哪些？
+### 17、Java中用到的线程调度算法是什么
+### 18、用Java写一个折半查找。
+### 19、React组件通信如何实现?
+### 20、说说G1垃圾收集器的工作原理
+### 21、线程池的执行原理？
+### 22、Java 中，怎么获取一个文件中单词出现的最高频率？
+### 23、Java的io流分为哪两种？
+### 24、有哪些类加载器？
+### 25、什么是AQS
+### 26、Java线程池中submit() 和 execute()方法有什么区别？
+### 27、重定向和请求转发的区别？
+### 28、如何避免线程死锁
+### 29、Static关键字有什么作用？
+### 30、如何进行单元测试
+### 31、如何阻止表单提交
+### 32、CopyOnWriteArrayList 的缺点?
+### 33、怎么唤醒一个阻塞的线程
+### 34、为什么要学习工厂设计模式
+### 35、一个java类中包含那些内容？
+### 36、那针对浮点型数据运算出现的误差的问题，你怎么解决？
+### 37、在 Java 中，对象什么时候可以被垃圾回收？
+### 38、虚拟DOM实现原理?
+### 39、什么是单例
+### 40、Spring中Bean的作用域有哪些？
 
 
 
 
 ## 全部答案，整理好了，直接下载吧
 
-### 下载链接：[全部答案，整理好了](https://www.souyunku.com/?p=67)
+### 下载链接：[全部答案，整理好了](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
 
-### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/?p=67)
+### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
 
 
 ## 最新，高清PDF：172份，7701页，最新整理

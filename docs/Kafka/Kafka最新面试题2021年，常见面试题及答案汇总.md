@@ -2,103 +2,129 @@
 
 ### 其实，博主还整理了，更多大厂面试题，直接下载吧
 
-### 下载链接：[高清172份，累计 7701 页大厂面试题  PDF](https://www.souyunku.com/?p=67)
+### 下载链接：[高清172份，累计 7701 页大厂面试题  PDF](https://github.com/souyunku/DevBooks/blob/master/docs/index.md)
 
-### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/?p=67)
-
-
-
-### 1、列出所有Apache Kafka业务
-
-Apache Kafka的业务包括：添加和删除Kafka主题如何修改Kafka主题如何关机在Kafka集群之间镜像数据找到消费者的位置扩展您的Kafka群集自动迁移数据退出服务器数据中心
+### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png)
 
 
-### 2、是什么确保了Kafka中服务器的负载平衡？
 
-由于领导者的主要角色是执行分区的所有读写请求的任务，而追随者被动地复制领导者。因此，在领导者失败时，其中一个追随者接管了领导者的角色。基本上，整个过程可确保服务器的负载平衡。
+### 1、副本和 ISR 扮演什么角色？
 
-
-### 3、解释一些Kafka流实时用例。
-
-《纽约时报》：该公司使用它来实时存储和分发已发布的内容到各种应用程序和系统，使其可供读者使用。基本上，它使用Apache Kafka和Kafka流。Zalando：作为ESB（企业服务总线）作为欧洲领先的在线时尚零售商，Zalando使用Kafka。LINE：基本上，为了相互通信，LINE应用程序使用Apache Kafka作为其服务的中心数据中心。
+基本上，复制日志的节点列表就是副本。特别是对于特定的分区。但是，无论他们是否扮演leader的角色，他们都是如此。此外，ISR指的是同步副本。在定义ISR时，它是一组与leader同步的消息副本。
 
 
-### 4、Kafka Producer API的作用是什么？
+### 2、传统的消息传递方法有哪些类型？
 
-允许应用程序将记录流到一个或多个Kafka主题的API就是我们所说的Producer API。
-
-
-### 5、ISR在Kafka环境中代表什么？
-
-ISR指的是同步副本。这些通常被分类为一组消息副本，它们被同步为领导者。
+基本上，传统的消息传递方法有两种，如：排队：这是一种消费者池可以从服务器读取消息并且每条消息转到其中一个消息的方法。发布-订阅：在发布-订阅中，消息被广播给所有消费者。
 
 
-### 6、解释术语“Log Anatomy”
+### 3、讲一讲Kafka的ack的三种机制
 
-我们将日志视为分区。基本上，数据源将消息写入日志。其优点之一是，在任何时候，都有一个或多个消费者从他们选择的日志中读取数据。下面的图表显示，数据源正在写入一个日志，而用户正在以不同的偏移量读取该日志。
+request.required.acks有三个值 0 1 -1(all)
 
-![](https://gitee.com/souyunkutech/souyunku-home/raw/master/images/souyunku-web/2020/5/1/27/0/9_3.png#alt=9%5C_3.png)
+0:生产者不会等待broker的ack，这个延迟最低但是存储的保证最弱当server挂掉的时候就会丢数据。
 
+1：服务端会等待ack值 leader副本确认接收到消息后发送ack但是如果leader挂掉后他不确保是否复制完成新leader也会导致数据丢失。
 
-### 7、为什么要使用 Kafka？为什么要使用消息队列？
-
-1. 缓冲和削峰：上游数据时有突发流量，下游可能扛不住，或者下游没有足够多的机器来保证冗余，Kafka在中间可以起到一个缓冲的作用，把消息暂存在Kafka中，下游服务就可以按照自己的节奏进行慢慢处理。
-2. 解耦和扩展性：项目开始的时候，并不能确定具体需求。消息队列可以作为一个接口层，解耦重要的业务流程。只需要遵守约定，针对数据编程即可获取扩展能力。
-3. 冗余：可以采用一对多的方式，一个生产者消息，可以被多个订阅topic的服务消费到，供多个毫无关联的业务使用。
-4. 健壮性：消息队列可以堆积请求，所以消费端业务即使短时间死掉，也不会影响主要业务的正常进行。
-5. 异步通信：很多时候，用户不想也不需要立即处理消息。消息队列提供了异步处理机制，允许用户把一个消息放入队列，但并不立即处理它。想向队列中放入多少消息就放多少，然后在需要的时候再去处理它们。
+-1(all)：服务端会等所有的follower的副本受到数据后才会受到leader发出的ack，这样数据不会丢失
 
 
-### 8、partition 的数据如何保存到硬盘
+### 4、简述Follower副本消息同步的完整流程
 
-topic 中的多个 partition 以文件夹的形式保存到 broker，每个分区序号从 0 递增，
+**1、** 首先，Follower发送FETCH请求给Leader。
 
-且消息有序
+**2、** 接着，Leader会读取底层日志文件中的消息数据，再更新它内存中的Follower副本的LEO值，更新为FETCH请求中的fetchOffset值。
 
-Partition 文件下有多个 segment（xxx.index，xxx.log）
+**3、** 最后，尝试更新分区高水位值。Follower接收到FETCH响应之后，会把消息写入到底层日志，接着更新LEO和HW值。
 
-segment 文件里的 大小和配置文件大小一致可以根据要求修改 默认为 1g
+**4、** Leader和Follower的HW值更新时机是不同的，Follower的HW更新永远落后于Leader的HW。这种时间上的错配是造成各种不一致的原因。
 
-如果大小大于 1g 时，会滚动一个新的 segment 并且以上一个 segment 最后一条消息的偏移
-
-量命名
+**5、** 因此，对于消费者而言，消费到的消息永远是所有副本中最小的那个HW。
 
 
-### 9、什么是Apache Kafka?
+### 5、Kafka的哪些场景中使用了零拷贝（Zero Copy）？
 
-Apache Kafka是一个发布 - 订阅开源消息代理应用程序。这个消息传递应用程序是用“scala”编码的。基本上，这个项目是由Apache软件启动的。Kafka的设计模式主要基于事务日志设计。
+**1、** 其实这道题对于SRE来讲，有点超纲了，不过既然Zero Copy是Kafka高性能的保证，我们需要了解它。
+
+**2、** Zero Copy是特别容易被问到的高阶题目。在Kafka中，体现Zero Copy使用场景的地方有两处：基于mmap的索引和日志文件读写所用的TransportLayer。
+
+**3、** 先说第一个。索引都是基于MappedByteBuffer的，也就是让用户态和内核态共享内核态的数据缓冲区，此时，数据不需要复制到用户态空间。不过，mmap虽然避免了不必要的拷贝，但不一定就能保证很高的性能。在不同的操作系统下，mmap的创建和销毁成本可能是不一样的。很高的创建和销毁开销会抵消Zero Copy带来的性能优势。由于这种不确定性，在Kafka中，只有索引应用了mmap，最核心的日志并未使用mmap机制。
+
+**4、** 再说第二个。TransportLayer是Kafka传输层的接口。它的某个实现类使用了FileChannel的transferTo方法。该方法底层使用sendfile实现了Zero Copy。对Kafka而言，如果I/O通道使用普通的PLAINTEXT，那么，Kafka就可以利用Zero Copy特性，直接将页缓存中的数据发送到网卡的Buffer中，避免中间的多次拷贝。相反，如果I/O通道启用了SSL，那么，Kafka便无法利用Zero Copy特性了。
 
 
-### 10、：24, 22
+### 6、Kafka流的特点。
+
+Kafka流的一些最佳功能是Kafka Streams具有高度可扩展性和容错性。Kafka部署到容器，VM，裸机，云。我们可以说，Kafka流对于小型，中型和大型用例同样可行。此外，它完全与Kafka安全集成。编写标准Java应用程序。完全一次处理语义。而且，不需要单独的处理集群。
 
 
-### 11、ZooKeeper在Kafka中的作用是什么？
-### 12、3.不支持通配符主题选择4.速度###
-### 13、Kafka集群中保留期的目的是什么？
-### 14、：1,2,4,7,8,9,10Apache Kafka对于有经验的人的面试
-### 15、你能用Kafka做什么？
-### 16、Apache Kafka是分布式流处理平台吗？如果是，你能用它做什么？
-### 17、什么是消费者组？
-### 18、为什么Kafka不支持读写分离？
-### 19、Kafka 中 Consumer Group 是什么概念？
-### 20、Kafka 与传统MQ消息系统之间有三个关键区别
-### 21、consumer是推还是拉？
-### 22、简述Follower副本消息同步的完整流程
-### 23、启动Kafka服务器的过程是什么？
-### 24、解释领导者和追随者的概念。
-### 25、消费者故障，出现活锁问题如何解决？
-### 26、偏移的作用是什么？
-### 27、Kafka中的 ISR、AR 又代表什么？ISR 的伸缩又指什么？
-### 28、为什么Kafka的复制至关重要？
+### 7、Kafka能手动删除消息吗？
+
+**1、** Kafka不需要用户手动删除消息。它本身提供了留存策略，能够自动删除过期消息。当然，它是支持手动删除消息的。
+
+**2、** 对于设置了Key且参数cleanup.policy=compact的主题而言，我们可以构造一条 的消息发送给Broker，依靠Log Cleaner组件提供的功能删除掉该 Key 的消息。
+
+**3、** 对于普通主题而言，我们可以使用Kafka-delete-records命令，或编写程序调用Admin.deleteRecords方法来删除消息。这两种方法殊途同归，底层都是调用Admin的deleteRecords方法，通过将分区Log Start Offset值抬高的方式间接删除消息。
+
+
+### 8、偏移的作用是什么？
+
+给分区中的消息提供了一个顺序ID号，我们称之为偏移量。因此，为了唯一地识别分区中的每条消息，我们使用这些偏移量。
+
+
+### 9、Kafka系统工具有哪些类型？
+
+**1、** Kafka迁移工具：它有助于将代理从一个版本迁移到另一个版本。
+
+**2、** Mirror Maker：Mirror Maker工具有助于将一个Kafka集群的镜像提供给另一个。
+
+**3、** 消费者检查:对于指定的主题集和消费者组，它显示主题，分区，所有者。
+
+
+### 10、LEO、LSO、AR、ISR、HW都表示什么含义？
+
+讲真，我不认为这是炫技的题目，特别是作为SRE来讲，对于一个开源软件的原理以及概念的理解，是非常重要的。
+
+**1、** LEO（Log End Offset）：日志末端位移值或末端偏移量，表示日志下一条待插入消息的位移值。举个例子，如果日志有10条消息，位移值从0开始，那么，第10条消息的位移值就是9。此时，LEO = 10。
+
+**2、** LSO（Log Stable Offset）：这是Kafka事务的概念。如果你没有使用到事务，那么这个值不存在（其实也不是不存在，只是设置成一个无意义的值）。该值控制了事务型消费者能够看到的消息范围。它经常与Log Start Offset，即日志起始位移值相混淆，因为有些人将后者缩写成LSO，这是不对的。在Kafka中，LSO就是指代Log Stable Offset。
+
+**3、** AR（Assigned Replicas）：AR是主题被创建后，分区创建时被分配的副本集合，副本个数由副本因子决定。
+
+**4、** ISR（In-Sync Replicas）：Kafka中特别重要的概念，指代的是AR中那些与Leader保持同步的副本集合。在AR中的副本可能不在ISR中，但Leader副本天然就包含在ISR中。
+
+**5、** HW（High watermark）：高水位值，这是控制消费者可读取消息范围的重要字段。一个普通消费者只能“看到”Leader副本上介于Log Start Offset和HW（不含）之间的所有消息。水位以上的消息是对消费者不可见的。
+
+需要注意的是，通常在ISR中，可能会有人问到为什么有时候副本不在ISR中，这其实也就是上面说的Leader和Follower不同步的情况，为什么我们前面说，短暂的不同步我们可以关注，但是长时间的不同步，我们需要介入排查了，因为ISR里的副本后面都是通过replica.lag.time.max.ms，即Follower副本的LEO落后Leader LEO的时间是否超过阈值来决定副本是否在ISR内部的。
+
+
+### 11、：24, 22
+### 12、数据有序
+### 13、Kafka中有哪几个组件?
+### 14、ZooKeeper在Kafka中的作用是什么？
+### 15、没有ZooKeeper可以使用Kafka吗？
+### 16、Kafka可以接收的消息最大为多少？
+### 17、解释如何调整Kafka以获得最佳性能。
+### 18、Kafka 如何判断节点是否存活
+### 19、Controller发生网络分区（Network Partitioning）时，Kafka会怎么样？
+### 20、什么是消费者组？
+### 21、什么是消费者或用户？
+### 22、Kafka 与传统消息系统之间有三个关键区别
+### 23、解释偏移的作用。
+### 24、Kafka中有哪几个组件?
+### 25、启动Kafka服务器的过程是什么？
+### 26、Apache Kafka是什么？
+### 27、没有zookeeper可以使用Kafka吗？
+### 28、如何调优Kafka？
 
 
 
 
 ## 全部答案，整理好了，直接下载吧
 
-### 下载链接：[全部答案，整理好了](https://www.souyunku.com/?p=67)
+### 下载链接：[全部答案，整理好了](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
 
-### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/?p=67)
+### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
 
 
 ## 最新，高清PDF：172份，7701页，最新整理

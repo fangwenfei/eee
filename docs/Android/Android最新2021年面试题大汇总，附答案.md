@@ -2,168 +2,184 @@
 
 ### 其实，博主还整理了，更多大厂面试题，直接下载吧
 
-### 下载链接：[高清172份，累计 7701 页大厂面试题  PDF](https://www.souyunku.com/?p=67)
+### 下载链接：[高清172份，累计 7701 页大厂面试题  PDF](https://github.com/souyunku/DevBooks/blob/master/docs/index.md)
 
-### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/?p=67)
+### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png)
 
 
 
-### 1、跨进程通信的几种方式
+### 1、谈MVC ，MVP，MVVM
 
-Intent,比如拨打电话
+MVC:View是可以直接访问Model的！从而，View里会包含Model信息，不可避免的还要包括一些 业务逻辑。 在MVC模型里，更关注的Model的不变，而同时有多个对Model的不同显示，及View。所以，在MVC模型里，Model不依赖于View，但是 View是依赖于Model的。不仅如此，因为有一些业务逻辑在View里实现了，导致要更改View也是比较困难的，至少那些业务逻辑是无法重用的。
 
-ContentProvider数据库存储数据
+MVP：MVP 是从经典的模式MVC演变而来，它们的基本思想有相通的地方：Controller/Presenter负责逻辑的处理，Model提供数据，View负 责显示。作为一种新的模式，MVP与MVC有着一个重大的区别：在MVP中View并不直接使用Model，它们之间的通信是通过Presenter (MVC中的Controller)来进行的，所有的交互都发生在Presenter内部，而在MVC中View会从直接Model中读取数据而不是通过 Controller。
 
-Broadcast广播通信
+MVVM：数据双向绑定，通过数据驱动UI，M提供数据，V视图，VM即数据驱动层
 
-AIDL通信，通过接口共享数据
 
+### 2、AIDL的全称是什么？如何工作？能处理哪些类型的数据？
 
-### 2、说下Activity 的四种启动模式、应用场景 ？
+全称是：Android Interface Define Language
 
-standard 标准模式： 每次启动一个 Activity 都会重新创建一个新的实例，不管这个实例是否已经存在，此模式的 Activity 默认会进入启动它的 Activity 所属的任务栈中； singleTop 栈顶复用模式： 如果新 Activity 已经位于任务栈的栈顶，那么此 Activity 不会被重新创建，同时会回调 onNewIntent方法，如果新 Activity 实例已经存在但不在栈顶，那么Activity 依然会被重新创建；
+在Android中, 每个应用程序都可以有自己的进程、在写UI应用的时候, 经常要用到Service、在不同的进程中, 怎样传递对象呢?显然, Java中不允许跨进程内存共享、因此传递对象, 只能把对象拆分成操作系统能理解的简单形式, 以达到跨界对象访问的目的、在J2EE中,采用RMI的方式, 可以通过序列化传递对象、在Android中, 则采用AIDL的方式、理论上AIDL可以传递Bundle,实际上做起来却比较麻烦。
 
-singleTask 栈内复用模式： 只要 Activity 在一个任务栈中存在，那么多次启动此 Activity 都不会重新创建实例，并回调onNewIntent 方法，此模式启动 Activity A，系统首先会寻找是否存在 A 想要的任务栈，如果不存在，就会重新创建一个任务栈，然后把创建好 A 的实例放到栈中；
+AIDL(AndRoid接口描述语言)是一种借口描述语言; 编译器可以通过aidl文件生成一段代码，通过预先定义的接口达到两个进程内部通信进程的目的、如果需要在一个Activity中, 访问另一个Service中的某个对象, 需要先将对象转化成AIDL可识别的参数(可能是多个参数), 然后使用AIDL来传递这些参数, 在消息的接收端, 使用这些参数组装成自己需要的对象.
 
-singleInstance单实例模式： 这是一种加强的 singleTask 模式，具有此种模式的 Activity 只能单独地位于一个任务栈中，且此任务栈中只有唯一一个实例；
+AIDL的IPC的机制和COM或CORBA类似, 是基于接口的，但它是轻量级的。它使用代理类在客户端和实现层间传递值、如果要使用AIDL, 需要完成2件事情:
 
+**1、** 引入AIDL的相关类.;
 
-### 3、ContentProvider与sqlite有什么不一样的？
+**2、** 调用aidl产生的class.
 
-```
-ContentProvider会对外隐藏内部实现，只需要关注访问contentProvider的uri即可，contentProvider应用在应用间共享。
-Sqlite操作本应用程序的数据库。
-ContentProiver可以对本地文件进行增删改查操作
-```
+**AIDL的创建方法:**
 
+AIDL语法很简单,可以用来声明一个带一个或多个方法的接口，也可以传递参数和返回值。 由于远程调用的需要, 这些参数和返回值并不是任何类型.下面是些AIDL支持的数据类型:
 
-### 4、activity的启动模式有哪些？是什么含义
+**1、** 不需要import声明的简单Java编程语言类型(int,boolean等)
 
-在android里，有4种activity的启动模式，分别为：
+**2、** String, CharSequence不需要特殊声明
 
-**1、** “standard” (默认)
+**3、** List, Map和Parcelables类型, 这些类型内所包含的数据成员也只能是简单数据类型, String等其他比支持的类型.
 
-**2、** “singleTop”
+(另外: 我没尝试Parcelables, 在Eclipse+ADT下编译不过, 或许以后会有所支持)
 
-**3、** “singleTask”
 
-**4、** “singleInstance”
+### 3、ListView 可以显示多种类型的条目吗
 
-它们主要有如下不同
+这个当然可以的，ListView 显示的每个条目都是通过 baseAdapter 的 getView(int position,View convertView, ViewGroup parent)来展示的，理论上我们完全可以让每个条目都是不同类型的view。
 
-**1、** 如何决定所属task
+比如：从服务器拿回一个标识为 id=1,那么当 id=1 的时候，我们就加载类型一的条目，当 id=2的时候，加载类型二的条目。常见布局在资讯类客户端中可以经常看到。
 
-“standard”和”singleTop”的activity的目标task，和收到的Intent的发送者在同一个task内，除非intent包括参数FLAG_ACTIVITY_NEW_TASK
+除此之外 adapter 还提供了 getViewTypeCount（）和 getItemViewType(int position)两个方法。在 getView 方法中我们可以根据不同的 viewtype 加载不同的布局文件。
 
-如果提供了FLAG_ACTIVITY_NEW_TASK参数，会启动到别的task里。
 
-“singleTask”和”singleInstance”总是把activity作为一个task的根元素，他们不会被启动到一个其他task里
-
-**2、** 是否允许多个实例
-
-“standard”和”singleTop”可以被实例化多次，并且存在于不同的task中，且一个task可以包括一个activity的多个实例；
-
-“singleTask”和”singleInstance”则限制只生成一个实例，并且是task的根元素。 singleTop要求如果创建intent的时候栈顶已经有要创建的Activity的实例，则将intent发送给该实例，而不发送给新的实例
-
-**3、** 是否允许其它activity存在于本task内
-
-“singleInstance”独占一个task，其它activity不能存在那个task里；如果它启动了一个新的activity，不管新的activity的launch mode 如何，新的activity都将会到别的task里运行（如同加了FLAG_ACTIVITY_NEW_TASK参数）。
-
-而另外三种模式，则可以和其它activity共存
-
-**4、** 是否每次都生成新实
-
-“standard”对于没一个启动Intent都会生成一个activity的新实例；
-
-“singleTop”的activity如果在task的栈顶的话，则不生成新的该activity的实例，直接使用栈顶的实例，否则，生成该activity的实例。
-
-比如现在task栈元素为A-B-C-D（D在栈顶），这时候给D发一个启动intent，如果D是 “standard”的，则生成D的一个新实例，栈变为A－B－C－D－D
-
-如果D是singleTop的话，则不会生产D的新实例，栈状态仍为A-B-C-D
-
-如果这时候给B发Intent的话，不管B的launchmode是”standard” 还是 “singleTop” ，都会生成B的新实例，栈状态变为A-B-C-D-B
-
-“singleInstance”是其所在栈的唯一activity，它会每次都被重用
-
-“singleTask”如果在栈顶，则接受intent，否则，该intent会被丢弃，但是该task仍会回到前台
-
-当已经存在的activity实例处理新的intent时候，会调用onNewIntent()方法 如果收到intent生成一个activity实例，那么用户可以通过back键回到上一个状态；如果是已经存在的一个activity来处理这个intent的话，用户不能通过按back键返回到这之前的状态
-
-
-### 5、ListView的优化方案
-
-**1、** 如果自定义适配器，那么在getView方法中要考虑方法传进来的参数contentView是否为null，如果为null就创建contentView并返回，如果不为null则直接使用。在这个方法中尽可能少创建view。
-
-**2、** 给contentView设置tag（setTag（）），传入一个viewHolder对象，用于缓存要显示的数据，可以达到图像数据异步加载的效果。
-
-**3、** 如果listview需要显示的item很多，就要考虑分页加载。比如一共要显示100条或者更多的时候，我们可以考虑先加载20条，等用户拉到列表底部的时候再去加载接下来的20条。
-
-
-### 6、如何将打开res aw目录中的数据库文件?
-
-解在Android中不能直接打开res aw目录中的数据库文件，而需要在程序第一次启动时将该文件复制到手机内存或SD卡的某个目录中，然后再打开该数据库文件。
-
-复制的基本方法是使用getResources().openRawResource方法获得res aw目录中资源的 InputStream对象，然后将该InputStream对象中的数据写入其他的目录中相应文件中。在Android SDK中可以使用SQLiteDatabase.openOrCreateDatabase方法来打开任意目录中的SQLite数据库文件。
-
-
-### 7、AIDL 的全称是什么?如何工作?能处理哪些类型的数据？
-
-AIDL 全称 Android Interface Definition Language（AndRoid 接口描述语言） 是一种接口描述语言; 编译器可以通过 aidl 文件生成一段代码，通过预先定义的接口达到两个进程内部通信进程跨界对象访问的目的。需要完成两件事情：
-
-**1、** 引入 AIDL 的相关类.;
-
-**2、** 调用 aidl 产生的 class
-
-理论上, 参数可以传递基本数据类型和 String, 还有就是 Bundle 的派生类, 不过在 Eclipse 中,目前的 ADT 不支持 Bundle 做为参数。
-
-
-### 8、Android与服务器交互的方式中的对称加密和非对称加密是什么?
-
-对称加密，就是加密和解密数据都是使用同一个key，这方面的算法有DES。
-
-非对称加密，加密和解密是使用不同的key。发送数据之前要先和服务端约定生成公钥和私钥，使用公钥加密的数据可以用私钥解密，反之。这方面的算法有RSA。ssh 和 ssl都是典型的非对称加密。
-
-
-### 9、RecyclerView和ListView的区别
-
-缓存上:前者缓存的是View+ViewHolder+flag，不用每次调用findViewById,后者则只是缓存View
-
-刷新数据方面，前者提供了局部刷新，后者则全部刷新
-
-
-### 10、ListView 中图片错位的问题是如何产生的
+### 4、ListView 中图片错位的问题是如何产生的
 
 图片错位问题的本质源于我们的 listview 使用了缓存 convertView， 假设一种场景， 一个 listview一屏显示九个 item，那么在拉出第十个 item 的时候，事实上该 item 是重复使用了第一个 item，也就是说在第一个 item 从网络中下载图片并最终要显示的时候，其实该 item 已经不在当前显示区域内了，此时显示的后果将可能在第十个 item 上输出图像，这就导致了图片错位的问题。所以解决办法就是可见则显示，不可见则不显示。
 
 
-### 11、如何切换 fragement,不重新实例化
-### 12、sim卡的EF文件是什么？有何作用
-### 13、说下 Activity 跟 跟 window ， view 之间的关系？
-### 14、简述JNI
-### 15、SurfaceView
-### 16、Android系统的架构
-### 17、什么情况会导致Force Close ？如何避免？能否捕获导致其的异常？
-### 18、什么是ANR 如何避免它？
-### 19、android的数据存储
-### 20、Activity启动模式
-### 21、什么是aar?aar是jar有什么区别?
-### 22、如何保存activity的状态？
-### 23、广播注册
-### 24、内存泄露如何查看和解决
-### 25、谈谈对Android NDK的理解
-### 26、嵌入式操作系统内存管理有哪几种， 各有何特性
-### 27、Serializable 和 Parcelable 的区别？
-### 28、简要解释一下activity、 intent 、intent filter、service、Broadcase、BroadcaseReceiver
-### 29、Android中常用布局
+### 5、andorid 应用第二次登录实现自动登录
+
+前置条件是所有用户相关接口都走 https，非用户相关列表类数据走 http。
+
+**步骤**
+
+**1、** 第一次登陆 getUserInfo 里带有一个长效 token，该长效 token 用来判断用户是否登陆和换取短 token
+
+**2、** 把长效 token 保存到 SharedPreferences
+
+**3、** 接口请求用长效 token 换取短token，短 token 服务端可以根据你的接口最后一次请求作为标示，超时时间为一天。
+
+**4、** 所有接口都用短效 token
+
+**5、** 如果返回短效 token 失效，执行第3步，再直接当前接口
+
+**6、** 如果长效 token 失效（用户换设备或超过一月），提示用户登录。
+
+
+### 6、什么是嵌入式实时操作系统, Android 操作系统属于实时操作系统吗?
+
+嵌入式实时操作系统是指当外界事件或数据产生时，能够接受并以足够快的速度予以处理，其处理的结果又能在规定的时间之内来控制生产过程或对处理系统作出快速响应，并控制所有实时任务协调一致运行的嵌入式操作系统。主要用于工业控制、 军事设备、 航空航天等领域对系统的响应时间有苛刻的要求，这就需要使用实时系统。又可分为软实时和硬实时两种，而android是基于linux内核的，因此属于软实时。
+
+
+### 7、如何将SQLite数据库(dictionary.db文件)与apk文件一起发布
+
+解可以将dictionary.db文件复制到Eclipse Android工程中的res aw目录中。所有在res aw目录中的文件不会被压缩，这样可以直接提取该目录中的文件。可以将dictionary.db文件复制到res aw目录中
+
+
+### 8、描述下Handler 机制
+
+**1、** Looper: 一个线程可以产生一个Looper对象，由它来管理此线程里的MessageQueue(消息队列)。
+
+**2、** Handler: 你可以构造Handler对象来与Looper沟通，以便push新消息到MessageQueue里;或者接收Looper从Message Queue取出)所送来的消息。
+
+**3、** Message Queue(消息队列):用来存放线程放入的消息。
+
+**4、** 线程：UIthread 通常就是main thread，而Android启动程序时会替它建立一个MessageQueue。
+
+Hander持有对UI主线程消息队列MessageQueue和消息循环Looper的引用，子线程可以通过Handler将消息发送到UI线程的消息队列MessageQueue中。
+
+
+### 9、Android 应用中验证码登陆都有哪些实现方案
+
+**1、** 从服务器端获取图片
+
+**2、** 通过短信服务，将验证码发送给客户端
+
+
+### 10、如何退出Activity？如何安全退出已调用多个Activity的Application？
+
+对于单一Activity的应用来说，退出很简单，直接finish()即可。当然，也可以用killProcess()和System.exit()这样的方法。
+
+对于多个activity，1、记录打开的Activity：每打开一个Activity，就记录下来。在需要退出时，关闭每一个Activity即可。2、发送特定广播：在需要结束应用时，发送一个特定的广播，每个Activity收到广播后，关闭即可。3、递归退出：在打开新的Activity时使用startActivityForResult，然后自己加标志，在onActivityResult中处理，递归关闭。为了编程方便，最好定义一个Activity基类，处理这些共通问题。
+
+在2.1之前，可以使用ActivityManager的restartPackage方法。
+
+它可以直接结束整个应用。在使用时需要权限android.permission.RESTART_PACKAGES。
+
+注意不要被它的名字迷惑。
+
+可是，在2.2，这个方法失效了。在2.2添加了一个新的方法，killBackground Processes()，需要权限 android.permission.KILL_BACKGROUND_PROCESSES。可惜的是，它和2.2的restartPackage一样，根本起不到应有的效果。
+
+另外还有一个方法，就是系统自带的应用程序管理里，强制结束程序的方法，forceStopPackage()。它需要权限android.permission.FORCE_STOP_PACKAGES。并且需要添加android:sharedUserId="android.uid.system"属性。同样可惜的是，该方法是非公开的，他只能运行在系统进程，第三方程序无法调用。
+
+因为需要在Android.mk中添加LOCAL_CERTIFICATE := platform。
+
+而Android.mk是用于在Android源码下编译程序用的。
+
+从以上可以看出，在2.2，没有办法直接结束一个应用，而只能用自己的办法间接办到。
+
+**现提供几个方法，供参考：**
+
+**1、** 抛异常强制退出：
+
+该方法通过抛异常，使程序Force Close。
+
+验证可以，但是，需要解决的问题是，如何使程序结束掉，而不弹出Force Close的窗口。
+
+**2、** 记录打开的Activity：
+
+每打开一个Activity，就记录下来。在需要退出时，关闭每一个Activity即可。
+
+**3、** 发送特定广播：
+
+在需要结束应用时，发送一个特定的广播，每个Activity收到广播后，关闭即可。
+
+**4、** 递归退出
+
+在打开新的Activity时使用startActivityForResult，然后自己加标志，在onActivityResult中处理，递归关闭。
+
+除了第一个，都是想办法把每一个Activity都结束掉，间接达到目的。但是这样做同样不完美。你会发现，如果自己的应用程序对每一个Activity都设置了nosensor，在两个Activity结束的间隙，sensor可能有效了。但至少，我们的目的达到了，而且没有影响用户使用。为了编程方便，最好定义一个Activity基类，处理这些共通问题。
+
+
+### 11、16Android性能优化
+### 12、recyclerView嵌套卡顿解决如何解决
+### 13、如何提升Service进程优先级
+### 14、NDK
+### 15、说下 Activity 跟 跟 window ， view 之间的关系？
+### 16、如果有个100M大的文件，需要上传至服务器中，而服务器form表单最大只能上传2M，可以用什么方法。
+### 17、Android本身的api并未声明会抛出异常，则其在运行时有无可能抛出runtime异常，你遇到过吗？诺有的话会导致什么问题？如何解决？
+### 18、简要解释一下activity、 intent 、intent filter、service、Broadcase、BroadcaseReceiver
+### 19、DDMS和TraceView的区别?
+### 20、如何将SQLite数据库(dictionary.db文件)与apk文件一起发布?
+### 21、ListView优化
+### 22、横竖屏切换的Activity 生命周期变化？
+### 23、如何修改 Activity 进入和退出动画
+### 24、Android dvm的进程和Linux的进程, 应用程序的进程是否为同一个概念
+### 25、Android数字签名
+### 26、如何将打开res aw目录中的数据库文件?
+### 27、让Activity变成一个窗口
+### 28、Android中的长度单位详解
+### 29、Manifest.xml文件中主要包括哪些信息？
 
 
 
 
 ## 全部答案，整理好了，直接下载吧
 
-### 下载链接：[全部答案，整理好了](https://www.souyunku.com/?p=67)
+### 下载链接：[全部答案，整理好了](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
 
-### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/?p=67)
+### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
 
 
 ## 最新，高清PDF：172份，7701页，最新整理

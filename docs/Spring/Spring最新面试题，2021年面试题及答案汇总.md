@@ -2,139 +2,114 @@
 
 ### 其实，博主还整理了，更多大厂面试题，直接下载吧
 
-### 下载链接：[高清172份，累计 7701 页大厂面试题  PDF](https://www.souyunku.com/?p=67)
+### 下载链接：[高清172份，累计 7701 页大厂面试题  PDF](https://github.com/souyunku/DevBooks/blob/master/docs/index.md)
 
-### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/?p=67)
-
-
-
-### 1、保护 SpringBoot 应用有哪些方法？
-
-在生产中使用HTTPS 使用Snyk检查你的依赖关系 升级到最新版本 启用CSRF保护 使用内容安全策略防止XSS攻击
+### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png)
 
 
 
-### 2、Spring MVC的异常处理？
+### 1、Spring Framework 有哪些不同的功能？
+
+**1、** 轻量级 - Spring 在代码量和透明度方面都很轻便。
+
+**2、** IOC - 控制反转
+
+**3、** AOP - 面向切面编程可以将应用业务逻辑和系统服务分离，以实现高内聚。
+
+**4、** 容器 - Spring 负责创建和管理对象（Bean）的生命周期和配置。
+
+**5、** MVC - 对 web 应用提供了高度可配置性，其他框架的集成也十分方便。
+
+**6、** 事务管理 - 提供了用于事务管理的通用抽象层。Spring 的事务支持也可用于容器较少的环境。
+
+**7、** JDBC 异常 - Spring 的 JDBC 抽象层提供了一个异常层次结构，简化了错误处理策略。
 
 
+### 2、为什么需要学习Spring Cloud
 
-可以将异常抛给Spring框架，由Spring框架来处理；我们只需要配置简单的异常处理器，在异常处理器中添视图页面即可。
+**1、** 首先springcloud基于spingboot的优雅简洁，可还记得我们被无数xml支配的恐惧？可还记得springmvc，mybatis错综复杂的配置，有了spingboot，这些东西都不需要了，spingboot好处不再赘诉，springcloud就基于SpringBoot把市场上优秀的服务框架组合起来，通过SpringBoot风格进行再封装屏蔽掉了复杂的配置和实现原理
 
+**2、** 什么叫做开箱即用？即使是当年的黄金搭档dubbo+zookeeper下载配置起来也是颇费心神的！而springcloud完成这些只需要一个jar的依赖就可以了！
 
-### 3、一个Spring的应用看起来象什么？
-
-**1、** 一个定义了一些功能的接口。
-
-**2、** 这实现包括属性，它的Setter ， getter 方法和函数等。
-
-**3、** Spring AOP
-
-**4、** Spring 的XML 配置文件
-
-**5、** 使用以上功能的客户端程序
+**3、** springcloud大多数子模块都是直击痛点，像zuul解决的跨域，fegin解决的负载均衡，hystrix的熔断机制等等等等
 
 
-### 4、什么是 Hystrix 断路器？我们需要它吗？
+### 3、什么是基于Java的Spring注解配置? 给一些注解的例子.
 
-由于某些原因，employee-consumer 公开服务会引发异常。在这种情况下使用 Hystrix 我们定义了一个回退方法。如果在公开服务中发生异常，则回退方法返回一些默认值
+基于Java的配置，允许你在少量的Java注解的帮助下，进行你的大部分Spring配置而非通过XML文件。
 
-![](https://gitee.com/souyunkutech/souyunku-home/raw/master/images/souyunku-web/2020/5/2/01/44/45_13.png#alt=45%5C_13.png)
-
-中断，并且员工使用者将一起跳过 firtsPage 方法，并直接调用回退方法。 断路器的目的是给第一页方法或第一页方法可能调用的其他方法留出时间，并导致异常恢复。可能发生的情况是，在负载较小的情况下，导致异常的问题有更好的恢复机会 。
-
-![](https://gitee.com/souyunkutech/souyunku-home/raw/master/images/souyunku-web/2020/5/2/01/44/45_14.png#alt=45%5C_14.png)
+以[@Configuration ](/Configuration ) 注解为例，它用来标记类可以当做一个bean的定义，被Spring IOC容器使用。另一个例子是@Bean注解，它表示此方法将要返回一个对象，作为一个bean注册进Spring应用上下文。
 
 
-### 5、Spring MVC怎么和AJAX相互调用的？
+### 4、Spring配置文件
 
-通过Jackson框架就可以把Java里面的对象直接转化成Js可以识别的Json对象。具体步骤如下 ：
-
-**1、** 加入Jackson.jar
-
-**2、** 在配置文件中配置json的映射
-
-**3、** 在接受Ajax方法里面可以直接返回Object,List等,但方法前面要加上@ResponseBody注解。
+Spring配置文件是个XML 文件，这个文件包含了类信息，描述了如何配置它们，以及如何相互调用。
 
 
-### 6、SpringBoot 支持哪些日志框架？推荐和默认的日志框架是哪个？
+### 5、Spring AOP and AspectJ AOP 有什么区别？
 
-SpringBoot 支持 Java Util Logging, Log4j2, Lockback 作为日志框架，如果你使用 Starters 启动器，SpringBoot 将使用 Logback 作为默认日志框架。
-
-
-### 7、SpringBoot 2.X 有什么新特性？与 1.X 有什么区别？
-
-**1、** 配置变更
-
-**2、** JDK 版本升级
-
-**3、** 第三方类库升级
-
-**4、** 响应式 Spring 编程支持
-
-**5、** HTTP/2 支持
-
-**6、** 配置属性绑定
-
-**7、** 更多改进与加强…
+Spring AOP 基于动态代理方式实现；AspectJ 基于静态代理方式实现。Spring AOP 仅支持方法级别的 PointCut；提供了完全的 AOP 支持，它还支持属性级别的 PointCut。
 
 
-### 8、解释基于XML Schema方式的切面实现。
+### 6、什么是依赖注入？
 
-在这种情况下，切面由常规类以及基于XML的配置实现。
-
-
-### 9、如何在自定义端口上运行SpringBoot应用程序？
-
-为了在自定义端口上运行SpringBoot应用程序，您可以在application.properties中指定端口。
-
-```
- server.port = 8090
-```
+在依赖注入中，您不必创建对象，但必须描述如何创建它们。 您不是直接在代码中将组件和服务连接在一起，而是描述配置文件中哪些组件需要哪些服务。 由 IoC 容器将它们装配在一起。
 
 
-### 10、SpringBoot常用的starter有哪些？
+### 7、RequestMapping 和 GetMapping 的不同之处在哪里？
 
-**1、** spring-boot-starter-web 嵌入tomcat和web开发需要servlet与jsp支持
-
-**2、** spring-boot-starter-data-jpa 数据库支持
-
-**3、** spring-boot-starter-data-Redis Redis数据库支持
-
-**4、** spring-boot-starter-data-solr solr支持
-
-**5、** mybatis-spring-boot-starter 第三方的mybatis集成starter
+RequestMapping 具有类属性的，可以进行 GET,POST,PUT 或者其它的注释中具有的请求方法。GetMapping 是 GET 请求方法中的一个特例。它只是 ResquestMapping 的一个延伸，目的是为了提高清晰度。
 
 
-### 11、如何覆盖SpringBoot项目的默认属性？
-### 12、如何使用SpringBoot实现异常处理?
-### 13、@RestController和@Controller的区别
-### 14、BeanFactory – BeanFactory 实现举例。
-### 15、SpringBoot和SpringCloud的区别？
-### 16、解释基于注解的切面实现
-### 17、SpringBoot 实现热部署有哪几种方式？
-### 18、什么是Idempotence以及它在哪里使用？
-### 19、[@Qualifier ](/Qualifier ) 注解
-### 20、spring bean 容器的生命周期是什么样的？
-### 21、Spring Cloud 实现服务注册和发现的原理是什么？
-### 22、什么是幂等性?它是如何使用的？
-### 23、比较一下 Spring Security 和 Shiro 各自的优缺点 ?
-### 24、创建一个 SpringBoot Project 的最简单的方法是什么？
-### 25、如何在 SpringBoot 启动的时候运行一些特定的代码？
-### 26、spring 中有多少种 IOC 容器？
-### 27、Spring IoC 的实现机制。
-### 28、为什么需要学习Spring Cloud
-### 29、您将如何在微服务上执行安全测试？
-### 30、Spring Cloud Security
-### 31、SpringBoot 实现热部署有哪几种方式？
+### 8、什么是 AOP 连接点
+
+连接点代表一个应用程序的某个位置，在这个位置我们可以插入一个AOP切面，它实际上是个应用程序执行Spring AOP的位置。
+
+
+### 9、你如何理解 SpringBoot 中的 Starters？
+
+Starters可以理解为启动器，它包含了一系列可以集成到应用里面的依赖包，你可以一站式集成 Spring 及其他技术，而不需要到处找示例代码和依赖包。如你想使用 Spring JPA 访问数据库，只要加入 spring-boot-starter-data-jpa 启动器依赖就能使用了。
+
+
+### 10、如何在SpringBoot中禁用Actuator端点安全性？
+
+默认情况下，所有敏感的HTTP端点都是安全的，只有具有ACTUATOR角色的用户才能访问它们。
+
+安全性是使用标准的HttpServletRequest.isUserInRole方法实施的。 我们可以使用management.security.enabled = false 来禁用安全性。只有在执行机构端点在防火墙后访问时，才建议禁用安全性。
+
+如何在自定义端口上运行SpringBoot应用程序？ 为了在自定义端口上运行SpringBoot应用程序，您可以在application.properties中指定端口。 server.port = 8090
+
+
+### 11、Spring MVC中函数的返回值是什么？
+### 12、SpringBoot 支持哪些日志框架？推荐和默认的日志框架是哪个？
+### 13、什么是FreeMarker模板？
+### 14、Eureka怎么实现高可用
+### 15、Spring Cloud Sleuth
+### 16、在 Spring Initializer 中，如何改变一个项目的包名字？
+### 17、SpringBoot Starter 的工作原理是什么？
+### 18、一个 Spring Bean 定义 包含什么？
+### 19、什么是凝聚力？
+### 20、什么是 AOP 引入?
+### 21、如何启用/禁用执行器？
+### 22、为什么人们会犹豫使用微服务？
+### 23、如何解决POST请求中文乱码问题，GET的又如何处理呢？
+### 24、什么是幂等性?它是如何使用的？
+### 25、什么是Eureka
+### 26、spring DAO 有什么用？
+### 27、SpringCloud由什么组成
+### 28、如何给静态变量赋值？
+### 29、什么是 JavaConfig？
+### 30、eureka和zookeeper都可以提供服务注册与发现的功能，请说说两个的区别？
+### 31、SpringBoot支持什么前端模板，
 
 
 
 
 ## 全部答案，整理好了，直接下载吧
 
-### 下载链接：[全部答案，整理好了](https://www.souyunku.com/?p=67)
+### 下载链接：[全部答案，整理好了](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
 
-### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/?p=67)
+### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
 
 
 ## 最新，高清PDF：172份，7701页，最新整理

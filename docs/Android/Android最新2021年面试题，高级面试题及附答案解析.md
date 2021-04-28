@@ -2,141 +2,215 @@
 
 ### 其实，博主还整理了，更多大厂面试题，直接下载吧
 
-### 下载链接：[高清172份，累计 7701 页大厂面试题  PDF](https://www.souyunku.com/?p=67)
+### 下载链接：[高清172份，累计 7701 页大厂面试题  PDF](https://github.com/souyunku/DevBooks/blob/master/docs/index.md)
 
-### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/?p=67)
-
-
-
-### 1、谈MVC ，MVP，MVVM
-
-MVC:View是可以直接访问Model的！从而，View里会包含Model信息，不可避免的还要包括一些 业务逻辑。 在MVC模型里，更关注的Model的不变，而同时有多个对Model的不同显示，及View。所以，在MVC模型里，Model不依赖于View，但是 View是依赖于Model的。不仅如此，因为有一些业务逻辑在View里实现了，导致要更改View也是比较困难的，至少那些业务逻辑是无法重用的。
-
-MVP：MVP 是从经典的模式MVC演变而来，它们的基本思想有相通的地方：Controller/Presenter负责逻辑的处理，Model提供数据，View负 责显示。作为一种新的模式，MVP与MVC有着一个重大的区别：在MVP中View并不直接使用Model，它们之间的通信是通过Presenter (MVC中的Controller)来进行的，所有的交互都发生在Presenter内部，而在MVC中View会从直接Model中读取数据而不是通过 Controller。
-
-MVVM：数据双向绑定，通过数据驱动UI，M提供数据，V视图，VM即数据驱动层
+### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png)
 
 
-### 2、Android 引入广播机制的用意
 
-从 MVC 的角度考虑(应用程序内) 其实回答这个问题的时候还可以这样问，android 为什么要有那 4 大组件，现在的移动开发模型基本上也是照搬的 web 那一套 MVC 架构，只不过稍微做了修改。android 的四大组件本质上就是为了实现移动或者说嵌入式设备上的 MVC 架构，它们之间有时候是一种相互依存的关系，有时候又是一种补充关系，引入广播机制可以方便几大组件的信息和数据交互。
+### 1、Service生命周期
 
-程序间互通消息(例如在自己的应用程序内监听系统来电)
+在Service的生命周期里，常用的有：
 
-效率上(参考 UDP 的广播协议在局域网的方便性)
-
-设计模式上(反转控制的一种应用，类似监听者模式)
-
-
-### 3、SharedPreference跨进程使用会怎么样？如何保证跨进程使用安全？
-
-在两个应用的manifest配置中好相同的shartdUserId属性，A应用正常保存数据，B应用
-
-createPackageContext("com.netease.nim.demo", CONTEXT_IGNORE_SECURITY)
-
-获取context然后获取应用数据，为保证数据安全，使用加密存储
-
-
-### 4、android:gravity与android:layout_gravity的区别
-
-gravity：表示组件内元素的对齐方式
-
-layout_gravity：相对于父类容器，该视图组件的对齐方式
-
-
-### 5、描述一下android的系统架构
-
-android系统架构分从下往上为linux 内核层、运行库、应用程序框架层、和应用程序层。
-
-linuxkernel：负责硬件的驱动程序、网络、电源、系统安全以及内存管理等功能。
-
-libraries和 android runtime：libraries：即c/c++函数库部分，大多数都是开放源代码的函数库，例如webkit（引擎），该函数库负责 android网页浏览器的运行，例如标准的c函数库libc、openssl、sqlite等，当然也包括支持游戏开发2dsgl和 3dopengles，在多媒体方面有mediaframework框架来支持各种影音和图形文件的播放与显示，例如mpeg4、h.264、mp3、 aac、amr、jpg和png等众多的多媒体文件格式。android的runtime负责解释和执行生成的dalvik格式的字节码。
-
-applicationframework（应用软件架构），java应用程序开发人员主要是使用该层封装好的api进行快速开发。
-
-applications:该层是java的应用程序层，android内置的googlemaps、e-mail、即时通信工具、浏览器、mp3播放器等处于该层，java开发人员开发的程序也处于该层，而且和内置的应用程序具有平等的位置，可以调用内置的应用程序，也可以替换内置的应用程序。
-
-上面的四个层次，下层为上层服务，上层需要下层的支持，调用下层的服务，这种严格分层的方式带来的极大的稳定性、灵活性和可扩展性，使得不同层的开发人员可以按照规范专心特定层的开发。
-
-android应用程序使用框架的api并在框架下运行，这就带来了程序开发的高度一致性，另一方面也告诉我们，要想写出优质高效的程序就必须对整个 applicationframework进行非常深入的理解。精通applicationframework，你就可以真正的理解android的设计和运行机制，也就更能够驾驭整个应用层的开发。
-
-
-### 6、Fragment的生命周期
-
-Fragment的生命周期
-
-![92_2.png][92_2.png]
-
-Fragment与Activity生命周期对比
-
-![92_3.png][92_3.png]
-
-Fragment的生命周期方法主要有onAttach()、onCreate()、onCreateView()、onActivityCreated()、onstart()、onResume()、onPause()、onStop()、onDestroyView()、onDestroy()、onDetach()等11个方法。
-
-**1、** 切换到该Fragment，分别执行onAttach()、onCreate()、onCreateView()、onActivityCreated()、onstart()、onResume()方法。
-
-**2、** 锁屏，分别执行onPause()、onStop()方法。
-
-**3、** 亮屏，分别执行onstart()、onResume()方法。
-
-**4、** 覆盖，切换到其他Fragment，分别执行onPause()、onStop()、onDestroyView()方法。
-
-**5、** 从其他Fragment回到之前Fragment，分别执行onCreateView()、onActivityCreated()、onstart()、onResume()方法。
-
-
-### 7、在 service 的生命周期方法 onstartConmand()可不可以执行网络操作？如何在 service 中执行网络操作？
-
-可以的，就在onstartConmand方法内执行。
-
-
-### 8、Android root机制
-
-root指的是你有权限可以再系统上对所有档案有 "读" "写" "执行"的权力。root机器不是真正能让你的应用程序具有root权限。它原理就跟linux下的像sudo这样的命令。在系统的bin目录下放个su程序并属主是root并有suid权限。则通过su执行的命令都具有Android root权限。当然使用临时用户权限想把su拷贝的/system/bin目录并改属性并不是一件容易的事情。这里用到2个工具跟2个命令。把busybox拷贝到你有权限访问的目录然后给他赋予4755权限，你就可以用它做很多事了。
-
-
-### 9、Activity的状态有几种？
+4个手动调用的方法
 
 ```
-运行
-暂停
-停止
+startService()    启动服务
+stopService()    关闭服务
+bindService()    绑定服务
+unbindService()    解绑服务
+```
+
+5个内部自动调用的方法
+
+```
+onCreat()            创建服务
+onStartCommand()    开始服务
+onDestroy()            销毁服务
+onBind()            绑定服务
+onUnbind()            解绑服务
+```
+
+**1、** 手动调用startService()启动服务，自动调用内部方法：onCreate()、onStartCommand()，如果一个Service被startService()多次启动，那么onCreate()也只会调用一次。
+
+**2、** 手动调用stopService()关闭服务，自动调用内部方法：onDestory()，如果一个Service被启动且被绑定，如果在没有解绑的前提下使用stopService()关闭服务是无法停止服务的。
+
+**3、** 手动调用bindService()后，自动调用内部方法：onCreate()、onBind()。
+
+**4、** 手动调用unbindService()后，自动调用内部方法：onUnbind()、onDestory()。
+
+**5、** startService()和stopService()只能开启和关闭Service，无法操作Service，调用者退出后Service仍然存在；bindService()和unbindService()可以操作Service，调用者退出后，Service随着调用者销毁。
+
+
+### 2、Android 判断SD卡是否存在
+
+首先要在AndroidManifest.xml中增加SD卡访问权限
+
+
+### 3、内存溢出和内存泄漏有什么区别？何时会产生内存泄漏？
+
+内存溢出：当程序运行时所需的内存大于程序允许的最高内存，这时会出现内存溢出；
+
+内存泄漏：在一些比较消耗资源的操作中，如果操作中内存一直未被释放，就会出现内存泄漏。比如未关闭io,cursor。
+
+
+### 4、如何在 ScrollView 中如何嵌入 ListView
+
+通常情况下我们不会在 ScrollView 中嵌套 ListView。
+
+在 ScrollView 添加一个 ListView 会导致 listview 控件显示不全，通常只会显示一条，这是因为两个控件的滚动事件冲突导致。所以需要通过 listview 中的 item 数量去计算 listview 的显示高度，从而使其完整展示。
+
+现阶段最好的处理的方式是： 自定义 ListView，重载 onMeasure()方法，设置全部显示。
+
+
+### 5、事件分发中的 onTouch 和 onTouchEvent 有什么区别，又该如何使用？
+
+这两个方法都是在 View 的 dispatchTouchEvent 中调用的，onTouch 优先于 onTouchEvent执行。如果在 onTouch 方法中通过返回 true 将事件消费掉，onTouchEvent 将不会再执行。
+
+另外需要注意的是，onTouch 能够得到执行需要两个前提条件，第一 mOnTouchListener 的值不能为空，第二当前点击的控件必须是 enable 的。因此如果你有一个控件是非 enable 的，那么给它注册 onTouch 事件将永远得不到执行。对于这一类控件，如果我们想要监听它的 touch 事件，就必须通过在该控件中重写 onTouchEvent 方法来实现。
+
+
+### 6、Android中常用布局
+
+常用的布局：
+
+```
+FrameLayout(帧布局):所有东西依次都放在左上角，会重叠
+LinearLayout(线性布局):按照水平和垂直进行数据展示
+RelativeLayout(相对布局):以某一个元素为参照物，来定位的布局方式
+```
+
+不常用的布局：
+
+```
+TableLayout(表格布局): 每一个TableLayout里面有表格行TableRow，TableRow里面可以具体定义每一个元素（Android TV上使用）
+AbsoluteLayout(绝对布局):用X,Y坐标来指定元素的位置，元素多就不适用。（机顶盒上使用）
+```
+
+新增布局：
+
+```
+PercentRelativeLayout（百分比相对布局）可以通过百分比控制控件的大小。
+PercentFrameLayout（百分比帧布局）可以通过百分比控制控件的大小。
 ```
 
 
-### 10、FragmentPagerAdapter 与 与 FragmentStatePagerAdapter 的区别与使用场景？
+### 7、Intent 传递数据时，可以传递哪些类型数据？
 
-FragmentPagerAdapter 的每个 Fragment 会持久的保存在 FragmentManager 中，只要用户可以返回到页面中，它都不会被销毁。因此适用于那些数据 相对静态的页，Fragment 数量也比较少的那种;FragmentStatePagerAdapter 只保留当前页面，当页面不可见时，该 Fragment 就会被消除，释放其资源。因此适用于那些 数据动态性较大、 占用内存较多，多 Fragment 的情况；
+```
+基本数据类型以及对应的数组类型
+可以传递bundle类型，但是bundle类型的数据需要实现Serializable或者parcelable接口
+```
 
 
-### 11、请介绍下Android中常用的五种布局。
-### 12、Android 中如何捕获未捕获的异常
-### 13、Android 判断SD卡是否存在
-### 14、如何将SQLite数据库(dictionary.db文件)与apk文件一起发布
-### 15、说说 LruCache 底层原理
-### 16、jni 的调用过程?
-### 17、子线程中能不能 new handler？为什么？
-### 18、DDMS和TraceView的区别?
-### 19、Android数字签名
-### 20、ListView优化
-### 21、Service 是否在 main thread 中执行, service 里面是否能执行耗时的操作?
-### 22、推送到达率如何提高
-### 23、Android i18n
-### 24、sim卡的EF 文件有何作用
-### 25、自定义view的基本流程
-### 26、16Android性能优化
-### 27、Android 应用中验证码登陆都有哪些实现方案
-### 28、如何修改 Activity 进入和退出动画
-### 29、属性动画，例如一个 button 从 A 移动到 B 点，B 点还是可以响应点击事件，这个原理是什么？
-### 30、NDK是什么
+### 8、都使用过哪些自定义控件
+
+**1、** pull2RefreshListView
+
+**2、** LazyViewPager
+
+**3、** SlidingMenu
+
+**4、** SmoothProgressBar
+
+**5、** 自定义组合控件
+
+**6、** ToggleButton
+
+**7、** 自定义Toast
+
+
+### 9、说说mvc模式的原理，它在android中的运用,android的官方建议应用程序的开发采用mvc模式。何谓mvc？
+
+mvc是model,view,controller的缩写，mvc包含三个部分：
+
+**1、** 模型（model）对象：是应用程序的主体部分，所有的业务逻辑都应该写在该层。
+
+**2、** 视图（view）对象：是应用程序中负责生成用户界面的部分。也是在整个mvc架构中用户唯一可以看到的一层，接收用户的输入，显示处理结果。
+
+**3、** 控制器（control）对象：是根据用户的输入，控制用户界面数据显示及更新model对象状态的部分，控制器更重要的一种导航功能，响应用户出发的相关事件，交给m层处理。
+
+**android鼓励弱耦合和组件的重用，在android中mvc的具体体现如下：**
+
+**1、** 视图层（view）：一般采用xml文件进行界面的描述，使用的时候可以非常方便的引入，当然，如果你对android了解的比较的多了话，就一定可以想到在android中也可以使用JavaScript+html等的方式作为view层，当然这里需要进行java和javascript之间的通信，幸运的是，android提供了它们之间非常方便的通信实现。
+
+**2、** 控制层（controller）：android的控制层的重任通常落在了众多的acitvity的肩上，这句话也就暗含了不要在acitivity中写代码，要通过activity交割model业务逻辑层处理，这样做的另外一个原因是android中的acitivity的响应时间是5s，如果耗时的操作放在这里，程序就很容易被回收掉。
+
+**3、** 模型层（model）：对数据库的操作、对网络等的操作都应该在model里面处理，当然对业务计算等操作也是必须放在的该层的。
+
+
+### 10、activity与fragment区别
+
+生命周期：
+
+fragment从创建倒销毁整个生命周期依次为onAttach()→onCreate()→onCreateView()→onActivityCreated()→onStart()→onResume()→onPause()→onStop()→onDestroyView()→onDestroy()→onDetach()
+
+**与activity不同的方法有**
+
+**1、** onAttach():当Fragment和Activity建立关联的时候调用；
+
+**2、** onCreateView():当Fragment创建视图调用；
+
+**3、** onActivityCreated:与Fragment相关联的Activity完成onCreate()之后调用；
+
+**4、** onDestoryView():在Fragment中的布局被移除时调用；
+
+**5、** onDetach():当Fragment和Activity解除关联时调用；
+
+**6、** activity常用的生命周期只有以下几个；
+
+**7、** onCreate()： 表示 Activity 正在被创建，常用来 初始化工作，比如调用 setContentView 加载界面布局资源，初始化 Activity 所需数据等；
+
+**8、** onRestart()：表示 Activity 正在重新启动，一般情况下，当前Acitivty 从不可见重新变为可见时，OnRestart就会被调用；
+
+**9、** onStart()： 表示 Activity 正在被启动，此时 Activity 可见但不在前台，还处于后台，无法与用户交互；
+
+**10、** onResume()： 表示 Activity 获得焦点，此时 Activity 可见且在前台并开始活动，这是与 onStart 的区别所在；
+
+**11、** onPause()： 表示 Activity 正在停止，此时可做一些 存储数据、停止动画等工作，但是不能太耗时，因为这会影响到新 Activity的显示，onPause 必须先执行完，新 Activity 的 onResume 才会执行；
+
+**12、** onStop()： 表示 Activity 即将停止，可以做一些稍微重量级的回收工作，比如注销广播接收器、关闭网络连接等，同样不能太耗时；
+
+**13、** onDestroy()： 表示 Activity 即将被销毁，这是 Activity 生命周期中的最后一个回调，常做 回收工作、资源释放；
+
+**14、** 区别：
+
+**15、** Fragment比Activity多出四个回调周期，控制操作上更灵活；
+
+**16、** Fragment可以在xml文件中直接写入，也可以在Activity中动态添加；
+
+**17、** Fragment可以使用show()/hide()或者replace()对Fragment进行切换，切换的时候不会出现明显的效果，Activity切换的时候会有明显的翻页或其他效果；
+
+
+### 11、Fragment 在你们项目中的使用
+### 12、Service 是否在 main thread 中执行, service 里面是否能执行耗时的操作?
+### 13、简述JNI
+### 14、请解释下Android程序运行时权限与文件系统权限的区别。
+### 15、跟activity和Task 有关的 Intent启动方式有哪些？其含义？
+### 16、Android 中的动画有哪几类，它们的特点和区别是什么
+### 17、Fragment中add与replace的区别？
+### 18、View的分发机制，滑动冲突
+### 19、SQLite支持事务吗? 添加删除如何提高性能?
+### 20、Android 线程间通信有哪几种方式（重要）
+### 21、IntentService有何优点?
+### 22、子线程发消息到主线程进行更新 UI，除了 handler 和 AsyncTask，还有什么？
+### 23、Android中的ANR
+### 24、自定义view的基本流程
+### 25、说说 ContentProvider、ContentResolver、ContentObserver 之间的关系
+### 26、Service 和 Activity 在同一个线程吗
+### 27、ListView 如何定位到指定位置
+### 28、广播注册
+### 29、Fragment 的 replace 和 add 方法的区别
+### 30、SharedPreference跨进程使用会怎么样？如何保证跨进程使用安全？
 
 
 
 
 ## 全部答案，整理好了，直接下载吧
 
-### 下载链接：[全部答案，整理好了](https://www.souyunku.com/?p=67)
+### 下载链接：[全部答案，整理好了](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
 
-### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/?p=67)
+### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
 
 
 ## 最新，高清PDF：172份，7701页，最新整理

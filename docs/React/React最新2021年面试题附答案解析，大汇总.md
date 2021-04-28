@@ -2,57 +2,13 @@
 
 ### 其实，博主还整理了，更多大厂面试题，直接下载吧
 
-### 下载链接：[高清172份，累计 7701 页大厂面试题  PDF](https://www.souyunku.com/?p=67)
+### 下载链接：[高清172份，累计 7701 页大厂面试题  PDF](https://github.com/souyunku/DevBooks/blob/master/docs/index.md)
 
-### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/?p=67)
-
-
-
-### 1、为什么要用redux
-
-在`React`中数据在组件中是单向流动的数据从一个方向父组件流向子组件通过`props`,所以两个非父子组件之间通信就相对麻烦`redux`的出现就是为了解决`state`里面的数据问题
+### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png)
 
 
-### 2、React 中的箭头函数是什么？怎么用？
 
-箭头函数（=>）是用于编写函数表达式的简短语法。这些函数允许正确绑定组件的上下文，因为在 ES6 中默认下不能使用自动绑定。使用高阶函数时，箭头函数非常有用。
-
-```
-//General way
-render() {
-    return(
-        <MyInput onChange = {this.handleChange.bind(this) } />
-    );
-}
-//With Arrow Function
-render() {
-    return(
-        <MyInput onChange = { (e)=>this.handleOnChange(e) } />
-    );
-}
-```
-
-
-### 3、nextTick知道吗，实现原理是什么？
-
-在下次 DOM 更新循环结束之后执行延迟回调。nextTick主要使用了宏任务和微任务。根据执行环境分别尝试采用
-
-**1、** Promise
-
-**2、** MutationObserver
-
-**3、** setImmediate
-
-**4、** 如果以上都不行则采用setTimeout
-
-定义了一个异步方法，多次调用nextTick会将方法存入队列中，通过这个异步方法清空当前队列。
-
-（关于宏任务和微任务以及事件循环可以参考我的另两篇专栏）
-
-(看到这你就会发现，其实问框架最终还是考验你的原生JavaScript功底)
-
-
-### 4、说说你用react有什么坑点
+### 1、说说你用react有什么坑点
 
 **1、** JSX做表达式判断时候需要强转为boolean类型
 
@@ -76,44 +32,200 @@ render() {
 **3、** 遍历子节点的时候不要用 index 作为组件的 key 进行传入
 
 
-### 5、简述flux 思想
+### 2、为什么需要 React 中的路由？
 
-**1、** Flux 的最大特点就是数据的"单向流动"。
+Router 用于定义多个路由，当用户定义特定的 URL 时，如果此 URL 与 Router 内定义的任何 “路由” 的路径匹配，则用户将重定向到该特定路由。所以基本上我们需要在自己的应用中添加一个 Router 库，允许创建多个路由，每个路由都会向我们提供一个独特的视图
 
-**2、** 用户访问 `View`
-
-**3、** View发出用户的 `Action`
-
-**4、** `Dispatcher` 收到Action要求 `Store` 进行相应的更新
-
-**5、** `Store` 更新后发出一个"`change`"事件
-
-**6、** `View` 收到"`change`"事件后更新页面
+```
+<switch>
+    <route exact path=’/’ component={Home}/>
+    <route path=’/posts/:id’ component={Newpost}/>
+    <route path=’/posts’   component={Post}/>
+</switch>
+```
 
 
-### 6、你是如何理解fiber的?
+### 3、列出 Redux 的组件。
 
-React Fiber 是一种基于浏览器的**单线程调度算法**.
+Redux 由以下组件组成：
 
-React 16之前 ，`reconcilation` 算法实际上是递归，想要中断递归是很困难的，React 16 开始使用了循环来代替之前的递归.
+**1、**  Action – 这是一个用来描述发生了什么事情的对象。
 
-`Fiber`：**一种将 `recocilation` （递归 diff），拆分成无数个小任务的算法；它随时能够停止，恢复。停止恢复的时机取决于当前的一帧（16ms）内，还有没有足够的时间允许计算。**
+**2、**  Reducer – 这是一个确定状态将如何变化的地方。
 
+**3、**  Store – 整个程序的状态/对象树保存在Store中。
 
-### 7、React有哪些限制？
-
-**React的限制如下：**
-
-**1、**  React 只是一个库，而不是一个完整的框架
-
-**2、**  它的库非常庞大，需要时间来理解
-
-**3、**  新手程序员可能很难理解
-
-**4、**  编码变得复杂，因为它使用内联模板和 JSX
+**4、**  View – 只显示 Store 提供的数据。
 
 
-### 8、Redux三大原则
+### 4、什么是高阶组件（HOC）？
+
+高阶组件是重用组件逻辑的高级方法，是一种源于 React 的组件模式。 HOC 是自定义组件，在它之内包含另一个组件。它们可以接受子组件提供的任何动态，但不会修改或复制其输入组件中的任何行为。你可以认为 HOC 是“纯（Pure）”组件。
+
+
+### 5、React实现的移动应用中如果出现卡顿有哪些可以考虑的优化方案
+
+**1、** 增加`shouldComponentUpdate`钩子对新旧`props`进行比较如果值相同则阻止更新避免不必要的渲染或者使用`PureReactComponent`替代`Component`其内部已经封装了`shouldComponentUpdate`的浅比较逻辑
+
+**2、** 对于列表或其他结构相同的节点为其中的每一项增加唯一`key`属性以方便`React`的`diff`算法中对该节点的复用减少节点的创建和删除操作
+
+render函数中减少类似
+
+```
+onClick={() => {
+    doSomething()
+}}
+```
+
+的写法每次调用`render`函数时均会创建一个新的函数即使内容没有发生任何变化也会导致节点没必要的重渲染建议将函数保存在组件的成员对象中这样只会创建一次
+
+**1、** 组件的props如果需要经过一系列运算后才能拿到最终结果则可以考虑使用`reselect`库对结果进行缓存如果props值未发生变化则结果直接从缓存中拿避免高昂的运算代价
+
+**2、** webpack-bundle-analyzer分析当前页面的依赖包是否存在不合理性如果存在找到优化点并进行优化
+
+
+### 6、如何在 React 中创建表单
+
+React 表单类似于 HTML 表单。但是在 React 中，状态包含在组件的 state 属性中，并且只能通过 `setState()` 更新。因此元素不能直接更新它们的状态，它们的提交是由 JavaScript 函数处理的。此函数可以完全访问用户输入到表单的数据。
+
+```
+handleSubmit(event) {
+    alert('A name was submitted: ' + this.state.value);
+    event.preventDefault();
+}
+
+render() {
+    return (
+        <form onSubmit={this.handleSubmit}>
+            <label>
+                Name:
+                <input type="text" value={this.state.value} onChange={this.handleSubmit} />
+            </label>
+            <input type="submit" value="Submit" />
+        </form>
+    );
+}
+```
+
+
+### 7、redux中间件
+
+中间件提供第三方插件的模式自定义拦截 `action -> reducer` 的过程。变为 `action` -> `middlewares` -> `reducer`。这种机制可以让我们改变数据流实现如异步`action action` 过滤日志输出异常报告等功能
+
+**1、** `redux-logger`提供日志输出
+
+**2、** `redux-thunk`处理异步操作
+
+**3、** `redux-promise`处理异步操作 `actionCreator`的返回值是 `promise`
+
+
+### 8、销毁阶段
+
+componentWillUnmount:组件即将销毁新版生命周期
+
+在新版本中React 官方对生命周期有了新的 变动建议:
+
+**1、** 使用getDerivedStateFromProps替换componentWillMount
+
+**2、** 使用getSnapshotBeforeUpdate替换componentWillUpdate
+
+**3、** 避免使用componentWillReceiveProps
+
+其实该变动的原因正是由于上述提到的 `Fiber`。首先从上面我们知道 `React` 可以分成 `reconciliation` 与 `commit`两个阶段对应的生命周期如下:
+
+**1、** reconciliation
+
+**2、** componentWillMount
+
+**3、** componentWillReceiveProps
+
+**4、** shouldComponentUpdate
+
+**5、** componentWillUpdate
+
+**6、** commit
+
+**7、** componentDidMoun
+
+**8、** componentDidUpdate
+
+**9、** componentWillUnmount
+
+在 `Fiber` 中`reconciliation` 阶段进行了任务分割涉及到 暂停 和 重启因此可能会导致 `reconciliation` 中的生命周期函数在一次更新渲染循环中被 多次调用 的情况产生一些意外错误
+
+新版的建议生命周期如下:
+
+```
+class Component extends React.Component {
+  // 替换 `componentWillReceiveProps` 
+  // 初始化和 update 时被调用
+  // 静态函数无法使用 this
+  static getDerivedStateFromProps(nextProps, prevState) {}
+  
+  // 判断是否需要更新组件
+  // 可以用于组件性能优化
+  shouldComponentUpdate(nextProps, nextState) {}
+  
+  // 组件被挂载后触发
+  componentDidMount() {}
+  
+  // 替换 componentWillUpdate
+  // 可以在更新之前获取最新 dom 数据
+  getSnapshotBeforeUpdate() {}
+  
+  // 组件更新后调用
+  componentDidUpdate() {}
+  
+  // 组件即将销毁
+  componentWillUnmount() {}
+  
+  // 组件已销毁
+  componentDidUnMount() {}
+}
+```
+
+使用建议:
+
+**1、** 在 `constructor`初始化 `state`
+
+**2、** 在 `componentDidMount`中进行事件监听并在 `componentWillUnmount`中解绑事件
+
+**3、** 在 `componentDidMount`中进行数据的请求而不是在 `componentWillMount`
+
+**4、** 需要根据 `props` 更新 `state` 时使用 `getDerivedStateFromProps(nextProps, prevState)`
+
+**5、** 旧 `props` 需要自己存储以便比较
+
+```
+public static getDerivedStateFromProps(nextProps, prevState) {
+ // 当新 props 中的 data 发生变化时同步更新到 state 上
+ if (nextProps.data !== prevState.data) {
+  return {
+   data: nextProps.data
+  }
+ } else {
+  return null1
+ }
+}
+```
+
+可以在componentDidUpdate监听 props 或者 state 的变化例如:
+
+```
+componentDidUpdate(prevProps) {
+ // 当 id 发生变化时重新获取数据
+ if (this.props.id !== prevProps.id) {
+  this.fetchData(this.props.id);
+ }
+}
+```
+
+在`componentDidUpdate使用`setState`时必须加条件否则将进入死循环
+
+`shouldComponentUpdate`: 默认每次调用`setState`一定会最终走到 `diff` 阶段但可以通过`shouldComponentUpdate`的生命钩子返回false来直接阻止后面的逻辑执行通常是用于做条件渲染优化渲染的性能。
+
+
+### 9、Redux三大原则
 
 **唯一数据源**
 
@@ -169,54 +281,44 @@ export {createStore,combineReducers};
 ```
 
 
-### 9、你对“单一事实来源”有什么理解？
+### 10、setState到底是异步还是同步?
 
-Redux 使用 “Store” 将程序的整个状态存储在同一个地方。因此所有组件的状态都存储在 Store 中，并且它们从 Store 本身接收更新。单一状态树可以更容易地跟踪随时间的变化，并调试或检查程序。
+先给出答案: 有时表现出异步,有时表现出同步
 
+**1、** `setState`只在合成事件和钩子函数中是“异步”的在原生事件和`setTimeout` 中都是同步的
 
-### 10、React的请求应该放在哪个生命周期中?
+**2、** `setState` 的“异步”并不是说内部由异步代码实现其实本身执行的过程和代码都是同步的只是合成事件和钩子函数的调用顺序在更新之前导致在合成事件和钩子函数中没法立马拿到更新后的值形成了所谓的“异步”当然可以通过第二个参数`setState(partialState, callback)`中的`callback`拿到更新后的结果
 
-React的异步请求到底应该放在哪个生命周期里,有人认为在`componentWillMount`中可以提前进行异步请求,避免白屏,其实这个观点是有问题的.
-
-由于JavaScript中异步事件的性质，当您启动API调用时，浏览器会在此期间返回执行其他工作。当React渲染一个组件时，它不会等待componentWillMount它完成任何事情 - React继续前进并继续render,没有办法“暂停”渲染以等待数据到达。
-
-而且在`componentWillMount`请求会有一系列潜在的问题,首先,在服务器渲染时,如果在 componentWillMount 里获取数据，fetch data会执行两次，一次在服务端一次在客户端，这造成了多余的请求,其次,在React 16进行React Fiber重写后,`componentWillMount`可能在一次渲染中多次调用.
-
-目前官方推荐的异步请求是在`componentDidmount`中进行.
-
-如果有特殊需求需要提前请求,也可以在特殊情况下在`constructor`中请求:
-
-> react 17之后`componentWillMount`会被废弃,仅仅保留`UNSAFE_componentWillMount`
+**3、** `setState` 的批量更新优化也是建立在“异步”合成事件、钩子函数之上的在原生事件和`setTimeout` 中不会批量更新在“异步”中如果对同一个值进行多次`setState`的批量更新策略会对其进行覆盖取最后一次的执行如果是同时`setState`多个不同的值在更新时会对其进行合并批量更新
 
 
-
-### 11、keep-alive了解吗
-### 12、setState: React 中用于修改状态更新视图。它具有以下特点:
-### 13、如何告诉 React 它应该编译生产环境版
-### 14、redux中间件有哪些，做什么用？
-### 15、connect原理
-### 16、React与Vue的相似之处
-### 17、什么是JSX？
-### 18、再说一下虚拟Dom以及key属性的作用
-### 19、react性能优化是哪个周期函数
-### 20、Vue模版编译原理知道吗，能简单说一下吗？
-### 21、react组件的划分业务组件技术组件
-### 22、生命周期钩子 (useEffect):
-### 23、列出React的一些主要优点。
-### 24、Redux实现原理解析
-### 25、Redux与Flux有何不同？
-### 26、说一下v-model的原理
-### 27、diff算法?
-### 28、与 ES5 相比，React 的 ES6 语法有何不同？
+### 11、React的请求应该放在哪个生命周期中?
+### 12、React组件通信如何实现？
+### 13、pureComponent和FunctionComponent区别
+### 14、hash路由和history路由实现原理说一下
+### 15、Vue2.x组件通信有哪些方式？
+### 16、redux有什么缺点
+### 17、Redux遵循的三个原则是什么？
+### 18、你理解“在React中，一切都是组件”这句话。
+### 19、connect原理
+### 20、React Router与常规路由有何不同？
+### 21、如何告诉 React 它应该编译生产环境版
+### 22、Vue事件绑定原理说一下
+### 23、React如何进行组件/逻辑复用?
+### 24、区分有状态和无状态组件。
+### 25、React 中的箭头函数是什么？怎么用？
+### 26、setState到底是异步还是同步?
+### 27、keep-alive了解吗
+### 28、我现在有一个button要用react在上面绑定点击事件要怎么做
 
 
 
 
 ## 全部答案，整理好了，直接下载吧
 
-### 下载链接：[全部答案，整理好了](https://www.souyunku.com/?p=67)
+### 下载链接：[全部答案，整理好了](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
 
-### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/?p=67)
+### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
 
 
 ## 最新，高清PDF：172份，7701页，最新整理

@@ -2,108 +2,127 @@
 
 ### 其实，博主还整理了，更多大厂面试题，直接下载吧
 
-### 下载链接：[高清172份，累计 7701 页大厂面试题  PDF](https://www.souyunku.com/?p=67)
+### 下载链接：[高清172份，累计 7701 页大厂面试题  PDF](https://github.com/souyunku/DevBooks/blob/master/docs/index.md)
 
-### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/?p=67)
-
-
-
-### 1、说几个zookeeper常用的命令。
-
-常用命令：ls get set create delete等。
+### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png)
 
 
-### 2、客户端如何获取配置信息？
 
-启动时主动到服务端拉取信息，同时，在制定节点注册Watcher监听。一旦有配置变化，服务端就会实时通知订阅它的所有客户端。
+### 1、ZooKeeper 提供了什么？
 
-### 3、Chroot 特性
+**1、** 文件系统
 
-3.2.0 版本后，添加了 Chroot 特性，该特性允许每个客户端为自己设置一个命名空间。如果一个客户端设置了 Chroot，那么该客户端对服务器的任何操作，都将会被限制在其自己的命名空间下。
-
-通过设置 Chroot，能够将一个客户端应用于 Zookeeper 服务端的一颗子树相对应，在那些多个应用公用一个 Zookeeper 进群的场景下，对实现不同应用间的相互隔离非常有帮助。
+**2、** 通知机制
 
 
-### 4、说一下 Zookeeper 的通知机制？
+### 2、服务器角色
 
-client 端会对某个 znode 建立一个 watcher 事件，当该 znode 发生变化时，这些 client 会收到 zk 的通知，然后 client 可以根据 znode 变化来做出业务上的改变等。
+**Leader**
+
+**1、** 事务请求的唯一调度和处理者，保证集群事务处理的顺序性
+
+**2、** 集群内部各服务的调度者
+
+**Follower**
+
+**1、** 处理客户端的非事务请求，转发事务请求给Leader服务器
+
+**2、** 参与事务请求Proposal的投票
+
+**3、** 参与Leader选举投票
+
+**Observer**
+
+**1、** 3.0版本以后引入的一个服务器角色，在不影响集群事务处理能力的基础上提升集群的非事务处理能力
+
+**2、** 处理客户端的非事务请求，转发事务请求给Leader服务器
+
+**3、** 不参与任何形式的投票
 
 
-### 5、恢复模式
+### 3、集群最少要几台机器，集群规则是怎样的？集群中有 3 台服务器，其中一个节点宕机，这个时候 Zookeeper 还可以使用吗？
 
-当服务启动或者在领导者崩溃后，Zab就进入了恢复模式，当领导者被选举出来，且大多数 server 完成了和 leader 的状态同步以后，恢复模式就结束了。状态同步保证了 leader 和 server 具有相同的系统状态。
+集群规则为 2N+1 台，N>0，即 3 台。可以继续使用，单数服务器只要没超过一半的服务器宕机就可以继续使用。
 
 
-### 6、会话管理
+### 4、Zookeeper集群管理（文件系统、通知机制）
 
-分桶策略：将类似的会话放在同一区块中进行管理，以便于 Zookeeper 对会话进行不同区块的隔离处理以及同一区块的统一处理。
+**1、** 所谓集群管理无在乎两点：是否有机器退出和加入、选举master。
+
+**2、** 对于第一点，所有机器约定在父目录下创建临时目录节点，然后监听父目录节点的子节点变化消息。一旦有机器挂掉，该机器与 zookeeper的连接断开，其所创建的临时目录节点被删除，所有其他机器都收到通知：某个兄弟目录被删除，于是，所有人都知道：它上船了。
+
+**3、** 新机器加入也是类似，所有机器收到通知：新兄弟目录加入，highcount又有了，对于第二点，我们稍微改变一下，所有机器创建临时顺序编号目录节点，每次选取编号最小的机器作为master就好。
+
+
+### 5、会话管理
+
+分桶策略：将类似的会话放在同一区块中进行管理，以便于Zookeeper对会话进行不同区块的隔离处理以及同一区块的统一处理。
 
 分配原则：每个会话的“下次超时时间点”（ExpirationTime）
 
 **计算公式：**
 
 ```
-ExpirationTime\_ = currentTime + sessionTimeout
-
-ExpirationTime = (ExpirationTime\_ / ExpirationInrerval + 1) \*
-
-ExpirationInterval , ExpirationInterval 是指 Zookeeper 会话超时检查时间间隔，默认 tickTime
+ExpirationTime_ = currentTime + sessionTimeout
+ExpirationTime = (ExpirationTime_ / ExpirationInrerval + 1) * ExpirationInterval , ExpirationInterval 是指 Zookeeper 会话超时检查时间间隔，默认 tickTime
 ```
 
 
-### 7、说几个 zookeeper 常用的命令。
+### 6、客户端回调Watcher
 
-常用命令：ls get set create delete 等。
-
-
-### 8、如何识别请求的先后顺序？
-
-ZooKeeper会给每个更新请求，分配一个全局唯一的递增编号（zxid)，编号的大小体现事务操作的先后顺序。
+客户端SendThread线程接收事件通知，交由EventThread线程回调Watcher。客户端的Watcher机制同样是一次性的，一旦被触发后，该Watcher就失效了。
 
 
-### 9、ZAB协议？
+### 7、zookeeper 是如何保证事务的顺序一致性的？
 
-ZAB协议是为分布式协调服务Zookeeper专门设计的一种支持崩溃恢复的原子广播协议。
-
-ZAB协议包括两种基本的模式：崩溃恢复和消息广播。
-
-当整个zookeeper集群刚刚启动或者Leader服务器宕机、重启或者网络故障导致不存在过半的服务器与Leader服务器保持正常通信时，所有进程（服务器）进入崩溃恢复模式，首先选举产生新的Leader服务器，然后集群中Follower服务器开始与新的Leader服务器进行数据同步，当集群中超过半数机器与该Leader服务器完成数据同步之后，退出恢复模式进入消息广播模式，Leader服务器开始接收客户端的事务请求生成事物提案来进行事务请求处理。
+zookeeper 采用了全局递增的事务 Id 来标识，所有的 proposal（提议）都在被提出的时候加上了 zxid，zxid 实际上是一个 64 位的数字，高 32 位是 epoch（ 时期; 纪元; 世; 新时代）用来标识 leader 周期，如果有新的 leader 产生出来，epoch会自增，低 32 位用来递增计数。当新产生 proposal 的时候，会依据数据库的两阶段过程，首先会向其他的 server 发出事务执行请求，如果超过半数的机器都能执行并且能够成功，那么就会开始执行。
 
 
-### 10、集群最少要几台机器，集群规则是怎样的?
+### 8、Zookeeper文件系统
 
-集群规则为2N+1台，N>0，即3台。
+Zookeeper提供一个多层级的节点命名空间（节点称为znode）。与文件系统不同的是，这些节点都可以设置关联的数据，而文件系统中只有文件节点可以存放数据而目录节点不行。
+
+Zookeeper为了保证高吞吐和低延迟，在内存中维护了这个树状的目录结构，这种特性使得Zookeeper不能用于存放大量的数据，每个节点的存放数据上限为1M。
 
 
-### 11、Zookeeper有哪几种几种部署模式？
-### 12、Zookeeper分布式锁（文件系统、通知机制）
-### 13、什么是会话Session?
-### 14、Zookeeper Watcher 机制 – 数据变更通知
-### 15、Zookeeper 文件系统
-### 16、zk的配置管理（文件系统、通知机制）
-### 17、四种类型的数据节点 Znode
-### 18、Zookeeper同步流程
-### 19、Zookeeper 下 Server工作状态
-### 20、服务器角色
-### 21、Zookeeper 的 java 客户端都有哪些？
-### 22、ZooKeeper 面试题？
-### 23、ZooKeeper 提供了什么？
-### 24、ZAB 和 Paxos 算法的联系与区别？
-### 25、Zookeeper 下 Server 工作状态
-### 26、Zookeeper 和 Dubbo 的关系？
-### 27、zookeeper 是如何保证事务的顺序一致性的？
-### 28、Zookeeper文件系统
-### 29、广播模式
-### 30、Zookeeper 下 Server工作状态
+### 9、客户端如何获取配置信息？
+
+启动时主动到服务端拉取信息，同时，在制定节点注册Watcher监听。一旦有配置变化，服务端就会实时通知订阅它的所有客户端。
+
+### 10、Zookeeper通知机制
+
+client端会对某个znode建立一个watcher事件，当该znode发生变化时，这些client会收到zk的通知，然后client可以根据znode变化来做出业务上的改变等。
+
+
+### 11、获取指定节点信息？
+### 12、几种部署方式？
+### 13、Zookeeper队列管理（文件系统、通知机制）
+### 14、chubby是什么，和zookeeper比你怎么看？
+### 15、zookeeper是如何保证事务的顺序一致性的？
+### 16、ACL权限控制机制
+### 17、数据发布/订阅
+### 18、zookeeper 负载均衡和 nginx 负载均衡区别
+### 19、ZooKeeper 面试题？
+### 20、数据发布/订阅？
+### 21、权限控制?
+### 22、Zookeeper 下 Server工作状态
+### 23、zk节点宕机如何处理？
+### 24、分布式集群中为什么会有Master？
+### 25、集群支持动态添加机器吗？
+### 26、ZooKeeper可以保证哪些分布式一致性特性？
+### 27、Zookeeper 怎么保证主从节点的状态同步？
+### 28、数据同步
+### 29、ACL 权限控制机制
+### 30、Zookeeper文件系统
 
 
 
 
 ## 全部答案，整理好了，直接下载吧
 
-### 下载链接：[全部答案，整理好了](https://www.souyunku.com/?p=67)
+### 下载链接：[全部答案，整理好了](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
 
-### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/?p=67)
+### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
 
 
 ## 最新，高清PDF：172份，7701页，最新整理

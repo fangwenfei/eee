@@ -2,137 +2,149 @@
 
 ### 其实，博主还整理了，更多大厂面试题，直接下载吧
 
-### 下载链接：[高清172份，累计 7701 页大厂面试题  PDF](https://www.souyunku.com/?p=67)
+### 下载链接：[高清172份，累计 7701 页大厂面试题  PDF](https://github.com/souyunku/DevBooks/blob/master/docs/index.md)
 
-### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/?p=67)
+### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png)
 
 
 
-### 1、通过什么命令指定命令提示符?
+### 1、什么是root帐户
+
+root帐户就像一个系统管理员帐户，允许你完全控制系统。你可以在此处创建和维护用户帐户，为每个帐户分配不同的权限。每次安装Linux时都是默认帐户。
+
+
+### 2、已知 apache 服务的访问日志按天记录在服务器本地目录/app/logs 下，由于磁盘空间紧张现在要求只能保留最近 7 天的访问日志！请问如何解决？请给出解决办法或配置或处理命令
+
+创建文件脚本：
+
+#!/bin/bash
+
+for n in `seq 14`
+
+do
+
+date -s "11/0$n/14"
+
+touch access_www_`(date +%F)`.log
+
+done
+
+解决方法：
+
+```
+# pwd/application/logs
+# ll
+-rw-r--r--、1 root root 0 Jan  1 00:00 access_www_2015-01-01.log
+-rw-r--r--、1 root root 0 Jan  2 00:00 access_www_2015-01-02.log
+-rw-r--r--、1 root root 0 Jan  3 00:00 access_www_2015-01-03.log
+-rw-r--r--、1 root root 0 Jan  4 00:00 access_www_2015-01-04.log
+-rw-r--r--、1 root root 0 Jan  5 00:00 access_www_2015-01-05.log
+-rw-r--r--、1 root root 0 Jan  6 00:00 access_www_2015-01-06.log
+-rw-r--r--、1 root root 0 Jan  7 00:00 access_www_2015-01-07.log
+-rw-r--r--、1 root root 0 Jan  8 00:00 access_www_2015-01-08.log
+-rw-r--r--、1 root root 0 Jan  9 00:00 access_www_2015-01-09.log
+-rw-r--r--、1 root root 0 Jan 10 00:00 access_www_2015-01-10.log
+-rw-r--r--、1 root root 0 Jan 11 00:00 access_www_2015-01-11.log
+-rw-r--r--、1 root root 0 Jan 12 00:00 access_www_2015-01-12.log
+-rw-r--r--、1 root root 0 Jan 13 00:00 access_www_2015-01-13.log
+-rw-r--r--、1 root root 0 Jan 14 00:00 access_www_2015-01-14.log
+# find /application/logs/ -type f -mtime +7 -name "*.log"|xargs rm –f  
+##也可以使用-exec rm -f {} ;进行删除
+# ll
+-rw-r--r--、1 root root 0 Jan  7 00:00 access_www_2015-01-07.log
+-rw-r--r--、1 root root 0 Jan  8 00:00 access_www_2015-01-08.log
+-rw-r--r--、1 root root 0 Jan  9 00:00 access_www_2015-01-09.log
+-rw-r--r--、1 root root 0 Jan 10 00:00 access_www_2015-01-10.log
+-rw-r--r--、1 root root 0 Jan 11 00:00 access_www_2015-01-11.log
+-rw-r--r--、1 root root 0 Jan 12 00:00 access_www_2015-01-12.log
+-rw-r--r--、1 root root 0 Jan 13 00:00 access_www_2015-01-13.log
+-rw-r--r--、1 root root 0 Jan 14 00:00 access_www_2015-01-14.log
+```
+
+
+### 3、BASH和DOS之间的基本区别是什么？
+
+**BASH和DOS控制台之间的主要区别在于3个方面：**
+
+**1、** BASH命令区分大小写，而DOS命令则不区分;
+
+**2、** 在BASH下，/ character是目录分隔符，\作为转义字符。在DOS下，/用作命令参数分隔符，\是目录分隔符
+
+**3、** DOS遵循命名文件中的约定，即8个字符的文件名后跟一个点，扩展名为3个字符。BASH没有遵循这样的惯例。
+
+
+### 4、终端是哪个文件夹下的哪个文件？黑洞文件是哪个文件夹下的哪个命令？
 
 **答案：**
 
-**1、** \u：显示当前用户账号
+终端 ?/dev/tty
 
-**2、** \h：显示当前主机名
-
-**3、** \W：只显示当前路径最后一个目录
-
-**4、** \w：显示当前绝对路径（当前用户目录会以~代替）
-
-**5、** $PWD：显示当前全路径
-
-**6、** $$：显示命令行’$$'或者’#'符号
-
-**7、** #：下达的第几个命令
-
-**8、** \d：代表日期，格式为week day month date，例如："MonAug1"
-
-**9、** \t：显示时间为24小时格式，如：HH：MM：SS
-
-**10、** \T：显示时间为12小时格式
-
-**11、** \A：显示时间为24小时格式：HH：MM
-
-**12、** \v：BASH的版本信息 如export PS1=’[\u@\h\w#]$‘
+黑洞文件 ?/dev/null
 
 
-### 2、top 命令
+### 5、启动shell
+
+GNU bash shell能提供对linux 系统的交互式访问。作为普通程序运行，通常在用户登陆终端时启动。登录时系统启动的shell依赖与用户账户的配置。
+
+
+### 6、绝对文件路径?相对文件路径？快捷方式？
+
+绝对文件路径：描述了在虚拟目录结构中该目录的确切位置，以虚拟目录跟目录开始，相当于目录全名。
+
+以正斜线(/)开始，比如 /usr/local。
+
+相对文件路径：允许用户执行一个基于当前位置的目标文件路径。
+
+比如:当前在/usr/local
 
 ```
-#显示当前系统正在执行的进程的相关信息，包括进程 ID、内存占用率、CPU 占用率等
--c 显示完整的进程命令
--s 保密模式
--p <进程号> 指定进程显示
--n <次数>循环显示次数
+?  local ls
+Caskroom   Frameworks bin        go         lib        sbin       var
+Cellar     Homebrew   etc        include    opt        share
+?  local cd go
 ```
 
+快捷方式(在相对路径中使用):
 
-### 3、Linux 中进程有哪几种状态？在 ps 显示出来的信息中，分别用什么符号表示的？
-
-**答案：**
-
-**1、** 不可中断状态：进程处于睡眠状态，但是此刻进程是不可中断的。不可中断， 指进程不响应异步信号。
-
-**2、** 暂停状态/跟踪状态：向进程发送一个 SIGSTOP 信号，它就会因响应该信号 而进入 TASK_STOPPED 状态;当进程正在被跟踪时，它处于 TASK_TRACED 这个特殊的状态。
-
-正被跟踪”指的是进程暂停下来，等待跟踪它的进程对它进行操作。
-
-**3、** 就绪状态：在 run_queue 队列里的状态
-
-**4、** 运行状态：在 run_queue 队列里的状态
-
-**5、** 可中断睡眠状态：处于这个状态的进程因为等待某某事件的发生（比如等待 socket 连接、等待信号量），而被挂起
-
-**6、** zombie 状态（僵尸）：父亲没有通过 wait 系列的系统调用会顺便将子进程的尸体（task_struct）也释放掉
-
-**7、** 退出状态
-
-> D 不可中断 Uninterruptible（usually IO）
-
-R 正在运行，或在队列中的进程
-
-S 处于休眠状态
-
-T 停止或被追踪
-
-Z 僵尸进程
-
-W 进入内存交换（从内核 2.6 开始无效）
-
-X 死掉的进程
+单点符(.) : 表示当前目录; 双点符(..) : 表示当前目录的父目录。
 
 
+### 7、8.迷路，我的当前位置在哪？
 
-### 4、查看各类环境变量用什么命令?
-
-**答案：**
-
-**1、** 查看所有 env
-
-**2、** 查看某个，如 home： env $HOME
-
-
-### 5、yum install -y lrzsz 命令（实现win到Linux文件互相简单上传文件）
+pwd 显示当前目录
 
 ```
-#（实际上就是在Linux系统中下载了一个插件）下了了此安装包后就可以实现win系统到linux之间拉文件拉文件
-#等待下载完了就可以输入：
-
-rz  从win系统中选择文件上传到Linux系统中
-
-sz  文件名 选择Linux系统的文件复制到win系统中
+[root@iz2ze76ybn73dvwmdij06zz local]# pwd
+/usr/local
 ```
 
 
-### 6、如何查看命令历史记录?
+### 8、如何规划一台 Linux 主机，步骤是怎样？
 
-history 命令可以展示你用的命令的历史记录。
+确定机器是做什么用的，比如是做 WEB 、DB、还是游戏服务器。
 
-```
- 4463  touch service1 service2
- 4464  ls
- 4465  tar -cvf service.tar service1 service2
- 4466  tar -tf service.tar
- 4467  tar zxvf service
- 4468  tar zxvf service.t
- 4469  tar zxvf service.tar
- 4470  ls
- 4471  tar -zxvf  service.tar
- 4472  ls
-```
+> 不同的用途，机器的配置会有所不同。
 
 
-### 7、Ls 命令执行什么功能？ 可以带哪些参数，有什么区别？
+**1、** 确定好之后，就要定系统需要怎么安装，默认安装哪些系统、分区怎么做。
 
-**答案：**
-
-**1、** ls 执行的功能： 列出指定目录中的目录，以及文件
-
-**2、** 哪些参数以及区别： a 所有文件l 详细信息，包括大小字节数，可读可写可执行的权限等
+**2、** 需要优化系统的哪些参数，需要创建哪些用户等等的。
 
 
-### 8、储存用户的文件是?包括哪些信息？
+### 9、什么是网站数据库注入？
+
+**1、** 由于程序员的水平及经验参差不齐，大部分程序员在编写代码的时候，没有对用户输入数据的合法性进行判断。
+
+**2、** 应用程序存在安全隐患。用户可以提交一段数据库查询代码，根据程序返回的结果，获得某些他想得知的数据，这就是所谓的 SQL 注入。
+
+**3、** SQL注入，是从正常的 WWW 端口访问，而且表面看起来跟一般的 Web 页面访问没什么区别，如果管理员没查看日志的习惯，可能被入侵很长时间都不会发觉。
+
+**如何过滤与预防？**
+
+数据库网页端注入这种，可以考虑使用 nginx_waf 做过滤与预防。
+
+
+### 10、储存用户的文件是?包括哪些信息？
 
 /etc/passwd存储来一些用户有关的信息。
 
@@ -159,63 +171,34 @@ bin:x:1:1:bin:/bin:/sbin/nologin
 **7、** 用户的默认shell
 
 
-### 9、使用什么命令查看磁盘使用空间？ 空闲空间呢?
-
-答案：
-
-```
-df -hl
-```
-
-文件系统 容量 已用 可用 已用% 挂载点
-
-```
-Filesystem Size Used Avail Use% Mounted on /dev/hda2 45G 19G 24G 44% /
-/dev/hda1 494M 19M 450M 4% /boot
-```
-
-
-### 10、什么是 Linux 内核？
-
-Linux 系统的核心是内核。内核控制着计算机系统上的所有硬件和软件，在必要时分配硬件，并根据需要执行软件。
-
-**1、** 系统内存管理
-
-**2、** 应用程序管理
-
-**3、** 硬件设备管理
-
-**4、** 文件系统管理
-
-
-### 11、Grep 命令有什么用？ 如何忽略大小写？ 如何查找不含该串的行?
-### 12、利用 ps 怎么显示所有的进程? 怎么利用 ps 查看指定进程的信息？
-### 13、Squid、Varinsh和Nginx有什么区别，工作中你怎么选择？
-### 14、Linux系统缺省的运行级别？
-### 15、账户默认信息？添加账户？删除用户？
-### 16、Linux广泛使用的归档数据方法?
-### 17、登陆后你在的位置？
-### 18、数据字典属于哪一个用户的？
-### 19、哪个文件包含了主机名和ip的映射关系?
-### 20、验证网络可链接命令是什么？什么原理？
-### 21、哪个命令专门用来查看后台任务?
+### 11、rm（remove：移除的意思）删除文件，或文件夹
+### 12、什么是CLI？
+### 13、ps （process status：进程状态，类似于windows的任务管理器）
+### 14、如何用sed只打印第5行?删除第一行？替换字符串?
+### 15、利用 ps 怎么显示所有的进程? 怎么利用 ps 查看指定进程的信息？
+### 16、使用什么命令查看 ip 地址及接口信息？
+### 17、请问当用户反馈网站访问慢，你会如何处理？
+### 18、使用tcpdump监听主机为192.168.1.1，tcp端口为80的数据，同时将输出结果保存输出到tcpdump.log
+### 19、如何压缩文件？如何解压文件?
+### 20、请执行命令取出 linux 中 eth0 的 IP 地址(请用 cut，有能力者也可分别用 awk,sed 命令答)
+### 21、怎么使一个命令在后台运行?
 ### 22、less （lese：较少的意思）分页查看文件命令（可以快速定位到最后一页）
-### 23、目录创建用什么命令？创建文件用什么命令？复制文件用什么命令？
-### 24、Linux 性能调优都有哪几种方法？
-### 25、什么是网站数据库注入？
-### 26、什么是运维？什么是游戏运维？
-### 27、写一个脚本，实现判断192.168.1.0/24网络里，当前在线的IP有哪些，能ping通则认为在线
-### 28、怎么使一个命令在后台运行?
-### 29、简述DNS进行域名解析的过程？
+### 23、当你需要给命令绑定一个宏或者按键的时候，应该怎么做呢？
+### 24、搜索文件用什么命令? 格式是怎么样的?
+### 25、数据排序?对数字进行排序？对月份排序？
+### 26、你对现在运维工程师的理解和以及对其工作的认识
+### 27、账户默认信息？添加账户？删除用户？
+### 28、vi （VIsual：视觉）文本编辑器 类似win的记事本 （操作类似于地下的vim命令，看底下vim 的操作）
+### 29、查看时间命令：
 
 
 
 
 ## 全部答案，整理好了，直接下载吧
 
-### 下载链接：[全部答案，整理好了](https://www.souyunku.com/?p=67)
+### 下载链接：[全部答案，整理好了](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
 
-### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/?p=67)
+### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
 
 
 ## 最新，高清PDF：172份，7701页，最新整理

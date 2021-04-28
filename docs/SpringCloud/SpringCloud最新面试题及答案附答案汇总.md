@@ -2,157 +2,117 @@
 
 ### 其实，博主还整理了，更多大厂面试题，直接下载吧
 
-### 下载链接：[高清172份，累计 7701 页大厂面试题  PDF](https://www.souyunku.com/?p=67)
+### 下载链接：[高清172份，累计 7701 页大厂面试题  PDF](https://github.com/souyunku/DevBooks/blob/master/docs/index.md)
 
-### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/?p=67)
-
-
-
-### 1、什么是幂等性?它是如何使用的？
-
-幂等性指的是这样一种场景:您重复执行一项任务，但最终结果保持不变或类似。 幂等性主要用作数据源或远程服务，当它接收一组以上指令时，它只处理一组指令。
+### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png)
 
 
 
-### 2、我们可以用微服务创建状态机吗？
+### 1、什么是微服务
 
-我们知道拥有自己的数据库的每个微服务都是一个可独立部署的程序单元，这反过来又让我们可以创建一个状态机。因此，我们可以为特定的微服务指定不同的状态和事件。
+**1、** 微服务是⼀种架构⻛格，也是⼀种服务；
 
-例如，我们可以定义Order微服务。订单可以具有不同的状态。Order状态的转换可以是Order微服务中的独立事件。
+**2、** 微服务的颗粒⽐较⼩，⼀个⼤型复杂软件应⽤由多个微服务组成，⽐如Netflix⽬前由500多的微服务组成；
 
-
-### 3、Spring Cloud Zookeeper
-
-SpringCloud支持三种注册方式Eureka， Consul(go语言编写)，zookeeper
-
-Spring Cloud Zookeeper是基于Apache Zookeeper的服务治理组件。
+**3、** 它采⽤UNIX设计的哲学，每种服务只做⼀件事，是⼀种松耦合的能够被独⽴开发和部署的⽆状态化服务（独⽴扩展、升级和可替换）。
 
 
-### 4、什么是凝聚力？
+### 2、什么是Semantic监控？
 
-模块内部元素所属的程度被认为是凝聚力。
-
-
-### 5、您对Distributed Transaction有何了解？
-
-分布式事务是指单个事件导致两个或多个不能以原子方式提交的单独数据源的突变的任何情况。在微服务的世界中，它变得更加复杂，因为每个服务都是一个工作单元，并且大多数时候多个服务必须协同工作才能使业务成功。
+它结合了对整个应用程序的监控以及自动化测试。语义监控的主要好处是找出对您的业务更有利可图的因素。 从业务角度来看，语义监控以及服务层监控可以监控微服务。一旦检测到问题，它们就可以实现更快的隔离和 错误分类，从而减少修复所需的主要时间。它对服务层和事务层进行分类，以确定受可用性或性能不佳影响的事务。
 
 
-### 6、Spring Cloud OpenFeign
+### 3、Nginx与Ribbon的区别
 
-基于Ribbon和Hystrix的声明式服务调用组件，可以动态创建基于Spring MVC注解的接口实现用于服务调用，在Spring Cloud 2.0中已经取代Feign成为了一等公民。
-
-Spring Cloud的版本关系
-
-Spring Cloud是一个由许多子项目组成的综合项目，各子项目有不同的发布节奏。为了管理Spring Cloud与各子项目的版本依赖关系，发布了一个清单，其中包括了某个Spring Cloud版本对应的子项目版本。
-
-为了避免Spring Cloud版本号与子项目版本号混淆，Spring Cloud版本采用了名称而非版本号的命名，这些版本的名字采用了伦敦地铁站的名字，根据字母表的顺序来对应版本时间顺序，例如Angel是第一个版本，Brixton是第二个版本。
-
-当Spring Cloud的发布内容积累到临界点或者一个重大BUG被解决后，会发布一个"service releases"版本，简称SRX版本，比如Greenwich.SR2就是Spring Cloud发布的Greenwich版本的第2个SRX版本。目前Spring Cloud的最新版本是Hoxton。
+Nginx是反向代理同时可以实现负载均衡，nginx拦截客户端请求采用负载均衡策略根据upstream配置进行转发，相当于请求通过nginx服务器进行转发。Ribbon是客户端负载均衡，从注册中心读取目标服务器信息，然后客户端采用轮询策略对服务直接访问，全程在客户端操作。
 
 
-### 7、什么是Spring Cloud？
+### 4、Ribbon和Feign的区别？
 
-Spring cloud流应用程序启动器是基于SpringBoot的Spring集成应用程序，提供与外部系统的集成。Spring cloud Task，一个生命周期短暂的微服务框架，用于快速构建执行有限数据处理的应用程序。
+**1、** Ribbon都是调用其他服务的，但方式不同。
 
+**2、** 启动类注解不同，Ribbon是[@RibbonClient ](/RibbonClient ) feign的是[@EnableFeignClients ](/EnableFeignClients )
 
-### 8、什么是断路器
+**3、** 服务指定的位置不同，Ribbon是在@RibbonClient注解上声明，Feign则是在定义抽象方法的接口中使用@FeignClient声明。
 
-当一个服务调用另一个服务由于网络原因或自身原因出现问题，调用者就会等待被调用者的响应 当更多的服务请求到这些资源导致更多的请求等待，发生连锁效应（雪崩效应）
-
-**断路器有三种状态**
-
-**1、** 打开状态：一段时间内 达到一定的次数无法调用 并且多次监测没有恢复的迹象 断路器完全打开 那么下次请求就不会请求到该服务
-
-**2、** 半开状态：短时间内 有恢复迹象 断路器会将部分请求发给该服务，正常调用时 断路器关闭
-
-**3、** 关闭状态：当服务一直处于正常状态 能正常调用
+**4、** 调用方式不同，Ribbon需要自己构建http请求，模拟http请求然后使用RestTemplate发送给其他服务，步骤相当繁琐。Feign需要将调用的方法定义成抽象方法即可。
 
 
-### 9、什么是Netflix Feign？它的优点是什么？
+### 5、Ribbon和Feign调用服务的区别
 
-Feign是受到Retrofit，JAXRS-2.0和WebSocket启发的java客户端联编程序。Feign的第一个目标是将约束分母的复杂性统一到http apis，而不考虑其稳定性。在employee-consumer的例子中，我们使用了employee-producer使用REST模板公开的REST服务。
+**1、** 调用方式同：Ribbon需要我们自己构建Http请求，模拟Http请求然后通过RestTemplate发给其他服务，步骤相当繁琐
 
-**但是我们必须编写大量代码才能执行以下步骤**
-
-使用功能区进行负载平衡。
-
-获取服务实例，然后获取基本URL。
-
-利用REST模板来使用服务。前面的代码如下
-
-```
-@Controller
-public class ConsumerControllerClient {
-@Autowired
-private LoadBalancerClient loadBalancer;
-
-public void getEmployee() throws RestClientException, IOException {
-
-    ServiceInstance serviceInstance=loadBalancer.choose("employee-producer");
-
-    System.out.println(serviceInstance.getUri());
-
-    String baseUrl=serviceInstance.getUri().toString();
-
-    baseUrl=baseUrl+"/employee";
-
-    RestTemplate restTemplate = new RestTemplate();
-    ResponseEntity<String> response=null;
-    try{
-    response=restTemplate.exchange(baseUrl,
-            HttpMethod.GET, getHeaders(),String.class);
-    }catch (Exception ex)
-    {
-        System.out.println(ex);
-    }
-    System.out.println(response.getBody());
-}
-```
-
-之前的代码，有像NullPointer这样的例外的机会，并不是最优的。我们将看到如何使用Netflix Feign使呼叫变得更加轻松和清洁。如果Netflix Ribbon依赖关系也在类路径中，那么Feign默认也会负责负载平衡。
+**2、** 而Feign则是在Ribbon的基础上进行了一次改进，采用接口的形式，将我们需要调用的服务方法定义成抽象方法保存在本地就可以了，不需要自己构建Http请求了，直接调用接口就行了，不过要注意，调用方法要和本地抽象方法的签名完全一致。
 
 
-### 10、什么是 Spring Cloud Bus？
+### 6、springcloud核⼼组件及其作⽤，以及springcloud⼯作原理：
 
-**1、** Spring Cloud Bus就像一个分布式执行器，用于扩展的SpringBoot应用程序的配置文件，但也可以用作应用程序之间的通信通道。
+![](https://gitee.com/souyunkutech/souyunku-home/raw/master/images/souyunku-web/2020/5/2/01/44/45_9.png#alt=45%5C_9.png)
 
-**2、** Spring Cloud Bus 不能单独完成通信，需要配合MQ支持
+**springcloud由以下⼏个核⼼组件构成：**
 
-**3、** Spring Cloud Bus一般是配合Spring Cloud Config做配置中心的
+**1、** Eureka：各个服务启动时，Eureka Client都会将服务注册到Eureka Server，并且Eureka Client还可以反过来从Eureka Server拉取注册表，从⽽知道其他服务在哪⾥
 
-**4、** Springcloud config实时刷新也必须采用SpringCloud Bus消息总线
+**2、** Ribbon：服务间发起请求的时候，基于Ribbon做负载均衡，从⼀个服务的多台机器中选择⼀台
+
+**3、** Feign：基于Feign的动态代理机制，根据注解和选择的机器，拼接请求URL地址，发起请求
+
+**4、** Hystrix：发起请求是通过Hystrix的线程池来⾛的，不同的服务⾛不同的线程池，实现了不同服务调⽤的隔离，避免了服务雪崩的问题
+
+**5、** Zuul：如果前端、移动端要调⽤后端系统，统⼀从Zuul⽹关进⼊，由Zuul⽹关转发请求给对应的服务
 
 
-### 11、什么是Eureka的自我保护模式，
-### 12、为什么在微服务中需要Reports报告和Dashboards仪表板？
-### 13、使⽤中碰到的坑
-### 14、微服务的缺点：
-### 15、您对微服务有何了解？
-### 16、您对Mike Cohn的测试金字塔了解多少？
-### 17、第⼀层缓存：
-### 18、Docker的目的是什么？
-### 19、SpringBoot和springcloud认识
-### 20、SpringCloud由什么组成
-### 21、eureka和zookeeper都可以提供服务注册与发现的功能，请说说两个的区别？
-### 22、什么是Spring Cloud Bus？我们需要它吗？
-### 23、什么是OAuth？
-### 24、谈谈服务降级、熔断、服务隔离
-### 25、如何覆盖SpringBoot项目的默认属性？
-### 26、服务网关的作用
-### 27、设计微服务的最佳实践是什么？
-### 28、Web，RESTful API在微服务中的作用是什么？
-### 29、PACT如何运作？
-### 30、什么是Spring Cloud Zuul（服务网关）
+### 7、为什么需要域驱动设计（DDD）？
+
+![](https://gitee.com/souyunkutech/souyunku-home/raw/master/images/souyunku-web/2019/08/0816/01/img_11.png#alt=img%5C_11.png)
+
+图9：我们需要DDD的因素 – 微服务面试问题
+
+
+### 8、Spring Cloud Config
+
+集中配置管理工具，分布式系统中统一的外部配置管理，默认使用Git来存储配置，可以支持客户端配置的刷新及加密、解密操作。
+
+
+### 9、Spring Cloud Bus
+
+用于传播集群状态变化的消息总线，使用轻量级消息代理链接分布式系统中的节点，可以用来动态刷新集群中的服务配置。
+
+
+### 10、Spring Cloud的版本关系
+
+Spring Cloud是一个由许多子项目组成的综合项目，各子项目有不同的发布节奏。 为了管理Spring Cloud与各子项目的版本依赖关系，发布了一个清单，其中包括了某个Spring Cloud版本对应的子项目版本。 为了避免Spring Cloud版本号与子项目版本号混淆，Spring Cloud版本采用了名称而非版本号的命名，这些版本的名字采用了伦敦地铁站的名字，根据字母表的顺序来对应版本时间顺序，例如Angel是第一个版本，Brixton是第二个版本。 当Spring Cloud的发布内容积累到临界点或者一个重大BUG被解决后，会发布一个"service releases"版本，简称SRX版本，比如Greenwich.SR2就是Spring Cloud发布的Greenwich版本的第2个SRX版本。目前Spring Cloud的最新版本是Hoxton。
+
+
+### 11、什么是SpringBoot？
+### 12、Zuul网关如何搭建集群
+### 13、什么是Feign？
+### 14、Spring Cloud Zookeeper
+### 15、缓存机制：
+### 16、Spring Cloud Zookeeper
+### 17、Docker的目的是什么？
+### 18、什么是feigin？它的优点是什么？
+### 19、eureka和zookeeper都可以提供服务注册与发现的功能，请说说两个的区别？
+### 20、微服务之间是如何独立通讯的?
+### 21、Spring Cloud Netflix
+### 22、什么是Spring Cloud Gateway?
+### 23、PACT如何运作？
+### 24、Spring Cloud Consul
+### 25、spring cloud 和dubbo区别?
+### 26、什么是Spring Cloud Zuul（服务网关）
+### 27、Eureka和ZooKeeper都可以提供服务注册与发现的功能,请说说两个的区别
+### 28、什么是消费者驱动的合同（CDC）？
+### 29、Zookeeper如何 保证CP
+### 30、SpringBoot和springcloud认识
 
 
 
 
 ## 全部答案，整理好了，直接下载吧
 
-### 下载链接：[全部答案，整理好了](https://www.souyunku.com/?p=67)
+### 下载链接：[全部答案，整理好了](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
 
-### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/?p=67)
+### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
 
 
 ## 最新，高清PDF：172份，7701页，最新整理

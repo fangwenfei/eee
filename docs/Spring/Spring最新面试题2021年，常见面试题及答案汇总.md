@@ -2,120 +2,144 @@
 
 ### 其实，博主还整理了，更多大厂面试题，直接下载吧
 
-### 下载链接：[高清172份，累计 7701 页大厂面试题  PDF](https://www.souyunku.com/?p=67)
+### 下载链接：[高清172份，累计 7701 页大厂面试题  PDF](https://github.com/souyunku/DevBooks/blob/master/docs/index.md)
 
-### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/?p=67)
-
-
-
-### 1、服务降级底层是如何实现的？
-
-Hystrix实现服务降级的功能是通过重写HystrixCommand中的getFallback()方法，当Hystrix的run方法或construct执行发生错误时转而执行getFallback()方法。
+### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png)
 
 
-### 2、Spring Cloud Bus
 
-用于传播集群状态变化的消息总线，使用轻量级消息代理链接分布式系统中的节点，可以用来动态刷新集群中的服务配置。
+### 1、SpringBoot常用的starter有哪些？
 
+**1、** spring-boot-starter-web 嵌入tomcat和web开发需要servlet与jsp支持
 
-### 3、能否举一个例子来解释更多 Staters 的内容？
+**2、** spring-boot-starter-data-jpa 数据库支持
 
-让我们来思考一个 Stater 的例子 -SpringBoot Stater Web。
+**3、** spring-boot-starter-data-Redis Redis数据库支持
 
-如果你想开发一个 web 应用程序或者是公开 REST 服务的应用程序。SpringBoot Start Web 是首选。让我们使用 Spring Initializr 创建一个 SpringBoot Start Web 的快速项目。
+**4、** spring-boot-starter-data-solr solr支持
 
-**依赖项可以被分为：**
-
-**1、** Spring - core，beans，context，aop
-
-**2、** Web MVC - （Spring MVC）
-
-**3、** Jackson - for JSON Binding
-
-**4、** Validation - Hibernate,Validation API
-
-**5、** Enbedded Servlet Container - Tomcat
-
-**6、** Logging - logback,slf4j
-
-任何经典的 Web 应用程序都会使用所有这些依赖项。SpringBoot Starter Web 预先打包了这些依赖项。
-
-作为一个开发者，我不需要再担心这些依赖项和它们的兼容版本。
+**5、** mybatis-spring-boot-starter 第三方的mybatis集成starter
 
 
-### 4、如何集成SpringBoot和ActiveMQ？
+### 2、SpringCloud Config 可以实现实时刷新吗？
 
-对于集成SpringBoot和ActiveMQ，我们使用spring-boot-starter-activemq 依赖关系。 它只需要很少的配置，并且不需要样板代码。
-
-
-### 5、什么是 Spring Data？
-
-来自：[//projects.spring.io/spring-](//projects.spring.io/spring-) data/
-
-Spring Data 的使命是在保证底层数据存储特殊性的前提下，为数据访问提供一个熟悉的，一致性的，基于 Spring 的编程模型。这使得使用数据访问技术，关系数据库和非关系数据库，map-reduce 框架以及基于云的数据服务变得很容易。
-
-为了让它更简单一些，Spring Data 提供了不受底层数据源限制的 Abstractions 接口。
-
-你可以定义一简单的库，用来插入，更新，删除和检索代办事项，而不需要编写大量的代码。
+springcloud config实时刷新采用SpringCloud Bus消息总线。
 
 
-### 6、什么是耦合？
+### 3、什么是Swagger？你用SpringBoot实现了它吗？
 
-组件之间依赖关系强度的度量被认为是耦合。一个好的设计总是被认为具有高内聚力和低耦合性。
-
-
-### 7、什么是依赖注入？
-
-在依赖注入中，您不必创建对象，但必须描述如何创建它们。您不是直接在代码中将组件和服务连接在一起，而是描述配置文件中哪些组件需要哪些服务。由 IoC 容器将它们装配在一起。
+Swagger广泛用于可视化API，使用Swagger UI为前端开发人员提供在线沙箱。Swagger是用于生成RESTful Web服务的可视化表示的工具，规范和完整框架实现。它使文档能够以与服务器相同的速度更新。当通过Swagger正确定义时，消费者可以使用最少量的实现逻辑来理解远程服务并与其进行交互。因此，Swagger消除了调用服务时的猜测。
 
 
-### 8、Async异步调用方法
+### 4、什么是代理?
 
-在SpringBoot中使用异步调用是很简单的，只需要在方法上使用@Async注解即可实现方法的异步调用。 注意：需要在启动类加入@EnableAsync使异步调用@Async注解生效。
-
-
-### 9、什么是 AOP 连接点
-
-连接点代表一个应用程序的某个位置，在这个位置我们可以插入一个AOP切面，它实际上是个应用程序执行Spring AOP的位置。
+代理是通知目标对象后创建的对象。从客户端的角度看，代理对象和目标对象是一样的。
 
 
-### 10、JPA 和 Hibernate 有哪些区别？JPA 可以支持动态 SQL 吗？
+### 5、运行 SpringBoot 有哪几种方式？
 
-JPA本身是一种规范，它的本质是一种ORM规范（不是ORM框架，因为JPA并未提供ORM实现，只是制定了规范）因为JPA是一种规范，所以，只是提供了一些相关的接口，但是接口并不能直接使用，JPA底层需要某种JPA实现，Hibernate 是 JPA 的一个实现集。
+**1、** 打包成 Fat Jar ，直接使用 java -jar 运行。目前主流的做法，推荐。
 
-JPA 是根据实体类的注解来创建对应的表和字段，如果需要动态创建表或者字段，需要动态构建对应的实体类，再重新调用Jpa刷新整个Entity。动态SQL，mybatis支持的最好，jpa也可以支持，但是没有Mybatis那么灵活。
+**2、** 在 IDEA 或 Eclipse 中，直接运行应用的 SpringBoot 启动类的 #main(String[] args 启动。适用于开发调试场景。
+
+**3、** 如果是 Web 项目，可以打包成 War 包，使用外部 Tomcat 或 Jetty 等容器。
 
 
-### 11、自动装配有哪些局限性 ?
-### 12、SpringBoot 自动配置原理是什么？
-### 13、解释WEB 模块。
-### 14、使用 Spring 访问 Hibernate 的方法有哪些？
-### 15、什么是Hystrix?
-### 16、如果在拦截请求中，我想拦截get方式提交的方法,怎么配置
-### 17、什么是Netflix Feign？它的优点是什么？
-### 18、Spring配置文件
-### 19、什么是Oauth？
-### 20、如何通过HibernateDaoSupport将Spring和Hibernate结合起来？
-### 21、Spring支持的事务管理类型
-### 22、如何给静态变量赋值？
-### 23、什么是 Spring Profiles？
-### 24、SpringBoot 的配置文件有哪几种格式？它们有什么区别？
-### 25、什么是Netflix Feign？它的优点是什么？
-### 26、SpringBoot Starter的工作原理
-### 27、什么是REST / RESTful以及它的用途是什么？
-### 28、微服务限流 dubbo限流：dubbo提供了多个和请求相关的filter：ActiveLimitFilter ExecuteLimitFilter TPSLimiterFilter
-### 29、Spring Cloud 是什么
-### 30、Spring框架中的单例bean是线程安全的吗?
-### 31、如何重新加载SpringBoot上的更改，而无需重新启动服务器？
+### 6、如何使用 SpringBoot 实现异常处理？
+
+Spring 提供了一种使用 ControllerAdvice 处理异常的非常有用的方法。我们通过实现一个 ControlerAdvice 类，来处理控制器类抛出的所有异常。
+
+
+### 7、什么是领域驱动设计？
+
+![](https://gitee.com/souyunkutech/souyunku-home/raw/master/images/souyunku-web/2019/08/0816/01/img_10.png#alt=img%5C_10.png)
+
+图8：  DDD原理 – 微服务面试问题
+
+
+### 8、服务雪崩？
+
+简介：服务雪崩效应是⼀种因服务提供者的不可⽤导致服务调⽤者的不可⽤,并将不可⽤逐渐放⼤的过程.
+
+![](https://gitee.com/souyunkutech/souyunku-home/raw/master/images/souyunku-web/2020/5/2/01/44/45_12.png#alt=45%5C_12.png)
+
+**形成原因**
+
+**1、** 服务提供者不可
+
+**2、** 重试加⼤流量
+
+**3、** 服务调⽤者不可⽤
+
+**采⽤策略**
+
+**1、** 流量控制
+
+**2、** 改进缓存模式
+
+**3、** 服务⾃动扩容
+
+**4、** 服务调⽤者降级服务
+
+
+### 9、微服务有哪些特点？
+
+![](https://gitee.com/souyunkutech/souyunku-home/raw/master/images/souyunku-web/2019/08/0816/01/img_3.png#alt=img%5C_3.png)
+
+图3：微服务的 特点 – 微服务访谈问题
+
+解耦 – 系统内的服务很大程度上是分离的。因此，整个应用程序可以轻松构建，更改和扩展
+
+组件化 – 微服务被视为可以轻松更换和升级的独立组件
+
+业务能力 – 微服务非常简单，专注于单一功能
+
+自治 – 开发人员和团队可以彼此独立工作，从而提高速度
+
+持续交付 – 通过软件创建，测试和批准的系统自动化，允许频繁发布软件
+
+责任 – 微服务不关注应用程序作为项目。相反，他们将应用程序视为他们负责的产品
+
+分散治理 – 重点是使用正确的工具来做正确的工作。这意味着没有标准化模式或任何技术模式。开发人员可以自由选择最有用的工具来解决他们的问题
+
+敏捷 – 微服务支持敏捷开发。任何新功能都可以快速开发并再次丢弃
+
+
+### 10、我们如何进行跨功能测试？
+
+跨功能测试是对非功能性需求的验证，即那些无法像普通功能那样实现的需求。
+
+
+### 11、使用Spring框架的好处是什么？
+### 12、什么是DispatcherServlet
+### 13、介绍一下 WebApplicationContext
+### 14、如何在SpringBoot应用程序中实现Spring安全性？
+### 15、你怎样定义类的作用域?
+### 16、常用网关框架有那些？
+### 17、比较一下 Spring Security 和 Shiro 各自的优缺点 ?
+### 18、如果前台有很多个参数传入,并且这些参数都是一个对象的,那么怎么样快速得到这个对象？
+### 19、如何在 SpringBoot 启动的时候运行一些特定的代码？
+### 20、列举 IoC 的一些好处。
+### 21、SpringBoot 的配置文件有哪几种格式？它们有什么区别？
+### 22、Spring 应用程序有哪些不同组件？
+### 23、SpringBoot 打成的 jar 和普通的 jar 有什么区别 ?
+### 24、负载均衡的意义是什么?
+### 25、SpringBoot 有哪几种读取配置的方式？
+### 26、为什么我们需要微服务容器？
+### 27、Spring Cloud Consul
+### 28、SpringBoot的配置文件有哪几种格式？区别是什么？
+### 29、Spring MVC 框架有什么用？
+### 30、过渡到微服务时的常见错误
+### 31、运行 SpringBoot 有哪几种方式？
 
 
 
 
 ## 全部答案，整理好了，直接下载吧
 
-### 下载链接：[全部答案，整理好了](https://www.souyunku.com/?p=67)
+### 下载链接：[全部答案，整理好了](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
 
-### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/?p=67)
+### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
 
 
 ## 最新，高清PDF：172份，7701页，最新整理
