@@ -1,4 +1,4 @@
-## 程序员-面试题大汇总
+## 程序员-280多份，面试题大汇总
 
 最近又赶上跳槽的高峰期，好多粉丝，都问我要有没有最新面试题，我连日加班好多天，终于整理好了，面试题大全，我会持续更新中，马上就出第四版，涵盖大厂算法会更多！
 
@@ -6,7 +6,7 @@
 
 包括 Java 集合、JVM、多线程、并发编程、设计模式、SpringBoot、SpringCloud、Java、MyBatis、ZooKeeper、Dubbo、Elasticsearch、Memcached、MongoDB、Redis、MySQL、RabbitMQ、Kafka、Linux、Netty、Tomcat、Python、HTML、CSS、Vue、React、JavaScript、Android 大数据、阿里巴巴等大厂面试题等、等技术栈！
 
-## 面试题分多个技术大类
+## 面试题技术大类，索引，直达
 
 |   |   |    |    |     |
 | ------------ | ------------ | ------------ | ------------ | ------------ |
@@ -15,7 +15,7 @@
 |  [Redis](https://github.com/souyunku/DevBooks#redis) |  [React](https://github.com/souyunku/DevBooks#react)   |  [RabbitMQ](https://github.com/souyunku/DevBooks#rabbitmq)   |  [Elasticsearch](https://github.com/souyunku/DevBooks#elasticsearch)   |  [Kafka](https://github.com/souyunku/DevBooks#kafka)    |
 |  [MyBatis](https://github.com/souyunku/DevBooks#mybatis) |  [Linux](https://github.com/souyunku/DevBooks#linux)   |  [MongoDB](https://github.com/souyunku/DevBooks#mongodb)   |  [Oracle](https://github.com/souyunku/DevBooks#oracle)   |  [Netty](https://github.com/souyunku/DevBooks#netty)    |
 |  [Nginx](https://github.com/souyunku/DevBooks#nginx) |  [Python](https://github.com/souyunku/DevBooks#python)   |  [Android](https://github.com/souyunku/DevBooks#android)   |  [Vue](https://github.com/souyunku/DevBooks#vue)   |  [前端](https://github.com/souyunku/DevBooks#前端)    |
-|  [JavaScript](https://github.com/souyunku/DevBooks#javascript) |  [HTML](https://github.com/souyunku/DevBooks#html)   |  []()   |  []()   |  []()    |
+|  [JavaScript](https://github.coms/souyunku/DevBooks#javascript) |  [HTML](https://github.com/souyunku/DevBooks#html)   |  []()   |  []()   |  []()    |
 
 
 ### Java
