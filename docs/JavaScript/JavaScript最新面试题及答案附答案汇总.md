@@ -8,181 +8,210 @@
 
 
 
-### 1、判断数据类型的方法有哪些？
+### 1、js的几种继承方式？
 
-**1、** 利用`typeof`可以判断数据的类型；
+**1、** 使用对象冒充实现继承
 
-**2、** `A instanceof` B可以用来判断A是否为B的实例，但它不能检测 null 和 undefined；
+**2、** 采用call、Apply方法改变函数上下文实现继承
 
-**3、** `B.constructor == A`可以判断A是否为B的原型，但constructor检测 Object与instanceof不一样，还可以处理基本数据类型的检测。
-
-不过函数的 constructor 是不稳定的，这个主要体现在把类的原型进行重写，在重写的过程中很有可能出现把之前的constructor给覆盖了，这样检测出来的结果就是不准确的。
-
-**4、** `Object.prototype.toString.call()`
-
-`Object.prototype.toString.call()` 是最准确最常用的方式。
+**3、** 原型链方式继承
 
 
-### 2、window.onload ==? DOMContentLoaded ?
+### 2、什么是移动端的300ms延迟？什么是点击穿透？解决方案?
 
-一般情况下，DOMContentLoaded事件要在window.onload之前执行，当DOM树构建完成的时候就会执行DOMContentLoaded事件，而window.onload是在页面载入完成的时候，才执行，这其中包括图片等元素。大多数时候我们只是想在DOM树构建完成后，绑定事件到元素，我们并不需要图片元素，加上有时候加载外域图片的速度非常缓慢。
+移动端300ms延迟：假定这么一个场景。用户在 浏览器里边点击了一个链接。由于用户可以进行双击缩放或者双击滚动的操作，当用户一次点击屏幕之后，浏览器并不能立刻判断用户是确实要打开这个链接，还是想要进行双击操作。因此，浏览器 就等待 300 毫秒，以判断用户是否再次点击了屏幕。也就是说，当我们点击页面的时候移动端浏览器并不是立即作出反应，而是会等上一小会儿才会出现点击的效果。
 
+点击穿透：假如页面上有两个元素A和B。B元素在A元素之上。我们在B元素的touchstart事件上注册了一个回调函数，该回调函数的作用是隐藏B元素。我们发现，当我们点击B元素，B元素被隐藏了，随后，A元素触发了click事件。这是因为在移动端浏览器，事件执行的顺序是touchstart touchend click。而click事件有300ms的延迟，当touchstart事件把B元素隐藏之后，隔了300ms，浏览器触发了click事件，但是此时B元素不见了，所以该事件被派发到了A元素身上。如果A元素是一个链接，那此时页面就会意外地跳转。
 
-### 3、ajax 和 jsonp ？
+300ms延迟解决方案：
 
-**ajax和jsonp的区别：**
-
-相同点：都是请求一个url
-
-不同点：ajax的核心是通过xmlHttpRequest获取内容
-
-jsonp的核心则是动态添加
+(1) 禁用缩放，在html文档头部加meta标签如下：
 
 
 
-### 4、什么是原型、原型链？
 
-原型：JS声明构造函数(用来实例化对象的函数)时，会在内存中创建一个对应的对象，这个对象就是原函数的原型。构造函数默认有一个prototype属性，`prototype`的值指向函数的原型。同时原型中也有一个`constructor`属性，`constructor`的值指向原函数。
+(4) FastClick为解决移动端浏览器300毫秒延迟开发的一个轻量级的库
 
-通过构造函数实例化出来的对象，并不具有`prototype`属性，其默认有一个`__proto__`属性，`__proto__`的值指向构造函数的原型对象。在原型对象上添加或修改的属性，在所有实例化出的对象上都可共享。
+点击穿透解决方案：
 
-![](https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/49bad3cc378b4232a4b768bfe0ea67d7~tplv-k3u1fbpfcp-zoom-1.image#alt=%E5%9C%A8%E8%BF%99%E9%87%8C%E6%8F%92%E5%85%A5%E5%9B%BE%E7%89%87%E6%8F%8F%E8%BF%B0)
+（1）只用touch
 
-当在实例化的对象中访问一个属性时，首先会在该对象内部寻找，如找不到，则会向其`__proto__`指向的原型中寻找，如仍找不到，则继续向原型中`__proto__`指向的上级原型中寻找，直至找到或`Object.prototype`为止，这种链状过程即为原型链。
+（2）只用click
 
+（3）tap后延迟350ms再隐藏mask
 
-### 5、谈谈你对AMD、CMD的理解
-
-**1、** `CommonJS`是服务器端模块的规范，`Node.js`采用了这个规范。`CommonJS`规范加载模块是同步的，也就是说，只有加载完成，才能执行后面的操作。`AMD`规范则是非同步加载模块，允许指定回调函数
-
-**2、** `AMD`推荐的风格通过返回一个对象做为模块对象，`CommonJS`的风格通过对`module.exports`或`exports`的属性赋值来达到暴露模块对象的目的
+（4）pointer-events
 
 
-### 6、什么是默认参数？
+### 3、何为防抖和节流？如何实现？
 
-默认参数是在 JS 中定义默认变量的一种新方法，它在ES6或ECMAScript 2015版本中可用。
+**1、** 防抖和节流都是防止短时间内高频触发事件的方案。
+
+**2、** 防抖的原理是：如果一定时间内多次执行了某事件，则只执行其中的最后一次。
+
+**3、** 节流的原理是：要执行的事件每隔一段时间会被冷却，无法执行。
+
+**4、** 应用场景有：搜索框实时搜索，滚动改变相关的事件。
 
 ```
-//ES5 Version
-function add(a,b){
-  a = a || 0;
-  b = b || 0;
-  return a + b;
+//@fn: 要执行的函数
+//@delay: 设定的时限
+//防抖函数
+function debunce(fn, delay) {
+    let flag = null;
+    return function() {
+        if (flag) clearTimeout(flag)
+        //利用apply改变函数指向，使得封装后的函数可以接收event本身
+        flag = setTimeout(() = > fn.apply(this, arguments), delay)
+    }
+}
+//节流函数
+function throttle(fn, delay) {
+    let flag = true;
+    return function() {
+        if (!flag) return false;
+        flag = false;
+        setTimeout(() = > {
+            fn.apply(this, arguments)
+            flag = true
+        }, delay)
+    }
+}
+```
+
+
+### 4、Jq中 attr 和 prop 有什么区别###
+
+对于HTML元素本身就带有的固有属性，在处理时，使用prop方法。
+
+对于HTML元素我们自己自定义的DOM属性，在处理时，使用attr方法。
+
+
+### 5、如何合并两个数组？数组删除一个元素?
+
+```
+//三种方法。
+
+（1）var arr1=[1,2,3];
+        var arr2=[4,5,6];
+        arr1 = arr1.concat(arr2);
+        console.log(arr1); 
+        
+（2）var arr1=[1,2,3];
+        var arr2=[4,5,6];
+        Array.prototype.push.apply(arr1,arr2);
+        console.log(arr1);
+        
+（3）var arr1=[1,2,3];
+    var arr2=[4,5,6];
+    for (var i=0; i < arr2.length; i++) {
+    arr1.push( arr2[i] );
+    }
+    console.log(arr1);
+```
+
+
+### 6、call & apply 两者之间的区别###
+
+call和apply都是改变this指向的方法，区别在于call可以写多个参数，而apply只能写两个参数，第二个参数是一个数组，用于存放要传的参数。
+
+
+### 7、Function.prototype.apply 和 Function.prototype.call 之间有什么区别？
+
+`apply()`方法可以在使用一个指定的 `this` 值和一个参数数组（或类数组对象）的前提下调用某个函数或方法。`call()`方法类似于`apply()`，不同之处仅仅是`call()`接受的参数是参数列表。
+
+```
+const obj1 = {
+result:0
+};
+
+const obj2 = {
+result:0
+};
+
+function reduceAdd(){
+  let result = 0;
+  for(let i = 0, len = arguments.length; i < len; i++){
+    result += arguments[i];
+  }
+  this.result = result;
 }
 
-//ES6 Version
-function add(a = 0, b = 0){
-  return a + b;
+reduceAdd.apply(obj1, [1, 2, 3, 4, 5]); // 15
+reduceAdd.call(obj2, 1, 2, 3, 4, 5); // 15
+```
+
+
+### 8、split() join()?
+
+前者是切割成数组的形式，
+
+后者是将数组转换成字符串
+
+
+### 9、`require`/`import`之间的区别？
+
+**1、** `require`是CommonJS语法，`import`是ES6语法；
+
+**2、** `require`只在后端服务器支持，`import`在高版本浏览器及Node中都可以支持；
+
+**3、** `require`引入的是原始导出值的复制，`import`则是导出值的引用；
+
+**4、** `require`时运行时动态加载，`import`是静态编译；
+
+**5、** `require`调用时默认不是严格模式，`import`则默认调用严格模式.
+
+### 10、Function.prototype.apply 方法的用途是什么？
+
+`apply()` 方法调用一个具有给定this值的函数，以及作为一个数组（或类似数组对象）提供的参数。
+
+```
+const details = {
+  message: 'Hello World!'
+};
+
+function getMessage(){
+  return this.message;
 }
-add(1); // returns 1
+
+getMessage.apply(details); // 'Hello World!'
 ```
 
-我们还可以在默认参数中使用解构。
+> `call()`方法的作用和 `apply()` 方法类似，区别就是`call()`方法接受的是参数列表，而`apply()`方法接受的是一个参数数组。
+
 
 ```
-function getFirst([first, ...rest] = [0, 1]) {
-  return first;
+const person = {
+  name: "Marko Polo"
+};
+
+function greeting(greetingMessage) {
+  return `${greetingMessage} ${this.name}`;
 }
 
-getFirst();  // 0
-getFirst([10,20,30]);  // 10
-
-function getArr({ nums } = { nums: [1, 2, 3, 4] }){
-    return nums;
-}
-
-getArr(); // [1, 2, 3, 4]
-getArr({nums:[5,4,3,2,1]}); // [5,4,3,2,1]
-```
-
-我们还可以使用先定义的参数再定义它们之后的参数。
-
-```
-function doSomethingWithValue(value = "Hello World", callback = () => { console.log(value) }) {
-  callback();
-}
-doSomethingWithValue(); //"Hello World"
+greeting.apply(person, ['Hello']); // "Hello Marko Polo!"
 ```
 
 
-### 7、web开发中会话跟踪的方法有哪些
-
-**1、** `cookie`
-
-**2、** `session`
-
-**3、** `url`重写
-
-**4、** 隐藏`input`
-
-**5、** `ip`地址
-
-
-### 8、谈谈你对ES6的理解
-
-**1、** 新增模板字符串（为`JavaScript`提供了简单的字符串插值功能）
-
-**2、** 箭头函数
-
-**3、** `for-of`（用来遍历数据—例如数组中的值。）
-
-**4、** `arguments`对象可被不定参数和默认参数完美代替。
-
-**5、** `ES6`将p`romise`对象纳入规范，提供了原生的`Promise`对象。
-
-**6、** 增加了`let`和`const`命令，用来声明变量。
-
-**7、** 增加了块级作用域。
-
-**8、** `let`命令实际上就增加了块级作用域。
-
-**9、** 还有就是引入`module`模块的概念
-
-
-
-### 9、ajax请求方式有几种（8种）？
-
-1）$$.get(url,\[data\],\[callback\])  
-2）$$.getJSON(url,[data],[callback])
-
-3）$$.post(url,\[data\],\[callback\],\[type\])  
-4）$$.ajax(opiton)
-
-5）$.getScript( url, [callback] )
-
-6）jquery对象.load( url, [data], [callback] )
-
-7）serialize() 与 serializeArray()
-
-
-### 10、eval是做什么的？
-
-**1、** 它的功能是把对应的字符串解析成`JS`代码并运行
-
-**2、** 应该避免使用`eval`，不安全，非常耗性能（`2`次，一次解析成`js`语句，一次执行）
-
-**3、** 由`JSON`字符串转换为JSON对象的时候可以用`eval，var obj =eval('('+ str +')')`
-
-
-### 11、什么是类？
-### 12、jsonp原理？ 缺点?
-### 13、`in` 运算符和 `Object.hasOwnProperty` 方法有什么区别？
-### 14、为什么在调用这个函数时，代码中的`b`会变成一个全局变量?
-### 15、**
-### 16、如何判断值是否为数组？
-### 17、EventLoop事件循环是什么？
-### 18、&& 运算符能做什么
-### 19、展开(spread )运算符和 剩余(Rest) 运算符有什么区别？
-### 20、为什么函数被称为一等公民？
-### 21、DOM 是什么？
-### 22、arguments 的对象是什么？
-### 23、说说你对promise的了解
-### 24、如何合并两个数组？数组删除一个元素?
-### 25、常见web安全及防护原理
-### 26、Function.prototype.bind 的用途是什么？
-### 27、如何在不使用`%`模运算符的情况下检查一个数字是否是偶数？
-### 28、什么是事件冒泡？
-### 29、$$('div+.ab')和$$('.ab+div') 哪个效率高？
+### 11、eval是做什么的？
+### 12、DOM 是什么？
+### 13、为什么在调用这个函数时，代码中的`b`会变成一个全局变量?
+### 14、模块化开发怎么做？
+### 15、说说你对作用域链的理解
+### 16、JavaScript提供了哪几种“异步模式”？
+### 17、什么是预编译语音|预编译处理器?
+### 18、new 关键字有什么作用？
+### 19、谈谈你对ES6的理解
+### 20、什么是执行上下文和执行栈？
+### 21、什么是模板字符串？
+### 22、介绍js有哪些内置对象？
+### 23、使用 + 或一元加运算符是将字符串转换为数字的最快方法吗？
+### 24、同步和异步的区别?
+### 25、怎么理解Promise对象？
+### 26、什么是对象解构？
+### 27、undefined 和 null 有什么区别？
+### 28、如何确保ajax或连接不走缓存路径
+### 29、声明函数作用提升?声明变量和声明函数的提升有什么区别
 
 
 
@@ -196,6 +225,6 @@ doSomethingWithValue(); //"Hello World"
 
 ## 最新，高清PDF：172份，7701页，最新整理
 
-[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/mst.png "大厂面试题")](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png"大厂面试题")
+[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/mst.png "架构师专栏")](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png "架构师专栏")
 
 [![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png "架构师专栏")](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png "架构师专栏")

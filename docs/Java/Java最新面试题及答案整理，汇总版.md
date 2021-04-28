@@ -8,191 +8,170 @@
 
 
 
-### 1、你是如何调用 wait（）方法的？使用 if 块还是循环？为什么？
+### 1、简述Java的对象结构
 
-wait() 方法应该在循环调用，因为当线程获取到 CPU 开始执行的时候，其他条件可能还没有满足，所以在处理前，循环检测条件是否满足会更好。下面是一段标准的使用 wait 和 notify 方法的代码：
+Java对象由三个部分组成：对象头、实例数据、对齐填充。
 
-```java
-// The standard idiom for using the wait method
-synchronized (obj) {
-        while (condition does not hold)
-        obj.wait(); // (Releases lock, and reacquires on wakeup)
-        ..、// Perform action appropriate to condition
-        }
-```
+对象头由两部分组成，第一部分存储对象自身的运行时数据：哈希码、GC分代年龄、锁标识状态、线程持有的锁、偏向线程ID（一般占32/64 bit）。第二部分是指针类型，指向对象的类元数据类型（即对象代表哪个类）。如果是数组对象，则对象头中还有一部分用来记录数组长度。
 
-参见 [Effective Java]第 69 条，获取更多关于为什么应该在循环中来调用 wait 方法的内容。
+实例数据用来存储对象真正的有效信息（包括父类继承下来的和自己定义的）
 
+对齐填充：JVM要求对象起始地址必须是8字节的整数倍（8字节对齐 )
 
-### 2、为什么wait和notify方法要在同步块中调用？
 
-Java API强制要求这样做，如果你不这么做，你的代码会抛出IllegalMonitorStateException异常。还有一个原因是为了避免wait和notify之间产生竞态条件。
+### 2、JVM垃圾回收时候如何确定垃圾？什么是GC Roots？
 
+JVM采用的是可达性分析算法。JVM是通过GC Roots来判定对象的存活的。从`GC Roots`向下追溯、搜索，会产生一个叫做`Reference Chain`的链条。当一个对象不能和任何一个GC Root产生关系，就判定为垃圾。
 
-### 3、synchronized可重入的原理
+**GC Roots大体包括：**
 
-重入锁是指一个线程获取到该锁之后，该线程可以继续获得该锁。底层原理维护一个计数器，当线程获取该锁时，计数器加一，再次获得该锁时继续加一，释放锁时，计数器减一，当计数器值为0时，表明该锁未被任何线程所持有，其它线程可以竞争获取锁。
+**1、** 活动线程相关的各种引用，比如虚拟机栈中栈帧里的引用。
 
+**2、** 类的静态变量的引用。
 
-### 4、什么是线程池（thread pool）？
+**3、** JNI引用等。
 
+**当然也有比较详细的回答，个人认为这些就够了。详细版本如下：**
 
+**1、** Java线程中，当前所有正在被调用的方法的 `引用类型`参数、局部变量、临时值等。也就是与我们 `栈帧`相关的各种引用。
 
-在面向对象编程中，创建和销毁对象是很费时间的，因为创建一个对象要获取内存资源或者其它更多资源。在Java中更是如此，虚拟机将试图跟踪每一个对象，以便能够在对象销毁后进行垃圾回收。所以提高服务程序效率的一个手段就是尽可能减少创建和销毁对象的次数，特别是一些很耗资源的对象创建和销毁，这就是”池化资源”技术产生的原因。线程池顾名思义就是事先创建若干个可执行的线程放入一个池（容器）中，需要的时候从池中获取线程不用自行创建，使用完毕不需要销毁线程而是放回池中，从而减少创建和销毁线程对象的开销。
+**2、** 所有当前被加载的Java类。
 
-Java 5+中的Executor接口定义一个执行线程的工具。它的子类型即线程池接口是ExecutorService。要配置一个线程池是比较复杂的，尤其是对于线程池的原理不是很清楚的情况下，因此在工具类Executors面提供了一些静态工厂方法，生成一些常用的线程池，如下所示：
+**3、** Java类的引用类型静态变量。
 
-**1、** newSingleThreadExecutor：创建一个单线程的线程池。这个线程池只有一个线程在工作，也就是相当于单线程串行执行所有任务。如果这个唯一的线程因为异常结束，那么会有一个新的线程来替代它。此线程池保证所有任务的执行顺序按照任务的提交顺序执行。
+**4、** 运行时常量池里的引用类型常量（String或Class类型）。
 
-**2、** newFixedThreadPool：创建固定大小的线程池。每次提交一个任务就创建一个线程，直到线程达到线程池的最大大小。线程池的大小一旦达到最大值就会保持不变，如果某个线程因为执行异常而结束，那么线程池会补充一个新线程。
+**5、** JVM内部数据结构的一些引用，比如 `sun.jvm.hotspot.memory.Universe`类。
 
-**3、** newCachedThreadPool：创建一个可缓存的线程池。如果线程池的大小超过了处理任务所需要的线程，那么就会回收部分空闲（60秒不执行任务）的线程，当任务数增加时，此线程池又可以智能的添加新线程来处理任务。此线程池不会对线程池大小做限制，线程池大小完全依赖于操作系统（或者说JVM）能够创建的最大线程大小。
+**6、** 用于同步的监控对象，比如调用了对象的 `wait()`方法。
 
-**4、** newScheduledThreadPool：创建一个大小无限的线程池。此线程池支持定时以及周期性执行任务的需求。
+**7、** JNI handles，包括global handles和local handles
 
-**5、** newSingleThreadExecutor：创建一个单线程的线程池。此线程池支持定时以及周期性执行任务的需求。
 
-第60题的例子中演示了通过Executors工具类创建线程池并使用线程池执行线程的代码。如果希望在服务器上使用线程池，强烈建议使用newFixedThreadPool方法来创建线程池，这样能获得更好的性能。
+### 3、Java Concurrency API中的Lock接口(Lock interface)是什么？对比同步它有什么优势？
 
+Lock接口比同步方法和同步块提供了更具扩展性的锁操作。
 
-### 5、Java中是如何支持正则表达式操作的？
+他们允许更灵活的结构，可以具有完全不同的性质，并且可以支持多个相关类的条件对象。
 
+**它的优势有**：
 
+**1、** 可以使锁更公平
 
-Java中的String类提供了支持正则表达式操作的方法，包括：matches()、replaceAll()、replaceFirst()、split()。此外，Java中可以用Pattern类表示正则表达式对象，它提供了丰富的API进行各种正则表达式操作，请参考下面面试题的代码。
+**2、** 可以使线程在等待锁的时候响应中断
 
-> 面试题： - 如果要从字符串中截取第一个英文左括号之前的字符串，例如：北京市(朝阳区)(西城区)(海淀区)，截取结果为：北京市，那么正则表达式怎么写？
+**3、** 可以让线程尝试获取锁，并在无法获取锁的时候立即返回或者等待一段时间
 
+**4、** 可以在不同的范围，以不同的顺序获取和释放锁
 
-```
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+**5、** 整体上来说Lock是synchronized的扩展版，Lock提供了无条件的、可轮询的(tryLock方法)、定时的(tryLock带参方法)、可中断的(lockInterruptibly)、可多条件队列的(newCondition方法)锁操作。另外Lock的实现类基本都支持非公平锁(默认)和公平锁，synchronized只支持非公平锁，当然，在大部分情况下，非公平锁是高效的选择。
 
-class RegExpTest {
 
-    public static void main(String[] args) {
-        String str = "北京市(朝阳区)(西城区)(海淀区)";
-        Pattern p = Pattern.compile(".*?(?=\\()");
-        Matcher m = p.matcher(str);
-        if(m.find()) {
-            System.out.println(m.group());
-        }
-    }
-}
-```
+### 4、描述一下 JVM 加载 class 文件的原理机制
 
-> 说明：上面的正则表达式中使用了懒惰匹配和前瞻，如果不清楚这些内容，推荐读一下网上很有名的[《正则表达式30分钟入门教程》](http://www.jb51.net/tools/zhengze.html)。
+**1、** JVM 中类的装载是由类加载器（ClassLoader）和它的子类来实现的，Java 中各类加载器是一个重要的 Java 运行时系统组件，它负责在运行时查找和装入类文件中的类。
 
+**2、** 由于 Java 的跨平台性，经过编译的 Java 源程序并不是一个可执行程序，而是一个或多个类文件。当 Java 程序需要使用某个类时，JVM 会确保这个类已经被加载、连接（验证、准备和解析）和初始化。类的加载是指把类的.class 文件中的数据读入到内存中，通常是创建一个字节数组读入.class 文件，然后产生与所加载类对应的 Class 对象。
 
+**3、** 加载完成后，Class 对象还不完整，所以此时的类还不可用。当类被加载后就进入连接阶段，这一阶段包括验证、准备（为静态变量分配内存并设置默认的初始值）和解析（将符号引用替换为直接引用）三个步骤。最后 JVM 对类进行初始化，包括：1)如果类存在直接的父类并且这个类还没有被初始化，那么就先初始化父类；2)如果类中存在初始化语句，就依次执行这些初始化语句。
 
-### 6、String和StringBuffer、StringBuilder的区别是什么？String为什么是不可变的？
+**4、** 类的加载是由类加载器完成的，类加载器包括：根加载器（BootStrap）、扩展加载器（Extension）、系统加载器（System）和用户自定义类加载器（java.lang.ClassLoader 的子类）。
 
-**可变性**
+**5、** 从 Java 2（JDK 1.2）开始，类加载过程采取了父亲委托机制（PDM）。PDM 更好的保证了 Java 平台的安全性，在该机制中，JVM 自带的Bootstrap 是根加载器，其他的加载器都有且仅有一个父类加载器。类的加载首先请求父类加载器加载，父类加载器无能为力时才由其子类加载器自行加载。JVM 不会向 Java 程序提供对 Bootstrap 的引用。下面是关于几个类
 
-String类中使用字符数组保存字符串，private final char value[]，所以string对象是不可变的。StringBuilder与StringBuffer都继承自AbstractStringBuilder类，在AbstractStringBuilder中也是使用字符数组保存字符串，char[]value，这两种对象都是可变的。
+**加载器的说明：**
 
-**线程安全性**
+**1、** Bootstrap：一般用本地代码实现，负责加载 JVM 基础核心类库（rt.jar）；
 
-String中的对象是不可变的，也就可以理解为常量，线程安全。AbstractStringBuilder是StringBuilder与StringBuffer的公共父类，定义了一些字符串的基本操作，如expandCapacity、append、insert、indexOf等公共方法。StringBuffer对方法加了同步锁或者对调用的方法加了同步锁，所以是线程安全的。StringBuilder并没有对方法进行加同步锁，所以是非线程安全的。
+**2、** Extension：从 java.ext.dirs 系统属性所指定的目录中加载类库，它的父加载器是 Bootstrap；
 
-**性能**
+**3、** System：又叫应用类加载器，其父类是 Extension。它是应用最广泛的类加载器。它从环境变量 classpath 或者系统属性
 
-每次对String 类型进行改变的时候，都会生成一个新的String对象，然后将指针指向新的String 对象。StringBuffer每次都会对StringBuffer对象本身进行操作，而不是生成新的对象并改变对象引用。相同情况下使用StirngBuilder 相比使用StringBuffer 仅能获得10%~15% 左右的性能提升，但却要冒多线程不安全的风险。 **对于三者使用的总结：** 如果要操作少量的数据用 = String 单线程操作字符串缓冲区 下操作大量数据 = StringBuilder 多线程操作字符串缓冲区 下操作大量数据 = StringBuffer
+java.class.path 所指定的目录中记载类，是用户自定义加载器的默认父加载器。
 
 
-### 7、setState到底是异步还是同步?
+### 5、请说明select * from tab的输出结果是什么?
 
-先给出答案: 有时表现出异步,有时表现出同步
+显示数据库中的默认表
 
-**1、** `setState`只在合成事件和钩子函数中是“异步”的，在原生事件和`setTimeout` 中都是同步的
 
-**2、** `setState` 的“异步”并不是说内部由异步代码实现，其实本身执行的过程和代码都是同步的，只是合成事件和钩子函数的调用顺序在更新之前，导致在合成事件和钩子函数中没法立马拿到更新后的值，形成了所谓的“异步”，当然可以通过第二个参数 `setState(partialState, callback)` 中的`callback`拿到更新后的结果
+### 6、堆
 
-**3、** `setState` 的批量更新优化也是建立在“异步”（合成事件、钩子函数）之上的，在原生事件和setTimeout 中不会批量更新，在“异步”中如果对同一个值进行多次`setState`，`setState`的批量更新策略会对其进行覆盖，取最后一次的执行，如果是同时`setState`多个不同的值，在更新时会对其进行合并批量更新
-
-
-### 8、GC 垃圾收集器
-
-Java 堆内存被划分为新生代和年老代两部分，新生代主要使用复制和标记-清除垃圾回收算法；年老代主要使用标记-整理垃圾回收算法，因此 java 虚拟中针对新生代和年老代分别提供了多种不同的垃圾收集器， JDK1.6 中 Sun HotSpot 虚拟机的垃圾收集器
-
-
-### 9、Java 中会存在内存泄漏吗，请简单描述。
-
-
-
-理论上Java因为有垃圾回收机制（GC）不会存在内存泄露问题（这也是Java被广泛使用于服务器端编程的一个重要原因）；然而在实际开发中，可能会存在无用但可达的对象，这些对象不能被GC回收，因此也会导致内存泄露的发生。例如Hibernate的Session（一级缓存）中的对象属于持久态，垃圾回收器是不会回收这些对象的，然而这些对象中可能存在无用的垃圾对象，如果不及时关闭（close）或清空（flush）一级缓存就可能导致内存泄露。下面例子中的代码也会导致内存泄露。
-
-```
-import java.util.Arrays;
-import java.util.EmptyStackException;
-
-public class MyStack<T> {
-    private T[] elements;
-    private int size = 0;
-
-    private static final int INIT_CAPACITY = 16;
-
-    public MyStack() {
-        elements = (T[]) new Object[INIT_CAPACITY];
-    }
-
-    public void push(T elem) {
-        ensureCapacity();
-        elements[size++] = elem;
-    }
-
-    public T pop() {
-        if(size == 0) 
-            throw new EmptyStackException();
-        return elements[--size];
-    }
-
-    private void ensureCapacity() {
-        if(elements.length == size) {
-            elements = Arrays.copyOf(elements, 2 * size + 1);
-        }
-    }
-}
-```
-
-上面的代码实现了一个栈（先进后出（FILO））结构，乍看之下似乎没有什么明显的问题，它甚至可以通过你编写的各种单元测试。然而其中的pop方法却存在内存泄露的问题，当我们用pop方法弹出栈中的对象时，该对象不会被当作垃圾回收，即使使用栈的程序不再引用这些对象，因为栈内部维护着对这些对象的过期引用（obsolete reference）。在支持垃圾回收的语言中，内存泄露是很隐蔽的，这种内存泄露其实就是无意识的对象保持。如果一个对象引用被无意识的保留起来了，那么垃圾回收器不会处理这个对象，也不会处理该对象引用的其他对象，即使这样的对象只有少数几个，也可能会导致很多的对象被排除在垃圾回收之外，从而对性能造成重大影响，极端情况下会引发Disk Paging（物理内存与硬盘的虚拟内存交换数据），甚至造成OutOfMemoryError。
-
-
-### 10、Java中操作字符串使用哪个类？
-
-String，StringBuffer，StringBuilder
-
-
-### 11、JVM垃圾回收时候如何确定垃圾？什么是GC Roots？
-### 12、什么是 Busy spin？我们为什么要使用它？
-### 13、重载和重写的区别
-### 14、我们能自己写一个容器类，然后使用 for-each 循环码？
-### 15、Collections.synchronized  是什么？
-### 16、JVM怎么判断一个对象是不是要回收？
-### 17、堆
-### 18、比较一下Java和JavaSciprt。
-### 19、CMS 收集器（多线程标记清除算法）
-### 20、那些地方用到了单例模式
-### 21、什么是外观模式
-### 22、调优工具
-### 23、final 在 java 中有什么作用？
-### 24、3*0.1 == 0.3 将会返回什么？true 还是 false？
-### 25、Thread 类中的 yield 方法有什么作用？
-### 26、Jsp包含那些隐藏对象或者内建对象
-### 27、构造器Constructor是否可被override
-### 28、JVM 年轻代到年老代的晋升过程的判断条件是什么呢？
-### 29、JVM 的内存模型以及分区情况和作用
-### 30、创建socket通讯的步骤？
-### 31、说说自己是怎么使用 synchronized 关键字，在项目中用到了吗
-### 32、普通类和抽象类有哪些区别？
-### 33、讲讲什么情况下会出现内存溢出，内存泄漏？
-### 34、类加载为什么要使用双亲委派模式，有没有什么场景是打破了这个模式？
-### 35、线程同步的方法
-### 36、Get请求与post有什么区别？
-### 37、例如： if(a+1.0=4.0)，这样做好吗？
-### 38、你有哪些手段来排查 OOM 的问题？
-### 39、JVM 运行时内存
-### 40、可以直接调用Thread类的run ()方法么？
+JVM内存管理最大的一块,对被线程共享,目的是存放对象的实例,几乎所欲的对象实例都会放在这里,当堆没有可用空间时,会抛出OOM异常.根据对象的存活周期不同,JVM把对象进行分代管理,由垃圾回收器进行垃圾的回收管理
+
+
+### 7、HTTP的状态码
+
+**1、** 200：请求成功
+
+**2、** 400：不是正确的请求，大多情况下表示参数错误
+
+**3、** 404：找不到请求资源
+
+**4、** 500：服务器内部错误
+
+**5、** 403：服务器拒绝
+
+**6、** 405：请求的method不支持
+
+**7、** 504：服务器临时不可用
+
+
+### 8、被引用的对象就一定能存活吗？
+
+不一定，看 Reference 类型，弱引用在 GC 时会被回收，软引用在内存不足的时候，即 OOM 前会被回收，但如果没有在 Reference Chain 中的对象就一定会被回收。
+
+
+### 9、在 Java 程序中怎么保证多线程的运行安全？
+
+出现线程安全问题的原因一般都是三个原因：
+
+**1、** 线程切换带来的原子性问题 解决办法：使用多线程之间同步synchronized或使用锁(lock)。
+
+**2、** 缓存导致的可见性问题 解决办法：synchronized、volatile、LOCK，可以解决可见性问题
+
+**3、** 编译优化带来的有序性问题 解决办法：Happens-Before 规则可以解决有序性问题
+
+
+### 10、Java 中，Comparator 与 Comparable 有什么不同？
+
+Comparable 接口用于定义对象的自然顺序，而 comparator 通常用于定义用户定制的顺序。Comparable 总是只有一个，但是可以有多个 comparator 来定义对象的顺序。
+
+65）为什么在重写 equals 方法的时候需要重写 hashCode 方法？([答案](http://javarevisited.blogspot.sg/2015/01/why-override-equals-hashcode-or-tostring-java.html))
+
+因为有强制的规范指定需要同时重写 hashcode 与 equal 是方法，许多容器类，如 HashMap、HashSet 都依赖于 hashcode 与 equals 的规定。
+
+
+### 11、一个线程运行时发生异常会怎样？
+### 12、React如何进行组件/逻辑复用?
+### 13、谈谈动态年龄判断
+### 14、你所知道网络协议有那些？
+### 15、什么是Java虚拟机
+### 16、类加载为什么要使用双亲委派模式，有没有什么场景是打破了这个模式？
+### 17、面向对象和面向过程的区别
+### 18、JAVA 强引用
+### 19、怎么获取 Java 程序使用的内存？堆使用的百分比？
+### 20、JVM的引用类型有哪些？
+### 21、说一下垃圾分代收集的过程
+### 22、什么是乐观锁和悲观锁
+### 23、常用的并发工具类有哪些？
+### 24、各种回收器，各自优缺点，重点CMS、G1
+### 25、你经常使用什么并发容器，为什么？
+### 26、如果你提交任务时，线程池队列已满，这时会发生什么
+### 27、并发编程三个必要因素是什么？
+### 28、为什么线程通信的方法wait(), notify()和notifyAll()被定义在Object 类里？
+### 29、GC垃圾回收算法与垃圾收集器的关系？
+### 30、在使用jdbc的时候，如何防止出现sql注入的问题。
+### 31、为什么wait(), notify()和notifyAll ()必须在同步方法或者同步块中被调用？
+### 32、怎么打出线程栈信息？
+### 33、抽象的（abstract）方法是否可同时是静态的（static）,是否可同时是本地方法（native），是否可同时被synchronized修饰？
+### 34、Java里有哪些引用类型？
+### 35、什么是并发容器的实现？
+### 36、什么是多线程
+### 37、集合和数组的区别
+### 38、有没有可能两个不相等的对象有有相同的 hashcode？
+### 39、哪些是 GC Roots？
+### 40、Java 中能创建 volatile 数组吗？
 
 
 
@@ -206,6 +185,6 @@ String，StringBuffer，StringBuilder
 
 ## 最新，高清PDF：172份，7701页，最新整理
 
-[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/mst.png "大厂面试题")](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png"大厂面试题")
+[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/mst.png "架构师专栏")](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png "架构师专栏")
 
 [![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png "架构师专栏")](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png "架构师专栏")

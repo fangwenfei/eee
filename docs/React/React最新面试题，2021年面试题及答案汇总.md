@@ -8,183 +8,96 @@
 
 
 
-### 1、redux中间件有哪些，做什么用？
+### 1、什么是纯组件？
 
-中间件提供第三方插件的模式，自定义拦截 action -> reducer 的过程。变为 action -> middlewares -> reducer 。这种机制可以让我们改变数据流，实现如异步 action ，action 过滤，日志输出，异常报告等功能。 常见的中间件：
+_纯（Pure）_ 组件是可以编写的最简单、最快的组件。它们可以替换任何只有 render() 的组件。这些组件增强了代码的简单性和应用的性能。
 
-redux-logger：提供日志输出
 
-redux-thunk：处理异步操作
+### 2、React组件通信如何实现?
 
-redux-promise：处理异步操作，actionCreator的返回值是promise
+**React组件间通信方式:**
 
+**1、** 父组件向子组件通讯: 父组件可以向子组件通过传 props 的方式，向子组件进行通讯
 
-### 2、解释 React 中 render() 的目的。
+**2、** 子组件向父组件通讯: props+回调的方式,父组件向子组件传递props进行通讯，此props为作用域为父组件自身的函数，子组件调用该函数，将子组件想要传递的信息，作为参数，传递到父组件的作用域中
 
-每个React组件强制要求必须有一个 render()。它返回一个 React 元素，是原生 DOM 组件的表示。如果需要渲染多个 HTML 元素，则必须将它们组合在一个封闭标记内，例如 `<form>`、`<group>`、`<div>` 等。此函数必须保持纯净，即必须每次调用时都返回相同的结果。
+**3、** 兄弟组件通信: 找到这两个兄弟节点共同的父节点,结合上面两种方式由父节点转发信息进行通信
 
+**4、** 跨层级通信: `Context`设计目的是为了共享那些对于一个组件树而言是“全局”的数据，例如当前认证的用户、主题或首选语言,对于跨越多层的全局数据通过`Context`通信再适合不过
 
-### 3、解释 Reducer 的作用。
+**5、** 发布订阅模式: 发布者发布事件，订阅者监听事件并做出反应,我们可以通过引入event模块进行通信
 
-Reducers 是纯函数，它规定应用程序的状态怎样因响应 ACTION 而改变。Reducers 通过接受先前的状态和 action 来工作，然后它返回一个新的状态。它根据操作的类型确定需要执行哪种更新，然后返回新的值。如果不需要完成任务，它会返回原来的状态。
+**6、** 全局状态管理工具: 借助Redux或者Mobx等全局状态管理工具进行通信,这种工具会维护一个全局状态中心Store,并根据不同的事件产生新的状态
 
+![](https://gitee.com/souyunkutech/souyunku-home/raw/master/images/souyunku-web/2020/4/30/1939/39/97_2.png#alt=97%5C_2.png)
 
-### 4、如何将两个或多个组件嵌入到一个组件中？
 
-可以通过以下方式将组件嵌入到一个组件中：
+### 3、React中的状态是什么？它是如何使用的？
 
-```
-class MyComponent extends React.Component{
-    render(){
-        return(
-            <div>
-                <h1>Hello</h1>
-                <Header/>
-            </div>
-        );
-    }
-}
-class Header extends React.Component{
-    render(){
-        return
-            <h1>Header Component</h1>
-   };
-}
-ReactDOM.render(
-    <MyComponent/>, document.getElementById('content')
-);
-```
+状态是 React 组件的核心，是数据的来源，必须尽可能简单。基本上状态是确定组件呈现和行为的对象。与props 不同，它们是可变的，并创建动态和交互式组件。可以通过 `this.state()` 访问它们。
 
 
-### 5、说说你用react有什么坑点
+### 4、React中的合成事件是什么？
 
-**1、** JSX做表达式判断时候需要强转为boolean类型
+合成事件是围绕浏览器原生事件充当跨浏览器包装器的对象。它们将不同浏览器的行为合并为一个 API。这样做是为了确保事件在不同浏览器中显示一致的属性。
 
-如果不使用 !!b 进行强转数据类型会在页面里面输出 0。
 
-```
-render() {
-  const b = 0;
-  return <div>
-    {
-      !!b && <div>这是一段文本</div>
-    }
-  </div>
-}
-```
+### 5、什么是 Props?
 
-**1、** 尽量不要在 `componentWillReviceProps` 里使用 `setState`如果一定要使用那么需要判断结束条件不然会出现无限重渲染导致页面崩溃
+Props 是 React 中属性的简写。它们是只读组件，必须保持纯，即不可变。它们总是在整个应用中从父组件传递到子组件。子组件永远不能将 prop 送回父组件。这有助于维护单向数据流，通常用于呈现动态生成的数据。
 
-**2、** 给组件添加ref时候尽量不要使用匿名函数因为当组件更新的时候匿名函数会被当做新的`prop`处理让`ref`属性接受到新函数的时候`react`内部会先清空`ref`也就是会以`null`为回调参数先执行一次`ref`这个`props`然后在以该组件的实例执行一次`ref`所以用匿名函数做ref的时候有的时候去`ref`赋值后的属性会取到`null`
 
-**3、** 遍历子节点的时候不要用 index 作为组件的 key 进行传入
-
-
-### 6、react旧版生命周期函数
-
-初始化阶段
-
-**1、** `getDefaultProps`:获取实例的默认属性
-
-**2、** `getInitialState`:获取每个实例的初始化状态
-
-**3、** `componentWillMount`组件即将被装载、渲染到页面上
-
-**4、** `render`:组件在这里生成虚拟的DOM节点
-
-**5、** `componentDidMount`:组件真正在被装载之后
-
-运行中状态
-
-**1、** `componentWillReceiveProps`:组件将要接收到属性的时候调用
-
-**2、** `shouldComponentUpdate`:组件接受到新属性或者新状态的时候可以返回 `false`接收数据后不更新阻止 `render`调用后面的函数不会被继续执行了
-
-**3、** `componentWillUpdate`:组件即将更新不能修改属性和状态
-
-**4、** `render`:组件重新描绘
-
-**5、** `componentDidUpdate`:组件已经更新
-
-
-### 7、Vue2.x和Vue3.x渲染器的diff算法分别说一下
-
-**简单来说，diff算法有以下过程**
-
-**1、** 同级比较，再比较子节点
-
-**2、** 先判断一方有子节点一方没有子节点的情况(如果新的children没有子节点，将旧的子节点移除)
-
-**3、** 比较都有子节点的情况(核心diff)
-
-**4、** 递归比较子节点
-
-正常Diff两个树的时间复杂度是`O(n^3)`，但实际情况下我们很少会进行`跨层级的移动DOM`，所以Vue将Diff进行了优化，从`O(n^3) -> O(n)`，只有当新旧children都为多个子节点时才需要用核心的Diff算法进行同层级比较。
-
-Vue2的核心Diff算法采用了`双端比较`的算法，同时从新旧children的两端开始进行比较，借助key值找到可复用的节点，再进行相关操作。相比React的Diff算法，同样情况下可以减少移动节点次数，减少不必要的性能损耗，更加的优雅。
-
-Vue3.x借鉴了 [ivi](https://github.com/localvoid/ivi)算法和 [inferno](https://github.com/infernojs/inferno)算法
-
-在创建VNode时就确定其类型，以及在`mount/patch`的过程中采用`位运算`来判断一个VNode的类型，在这个基础之上再配合核心的Diff算法，使得性能上较Vue2.x有了提升。(实际的实现可以结合Vue3.x源码看。)
-
-该算法中还运用了`动态规划`的思想求解最长递归子序列。
-
-(看到这你还会发现，框架内无处不蕴藏着数据结构和算法的魅力)
-
-**面试官：(可以可以，看来是个苗子，不过自我介绍属实有些无聊，下一题)**
-
-
-### 8、React有哪些优化性能是手段?
-
-性能优化的手段很多时候是通用的详情见前端性能优化加载篇
-
-
-### 9、说一下Vue的生命周期
-
-`beforeCreate`是new Vue()之后触发的第一个钩子，在当前阶段data、methods、computed以及watch上的数据和方法都不能被访问。
-
-`created`在实例创建完成后发生，当前阶段已经完成了数据观测，也就是可以使用数据，更改数据，在这里更改数据不会触发updated函数。可以做一些初始数据的获取，在当前阶段无法与Dom进行交互，如果非要想，可以通过vm.$nextTick来访问Dom。
-
-`beforeMount`发生在挂载之前，在这之前template模板已导入渲染函数编译。而当前阶段虚拟Dom已经创建完成，即将开始渲染。在此时也可以对数据进行更改，不会触发updated。
-
-`mounted`在挂载完成后发生，在当前阶段，真实的Dom挂载完毕，数据完成双向绑定，可以访问到Dom节点，使用$refs属性对Dom进行操作。
-
-`beforeUpdate`发生在更新之前，也就是响应式数据发生更新，虚拟dom重新渲染之前被触发，你可以在当前阶段进行更改数据，不会造成重渲染。
-
-`updated`发生在更新完成之后，当前阶段组件Dom已完成更新。要注意的是避免在此期间更改数据，因为这可能会导致无限循环的更新。
-
-`beforeDestroy`发生在实例销毁之前，在当前阶段实例完全可以被使用，我们可以在这时进行善后收尾工作，比如清除计时器。
-
-`destroyed`发生在实例销毁之后，这个时候只剩下了dom空壳。组件已被拆解，数据绑定被卸除，监听被移出，子实例也统统被销毁。
-
-
-### 10、区分有状态和无状态组件。
-| 有状态组件 | 无状态组件 |
+### 6、你对受控组件和非受控组件了解多少？
+| 受控组件 | 非受控组件 |
 | --- | --- |
-| 1、在内存中存储有关组件状态变化的信息 | 1、计算组件的内部的状态 |
-| 2、有权改变状态 | 2、无权改变状态 |
-| 3、包含过去、现在和未来可能的状态变化情况 | 3、不包含过去，现在和未来可能发生的状态变化情况 |
-| 4、接受无状态组件状态变化要求的通知，然后将 props 发送给他们。 | 4.从有状态组件接收 props 并将其视为回调函数。 |
+| 1、没有维持自己的状态 | 1、保持着自己的状态 |
+| 2.数据由父组件控制 | 2.数据由 DOM 控制 |
+| 3、通过 props 获取当前值，然后通过回调通知更改 | 3、Refs 用于获取其当前值 |
 
 
 
-### 11、你对 Time Slice的理解?
-### 12、传入 setState 函数的第二个参数的作用是什么
-### 13、什么是高阶组件（HOC）？
-### 14、为什么React Router v4中使用 switch 关键字 ？
-### 15、setState
-### 16、列出React的一些主要优点。
-### 17、Redux实现原理解析
-### 18、redux中如何进行异步操作?
-### 19、如何在 Redux 中定义 Action？
-### 20、mixin、hoc、render props、react-hooks的优劣如何？
-### 21、React 中 keys的作用是什么
-### 22、react和vue的区别
-### 23、在生命周期中的哪一步你应该发起 AJAX 请求
-### 24、React 中 refs 的作用是什么
-### 25、说一下v-model的原理
-### 26、你对“单一事实来源”有什么理解？
-### 27、HOC(高阶组件)
+### 7、你理解“在React中，一切都是组件”这句话。
+
+组件是 React 应用 UI 的构建块。这些组件将整个 UI 分成小的独立并可重用的部分。每个组件彼此独立，而不会影响 UI 的其余部分。
+
+
+### 8、再说一下Computed和Watch
+
+`Computed`本质是一个具备缓存的watcher，依赖的属性发生变化就会更新视图。 适用于计算比较消耗性能的计算场景。当表达式过于复杂时，在模板中放入过多逻辑会让模板难以维护，可以将复杂的逻辑放入计算属性中处理。
+
+`Watch`没有缓存性，更多的是观察的作用，可以监听某些数据执行回调。当我们需要深度监听对象中的属性时，可以打开`deep：true`选项，这样便会对对象中的每一项进行监听。这样会带来性能问题，优化的话可以使用`字符串形式`监听，如果没有写到组件中，不要忘记使用`unWatch手动注销`哦。
+
+
+### 9、React Router与常规路由有何不同？
+| 主题 | 常规路由 | React 路由 |
+| --- | --- | --- |
+| 参与的页面 | 每个视图对应一个新文件 | 只涉及单个HTML页面 |
+| URL 更改 | HTTP 请求被发送到服务器并且接收相应的 HTML 页面 | 仅更改历史记录属性 |
+| 体验 | 用户实际在每个视图的不同页面切换 | 用户认为自己正在不同的页面间切换 |
+
+
+### 10、说一下v-if和v-show的区别
+
+当条件不成立时，`v-if`不会渲染DOM元素，`v-show`操作的是样式(display)，切换当前DOM的显示和隐藏。
+
+
+### 11、react-router里的标签和`<a>`标签有什么区别
+### 12、react hooks它带来了那些便利
+### 13、如何将两个或多个组件嵌入到一个组件中？
+### 14、什么是高阶组件(HOC)
+### 15、createElement 与 cloneElement 的区别是什么
+### 16、setState到底是异步还是同步?
+### 17、为什么浏览器无法读取JSX？
+### 18、什么是React？
+### 19、那你知道Vue3.x响应式数据原理吗？
+### 20、列出一些应该使用 Refs 的情况。
+### 21、为什么虚拟dom会提高性能
+### 22、React的请求应该放在哪个生命周期中?
+### 23、如何在 React 中创建表单
+### 24、setState
+### 25、redux中如何进行异步操作?
+### 26、什么是Redux？
+### 27、列出 Redux 的组件。
 
 
 
@@ -198,6 +111,6 @@ Vue3.x借鉴了 [ivi](https://github.com/localvoid/ivi)算法和 [inferno](https
 
 ## 最新，高清PDF：172份，7701页，最新整理
 
-[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/mst.png "大厂面试题")](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png"大厂面试题")
+[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/mst.png "架构师专栏")](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png "架构师专栏")
 
 [![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png "架构师专栏")](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png "架构师专栏")

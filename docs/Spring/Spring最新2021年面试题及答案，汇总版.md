@@ -8,115 +8,144 @@
 
 
 
-### 1、为什么我们需要 spring-boot-maven-plugin?
+### 1、如何在SpringBoot应用程序中实现Spring安全性？
 
-spring-boot-maven-plugin 提供了一些像 jar 一样打包或者运行应用程序的命令。
+实施需要最少的配置。您需要做的就是spring-boot-starter-security在pom.xml文件中添加starter。您还需要创建一个Spring配置类，它将覆盖所需的方法，同时扩展 WebSecurityConfigurerAdapter 应用程序中的安全性。这是一些示例代码：
 
-spring-boot:run 运行你的 SpringBooty 应用程序。
-
-spring-boot：repackage 重新打包你的 jar 包或者是 war 包使其可执行
-
-spring-boot：start 和 spring-boot：stop 管理 SpringBoot 应用程序的生命周期（也可以说是为了集成测试）。
-
-spring-boot:build-info 生成执行器可以使用的构造信息。
-
-
-### 2、什么是YAML？
-
-YAML是一种人类可读的数据序列化语言。它通常用于配置文件。 与属性文件相比，如果我们想要在配置文件中添加复杂的属性，YAML文件就更加结构化，而且更少混淆。可以看出YAML具有分层配置数据。
-
-
-### 3、列举 spring 支持的事务管理类型
-
-Spring 支持两种类型的事务管理：
-
-**1、** 程序化事务管理：在此过程中，在编程的帮助下管理事务。它为您提供极大的灵活性，但维护起来非常困难。
-
-**2、** 声明式事务管理：在此，事务管理与业务代码分离。仅使用注解或基于 XML 的配置来管理事务。
-
-
-### 4、什么是Spring的内部bean？
-
-当一个bean仅被用作另一个bean的属性时，它能被声明为一个内部bean，为了定义inner bean，在Spring 的 基于XML的 配置元数据中，可以在 或  元素内使用 元素，内部bean通常是匿名的，它们的Scope一般是prototype。
+```
+package com.gkatzioura.security.securityendpoints.config;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;@
+Configuration
+public class SecurityConfig extends WebSecurityConfigurerAdapter {@
+    Override
+    protected void configure(HttpSecurity http) throws Exception {
+        http.
+        authorizeRequests().
+        antMatchers("/welcome").
+        permitAll().anyRequest().
+        authenticated().and().
+        formLogin().
+        permitAll().
+        and().
+        logout().
+        permitAll();
+    }
+}
+```
 
 
-### 5、什么是YAML？
+### 2、SpringCloud由什么组成
 
-YAML是一种人类可读的数据序列化语言。它通常用于配置文件。
+这就有很多了，我讲几个开发中最重要的
 
-与属性文件相比，如果我们想要在配置文件中添加复杂的属性，YAML文件就更加结构化，而且更少混淆。可以看出YAML具有分层配置数据。
+**1、** Spring Cloud Eureka：服务注册与发现
 
+**2、** Spring Cloud Zuul：服务网关
 
-### 6、怎么设计无状态服务？
+**3、** Spring Cloud Ribbon：客户端负载均衡
 
-对于无状态服务，首先说一下什么是状态：如果一个数据需要被多个服务共享，才能完成一笔交易，那么这1、个数据被称为状态。进而依赖这个“状态”数据的服务被称为有状态服务，反之称为无状态服务。
+**4、** Spring Cloud Feign：声明性的Web服务客户端
 
-**2、** 那么这个无状态服务原则并不是说在微服务架构里就不允许存在状态，表达的真实意思是要把有状态的业务服务改变为无状态的计算类服务，那么状态数据也就相应的迁移到对应的“有状态数据服务”中。
+**5、** Spring Cloud Hystrix：断路器
 
-**3、** 场景说明：例如我们以前在本地内存中建立的数据缓存、Session缓存，到现在的微服务架构中就应该把这些数据迁移到分布式缓存中存储，让业务服务变成一个无状态的计算节点。迁移后，就可以做到按需动态伸缩，微服务应用在运行时动态增删节点，就不再需要考虑缓存数据如何同步的问题。
+**6、** Spring Cloud Config：分布式统一配置管理
 
-
-### 7、你如何理解 SpringBoot 中的 Starters？
-
-Starters可以理解为启动器，它包含了一系列可以集成到应用里面的依赖包，你可以一站式集成 Spring 及其他技术，而不需要到处找示例代码和依赖包。如你想使用 Spring JPA 访问数据库，只要加入 spring-boot-starter-data-jpa 启动器依赖就能使用了。
+**7、** 等20几个框架，开源一直在更新
 
 
-### 8、spring 支持集中 bean scope？
+### 3、什么是Spring Cloud？
 
-**Spring bean 支持 5 种 scope：**
+在微服务中，SpringCloud是一个提供与外部系统集成的系统。它是一个敏捷的框架，可以短平快构建应用程序。与有限数量的数据处理相关联，它在微服务体系结构中起着非常重要的作用。 **以下为 Spring Cloud 的核心特性**：
 
-**1、** Singleton - 每个 Spring IoC 容器仅有一个单实例。
+**1、** 版本化/分布式配置。
 
-**2、** Prototype - 每次请求都会产生一个新的实例。
+**2、** 服务注册和发现。
 
-**3、** Request - 每一次 HTTP 请求都会产生一个新的实例，并且该 bean 仅在当前 HTTP 请求内有效。
+**3、** 服务和服务之间的调用。
 
-**4、** Session - 每一次 HTTP 请求都会产生一个新的 bean，同时该 bean 仅在当前 HTTP session 内有效。
+**4、** 路由。
 
-**5、** Global-session - 类似于标准的 HTTP Session 作用域，不过它仅仅在基于 portlet 的 web 应用中才有意义。 Portlet 规范定义了全局 Session 的概念，它被所有构成某个 portlet web 应用的各种不同的 portlet 所共享。 在 global session 作用域中定义的 bean 被限定于全局 portlet Session 的生命周期范围内。 如果你在 web 中使用 global session 作用域来标识 bean，那么 web 会自动当成 session 类型来使用。
+**5、** 断路器和负载平衡。
 
-**6、** 仅当用户使用支持 Web 的 ApplicationContext 时，最后三个才可用。
-
-
-### 9、SpringBoot 是否可以使用 XML 配置 ?
-
-SpringBoot 推荐使用 Java 配置而非 XML 配置，但是 SpringBoot 中也可以使用 XML 配置，通过 [@ImportResource ](/ImportResource ) 注解可以引入一个 XML 配置。
+**6、** 分布式消息传递。
 
 
-### 10、保护 SpringBoot 应用有哪些方法？
+### 4、Spring Cloud Config
 
-**1、** 在生产中使用HTTPS
+Config能够管理所有微服务的配置文件
 
-**2、** 使用Snyk检查你的依赖关系
-
-**3、** 升级到最新版本
-
-**4、** 启用CSRF保护
-
-**5、** 使用内容安全策略防止XSS攻击
+集中配置管理工具，分布式系统中统一的外部配置管理，默认使用Git来存储配置，可以支持客户端配置的刷新及加密、解密操作。
 
 
-### 11、Spring 应用程序有哪些不同组件？
-### 12、什么是嵌入式服务器？我们为什么要使用嵌入式服务器呢?
-### 13、如何在 spring 中启动注解装配？
-### 14、如何使用 SpringBoot 实现分页和排序？
-### 15、SpringBoot 支持哪些日志框架？推荐和默认的日志框架是哪个？
+### 5、如何重新加载 SpringBoot上的更改，而无需重新启动服务器？
+
+使用DEV工具来实现。 通过这种依赖关系，可以节省任何更改，嵌入式 tomcat将重新启动。 使用SpringBoot有一个开发工具`Dev Tools`模块，可以重新加载 SpringBoot上的更改，而无需重新启动服务器。消除每次手动部署更改的需要。 SpringBoot在发布它的第一个版本时没有这个功能。该模块将在生产环境中被禁用。它还提供H2数据库控制台以更好地测试应用程序。
+
+
+### 6、负载平衡的意义什么？
+
+在计算中，负载平衡可以改善跨计算机，计算机集群，网络链接，中央处理单元或磁盘驱动器等多种计算资源的工作负载分布。负载平衡旨在优化资源使用，最大化吞吐量，最小化响应时间并避免任何单一资源的过载。使用多个组件进行负载平衡而不是单个组件可能会通过冗余来提高可靠性和可用性。负载平衡通常涉及专用软件或硬件，例如多层交换机或域名系统服务器进程。
+
+
+### 7、spring boot 核心的两个配置文件：
+
+**1、** bootstrap (.yml 或.properties)：boostrap 由父 ApplicationContext 加载的，比 applicaton 优先加载，配置在应用程序上下文的引导阶段生效。一般来说我们在 Spring Cloud Config 或者 Nacos 中会用到它。且 boostrap 里面的属性不能被覆盖；
+
+**2、** application (. yml 或者 . properties)：由ApplicatonContext 加载，用于 spring boot 项目的自动化配置。
+
+
+### 8、什么是Spring Cloud？
+
+spring cloud 是一系列框架的有序集合。它利用 spring boot 的开发便利性巧妙地简化了分布式系统基础设施的开发，如服务发现注册、配置中心、消息总线、负载均衡、断路器、数据监控等，都可以用 spring boot 的开发风格做到一键启动和部署。
+
+
+### 9、JPA 和 Hibernate 有哪些区别？
+
+简而言之
+
+JPA 是一个规范或者接口
+
+Hibernate 是 JPA 的一个实现
+
+当我们使用 JPA 的时候，我们使用 javax.persistence 包中的注释和接口时，不需要使用 hibernate 的导入包。
+
+我们建议使用 JPA 注释，因为哦我们没有将其绑定到 Hibernate 作为实现。后来（我知道 - 小于百分之一的几率），我们可以使用另一种 JPA 实现。
+
+
+### 10、[@RequestMapping ](/RequestMapping ) 注解有什么用？
+
+[@RequestMapping ](/RequestMapping ) 注解用于将特定 HTTP 请求方法映射到将处理相应请求的控制器中的特定类/方法。
+
+**此注解可应用于两个级别：**
+
+类级别： 映射请求的 URL
+
+方法级别： 映射 URL 以及 HTTP 请求方法
+
+
+### 11、指出在 spring aop 中 concern 和 cross-cutting concern 的不同之处。
+### 12、Eureka如何 保证AP
+### 13、@ResponseBody注解的作用
+### 14、什么是 Spring IOC 容器？
+### 15、自动装配有哪些局限性 ?
 ### 16、什么是基于注解的容器配置?
-### 17、Web，RESTful API在微服务中的作用是什么？
-### 18、什么是 JavaConfig？
+### 17、什么是微服务
+### 18、使用Spring框架的好处是什么？
 ### 19、什么是领域驱动设计？
-### 20、SpringBoot读取配置文件的方式
-### 21、什么是Spring Cloud Gateway?
-### 22、spring-boot-starter-parent 有什么用 ?
-### 23、什么是SpringBoot？
-### 24、为什么要使用 Spring Cloud 熔断器？
-### 25、SpringBoot 的核心注解是哪个？它主要由哪几个注解组成的？
-### 26、微服务架构有哪些优势？
-### 27、如何集成SpringBoot和ActiveMQ？
-### 28、使⽤中碰到的坑
-### 29、bootstrap.yml和application.yml有什么区别?
-### 30、Spring MVC中函数的返回值是什么？
-### 31、[@Autowired ](/Autowired ) 注解有什么用？
+### 20、为什么我们不建议在实际的应用程序中使用 Spring Data Rest?
+### 21、什么是JavaConfig？
+### 22、运行 SpringBoot 有哪几种方式？
+### 23、谈谈服务雪崩效应
+### 24、如何使用SpringBoot实现异常处理？
+### 25、@SpringBootApplication注释在内部有什么用处?
+### 26、如何集成SpringBoot和ActiveMQ？
+### 27、Spring Framework 中有多少个模块，它们分别是什么？
+### 28、SpringBoot有哪些优点？
+### 29、Ribbon和Feign的区别？
+### 30、IOC的优点是什么？
+### 31、spring 提供了哪些配置方式？
 
 
 
@@ -130,6 +159,6 @@ SpringBoot 推荐使用 Java 配置而非 XML 配置，但是 SpringBoot 中也�
 
 ## 最新，高清PDF：172份，7701页，最新整理
 
-[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/mst.png "大厂面试题")](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png"大厂面试题")
+[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/mst.png "架构师专栏")](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png "架构师专栏")
 
 [![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png "架构师专栏")](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png "架构师专栏")

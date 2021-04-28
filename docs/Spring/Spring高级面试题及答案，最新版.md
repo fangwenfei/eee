@@ -8,114 +8,106 @@
 
 
 
-### 1、什么是 Hystrix？
+### 1、微服务同时调用多个接口，怎么支持事务的啊？
 
-在分布式系统，我们一定会依赖各种服务，那么这些个服务一定会出现失败的情况，就会导致雪崩，Hystrix就是这样的一个工具，防雪崩利器，它具有服务降级，服务熔断，服务隔离，监控等一些防止雪崩的技术。
-
-**Hystrix有四种防雪崩方式:**
-
-**1、** 服务降级：接口调用失败就调用本地的方法返回一个空
-
-**2、** 服务熔断：接口调用失败就会进入调用接口提前定义好的一个熔断的方法，返回错误信息
-
-**3、** 服务隔离：隔离服务之间相互影响
-
-**4、** 服务监控：在服务发生调用时,会将每秒请求数、成功请求数等运行指标记录下来。
+支持分布式事务，可以使用SpringBoot集成 Aatomikos来解决，但是我一般不建议这样使用，因为使用分布式事务会增加请求的响应时间，影响系统的TPS。一般在实际工作中，会利用消息的补偿机制来处理分布式的事务。
 
 
-### 2、你怎样定义类的作用域?
+### 2、什么是通知（Advice）？
 
-当定义一个 在Spring里，我们还能给这个bean声明一个作用域。它可以通过bean 定义中的scope属性来定义。如，当Spring要在需要的时候每次生产一个新的bean实例，bean的scope属性被指定为prototype。另一方面，一个bean每次使用的时候必须返回同一个实例，这个bean的scope 属性 必须设为 singleton。
-
-
-### 3、什么是 JavaConfig？
-
-Spring JavaConfig 是 Spring 社区的产品，它提供了配置 Spring IoC 容器的纯Java 方法。因此它有助于避免使用 XML 配置。使用 JavaConfig 的优点在于：
-
-**1、** 面向对象的配置。由于配置被定义为 JavaConfig 中的类，因此用户可以充分利用 Java 中的面向对象功能。一个配置类可以继承另一个，重写它的[@Bean ](/Bean ) 方法等。
-
-**2、** 减少或消除 XML 配置。基于依赖注入原则的外化配置的好处已被证明。但是，许多开发人员不希望在 XML 和 Java 之间来回切换。JavaConfig 为开发人员提供了一种纯 Java 方法来配置与 XML 配置概念相似的 Spring 容器。从技术角度来讲，只使用 JavaConfig 配置类来配置容器是可行的，但实际上很多人认为将JavaConfig 与 XML 混合匹配是理想的。
-
-**3、** 类型安全和重构友好。JavaConfig 提供了一种类型安全的方法来配置 Spring容器。由于 Java 5.0 对泛型的支持，现在可以按类型而不是按名称检索 bean，不需要任何强制转换或基于字符串的查找。
+特定 JoinPoint 处的 Aspect 所采取的动作称为 Advice。Spring AOP 使用一个 Advice 作为拦截器，在 JoinPoint “周围”维护一系列的拦截器。
 
 
-### 4、服务雪崩？
-
-简介：服务雪崩效应是⼀种因服务提供者的不可⽤导致服务调⽤者的不可⽤,并将不可⽤逐渐放⼤的过程.
-
-![](https://gitee.com/souyunkutech/souyunku-home/raw/master/images/souyunku-web/2020/5/2/01/44/45_12.png#alt=45%5C_12.png)
-
-**形成原因**
-
-**1、** 服务提供者不可
-
-**2、** 重试加⼤流量
-
-**3、** 服务调⽤者不可⽤
-
-**采⽤策略**
-
-**1、** 流量控制
-
-**2、** 改进缓存模式
-
-**3、** 服务⾃动扩容
-
-**4、** 服务调⽤者降级服务
-
-
-### 5、解释基于注解的切面实现
-
-在这种情况下(基于@AspectJ的实现)，涉及到的切面声明的风格与带有java5标注的普通java类一致。
-
-
-### 6、微服务架构的优缺点是什么？
+### 3、微服务架构的优缺点是什么？
 
 ![](https://gitee.com/souyunkutech/souyunku-home/raw/master/images/souyunku-web/2019/08/0816/01/img_6.png#alt=img%5C_6.png)
 
 
-### 7、RequestMapping 和 GetMapping 的不同之处在哪里？
+### 4、在使用微服务架构时，您面临哪些挑战？
 
-RequestMapping 具有类属性的，可以进行 GET,POST,PUT 或者其它的注释中具有的请求方法。GetMapping 是 GET 请求方法中的一个特例。它只是 ResquestMapping 的一个延伸，目的是为了提高清晰度。
+开发一些较小的微服务听起来很容易，但开发它们时经常遇到的挑战如下。
 
+自动化组件：难以自动化，因为有许多较小的组件。因此，对于每个组件，我们必须遵循Build，Deploy和Monitor的各个阶段。
 
-### 8、如果前台有很多个参数传入,并且这些参数都是一个对象的,那么怎么样快速得到这个对象？
+易感性：将大量组件维护在一起变得难以部署，维护，监控和识别问题。它需要在所有组件周围具有很好的感知能力。
 
+配置管理：有时在各种环境中维护组件的配置变得困难。
 
-
-直接在方法中声明这个对象,Spring MVC就自动会把属性赋值到这个对象里面。
-
-
-### 9、spring DAO 有什么用？
-
-Spring DAO 使得 JDBC，Hibernate 或 JDO 这样的数据访问技术更容易以一种统一的方式工作。 这使得用户容易在持久性技术之间切换。 它还允许您在编写代码时，无需考虑捕获每种技术不同的异常。
+调试：很难找到错误的每一项服务。维护集中式日志记录和仪表板以调试问题至关重要。
 
 
-### 10、自动装配有什么局限？
+### 5、为什么要选择微服务架构？
 
-覆盖的可能性 - 您始终可以使用 `<constructor-arg>` 和 `<property>` 设置指定依赖项，这将覆盖自动装配。基本元数据类型 - 简单属性（如原数据类型，字符串和类）无法自动装配。令人困惑的性质 - 总是喜欢使用明确的装配，因为自动装配不太精确。
+这是一个非常常见的微服务面试问题，你应该准备好了！微服务架构提供了许多优点。这里有几个：
+
+**1、** 微服务可以轻松适应其他框架或技术。
+
+**2、** 单个进程的失败不会影响整个系统。
+
+**3、** 为大企业和小型团队提供支持。
+
+**4、** 可以在相对较短的时间内独立部署。
 
 
-### 11、什么是Spring Cloud？
-### 12、Eureka和ZooKeeper都可以提供服务注册与发现的功能,请说说两个的区别
-### 13、什么是Eureka的自我保护模式，
-### 14、Spring Cloud和各子项目版本对应关系
-### 15、开启SpringBoot特性有哪几种方式？（创建SpringBoot项目的两种方式）
-### 16、Springboot 有哪些优点？
-### 17、如何在 SpringBoot 启动的时候运行一些特定的代码？
-### 18、SpringBoot多数据源拆分的思路
-### 19、你所知道微服务的技术栈有哪些？列举一二
-### 20、Spring MVC的优点
-### 21、SpringBoot 实现热部署有哪几种方式？
-### 22、第⼆层缓存：
-### 23、Ribbon是什么？
-### 24、DispatcherServlet
-### 25、微服务的缺点：
-### 26、区分 BeanFactory 和 ApplicationContext。
-### 27、合同测试你懂什么？
-### 28、如何使用 SpringBoot 部署到不同的服务器？
-### 29、Spring Initializr 是创建 SpringBoot Projects 的唯一方法吗？
-### 30、Spring Framework 中有多少个模块，它们分别是什么？
+### 6、我们如何监视所有 SpringBoot 微服务？
+
+SpringBoot 提供监视器端点以监控各个微服务的度量。这些端点对于获取有关应用程序的信息（如它们是否已启动）以及它们的组件（如数据库等）是否正常运行很有帮助。但是，使用监视器的一个主要缺点或困难是，我们必须单独打开应用程序的知识点以了解其状态或健康状况。想象一下涉及 50 个应用程序的微服务，管理员将不得不击中所有 50 个应用程序的执行终端。为了帮助我们处理这种情况，我们将使用位于的开源项目。它建立在 SpringBoot Actuator 之上，它提供了一个 Web UI，使我们能够可视化多个应用程序的度量。
+
+
+### 7、Eureka怎么实现高可用
+
+集群吧，注册多台Eureka，然后把SpringCloud服务互相注册，客户端从Eureka获取信息时，按照Eureka的顺序来访问。
+
+
+### 8、如何不通过任何配置来选择 Hibernate 作为 JPA 的默认实现？
+
+因为 SpringBoot 是自动配置的。
+
+**下面是我们添加的依赖项:**
+
+spring-boot-stater-data-jpa 对于 Hibernate 和 JPA 有过渡依赖性。
+
+当 SpringBoot 在类路径中检测到 Hibernate 中，将会自动配置它为默认的 JPA 实现。
+
+
+### 9、SpringBoot的缺点
+
+我觉得是为难人，SpringBoot在目前我觉得没有什么缺点，非要找一个出来我觉得就是
+
+由于不用自己做的配置，报错时很难定位。
+
+
+### 10、如何重新加载SpringBoot上的更改，而无需重新启动服务器？
+
+这可以使用DEV工具来实现。通过这种依赖关系，您可以节省任何更改，嵌入式tomcat将重新启动。
+
+SpringBoot有一个开发工具（DevTools）模块，它有助于提高开发人员的生产力。Java开发人员面临的一个主要挑战是将文件更改自动部署到服务器并自动重启服务器。
+
+开发人员可以重新加载SpringBoot上的更改，而无需重新启动服务器。这将消除每次手动部署更改的需要。SpringBoot在它的第一个版本时没有这个功能。
+
+这是开发人员最需要的功能。DevTools模块完全满足开发人员的需求。该模块将在生产环境中被禁用。它还提供H2数据库控制台以更好地测试应用程序。
+
+
+### 11、什么是凝聚力？
+### 12、什么是WebSockets？
+### 13、SpringBoot 支持哪些日志框架？推荐和默认的日志框架是哪个？
+### 14、什么是Apache Kafka？
+### 15、什么是Spring的依赖注入？
+### 16、单片，SOA和微服务架构有什么区别？
+### 17、什么是微服务架构中的DRY？
+### 18、SpringBoot 2、X 有什么新特性？与 1、X 有什么区别？
+### 19、什么是JavaConfig？
+### 20、什么是YAML？
+### 21、SpringBoot支持什么前端模板，
+### 22、SpringBoot集成mybatis的过程
+### 23、Zookeeper如何 保证CP
+### 24、既然Nginx可以实现网关？为什么还需要使用Zuul框架
+### 25、SpringBoot 的核心注解是哪个？它主要由哪几个注解组成的？
+### 26、Spring Cloud Sleuth
+### 27、什么是切点（JoinPoint）
+### 28、spring 支持哪些 ORM 框架
+### 29、你如何理解 SpringBoot 中的 Starters？
+### 30、SpringBoot 的核心配置文件有哪几个？它们的区别是什么？
 
 
 
@@ -129,6 +121,6 @@ Spring DAO 使得 JDBC，Hibernate 或 JDO 这样的数据访问技术更容易�
 
 ## 最新，高清PDF：172份，7701页，最新整理
 
-[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/mst.png "大厂面试题")](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png"大厂面试题")
+[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/mst.png "架构师专栏")](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png "架构师专栏")
 
 [![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png "架构师专栏")](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png "架构师专栏")

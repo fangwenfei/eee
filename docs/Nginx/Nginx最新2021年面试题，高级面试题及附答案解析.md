@@ -8,30 +8,101 @@
 
 
 
-### 1、Nginx应用场景？
+### 1、Nginx 有哪些优点？
 
-**1、** http服务器。Nginx是一个http服务可以独立提供http服务。可以做网页静态服务器。
+**1、** 跨平台、配置简单。
 
-**2、** 虚拟主机。可以实现在一台服务器虚拟出多个网站，例如个人网站使用的虚拟机。
+**2、** 非阻塞、高并发连接
 
-**3、** 反向代理，负载均衡。当网站的访问量达到一定程度后，单台服务器不能满足用户的请求时，需要用多台服务器集群可以使用nginx做反向代理。并且多台服务器可以平均分担负载，不会应为某台服务器负载高宕机而某台服务器闲置的情况。
+**3、** 处理 2-3 万并发连接数，官方监测能支持 5 万并发。
 
-**4、** nginz 中也可以配置安全管理、比如可以使用Nginx搭建API接口网关,对每个接口服务进行拦截。
+**4、** 内存消耗小
 
+**5、** 开启 10 个 Nginx 才占 150M 内存。
 
-### 2、什么是正向代理和反向代理？
+**6、** 成本低廉，且开源。
 
-**1、** 正向代理就是一个人发送一个请求直接就到达了目标的服务器
-
-**2、** 反方代理就是请求统一被Nginx接收，nginx反向代理服务器接收到之后，按照一定的规 则分发给了后端的业务处理服务器进行处理了
-
-
-### 3、ngx_http_upstream_module的作用是什么?
-
-ngx_http_upstream_module用于定义可通过fastcgi传递、proxy传递、uwsgi传递、Memcached传递和scgi传递指令来引用的服务器组。
+**7、** 稳定性高，宕机的概率非常小。
 
 
-### 4、Location正则案例
+### 2、Rewrite全局变量是什么？
+| 变量 | 含义 |
+| --- | --- |
+| $args | 这个变量等于请求行中的参数，同$query_string |
+| $content length | 请求头中的Content-length字段。 |
+| $content_type | 请求头中的Content-Type字段。 |
+| $document_root | 当前请求在root指令中指定的值。 |
+| $host | 请求主机头字段，否则为服务器名称。 |
+| $http_user_agent | 客户端agent信息 |
+| $http_cookie | 客户端cookie信息 |
+| $limit_rate | 这个变量可以限制连接速率。 |
+| $request_method | 客户端请求的动作，通常为GET或POST。 |
+| $remote_addr | 客户端的IP地址。 |
+| $remote_port | 客户端的端口。 |
+| $remote_user | 已经经过Auth Basic Module验证的用户名。 |
+| $request_filename | 当前请求的文件路径，由root或alias指令与URI请求生成。 |
+| $scheme | HTTP方法（如http，https）。 |
+| $server_protocol | 请求使用的协议，通常是HTTP/1.0或HTTP/1.1。 |
+| $server_addr | 服务器地址，在完成一次系统调用后可以确定这个值。 |
+| $server_name | 服务器名称。 |
+| $server_port | 请求到达服务器的端口号。 |
+| $request_uri | 包含请求参数的原始URI，不包含主机名，如”/foo/bar.php?arg=baz”。 |
+| $uri | 不带请求参数的当前URI，$uri不包含主机名，如”/foo/bar.html”。 |
+| $document_uri | 与$uri相同。 |
+
+
+### 3、解释如何在`Nginx`服务器上添加模块?
+
+在编译过程中，必须选择`Nginx`模块，因为`Nginx`不支持模块的运行时间选择。
+
+
+### 4、Nginx负载均衡的算法怎么实现的?策略有哪些?
+
+为了避免服务器崩溃，大家会通过负载均衡的方式来分担服务器压力。将对台服务器组成一个集群，当用户访问时，先访问到一个转发服务器，再由转发服务器将访问分发到压力更小的服务器。
+
+Nginx负载均衡实现的策略有以下五种：
+
+
+### 5、用`Nginx`服务器解释`-s`的目的是什么?
+
+用于运行`Nginx -s`参数的可执行文件。
+
+
+### 6、请解释一下什么是 Nginx?
+
+Nginx 是一个 web 服务器和反向代理服务器，用于 HTTP、HTTPS、SMTP、POP3
+
+和 IMAP 协议。
+
+
+### 7、在Nginx中，如何使用未定义的服务器名称来阻止处理请求?
+
+只需将请求删除的服务器就可以定义为：
+
+![](https://www.wkcto.com/static/uploads/index/article/20200610/1591778954@ef97ed18ea668a9954060c09abeb46c4.png#alt=)
+
+这里，服务器名被保留为一个空字符串，它将在没有“主机”头字段的情况下匹配请求，而一个特殊的Nginx的非标准代码444被返回，从而终止连接。
+
+
+### 8、如何用Nginx解决前端跨域问题？
+
+使用Nginx转发请求。把跨域的接口写成调本域的接口，然后将这些接口转发到真正的请求地址。
+
+
+### 9、ip_hash( IP绑定)
+
+每个请求按访问IP的哈希结果分配，使来自同一个IP的访客固定访问一台后端服务器，`并且可以有效解决动态网页存在的session共享问题`
+
+```
+upstream backserver {
+ ip_hash;
+ server 192.168.0.12:88; 
+ server 192.168.0.13:80; 
+}
+```
+
+
+### 10、Location正则案例
 
 **示例：**
 
@@ -67,115 +138,26 @@ location / {
 ```
 
 
-### 5、Nginx怎么判断别IP不可访问？
-
-```
-# 如果访问的ip地址为192.168.9.115,则返回403
-if  ($remote_addr = 192.168.9.115) {
-     return 403;
-}
-```
-
-
-### 6、请列举 Nginx 的一些特性。
-
-Nginx 服务器的特性包括：
-
-**1、** 反向代理/L7 负载均衡器
-
-**2、** 嵌入式 Perl 解释器
-
-**3、** 动态二进制升级
-
-**4、** 可用于重新编写 URL，具有非常好的 PCRE 支持
-
-
-### 7、Nginx目录结构有哪些？
-
-```
-[root@localhost ~]# tree /usr/local/nginx
-/usr/local/nginx
-├── client_body_temp
-├── conf                             # Nginx所有配置文件的目录
-│   ├── fastcgi.conf                 # fastcgi相关参数的配置文件
-│   ├── fastcgi.conf.default         # fastcgi.conf的原始备份文件
-│   ├── fastcgi_params               # fastcgi的参数文件
-│   ├── fastcgi_params.default       
-│   ├── koi-utf
-│   ├── koi-win
-│   ├── mime.types                   # 媒体类型
-│   ├── mime.types.default
-│   ├── nginx.conf                   # Nginx主配置文件
-│   ├── nginx.conf.default
-│   ├── scgi_params                  # scgi相关参数文件
-│   ├── scgi_params.default  
-│   ├── uwsgi_params                 # uwsgi相关参数文件
-│   ├── uwsgi_params.default
-│   └── win-utf
-├── fastcgi_temp                     # fastcgi临时数据目录
-├── html                             # Nginx默认站点目录
-│   ├── 50x.html                     # 错误页面优雅替代显示文件，例如当出现502错误时会调用此页面
-│   └── index.html                   # 默认的首页文件
-├── logs                             # Nginx日志目录
-│   ├── access.log                   # 访问日志文件
-│   ├── error.log                    # 错误日志文件
-│   └── nginx.pid                    # pid文件，Nginx进程启动后，会把所有进程的ID号写到此文件
-├── proxy_temp                       # 临时目录
-├── sbin                             # Nginx命令目录
-│   └── nginx                        # Nginx的启动命令
-├── scgi_temp                        # 临时目录
-└── uwsgi_temp                       # 临时目录
-```
-
-
-### 8、权重 weight
-
-weight的值越大分配
-
-到的访问概率越高，主要用于后端每台服务器性能不均衡的情况下。其次是为在主从的情况下设置不同的权值，达到合理有效的地利用主机资源。
-
-```
-upstream backserver {
- server 192.168.0.12 weight=2;
- server 192.168.0.13 weight=8;
-}
-```
-
-权重越高，在被访问的概率越大，如上例，分别是20%，80%。
-
-
-### 9、请列举Nginx的一些特性？
-
-Nginx服务器的特性包括：反向代理/L7负载均衡器 ；嵌入式Perl解释器 ；动态二进制升级；可用于重新编写URL，具有非常好的PCRE支持。
-
-
-### 10、请解释一下什么是 Nginx?
-
-Nginx 是一个 web 服务器和反向代理服务器，用于 HTTP、HTTPS、SMTP、POP3
-
-和 IMAP 协议。
-
-
-### 11、Nginx怎么处理请求的？
-### 12、用 Nginx 服务器解释-s 的目的是什么?
-### 13、请列举 Nginx 服务器的最佳用途。Nginx 服务器的最佳用法是在网络上部署动态 HTTP 内容，使用 SCGI、WSGI 应
-### 14、请解释什么是`C10K`问题?
-### 15、请解释是否有可能将 Nginx 的错误替换为 502 错误、503?
-### 16、fastcgi 与 cgi 的区别？
-### 17、nginx是如何实现高并发的？
-### 18、Nginx 常用配置？
-### 19、为什么要用Nginx？
-### 20、nginx和apache的区别？
-### 21、解释 Nginx 是否支持将请求压缩到上游?
-### 22、解释如何在 Nginx 中获得当前的时间?
-### 23、使用“反向代理服务器的优点是什么?
-### 24、为什么要做动、静分离？
-### 25、请解释 Nginx 服务器上的 Master 和 Worker 进程分别是什么?
-### 26、什么是C10K问题?
-### 27、请解释 Nginx 如何处理 HTTP 请求？
+### 11、Nginx 如何开启压缩？
+### 12、为什么不使用多线程？
+### 13、Nginx 有哪些负载均衡策略？
+### 14、漏桶流算法和令牌桶算法知道，漏桶算法#
+### 15、正常限制访问频率（正常流量）
+### 16、解释如何在 Nginx 服务器上添加模块?
+### 17、Nginx应用场景？
+### 18、nginx和apache的区别？
+### 19、ngx_http_upstream_module的作用是什么?
+### 20、使用“反向代理服务器的优点是什么?
+### 21、使用“反向代理服务器”的优点是什么?
+### 22、Nginx怎么判断别IP不可访问？
+### 23、nginx是如何实现高并发的？
+### 24、用Nginx服务器解释-s的目的是什么?
+### 25、使用“反向代理服务器”的优点是什么?
+### 26、为什么要做动、静分离？
+### 27、Nginx 是如何实现高并发的？
 ### 28、在 Nginx 中，如何使用未定义的服务器名称来阻止处理请求?
-### 29、为什么不使用多线程？
-### 30、location的作用是什么？
+### 29、请列举 Nginx 的一些特性。
+### 30、限制并发连接数
 
 
 
@@ -189,6 +171,6 @@ Nginx 是一个 web 服务器和反向代理服务器，用于 HTTP、HTTPS、SM
 
 ## 最新，高清PDF：172份，7701页，最新整理
 
-[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/mst.png "大厂面试题")](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png"大厂面试题")
+[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/mst.png "架构师专栏")](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png "架构师专栏")
 
 [![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png "架构师专栏")](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png "架构师专栏")

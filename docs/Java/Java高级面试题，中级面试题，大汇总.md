@@ -8,139 +8,283 @@
 
 
 
-### 1、介绍一下类文件结构吧！
+### 1、什么是线程池？
 
-魔数: 确定这个文件是否为一个能被虚拟机接收的 Class 文件。Class 文件版本 ：Class 文件的版本号，保证编译正常执行。常量池 ：常量池主要存放两大常量：字面量和符号引用。访问标志 ：标志用于识别一些类或者接口层次的访问信息，包括：这个 Class 是类还是接口，是否为 public 或者 abstract 类型，如果是类的话是否声明为 final 等等。当前类索引,父类索引 ：类索引用于确定这个类的全限定名，父类索引用于确定这个类的父类的全限定名，由于 Java 语言的单继承，所以父类索引只有一个，除了 java.lang.Object 之外，所有的 java 类都有父类，因此除了 java.lang.Object 外，所有 Java 类的父类索引都不为 0。接口索引集合 ：接口索引集合用来描述这个类实现了那些接口，这些被实现的接口将按implents(如果这个类本身是接口的话则是extends) 后的接口顺序从左到右排列在接口索引集合中。字段表集合 ：描述接口或类中声明的变量。字段包括类级变量以及实例变量，但不包括在方法内部声明的局部变量。方法表集合 ：类中的方法。属性表集合 ：在 Class 文件，字段表，方法表中都可以携带自己的属性表集合。
+Java中的线程池是运用场景最多的并发框架，几乎所有需要异步或并发执行任务的程序都可以使用线程池。在开发过程中，合理地使用线程池能够带来许多好处。
 
+**1、** 降低资源消耗。通过重复利用已创建的线程降低线程创建和销毁造成的消耗。
 
-### 2、GC日志的real、user、sys是什么意思？
+**2、** 提高响应速度。当任务到达时，任务可以不需要等到线程创建就能立即执行。
 
-`real` 实际花费的时间，指的是从开始到结束所花费的时间。比如进程在等待I/O完成，这个阻塞时间也会被计算在内。`user` 指的是进程在用户态（User Mode）所花费的时间，只统计本进程所使用的时间，是指多核。`sys` 指的是进程在核心态（Kernel Mode）花费的CPU时间量，指的是内核中的系统调用所花费的时间，只统计本进程所使用的时间。
-
-这个是用来看日志用的，如果你不看日志，那不了解也无妨。不过，这三个参数的意义，在你能看到的地方，基本上都是一致的，比如操作系统。
-
-
-### 3、怎么获取 Java 程序使用的内存？堆使用的百分比？
-
-可以通过 java.lang.Runtime 类中与内存相关方法来获取剩余的内存，总内存及最大堆内存。通过这些方法你也可以获取到堆使用的百分比及堆内存的剩余空间。Runtime.freeMemory() 方法返回剩余空间的字节数，Runtime.totalMemory() 方法总内存的字节数，Runtime.maxMemory() 返回最大内存的字节数。
+**3、** 提高线程的可管理性。线程是稀缺资源，如果无限制地创建，不仅会消耗系统资源，还会降低系统的稳定性，使用线程池可以进行统一分配、调优和监控。但是，要做到合理利用
 
 
-### 4、乐观锁和悲观锁的理解及如何实现，有哪些实现方式？
+### 2、如何实现 Array 和 List 之间的转换？
 
-**悲观锁**：
+**1、** Array 转 List： Arrays、asList(array) ；
 
-总是假设最坏的情况，每次去拿数据的时候都认为别人会修改，所以每次在拿数据的时候都会上锁，这样别人想拿这个数据就会阻塞直到它拿到锁。传统的关系型数据库里边就用到了很多这种锁机制，比如行锁，表锁等，读锁，写锁等，都是在做操作之前先上锁。再比如Java里面的同步原语synchronized关键字的实现也是悲观锁。
-
-**乐观锁**：
-
-顾名思义，就是很乐观，每次去拿数据的时候都认为别人不会修改，所以不会上锁，但是在更新的时候会判断一下在此期间别人有没有去更新这个数据，可以使用版本号等机制。乐观锁适用于多读的应用类型，这样可以提高吞吐量，像数据库提供的类似于write_condition机制，其实都是提供的乐观锁。在Java中java.util.concurrent.atomic包下面的原子变量类就是使用了乐观锁的一种实现方式CAS实现的。
-
-**乐观锁的实现方式**：
-
-**1、** 使用版本标识来确定读到的数据与提交时的数据是否一致。提交后修改版本标识，不一致时可以采取丢弃和再次尝试的策略。
-
-**2、** java中的Compare and Swap即CAS ，当多个线程尝试使用CAS同时更新同一个变量时，只有其中一个线程能更新变量的值，而其它线程都失败，失败的线程并不会被挂起，而是被告知这次竞争中失败，并可以再次尝试。　CAS 操作中包含三个操作数 —— 需要读写的内存位置（V）、进行比较的预期原值（A）和拟写入的新值(B)。如果内存位置V的值与预期原值A相匹配，那么处理器会自动将该位置值更新为新值B。否则处理器不做任何操作。
-
-**CAS缺点**：
-
-**1、** **ABA问题**：
-
-比如说一个线程one从内存位置V中取出A，这时候另一个线程two也从内存中取出A，并且two进行了一些操作变成了B，然后two又将V位置的数据变成A，这时候线程one进行CAS操作发现内存中仍然是A，然后one操作成功。尽管线程one的CAS操作成功，但可能存在潜藏的问题。从Java1.5开始JDK的atomic包里提供了一个类AtomicStampedReference来解决ABA问题。
-
-**2、** **循环时间长开销大**：
-
-对于资源竞争严重（线程冲突严重）的情况，CAS自旋的概率会比较大，从而浪费更多的CPU资源，效率低于synchronized。
-
-**3、** **只能保证一个共享变量的原子操作**：
-
-当对一个共享变量执行操作时，我们可以使用循环CAS的方式来保证原子操作，但是对多个共享变量操作时，循环CAS就无法保证操作的原子性，这个时候就可以用锁。
+**2、** List 转 Array：List 的 toArray() 方法。
 
 
-### 5、永久代
+### 3、JVM调优命令有哪些？
 
-指内存的永久保存区域，主要存放 Class 和 Meta（元数据）的信息,Class 在被加载的时候被放入永久区域， 它和和存放实例的区域不同,GC不会在主程序运行期对永久区域进行清理。所以这也导致了永久代的区域会随着加载的 Class 的增多而胀满，最终抛出 OOM 异常。
-
-
-### 6、什么是策略模式
-
-定义了一系列的算法 或 逻辑 或 相同意义的操作，并将每一个算法、逻辑、操作封装起来，而且使它们还可以相互替换。（其实策略模式Java中用的非常非常广泛）
-
-我觉得主要是为了 简化 if...else 所带来的复杂和难以维护。
+jps，JVM Process Status Tool,显示指定系统内所有的HotSpot虚拟机进程。jstat，JVM statistics Monitoring是用于监视虚拟机运行时状态信息的命令，它可以显示出虚拟机进程中的类装载、内存、垃圾收集、JIT编译等运行数据。jmap，JVM Memory Map命令用于生成heap dump文件 jhat，JVM Heap Analysis Tool命令是与jmap搭配使用，用来分析jmap生成的dump，jhat内置了一个微型的HTTP/HTML服务器，生成dump的分析结果后，可以在浏览器中查看 jstack，用于生成java虚拟机当前时刻的线程快照。jinfo，JVM Conﬁguration info 这个命令作用是实时查看和调整虚拟机运行参数。
 
 
-### 7、分代收集算法
-
-当前主流 VM 垃圾收集都采用”分代收集” (Generational Collection)算法, 这种算法会根据对象存活周期的不同将内存划分为几块, 如 JVM 中的新生代、老年代、永久代， 这样就可以根据各年代特点分别采用最适当的 GC 算法
-
-
-### 8、Anonymous Inner Class(匿名内部类)是否可以继承其它类？是否可以实现接口？
+### 4、如何实现对象克隆？
 
 
 
-可以继承其他类或实现其他接口，在Swing编程和Android开发中常用此方式来实现事件监听和回调。
+有两种方式：
 
+1)、实现Cloneable接口并重写Object类中的clone()方法；
 
-### 9、你能写出一个正则表达式来判断一个字符串是否是一个数字吗？
-
-一个数字字符串，只能包含数字，如 0 到 9 以及 +、- 开头，通过这个信息，你可以下一个如下的正则表达式来判断给定的字符串是不是数字。
+2)、实现Serializable接口，通过对象的序列化和反序列化实现克隆，可以实现真正的深度克隆，代码如下。
 
 ```
-首先要import java.util.regex.Pattern 和 java.util.regex.Matcher
-public boolean isNumeric(String str){ 
-   Pattern pattern = Pattern.compile("[0-9]*"); 
-   Matcher isNum = pattern.matcher(str);
-   if( !isNum.matches() ){
-       return false; 
-   } 
-   return true; 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
+
+public class MyUtil {
+
+    private MyUtil() {
+        throw new AssertionError();
+    }
+
+    @SuppressWarnings("unchecked")
+    public static <T extends Serializable> T clone(T obj) throws Exception {
+        ByteArrayOutputStream bout = new ByteArrayOutputStream();
+        ObjectOutputStream oos = new ObjectOutputStream(bout);
+        oos.writeObject(obj);
+
+        ByteArrayInputStream bin = new ByteArrayInputStream(bout.toByteArray());
+        ObjectInputStream ois = new ObjectInputStream(bin);
+        return (T) ois.readObject();
+
+        // 说明：调用ByteArrayInputStream或ByteArrayOutputStream对象的close方法没有任何意义
+        // 这两个基于内存的流只要垃圾回收器清理对象就能够释放资源，这一点不同于对外部资源（如文件流）的释放
+    }
 }
 ```
 
+下面是测试代码：
 
-### 10、多线程中 synchronized 锁升级的原理是什么？
+```
+import java.io.Serializable;
 
-synchronized 锁升级原理：在锁对象的对象头里面有一个 threadid 字段，在第一次访问的时候 threadid 为空，jvm 让其持有偏向锁，并将 threadid 设置为其线程 id，再次进入的时候会先判断 threadid 是否与其线程 id 一致，如果一致则可以直接使用此对象，如果不一致，则升级偏向锁为轻量级锁，通过自旋循环一定次数来获取锁，执行一定次数之后，如果还没有正常获取到要使用的对象，此时就会把锁从轻量级升级为重量级锁，此过程就构成了 synchronized 锁的升级。
+/
+ * 人类
+ * @author 骆昊
+ *
+ */
+class Person implements Serializable {
+    private static final long serialVersionUID = -9102017020286042305L;
 
-**锁的升级的目的：**
+    private String name;    // 姓名
+    private int age;        // 年龄
+    private Car car;        // 座驾
 
-锁升级是为了减低了锁带来的性能消耗。在 Java 6 之后优化 synchronized 的实现方式，使用了偏向锁升级为轻量级锁再升级到重量级锁的方式，从而减低了锁带来的性能消耗。
+    public Person(String name, int age, Car car) {
+        this.name = name;
+        this.age = age;
+        this.car = car;
+    }
 
-**1、** 偏向锁，顾名思义，它会偏向于第一个访问锁的线程，如果在运行过程中，同步锁只有一个线程访问，不存在多线程争用的情况，则线程是不需要触发同步的，减少加锁／解锁的一些CAS操作（比如等待队列的一些CAS操作），这种情况下，就会给线程加一个偏向锁。 如果在运行过程中，遇到了其他线程抢占锁，则持有偏向锁的线程会被挂起，JVM会消除它身上的偏向锁，将锁恢复到标准的轻量级锁。
+    public String getName() {
+        return name;
+    }
 
-**2、** 轻量级锁是由偏向所升级来的，偏向锁运行在一个线程进入同步块的情况下，当第二个线程加入锁争用的时候，轻量级锁就会升级为重量级锁；
+    public void setName(String name) {
+        this.name = name;
+    }
 
-**3、** 重量级锁是synchronized ，是 Java 虚拟机中最为基础的锁实现。在这种状态下，Java 虚拟机会阻塞加锁失败的线程，并且在目标锁被释放的时候，唤醒这些线程。
+    public int getAge() {
+        return age;
+    }
 
-### 11、老年代
-### 12、什么情况下会发生栈溢出？
-### 13、java中是值传递引用传递？
-### 14、XML文档定义有几种形式？它们之间有何本质区别？解析XML文档有哪几种方式？
-### 15、类、方法、成员变量和局部变量的可用修饰符 -
-### 16、可达性分析
-### 17、使用sql写出一个分页程序？
-### 18、对于JDK自带的监控和性能分析工具用过哪些？
-### 19、什么是线程调度器(Thread Scheduler)和时间分片(Time Slicing )？
-### 20、怎样通过 Java 程序来判断 JVM 是 32 位 还是 64位？
-### 21、重排序遵守的规则
-### 22、为什么使用Executor框架？
-### 23、什么是链表
-### 24、线程 B 怎么知道线程 A 修改了变量
-### 25、JAVA软引用
-### 26、什么是事务？事务有那些特点？
-### 27、invokedynamic 指令是干什么的？
-### 28、列举一些你知道的打破双亲委派机制的例子。为什么要打破？
-### 29、怎么在JDBC内调用一个存储过程
-### 30、Jsp由哪些内容组成？
-### 31、Java 中垃圾收集的方法有哪些
-### 32、双亲委派机制可以被违背吗？请举例说明。
-### 33、32 位和 64 位的 JVM，int 类型变量的长度是多数？
-### 34、你知道哪些故障处理工具？
-### 35、什么是Web Service（Web服务）
-### 36、并行和并发有什么区别？
-### 37、React如何进行组件/逻辑复用?
-### 38、什么是代理模式
-### 39、Java 中怎么获取一份线程 dump 文件？你如何在 Java 中获取线程堆栈？
-### 40、String 属于基础的数据类型吗？
+    public void setAge(int age) {
+        this.age = age;
+    }
+
+    public Car getCar() {
+        return car;
+    }
+
+    public void setCar(Car car) {
+        this.car = car;
+    }
+
+    @Override
+    public String toString() {
+        return "Person [name=" + name + ", age=" + age + ", car=" + car + "]";
+    }
+
+}
+```
+
+```
+/
+ * 小汽车类
+ * @author 骆昊
+ *
+ */
+class Car implements Serializable {
+    private static final long serialVersionUID = -5713945027627603702L;
+
+    private String brand;       // 品牌
+    private int maxSpeed;       // 最高时速
+
+    public Car(String brand, int maxSpeed) {
+        this.brand = brand;
+        this.maxSpeed = maxSpeed;
+    }
+
+    public String getBrand() {
+        return brand;
+    }
+
+    public void setBrand(String brand) {
+        this.brand = brand;
+    }
+
+    public int getMaxSpeed() {
+        return maxSpeed;
+    }
+
+    public void setMaxSpeed(int maxSpeed) {
+        this.maxSpeed = maxSpeed;
+    }
+
+    @Override
+    public String toString() {
+        return "Car [brand=" + brand + ", maxSpeed=" + maxSpeed + "]";
+    }
+
+}
+```
+
+```
+class CloneTest {
+
+    public static void main(String[] args) {
+        try {
+            Person p1 = new Person("Hao LUO", 33, new Car("Benz", 300));
+            Person p2 = MyUtil.clone(p1);   // 深度克隆
+            p2.getCar().setBrand("BYD");
+            // 修改克隆的Person对象p2关联的汽车对象的品牌属性
+            // 原来的Person对象p1关联的汽车不会受到任何影响
+            // 因为在克隆Person对象时其关联的汽车对象也被克隆了
+            System.out.println(p1);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+
+> 注意：基于序列化和反序列化实现的克隆不仅仅是深度克隆，更重要的是通过泛型限定，可以检查出要克隆的对象是否支持序列化，这项检查是编译器完成的，不是在运行时抛出异常，这种是方案明显优于使用Object类的clone方法克隆对象。让问题在编译的时候暴露出来总是好过把问题留到运行时。
+
+
+
+### 5、Static关键字有什么作用？
+
+Static可以修饰内部类、方法、变量、代码块
+
+Static修饰的类是静态内部类
+
+Static修饰的方法是静态方法，表示该方法属于当前类的，而不属于某个对象的，静态方法也不能被重写，可以直接使用类名来调用。在static方法中不能使用this或者super关键字。
+
+Static修饰变量是静态变量或者叫类变量，静态变量被所有实例所共享，不会依赖于对象。静态变量在内存中只有一份拷贝，在JVM加载类的时候，只为静态分配一次内存。
+
+Static修饰的代码块叫静态代码块，通常用来做程序优化的。静态代码块中的代码在整个类加载的时候只会执行一次。静态代码块可以有多个，如果有多个，按照先后顺序依次执行。
+
+
+### 6、标记清除算法（ Mark-Sweep）
+
+最基础的垃圾回收算法，分为两个阶段，标注和清除。标记阶段标记出所有需要回收的对象，清除阶段回收被标记的对象所占用的空间。
+
+从图中我们就可以发现，该算法最大的问题是内存碎片化严重，后续可能发生大对象不能找到可利用空间的问题。
+
+
+### 7、谈谈对 OOM 的认识
+
+除了程序计数器，其他内存区域都有 OOM 的风险。
+
+**1、** 栈一般经常会发生 StackOverflowError，比如 32 位的 windows 系统单进程限制 2G 内存，无限创建线程就会发生栈的 OOM
+
+**2、** Java 8 常量池移到堆中，溢出会出 java.lang.OutOfMemoryError: Java heap space，设置最大元空间大小参数无效
+
+**3、** 堆内存溢出，报错同上，这种比较好理解，GC 之后无法在堆中申请内存创建对象就会报错
+
+**4、** 方法区 OOM，经常会遇到的是动态生成大量的类、jsp 等
+
+**5、** 直接内存 OOM，涉及到 -XX:MaxDirectMemorySize 参数和 Unsafe 对象对内存的申请
+
+
+### 8、ThreadPoolExecutor饱和策略有哪些？
+
+`如果当前同时运行的线程数量达到最大线程数量并且队列也已经被放满了任时，ThreadPoolTaskExecutor 定义一些策略:`
+
+**1、** ThreadPoolExecutor.AbortPolicy：抛出 RejectedExecutionException来拒绝新任务的处理。
+
+**2、** ThreadPoolExecutor.CallerRunsPolicy：调用执行自己的线程运行任务。您不会任务请求。但是这种策略会降低对于新任务提交速度，影响程序的整体性能。另外，这个策略喜欢增加队列容量。如果您的应用程序可以承受此延迟并且你不能任务丢弃任何一个任务请求的话，你可以选择这个策略。
+
+**3、** ThreadPoolExecutor.DiscardPolicy：不处理新任务，直接丢弃掉。
+
+**4、** ThreadPoolExecutor.DiscardOldestPolicy： 此策略将丢弃最早的未处理的任务请求。
+
+
+### 9、当一个线程进入某个对象的一个synchronized的实例方法后，其它线程是否可进入此对象的其它方法？
+
+如果其他方法没有synchronized的话，其他线程是可以进入的。
+
+所以要开放一个线程安全的对象时，得保证每个方法都是线程安全的。
+
+
+### 10、Collections.synchronized  是什么？
+
+**注意：_ 号代表后面是还有内容的_
+
+此方法是干什么的呢，他完完全全的可以把List、Map、Set接口底下的集合变成线程安全的集合
+
+Collections.synchronized * ：原理是什么，我猜的话是代理模式：
+
+![](https://gitee.com/souyunkutech/souyunku-home/raw/master/images/souyunku-web/2020/5/2/045/42/87_14.png#alt=87%5C_14.png)
+
+
+### 11、JVM内存模型
+### 12、重载与重写
+### 13、在 Java 中，对象什么时候可以被垃圾回收？
+### 14、生产环境 CPU 占用过高，你如何解决？
+### 15、重排序实际执行的指令步骤
+### 16、说一下 Atomic的原理？
+### 17、Java中的同步集合与并发集合有什么区别？
+### 18、safepoint是什么？
+### 19、GC是什么？为什么要有GC？
+### 20、什么情况下会发生栈溢出？
+### 21、char 型变量中能不能存贮一个中文汉字，为什么？
+### 22、类加载是什么？
+### 23、在java中守护线程和本地线程区别？
+### 24、Spring开发中的工厂设计模式
+### 25、线上常用的 JVM 参数有哪些？
+### 26、标记整理算法(Mark-Compact)
+### 27、Java中notify 和 notifyAll有什么区别？
+### 28、程序计数器
+### 29、类加载有几个过程？
+### 30、接口和抽象类有什么区别？
+### 31、你知道哪些JVM性能调优
+### 32、switch 是否能作用在byte 上，是否能作用在long 上，是否能作用在String上？
+### 33、OOP 中的 组合、聚合和关联有什么区别？
+### 34、除了单例模式，你在生产环境中还用过什么设计模式？
+### 35、继承和组合之间有什么不同？
+### 36、HashMap在JDK1.7和JDK1.8中有哪些不同？HashMap的底层实现
+### 37、int 和 Integer 哪个会占用更多的内存？
+### 38、什么是线程池（thread pool）？
+### 39、如何判断一个类是无用的类?
+### 40、为什么HashMap中String、Integer这样的包装类适合作为K？
 
 
 
@@ -154,6 +298,6 @@ synchronized 锁升级原理：在锁对象的对象头里面有一个 threadid 
 
 ## 最新，高清PDF：172份，7701页，最新整理
 
-[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/mst.png "大厂面试题")](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png"大厂面试题")
+[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/mst.png "架构师专栏")](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png "架构师专栏")
 
 [![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png "架构师专栏")](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png "架构师专栏")

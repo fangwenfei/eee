@@ -8,268 +8,193 @@
 
 
 
-### 1、什么是对象解构？
+### 1、说出几个http协议状态码?
 
-**对象析构**是从对象或数组中获取或提取值的一种新的、更简洁的方法。假设有如下的对象：
+200, 201, 302, 304, 400, 404, 500
 
-```
-const employee = {
-  firstName: "Marko",
-  lastName: "Polo",
-  position: "Software Developer",
-  yearHired: 2017
-};
-```
+**1、** 200：请求成功
 
-从对象获取属性，早期方法是创建一个与对象属性同名的变量。这种方法很麻烦，因为我们要为每个属性创建一个新变量。假设我们有一个大对象，它有很多属性和方法，用这种方法提取属性会很麻烦。
+**2、** 201：请求成功并且服务器创建了新的资源
 
-`var firstName = employee.firstName; var lastName = employee.lastName; var position = employee.position; var yearHired = employee.yearHired;`
+**3、** 302：服务器目前从不同位置的网页响应请求，但请求者应继续使用原有位置来响应以后的请求。
 
-使用解构方式语法就变得简洁多了：
+**4、** 304：自从上次请求后，请求的网页未修改过。服务器返回此响应时，不会返回网页内容。
 
-`{ firstName, lastName, position, yearHired } = employee;`
+**5、** 400：服务器不理解请求的语法。
 
-我们还可以为属性取别名：
+**6、** 404：请求的资源（网页等）不存在
 
-`let { firstName: fName, lastName: lName, position, yearHired } = employee;`
-
-当然如果属性值为 `undefined` 时，我们还可以指定默认值：
-
-`let { firstName = "Mark", lastName: lName, position, yearHired } = employee;`
+**7、** 500： 内部服务器错误
 
 
-### 2、数据持久化技术(ajax)?简述ajax流程###
+### 2、event.preventDefault() 和 event.stopPropagation()方法之间有什么区别？
 
-**1、** 客户端产生js的事件
-
-**2、** 创建XMLHttpRequest对象
-
-**3、** 对XMLHttpRequest进行配置
-
-**4、** 通过AJAX引擎发送异步请求
-
-**5、** 服务器端接收请求并且处理请求，返回html或者xml内容
-
-**6、** XML调用一个callback()处理响应回来的内容
-
-**7、** 页面局部刷新
+`event.preventDefault()` 方法可防止元素的默认行为。如果在表单元素中使用，它将阻止其提交。如果在锚元素中使用，它将阻止其导航。如果在上下文菜单中使用，它将阻止其显示或显示。`event.stopPropagation()`方法用于阻止捕获和冒泡阶段中当前事件的进一步传播。
 
 
-### 3、如何copy一个dom元素？
+### 3、什么是AJAX？如何实现？
 
-原生Js方法：var div = document.getElementsByTagName('div')[0];
+`ajax`是一种能够实现局部网页刷新的技术，可以使网页异步刷新。
 
-var clone = div.cloneNode();
+`ajax`的实现主要包括四个步骤：
 
-Jquery方法：$('div').clone();
+**1、** 创建核心对象`XMLhttpRequest`；
 
-在默认情况下，.clone()方法不会复制匹配的元素或其后代元素中绑定的事件。不过，可以为这个方法传递一个布尔值参数，将这个参数设置为true, 就可以连同事件一起复制，即.clone(true)。
+**2、** 利用`open`方法打开与服务器的连接；
 
+**3、** 利用`send`方法发送请求；（"POST"请求时，还需额外设置请求头）
 
-### 4、javascript 代码中的"use strict";是什么意思 ? 使用它区别是什么？
-
-`use strict`是一种`ECMAscript 5` 添加的（严格）运行模式,这种模式使得 Javascript 在更严格的条件下运行,使`JS`编码更加规范化的模式,消除`Javascript`语法的一些不合理、不严谨之处，减少一些怪异行为
-
-
-### 5、谈谈你对webpack的看法
-
-**1、** `WebPack` 是一个模块打包工具，你可以使用`WebPack`管理你的模块依赖，并编绎输出模块们所需的静态文件。它能够很好地管理、打包`Web`开发中所用到的`HTML`、`Javascript`、`CSS`以及各种静态文件（图片、字体等），让开发过程更加高效。对于不同类型的资源，`webpack`有对应的模块加载器。`webpack`模块打包器会分析模块间的依赖关系，最后 生成了优化且合并后的静态资源
-
-
-### 6、typeof？typeof [ ]返回数据类型是？
+**4、** 监听服务器响应，接收返回值。
 
 ```
-//判断基本数据类型；var a=[];typeof a输出object；
-//本来判断一个对象类型用typeof是最好的，不过对于Array类型是不适用的，
-//可以使用 instanceof操作符：
-       var arrayStr=new Array("1","2","3","4","5");    
-       alert(arrayStr instanceof Array); 
-//当然以上在一个简单的页面布局里面是没有问题的，如果是复杂页面情况，
-//入获取的是frame内部的Array对象，可以用这个函数判断：
-       function isArray(obj) {      
-          return Object.prototype.toString.call(obj) === '[object Array]';       
-       }
-```
-
-
-### 7、除了jsonp 还有什么跨域方式###
-
-javascript跨域有两种情况：
-
-**1、** 基于同一父域的子域之间，如： [http://a.c.com](http://link.zhihu.com/?target=http%3A//a.c.com)和 [http://b.c.com](http://link.zhihu.com/?target=http%3A//b.c.com)
-
-**2、** 基于不同的父域之间，如： [http://www.a.com](http://link.zhihu.com/?target=http%3A//www.a.com)和 [http://www.b.com](http://link.zhihu.com/?target=http%3A//www.b.com)
-
-**3、** 端口的不同，如： [http://www.a.com:8080](http://link.zhihu.com/?target=http%3A//www.a.com%3A8080)和 [http://www.a.com:8088](http://link.zhihu.com/?target=http%3A//www.a.com%3A8088)
-
-**4、** 协议不同，如： [http://www.a.com](http://link.zhihu.com/?target=http%3A//www.a.com)和 [https://www.a.com](http://link.zhihu.com/?target=https%3A//www.a.com)
-
-**对于情况3和4，需要通过后台proxy来解决，具体方式如下：**
-
-a、在发起方的域下创建proxy程序
-
-b、发起方的js调用本域下的proxy程序
-
-c、proxy将请求发送给接收方并获取相应数据
-
-d、proxy将获得的数据返回给发起方的js
-
-代码和ajax调用一致，其实这种方式就是通过ajax进行调用的
-
-而情况1和2除了通过后台proxy这种方式外，还可以有多种办法来解决：
-
-**1、** document.domain+iframe（只能解决情况1）：
-
-a、在发起方页面和接收方页面设置document.domain，并将值设为父域的主域名(window.location.hostname)
-
-b、在发起方页面创建一个隐藏的iframe，iframe的源是接收方页面
-
-c、根据浏览器的不同，通过iframe.contentDocument || iframe.contentWindow.document来获得接收方页面的内容
-
-d、通过获得的接收方页面的内容来与接收方进行交互
-
-这种方法有个缺点，就是当一个域被攻击时，另一个域会有安全漏洞出现。
-
-
-### 8、JavaScript 中的虚值是什么？
-
-`const falsyValues = ['', 0, null, undefined, NaN, false];`
-
-简单的来说虚值就是是在转换为布尔值时变为 `false` 的值。
-
-
-### 9、`var`,`let`和`const`的区别是什么？
-
-**`var`声明的变量会挂载在`window`上，而`let`和`const`声明的变量不会：**
-
-```
-var a = 100;
-console.log(a,window.a);    // 100 100
-
-let b = 10;
-console.log(b,window.b);    // 10 undefined
-
-const c = 1;
-console.log(c,window.c);    // 1 undefined
-```
-
-**`var`声明变量存在变量提升，`let`和`const`不存在变量提升:**
-
-`console.log(a); // undefined  ===>  a已声明还没赋值，默认得到undefined值
-
-var a = 100;
-
-console.log(b); // 报错：b is not defined  ===> 找不到b这个变量
-
-let b = 10;
-
-console.log(c); // 报错：c is not defined  ===> 找不到c这个变量
-
-const c = 10;
-
-`
-
-**`let`和`const`声明形成块作用域**
-
-```
-if(1){
-  var a = 100;
-  let b = 10;
-}
-
-console.log(a); // 100
-console.log(b)  // 报错：b is not defined  ===> 找不到b这个变量
-
--------------------------------------------------------------
-
-if(1){
-  var a = 100;
-  const c = 1;
-}
-console.log(a); // 100
-console.log(c)  // 报错：c is not defined  ===> 找不到c这个变量
-```
-
-**同一作用域下`let`和`const`不能声明同名变量，而`var`可以**
-
-```
-var a = 100;
-console.log(a); // 100
-
-var a = 10;
-console.log(a); // 10
--------------------------------------
-let a = 100;
-let a = 10;
-    //  控制台报错：Identifier 'a' has already been declared  ===> 标识符a已经被声明了。
-```
-
-**暂存死区**
-
-```
-var a = 100;
-
-if(1){
-    a = 10;
-    //在当前块作用域中存在a使用let/const声明的情况下，给a赋值10时，只会在当前作用域找变量a，
-    // 而这时，还未到声明时候，所以控制台Error:a is not defined
-    let a = 1;
+//1-创建核心对象
+//该对象有兼容问题，低版本浏览器应使用ActiveXObject
+const xthhp = new XMLHttpRequest();
+//2-连接服务器
+//open(method,url,async)
+xhttp.open("POST", "http://localhost:3000", true)
+//设置请求头
+xmlHttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded")；
+//3-发送请求
+//send方法发送请求参数，如为GET方法，则在open中url后拼接
+xhttp.send({
+    _id: 123
+})
+//4-接收服务器响应
+//onreadystatechange事件，会在xhttp的状态发生变化时自动调用
+xhttp.onreadystatechange = function() {
+    //状态码共5种：0-未open  1-已open  2-已send  3-读取响应  4-响应读取结束
+    if (xhttp.readyState == 4 && xhttp.status == 200) {
+        alert("ajax请求已完成")
+    }
 }
 ```
 
-**const**
+
+### 4、$(function(){})和window.onload 和 $(document).ready(function(){})
+
+window.onload:用于当页面的所有元素，包括外部引用文件，图片等都加载完毕时运行函数内的函数。load方法只能执行一次，如果在js文件里写了多个，只能执行最后一个。
+
+$$(document).ready(function()\{\})和$$(function(){})都是用于当页面的标准DOM元素被解析成DOM树后就执行内部函数。这个函数是可以在js文件里多次编写的，对于多人共同编写的js就有很大的优势，因为所有行为函数都会执行到。而且$(document).ready()函数在HMTL结构加载完后就可以执行，不需要等大型文件加载或者不存在的连接等耗时工作完成才执行，效率高。
+
+
+### 5、ajax 是什么?
+
+异步javascript和XML，是指一种创建交互式网页应用的网页开发技术。通过后台与服务器进行少量数据交换，AJAX可以使网页实现异步更新。这意味着可以在不重新加载整个网页的情况下，对网页的某部分进行更新。
+
+
+### 6、什么是回调函数？
+
+**回调函数**是一段可执行的代码段，它作为一个参数传递给其他的代码，其作用是在需要的时候方便调用这段（回调函数）代码。
+
+在JavaScript中函数也是对象的一种，同样对象可以作为参数传递给函数，因此函数也可以作为参数传递给另外一个函数，这个作为参数的函数就是回调函数。
 
 ```
-/*
-*   1、一旦声明必须赋值,不能使用null占位。
-*
-*   2、声明后不能再修改
-*
-*   3、如果声明的是复合类型数据，可以修改其属性
-*
-* */
+const btnAdd = document.getElementById('btnAdd');
 
-const a = 100; 
-
-const list = [];
-list[0] = 10;
-console.log(list);  // [10]
-
-const obj = {a:100};
-obj.name = 'apple';
-obj.a = 10000;
-console.log(obj);  // {a:10000,name:'apple'}
+btnAdd.addEventListener('click', function clickCallback(e) {
+    // do something useless
+});
 ```
 
+在本例中，我们等待`id`为`btnAdd`的元素中的`click`事件，如果它被单击，则执行`clickCallback`函数。回调函数向某些数据或事件添加一些功能。
 
-### 10、请解释什么是事件代理
-
-**1、** 事件代理（`Event Delegation`），又称之为事件委托。是 `JavaScript` 中常用绑定事件的常用技巧。顾名思义，“事件代理”即是把原本需要绑定的事件委托给父元素，让父元素担当事件监听的职务。事件代理的原理是DOM元素的事件冒泡。使用事件代理的好处是可以提高性能
-
-**2、** 可以大量节省内存占用，减少事件注册，比如在`table`上代理所有`td`的`click`事件就非常棒
-
-**3、** 可以实现当新增子对象时无需再次对其绑定
+数组中的`reduce`、`filter`和`map`方法需要一个回调作为参数。回调的一个很好的类比是，当你打电话给某人，如果他们不接，你留下一条消息，你期待他们回调。调用某人或留下消息的行为是事件或数据，回调是你希望稍后发生的操作。
 
 
-### 11、如何创建一个对象？
-### 12、说几条写JavaScript的基本规范？
-### 13、那些操作会造成内存泄漏？
-### 14、手动实现缓存方法
-### 15、什么是作用域和作用域链？
-### 16、'use strict' 是干嘛用的？
-### 17、如何解决跨域问题?
-### 18、js延迟加载的方式有哪些？
-### 19、说说你对作用域链的理解
-### 20、!! 运算符能做什么？
-### 21、隐式和显式转换有什么区别）？
-### 22、同步异步?
-### 23、强制转换 显式转换 隐式转换?
-### 24、节点类型?判断当前节点类型?
-### 25、ajax的缺点
-### 26、什么是缓存及它有什么作用？
-### 27、一个页面从输入 URL 到页面加载显示完成，这个过程中都发生了什么？（流程说的越详细越好）
-### 28、如何检查对象中是否存在某个属性？
-### 29、自执行函数?用于什么场景？好处?
+### 7、什么是原型、原型链？
+
+原型：JS声明构造函数(用来实例化对象的函数)时，会在内存中创建一个对应的对象，这个对象就是原函数的原型。构造函数默认有一个prototype属性，`prototype`的值指向函数的原型。同时原型中也有一个`constructor`属性，`constructor`的值指向原函数。
+
+通过构造函数实例化出来的对象，并不具有`prototype`属性，其默认有一个`__proto__`属性，`__proto__`的值指向构造函数的原型对象。在原型对象上添加或修改的属性，在所有实例化出的对象上都可共享。
+
+![](https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/49bad3cc378b4232a4b768bfe0ea67d7~tplv-k3u1fbpfcp-zoom-1.image#alt=%E5%9C%A8%E8%BF%99%E9%87%8C%E6%8F%92%E5%85%A5%E5%9B%BE%E7%89%87%E6%8F%8F%E8%BF%B0)
+
+当在实例化的对象中访问一个属性时，首先会在该对象内部寻找，如找不到，则会向其`__proto__`指向的原型中寻找，如仍找不到，则继续向原型中`__proto__`指向的上级原型中寻找，直至找到或`Object.prototype`为止，这种链状过程即为原型链。
+
+
+### 8、如何解决跨域问题?
+
+`jsonp`、 `iframe`、`window.name`、`window.postMessage`、服务器上设置代理页面
+
+
+### 9、arguments 的对象是什么？
+
+`arguments`对象是函数中传递的参数值的集合。它是一个类似数组的对象，因为它有一个length属性，我们可以使用数组索引表示法`arguments[1]`来访问单个值，但它没有数组中的内置方法，如：`forEach`、`reduce`、`filter`和`map`。
+
+我们可以使用`Array.prototype.slice`将`arguments`对象转换成一个数组。
+
+```
+function one() {
+  return Array.prototype.slice.call(arguments);
+}
+```
+
+**注意:箭头函数中没有`arguments`对象。**
+
+```
+function one() {
+  return arguments;
+}
+const two = function () {
+  return arguments;
+}
+const three = function three() {
+  return arguments;
+}
+
+const four = () => arguments;
+
+four(); // Throws an error  - arguments is not defined
+```
+
+当我们调用函数`four`时，它会抛出一个`ReferenceError: arguments is not defined error`。使用`rest`语法，可以解决这个问题。
+
+`const four = (...args) => args;`
+
+这会自动将所有参数值放入数组中。
+
+
+### 10、几种基本数据类型?复杂数据类型?值类型和引用数据类型?堆栈数据结构
+
+**1、** 基本数据类型：Undefined、Null、Boolean、Number、String
+
+**2、** 值类型：数值、布尔值、null、undefined。
+
+**3、** 引用类型：对象、数组、函数。
+
+**4、** 堆栈数据结构：是一种支持后进先出(LIFO)的集合,即后被插入的数据,先被取出!
+
+**5、** js数组中提供了以下几个方法可以让我们很方便实现堆栈：
+
+**6、** shift:从数组中把第一个元素删除，并返回这个元素的值。
+
+**7、** unshift: 在数组的开头添加一个或更多元素，并返回新的长度
+
+**8、** push:在数组的中末尾添加元素，并返回新的长度
+
+**9、** pop:从数组中把最后一个元素删除，并返回这个元素的值。
+
+
+### 11、为什么typeof null 返回 object？如何检查一个值是否为 null？
+### 12、如何在不使用`%`模运算符的情况下检查一个数字是否是偶数？
+### 13、JavaScript原型，原型链 ? 有什么特点？
+### 14、disabled readyonly?
+### 15、web开发中会话跟踪的方法有哪些
+### 16、什么是包装对象（wrapper object）？
+### 17、异步加载JS的方式有哪些？
+### 18、什么是提升？
+### 19、事件流?事件捕获？事件冒泡？
+### 20、Jq中get和eq有什么区别？
+### 21、null，undefined 的区别？
+### 22、隐式和显式转换有什么区别）？
+### 23、什么是闭包？
+### 24、this指向的各种情况都有什么？
+### 25、DOM事件模型和事件流？
+### 26、如何检查值是否虚值？
+### 27、展开(spread )运算符和 剩余(Rest) 运算符有什么区别？
+### 28、typeof？typeof [ ]返回数据类型是？
+### 29、什么是事件传播?
 
 
 
@@ -283,6 +208,6 @@ console.log(obj);  // {a:10000,name:'apple'}
 
 ## 最新，高清PDF：172份，7701页，最新整理
 
-[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/mst.png "大厂面试题")](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png"大厂面试题")
+[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/mst.png "架构师专栏")](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png "架构师专栏")
 
 [![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png "架构师专栏")](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png "架构师专栏")

@@ -8,108 +8,146 @@
 
 
 
-### 1、为什么需要学习Spring Cloud
+### 1、Spring Cloud Task
 
-**1、** 首先springcloud基于spingboot的优雅简洁，可还记得我们被无数xml支配的恐惧？可还记得springmvc，mybatis错综复杂的配置，有了spingboot，这些东西都不需要了，spingboot好处不再赘诉，springcloud就基于SpringBoot把市场上优秀的服务框架组合起来，通过SpringBoot风格进行再封装屏蔽掉了复杂的配置和实现原理
-
-**2、** 什么叫做开箱即用？即使是当年的黄金搭档dubbo+zookeeper下载配置起来也是颇费心神的！而springcloud完成这些只需要一个jar的依赖就可以了！
-
-**3、** springcloud大多数子模块都是直击痛点，像zuul解决的跨域，fegin解决的负载均衡，hystrix的熔断机制等等等等
+Spring Cloud Task的目标是为SpringBoot应用程序提供创建短运行期微服务的功能。在Spring Cloud Task中，我们可以灵活地动态运行任何任务，按需分配资源并在任务完成后检索结果。Tasks是Spring Cloud Data Flow中的一个基础项目，允许用户将几乎任何SpringBoot应用程序作为一个短期任务执行。
 
 
-### 2、多个消费者调⽤同⼀接⼝，eruka默认的分配⽅式是什么？
+### 2、SpringCloud的优缺点
 
-**1、** RoundRobinRule:轮询策略，Ribbon以轮询的⽅式选择服务器，这个是默认值。所以示例中所启动的两个服务会被循环访问;
+**优点：**
 
-**2、** RandomRule:随机选择，也就是说Ribbon会随机从服务器列表中选择⼀个进⾏访问;
+**1、** 耦合度比较低。不会影响其他模块的开发。
 
-**3、** BestAvailableRule:最⼤可⽤策略，即先过滤出故障服务器后，选择⼀个当前并发请求数最⼩的;
+**2、** 减轻团队的成本，可以并行开发，不用关注其他人怎么开发，先关注自己的开发。
 
-**4、** WeightedResponseTimeRule:带有加权的轮询策略，对各个服务器响应时间进⾏加权处理，然后在采⽤轮询的⽅式来获取相应的服务器;
+**3、** 配置比较简单，基本用注解就能实现，不用使用过多的配置文件。
 
-**5、** AvailabilityFilteringRule:可⽤过滤策略，先过滤出故障的或并发请求⼤于阈值⼀部分服务实例，然后再以线性轮询的⽅式从过滤后的实例清单中选出⼀个;
+**4、** 微服务跨平台的，可以用任何一种语言开发。
 
-**6、** ZoneAvoidanceRule:区域感知策略，先使⽤主过滤条件（区域负载器，选择最优区域）对所有实例过滤并返回过滤后的实例清单，依次使⽤次过滤条件列表中的过滤条件对主过滤条件的结果进⾏过滤，判断最⼩过滤数（默认1）和最⼩过滤百分⽐（默认0），最后对满⾜条件的服务器则使⽤RoundRobinRule(轮询⽅式)选择⼀个服务器实例。
+**5、** 每个微服务可以有自己的独立的数据库也有用公共的数据库。
 
+**6、** 直接写后端的代码，不用关注前端怎么开发，直接写自己的后端代码即可，然后暴露接口，通过组件进行服务通信。
 
-### 3、什么是Hystrix？它如何实现容错？
+**缺点：**
 
-Hystrix是一个延迟和容错库，旨在隔离远程系统，服务和第三方库的访问点，当出现故障是不可避免的故障时，停止级联故障并在复杂的分布式系统中实现弹性。
+1、部署比较麻烦，给运维工程师带来一定的麻烦。
 
-通常对于使用微服务架构开发的系统，涉及到许多微服务。这些微服务彼此协作。
+2、针对数据的管理比麻烦，因为微服务可以每个微服务使用一个数据库。
 
-思考以下微服务
+3、系统集成测试比较麻烦
 
-![](https://gitee.com/souyunkutech/souyunku-home/raw/master/images/souyunku-web/2019/08/0814/02/img_2.png#alt=img%5C_2.png)
+4、性能的监控比较麻烦。【最好开发一个大屏监控系统】
 
-假设如果上图中的微服务9失败了，那么使用传统方法我们将传播一个异常。但这仍然会导致整个系统崩溃。
-
-随着微服务数量的增加，这个问题变得更加复杂。微服务的数量可以高达1000.这是hystrix出现的地方 我们将使用Hystrix在这种情况下的Fallback方法功能。我们有两个服务employee-consumer使用由employee-consumer公开的服务。
-
-简化图如下所示
-
-![](https://gitee.com/souyunkutech/souyunku-home/raw/master/images/souyunku-web/2019/08/0814/02/img_3.png#alt=img%5C_3.png)
-
-现在假设由于某种原因，employee-producer公开的服务会抛出异常。我们在这种情况下使用Hystrix定义了一个回退方法。这种后备方法应该具有与公开服务相同的返回类型。如果暴露服务中出现异常，则回退方法将返回一些值。
+总的来说优点大过于缺点，目前看来Spring Cloud是一套非常完善的分布式框架，目前很多企业开始用微服务、Spring Cloud的优势是显而易见的。因此对于想研究微服务架构的同学来说，学习Spring Cloud是一个不错的选择。
 
 
-### 4、Zookeeper如何 保证CP
+### 3、Spring Cloud Gateway
 
-当向注册中⼼查询服务列表时，我们可以容忍注册中⼼返回的是⼏分钟以前的注册信息，但不能接受服务直接down掉不可⽤。也就是说，服务注册功能对可⽤性的要求要⾼于⼀致性。但是zk会出现这样⼀种情况，当master节点因为⽹络故障与其他节点失去联系时，剩余节点会重新进⾏leader选举。问题在于，选举leader的时间太⻓，30 ~ 120s, 且选举期间整个zk集群都是不可⽤的，这就导致在选举期间注册服务瘫痪。在云部署的环境下，因⽹络问题使得zk集群失去master节点是较⼤概率会发⽣的事，虽然服务能够最终恢复，但是漫⻓的选举时间导致的注册⻓期不可⽤是不能容忍的。
-
-
-### 5、Spring Cloud Consul
-
-基于Hashicorp Consul的服务治理组件。
+Spring cloud gateway是spring官方基于Spring 5.0、SpringBoot2.0和Project Reactor等技术开发的网关，Spring Cloud Gateway旨在为微服务架构提供简单、有效和统一的API路由管理方式，Spring Cloud Gateway作为Spring Cloud生态系统中的网关，目标是替代Netflix Zuul，其不仅提供统一的路由方式，并且还基于Filer链的方式提供了网关基本的功能，例如：安全、监控/埋点、限流等。
 
 
-### 6、Web，RESTful API在微服务中的作用是什么？
+### 4、Spring Cloud Task
 
-微服务架构基于一个概念，其中所有服务应该能够彼此交互以构建业务功能。因此，要实现这一点，每个微服务必须具有接口。这使得Web API成为微服务的一个非常重要的推动者。RESTful API基于Web的开放网络原则，为构建微服务架构的各个组件之间的接口提供了最合理的模型。
-
-
-### 7、Spring Cloud Security
-
-安全工具包，对Zuul代理中的负载均衡OAuth2客户端及登录认证进行支持。
+用于快速构建短暂、有限数据处理任务的微服务框架，用于向应用中添加功能性和非功能性的特性。
 
 
-### 8、什么是Spring Cloud？
+### 5、什么是持续集成（CI）？
 
-根据Spring Cloud的官方网站，Spring Cloud为开发人员提供了快速构建分布式系统中一些常见模式的工具（例如配置管理，服务发现，断路器，智能路由，领导选举，分布式会话，集群状态）。
-
-
-### 9、什么是服务熔断
-
-如果检查出来频繁超时，就把consumer调⽤provider的请求，直接短路掉，不实际调⽤，⽽是直接返回⼀个mock的值。
+持续集成（CI）是每次团队成员提交版本控制更改时自动构建和测试代码的过程。这鼓励开发人员通过在每个小任务完成后将更改合并到共享版本控制存储库来共享代码和单元测试。
 
 
-### 10、微服务之间如何独立通讯的?
+### 6、Ribbon和Feign调用服务的区别
 
-同步通信：dobbo通过 RPC 远程过程调用、springcloud通过 REST 接口json调用 等。
+**1、** 调用方式同：Ribbon需要我们自己构建Http请求，模拟Http请求然后通过RestTemplate发给其他服务，步骤相当繁琐
 
-异步：消息队列，如：RabbitMq、ActiveM、Kafka 等。
+**2、** 而Feign则是在Ribbon的基础上进行了一次改进，采用接口的形式，将我们需要调用的服务方法定义成抽象方法保存在本地就可以了，不需要自己构建Http请求了，直接调用接口就行了，不过要注意，调用方法要和本地抽象方法的签名完全一致。
 
 
-### 11、Spring Cloud和SpringBoot版本对应关系
-### 12、微服务架构如何运作？
-### 13、Eureka和ZooKeeper都可以提供服务注册与发现的功能,请说说两个的区别
-### 14、什么是Oauth？
-### 15、SpringCloud的优缺点
-### 16、Spring Cloud和SpringBoot版本对应关系
-### 17、微服务测试的主要障碍是什么？
-### 18、你对SpringBoot有什么了解？
-### 19、服务注册和发现是什么意思？Spring Cloud如何实现？
-### 20、什么是Netflix Feign？它的优点是什么？
-### 21、合同测试你懂什么？
-### 22、微服务的优点
+### 7、PACT在微服务架构中的用途是什么？
+
+PACT是一个开源工具，允许测试服务提供者和消费者之间的交互，与合同隔离，从而提高微服务集成的可靠性。
+
+微服务中的用法
+
+用于在微服务中实现消费者驱动的合同。
+
+测试微服务的消费者和提供者之间的消费者驱动的合同。
+
+查看即将到来的批次
+
+
+### 8、什么是耦合？
+
+组件之间依赖关系强度的度量被认为是耦合。一个好的设计总是被认为具有高内聚力和低耦合性。
+
+
+### 9、SpringCloud限流：
+
+**1、** 我们可以通过semaphore.maxConcurrentRequests,coreSize,maxQueueSize和queueSizeRejectionThreshold设置信号量模式下的最⼤并发量、线程池⼤⼩、缓冲区⼤⼩和缓冲区降级阈值。
+
+```
+#不设置缓冲区，当请求数超过coreSize时直接降级
+hystrix.threadpool.userThreadPool.maxQueueSize=-1超时时间⼤于我们的timeout接⼝返回时间
+hystrix.command.userCommandKey.execution.isolation.thread.timeoutInMilliseconds=15000
+```
+
+这个时候我们连续多次请求/user/command/timeout接⼝，在第⼀个请求还没有成功返回时，查看输出⽇志可以发现只有第⼀个请求正常的进⼊到user-service的接⼝中，其它请求会直接返回降级信息。这样我们就实现了对服务请求的限流。
+
+**2、** 漏桶算法：⽔（请求）先进⼊到漏桶⾥，漏桶以⼀定的速度出⽔，当⽔流⼊速度过⼤会直接溢出，可以看出漏桶算法能强⾏限制数据的传输速率。
+
+![](https://gitee.com/souyunkutech/souyunku-home/raw/master/images/souyunku-web/2020/5/2/01/44/45_7.png#alt=45%5C_7.png)
+
+**3、** 令牌桶算法：除了要求能够限制数据的平均传输速率外，还要求允许某种程度的突发传输。这时候漏桶算法可能就不合适了，令牌桶算法更为适合。 如图所示，令牌桶算法的原理是系统会以⼀个恒定的速度往桶⾥放⼊令牌，⽽如果请求需要被处理，则需要先从桶⾥获取⼀个令牌，当桶⾥没有令牌可取时，则拒绝服务。
+
+![](https://gitee.com/souyunkutech/souyunku-home/raw/master/images/souyunku-web/2020/5/2/01/44/45_8.png#alt=45%5C_8.png)
+
+
+### 10、服务雪崩？
+
+简介：服务雪崩效应是⼀种因服务提供者的不可⽤导致服务调⽤者的不可⽤,并将不可⽤逐渐放⼤的过程.
+
+![](https://gitee.com/souyunkutech/souyunku-home/raw/master/images/souyunku-web/2020/5/2/01/44/45_12.png#alt=45%5C_12.png)
+
+**形成原因**
+
+**1、** 服务提供者不可
+
+**2、** 重试加⼤流量
+
+**3、** 服务调⽤者不可⽤
+
+**采⽤策略**
+
+**1、** 流量控制
+
+**2、** 改进缓存模式
+
+**3、** 服务⾃动扩容
+
+**4、** 服务调⽤者降级服务
+
+
+### 11、服务降级底层是如何实现的？
+### 12、什么是Oauth？
+### 13、21、在Spring MVC应用程序中使用WebMvcTest注释有什么用处？
+### 14、链路跟踪Sleuth
+### 15、SpringCloud有几种调用接口方式
+### 16、在微服务中，如何保护服务?
+### 17、使用Spring Cloud有什么优势？
+### 18、列举微服务技术栈
+### 19、Spring Cloud解决了哪些问题？
+### 20、Spring Cloud抛弃了Dubbo 的RPC通信，采用的是基于HTTP的REST方式。
+### 21、什么是不同类型的微服务测试？
+### 22、什么是Semantic监控？
 ### 23、什么是Hystrix?
-### 24、eureka缓存机制：
-### 25、Spring Cloud Consul
-### 26、什么是SpringBoot？
-### 27、什么是双因素身份验证？
-### 28、微服务设计的基础是什么？
-### 29、spring cloud 和dubbo区别?
-### 30、什么是凝聚力？
+### 24、springcloud如何实现服务的注册?
+### 25、什么是Feign？
+### 26、什么是服务熔断
+### 27、多个消费者调⽤同⼀接⼝，eruka默认的分配⽅式是什么？
+### 28、访问RESTful微服务的方法是什么？
+### 29、SOA和微服务架构之间的主要区别是什么？
+### 30、什么是Spring Cloud？
 
 
 
@@ -123,6 +161,6 @@ Hystrix是一个延迟和容错库，旨在隔离远程系统，服务和第三�
 
 ## 最新，高清PDF：172份，7701页，最新整理
 
-[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/mst.png "大厂面试题")](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png"大厂面试题")
+[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/mst.png "架构师专栏")](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png "架构师专栏")
 
 [![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png "架构师专栏")](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png "架构师专栏")

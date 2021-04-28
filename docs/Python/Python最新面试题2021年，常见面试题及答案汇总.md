@@ -8,121 +8,139 @@
 
 
 
-### 1、发生粘包现象如何处理？
-
-**1、** 对于发送方引起的粘包现象，用户可通过编程设置来避免，TCP提供了强制数据立即传送的操作指令push，TCP软件收到该操作指令后，就立即将本段数据发送出去，而不必等待发送缓冲区满；
-
-**2、** 对于接收方引起的粘包，则可通过优化程序设计、精简接收进程工作量、提高接收进程优先级等措施，使其及时接收数据，从而尽量避免出现粘包现象；
-
-**3、** 由接收方控制，将一包数据按结构字段，人为控制分多次接收，然后合并，通过这种手段来避免粘包。
-
-
-### 2、Python有哪些应用？
-
-**1、**  Web开发
-
-**2、**  桌面GUI开发
-
-**3、**  人工智能和机器学习
-
-**4、**  软件开发
-
-**5、**  业务应用程序开发
-
-**6、**  基于控制台的应用程序
-
-**7、**  软件测试
-
-**8、**  Web自动化
-
-**9、**  基于音频或视频的应用程序
-
-**10、**  图像处理应用程序
-
-
-### 3、路由器和交换机的区别
-
-交换机是一种用于电信号转发的网络设备。路由器是链接因特网中各局域网和广域网的设备。
-
-区别
-
-**1、** 交换机工作在第二层，数据链路层，路由器工作在第三层，网络层。
-
-**2、** 路由器提供防火墙服务。
-
-**3、** 传统交换机只能风格冲突域，不能分割广播域，二路由器可以分割广播域。
-
-
-### 4、如何更改列表的数据类型？
-
-要将列表的数据类型进行更改，可以使用tuple()或者set()。
-
-```
-lst = [1,2,3,4,2]
-
-# 更改为集合
-set(lst)    ## {1,2,3,4}
-# 更改为元组
-tuple(lst)  ## (1,2,3,4,2)
-```
-
-
-### 5、什么是域名解析
-
-域名解析是把域名指向网站空间IP，让人们通过注册的域名可以方便地访问到网站一种服务。IP地址是网络上标识站点的数字地址，为方便记忆，采用域名来代替IP地址标识站点地址。域名解析就是域名到IP地址的转换过程。
-
-
-### 6、Python是否有main函数？
-
-是的，它有的。只要我们运行Python脚本，它就会自动执行。
-
-
-### 7、输入一个字符串，输出该字符串的字符的所有组合。如输入'abc',输出a,b,c,ab,ac,bc,abc.
+### 1、写代码：如何由tuple1=('a','b','c','d','e')，和tuple2=(1,2,3,4,5)得到res={'a': 1, 'b': 2, 'c': 3, 'd': 4, 'e': 5}
 
 ```python
-def getC(s):
-if not s:
-return
-len_s=len(s)
-ss=[]
-for i in range(len_s):
-combination(s,0,i,ss)
-aaa=[]
-def combination(s,index,num,ss):
-global aaa
-if num==-1:
-return
-if index==len(s):
-return
-ss.append(s[index])
-aaa.append(''.join(ss))
-combination(s,index+1,num-1,ss)
-ss.pop()
-combination(s,index+1,num,ss)
-
-getC('123')
-print(aaa)
-print(sorted(set(aaa),key=lambda x:len(str(x))))
+tuple1=('a','b','c','d','e')
+tuple2=(1,2,3,4,5)
+res=dict(zip(tuple1,tuple2))
+print(res)
 ```
 
 
-### 8、Python有什么特点？
+### 2、vue中的路由拦截器的作用
 
-**1、**  易于编码
+当某些页面需要访问权限时，可以使用路由拦截器对用户权限进行判断
 
-**2、**  免费和开源语言
 
-**3、**  高级语言
+### 3、query作为sql模板，args为将要传入的参数
 
-**4、**  易于调试
+execute(query, args=None)
 
-**5、**  OOPS支持
 
-**6、**  大量的标准库和第三方模块
+### 4、索引有什么作用，有哪些分类，有什么好处和坏处？
 
-**7、**  可扩展性(我们可以用C或C++编写Python代码)
+作用：为了增加查询速度，提高系统性能
 
-**8、**  用户友好的数据结构
+**分类：**
+
+**1、** 唯一索引：不允许其中任何两行具有相同索引值的索引。
+
+**2、** 非唯一索引：允许其中任何两行具有相同索引值的索引。
+
+**3、** 主键索引：有一列或列组合，其值唯一标识表中的每一行。
+
+**4、** 聚集索引：表中行的物理顺序与键值的逻辑（索引）顺序相同。一个表只能包含一个聚集索引。
+
+**好处：**
+
+**1、** 帮助用户提高查询速度
+
+**2、** 利用索引的唯一性来控制记录的唯一性
+
+**3、** 可以加速表与表之间的连接
+
+**4、** 降低查询中分组和排序的时间
+
+**坏处：**
+
+**1、** 存储索引占用磁盘空间
+
+**2、** 执行数据修改操作(INSERT、UPDATE、DELETE)产生索引维护
+
+
+### 5、什么是arp协议
+
+**1、** ARP全称“Address Resolution Protocol”，地址解析协议。
+
+**2、** 实现局域网内通过IP地址获取主机的MAC地址。
+
+**3、** MAC地址48位主机的物理地址，局域网内唯一。
+
+**4、** ARP协议类似DNS服务，但不需要配置服务。
+
+**5、** ARP协议是三层协议。
+
+
+### 6、json序列化时可以处理的数据类型有哪些？如何定制支持datetime类型？序列化时，遇到中文转成unicode，如何保持中文形式？
+
+**1、** 可以处理的数据类型是 string、int、list、tuple、dict、bool、null
+
+**2、** 通过自定义时间序列化转换器
+
+```python
+import json
+from json import JSONEncoder
+from datetime import datetime
+class ComplexEncoder(JSONEncoder):
+def default(self, obj):
+if isinstance(obj, datetime):
+return obj.strftime(‘%Y-%m-%d %H:%M:%S‘)
+else:
+return super(ComplexEncoder,self).default(obj)
+d = { ‘name‘:‘alex‘,‘data‘:datetime.now()}
+print(json.dumps(d,cls=ComplexEncoder))
+# {"name": "alex", "data": "2018-05-18 19:52:05"}
+```
+
+**3、** 使用ensure_ascii=False参数
+
+
+### 7、为什么Python执行速度慢，我们如何改进它？
+
+Python代码执行缓慢的原因，是因为它是一种解释型语言。它的代码在运行时进行解释，而不是编译为本地语言。
+
+为了提高Python代码的速度，我们可以使用CPython、Numba，或者我们也可以对代码进行一些修改。
+
+**1、**  减少内存占用。
+
+**2、**  使用内置函数和库。
+
+**3、**  将计算移到循环外。
+
+**4、**  保持小的代码库。
+
+**5、**  避免不必要的循环
+
+
+### 8、如何基于Redis实现发布和订阅
+
+```python
+# 发布者
+#coding:utf-8import time
+import Redis
+
+number_list = ['300033', '300032', '300031', '300030']
+signal = ['1', '-1', '1', '-1']
+
+rc = Redis.StrictRedis(host='***', port='6379', db=3, password='********')
+for i in range(len(number_list)):
+value_new = str(number_list[i]) + ' ' + str(signal[i])
+rc.publish("liao", value_new)  #发布消息到liao
+```
+
+```python
+# 订阅者
+#coding:utf-8import time
+import Redis
+
+rc = Redis.StrictRedis(host='****', port='6379', db=3,     password='******')
+ps = rc.pubsub()
+ps.subscribe('liao')  #从liao订阅消息for item in ps.listen():        #监听状态：有消息发布了就拿过来
+if item['type'] == 'message':
+print item['channel']
+print item['data']
+```
 
 
 ### 9、简述进程，线程，协程的区别以及应用场景？
@@ -148,33 +166,35 @@ print(sorted(set(aaa),key=lambda x:len(str(x))))
 **2、** 计算密集型，用进程。IO密集型，用线程。
 
 
-### 10、文件操作时，xreadlines和readlines的区别
+### 10、实例方法、静态方法和类方法的区别
 
-**1、** xreadlines返回的是一个生成器
+**1、** 实例方法：第一个参数必须是实例对象，通常为self。实例方法只能由实例对象调用。
 
-**2、** readlines返回的是一个列表
+**2、** 类方法：使用装饰器@classmethod。第一个参数为当前类的对象，通常为cls。实例对象和类对象都可以调用类方法。
+
+**3、** 静态方法：使用装饰器@staticmethod。没有self和cls参数。方法体中不能使用类或者实例的任何属性和方法。实例对象和类对象都可以调用。
 
 
-### 11、简述多进程开发中join和deamon的区别
-### 12、解释一下Python中的成员运算符
-### 13、当退出Python时，是否释放全部内存？
-### 14、求以下代码结果：
-### 15、什么是索引合并
-### 16、把a='aaabbcccdddde'这种形式的字符串，压缩成a3b2c3d4e1这种形式。
-### 17、什么是lambda函数？
-### 18、写出如下代码的输出结果
-### 19、如何判断一个值是方法还是函数？
-### 20、什么是断言(assert)?应用场景？
-### 21、MySQL的建表语句
-### 22、什么是Nginx
-### 23、什么是覆盖索引
-### 24、GIL锁对python性能的影响
-### 25、简述事务及其特性
-### 26、什么是switch语句。如何在Python中创建switch语句？
-### 27、22、iterables和iterators之间的区别？
-### 28、如何使用索引来反转Python中的字符串?
-### 29、解释Python中map()函数？
-### 30、==和is的区别是？
+### 11、什么是正向代理和反向代理？
+### 12、解释re模块的split()、sub()、subn()方法？
+### 13、如何保证api调用时数据的安全性
+### 14、是否使用过functools中的函数？他的作用是什么？
+### 15、有一个列表lis=['This','is','a','Man','B','!']，对它进行大小写无关的排序
+### 16、isinstance和type的作用
+### 17、一个数如果恰好等于它的因子之和，这个数就称为‘完数’，比如6=1+2+3，编程找出1000以内的所有的完数。
+### 18、简述数据库的读写分离
+### 19、python代码如何获取命令行参数
+### 20、Redis中sentinel的作用
+### 21、什么是cdn
+### 22、区分Python中的remove，del和pop？
+### 23、如何实现"1.2.3"变成['1','2','3']?
+### 24、守护线程，守护进程是什么
+### 25、求出以下代码的输出结果
+### 26、什么是Python中的猴子补丁？
+### 27、py2项目如何迁移成py3
+### 28、什么是并发和并行
+### 29、生成器与函数的区别？
+### 30、MySQL的半同步复制原理
 
 
 
@@ -188,6 +208,6 @@ print(sorted(set(aaa),key=lambda x:len(str(x))))
 
 ## 最新，高清PDF：172份，7701页，最新整理
 
-[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/mst.png "大厂面试题")](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png"大厂面试题")
+[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/mst.png "架构师专栏")](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png "架构师专栏")
 
 [![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png "架构师专栏")](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png "架构师专栏")

@@ -8,78 +8,184 @@
 
 
 
-### 1、解释CALL_FORM，NEW_FORM和OPEN_FORM之间有什么区别?
-
-CALL_FORM：它启动一个新窗体并传递控件　　New_FORM：它终止当前窗体，并用指定的新窗体替换它　　OPEN_FORM：打开指定的新表单，而不更换或暂停父表单。
-
-
-### 2、举出两个判断DDL改动的方法？
-
-你可以使用 Logminer 或 Streams
-
-
-### 3、pctused and pctfree 表示什么含义有什么作用？
-
-pctused与pctfree控制数据块是否出现在freelist中,pctfree控制数据块中保留用于update的空间,当数据块中的free space小于pctfree设置的空间时，该数据块从freelist中去掉,当块由于dml操作free space大于pct_used设置的空间时,该数据库块将被添加在freelist链表中。
-
-
-### 4、ORA-01555的应对方法？
-
-具体的出错信息是snapshot too old within rollback seg , 通常可以通过增大rollback seg来解决问题。当然也需要察看一下具体造成错误的SQL文本
-
-
-### 5、给出在STAR SCHEMA中的两种表及它们分别含有的数据
-
-Fact tables 和dimension tables. fact table 包含大量的主要的信息而 dimension tables 存放对fact table 某些属性描述的
-
-信息
-
-
-### 6、数据库的三大范式是什么？
-
-**1、** 第一范式：原子件，要求每一列的值不能再拆分了。
-
-**2、** 第二范式： 一张表只描述一个实体（若列中有冗余数据，则不满足）
-
-**3、** 第三范式： 所有列与主键值直接相关。
-
-
-### 7、使用索引的理由
-
-快速访问表中的data block
-
-
-### 8、解释data block , extent 和 segment的区别(这里建议用英文术语)
-
-data block是数据库中最小的逻辑存储单元。当数据库的对象需要更多的物理存储空间时，连续的data block就组成了extent . 一个数据库对象拥有的所有extents被称为该对象的segment.
-
-
-### 9、如何在不影响子表的前提下，重建一个母表
+### 1、如何在不影响子表的前提下，重建一个母表
 
 子表的外键强制实效，重建母表，激活外键
 
 
-### 10、提及11g版本2中Oracle Forms Services中引入的新功能是什么?
+### 2、事务的特性（ACID）是指什么？
 
-在Oracle Forms Services中，包括的功能包括：　　与Oracle Access Manager集成　　计划表格运行预备　　增强的网络统计报告　　支持Unicode列　　guiMode配置参数　　表单指标代理　　支持图像项目和图标按钮中的URL　　Oracle真正的用户体验洞察
+**1、** 原子性（Atomic）： 事务中的各项操作，要么全做要么全不做，任何一项操作的失败都会导致整个事务的失败。
+
+**2、** 一致性（Consistent）： 事务结束后系统状态是一样的。
+
+**3、** 隔离性（Isolated）: 并发执行的事务彼此无法看到对方的中间状态。
+
+**4、** 持久性（Durable）:事务完成后，即使发生灾难性故障，通过日志和同步备份可以在故障发生后重建数据。
 
 
-### 11、使用存储过程访问数据库比直接用SQL语句访问有何优点？
-### 12、说下 oracle 中 dml、ddl、dcl 的使用有哪些
-### 13、ORA-01555的应对方法？
-### 14、解释$$ORACLE\_HOME和$$ORACLE_BASE的区别?
-### 15、解释冷备份和热备份的不同点以及各自的优点
-### 16、如何加密PL/SQL程序？
-### 17、SGA主要有那些部分，主要作用是什么?
-### 18、本地管理表空间和字典管理表空间的特点，ASSM有什么特点？
-### 19、如何进行强制LOG SWITCH?
-### 20、如何重构索引？
-### 21、解释TABLE Function的用途
-### 22、说下 oracle的锁又几种,定义分别是什么;
-### 23、提到一个项目的“验证LOV”属性?提到lov和list项目有什么区别?
-### 24、解释$$ORACLE_HOME和$$ORACLE_BASE的区别？
-### 25、如何生成explain plan?
-### 26、如何生成explain plan?
+### 3、你必须利用备份恢复数据库，但是你没有控制文件，该如何解决问题呢?
+
+重建控制文件，用带backup control file 子句的recover 命令恢复数据库。
+
+
+### 4、如何建立一个备份控制文件?
+
+Alter database backup control file to trace.
+
+
+### 5、触发器的作用有哪些？
+
+**1、** 触发器可通过数据库中的相关表实现级联更改；通过级联引用完整性约束可以更有效地执行这些更改。
+
+**2、** 触发器可以强制比用 CHECK 约束定义的约束更为复杂的约束。与 CHECK 约束不同，触发器可以引用其它表中的列。例如，触发器可以使用另一个表中的 SELECT 比较插入或更新的数据，以及执行其它操作，如修改数据或显示用户定义错误信息。
+
+**3、** 触发器还可以强制执行业务规则
+
+**4、** 触发器也可以评估数据修改前后的表状态，并根据其差异采取对策。
+
+
+### 6、解释什么是死锁，如何解决Oracle中的死锁？
+
+简言之就是存在加了锁而没有解锁，可能是使用锁没有提交或者回滚事务，如果是表级锁则不能操作表，客户端处于等在状态，如果是行级锁则不能操作锁定行
+
+**解决办法：**
+
+**1、** 查找出被锁的表
+
+**1、** select b.owner,b.object_name,a.session_id,a.locked_mode
+
+**2、** from v$locked_object a,dba_objects b
+
+**3、** where b.object_id = a.object_id;
+
+**1、** select b.username,b.sid,b.serial#,logon_time
+
+**2、** from v$$locked_object a,v$$session b
+
+**3、** where a.session_id = b.sid order by b.logon_time;
+
+**2、** 杀进程中的会话
+
+alter system kill session "sid,serial#";
+
+
+### 7、解释冷备份和热备份的不同点以及各自的优点
+
+热备份针对归档模式的数据库，在数据库仍旧处于工作状态时进行备份。而冷备份指在数据库关闭后，进行备份，适用于所有模式的数据库。热备份的优 点在于当备份时，数据库仍旧可以被使用并且可以将数据库恢复到任意一个时间点。冷备份的优点在于它的备份和恢复操作相当简单，并且由于冷备份的数据库可以 工作在非归档模式下,数据库性能会比归档模式稍好。（因为不必将archive log写入硬盘）
+
+
+### 8、本地管理表空间和字典管理表空间的特点，ASSM有什么特点？
+
+本地管理表空间(LocallyManaged Tablespace简称LMT)，8i以后出现的一种新的表空间的管理模式，通过位图来管理表空间的空间使用。字典管理表空间(Dictionary-ManagedTablespace简称DMT)8i以前包括以后都还可以使用的一种表空间管理模式，通过数据字典管理表空间的空间使用。动段空间管理（ASSM)，它首次出现在Oracle920里有了ASSM，链接列表freelist被位图所取代，它是一个二进制的数组，能够迅速有效地管理存储扩展和剩余区块(free block)，因此能够改善分段存储本质，ASSM表空间上创建的段还有另外一个称呼叫Bitmap ManagedSegments(BMB 段)
+
+
+### 9、日志的作用是什么
+
+记录数据库事务,最大限度地保证数据的一致性与安全性
+
+重做日志文件：含对数据库所做的更改记录，这样万一出现故障可以启用数据恢复,一个数据库至少需要两个重做日志文件
+
+归档日志文件：是重做日志文件的脱机副本，这些副本可能对于从介质失败中进行恢复很必要。
+
+
+### 10、oracle的锁又几种,定义分别是什么;
+
+**1、**  行共享锁 (ROW SHARE)
+
+**2、**  行排他锁(ROW EXCLUSIVE)
+
+**3、** 共享锁(SHARE)
+
+**4、**  共享行排他锁(SHARE ROW EXCLUSIVE)
+
+**5、**  排他锁(EXCLUSIVE)
+
+**使用方法：**
+
+```
+SELECT * FROM order_master WHERE vencode="V002" 
+FOR UPDATE WAIT 5; 
+LOCK TABLE order_master IN SHARE MODE; 
+LOCK TABLE itemfile IN EXCLUSIVE MODE NOWAIT;
+```
+
+**ORACLE锁具体分为以下几类：**
+
+**1、** 按用户与系统划分，可以分为自动锁与显示锁
+
+自动锁：当进行一项数据库操作时，缺省情况下，系统自动为此数据库操作获得所有有必要的锁。
+
+显示锁：某些情况下，需要用户显示的锁定数据库操作要用到的数据，才能使数据库操作执行得更好，显示锁是用户为数据库对象设定的。
+
+**2、** 按锁级别划分，可分为共享锁与排它锁
+
+**共享锁：**
+
+共享锁使一个事务对特定数据库资源进行共享访问——另一事务也可对此资源进行访问或获得相同共享锁。共享锁为事务提供高并发性，但如拙劣的事务设计+共享锁容易造成死锁或数据更新丢失。
+
+**排它锁：**
+
+事务设置排它锁后，该事务单独获得此资源，另一事务不能在此事务提交之前获得相同对象的共享锁或排它锁。
+
+**3、** 按操作划分，可分为DML锁、DDL锁
+
+DML锁又可以分为，行锁、表锁、死锁
+
+**行锁：**
+
+当事务执行数据库插入、更新、删除操作时，该事务自动获得操作表中操作行的排它锁。
+
+**表级锁：**
+
+当事务获得行锁后，此事务也将自动获得该行的表锁(共享锁),以防止其它事务进行DDL语句影响记录行的更新。事务也可以在进行过程中获得共享
+
+锁或排它锁，只有当事务显示使用LOCK TABLE语句显示的定义一个排它锁时，事务才会获得表上的排它锁,也可使用LOCK TABLE显示的定义一个表级的共享锁(LOCK TABLE具体用法请参考相关文档)。
+
+**死锁：**
+
+当两个事务需要一组有冲突的锁，而不能将事务继续下去的话，就出现死锁。
+
+如事务1在表A行记录#3中有一排它锁，并等待事务2在表A中记录#4中排它锁的释放，而事务2在表A记录行#4中有一排它锁，并等待事务; 1在表A中记录#3中排它锁的释放，事务1与事务2彼此等待，因此就造成了死锁。死锁一般是因拙劣的事务设计而产生。死锁只能使用SQL下:alter system kill session "sid,serial#"；或者使用相关操作系统kill进程的命令，如UNIX下kill -9 sid,或者使用其它工具杀掉死锁进程。
+
+**DDL锁又可以分为：**
+
+排它DDL锁、共享DDL锁、分析锁
+
+**排它DDL锁：**
+
+创建、修改、删除一个数据库对象的DDL语句获得操作对象的 排它锁。如使用alter table语句时，为了维护数据的完成性、一致性、合法性，该事务获得一排它DDL锁。
+
+共享DDL锁：需在数据库对象之间建立相互依赖关系的DDL语句通常需共享获得DDL锁。
+
+如创建一个包，该包中的过程与函数引用了不同的数据库表，当编译此包时，该事务就获得了引用表的共享DDL锁。
+
+**分析锁：**
+
+ORACLE使用共享池存储分析与优化过的SQL语句及PL/SQL程序，使运行相同语句的应用速度更快。一个在共享池中缓存的对象获得它所引用数据库对象的分析锁。分析锁是一种独特的DDL锁类型，ORACLE使用它追踪共享池对象及它所引用数据库对象之间的依赖关系。当一个事务修改或删除了共享池持有分析锁的数据库对象时，ORACLE使共享池中的对象作废，下次在引用这条SQL/PLSQL语句时，ORACLE重新分析编译此语句。
+
+**4.内部闩锁**
+
+内部闩锁：这是ORACLE中的一种特殊锁，用于顺序访问内部系统结构。当事务需向缓冲区写入信息时，为了使用此块内存区域，ORACLE首先必须取得这块内存区域的闩锁，才能向此块内存写入信息。
+
+
+
+### 11、哪个column可以用来区别V$$视图和GV$$视图?
+### 12、不借助第三方工具，怎样查看sql的执行计划
+### 13、给出两种相关约束?
+### 14、说下 oracle的锁又几种,定义分别是什么;
+### 15、描述什么是 redo logs
+### 16、索引是用来干什么的？有那些约束建立索引？
+### 17、创建数据库时自动建立的tablespace名称？
+### 18、给出两个检查表结构的方法
+### 19、哪个后台进程刷新materialized views?
+### 20、哪个VIEW用来判断tablespace的剩余空间
+### 21、Oracle 分区在什么情况下使用
+### 22、存储过程 、函数 、游标 在项目中怎么用的：
+### 23、Oracle的游标在存储过程里是放在begin与end的里面还是外面？
+### 24、Audit trace 存放在哪个oracle目录结构中?
+### 25、解释TABLE Function的用途
+### 26、给出数据库正常启动所经历的几种状态 ?
 
 
 
@@ -93,6 +199,6 @@ data block是数据库中最小的逻辑存储单元。当数据库的对象需�
 
 ## 最新，高清PDF：172份，7701页，最新整理
 
-[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/mst.png "大厂面试题")](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png"大厂面试题")
+[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/mst.png "架构师专栏")](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png "架构师专栏")
 
 [![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png "架构师专栏")](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png "架构师专栏")

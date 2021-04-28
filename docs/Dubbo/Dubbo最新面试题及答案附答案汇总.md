@@ -8,130 +8,108 @@
 
 
 
-### 1、Dubbo 的整体架构设计有哪些分层?
+### 1、默认使用什么序列化框架，你知道的还有哪些？
 
-![](https://gitee.com/souyunkutech/souyunku-home/raw/master/images/souyunku-web/2020/5/2/026/54/80_2.png#alt=80%5C_2.png)
-
-**1、** 接口服务层（Service）：该层与业务逻辑相关，根据 provider 和 consumer 的业务设计对应的接口和实现
-
-**2、** 配置层（Config）：对外配置接口，以 ServiceConfig 和 ReferenceConfig 为中心
-
-**3、** 服务代理层（Proxy）：服务接口透明代理，生成服务的客户端 Stub 和 服务端的 Skeleton，以 ServiceProxy 为中心，扩展接口为 ProxyFactory
-
-**4、** 服务注册层（Registry）：封装服务地址的注册和发现，以服务 URL 为中心，扩展接口为 RegistryFactory、Registry、RegistryService
-
-**5、** 路由层（Cluster）：封装多个提供者的路由和负载均衡，并桥接注册中心，以Invoker 为中心，扩展接口为 Cluster、Directory、Router 和 LoadBlancce
-
-**6、** 监控层（Monitor）：RPC 调用次数和调用时间监控，以 Statistics 为中心，扩展接口为 MonitorFactory、Monitor 和 MonitorService
-
-**7、** 远程调用层（Protocal）：封装 RPC 调用，以 Invocation 和 Result 为中心，扩展接口为 Protocal、Invoker 和 Exporter
-
-**8、** 信息交换层（Exchange）：封装请求响应模式，同步转异步。以 Request 和Response 为中心，扩展接口为 Exchanger、ExchangeChannel、ExchangeClient 和 ExchangeServer
-
-**9、** 网络 传输 层（Transport）：抽象 mina 和 netty 为统一接口，以 Message 为中心，扩展接口为 Channel、Transporter、Client、Server 和 Codec
-
-**10、** 数据序列化层（Serialize）：可复用的一些工具，扩展接口为 Serialization、ObjectInput、ObjectOutput 和 ThreadPool
+默认使用Hessian序列化，还有Duddo、FastJson、Java自带序列化。
 
 
-### 2、RPC使用了哪些关键技术，Hessian
+### 2、RPC和SOA、SOAP、REST的区别
 
-是一个轻量级的remoting onhttp工具，使用简单的方法提供了RMI的功能。 基于HTTP协议，采用二进制编解码。
+**REST**
+
+可以看着是HTTP协议的一种直接应用，默认基于JSON作为传输格式,使用简单,学习成本低效率高,但是安全性较低。
+
+**SOAP**
+
+SOAP是一种数据交换协议规范,是一种轻量的、简单的、基于XML的协议的规范。而SOAP可以看着是一个重量级的协议，基于XML、SOAP在安全方面是通过使用XML-Security和XML-Signature两个规范组成了WS-Security来实现安全控制的,当前已经得到了各个厂商的支持 。
+
+**它有什么优点？简单总结为：易用、灵活、跨语言、跨平台。**
+
+**SOA**
+
+面向服务架构，它可以根据需求通过网络对松散耦合的粗粒度应用组件进行分布式部署、组合和使用。服务层是SOA的基础，可以直接被应用调用，从而有效控制系统中与软件代理交互的人为依赖性。
+
+SOA是一种粗粒度、松耦合服务架构，服务之间通过简单、精确定义接口进行通讯，不涉及底层编程接口和通讯模型。SOA可以看作是B/S模型、XML（标准通用标记语言的子集）/Web Service技术之后的自然延伸。
+
+**REST 和 SOAP、RPC 有何区别呢?**
+
+没什么太大区别，他们的本质都是提供可支持分布式的基础服务，最大的区别在于他们各自的的特点所带来的不同应用场景
 
 
-### 3、dubbo 通信协议 dubbo 协议为什么不能传大包；
+### 3、RPC使用了哪些关键技术，NIO通信
 
-因 dubbo 协议采用单一长连接，如果每次请求的数据包大小为 500KByte，假设网络为千兆网卡(1024Mbit=128MByte)，每条连接最大 7MByte(不同的环境可能不一样，供参考)，单个服务提供者的 TPS(每秒处理事务数)最大为：128MByte / 500KByte = 262。
-
-单个消费者调用单个服务提供者的 TPS(每秒处理事务数)最大为：7MByte / 500KByte = 14。
-
-如果能接受，可以考虑使用，否则网络将成为瓶颈。
+出于并发性能的考虑，传统的阻塞式 IO 显然不太合适，因此我们需要异步的 IO，即 NIO。Java 提供了 NIO 的解决方案，Java 7 也提供了更优秀的 NIO.2 支持。可以选择Netty或者MINA来解决NIO数据传输的问题。
 
 
-### 4、同一个服务多个注册的情况下可以直连某一个服务吗？
-
-可以直连，修改配置即可，也可以通过 telnet 直接某个服务。
-
-
-### 5、你还了解别的分布式框架吗？
+### 4、你还了解别的分布式框架吗？
 
 别的还有 spring 的 spring cloud，facebook 的 thrift，twitter 的 finagle 等。冲上云霄，Dubbo Go！GO语言版本都发布了～推荐阅读：Spring Cloud是什么，和Dubbo对比呢？
 
 
-### 6、RPC使用了哪些关键技术，服务注册中心
+### 5、为什么需要服务治理？
 
-可选：Redis、Zookeeper、Consul 、Etcd。一般使用ZooKeeper提供服务注册与发现功能，解决单点故障以及分布式部署的问题(注册中心)。
+**1、** 过多的服务 URL 配置困难
 
+**2、** 负载均衡分配节点压力过大的情况下也需要部署集群 服务依赖混乱，启动顺序不清晰
 
-### 7、Dubbo 可以对结果进行缓存吗？
-
-为了提高数据访问的速度。Dubbo 提供了声明式缓存，以减少用户加缓存的工作量<dubbo:reference cache=“true” />
-
-其实比普通的配置文件就多了一个标签 cache=“true”
+**3、** 过多服务导致性能指标分析难度较大，需要监控
 
 
-### 8、为什么要有RPC
+### 6、在使用过程中都遇到了些什么问题？
 
-**1、** http接口是在接口不多、系统与系统交互较少的情况下，解决信息孤岛初期常使用的一种通信手段；优点就是简单、直接、开发方便。利用现成的http协议进行传输。但是如果是一个大型的网站，内部子系统较多、接口非常多的情况下，RPC框架的好处就显示出来了，首先就是长链接，不必每次通信都要像http一样去3次握手什么的，减少了网络开销；其次就是RPC框架一般都有注册中心，有丰富的监控管理；发布、下线接口、动态扩展等，对调用方来说是无感知、统一化的操作。第三个来说就是安全性。最后就是最近流行的服务化架构、服务化治理，RPC框架是一个强力的支撑。
-
-**2、** socket只是一个简单的网络通信方式，只是创建通信双方的通信通道，而要实现rpc的功能，还需要对其进行封装，以实现更多的功能。
-
-**3、** RPC一般配合netty框架、spring自定义注解来编写轻量级框架，其实netty内部是封装了socket的，较新的jdk的IO一般是NIO，即非阻塞IO，在高并发网站中，RPC的优势会很明显
+Dubbo 的设计目的是为了满足高并发小数据量的 rpc 调用，在大数据量下的性能表现并不好，建议使用 rmi 或 http 协议。
 
 
-### 9、你觉得用 Dubbo 好还是 Spring Cloud 好？
+### 7、Dubbo 是什么？
 
-扩展性的问题，没有好坏，只有适合不适合，不过我好像更倾向于使用 Dubbo, Spring Cloud 版本升级太快，组件更新替换太频繁，配置太繁琐，还有很多我觉得是没有 Dubbo 顺手的地方。
-
-
-### 10、dubbo 服务负载均衡策略？
-
-**Random LoadBalance**
-
-随机，按权重设置随机概率。在一个截面上碰撞的概率高，但调用量越大分布越均匀，而且按概率使用权重后也比较均匀，有利于动态调整提供者权重。(权重可以在 dubbo 管控台配置)
-
-**RoundRobin LoadBalance**
-
-轮循，按公约后的权重设置轮循比率。存在慢的提供者累积请求问题，比如：第二台机器很慢，但没挂，当请求调到第二台时就卡在那，久而久之，所有请求都卡在调到第二台上。
-
-**LeastActive LoadBalance**
-
-最少活跃调用数，相同活跃数的随机，活跃数指调用前后计数差。使慢的提供者收到更少请求，因为越慢的提供者的调用前后计数差会越大。
-
-**ConsistentHash LoadBalance**
-
-一致性 Hash，相同参数的请求总是发到同一提供者。当某一台提供者挂时，原本发往该提供者的请求，基于虚拟节点，平摊到其它提供者，不会引起剧烈变动。缺省只对第一个参数 Hash，如果要修改，请配置
-
-```
-<dubbo:parameter key="hash.arguments" value="0,1" />
-```
-
-缺省用 160 份虚拟节点，如果要修改，请配置
-
-```
-<dubbo:parameter key="hash.nodes" value="320" />
-```
+Dubbo 是一款高性能、轻量级的开源 RPC 框架，提供服务自动注册、自动发现等高效服务治理方案， 可以和 Spring 框架无缝集成。
 
 
-### 11、RPC使用了哪些关键技术，Thrift
-### 12、Dubbo 支持哪些序列化方式？
-### 13、Dubbo 的使用场景有哪些？
-### 14、Dubbo 使用过程中都遇到了些什么问题？
-### 15、Dubbo 支持哪些协议，它们的优缺点有哪些？
-### 16、集群容错怎么做？
-### 17、Dubbo 支持哪些协议，每种协议的应用场景，优缺点？
-### 18、为什么要用Dubbo？
-### 19、Dubbo 支持服务降级吗？
-### 20、dubbo 和 dubbox 之间的区别？
-### 21、Dubbo中zookeeper做注册中心，如果注册中心集群都挂掉，者和订阅者之间还能通信么？
-### 22、Dubbo服务之间的调用是阻塞的吗？
-### 23、Dubbo 配置文件是如何加载到Spring中的？
-### 24、Dubbo 如何优雅停机？
-### 25、Dubbo有哪几种集群容错方案，默认是哪种？
-### 26、Dubbo 如何优雅停机？
-### 27、RPC使用了哪些关键技术，RMI
-### 28、PRC架构组件
-### 29、服务上线怎么不影响旧版本？
-### 30、Dubbo 在安全机制方面是如何解决？
+### 8、Dubbo 超时设置有哪些方式？
+
+Dubbo 超时设置有两种方式：
+
+**1、** 服务提供者端设置超时时间，在Dubbo的用户文档中，推荐如果能在服务端多配置就尽量多配置，因为服务提供者比消费者更清楚自己提供的服务特性。
+
+**2、** 服务消费者端设置超时时间，如果在消费者端设置了超时时间，以消费者端为主，即优先级更高。因为服务调用方设置超时时间控制性更灵活。如果消费方超时，服务端线程不会定制，会产生警告。
+
+
+### 9、RPC使用了哪些关键技术，服务寻址
+
+要解决寻址的问题，也就是说，A服务器上的应用怎么告诉底层的RPC框架，如何连接到B服务器（如主机或IP地址）以及特定的端口，方法的名称名称是什么。
+
+通常情况下我们需要提供B机器（主机名或IP地址）以及特定的端口，然后指定调用的方法或者函数的名称以及入参出参等信息，这样才能完成服务的一个调用。
+
+可靠的寻址方式（主要是提供服务的发现）是RPC的实现基石，比如可以采用Redis或者Zookeeper来注册服务等等。
+
+
+### 10、服务调用是阻塞的吗？
+
+默认是阻塞的，可以异步调用，没有返回值的可以这么做。
+
+Dubbo 是基于 NIO 的非阻塞实现并行调用，客户端不需要启动多线程即可完成并行调用多个远程服务，相对多线程开销较小，异步调用会返回一个 Future 对象。
+
+
+### 11、Dubbo 在安全机制方面是如何解决的
+### 12、Dubbo 配置文件是如何加载到 Spring 中的？
+### 13、PRC架构组件
+### 14、RPC使用了哪些关键技术，服务注册中心
+### 15、dubbo推荐用什么协议？
+### 16、Dubbo必须依赖的包有哪些？
+### 17、Dubbo 的默认集群容错方案？
+### 18、Dubbo有哪几种负载均衡策略，默认是哪种？
+### 19、Dubbo服务降级，失败重试怎么做？
+### 20、Dubbo 支持服务降级吗？
+### 21、注册了多个同一样的服务，如果测试指定的某一个服务呢？
+### 22、说说核心的配置有哪些？
+### 23、当一个服务接口有多种实现时怎么做？
+### 24、Dubbo 和 Spring Cloud 有什么哪些区别？
+### 25、Dubbo可以对结果进行缓存吗？
+### 26、Dubbo 的整体架构设计有哪些分层?
+### 27、Dubbo 推荐什么协议？
+### 28、Dubbo telnet 命令能做什么？
+### 29、dubbo 服务集群配置（集群容错模式）
+### 30、服务上线怎么不影响旧版本？
 
 
 
@@ -145,6 +123,6 @@
 
 ## 最新，高清PDF：172份，7701页，最新整理
 
-[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/mst.png "大厂面试题")](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png"大厂面试题")
+[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/mst.png "架构师专栏")](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png "架构师专栏")
 
 [![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png "架构师专栏")](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png "架构师专栏")

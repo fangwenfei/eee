@@ -8,213 +8,214 @@
 
 
 
-### 1、编写程序，检查数字是否为Armstrong
-
-将每个数字依次分离，并累加其立方(位数)。
-
-最后，如果发现总和等于原始数，则称为阿姆斯特朗数(Armstrong)。
-
-```
-num = int(input("Enter the number:\n"))
-order = len(str(num))
-
-sum = 0
-temp = num
-
-while temp > 0:
-   digit = temp % 10
-   sum += digit ** order
-   temp //= 10
-
-if num == sum:
-   print(num,"is an Armstrong number")
-else:
-   print(num,"is not an Armstrong number")
-```
-
-
-### 2、写一个函数，计算出以下字母所代表的数字，每个字母值不一样
+### 1、阅读以下代码，写输出结果
 
 ```python
-for A in range(1,10):
-for B in range(10):
-if A==B:
-continue
-for C in range(1,10):
-if C in [A,B]:
-    continue
-for D in range(10):
-    if D in [A,B,C]:
-        continue
-    for E in range(1,10):
-        if E in [A,B,C,D]:
-            continue
-        for F in range(10):
-            if F in [A,B,C,D,E]:
-                continue
-            for G in range(1,10):
-                if G in [A,B,C,D,E,F]:
-                    continue
-                for H in range(10):
-                    if H in [A,B,C,D,E,F,G]:
-                        continue
-                    for P in range(1,10):
-                        if P in [A,B,C,D,E,F,G,H]:
-                            continue
-                        if (A*10+B)-(C*10+D)==(E*10+F) and (E*10+F)+(G*10+H)==(P*100+P*10+P):
-                        print(A,B,C,D,E,F,G,H,P)
+lis = [2,4,5,6,7]
+for i in lis:
+if i % 2==0:
+lis.remove(i)
+print(lis)
+```
+
+结果：[4, 5, 7]
+
+
+### 2、在Python中是如何管理内存的？
+
+Python有一个私有堆空间来保存所有的对象和数据结构。作为开发者，我们无法访问它，是解释器在管理它。但是有了核心API后，我们可以访问一些工具。Python内存管理器控制内存分配。
+
+另外，内置垃圾回收器会回收使用所有的未使用内存，所以使其适用于堆空间。
+
+
+### 3、怎样将字符串转换为小写？
+
+我们使用lower()方法。
+
+```
+>>> 'AyuShi'.lower()
+```
+
+结果：
+
+```
+‘ayushi’
+```
+
+使用upper()方法可以将其转换为大写。
+
+```
+>>> 'AyuShi'.upper()
+```
+
+结果：
+
+```
+‘AYUSHI’
+```
+
+另外，使用isupper()和islower()方法检查字符春是否全为大写或小写。
+
+```
+>>> 'AyuShi'.isupper()
+False
+ 
+>>> 'AYUSHI'.isupper()
+True
+ 
+>>> 'ayushi'.islower()
+True
+ 
+>>> '@yu$hi'.islower()
+True
+ 
+>>> '@YU$HI'.isupper()
+True
+```
+
+那么，像@和$这样的字符既满足大写也满足小写。
+
+Istitle()能告诉我们一个字符串是否为标题格式。
+
+```
+>>> 'The Corpse Bride'.istitle()
+True
 ```
 
 
-### 3、什么是闭包
+### 4、列举你所了解的所有Python2和Python3的区别
 
-在函数中可以（嵌套）定义另一个函数时，如果内部的函数引用了外部的函数的变量，则可能产生闭包。闭包可以用来在一个函数与一组“私有”变量之间创建关联关系。在给定函数被多次调用的过程中，这些私有变量能够保持其持久性。
+[python2和python3的区别](https://blog.csdn.net/weixin_41819299/article/details/81259721)
 
-```python
-# 内部函数使用了外部函数的变量，就相当于闭包
-def func1():
-a=1
-def inner():
-return a
-return inner
-print(func1()())
+**1、** python2没有nonlocal关键字，要修改临时变量只能将其改成可变数据类型，如数组。b=[a]
+
+**2、** print()函数代替print语句
+
+**3、** Python3加入 Unicode 字符串，用以编码存储字符串。比如用 utf-8可以用来输入中文
+
+**4、** Python3去掉long类型，新增了bytes。
+
+**5、** Python 3整数之间做除法可以得到浮点数的结果，不需要进行数据格式转换1/2=0.5 Python 2整数int间除法结果为把运算结果去尾的整数1/2=0，3/2.0=1.5
+
+**6、** Python3 中 range()，Python2 中 xrange()。
+
+**7、** python2中的不等于号可以是!=或者<>，python3只能是!=
+
+**8、** python2中raw_input()用来输入字符串，而python3中使用input()来输入字符串
+
+
+### 5、为什么学python
+
+答题路线：a、python的优点，b、python的应用领域广
+
+**具体：**
+
+优点
+
+**1、** python语法非常优雅，简单易学
+
+**2、** 免费开源
+
+**3、** 跨平台，可以自由移植
+
+**4、** 可扩展，可嵌入性强
+
+**5、** 第三方库丰富
+
+**应用领域**
+
+**1、** 在系统编程中应用广泛，比如说shell工具。
+
+**2、** 在网络爬虫方面功能非常强大，常用的库如scrapy，request等
+
+**3、** 在web开发中使用也很广泛，如很多大型网站都用python开发的，如ins，youtube等，常用的框架如django，flask等
+
+**4、** python在系统运维中应用广泛，尤其在linux运维方面，基本上都是自动化运维。
+
+**5、** 在人工智能，云计算，金融等方面也应用非常广泛。
+
+
+### 6、css如何隐藏一个元素
+
+display：none
+
+
+### 7、python哪些类型的数据才能作为字典的key？
+
+可哈希的类型
+
+
+### 8、Python中OOPS是什么？
+
+面向对象编程，抽象(Abstraction)、封装(Encapsulation)、继承(Inheritance)、多态(Polymorphism)
+
+
+### 9、python是如何进行内存管理的？python的程序会内存泄漏吗？说说有没有什么方面阻止或者检测内存泄漏？
+
+python是如何进行内存管理的[参考文章](https://blog.csdn.net/u010967872/article/details/80301633)
+
+**1、** 引用计数
+
+Python内部使用引用计数，来保持追踪内存中的对象，Python内部记录了对象有多少个引用，就是引用计数，当对象被创建时就创建了一个引用计数，当对象不再需要的时候，这个对象的引用计数为0时，他被垃圾回收。
+
+**2、** 垃圾回收
+
+当内存中有不再使用的部分时，垃圾收集器就会把他们清理掉。他会去检查那些引用计数为0的对象，然后清除其在内存中的空间。当然除了引用计数为0的会被清除，还有一种情况也会被垃圾收集器清掉，当两个对象相互引用时，他们本身其他引用已经为0了。
+
+**3、** 内存池机制
+
+**1、** Python提供了对内存的垃圾收集机制，但是他将不用的内存放到内存池而不是反回给操作系统。
+
+**2、** python的程序会内存泄漏吗？
+
+**3、** 会发生内存泄漏，在Python程序里，内存泄漏是由于一个长期持有的对象不断的往一个dict或者list对象里添加新的对象, 而又没有即时释放，就会导致这些对象占用的内存越来越多，从而造成内存泄漏。另外，对象的交叉引用也会造成内存无法释放的问题。
+
+**说说有没有什么方面阻止或者检测内存泄漏？**
+
+**1、** 程序员管理好每个python对象的引用，尽量在不需要使用对象的时候，断开所有引用
+
+**2、** 尽量少通过循环引用组织数据，可以改用weakref做弱引用或者用id之类的句柄访问对象
+
+**3、** 通过gc模块的接口可以检查出每次垃圾回收有哪些对象不能自动处理，再逐个逐个处理
+
+
+### 10、!=和is not运算符的区别？
+
+!=如果两个变量或对象的值不相等，则返回true。
+
+is not是用来检查两个对象是否属于同一内存对象。
+
+```
+lst1 = [1,2,3,4]
+lst2 = [1,2,3,4]
+
+lst1 != lst2
+>False
+
+lst1 is not lst2
+>True
 ```
 
 
-### 4、使用python将数据库的student表中的数据写入db.txt
-
-```python
-import pyMySQL
-connect=pyMySQL.Connect(
-host='',
-port=,
-user='',
-passwd='',
-db='',
-charset='',
-)
-
-cursor=connect.cursor()
-sql='select from student'
-cursor.execute(sql)
-students=cursor.fetchall()
-
-with open('db.txt','w') as f:
-for student in students:
-f.write(student)
-
-cursor.close()
-connect.close()
-```
-
-
-### 5、描述以下字典的items()方法和iteritems()方法有啥不同？
-
-**1、** 字典的items方法作用：是可以将字典中的所有项，以列表方式返回。因为字典是无序的，所以用items方法返回字典的所有项，也是没有顺序的。
-
-**2、** 字典的iteritems方法作用：与items方法相比作用大致相同，只是它的返回值不是列表，而是一个迭代器
-
-
-### 6、MySQL如何创建索引
-
-**1、** ALTER TABLE
-
-**2、** ALTER TABLE用来创建普通索引、UNIQUE索引或PRIMARY KEY索引。
-
-**3、** ALTER TABLE table_name ADD INDEX index_name (column_list)
-
-**4、** ALTER TABLE table_name ADD UNIQUE (column_list)
-
-**5、** ALTER TABLE table_name ADD PRIMARY KEY (column_list)
-
-**6、** CREATE INDEX
-
-**7、** CREATE INDEX可对表增加普通索引或UNIQUE索引。
-
-**8、** CREATE INDEX index_name ON table_name (column_list)
-
-**9、** CREATE UNIQUE INDEX index_name ON table_name (column_list)
-
-
-### 7、解释一下Python中的继承？
-
-继承(inheritance)允许一个类获取另一个类的所有成员和属性。继承提供代码可重用性，可以更轻松地创建和维护应用程序。
-
-被继承的类称为超类，而继承的类称为派生类/子类。
-
-
-### 8、py2项目如何迁移成py3
-
-**1、** 先备份原文件，然后使用python3自带工具2to3.py将py2文件转换位py3文件
-
-**2、** 手动将不兼容的代码改写成兼容py3的代码
-
-
-### 9、什么是正向代理和反向代理？
-
-**正向代理**
-
-**1、** 正向代理类似一个跳板机，代理访问外部资源。
-
-**2、** 正向代理 是一个位于客户端和原始服务器(origin server)之间的服务器，为了从原始服务器取得内容，客户端向代理发送一个请求并指定目标(原始服务器)，然后代理向原始服务器转交请求并将获得的内容返回给客户端。客户端必须要进行一些特别的设置才能使用正向代理。
-
-**正向代理作用：**
-
-**1、** 访问原来无法访问的资源，如google
-
-**2、** 可以做缓存，加速访问资源
-
-**3、** 对客户端访问授权，上网进行认证
-
-**4、** 代理可以记录用户访问记录（上网行为管理），对外隐藏用户信息
-
-**反向代理**
-
-**1、** 反向代理（Reverse Proxy）实际运行方式是指以代理服务器来接受internet上的连接请求，然后将请求转发给内部网络上的服务器，并将从服务器上得到的结果返回给internet上请求连接的客户端，此时代理服务器对外就表现为一个服务器
-
-**反向代理的作用：**
-
-**1、** 保证内网的安全，可以使用反向代理提供WAF功能，阻止web攻击
-
-**2、** 负载均衡，通过反向代理服务器来优化网站的负载
-
-
-### 10、生成器与函数的区别？
-
-生成器和函数的主要区别在于函数 return a value，生成器 yield a value同时标记或记忆point of the yield 以便于在下次调用时从标记点恢复执行。 yield 使函数转换成生成器，而生成器反过来又返回迭代器。
-
-```python
-# 简单实现生成器
-def dec():
-n=0
-for i in range(10):
-yield n
-n+=i
-
-for i in dec():
-print(i)
-```
-
-
-### 11、vue中的路由拦截器的作用
-### 12、在Python中有多少种运算符？解释一下算数运算符。
-### 13、如何基于Redis实现发布和订阅
-### 14、python解释器种类以及特点
-### 15、简述python的深浅拷贝
-### 16、什么是codis
-### 17、什么是负索引？
-### 18、如何实现"1.2.3"变成['1','2','3']?
-### 19、索引再什么情况下遵循最左前缀的规则？
-### 20、解释Python中的Filter？
-### 21、什么是防火墙？防火墙的作用是什么？
-### 22、什么是正则的贪婪匹配？贪婪模式和非贪婪模式的区别？
-### 23、有如下链表类，请实现单链表逆置。
-### 24、讲讲Python中的位运算符
-### 25、区分Python中的remove，del和pop？
-### 26、请列举你所知道的python代码检测工具以及他们之间的区别
-### 27、query作为sql模板，args为将要传入的参数
-### 28、python中如何使用进程池和线程池
-### 29、a = dict(zip(('a','b','c','d','e'),(1,2,3,4,5))) 请问a是什么？
+### 11、从0-99这100个数中随机取出10个，要求不能重复
+### 12、解释一下Python中的逻辑运算符
+### 13、Python中使用的zip函数是什么？
+### 14、Python有哪些应用？
+### 15、编写程序，输出给定序列中的所有质数
+### 16、re的match和search的区别
+### 17、DNS域名解析过程
+### 18、如何使用索引来反转Python中的字符串?
+### 19、前后端分离的基本原理
+### 20、使用生成器编写一个函数实现生成指定个数的斐波那契数列
+### 21、Redis中watch的作用
+### 22、请列出至少5个PEP8规范
+### 23、编写一个函数，找出数组中没有重复的值的和
+### 24、解释Python中的join()和split()函数
+### 25、用尽量简洁的方法将二维数组合并成一维数组
+### 26、什么是鸭子模型？
+### 27、python和java、php、c、c#、c++ 等其他语言对比？
+### 28、列举常见的关系型数据库和非关系型数据库。
+### 29、解释//、％、* *运算符？
 
 
 
@@ -228,6 +229,6 @@ print(i)
 
 ## 最新，高清PDF：172份，7701页，最新整理
 
-[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/mst.png "大厂面试题")](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png"大厂面试题")
+[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/mst.png "架构师专栏")](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png "架构师专栏")
 
 [![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png "架构师专栏")](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png "架构师专栏")

@@ -8,158 +8,168 @@
 
 
 
-### 1、Nginx服务器上的Master和Worker进程分别是什么?
+### 1、nginx状态码
 
-Master进程：读取及评估配置和维持 ；Worker进程：处理请求。
+499：服务端处理时间过长，客户端主动关闭了连接。
 
 
-### 2、ip_hash( IP绑定)
-
-每个请求按访问IP的哈希结果分配，使来自同一个IP的访客固定访问一台后端服务器，`并且可以有效解决动态网页存在的session共享问题`
+### 2、nignx配置
 
 ```
-upstream backserver {
- ip_hash;
- server 192.168.0.12:88; 
- server 192.168.0.13:80; 
+worker_processes  8;     工作进程个数
+
+worker_connections  65535;  每个工作进程能并发处理（发起）的最大连接数（包含所有连接数）
+
+error_log         /data/logs/nginx/error.log;  错误日志打印地址
+
+access_log      /data/logs/nginx/access.log  进入日志打印地址
+
+log_format  main  'remote_addr"request" ''status upstream_addr "$request_time"'; 进入日志格式
+
+fastcgi_connect_timeout=300; #连接到后端fastcgi超时时间
+
+fastcgi_send_timeout=300; #向fastcgi请求超时时间(这个指定值已经完成两次握手后向fastcgi传送请求的超时时间)
+
+fastcgi_rend_timeout=300; #接收fastcgi应答超时时间，同理也是2次握手后
+
+fastcgi_buffer_size=64k; #读取fastcgi应答第一部分需要多大缓冲区，该值表示使用1个64kb的缓冲区读取应答第一部分(应答头),可以设置为fastcgi_buffers选项缓冲区大小
+
+fastcgi_buffers 4 64k;#指定本地需要多少和多大的缓冲区来缓冲fastcgi应答请求，假设一个php或java脚本所产生页面大小为256kb,那么会为其分配4个64kb的缓冲来缓存
+
+fastcgi_cache TEST;#开启fastcgi缓存并为其指定为TEST名称，降低cpu负载,防止502错误发生
+
+listen       80;                                            监听端口
+
+server_name  rrc.test.jiedaibao.com;       允许域名
+
+root  /data/release/rrc/web;                    项目根目录
+
+index  index.php index.html index.htm;  访问根文件
+```
+
+
+### 3、请解释 Nginx 服务器上的 Master 和 Worker 进程分别是什么?
+
+Master 进程：读取及评估配置和维持
+
+Worker 进程：处理请求
+
+
+### 4、解释 Nginx 是否支持将请求压缩到上游?
+
+您可以使用 Nginx 模块 gunzip 将请求压缩到上游。gunzip 模块是一个过滤
+
+器，它可以对不支持“gzip”编码方法的客户机或服务器使用“内容编
+
+码:gzip”来解压缩响应。
+
+
+### 5、请陈述stub_status和sub_filter指令的作用是什么?
+
+（1）Stub_status指令：该指令用于了解Nginx当前状态的当前状态，如当前的活动连接，接受和处理当前读/写/等待连接的总数 ；（2）Sub_filter指令：它用于搜索和替换响应中的内容，并快速修复陈旧的数据
+
+
+### 6、请列举Nginx的一些特性？
+
+Nginx服务器的特性包括：反向代理/L7负载均衡器 ；嵌入式Perl解释器 ；动态二进制升级；可用于重新编写URL，具有非常好的PCRE支持。
+
+
+### 7、为什么要做动静分离？
+
+**1、** Nginx是当下最热的Web容器，网站优化的重要点在于静态化网站，网站静态化的关键点则是是动静分离，动静分离是让动态网站里的动态网页根据一定规则把不变的资源和经常变的资源区分开来，动静资源做好了拆分以后，我们则根据静态资源的特点将其做缓存操作。
+
+**2、** 让静态的资源只走静态资源服务器，动态的走动态的服务器
+
+**3、** Nginx的静态处理能力很强，但是动态处理能力不足，因此，在企业中常用动静分离技术。
+
+**4、** 对于静态资源比如图片，js，css等文件，我们则在反向代理服务器nginx中进行缓存。这样浏览器在请求一个静态资源时，代理服务器nginx就可以直接处理，无需将请求转发给后端服务器tomcat。
+
+**5、** 若用户请求的动态文件，比如servlet,jsp则转发给Tomcat服务器处理，从而实现动静分离。这也是反向代理服务器的一个重要的作用。
+
+
+### 8、Nginx的优缺点？
+
+**优点：**
+
+**1、**  占内存小，可实现高并发连接，处理响应快
+
+**2、**  可实现http服务器、虚拟主机、方向代理、负载均衡
+
+**3、**  Nginx配置简单
+
+**4、**  可以不暴露正式的服务器IP地址
+
+**缺点：**
+
+动态处理差，nginx处理静态文件好,耗费内存少，但是处理动态页面则很鸡肋，现在一般前端用nginx作为反向代理抗住压力，
+
+
+### 9、Nginx配置文件nginx.conf有哪些属性模块?
+
+```
+worker_processes 1；# worker进程的数量
+events {#事件区块开始
+    worker_connections 1024；#每个 worker进程支持的最大连接数
 }
+
+#事件区块结束
+
+http {#
+    HTTP区块开始
+    include mime.types；# Nginx支持的媒体类型库文件
+    default_type application / octet - stream；#默认的媒体类型
+    sendfile on；#开启高效传输模式
+    keepalive_timeout 65；#连接超时
+    server {
+
+        #第一个
+        Server区块开始，表示一个独立的虚拟主机站点
+        listen 80；#提供服务的端口，默认 80
+        server_name localhost；#提供服务的域名主机名
+        location / {
+             #第一个
+            location区块开始
+            root html；#站点的根目录，相当于 Nginx的安装目录
+            index index.html index.htm；#默认的首页文件，多个用空格分开
+        }
+
+        #第一个
+        location区块结果
+        error_page 500502503504 / 50x.html；#出现对应的 http状态码时，使用 50x.html回应客户
+        location = /50x.html {
+              # location区块开始，访问50x.html
+            root   html；                                  # 指定对应的站点目录为html
+        }
+    }
+......
 ```
 
 
-### 3、Nginx 常用命令？
+### 10、Nginx静态资源?
 
-**1、** 启动 `nginx` 。
-
-**2、** 停止 `nginx -s stop` 或 `nginx -s quit` 。
-
-**3、** 重载配置 `./sbin/nginx -s reload(平滑重启)` 或 `service nginx reload` 。
-
-**4、** 重载指定配置文件 `.nginx -c /usr/local/nginx/conf/nginx.conf` 。
-
-**5、** 查看 nginx 版本 `nginx -v` 。
-
-**6、** 检查配置文件是否正确 `nginx -t` 。
-
-**7、** 显示帮助信息 `nginx -h` 。
+静态资源访问，就是存放在nginx的html页面，我们可以自己编写
 
 
-### 4、fair(第三方插件)
-
-必须安装upstream_fair模块。
-
-对比 weight、ip_hash更加智能的负载均衡算法，fair算法可以根据页面大小和加载时间长短智能地进行负载均衡，响应时间短的优先分配。
-
-```
-upstream backserver {
- server server1; 
- server server2; 
- fair; 
-}
-```
-
-哪个服务器的响应速度快，就将请求分配到那个服务器上。
-
-
-### 5、url_hash(第三方插件)
-
-必须安装Nginx的hash软件包
-
-按访问url的hash结果来分配请求，使每个url定向到同一个后端服务器，可以进一步提高后端缓存服务器的效率。
-
-```
-upstream backserver {
- server squid1:3128; 
- server squid2:3128; 
- hash $request_uri; 
- hash_method crc32; 
-}
-```
-
-
-### 6、使用“反向代理服务器”的优点是什么?
-
-反向代理服务器可以隐藏源服务器的存在和特征。它充当互联网云和web服务器之间的中间层。这对于安全方面来说是很好的，特别是当您使用web托管服务时。
-
-
-### 7、怎么限制浏览器访问？
-
-```
-## 不允许谷歌浏览器访问 如果是谷歌浏览器返回500
- if ($http_user_agent ~ Chrome) {
-    return 500;
-}
-```
-
-
-### 8、解释如何在`Nginx`服务器上添加模块?
-
-在编译过程中，必须选择`Nginx`模块，因为`Nginx`不支持模块的运行时间选择。
-
-
-### 9、Nginx 有哪些优点？
-
-**1、** 跨平台、配置简单。
-
-**2、** 非阻塞、高并发连接
-
-**3、** 处理 2-3 万并发连接数，官方监测能支持 5 万并发。
-
-**4、** 内存消耗小
-
-**5、** 开启 10 个 Nginx 才占 150M 内存。
-
-**6、** 成本低廉，且开源。
-
-**7、** 稳定性高，宕机的概率非常小。
-
-
-### 10、Nginx 是如何实现高并发的？
-
-如果一个 server 采用一个进程(或者线程)负责一个request的方式，那么进程数就是并发数。那么显而易见的，就是会有很多进程在等待中。等什么？最多的应该是等待网络传输。其缺点胖友应该也感觉到了，此处不述。
-
-**思考下，Java 的 NIO 和 BIO 的对比哟。**
-
-而 Nginx 的异步非阻塞工作方式正是利用了这点等待的时间。在需要等待的时候，这些进程就空闲出来待命了。因此表现为少数几个进程就解决了大量的并发问题。
-
-Nginx是如何利用的呢，简单来说：同样的 4 个进程，如果采用一个进程负责一个 request 的方式，那么，同时进来 4 个 request 之后，每个进程就负责其中一个，直至会话关闭。期间，如果有第 5 个request进来了。就无法及时反应了，因为 4 个进程都没干完活呢，因此，一般有个调度进程，每当新进来了一个 request ，就新开个进程来处理。
-
-**回想下，BIO 是不是存在酱紫的问题？嘻嘻。**
-
-Nginx 不这样，每进来一个 request ，会有一个 worker 进程去处理。但不是全程的处理，处理到什么程度呢？处理到可能发生阻塞的地方，比如向上游（后端）服务器转发 request ，并等待请求返回。那么，这个处理的 worker 不会这么傻等着，他会在发送完请求后，注册一个事件：“如果 upstream 返回了，告诉我一声，我再接着干”。于是他就休息去了。此时，如果再有 request 进来，他就可以很快再按这种方式处理。而一旦上游服务器返回了，就会触发这个事件，worker 才会来接手，这个 request 才会接着往下走。
-
-**这就是为什么说，Nginx 基于事件模型。**
-
-由于 web server 的工作性质决定了每个 request 的大部份生命都是在网络传输中，实际上花费在 server 机器上的时间片不多。这是几个进程就解决高并发的秘密所在。即：
-
-**webserver 刚好属于网络 IO 密集型应用，不算是计算密集型。**
-
-而正如叔度所说的
-
-**异步，非阻塞，使用 epoll ，和大量细节处的优化**
-
-也正是 Nginx 之所以然的技术基石。
-
-
-### 11、为什么Nginx性能这么高？
-### 12、用`Nginx`服务器解释`-s`的目的是什么?
-### 13、为什么 Nginx 不使用多线程？
-### 14、Nginx 有哪些负载均衡策略？
-### 15、什么是动态资源、静态资源分离？
-### 16、Nginx配置文件nginx.conf有哪些属性模块?
-### 17、解释如何在Nginx服务器上添加模块?
-### 18、nginx状态码
-### 19、在Nginx中如何在URL中保留双斜线?
-### 20、nignx配置
-### 21、正常限制访问频率（正常流量）
-### 22、如何通过不同于80的端口开启Nginx?
-### 23、请解释 Nginx 如何处理 HTTP 请求。
-### 24、Nginx如何处理HTTP请求？
-### 25、Nginx是否支持将请求压缩到上游?
+### 11、为什么要用Nginx？
+### 12、fair(第三方插件)
+### 13、如何通过不同于80的端口开启Nginx?
+### 14、解释如何在Nginx服务器上添加模块?
+### 15、基于虚拟主机配置域名
+### 16、在 Nginx 中，解释如何在 URL 中保留双斜线?
+### 17、Nginx怎么处理请求的？
+### 18、Nginx是否支持将请求压缩到上游?
+### 19、请解释 ngx_http_upstream_module 的作用是什么?
+### 20、使用“反向代理服务器”的优点是什么？
+### 21、解释如何在 Nginx 中获得当前的时间?
+### 22、令牌桶算法#
+### 23、为什么 Nginx 不使用多线程？
+### 24、限流怎么做的？
+### 25、怎么限制浏览器访问？
 ### 26、Nginx配置高可用性怎么配置？
-### 27、Nginx 如何开启压缩？
-### 28、请解释`ngx_http_upstream_module`的作用是什么?
-### 29、突发限制访问频率（突发流量）
-### 30、如何用Nginx解决前端跨域问题？
+### 27、请解释 Nginx 如何处理 HTTP 请求。
+### 28、Nginx 常用配置？
+### 29、请解释你如何通过不同于 80 的端口开启 Nginx?
+### 30、请解释 Nginx 如何处理 HTTP 请求？
 
 
 
@@ -173,6 +183,6 @@ Nginx 不这样，每进来一个 request ，会有一个 worker 进程去处理
 
 ## 最新，高清PDF：172份，7701页，最新整理
 
-[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/mst.png "大厂面试题")](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png"大厂面试题")
+[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/mst.png "架构师专栏")](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png "架构师专栏")
 
 [![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png "架构师专栏")](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png "架构师专栏")

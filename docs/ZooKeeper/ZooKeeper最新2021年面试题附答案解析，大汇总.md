@@ -8,116 +8,156 @@
 
 
 
-### 1、四种类型的数据节点 Znode
+### 1、服务端处理 Watcher 实现
 
-**1、** PERSISTENT-持久节点 除非手动删除，否则节点一直存在于 Zookeeper 上
+**1、** 服务端接收 Watcher 并存储 接收到客户端请求，处理请求判断是否需要注册 Watcher，需要的话将数据节点的节点路径和 ServerCnxn（ServerCnxn 代表一个客户端和服务端的连接，实现了 Watcher 的 process 接口，此时可以看成一个 Watcher 对象）存储在WatcherManager 的 WatchTable 和 watch2Paths 中去。
 
-**2、** EPHEMERAL-临时节点 临时节点的生命周期与客户端会话绑定，一旦客户端会话失效（客户端与zookeeper 连接断开不一定会话失效），那么这个客户端创建的所有临时节点都会被移除。
+**2、** Watcher 触发 以服务端接收到 setData() 事务请求触发 NodeDataChanged 事件为例：
 
-**3、** PERSISTENT_SEQUENTIAL-持久顺序节点 基本特性同持久节点，只是增加了顺序属性，节点名后边会追加一个由父节点维护的自增整型数字。
+2.1 封装 WatchedEvent 将通知状态（SyncConnected）、事件类型（NodeDataChanged）以及节点路径封装成一个 WatchedEvent 对象
 
-**4、** EPHEMERAL_SEQUENTIAL-临时顺序节点 基本特性同临时节点，增加了顺序属性，节点名后边会追加一个由父节点维护的自增整型数字。
+2.2 查询 Watcher 从 WatchTable 中根据节点路径查找 Watcher
 
+2.3 没找到；说明没有客户端在该数据节点上注册过 Watcher
 
-### 2、更新指定节点信息？
+2.4 找到；提取并从 WatchTable 和 Watch2Paths 中删除对应 Watcher（从这里可以看出 Watcher 在服务端是一次性的，触发一次就失效了）
 
-set path data [version]
-
-[zk: localhost:2181(CONNECTED) 6] set /app 222
-
-[zk: localhost:2181(CONNECTED) 7] get /app
-
-222
+**3、**  调用 process 方法来触发 Watcher 这里 process 主要就是通过 ServerCnxn 对应的 TCP 连接发送 Watcher 事件通知。
 
 
-### 3、客户端回调Watcher
+### 2、集群支持动态添加机器吗？
 
-客户端SendThread线程接收事件通知，交由EventThread线程回调Watcher。客户端的Watcher机制同样是一次性的，一旦被触发后，该Watcher就失效了。
+**1、** 其实就是水平扩容了，Zookeeper 在这方面不太好。两种方式：
 
+**2、** 全部重启：关闭所有 Zookeeper 服务，修改配置之后启动。不影响之前客户端的会话。
 
-### 4、Zookeeper 对节点的 watch 监听通知是永久的吗？为什么不是永久的?
+**3、** 逐个重启：在过半存活即可用的原则下，一台机器重启不影响整个集群对外提供服务。这是比较常用的方式。
 
-**1、** 不是。官方声明：一个 Watch 事件是一个一次性的触发器，当被设置了 Watch的数据发生了改变的时候，则服务器将这个改变发送给设置了 Watch 的客户端，以便通知它们。
-
-**2、** 为什么不是永久的，举个例子，如果服务端变动频繁，而监听的客户端很多情况下，每次变动都要通知到所有的客户端，给网络和服务器造成很大压力。
-
-**3、** 一般是客户端执行 getData(“/节点 A”,true)，如果节点 A 发生了变更或删除，客户端会得到它的 watch 事件，但是在之后节点 A 又发生了变更，而客户端又没有设置 watch 事件，就不再给客户端发送。
-
-**4、** 在实际应用中，很多情况下，我们的客户端不需要知道服务端的每一次变动，我只要最新的数据即可。
+**4、** 3.5 版本开始支持动态扩容。
 
 
-### 5、Quorum?
+### 3、哪些情况会导致ZAB进入恢复模式并选取新的Leader?
 
-当集群中过半UP状态的进程组成了进程子集后，就可以正常的消息传播了，这样的一个子集我们称为Quorum。
+启动过程或Leader出现网络中断、崩溃退出与重启等异常情况时。
 
-
-### 6、ZooKeeper可以保证哪些分布式一致性特性？
-
-**1、** 顺序一致性
-
-**2、** 原子性
-
-**3、** 单一视图
-
-**4、** 可靠性
-
-**5、** 实时性
+当选举出新的Leader后，同时集群中已有过半的机器与该Leader服务器完成了状态同步之后,ZAB就会退出恢复模式。
 
 
-### 7、会话管理
+### 4、集群支持动态添加机器吗？
 
-分桶策略：将类似的会话放在同一区块中进行管理，以便于 Zookeeper 对会话进行不同区块的隔离处理以及同一区块的统一处理。
+其实就是水平扩容了，Zookeeper在这方面不太好。两种方式：
 
-分配原则：每个会话的“下次超时时间点”（ExpirationTime）
+全部重启：关闭所有Zookeeper服务，修改配置之后启动。不影响之前客户端的会话。
 
-**计算公式：**
+逐个重启：在过半存活即可用的原则下，一台机器重启不影响整个集群对外提供服务。这是比较常用的方式。
 
-```
-ExpirationTime\_ = currentTime + sessionTimeout
-
-ExpirationTime = (ExpirationTime\_ / ExpirationInrerval + 1) \*
-
-ExpirationInterval , ExpirationInterval 是指 Zookeeper 会话超时检查时间间隔，默认 tickTime
-```
+3.5版本开始支持动态扩容。
 
 
-### 8、zookeeper 负载均衡和 nginx 负载均衡区别
+### 5、在sessionTimeout之内的会话，因服务器压力大、网络故障或客户端主动断开情况下，之前的会话还有效吗？
 
-zk 的负载均衡是可以调控，nginx 只是能调权重，其他需要可控的都需要自己写插件；但是 nginx 的吞吐量比 zk 大很多，应该说按业务选择用哪种方式。
-
-
-### 9、Zookeeper 文件系统
-
-Zookeeper 提供一个多层级的节点命名空间（节点称为 znode）。与文件系统不同的是，这些节点都可以设置关联的数据，而文件系统中只有文件节点可以存放数据而目录节点不行。
-
-Zookeeper 为了保证高吞吐和低延迟，在内存中维护了这个树状的目录结构，这种特性使得 Zookeeper 不能用于存放大量的数据，每个节点的存放数据上限为1M。
+有效。
 
 
-### 10、zk的配置管理（文件系统、通知机制）
+### 6、权限控制?
 
-程序分布式的部署在不同的机器上，将程序的配置信息放在zk的znode下，当有配置发生改变时，也就是znode发生变化时，可以通过改变zk中某个目录节点的内容，利用watcher通知给各个客户端，从而更改配置。
+Access Control Lists ,ACL。类似于UNIX文件系统的权限控制。
 
 
-### 11、说一下 Zookeeper 的通知机制？
-### 12、权限控制?
-### 13、Zookeeper 下 Server工作状态
-### 14、ZAB三个阶段？
-### 15、ZooKeeper定义了几种权限？
-### 16、集群最少要几台机器，集群规则是怎样的?
-### 17、Zookeeper对节点的watch监听通知是永久的吗？为什么不是永久的?
-### 18、Zookeeper集群管理（文件系统、通知机制）
-### 19、在sessionTimeout之内的会话，因服务器压力大、网络故障或客户端主动断开情况下，之前的会话还有效吗？
-### 20、Zookeeper 怎么保证主从节点的状态同步？
-### 21、ACL权限控制机制
-### 22、ZooKeeper可以实现哪些功能？
-### 23、Watcher事件监听器？
-### 24、什么是会话Session?
-### 25、Zookeeper工作原理
-### 26、Zookeeper分布式锁（文件系统、通知机制）
-### 27、Zookeeper 的 java 客户端都有哪些？
-### 28、分布式集群中为什么会有 Master主节点？
-### 29、客户端注册 Watcher 实现
-### 30、Zookeeper 专门设计的一种支持崩溃恢复的原子广 播协议是?
+### 7、Zookeeper工作原理
+
+Zookeeper 的核心是原子广播，这个机制保证了各个Server之间的同步。实现这个机制的协议叫做Zab协议。Zab协议有两种模式，它们分别是恢复模式（选主）和广播模式（同步）。当服务启动或者在领导者崩溃后，Zab就进入了恢复模式，当领导者被选举出来，且大多数Server完成了和 leader的状态同步以后，恢复模式就结束了。状态同步保证了leader和Server具有相同的系统状态。
+
+
+### 8、Zookeeper通知机制
+
+client端会对某个znode建立一个watcher事件，当该znode发生变化时，这些client会收到zk的通知，然后client可以根据znode变化来做出业务上的改变等。
+
+
+### 9、ZAB和Paxos算法的联系与区别？
+
+**相同点：**
+
+**1、** 两者都存在一个类似于Leader进程的角色，由其负责协调多个Follower进程的运行
+
+**2、** Leader进程都会等待超过半数的Follower做出正确的反馈后，才会将一个提案进行提交
+
+**3、** ZAB协议中，每个Proposal中都包含一个 epoch 值来代表当前的Leader周期，Paxos中名字为Ballot
+
+**不同点：**
+
+ZAB用来构建高可用的分布式数据主备系统（Zookeeper），Paxos是用来构建分布式一致性状态机系统。
+
+
+### 10、数据同步
+
+整个集群完成 Leader 选举之后，Learner（Follower 和 Observer 的统称）回向Leader 服务器进行注册。当 Learner 服务器想 Leader 服务器完成注册后，进入数据同步环节。
+
+**数据同步流程：**（均以消息传递的方式进行）
+
+**1、** Learner 向 Learder 注册
+
+**2、** 数据同步
+
+**3、** 同步确认
+
+**Zookeeper 的数据同步通常分为四类：**
+
+**1、** 直接差异化同步（DIFF 同步）
+
+**2、** 先回滚再差异化同步（TRUNC+DIFF 同步）
+
+**3、** 仅回滚同步（TRUNC 同步）
+
+**4、** 全量同步（SNAP 同步）
+
+**在进行数据同步前，Leader服务器会完成数据同步初始化：**
+
+**1、** peerLastZxid：从learner服务器注册时发送的ACKEPOCH消息中提取lastZxid（该Learner服务器最后处理的ZXID）
+
+**2、** minCommittedLog：Leader服务器Proposal缓存队列committedLog中最小ZXID
+
+**3、** maxCommittedLog：Leader服务器Proposal缓存队列committedLog中最大ZXID
+
+**4、** 直接差异化同步（DIFF同步） 场景：peerLastZxid介于minCommittedLog和maxCommittedLog之间
+
+![](https://gitee.com/souyunkutech/souyunku-home/raw/master/images/souyunku-web/2020/5/2/052/19/71_1.png#alt=71%5C_1.png)
+
+**先回滚再差异化同步（TRUNC+DIFF同步）**
+
+场景：当新的Leader服务器发现某个Learner服务器包含了一条自己没有的事务记录，那么就需要让该Learner服务器进行事务回滚--回滚到Leader服务器上存在的，同时也是最接近于peerLastZxid的ZXID
+
+**仅回滚同步（TRUNC同步）**
+
+场景：peerLastZxid 大于 maxCommittedLog
+
+**全量同步（SNAP同步）**
+
+场景一：peerLastZxid 小于 minCommittedLog
+
+场景二：Leader服务器上没有Proposal缓存队列且peerLastZxid不等于lastProcessZxid
+
+
+### 11、机器中为什么会有leader？
+### 12、ZooKeeper用推/拉模式？
+### 13、Zookeeper文件系统
+### 14、Zookeeper 都有哪些功能？
+### 15、数据发布/订阅
+### 16、客户端注册 Watcher 实现
+### 17、什么是ZooKeeper?
+### 18、CAP理论？
+### 19、ZAB三个阶段？
+### 20、Watcher事件监听器？
+### 21、zookeeper watch机制
+### 22、Zookeeper对节点的watch监听通知是永久的吗？为什么不是永久的?
+### 23、Zookeeper Watcher 机制 -- 数据变更通知
+### 24、分布式集群中为什么会有Master？
+### 25、服务端处理Watcher实现
+### 26、ACL权限控制机制
+### 27、发布订阅的两种设计模式？
+### 28、负载均衡
+### 29、发现?
+### 30、集群最少要几台机器，集群规则是怎样的？集群中有 3 台服务器，其中一个节点宕机，这个时候 Zookeeper 还可以使用吗？
 
 
 
@@ -131,6 +171,6 @@ Zookeeper 为了保证高吞吐和低延迟，在内存中维护了这个树状�
 
 ## 最新，高清PDF：172份，7701页，最新整理
 
-[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/mst.png "大厂面试题")](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png"大厂面试题")
+[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/mst.png "架构师专栏")](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png "架构师专栏")
 
 [![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png "架构师专栏")](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png "架构师专栏")

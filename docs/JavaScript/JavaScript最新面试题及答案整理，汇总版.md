@@ -8,275 +8,256 @@
 
 
 
-### 1、什么是闭包？
+### 1、一般使用什么版本控制工具?svn如何对文件加锁###
 
-闭包就是引用了其他函数作用域中变量的函数，这种模式通常在函数嵌套结构中实现。里面的函数可以访问外面函数的变量，外面的变量的是这个内部函数的一部分。闭包有如下作用：
+svn加锁目的：为了避免多个人同一时间对同一个文件改动的相互覆盖，版本控制系统就必须有一套冲突处理机制。
 
-**1、** 加强封装，模拟实现私有变量；
+svn加锁两种策略：乐观加锁：所有签出的文件都是可读写的，对文件的修改不必获得文件的锁，当你修改完文件签入时，会首先要求你更新本地文件，版本控制系统不会覆盖你的本地修改，而是会让你自己合并冲突后签入。
 
-**2、** 实现常驻内存的变量。
+严格加锁：所有签出的文件都是只读的，任何对文件的修改必须要获得文件的锁，如果其他人没有拥有该文件的锁，那么版本控制系统就会授权给你文件的锁，并将文件设置为可编辑的。
 
-> 闭包不能滥用，否则会导致内存泄露，影响网页的性能。闭包使用完了后，要立即释放资源，将引用变量指向null。
+svn两种加锁步骤：乐观加锁：选择你想要获取锁定的文件，然后右键菜单点击TortoiseSVN 选取获取锁定。
 
-
-
-### 2、commonjs?requirejs?AMD|CMD|UMD?
-
-**1、** CommonJS就是为JS的表现来制定规范，NodeJS是这种规范的实现，webpack 也是以CommonJS的形式来书写。因为js没有模块的功能，所以CommonJS应运而生。但它不能在浏览器中运行。 CommonJS定义的模块分为:{模块引用(require)} {模块定义(exports)} {模块标识(module)}
-
-**2、** RequireJS 是一个JavaScript模块加载器。 RequireJS有两个主要方法(method): define()和require()。这两个方法基本上拥有相同的定义(declaration) 并且它们都知道如何加载的依赖关系，然后执行一个回调函数(callback function)。与require()不同的是， define()用来存储代码作为一个已命名的模块。 因此define()的回调函数需要有一个返回值作为这个模块定义。这些类似被定义的模块叫作AMD (Asynchronous Module Definition，异步模块定义)。
-
-**3、** AMD 是 RequireJS 在推广过程中对模块定义的规范化产出 AMD异步加载模块。它的模块支持对象 函数 构造器 字符串 JSON等各种类型的模块。 适用AMD规范适用define方法定义模块。
-
-**4、** CMD是SeaJS 在推广过程中对模块定义的规范化产出
-
-AMD与CDM的区别：
-
-（1）对于于依赖的模块，AMD 是提前执行(好像现在也可以延迟执行了)，CMD 是延迟执行。
-
-（2）AMD 推崇依赖前置，CMD 推崇依赖就近。
-
-（3）AMD 推崇复用接口，CMD 推崇单用接口。
-
-（4）书写规范的差异。
-
-**5、** umd是AMD和CommonJS的糅合。
-
-AMD 浏览器第一的原则发展 异步加载模块。
-
-CommonJS模块以服务器第一原则发展，选择同步加载，它的模块无需包装(unwrapped modules)。这迫使人们又想出另一个更通用的模式UMD ( Universal Module Definition ), 希望解决跨平台的解决方案。UMD先判断是否支持Node.js的模块( exports )是否存在，存在则使用Node.js模块模式。
+严格加锁：在想要采取严格加锁的文件或目录上点击右键，使用TortoiseSVN 属性菜单，点击新建属性，选择需要锁定。
 
 
-### 3、JS是如何实现异步的？
+### 2、javascript创建对象的几种方式？
 
-JS引擎是单线程的，但又能实现异步的原因在于事件循环和任务队列体系。
+`javascript`创建对象简单的说,无非就是使用内置对象或各种自定义对象，当然还可以用`JSON`；但写法有很多种，也能混合使用
 
-**事件循环：**
-
-**1、** JS 会创建一个类似于 `while (true)` 的循环，每执行一次循环体的过程称之为 `Tick`。每次 `Tick` 的过程就是查看是否有待处理事件，如果有则取出相关事件及回调函数放入执行栈中由主线程执行。待处理的事件会存储在一个任务队列中，也就是每次 `Tick` 会查看任务队列中是否有需要执行的任务。
-
-**任务队列：**
-
-**1、** 异步操作会将相关回调添加到任务队列中。而不同的异步操作添加到任务队列的时机也不同，如 `onclick`, `setTimeout`, `ajax` 处理的方式都不同，这些异步操作是由浏览器内核的 `webcore` 来执行的，浏览器内核包含3种 webAPI，分别是 `DOM Binding`、`network`、`timer`模块。
-
-**2、** `onclick` 由 `DOM Binding` 模块来处理，当事件触发的时候，回调函数会立即添加到任务队列中。 `setTimeout` 由 `timer` 模块来进行延时处理，当时间到达的时候，才会将回调函数添加到任务队列中。 `ajax` 由`network` 模块来处理，在网络请求完成返回之后，才将回调添加到任务队列中。
-
-**主线程：**
-
-**1、** JS 只有一个线程，称之为主线程。而事件循环是主线程中执行栈里的代码执行完毕之后，才开始执行的。所以，主线程中要执行的代码时间过长，会阻塞事件循环的执行，也就会阻塞异步操作的执行。
-
-**2、** 只有当主线程中执行栈为空的时候（即同步代码执行完后），才会进行事件循环来观察要执行的事件回调，当事件循环检测到任务队列中有事件就取出相关回调放入执行栈中由主线程执行。
-
-
-### 4、undefined 和 null 有什么区别？
-
-在理解 `undefined` 和 `null` 的差异之前，我们先来看看它们的相似点。
-
-**它们都属于 JavaScript 的 7 种基本类型。**
+对象字面量的方式
 
 ```
-let primitiveTypes = ['string','number','null','undefined','boolean','symbol', 'bigint'];
+person={firstname:"Mark",lastname:"Yun",age:25,eyecolor:"black"};
 ```
 
-它们是属于 falsy 值类型，可以使用 `Boolean(value)` 或 `!!value` 将其转换为布尔值时，值为`false`。
+用`function`来模拟无参的构造函数
 
 ```
-console.log(!!null); // false
-console.log(!!undefined); // false
-
-console.log(Boolean(null)); // false
-console.log(Boolean(undefined)); // false
+ function Person(){}
+    var person=new Person();//定义一个function，如果使用new"实例化",该function可以看作是一个Class
+        person.name="Mark";
+        person.age="25";
+        person.work=function(){
+        alert(person.name+" hello...");
+    }
+person.work();
 ```
 
-接着来看看它们的区别。
-
-`undefined` 是未指定特定值的变量的默认值，或者没有显式返回值的函数，如：`console.log(1)`，还包括对象中不存在的属性，这些 JS 引擎都会为其分配 `undefined` 值。
+用`function`来模拟参构造函数来实现（用`this`关键字定义构造的上下文属性）
 
 ```
-let _thisIsUndefined;
-const doNothing = () => {};
-const someObj = {
-  a : "ay",
-  b : "bee",
-  c : "si"
-};
-
-console.log(_thisIsUndefined); // undefined
-console.log(doNothing()); // undefined
-console.log(someObj["d"]); // undefined
+function Pet(name,age,hobby){
+       this.name=name;//this作用域：当前对象
+       this.age=age;
+       this.hobby=hobby;
+       this.eat=function(){
+          alert("我叫"+this.name+",我喜欢"+this.hobby+",是个程序员");
+       }
+    }
+    var maidou =new Pet("麦兜",25,"coding");//实例化、创建对象
+    maidou.eat();//调用eat方法
 ```
 
-`null` 是『不代表任何值的值』。`null`是已明确定义给变量的值。在此示例中，当`fs.readFile`方法未引发错误时，我们将获得`null`值。
+用工厂方式来创建（内置对象）
 
 ```
-fs.readFile('path/to/file', (e,data) => {
-   console.log(e); // 当没有错误发生时，打印 null
-   if(e){
-     console.log(e);
-   }
-   console.log(data);
- });
+var wcDog =new Object();
+     wcDog.name="旺财";
+     wcDog.age=3;
+     wcDog.work=function(){
+       alert("我是"+wcDog.name+",汪汪汪......");
+     }
+     wcDog.work();
 ```
 
-在比较`null`和`undefined`时，我们使用`==`时得到`true`，使用`===`时得到`false`:
+用原型方式来创建
 
 ```
-console.log(null == undefined); // true
-console.log(null === undefined); // false
+function Dog(){
+
+     }
+     Dog.prototype.name="旺财";
+     Dog.prototype.eat=function(){
+     alert(this.name+"是个吃货");
+     }
+     var wangcai =new Dog();
+     wangcai.eat();
+```
+
+用混合方式来创建
+
+```
+ function Car(name,price){
+      this.name=name;
+      this.price=price; 
+    }
+     Car.prototype.sell=function(){
+       alert("我是"+this.name+"，我现在卖"+this.price+"万元");
+      }
+    var camry =new Car("凯美瑞",27);
+    camry.sell();
 ```
 
 
-### 5、eval是做什么的？
+### 3、判断数据类型的方法有哪些？
 
-它的功能是把对应的字符串解析成JS代码并运行； 应该避免使用eval，不安全，非常耗性能（2次，一次解析成js语句，一次执行）。
+**1、** 利用`typeof`可以判断数据的类型；
 
+**2、** `A instanceof` B可以用来判断A是否为B的实例，但它不能检测 null 和 undefined；
 
-### 6、Jq中get和eq有什么区别？
+**3、** `B.constructor == A`可以判断A是否为B的原型，但constructor检测 Object与instanceof不一样，还可以处理基本数据类型的检测。
 
-get() :取得其中一个匹配的元素。num表示取得第几个匹配的元素，get多针对集合元素，返回的是DOM对象组成的数组 eq():获取第N个元素，下标都是从0开始，返回的是一个JQuery对象
+不过函数的 constructor 是不稳定的，这个主要体现在把类的原型进行重写，在重写的过程中很有可能出现把之前的constructor给覆盖了，这样检测出来的结果就是不准确的。
 
+**4、** `Object.prototype.toString.call()`
 
-### 7、`Function.prototype.call` 方法的用途是什么？
-
-`call()` 方法使用一个指定的 `this` 值和单独给出的一个或多个参数来调用一个函数。
-
-`const details = {
-
-message: 'Hello World!'
-
-};
-
-function getMessage(){
-
-return this.message;
-
-}
-
-getMessage.call(details); // 'Hello World!'
-
-`
-
-注意：该方法的语法和作用与 `apply()` 方法类似，只有一个区别，就是 `call()` 方法接受的是一个参数列表，而 `apply()` 方法接受的是一个包含多个参数的数组。
-
-```
-const person = {
-  name: "Marko Polo"
-};
-
-function greeting(greetingMessage) {
-  return `${greetingMessage} ${this.name}`;
-}
-
-greeting.call(person, 'Hello'); // "Hello Marko Polo!"
-```
+`Object.prototype.toString.call()` 是最准确最常用的方式。
 
 
-### 8、什么是 event.target ？
+### 4、js延迟加载的方式有哪些？
 
-简单来说，`event.target`是发生事件的元素或触发事件的元素。
+`defer`和`async`、动态创建`DOM`方式（用得最多）、按需异步载入`js`
 
-假设有如下的 HTML 结构：
+
+### 5、有哪些方法可以处理 JS 中的异步代码？
+
+1、回调
+
+**2、** Promise
+
+**3、** async/await
+
+**4、** 还有一些库：async.js, bluebird, q, co
+
+
+### 6、手动实现 `Array.prototype.map 方法`
+
+`map()` 方法创建一个新数组，其结果是该数组中的每个元素都调用一个提供的函数后返回的结果。
 
 ```
-<div onclick="clickFunc(event)" style="text-align: center;margin:15px;
-border:1px solid red;border-radius:3px;">
-    <div style="margin: 25px; border:1px solid royalblue;border-radius:3px;">
-        <div style="margin:25px;border:1px solid skyblue;border-radius:3px;">
-          <button style="margin:10px">
-             Button
-          </button>
-        </div>
-    </div>
- </div>
-```
-
-JS 代码如下：
-
-```
-function clickFunc(event) {
-  console.log(event.target);
+function map(arr, mapCallback) {
+  // 首先，检查传递的参数是否正确。
+  if (!Array.isArray(arr) || !arr.length || typeof mapCallback !== 'function') { 
+    return [];
+  } else {
+    let result = [];
+    // 每次调用此函数时，我们都会创建一个 result 数组
+    // 因为我们不想改变原始数组。
+    for (let i = 0, len = arr.length; i < len; i++) {
+      result.push(mapCallback(arr[i], i, arr)); 
+      // 将 mapCallback 返回的结果 push 到 result 数组中
+    }
+    return result;
+  }
 }
 ```
 
-如果单击 `button`，即使我们将事件附加在最外面的`div`上，它也将打印 `button` 标签，因此我们可以得出结论`event.target`是触发事件的元素。
+
+### 7、call和apply 有什么好处？
+
+用call和apply:实现更好的继承和扩展，更安全。
 
 
-### 9、什么是模板字符串？
+### 8、用过哪些设计模式？
 
-模板字符串是在 JS 中创建字符串的一种新方法。我们可以通过使用反引号使模板字符串化。
+**工厂模式：**
 
-```
-//ES5 Version
-var greet = 'Hi I\'m Mark';
+**1、** 工厂模式解决了重复实例化的问题，但还有一个问题,那就是识别问题，因为根本无法
 
-//ES6 Version
-let greet = `Hi I'm Mark`;
-```
+**2、** 主要好处就是可以消除对象间的耦合，通过使用工程方法而不是`new`关键字
 
-在 ES5 中我们需要使用一些转义字符来达到多行的效果，在模板字符串不需要这么麻烦：
+**构造函数模式**
 
-```
-//ES5 Version
-var lastWords = '\n'
-  + '   I  \n'
-  + '   Am  \n'
-  + 'Iron Man \n';
+**1、** 使用构造函数的方法，即解决了重复实例化的问题，又解决了对象识别的问题，该模式与工厂模式的不同之处在于
 
-//ES6 Version
-let lastWords = `
-    I
-    Am
-  Iron Man   
-`;
-```
+**2、** 直接将属性和方法赋值给 `this`对象;
 
-在ES5版本中，我们需要添加`\n`以在字符串中添加新行。在模板字符串中，我们不需要这样做。
+
+### 9、为什么函数被称为一等公民？
+
+在JavaScript中，函数不仅拥有一切传统函数的使用方式（声明和调用），而且可以做到像简单值一样赋值`（var func = function(){}）`、传参`(function func(x,callback){callback();})`、返回`(function(){return function(){}})`，这样的函数也称之为**第一级函数（First-class Function）**。不仅如此，JavaScript中的函数还充当了类的构造函数的作用，同时又是一个`Function`类的实例(instance)。这样的多重身份让JavaScript的函数变得非常重要。
+
+
+### 10、30.Jq中怎么样编写插件?
 
 ```
-//ES5 Version
-function greet(name) {
-  return 'Hello ' + name + '!';
-}
+//第一种是类级别的插件开发：
+//1.1 添加一个新的全局函数 添加一个全局函数，我们只需如下定义： 
+jQuery.foo = function() {
+     alert('This is a test、This is only a test.');  };   
 
-//ES6 Version
-function greet(name) {
-  return `Hello ${name} !`;
-}
+//1.2 增加多个全局函数 添加多个全局函数，可采用如下定义： 
+jQuery.foo = function() {
+       alert('This is a test、This is only a test.');  };  
+jQuery.bar = function(param) {
+      alert('This function takes a parameter, which is "' + param + '".');  };   调用时和一个函数的一样的:jQuery.foo();jQuery.bar();或者$.foo();$.bar('bar');
+//1.3 使用jQuery.extend(object);　 
+jQuery.extend({
+      foo: function() {
+          alert('This is a test、This is only a test.');
+        },
+      bar: function(param) {
+          alert('This function takes a parameter, which is "' + param +'".');
+        }
+     }); 
+//1.4 使用命名空间
+// 虽然在jQuery命名空间中，我们禁止使用了大量的javaScript函数名和变量名。
+// 但是仍然不可避免某些函数或变量名将于其他jQuery插件冲突，因此我们习惯将一些方法
+// 封装到另一个自定义的命名空间。
+jQuery.myPlugin = {         
+foo:function() {         
+  alert('This is a test、This is only a test.');         
+ },         
+ bar:function(param) {         
+  alert('This function takes a parameter, which is "' + param + '".');   
+ }        
+}; 
+//采用命名空间的函数仍然是全局函数，调用时采用的方法： 
+$.myPlugin.foo();        
+$.myPlugin.bar('baz');
+//通过这个技巧（使用独立的插件名），我们可以避免命名空间内函数的冲突。
+
+//第二种是对象级别的插件开发
+//形式1： 
+(function($){    
+  $.fn.extend({    
+   pluginName:function(opt,callback){    
+             // Our plugin implementation code goes here、     
+   }    
+  })    
+})(jQuery);  
+
+//形式2：
+(function($) {      
+   $.fn.pluginName = function() {    
+        // Our plugin implementation code goes here、   
+   };     
+})(jQuery);
+//形参是$，函数定义完成之后,把jQuery这个实参传递进去.立即调用执行。
+//这样的好处是,我们在写jQuery插件时,也可以使用$这个别名,而不会与prototype引起冲突
 ```
 
-在 ES5 版本中，如果需要在字符串中添加表达式或值，则需要使用`+`运算符。在模板字符串s中，我们可以使用`${expr}`嵌入一个表达式，这使其比 ES5 版本更整洁。
 
-
-### 10、jquery和zepto有什么区别?
-
-**1、** 针对移动端程序，Zepto有一些基本的触摸事件可以用来做触摸屏交互（tap事件、swipe事件），Zepto是不支持IE浏览器的，这不是Zepto的开发者Thomas Fucks在跨浏览器问题上犯了迷糊，而是经过了认真考虑后为了降低文件尺寸而做出的决定，就像jQuery的团队在2.0版中不再支持旧版的IE（6 7 8）一样。因为Zepto使用jQuery句法，所以它在文档中建议把jQuery作为IE上的后备库。那样程序仍能在IE中，而其他浏览器则能享受到Zepto在文件大小上的优势，然而它们两个的API不是完全兼容的，所以使用这种方法时一定要小心，并要做充分的测试。
-
-**2、** Dom操作的区别：添加id时jQuery不会生效而Zepto会生效。
-
-**3、** zepto主要用在移动设备上，只支持较新的浏览器，好处是代码量比较小，性能也较好。
-
-jquery主要是兼容性好，可以跑在各种pc，移动上，好处是兼容各种浏览器，缺点是代码量大，同时考虑兼容，性能也不够好。
-
-
-### 11、什么是函数式编程? JavaScript 的哪些特性使其成为函数式语言的候选语言？
-### 12、什么是 event.currentTarget？？
-### 13、如何在一行中计算多个表达式的值？
-### 14、Jq绑定事件的几种方式？on bind ?
-### 15、call & apply 两者之间的区别###
-### 16、null，undefined 的区别？
-### 17、与深拷贝有何区别？如何实现？
-### 18、压缩合并目的？http请求的优化方式？
-### 19、什么是箭头函数？
-### 20、Jq中如何实现多库并存?
-### 21、变量作用域?
-### 22、简述ajax执行流程
-### 23、说说严格模式的限制
-### 24、git 和 svn的区别?
-### 25、什么是提升？
-### 26、ES6或ECMAScript 2015有哪些新特性？
-### 27、为什么此代码 `obj.someprop.x` 会引发错误?
-### 28、如何理解同步和异步？
-### 29、事件委托？有什么好处?
+### 11、异步加载的方式有哪些？
+### 12、什么是高阶函数？
+### 13、$$.map和$$.each有什么区别###
+### 14、如何解决跨域问题?
+### 15、jquery和zepto有什么区别?
+### 16、html和xhtml有什么区别?
+### 17、vue、react、angular
+### 18、谈谈This对象的理解
+### 19、jQuery与jQuery UI 有啥区别？
+### 20、什么是 IIFE，它的用途是什么？
+### 21、defer和async
+### 22、压缩合并目的？http请求的优化方式？
+### 23、调用函数，可以使用哪些方法？
+### 24、函数fn1 函数fn2 函数fn3，如果想在三个函数都执行完成后执行某一个事件应该如何实现?
+### 25、["1", "2", "3"].map(parseInt) 答案是多少？
+### 26、手动实现缓存方法
+### 27、作用域和执行上下文的区别是什么？
+### 28、AJAX 是什么？
+### 29、如何知道是否在元素中使用了`event.preventDefault()`方法？
 
 
 
@@ -290,6 +271,6 @@ jquery主要是兼容性好，可以跑在各种pc，移动上，好处是兼容
 
 ## 最新，高清PDF：172份，7701页，最新整理
 
-[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/mst.png "大厂面试题")](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png"大厂面试题")
+[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/mst.png "架构师专栏")](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png "架构师专栏")
 
 [![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png "架构师专栏")](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png "架构师专栏")

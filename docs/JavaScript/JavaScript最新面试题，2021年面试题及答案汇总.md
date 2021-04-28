@@ -8,18 +8,7 @@
 
 
 
-### 1、平时工作中怎么样进行数据交互?如果后台没有提供数据怎么样进行开发?
-
-**mock数据与后台返回的格式不同意怎么办?**
-
-由后台编写接口文档、提供数据接口实、前台通过ajax访问实现数据交互；
-
-在没有数据的情况下寻找后台提供静态数据或者自己定义mock数据；
-
-返回数据不统一时编写映射文件 对数据进行映射。
-
-
-### 2、Ajax原理
+### 1、Ajax原理
 
 **1、** `Ajax`的原理简单来说是在用户和服务器之间加了—个中间层(`AJAX`引擎)，通过`XmlHttpRequest`对象来向服务器发异步请求，从服务器获得数据，然后用`javascrip`t来操作`DOM`而更新页面。使用户操作与服务器响应异步化。这其中最关键的一步就是从服务器获得请求数据
 
@@ -46,139 +35,216 @@
 ```
 
 
-### 3、disabled readyonly?
+### 2、说说你对promise的了解
 
-readonly只针对input(text / password)和textarea有效，而disabled对于所有的表单元素都有效，当表单元素在使用了disabled后，当我们将表单以POST或GET的方式提交的话，这个元素的值不会被传递出去，而readonly会将该值传递出去。
+依照 `Promise/A+` 的定义，`Promise` 有四种状态：
 
+**1、** `pending:` 初始状态, 非 `fulfilled` 或 `rejected.`
 
-### 4、声明函数作用提升?声明变量和声明函数的提升有什么区别
+**2、** `fulfilled:` 成功的操作.
 
-**变量声明提升：**
+**3、** `rejected:` 失败的操作.
 
-**1、** 变量申明在进入执行上下文就完成了。
+**4、** `settled: Promise`已被`fulfilled`或`rejected`，且不是`pending`
 
-**2、** 只要变量在代码中进行了声明，无论它在哪个位置上进行声明， js引擎都会将它的声明放在范围作用域的顶部；
+另外， `fulfilled`与 `rejected`一起合称 `settled`
 
-**函数声明提升
-### 5、`require`/`import`之间的区别？
+`Promise` 对象用来进行延迟(`deferred`) 和异步(`asynchronous`) 计算
 
-**1、** `require`是CommonJS语法，`import`是ES6语法；
+**Promise 的构造函数**
 
-**2、** `require`只在后端服务器支持，`import`在高版本浏览器及Node中都可以支持；
-
-**3、** `require`引入的是原始导出值的复制，`import`则是导出值的引用；
-
-**4、** `require`时运行时动态加载，`import`是静态编译；
-
-**5、** `require`调用时默认不是严格模式，`import`则默认调用严格模式.
-
-### 6、new 关键字有什么作用？
-
-`new`关键字与构造函数一起使用以创建对象:
+构造一个 `Promise`，最基本的用法如下：
 
 ```
-function Employee(name, position, yearHired) {
-  this.name = name;
-  this.position = position;
-  this.yearHired = yearHired;
-};
+var promise = new Promise(function(resolve, reject) {
 
-const emp = new Employee("Marko Polo", "Software Developer", 2017);
+        if (...) {  // succeed
+
+            resolve(result);
+
+        } else {   // fails
+
+            reject(Error(errMessage));
+
+        }
+    });
 ```
 
-`new`关键字做了`4`件事:
-
-**1、** 创建空对象 `{}`
-
-**2、** 将空对象分配给 `this` 值
-
-**3、** 将空对象的`__proto__`指向构造函数的`prototype`
-
-**4、** 如果没有使用显式`return`语句，则返回`this`
-
-看下面事例：
-
-`function Person() { this.name = 'kyle' }`
-
-根据上面描述的，`new Person()`做了：
-
-**1、** 创建一个空对象：`var obj = {}`
-
-**2、** 将空对象分配给 `this` 值：this = obj
-
-**3、** 将空对象的`__proto__`指向构造函数的`prototype`:`this.__proto__ = Person().prototype`
-
-**4、** 返回`this`:`return this`
-
-
-
-### 7、如何在 JS 中创建对象？
-
-**使用对象字面量：**
+`Promise` 实例拥有 `then` 方法（具有 `then` 方法的对象，通常被称为`thenable`）。它的使用方法如下：
 
 ```
-const o = {
-  name: "kyle",
-  greeting() {
-    return `Hi, 我是${this.name}`;
-  }
-};
-
-o.greeting(); // "Hi, 我是kyle"
+promise.then(onFulfilled, onRejected)
 ```
 
-**使用构造函数：**
+接收两个函数作为参数，一个在 `fulfilled` 的时候被调用，一个在`rejected`的时候被调用，接收参数就是 `future`，`onFulfilled` 对应`resolve`, `onRejected`对应 `reject`
+
+
+### 3、简述ajax执行流程
 
 ```
-function Person(name) {
-   this.name = name;
+基本步骤：
+var xhr =null;//创建对象 
+if(window.XMLHttpRequest){
+       xhr = new XMLHttpRequest();
+}else{
+       xhr = new ActiveXObject("Microsoft.XMLHTTP");
+}
+xhr.open(“方式”,”地址”,”标志位”);//初始化请求 
+   xhr.setRequestHeader(“”,””);//设置http头信息 
+xhr.onreadystatechange =function(){}//指定回调函数 
+xhr.send();//发送请求
+```
+
+
+### 4、那些操作会造成内存泄漏？
+
+内存泄漏指任何对象在您不再拥有或需要它之后仍然存在
+
+`setTimeout` 的第一个参数使用字符串而非函数的话，会引发内存泄漏
+
+闭包使用不当
+
+
+### 5、实现异步的方式有哪些？
+
+**1、** 回调函数模式：将需要异步执行的函数作为回调函数执行，其缺点在于处理复杂逻辑异步逻辑时，会造成回调地狱(回调嵌套层数太多，代码结构混乱)；
+
+**2、** 事件监听模式：采用事件驱动的思想，当某一事件发生时触发执行异步函数，其缺点在于整个代码全部得变为事件驱动模式，难以分辨主流程；
+
+**3、** 发布订阅模式：当异步任务执行完成时发布消息给信号中心，其他任务通过在信号中心中订阅消息来确定自己是否开始执行；
+
+**4、** Promise(ES6)：`Promise`对象共有三种状态`pending`(初始化状态)、`fulfilled`(成功状态)、`rejected`(失败状态)。
+
+**5、** async/await(ES7)：基于`Promise`实现的异步函数； （6）利用生成器实现。
+
+
+### 6、实现继承的方法有哪些？？？
+
+实现继承的方法有：
+
+**class+extends继承（ES6）**
+
+```
+//类模板
+class Animal {
+    constructor(name) {
+        this.name = name
+    }
+}
+//继承类
+class Cat extends Animal { //重点。extends方法，内部用constructor+super
+    constructor(name) {
+        super(name);
+        //super作为函数调用时，代表父类的构造函数
+    } //constructor可省略
+    eat() {
+        console.log("eating")
+    }
+}
+```
+
+**原型继承**
+
+```
+//类模板
+function Animal(name) {
+    this.name = name;
+}
+//添加原型方法
+Animal.prototype.eat = function() {
+    console.log("eating")
 }
 
-Person.prototype.greeting = function () {
-   return `Hi, 我是${this.name}`;
+function Cat(furColor) {
+    this.color = color;
+};
+//继承类
+Cat.prototype = new Animal() //重点：子实例的原型等于父类的实例
+```
+
+**借用构造函数继承**
+
+```
+function Animal(name){
+    this.name = name
 }
-
-const mark = new Person("kyle");
-
-mark.greeting(); // "Hi, 我是kyle"
+function Cat(){
+    Animal.call(this,"CatName")//重点，调用父类的call方法
+}
 ```
 
-**使用 Object.create 方法：**
+**寄生组合式继承（重点）**
+
+
+### 7、Function.prototype.bind 的用途是什么？
+
+`bind()` 方法创建一个新的函数，在 `bind()` 被调用时，这个新函数的 `this` 被指定为 `bind()` 的第一个参数，而其余参数将作为新函数的参数，供调用时使用。
 
 ```
-const n = {
-   greeting() {
-      return `Hi, 我是${this.name}`;
+import React from 'react';
+class MyComponent extends React.Component {
+   constructor(props){
+      super(props); 
+      this.state = {
+         value : ""
+      }  
+      this.handleChange = this.handleChange.bind(this); 
+      // 将 “handleChange” 方法绑定到 “MyComponent” 组件
    }
-};
 
-const o = Object.create(n); 
-o.name = "kyle";
+   handleChange(e){
+     //do something amazing here
+   }
+
+   render(){
+    return (
+      <>
+        <input type={this.props.type}
+                value={this.state.value}
+             onChange={this.handleChange}                      
+          />
+      </>
+    )
+   }
+}
 ```
 
 
-### 8、异步编程？
+### 8、那些操作会造成内存泄漏？
 
-**方法1：**
+**1、** 内存泄漏指任何对象在您不再拥有或需要它之后仍然存在
 
-**1、** 回调函数，优点是简单、容易理解和部署，缺点是不利于代码的阅读和维护，各个部分之间高度耦合（Coupling），流程会很混乱，而且每个任务只能指定一个回调函数。
+**2、** `setTimeout` 的第一个参数使用字符串而非函数的话，会引发内存泄漏
 
-**方法2：**
-
-**1、** 时间监听，可以绑定多个事件，每个事件可以指定多个回调函数，而且可以“去耦合”（Decoupling），有利于实现模块化。缺点是整个程序都要变成事件驱动型，运行流程会变得很不清晰。
-
-**方法3：**
-
-发布/订阅，性质与“事件监听”类似，但是明显优于后者。
-
-**方法4：**
-
-**1、** Promises对象，是CommonJS工作组提出的一种规范，目的是为异步编程提供统一接口。
-
-**2、** 简单说，它的思想是，每一个异步任务返回一个Promise对象，该对象有一个then方法，允许指定回调函数。
+**3、** 闭包、控制台日志、循环（在两个对象彼此引用且彼此保留时，就会产生一个循环）
 
 
-### 9、上一个项目是什么？主要负责哪些？购物车流程?支付功能?
+### 9、Node的应用场景
+
+**特点：**
+
+**1、** 它是一个`Javascript`运行环境
+
+**2、** 依赖于`Chrome V8`引擎进行代码解释
+
+**3、** 事件驱动
+
+**4、** 非阻塞`I/O`
+
+**5、** 单进程，单线程
+
+**优点：**
+
+**1、** 高并发（最重要的优点）
+
+**缺点：**
+
+**1、** 只支持单`核CPU`，不能充分利用`CPU`
+
+**2、** 可靠性低，一旦代码某个环节崩溃，整个系统都崩溃
+
+
+### 10、上一个项目是什么？主要负责哪些？购物车流程?支付功能?
 
 **主要负责哪些就讲主要做哪些功能模块：**
 
@@ -191,30 +257,25 @@ o.name = "kyle";
 2)购物车模块：商品编号、数量、价格、总额、运费、运输选项、运费总计、从购物车删除选项、更新数量、结账、继续购物、商品描述、库存信息
 
 
-### 10、promise###
-
-Promise的构造函数接收一个参数，是函数，并且传入两个参数：resolve，reject，分别表示异步操作执行成功后的回调函数和异步操作执行失败后的回调函数。
-
-
-### 11、常见兼容性问题？
-### 12、sass和less有什么区别?
-### 13、["1", "2", "3"].map(parseInt) 答案是多少？
-### 14、什么是闭包? 堆栈溢出有什么区别？ 内存泄漏? 那些操作会造成内存泄漏？怎么样防止内存泄漏？
-### 15、一般使用什么版本控制工具?svn如何对文件加锁###
-### 16、用过哪些设计模式？
-### 17、简述一下你理解的面向对象？
-### 18、如何对登录的账号密码进行加密?
-### 19、什么是移动端的300ms延迟？什么是点击穿透？解决方案?
-### 20、简述下你理解的面向对象？
-### 21、什么是AJAX？如何实现？
-### 22、如何检查值是否虚值？
-### 23、什么是预编译语音|预编译处理器?
-### 24、什么是 `async/await` 及其如何工作？
-### 25、defer和async
-### 26、什么是执行上下文和执行栈？
-### 27、26.移动端上什么是点击穿透?
-### 28、什么是`Set`对象，它是如何工作的？
-### 29、异步加载JS的方式有哪些？
+### 11、如何改变this指针的指向？
+### 12、数组的排序方法（sort）？排序？汉字排序？
+### 13、JavaScript原型，原型链 ? 有什么特点？
+### 14、函数表达式和函数声明之间有什么区别？
+### 15、请解释什么是事件代理
+### 16、什么是构造函数？与普通函数有什么区别?
+### 17、`Function.prototype.call` 方法的用途是什么？
+### 18、什么是类？
+### 19、怎么理解宏任务，微任务？？？
+### 20、什么是事件冒泡？
+### 21、说几条写JavaScript的基本规范？
+### 22、谈谈你对webpack的看法
+### 23、EventLoop事件循环是什么？
+### 24、回调函数?
+### 25、Jq中如何将一个jq对象转化为dom对象？
+### 26、offsetWidth/offsetHeight,clientWidth/clientHeight与scrollWidth/scrollHeight的区别
+### 27、如何copy一个dom元素？
+### 28、异步编程？
+### 29、ES6或ECMAScript 2015有哪些新特性？
 
 
 
@@ -228,6 +289,6 @@ Promise的构造函数接收一个参数，是函数，并且传入两个参数�
 
 ## 最新，高清PDF：172份，7701页，最新整理
 
-[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/mst.png "大厂面试题")](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png"大厂面试题")
+[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/mst.png "架构师专栏")](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png "架构师专栏")
 
 [![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png "架构师专栏")](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png "架构师专栏")

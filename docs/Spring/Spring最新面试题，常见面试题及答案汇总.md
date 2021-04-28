@@ -8,145 +8,131 @@
 
 
 
-### 1、springcloud如何实现服务的注册?
+### 1、spring boot扫描流程?
 
-**1、** 服务发布时，指定对应的服务名,将服务注册到 注册中心(eureka zookeeper)
+**1、** 调用run方法中的`refreshContext`方法
 
-**2、** 注册中心加@EnableEurekaServer,服务用@EnableDiscoveryClient，然后用ribbon或feign进行服务直接的调用发现。
+**2、** 用AbstractApplicationContext中的`refresh`方法
 
+**3、** 委托给`invokeBeanFactoryPostProcessors`去处理调用链
 
-### 2、Spring Cloud Zookeeper
+**4、** 其中一个方法`postProcessBeanDefinitionRegistry会`去调用`processConfigBeanDefinitions`解析`beandefinitions`
 
-基于Apache Zookeeper的服务治理组件。
+**5、** 在`processConfigBeanDefinitions`中有一个`parse`方法，其中有`componentScanParser.parse`的方法，这个方法会扫描当前路径下所有`Component`组件
 
 
-### 3、微服务架构如何运作？
+### 2、服务注册和发现是什么意思？Spring Cloud如何实现？
 
-微服务架构具有以下组件：
+当我们开始一个项目时，我们通常在属性文件中进行所有的配置。随着越来越多的服务开发和部署，添加和修改这些属性变得更加复杂。有些服务可能会下降，而某些位置可能会发生变化。手动更改属性可能会产生问题。 Eureka服务注册和发现可以在这种情况下提供帮助。由于所有服务都在Eureka服务器上注册并通过调用Eureka服务器完成查找，因此无需处理服务地点的任何更改和处理。
 
-![](https://gitee.com/souyunkutech/souyunku-home/raw/master/images/souyunku-web/2019/08/0816/01/img_5.png#alt=img%5C_5.png)
 
-图5：微服务 架构 – 微服务面试问题
+### 3、如何在SpringBoot中禁用Actuator端点安全性？
 
-客户端 – 来自不同设备的不同用户发送请求。
+默认情况下，所有敏感的HTTP端点都是安全的，只有具有ACTUATOR角色的用户才能访问它们。安全性是使用标准的HttpServletRequest.isUserInRole方法实施的。 我们可以使用
 
-身份提供商 – 验证用户或客户身份并颁发安全令牌。
+来禁用安全性。只有在执行机构端点在防火墙后访问时，才建议禁用安全性。
 
-API网关 – 处理客户端请求。
 
-静态内容 – 容纳系统的所有内容。
+### 4、Spring MVC的优点
 
-管理 – 在节点上平衡服务并识别故障。
+**1、** 可以支持各种视图技术,而不仅仅局限于JSP；
 
-服务发现 – 查找微服务之间通信路径的指南。
+**2、** 与Spring框架集成（如IoC容器、AOP等）；
 
-内容交付网络 – 代理服务器及其数据中心的分布式网络。
+**3、** 清晰的角色分配：前端控制器(dispatcherServlet) , 请求到处理器映射（handlerMapping), 处理器适配器（HandlerAdapter), 视图解析器（ViewResolver）。
 
-远程服务 – 启用驻留在IT设备网络上的远程访问信息。
+**4、** 支持各种请求资源的映射策略。
 
 
-### 4、SpringBoot 的核心配置文件有哪几个？它们的区别是什么？
+### 5、YAML 配置的优势在哪里 ?
 
-SpringBoot 的核心配置文件是 application 和 bootstrap 配置文件。
+YAML 现在可以算是非常流行的一种配置文件格式了，无论是前端还是后端，都可以见到 YAML 配置。那么 YAML 配置和传统的 properties 配置相比到底有哪些优势呢？
 
-application 配置文件这个容易理解，主要用于 SpringBoot 项目的自动化配置。
+**1、** 配置有序，在一些特殊的场景下，配置有序很关键
 
-bootstrap 配置文件有以下几个应用场景。
+**2、** 支持数组，数组中的元素可以是基本数据类型也可以是对象
 
-使用 Spring Cloud Config 配置中心时，这时需要在 bootstrap 配置文件中添加连接到配置中心的配置属性来加载外部配置中心的配置信息； 一些固定的不能被覆盖的属性；一些加密/解密的场景
+3、简洁
 
+相比 properties 配置文件，YAML 还有一个缺点，就是不支持 [@PropertySource ](/PropertySource ) 注解导入自定义的 YAML 配置。
 
-### 5、SpringBoot默认支持的日志框架有哪些？可以进行哪些设置？
 
-SpringBoot支持Java Util Logging，Log4J2，Lockback作为日志框架，如果你使用Starters启动器，SpringBoot将使用Logback作为默认日志框架
+### 6、什么是Spring IOC 容器？
 
+Spring IOC 负责创建对象，管理对象（通过依赖注入（DI），装配对象，配置对象，并且管理这些对象的整个生命周期。
 
-### 6、SpringBoot 可以兼容老 Spring 项目吗，如何做？
 
-可以兼容，使用 [@ImportResource ](/ImportResource ) 注解导入老 Spring 项目配置文件。
+### 7、微服务的优点
 
+**单⼀职责：**
 
-### 7、Spring Cloud Security
+每个微服务仅负责⾃⼰业务领域的功能；
 
-安全工具包，他可以对
+**⾃治：**
 
-**1、** 对Zuul代理中的负载均衡从前端到后端服务中获取SSO令牌
+⼀个微服务就是⼀个独⽴的实体，它可以独⽴部署、升级，服务与服务之间通过REST等形式的标准接⼝进⾏通信，并且⼀个微服务实例可以被替换成另⼀种实现，⽽对其它的微服务不产⽣影响。
 
-**2、** 资源服务器之间的中继令牌
+**逻辑清晰：**
 
-**3、** 使Feign客户端表现得像`OAuth2RestTemplate`（获取令牌等）的拦截器
+微服务单⼀职责特性使微服务看起来逻辑清晰，易于维护。
 
-**4、** 在Zuul代理中配置下游身份验证
+**简化部署：**
 
-Spring Cloud Security提供了一组原语，用于构建安全的应用程序和服务，而且操作简便。可以在外部（或集中）进行大量配置的声明性模型有助于实现大型协作的远程组件系统，通常具有中央身份管理服务。它也非常易于在Cloud Foundry等服务平台中使用。在SpringBoot和Spring Security OAuth2的基础上，可以快速创建实现常见模式的系统，如单点登录，令牌中继和令牌交换。
+单系统中修改⼀处需要部署整个系统，⽽微服务中修改⼀处可单独部署⼀个服务
 
+**可扩展：**
 
-### 8、可以通过多少种方式完成依赖注入？
+应对系统业务增⻓的⽅法通常采⽤横向（Scale out）或纵向（Scale up）的⽅向进⾏扩展。分布式系统中通常要采⽤Scale out的⽅式进⾏扩展。
 
-通常，依赖注入可以通过三种方式完成，即：
+**灵活组合：**
 
-**1、** 构造函数注入
+**技术异构：**
 
-**2、** setter 注入
+不同的服务之间，可以根据⾃⼰的业务特点选择不通的技术架构，如数据库等。
 
-**3、** 接口注入
 
-在 Spring Framework 中，仅使用构造函数和 setter 注入。
+### 8、如何使用 SpringBoot 实现全局异常处理？
 
+Spring 提供了一种使用 ControllerAdvice 处理异常的非常有用的方法。 我们通过实现一个 ControlerAdvice 类，来处理控制器类抛出的所有异常。
 
-### 9、架构师在微服务架构中的角色是什么？
 
-微服务架构中的架构师扮演以下角色：
+### 9、什么是bean的自动装配？
 
-决定整个软件系统的布局。
+Spring 容器能够自动装配相互合作的bean，这意味着容器不需要和配置，能通过Bean工厂自动处理bean之间的协作。
 
-帮助确定组件的分区。因此，他们确保组件相互粘合，但不紧密耦合。
 
-与开发人员共同编写代码，了解日常生活中面临的挑战。
+### 10、Spring MVC怎么样设定重定向和转发的？
 
-为开发微服务的团队提供某些工具和技术的建议。
+**转发：**
 
-提供技术治理，以便技术开发团队遵循微服务原则。
+在返回值前面加"forward:"，譬如"forward:user.do?name=method4"
 
+**重定向：**
 
-### 10、您使用了哪些 starter maven 依赖项？
-
-**使用了下面的一些依赖项**
-
-**1、**  spring-boot-starter-web 嵌入tomcat和web开发需要servlet与jsp支持
-
-**2、**  spring-boot-starter-data-jpa 数据库支持
-
-**3、**  spring-boot-starter-data-Redis Redis数据库支持
-
-**4、**  spring-boot-starter-data-solr solr支持
-
-**5、**  mybatis-spring-boot-starter 第三方的mybatis集成starter
-
-自定义的starter(如果自己开发过就可以说出来)
-
-
-### 11、服务雪崩效应产生的原因
-### 12、当 SpringBoot 应用程序作为 Java 应用程序运行时，后台会发生什么？
-### 13、什么是 WebSockets？
-### 14、Spring Cloud Config
-### 15、spring boot 核心的两个配置文件：
-### 16、@RequestMapping注解的作用
-### 17、什么是Hystrix断路器？我们需要它吗？
-### 18、如何在不使用BasePACKAGE过滤器的情况下排除程序包？
-### 19、什么是Hystrix?
-### 20、您使用了哪些starter maven依赖项？
-### 21、SpringBoot 有哪几种读取配置的方式？
-### 22、列举微服务技术栈
-### 23、什么是 CSRF 攻击？
-### 24、Spring Cloud和SpringBoot版本对应关系
-### 25、运行 SpringBoot 有哪几种方式？
-### 26、微服务有哪些特点？
-### 27、负载平衡的意义什么？
-### 28、微服务之间是如何独⽴通讯的
-### 29、如何禁用特定的自动配置类？
-### 30、为什么我们需要微服务容器？
-### 31、您对微服务架构中的语义监控有何了解？
+在返回值前面加"redirect:"，譬如"redirect:[www.baidu.com](http://www.baidu.com)"
+
+
+### 11、[@Required ](/Required ) 注解
+### 12、springcloud核⼼组件及其作⽤，以及springcloud⼯作原理：
+### 13、PACT在微服务架构中的用途是什么？
+### 14、Spring MVC 框架有什么用？
+### 15、列举 IoC 的一些好处
+### 16、Ribbon和Feign调用服务的区别
+### 17、如何在 SpringBoot中禁用 Actuator端点安全性?
+### 18、Eureka和ZooKeeper都可以提供服务注册与发现的功能,请说说两个的区别
+### 19、什么是SpringBoot？
+### 20、SpringBoot和springcloud认识
+### 21、哪种依赖注入方式你建议使用，构造器注入，还是 Setter方法注入？
+### 22、SpringBoot 的核心注解是哪个？它主要由哪几个注解组成的？
+### 23、Spring Cloud Zookeeper
+### 24、eureka和zookeeper都可以提供服务注册与发现的功能，请说说两个的区别？
+### 25、使用Spring通过什么方式访问Hibernate?
+### 26、SpringBoot 的核心配置文件有哪几个？它们的区别是什么？
+### 27、Spring Cache 三种常用的缓存注解和意义？
+### 28、什么是 spring 的内部 bean？
+### 29、Spring Cloud Netflix(重点，这些组件用的最多)
+### 30、服务网关的作用
+### 31、什么是双因素身份验证？
 
 
 
@@ -160,6 +146,6 @@ Spring Cloud Security提供了一组原语，用于构建安全的应用程序�
 
 ## 最新，高清PDF：172份，7701页，最新整理
 
-[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/mst.png "大厂面试题")](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png"大厂面试题")
+[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/mst.png "架构师专栏")](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png "架构师专栏")
 
 [![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png "架构师专栏")](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png "架构师专栏")

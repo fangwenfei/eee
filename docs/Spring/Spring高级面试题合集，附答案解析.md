@@ -8,174 +8,123 @@
 
 
 
-### 1、SOA和微服务架构之间的主要区别是什么？
+### 1、什么是Spring Initializer?
 
-SOA和微服务之间的主要区别如下：
+这个问题并不难，但面试官总是以此测试候选人的专业知识。
 
-![](https://gitee.com/souyunkutech/souyunku-home/raw/master/images/souyunku-web/2019/08/0816/01/img_8.png#alt=img%5C_8.png)
-
-
-### 2、Spring Cloud Bus
-
-用于传播集群状态变化的消息总线，使用轻量级消息代理链接分布式系统中的节点，可以用来动态刷新集群中的服务配置信息。
-
-简单来说就是修改了配置文件，发送一次请求，所有客户端便会重新读取配置文件。
-
-需要利用中间插件MQ
+Spring Initializer是一个网络应用程序，它可以生成一个SpringBoot项目，包含快速启动所需的一切。和往常一样，我们需要一个好的项目框架；它有助于你正确创建项目结构/框架。
 
 
-### 3、什么是 AOP 目标对象?
+### 2、SpringBoot 2.X 有什么新特性？与 1.X 有什么区别？
 
-被一个或者多个切面所通知的对象。它通常是一个代理对象。也指被通知（advised）对象。
+**1、** 依赖 JDK 版本升级：2.x 里面的许多方法应用了 JDK 8 的许多高级新特性，至少需要 JDK 8 的支持；
+
+**2、** 第三方类库升：2.x 对第三方类库升级了所有能升级的稳定版本，例如：Spring Framework 5+、Tomcat 8.5+、Hibernate 5.2+、Thymeleaf 3+；
+
+**3、** 响应式 Spring 编程：2.x 通过启动器和自动配置全面支持 Spring 的响应式编程，响应式编程是完全异步和非阻塞的，它是基于事件驱动模型，而不是传统的线程模型；
+
+**4、** 连接池：2.x 默认使用 HikariCP 连接池；
+
+**5、** json：提供了一个 spring-boot-starter-json 启动器对 JSON 读写的支持；
+
+**6、** Quartz：2.x 提供了一个 spring-boot-starter-quartz 启动器对定时任务框架 Quartz 的支持；
+
+**7、** HTTP/2 支持：提供对HTTP/2 的支持，如：Tomcat, Undertow, Jetty；
+
+**8、** Actuator加强：在 2.x 中，对执行器端点进行了许多改进，所有的 HTTP 执行端点现在都暴露在 /actuator路径下，并对 JSON 结果集也做了改善。
 
 
-### 4、SpringBoot 中的监视器是什么？
+### 3、Spring Cloud的版本关系
 
-Spring boot actuator 是 spring 启动框架中的重要功能之一。Spring boot 监视器可帮助您访问生产环境中正在运行的应用程序的当前状态。有几个指标必须在生产环境中进行检查和监控。即使一些外部应用程序可能正在使用这些服务来向相关人员触发警报消息。监视器模块公开了一组可直接作为 HTTP URL 访问的REST 端点来检查状态。
-
-
-### 5、[@Controller ](/Controller ) 注解
-
-该注解表明该类扮演控制器的角色，Spring不需要你继承任何其他控制器基类或引用Servlet API。
+Spring Cloud是一个由许多子项目组成的综合项目，各子项目有不同的发布节奏。 为了管理Spring Cloud与各子项目的版本依赖关系，发布了一个清单，其中包括了某个Spring Cloud版本对应的子项目版本。 为了避免Spring Cloud版本号与子项目版本号混淆，Spring Cloud版本采用了名称而非版本号的命名，这些版本的名字采用了伦敦地铁站的名字，根据字母表的顺序来对应版本时间顺序，例如Angel是第一个版本，Brixton是第二个版本。 当Spring Cloud的发布内容积累到临界点或者一个重大BUG被解决后，会发布一个"service releases"版本，简称SRX版本，比如Greenwich.SR2就是Spring Cloud发布的Greenwich版本的第2个SRX版本。目前Spring Cloud的最新版本是Hoxton。
 
 
-### 6、SpringBoot 如何设置支持跨域请求？
+### 4、在Spring框架中如何更有效地使用JDBC?
 
-现代浏览器出于安全的考虑， HTTP 请求时必须遵守同源策略，否则就是跨域的 HTTP 请求，默认情况下是被禁止的，IP（域名）不同、或者端口不同、协议不同（比如 HTTP、HTTPS）都会造成跨域问题。
+使用SpringJDBC 框架，资源管理和错误处理的代价都会被减轻。所以开发者只需写statements 和 queries从数据存取数据，JDBC也可以在Spring框架提供的模板类的帮助下更有效地被使用，这个模板叫JdbcTemplate （例子见这里here）
 
-**一般前端的解决方案有：**
 
-**1、** 使用 JSONP 来支持跨域的请求，JSONP 实现跨域请求的原理简单的说，就是动态创建`<script>`标签，然后利用`<script>`的 SRC 不受同源策略约束来跨域获取数据。缺点是需要后端配合输出特定的返回信息。
+### 5、在 Spring中如何注入一个java集合？
 
-**2、** 利用反应代理的机制来解决跨域的问题，前端请求的时候先将请求发送到同源地址的后端，通过后端请求转发来避免跨域的访问。
+Spring提供以下几种集合的配置元素：
 
-后来 HTML5 支持了 CORS 协议。CORS 是一个 W3C 标准，全称是”跨域资源共享”（Cross-origin resource sharing），允许浏览器向跨源服务器，发出 XMLHttpRequest 请求，从而克服了 AJAX 只能同源使用的限制。它通过服务器增加一个特殊的 Header[Access-Control-Allow-Origin]来告诉客户端跨域的限制，如果浏览器支持 CORS、并且判断 Origin 通过的话，就会允许 XMLHttpRequest 发起跨域请求。
+**1、** 类型用于注入一列值，允许有相同的值。
 
-前端使用了 CORS 协议，就需要后端设置支持非同源的请求，SpringBoot 设置支持非同源的请求有两种方式。
+**2、**  类型用于注入一组值，不允许有相同的值。
 
-第一，配置 CorsFilter。
+**3、**  类型用于注入一组键值对，键和值都可以为任意类型。
 
-```
+**4、** 类型用于注入一组键值对，键和值都只能为String类型。
 
-@Configuration
-public class GlobalCorsConfig {
-    @Bean
-    public CorsFilter corsFilter() {
-        CorsConfiguration config = new CorsConfiguration();
-          config.addAllowedOrigin("*");
-          config.setAllowCredentials(true);
-          config.addAllowedMethod("*");
-          config.addAllowedHeader("*");
-          config.addExposedHeader("*");
 
-        UrlBasedCorsConfigurationSource configSource = new UrlBasedCorsConfigurationSource();
-        configSource.registerCorsConfiguration("/**", config);
+### 6、我们如何连接一个像 MySQL 或者Orcale 一样的外部数据库？
 
-        return new CorsFilter(configSource);
-    }
-}
-```
+让我们以 MySQL 为例来思考这个问题：
 
-需要配置上述的一段代码。第二种方式稍微简单一些。
+**第一步** - 把 MySQL 连接器的依赖项添加至 pom.xml
 
-第二，在启动类上添加：
+**第二步** - 从 pom.xml 中移除 H2 的依赖项
+
+或者至少把它作为测试的范围。
+
+**第三步** - 安装你的 MySQL 数据库
+
+更多的来看看这里 -[https://github.com/in28minutes/jpa-with-hibernate#installing-and-setting-up-MySQL](https://github.com/in28minutes/jpa-with-hibernate#installing-and-setting-up-MySQL)
+
+**第四步** - 配置你的 MySQL 数据库连接
+
+配置 application.properties
 
 ```
-
-public class Application extends WebMvcConfigurerAdapter {
-
-    @Override
-    public void addCorsMappings(CorsRegistry registry) {
-
-        registry.addMapping("/**")
-                .allowCredentials(true)
-                .allowedHeaders("*")
-                .allowedOrigins("*")
-                .allowedMethods("*");
-
-    }
-}
+spring.jpa.hibernate.ddl-auto=none spring.datasource.url=jdbc:MySQL://localhost:3306/todo_example
+spring.datasource.username=todouser spring.datasource.password=YOUR_PASSWORD
 ```
 
+**第五步** - 重新启动，你就准备好了！
 
-### 7、在微服务中，如何保护服务?
-
-一般使用使用Hystrix框架，实现服务隔离来避免出现服务的雪崩效应，从而达到保护服务的效果。当微服务中，高并发的数据库访问量导致服务线程阻塞，使单个服务宕机，服务的不可用会蔓延到其他服务，引起整体服务灾难性后果，使用服务降级能有效为不同的服务分配资源,一旦服务不可用则返回友好提示，不占用其他服务资源，从而避免单个服务崩溃引发整体服务的不可用.
-
-
-### 8、什么是 spring 的内部 bean？
-
-只有将 bean 用作另一个 bean 的属性时，才能将 bean 声明为内部 bean。为了定义 bean，Spring 的基于 XML 的配置元数据在 `<property>` 或 `<constructor-arg>` 中提供了 `<bean>` 元素的使用。内部 bean 总是匿名的，它们总是作为原型。
-
-例如，假设我们有一个 Student 类，其中引用了 Person 类。这里我们将只创建一个 Person 类实例并在 Student 中使用它。
-
-Student.java
-
-```
-public class Student {
-    private Person person;
-    //Setters and Getters
-}
-public class Person {
-    private String name;
-    private String address;
-    //Setters and Getters
-}
-```
-
-bean.xml
-
-```
-<bean id=“StudentBean" class="com.edureka.Student">
-    <property name="person">
-        <!--This is inner bean -->
-        <bean class="com.edureka.Person">
-            <property name="name" value=“Scott"></property>
-            <property name="address" value=“Bangalore"></property>
-        </bean>
-    </property>
-</bean>
-```
+就是这么简单！
 
 
-### 9、什么是切点（JoinPoint）
+### 7、列举 Spring DAO 抛出的异常。
 
-程序运行中的一些时间点, 例如一个方法的执行, 或者是一个异常的处理.
-
-在 Spring AOP 中, join point 总是方法的执行点。
+![](https://gitee.com/souyunkutech/souyunku-home/raw/master/images/souyunku-web/2019/08/0816/02/img_4.png#alt=img%5C_4.png)
 
 
-### 10、什么是端到端微服务测试？
+### 8、SpringBoot中的监视器是什么？
 
-端到端测试验证了工作流中的每个流程都正常运行。这可确保系统作为一个整体协同工作并满足所有要求。
-
-通俗地说，你可以说端到端测试是一种测试，在特定时期后测试所有东西。
-
-![](https://gitee.com/souyunkutech/souyunku-home/raw/master/images/souyunku-web/2019/08/0816/01/img_17.png#alt=img%5C_17.png)
-
-图14：测试层次 – 微服务面试问题
+Spring boot actuator是spring启动框架中的重要功能之一。Spring boot监视器可帮助您访问生产环境中正在运行的应用程序的当前状态。有几个指标必须在生产环境中进行检查和监控。即使一些外部应用程序可能正在使用这些服务来向相关人员触发警报消息。监视器模块公开了一组可直接作为HTTP URL访问的REST端点来检查状态。
 
 
-### 11、[@Required ](/Required ) 注解有什么用？
-### 12、SpringBoot 有哪些优点？
-### 13、[@Autowired ](/Autowired ) 注解
-### 14、spring boot监听器流程?
-### 15、什么是依赖注入？
-### 16、为什么需要学习Spring Cloud
-### 17、Spring Cloud 实现服务注册和发现的原理是什么？
-### 18、Nginx与Ribbon的区别
-### 19、如何在自定义端口上运行 SpringBoot 应用程序？
-### 20、Spring Cloud Stream
-### 21、什么是持续集成（CI）？
-### 22、怎样在方法里面得到Request,或者Session？
-### 23、SpringBoot中的监视器是什么？
-### 24、什么是 Hystrix 断路器？我们需要它吗？
-### 25、双因素身份验证的凭据类型有哪些？
-### 26、什么是 SpringBoot？
-### 27、如何在SpringBoot中禁用Actuator端点安全性？
-### 28、JdbcTemplate
-### 29、哪些是重要的bean生命周期方法？ 你能重载它们吗？
-### 30、SpringCloud主要项目
+### 9、Nginx与Ribbon的区别
+
+Nginx是反向代理同时可以实现负载均衡，nginx拦截客户端请求采用负载均衡策略根据upstream配置进行转发，相当于请求通过nginx服务器进行转发。Ribbon是客户端负载均衡，从注册中心读取目标服务器信息，然后客户端采用轮询策略对服务直接访问，全程在客户端操作。
+
+
+### 10、Zuul与Nginx有什么区别？
+
+Zuul是java语言实现的，主要为java服务提供网关服务，尤其在微服务架构中可以更加灵活的对网关进行操作。Nginx是使用C语言实现，性能高于Zuul，但是实现自定义操作需要熟悉lua语言，对程序员要求较高，可以使用Nginx做Zuul集群。
+
+
+### 11、spring-boot-starter-parent 有什么用 ?
+### 12、您对Mike Cohn的测试金字塔了解多少？
+### 13、你能否举一个以 ReadOnly 为事务管理的例子？
+### 14、@LoadBalanced注解的作用
+### 15、什么是 Spring Framework？
+### 16、自动装配有什么局限？
+### 17、[@RequestMapping ](/RequestMapping ) 注解
+### 18、什么是 AOP 切点
+### 19、REST 和RPC对比
+### 20、使用Spring Cloud有什么优势？
+### 21、负载均衡的意义是什么?
+### 22、什么是 SpringBoot？
+### 23、什么是持续集成（CI）？
+### 24、使用Spring通过什么方式访问Hibernate?
+### 25、[@RequestMapping ](/RequestMapping ) 注解
+### 26、运行 SpringBoot 有哪几种方式？
+### 27、如何重新加载 SpringBoot 上的更改，而无需重新启动服务器？SpringBoot项目如何热部署？
+### 28、SpringBoot的配置文件有哪几种格式？区别是什么？
+### 29、运行 SpringBoot 有哪几种方式？
+### 30、spring boot初始化环境变量流程?
 
 
 
@@ -189,6 +138,6 @@ bean.xml
 
 ## 最新，高清PDF：172份，7701页，最新整理
 
-[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/mst.png "大厂面试题")](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png"大厂面试题")
+[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/mst.png "架构师专栏")](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png "架构师专栏")
 
 [![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png "架构师专栏")](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png "架构师专栏")

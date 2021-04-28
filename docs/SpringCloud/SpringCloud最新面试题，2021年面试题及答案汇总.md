@@ -8,146 +8,157 @@
 
 
 
-### 1、SpringCloud由什么组成
+### 1、双因素身份验证的凭据类型有哪些？
 
-这就有很多了，我讲几个开发中最重要的
+这三种凭证是：
 
-**1、** Spring Cloud Eureka：服务注册与发现
+![](https://gitee.com/souyunkutech/souyunku-home/raw/master/images/souyunku-web/2019/08/0816/01/img_15.png#alt=img%5C_15.png)
 
-**2、** Spring Cloud Zuul：服务网关
-
-**3、** Spring Cloud Ribbon：客户端负载均衡
-
-**4、** Spring Cloud Feign：声明性的Web服务客户端
-
-**5、** Spring Cloud Hystrix：断路器
-
-**6、** Spring Cloud Config：分布式统一配置管理
-
-**7、** 等20几个框架，开源一直在更新
+图12： 双因素认证的证书类型 – 微服务面试问题
 
 
-### 2、Spring Cloud 和dubbo区别?
+### 2、Spring Cloud Security
 
-**1、** 服务调用方式：dubbo是RPC springcloud Rest Api
+安全工具包，他可以对
 
-**2、** 注册中心：dubbo 是zookeeper springcloud是eureka，也可以是zookeeper
+**1、** 对Zuul代理中的负载均衡从前端到后端服务中获取SSO令牌
 
-**3、** 服务网关，dubbo本身没有实现，只能通过其他第三方技术整合，springcloud有Zuul路由网关，作为路由服务器，进行消费者的请求分发,springcloud支持断路器，与git完美集成配置文件支持版本控制，事物总线实现配置文件的更新与服务自动装配等等一系列的微服务架构要素。
+**2、** 资源服务器之间的中继令牌
 
+**3、** 使Feign客户端表现得像`OAuth2RestTemplate`（获取令牌等）的拦截器
 
-### 3、eureka和zookeeper都可以提供服务注册与发现的功能，请说说两个的区别？
+**4、** 在Zuul代理中配置下游身份验证
 
-**1、** zookeeper 是CP原则，强一致性和分区容错性。
-
-**2、** eureka 是AP 原则 可用性和分区容错性。
-
-**3、** zookeeper当主节点故障时，zk会在剩余节点重新选择主节点，耗时过长，虽然最终能够恢复，但是选取主节点期间会导致服务不可用，这是不能容忍的。
-
-**4、** eureka各个节点是平等的，一个节点挂掉，其他节点仍会正常保证服务。
+Spring Cloud Security提供了一组原语，用于构建安全的应用程序和服务，而且操作简便。可以在外部（或集中）进行大量配置的声明性模型有助于实现大型协作的远程组件系统，通常具有中央身份管理服务。它也非常易于在Cloud Foundry等服务平台中使用。在SpringBoot和Spring Security OAuth2的基础上，可以快速创建实现常见模式的系统，如单点登录，令牌中继和令牌交换。
 
 
-### 4、使用Spring Cloud有什么优势？
+### 3、什么是Spring Cloud Config?
 
-使用SpringBoot开发分布式微服务时，我们面临以下问题
-
-**1、** 与分布式系统相关的复杂性-这种开销包括网络问题，延迟开销，带宽问题，安全问题。
-
-**2、** 服务发现-服务发现工具管理群集中的流程和服务如何查找和互相交谈。它涉及一个服务目录，在该目录中注册服务，然后能够查找并连接到该目录中的服务。
-
-**3、** 冗余-分布式系统中的冗余问题。
-
-**4、** 负载平衡 --负载平衡改善跨多个计算资源的工作负荷，诸如计算机，计算机集群，网络链路，中央处理单元，或磁盘驱动器的分布。
-
-**5、** 性能-问题 由于各种运营开销导致的性能问题。
-
-**6、** 部署复杂性-Devops技能的要求。
+Spring Cloud Config为分布式系统中的外部配置提供服务器和客户端支持，可以方便的对微服务各个环境下的配置进行集中式管理。Spring Cloud Config分为Config Server和Config Client两部分。Config Server负责读取配置文件，并且暴露Http API接口，Config Client通过调用Config Server的接口来读取配置文件。
 
 
-### 5、微服务架构有哪些优势？
+### 4、@LoadBalanced注解的作用
 
-![](https://gitee.com/souyunkutech/souyunku-home/raw/master/images/souyunku-web/2019/08/0816/01/img_2.png#alt=img%5C_2.png)
-
-图2：微服务的 优点 – 微服务访谈问题
-
-独立开发 – 所有微服务都可以根据各自的功能轻松开发
-
-独立部署 – 基于其服务，可以在任何应用程序中单独部署它们
-
-故障隔离 – 即使应用程序的一项服务不起作用，系统仍可继续运行
-
-混合技术堆栈 – 可以使用不同的语言和技术来构建同一应用程序的不同服务
-
-粒度缩放 – 单个组件可根据需要进行缩放，无需将所有组件缩放在一起
+开启客户端负载均衡。
 
 
-### 6、Spring Cloud Sleuth
+### 5、什么是客户证书？
 
-在微服务中，通常根据业务模块分服务，项目中前端发起一个请求，后端可能跨几个服务调用才能完成这个请求（如下图）。如果系统越来越庞大，服务之间的调用与被调用关系就会变得很复杂，假如一个请求中需要跨几个服务调用，其中一个服务由于网络延迟等原因挂掉了，那么这时候我们需要分析具体哪一个服务出问题了就会显得很困难。Spring Cloud Sleuth服务链路跟踪功能就可以帮助我们快速的发现错误根源以及监控分析每条请求链路上的性能等等。 ![](https://gitee.com/souyunkutech/souyunku-home/raw/master/images/souyunku-web/2020/5/2/023/45/68_1.png#alt=68%5C_1.png)
-
-
-### 7、什么是Feign？
-
-**1、** Feign 是一个声明web服务客户端，这使得编写web服务客户端更容易
-
-**2、** 他将我们需要调用的服务方法定义成抽象方法保存在本地就可以了，不需要自己构建Http请求了，直接调用接口就行了，不过要注意，调用方法要和本地抽象方法的签名完全一致。
+客户端系统用于向远程服务器发出经过身份验证的请求的一种数字证书称为客户端证书。客户端证书在许多相互认证设计中起着非常重要的作用，为请求者的身份提供了强有力的保证。
 
 
-### 8、eureka服务注册与发现原理
+### 6、Zuul网关如何搭建集群
 
-**1、** 每30s发送⼼跳检测重新进⾏租约，如果客户端不能多次更新租约，它将在90s内从服务器注册中⼼移除。
-
-**2、** 注册信息和更新会被复制到其他Eureka 节点，来⾃任何区域的客户端可以查找到注册中⼼信息，每30s发⽣⼀次复制来定位他们的服务，并进⾏远程调⽤。
-
-**3、** 客户端还可以缓存⼀些服务实例信息，所以即使Eureka全挂掉，客户端也是可以定位到服务地址的。
-
-![](https://gitee.com/souyunkutech/souyunku-home/raw/master/images/souyunku-web/2020/5/2/01/44/45_4.png#alt=45%5C_4.png)
+使用Nginx的upstream设置Zuul服务集群，通过location拦截请求并转发到upstream，默认使用轮询机制对Zuul集群发送请求。
 
 
-### 9、什么是Spring Cloud Bus?
+### 7、什么是Hystrix？它如何实现容错？
 
-spring cloud bus 将分布式的节点用轻量的消息代理连接起来，它可以用于广播配置文件的更改或者服务直接的通讯，也可用于监控。
+Hystrix是一个延迟和容错库，旨在隔离远程系统，服务和第三方库的访问点，当出现故障是不可避免的故障时，停止级联故障并在复杂的分布式系统中实现弹性。
 
-如果修改了配置文件，发送一次请求，所有的客户端便会重新读取配置文件。
+通常对于使用微服务架构开发的系统，涉及到许多微服务。这些微服务彼此协作。
+
+思考以下微服务
+
+![](https://gitee.com/souyunkutech/souyunku-home/raw/master/images/souyunku-web/2019/08/0814/02/img_2.png#alt=img%5C_2.png)
+
+假设如果上图中的微服务9失败了，那么使用传统方法我们将传播一个异常。但这仍然会导致整个系统崩溃。
+
+随着微服务数量的增加，这个问题变得更加复杂。微服务的数量可以高达1000.这是hystrix出现的地方 我们将使用Hystrix在这种情况下的Fallback方法功能。我们有两个服务employee-consumer使用由employee-consumer公开的服务。
+
+简化图如下所示
+
+![](https://gitee.com/souyunkutech/souyunku-home/raw/master/images/souyunku-web/2019/08/0814/02/img_3.png#alt=img%5C_3.png)
+
+现在假设由于某种原因，employee-producer公开的服务会抛出异常。我们在这种情况下使用Hystrix定义了一个回退方法。这种后备方法应该具有与公开服务相同的返回类型。如果暴露服务中出现异常，则回退方法将返回一些值。
+
+
+### 8、什么是feigin？它的优点是什么？
+
+**1、** feign采用的是基于接口的注解
+
+**2、** feign整合了ribbon，具有负载均衡的能力
+
+**3、** 整合了Hystrix，具有熔断的能力
 
 **使用:**
 
-**1、** 添加依赖
+**1、** 添加pom依赖。
 
-**2、** 配置rabbimq
+**2、** 启动类添加[@EnableFeignClients ](/EnableFeignClients )
 
-
-### 10、什么是不同类型的双因素身份认证？
-
-执行双因素身份验证需要三种类型的凭据：
-
-**1、** 一件你知道的事情——比如密码、密码或屏幕锁定模式。
-
-**2、** 您拥有的物理凭证，如OTP、电话或ATM卡，换句话说，您在外部或第三方设备中拥有的任何类型的凭证。
-
-**3、** 您的物理身份–如语音认证或生物特征安全，如指纹或眼睛扫描仪。
+**3、** 定义一个接口@FeignClient(name=“xxx”)指定调用哪个服务
 
 
-### 11、什么是Eureka的自我保护模式，
-### 12、康威定律是什么？
-### 13、架构师在微服务架构中的角色是什么？
-### 14、分布式配置中心有那些框架？
-### 15、什么是Semantic监控？
-### 16、Spring Cloud Config
-### 17、Spring Cloud Config
-### 18、Spring Cloud Zookeeper
+### 9、为什么我们需要微服务容器？
+
+要管理基于微服务的应用程序，容器是最简单的选择。它帮助用户单独部署和开发。您还可以使用Docker将微服务封装到容器的镜像中。没有任何额外的依赖或工作，微服务可以使用这些元素。
+
+
+### 10、什么是Netflix Feign？它的优点是什么？
+
+Feign是受到Retrofit，JAXRS-2.0和WebSocket启发的java客户端联编程序。Feign的第一个目标是将约束分母的复杂性统一到http apis，而不考虑其稳定性。在employee-consumer的例子中，我们使用了employee-producer使用REST模板公开的REST服务。
+
+但是我们必须编写大量代码才能执行以下步骤
+
+**1、** 使用功能区进行负载平衡。
+
+**2、** 获取服务实例，然后获取基本URL。
+
+**3、** 利用REST模板来使用服务。 前面的代码如下
+
+```
+@Controller
+public class ConsumerControllerClient {
+
+@Autowired
+private LoadBalancerClient loadBalancer;
+
+public void getEmployee() throws RestClientException, IOException {
+
+    ServiceInstance serviceInstance=loadBalancer.choose("employee-producer");
+
+    System.out.println(serviceInstance.getUri());
+
+    String baseUrl=serviceInstance.getUri().toString();
+
+    baseUrl=baseUrl+"/employee";
+
+    RestTemplate restTemplate = new RestTemplate();
+    ResponseEntity<String> response=null;
+    try{
+    response=restTemplate.exchange(baseUrl,
+            HttpMethod.GET, getHeaders(),String.class);
+    }catch (Exception ex)
+    {
+        System.out.println(ex);
+    }
+    System.out.println(response.getBody());
+```
+
+之前的代码，有像NullPointer这样的例外的机会，并不是最优的。我们将看到如何使用Netflix Feign使呼叫变得更加轻松和清洁。如果Netflix Ribbon依赖关系也在类路径中，那么Feign默认也会负责负载平衡。
+
+
+### 11、什么是微服务架构中的DRY？
+### 12、接⼝限流⽅法？
+### 13、什么是消费者驱动的合同（CDC）？
+### 14、微服务的优点
+### 15、您将如何在微服务上执行安全测试？
+### 16、Spring Cloud Sleuth
+### 17、Spring Cloud Consul
+### 18、服务注册和发现是什么意思？Spring Cloud 如何实现？
 ### 19、Spring Cloud Bus
-### 20、双因素身份验证的凭据类型有哪些？
-### 21、第⼆层缓存：
-### 22、ZuulFilter常用有那些方法
-### 23、如何设计一套API接口
-### 24、什么是Spring引导的执行器？
-### 25、如何设置服务发现？
-### 26、什么是Spring Cloud？
-### 27、为什么要选择微服务架构？
-### 28、Spring Cloud抛弃了Dubbo 的RPC通信，采用的是基于HTTP的REST方式。
-### 29、Spring Cloud Netflix(重点，这些组件用的最多)
-### 30、什么是 Hystrix 断路器？我们需要它吗？
+### 20、第⼆层缓存：
+### 21、为什么需要学习Spring Cloud
+### 22、什么是客户证书？
+### 23、微服务有哪些特点？
+### 24、什么是Spring Cloud Bus?
+### 25、合同测试你懂什么？
+### 26、熔断的原理，以及如何恢复？
+### 27、什么是Spring Cloud？
+### 28、负载平衡的意义什么？
+### 29、如何设置服务发现？
+### 30、Spring Cloud Config
 
 
 
@@ -161,6 +172,6 @@ spring cloud bus 将分布式的节点用轻量的消息代理连接起来，它
 
 ## 最新，高清PDF：172份，7701页，最新整理
 
-[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/mst.png "大厂面试题")](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png"大厂面试题")
+[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/mst.png "架构师专栏")](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png "架构师专栏")
 
 [![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png "架构师专栏")](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png "架构师专栏")

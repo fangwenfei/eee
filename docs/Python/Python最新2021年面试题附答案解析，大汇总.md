@@ -8,207 +8,155 @@
 
 
 
-### 1、简述数据库的读写分离
-
-读写分离就是在主服务器上修改，数据会同步到从服务器，从服务器只能提供读取数据，不能写入，实现备份的同时也实现了数据库性能的优化，以及提升了服务器安全。
-
-
-### 2、什么是ajax请求？手写一个ajax请求
-
-ajax（异步JavaScript和XML）是指一种创建交付式网页应用的网页开发技术。可以在不重新加载整个网页的情况下，对网页的某部分进行更新。
-
-```javascript
-// 不使用第三方
-var xhr = new XMLHttpRequest();
-xhr.open("GET", url, false);
-xhr.onreadtstatechange = function() {
-    if (xhr.readystate == 4) {
-        //响应内容解析完成，可以在客户端调用了
-        if (xhr.status == 200) {
-            //客户端的请求成功了
-            alert(xhr.responseText);
-        }
-    }
-}
-xhr.send(null);
-// 使用ajax
-$.ajax({
-    type: "GET",
-    url: "",
-    dataType: "json",
-    success: function(data) {},
-    error: function(jqXHR) {}
-});
-```
-
-
-### 3、什么是并发和并行
-
-**1、** 并发:指应用能够交替执行不同的任务,其实并发有点类似于多线程的原理,多线程并非是同时执行多个任务,如果你开两个线程执行,就是在你几乎不可能察觉到的速度不断去切换这两个任务,已达到"同时执行效果",其实并不是的,只是计算机的速度太快,我们无法察觉到而已.
-
-**2、** 并行:指应用能够同时执行不同的任务,
-
-**3、** 并发是多个事件在同一时间段执行，并行是多个事件在统一时间点执行。
-
-
-### 4、解释一下Python中的关系运算符
-
-关系运算符用于比较两个值。
-
-**1、** 小于号（<），如果左边的值较小，则返回True。
-
-```
->>> 'hi'<'Hi'
-False
-```
-
-**2、** 大于号（>），如果左边的值较大，则返回True。
-
-```
->>> 1.1+2.2>3.3
-True
-```
-
-**3、** 小于等于号（<=），如果左边的值小于或等于右边的值，则返回Ture。
-
-```
->>> 3.0<=3
-True
-```
-
-**4、** 大于等于号（>=），如果左边的值大于或等于右边的值，则返回True。
-
-```
->>> True>=False
-True
-```
-
-**1、**   等于号（==），如果符号两边的值相等，则返回True。
-
-```
->>> {1,3,2,2}=={1,2,3}
-True
-```
-
-**1、**   不等于号（!=），如果符号两边的值不相等，则返回True。
-
-```
->>> True!=0.1
-True
->>> False!=0.1
-True
-```
-
-
-### 5、为什么Python执行速度慢，我们如何改进它？
-
-Python代码执行缓慢的原因，是因为它是一种解释型语言。它的代码在运行时进行解释，而不是编译为本地语言。
-
-为了提高Python代码的速度，我们可以使用CPython、Numba，或者我们也可以对代码进行一些修改。
-
-**1、**  减少内存占用。
-
-**2、**  使用内置函数和库。
-
-**3、**  将计算移到循环外。
-
-**4、**  保持小的代码库。
-
-**5、**  避免不必要的循环
-
-
-### 6、threading.local的作用
-
-为每个线程创建一个独立的空间，使得线程对自己的空间中的数据进行操作(数据隔离)。
-
-
-### 7、字节码和机器码的区别
-
-**1、** 机器码是电脑CPU直接读取运行的机器指令，运行速度最快，但是非常晦涩难懂，也比较难编写，一般从业人员接触不到。
-
-**2、** 字节码是一种中间状态（中间码）的二进制代码（文件）。需要直译器转译后才能成为机器码。
-
-
-### 8、什么是Python中的猴子补丁？
-
-猴子补丁(monkey patching)，是指在运行时动态修改类或模块。
-
-```
-from SomeOtherProduct.SomeModule import SomeClass
-
-def speak(self):
-    return "Hello!"
-
-SomeClass.speak = speak
-```
-
-
-### 9、写个函数接收一个文件夹名称作为参数，显示文件夹中文件的路径，以及其中包含的文件夹中文件的如今
+### 1、有一个多层嵌套的列表A=[1,2,3,[4,1,['j1',1,[1,2,3,'aa']]]],请写一段代码将A中的元素全部打印出来
 
 ```python
-# 方法一
-import os
-def Test1(rootDir):
-list_dirs = os.walk(rootDir)
-for root, dirs, files in list_dirs:
-for d in dirs:
-print(os.path.join(root, d))
-for f in files:
-print(os.path.join(root, f))
-Test1(r'C:\Users\felix\Desktop\aaa')
-print('#############')
-# 方法二
-import os
-def Test2(rootDir):
-paths=os.listdir(rootDir)
-for lis in paths:
-path=os.path.join(rootDir,lis)
-print(path)
-if os.path.isdir(path):
- Test2(path)
-Test2(r'C:\Users\felix\Desktop\aaa')
+A=[1,2,3,[4,1,['j1',1,[1,2,3,'aa']]]]
+def my_print(lis):
+for i in lis:
+if type(i)==list:
+my_print(i)
+else:
+print(i)
+my_print(A)
 ```
 
 
-### 10、求出以下代码的输出结果
+### 2、a=range(10),则a[::-3]的值是？
+
+[9,6,3,0] 或者 range(9,-1,-3)
+
+
+### 3、什么是lambda函数？
+
+Lambda函数是不带名称的单行函数，可以具有n个参数，但只能有一个表达式。也称为匿名函数。
+
+```
+a = lambda x, y：x + y 
+print(a(5, 6))
+
+> 11
+```
+
+
+### 4、类的加载和实例化过程
+
+**1、** 在堆内存中生成class对象, 把静态变量和静态方法加载到方法区, 这个堆内存中的class对象是方法区数据的入口
+
+**2、** 静态变量默认初始化
+
+**3、** 静态变量显式初始化
+
+**4、** 执行静态代码块
+
+**5、** 成员变量默认初始化, 显示初始化
+
+**6、** 执行构造函数
+
+
+### 5、使用yield实现一个协程
 
 ```python
-mydict={'a':1,'b':2}
-def func(d):
-d['a']=0
-return d
+def consumer():
+r = ''
+while True:
+n = yield r
+if n is None:
+return
+print('[CONSUMER] Consuming %s...' % n)
+r = '200 OK'
 
-func(mydict)
-mydict['c']=2
-print(mydict)
+def produce(c):
+c.send(None)
+n = 0
+while n < 5:
+n = n + 1
+print('[PRODUCER] Producing %s...' % n)
+r = c.send(n)
+print('[PRODUCER] Consumer return: %s' % r)
+c.close()
+
+c = consumer()
+produce(c)
 ```
 
-结果
 
-> {'a': 0, 'b': 2, 'c': 2}
+### 6、元组的解封装是什么？
+
+首先我们来看解封装：
+
+```
+>>> mytuple=3,4,5
+>>> mytuple
+(3, 4, 5)
+```
+
+这将 3，4，5 封装到元组 mytuple 中。
+
+现在我们将这些值解封装到变量 x，y，z 中：
+
+```
+>>> x,y,z=mytuple
+>>> x+y+z
+```
+
+得到结果12.
 
 
+### 7、什么是pickling和unpickling？
 
-### 11、re的match和search的区别
-### 12、有两个字符串列表a和b，每个字符串是由逗号隔开的一些字符
-### 13、lambda表达式格式以及应用场景？
-### 14、写出以下代码的输出结果：
-### 15、Redis是单进程单线程的吗？
-### 16、请解释使用*args和**kwargs的含义
-### 17、什么是gevent
-### 18、有一个列表lis=['This','is','a','Man','B','!']，对它进行大小写无关的排序
-### 19、Python中的闭包是什么？
-### 20、MySQL索引种类
-### 21、实例变量和类变量的区别
-### 22、*arg和**kwargs的作用
-### 23、你对Python类中的self有什么了解？
-### 24、python递归的最大层数？
-### 25、如何在函数中设置一个全局变量？
-### 26、简述数据库分库分表
-### 27、是否使用过functools中的函数？他的作用是什么？
-### 28、简述left join和right join的区别
-### 29、现有mydict和变量onekey，请写出从mydict中取出onekey的值的方法
-### 30、break、continue、pass是什么？
+pickling是将Python对象(甚至是Python代码)，转换为字符串的过程。
+
+unpickling是将字符串，转换为原来对象的逆过程。
+
+
+### 8、为什么基于tcp协议的通信比基于udp协议的通信更可靠
+
+TCP是面向连接的传输协议，每次都需要建立一个可以相互信任的连接，中间有个三次握手过程。而UDP是面向无连接的传输协议，不需要建立安全的连接，
+
+
+### 9、python中enumerate的意思是什么？
+
+枚举的意思，同时得到可迭代对象，如列表和元组的索引和值，以元组形式返回
+
+
+### 10、什么是局域网和广域网
+
+**1、** 局域网（Local Area Network），简称LAN，是指在某一区域内由多台计算机互联成的计算机组。“某一区域”指的是同一办公室、同一建筑物、同一公司和同一学校等，一般是方圆几千米以内。局域网可以实现文件管理、应用软件共享、打印机共享、扫描仪共享、工作组内的日程安排、电子邮件和传真通信服务等功能。局域网是封闭型的，可以由办公室内的两台计算机组成，也可以由一个公司内的上千台计算机组成。
+
+**2、** 广域网（Wide Area Network），简称WAN，是一种跨越大的、地域性的计算机网络的集合。通常跨越省、市，甚至一个国家。广域网包括大大小小不同的子网，子网可以是局域网，也可以是小型的广域网。
+
+**3、** 两者区别：
+
+**4、** 范围不同，广域网比局域网广
+
+**5、** 接口类型不同
+
+**6、** 速率不同
+
+**7、** 协议不同
+
+
+### 11、编写程序，检查数字是否为Armstrong
+### 12、Python中append，insert和extend的区别?
+### 13、列举创建索引但是无法命中索引的情况
+### 14、如果已经建立了TCP连接，但是客户端突然出现故障了怎么办
+### 15、了解过Hbase，DB2，SQLServer，Access吗
+### 16、手写一个队列
+### 17、对字典d={'a':30,'g':17,'b':25,'c':18,'d':50,'e':36,'f':57,'h':25}按照value字段进行排序
+### 18、traceroute使用哪种网络协议
+### 19、如何更改列表的数据类型？
+### 20、进程之间如何进行通信？
+### 21、使用两个队列实现一个栈
+### 22、简述SQL注入原理，以及如何在代码层面房子sql注入
+### 23、求以下代码的输出结果
+### 24、mro是什么？
+### 25、MySQL的建表语句
+### 26、什么是负载均衡
+### 27、1，2，3，4，5能组成多少个互不相同且不重复的三位数？
+### 28、如何用一行代码生成[1,4,9,16,25,36,49,64,81,100]?
+### 29、简述OSI七层协议
+### 30、char和varchar的区别
 
 
 
@@ -222,6 +170,6 @@ print(mydict)
 
 ## 最新，高清PDF：172份，7701页，最新整理
 
-[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/mst.png "大厂面试题")](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png"大厂面试题")
+[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/mst.png "架构师专栏")](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png "架构师专栏")
 
 [![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png "架构师专栏")](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png "架构师专栏")

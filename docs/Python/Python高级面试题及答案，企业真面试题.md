@@ -8,186 +8,167 @@
 
 
 
-### 1、阅读以下代码，写输出结果
+### 1、ascii、Unicode、utf-8、gbk的区别
+
+**1、** ascii 是最早美国用的标准信息交换码，把所有的字母的大小写，各种符号用 二进制来表示，共有256中，加入些拉丁文等字符，1bytes代表一个字符
+
+**2、** Unicode是为了统一世界各国语言的不用，统一用2个bytes代表一个字符，可以表达2^16=65556个，称为万国语言，特点：速度快，但浪费空间
+
+**3、** utf-8 为了改变Unicode的这种缺点，规定1个英文字符用1个字节表示，1个中文字符用3个字节表示，特点；节省空间，速度慢，用在硬盘数据传输，网络数据传输，相比硬盘和网络速度，体现不出来的
+
+**4、** gbk  是中文的字符编码，用2个字节代表一个字符
+
+
+### 2、什么是一致性哈希
+
+[参考链接](https://www.jianshu.com/p/49e3fbf41b9b)
+
+一致性哈希简称DHT,是麻省理工学院提出的一种算法，目前主要应用于分布式缓存当中。一致性哈希可以有效地解决分布式存储结构下动态增加和删除节点所带来的问题。
+
+
+### 3、判断dict中有没有某个key。
+
+key in dict.keys()  判断
+
+
+### 4、什么是Python？为什么它会如此流行？
+
+Python是一种解释的、高级的、通用的编程语言。
+
+Python的设计理念是通过使用必要的空格与空行，增强代码的可读性。
+
+它之所以受欢迎，就是因为它具有简单易用的语法。
+
+
+### 5、GIL锁对python性能的影响
+
+**1、** 会降低多线程的效率。可以说python就是个单线程的程序。
+
+**2、** 如何避免：
+
+**3、** 用多进程代替多线程
+
+**4、** 使用其他解释器
+
+
+### 6、解释什么是异步非阻塞
+
+**1、** 同步和异步：
+
+**2、** 同步：就是在发出一个功能调用时，在没有得到结果之前，该调用就不返回。
+
+**3、** 异步：当一个异步过程调用发出后，调用者不会立刻得到结果。实际处理这个调用的部件是在调用发出后，通过状态、通知来通知调用者，或通过回调函数处理这个调用。
+
+**4、** 阻塞和非阻塞
+
+**5、** 阻塞：阻塞调用是指调用结果返回之前，当前线程会被挂起。函数只有在得到结果之后才会返回。
+
+**6、** 非阻塞：指在不能立刻得到结果之前，该函数不会阻塞当前线程，而会立刻返回。
+
+**7、** 阻塞，非阻塞：进程/线程要访问的数据是否就绪，进程/线程是否需要等待；
+
+**8、** 同步，异步：访问数据的方式，同步需要主动读写数据，在读写数据的过程中还是会阻塞；异步只需要I/O操作完成的通知，并不主动读写数据，由操作系统内核完成数据的读写。
+
+
+### 7、路由器和交换机的区别
+
+交换机是一种用于电信号转发的网络设备。路由器是链接因特网中各局域网和广域网的设备。
+
+区别
+
+**1、** 交换机工作在第二层，数据链路层，路由器工作在第三层，网络层。
+
+**2、** 路由器提供防火墙服务。
+
+**3、** 传统交换机只能风格冲突域，不能分割广播域，二路由器可以分割广播域。
+
+
+### 8、怎么移除一个字符串中的前导空格？
+
+字符串中的前导空格就是出现在字符串中第一个非空格字符前的空格。我们使用方法Istrip()可以将它从字符串中移除。
+
+```
+>>> '   Ayushi '.lstrip()
+```
+
+结果：
+
+```
+‘Ayushi   ’
+```
+
+可以看到，该字符串既有前导字符，也有后缀字符，调用Istrip()去除了前导空格。如果我们想去除后缀空格，就用rstrip()方法。
+
+```
+>>> '   Ayushi '.rstrip()
+```
+
+结果：
+
+```
+‘   Ayushi’
+```
+
+从Q 21到Q 35是为有Python经验者准备的进阶版Python面试题。
+
+
+### 9、使用python将数据库的student表中的数据写入db.txt
 
 ```python
-lis = [2,4,5,6,7]
-for i in lis:
-if i % 2==0:
-lis.remove(i)
-print(lis)
-```
+import pyMySQL
+connect=pyMySQL.Connect(
+host='',
+port=,
+user='',
+passwd='',
+db='',
+charset='',
+)
 
-结果：[4, 5, 7]
+cursor=connect.cursor()
+sql='select from student'
+cursor.execute(sql)
+students=cursor.fetchall()
 
+with open('db.txt','w') as f:
+for student in students:
+f.write(student)
 
-### 2、给定一个非空的字符串，判断它是否可以由它的一个子串重复多次构成。给定的字符串只含有小写英文字母，并且长度不超过10000。例如：'ababab',返回True，'ababa'，返回False
-
-```python
-def solution(s):
-ll=len(s)
-for i in range(1,ll//2+1):
-if ll % i == 0:
-j=0
-while s[:i]==s[j:j+i] and j<ll:
-    j=j+i
-if j==ll:
-    return True
-return False
-
-print(solution('abababa'))
+cursor.close()
+connect.close()
 ```
 
 
-### 3、守护线程，守护进程是什么
-
-主进程创建守护进程
-
-**1、** 守护进程会在主进程代码运行结束的情况下，立即挂掉。
-
-**2、** 守护进程本身就是一个子进程。
-
-**3、** 主进程在其代码结束后就已经算运行完毕了（守护进程在此时就被回收）,然后主进程会一直等非守护的子进程都运行完毕后回收子进程的资源(否则会产生僵尸进程)，才会结束，
-
-守护线程
-
-**1、** 守护线程会在"该进程内所有非守护线程全部都运行完毕后,守护线程才会挂掉"。并不是主线程运行完毕后守护线程挂掉。这一点是和守护进程的区别之处！
-
-**2、** 守护线程守护的是：当前进程内所有的子线程！
-
-**3、** 主线程在其他非守护线程运行完毕后才算运行完毕（守护线程在此时就被回收）。因为主线程的结束意味着进程的结束，进程整体的资源都将被回收，而进程必须保证非守护线程都运行完毕后才能结束。
-
-
-### 4、编写程序，查找文本文件中最长的单词
+### 10、编写程序，检查序列是否为回文
 
 ```
-def longest_word(filename):
-    with open(filename, 'r') as infile:
-              words = infile.read().split()
-    max_len = len(max(words, key=len))
-    return [word for word in words if len(word) == max_len]
+a = input("Enter The sequence")
+ispalindrome = a == a[::-1]
 
-print(longest_word('test.txt'))
-----------------------------------------------------
-['comprehensions']
+ispalindrome
+>True
 ```
 
 
-### 5、如何用一行代码生成[1,4,9,16,25,36,49,64,81,100]?
-
-```python
-lis=[i**2 for i in range(1,11)]
-```
-
-
-### 6、什么时GIL锁
-
-**1、** 即全局解释器锁，
-
-**2、** 一个时间点只有一个线程处于执行状态。
-
-
-### 7、解释Python中的help()和dir()函数
-
-Help()函数是一个内置函数，用于查看函数或模块用途的详细说明：
-
-```
->>> import copy
->>> help(copy.copy)
-```
-
-运行结果为：
-
-```
-Help on function copy in module copy:
-
- 
- 
-copy(x)
- 
-Shallow copy operation on arbitrary Python objects.
- 
-See the module’s __doc__ string for more info.
-```
-
-Dir()函数也是Python内置函数，dir() 函数不带参数时，返回当前范围内的变量、方法和定义的类型列表；带参数时，返回参数的属性、方法列表。
-
-以下实例展示了 dir 的使用方法：
-
-```
->>> dir(copy.copy)
-```
-
-运行结果为：
-
-```
-[‘__annotations__’, ‘__call__’, ‘__class__’, ‘__closure__’, ‘__code__’, ‘__defaults__’, ‘__delattr__’, ‘__dict__’, ‘__dir__’, ‘__doc__’, ‘__eq__’, ‘__format__’, ‘__ge__’, ‘__get__’, ‘__getattribute__’, ‘__globals__’, ‘__gt__’, ‘__hash__’, ‘__init__’, ‘__init_subclass__’, ‘__kwdefaults__’, ‘__le__’, ‘__lt__’, ‘__module__’, ‘__name__’, ‘__ne__’, ‘__new__’, ‘__qualname__’, ‘__reduce__’, ‘__reduce_ex__’, ‘__repr__’, ‘__setattr__’, ‘__sizeof__’, ‘__str__’, ‘__subclasshook__’]
-```
-
-
-### 8、曾经使用过哪些前端框架
-
-react，vue，bootstrap，elementUI，Echarts
-
-
-### 9、Python区分大小写吗？
-
-如果能区分像myname和Myname这样的标识符，那么它就是区分大小写的。也就是说它很在乎大写和小写。我们可以用Python试一试：
-
-```
->>> myname='Ayushi'
->>> Myname
-Traceback (most recent call last):
-File "<pyshell#3>", line 1, in <module>
-```
-
-运行结果：
-
-```
-Myname
-
-NameError: name ‘Myname’ is not defined
-```
-
-可以看到，这里出现了NameError，所以Python是区分大小写的。
-
-
-### 10、如何以就地操作方式打乱一个列表的元素？
-
-为了达到这个目的，我们从random模块中导入shuffle()函数。
-
-```
->>> from random import shuffle
->>> shuffle(mylist)
->>> mylist
-```
-
-运行结果：
-
-```
-[3, 4, 8, 0, 5, 7, 6, 2, 1]
-```
-
-
-### 11、解释一下Python中的//，%和 ** 运算符
-### 12、编写程序，打印斐波那契数列的前十项
-### 13、MySQL执行计划的作用和使用方法
-### 14、在什么情况下y!=x-(x-y)会成立？
-### 15、json序列化时可以处理的数据类型有哪些？如何定制支持datetime类型？序列化时，遇到中文转成unicode，如何保持中文形式？
-### 16、什么是Twemproxy
-### 17、怎么移除一个字符串中的前导空格？
-### 18、一行代码通过filter和lambda函数输出alist=[1,22,2,33,23,32]中索引为奇数的值
-### 19、索引有什么作用，有哪些分类，有什么好处和坏处？
-### 20、求下面代码结果
-### 21、编写程序，输出给定序列中的所有质数
-### 22、实现99乘法表（使用两种方法）
-### 23、如何修改本地hosts文件
-### 24、什么是粘包？出现粘包的原因？
-### 25、什么是socket？简述基于tcp协议的socket通信流程？
-### 26、Python中OOPS是什么？
-### 27、如何打乱一个排好序的列表
-### 28、如何判断一个对象是否可调用？哪些对象是可调用对象？如何定义一个类，使其对象本身就是可调用对象？
-### 29、为何不建议以下划线作为标识符的开头
+### 11、Python中的装饰器是什么？
+### 12、Python有什么特点？
+### 13、is和==的区别
+### 14、给定一个非空的字符串，判断它是否可以由它的一个子串重复多次构成。给定的字符串只含有小写英文字母，并且长度不超过10000。例如：'ababab',返回True，'ababa'，返回False
+### 15、列表和元组之间的区别是？
+### 16、二叉树是非线性结构，栈和队列以及线性表都是线性结构，对吗？
+### 17、发生粘包现象如何处理？
+### 18、你了解哪些数据库优化方案
+### 19、什么是switch语句。如何在Python中创建switch语句？
+### 20、python3和python2中int和long的区别
+### 21、编写程序，计算文件中单词的出现频率
+### 22、什么是socket？简述基于tcp协议的socket通信流程？
+### 23、什么是LVS
+### 24、在什么情况下y!=x-(x-y)会成立？
+### 25、简述TCP三次握手，四次挥手的流程。
+### 26、Python中的单引号和双引号有什么区别？
+### 27、IO多路复用的作用？
+### 28、公司线上和开发环境使用的什么系统
+### 29、在Python中如何使用多进制数字？
 
 
 
@@ -201,6 +182,6 @@ NameError: name ‘Myname’ is not defined
 
 ## 最新，高清PDF：172份，7701页，最新整理
 
-[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/mst.png "大厂面试题")](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png"大厂面试题")
+[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/mst.png "架构师专栏")](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png "架构师专栏")
 
 [![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png "架构师专栏")](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png "架构师专栏")

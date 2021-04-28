@@ -8,7 +8,146 @@
 
 
 
-### 1、对于 GC 方面，在使用 Elasticsearch 时要注意什么？
+### 1、lucence内部结构是什么？
+
+`面试官`：想了解你的知识面的广度和深度。
+
+![](https://gitee.com/souyunkutech/souyunku-home/raw/master/images/souyunku-web/2019/08/0814/01/img_4.png#alt=img%5C_4.png)
+
+Lucene是有索引和搜索的两个过程，包含索引创建，索引，搜索三个要点。可以基于这个脉络展开一些。
+
+最近面试一些公司，被问到的关于Elasticsearch和搜索引擎相关的问题，以及自己总结的回答。
+
+
+### 2、拼写纠错是如何实现的？
+
+**1、拼写纠错是基于编辑距离来实现**；编辑距离是一种标准的方法，它用来表示经过插入、删除和替换操作从一个字符串转换到另外一个字符串的最小操作步数；
+
+**2、编辑距离的计算过程：**比如要计算 batyu 和 beauty 的编辑距离，先创建一个7×8 的表（batyu 长度为 5，coffee 长度为 6，各加 2），接着，在如下位置填入
+
+黑色数字。
+
+**其他格的计算过程是取以下三个值的最小值：**
+
+如果最上方的字符等于最左方的字符，则为左上方的数字。否则为左上方的数字 +1。（对于 3,3 来说为 0）左方数字+1（对于 3,3 格来说为 2）上方数字+1（对于 3,3 格来说为 2）
+
+最终取右下角的值即为编辑距离的值 3。
+
+![70_10.png][70_10.png]
+
+对于拼写纠错，我们考虑构造一个度量空间（Metric Space），该空间内任何关
+
+系满足以下三条基本条件：
+
+> d(x,y) = 0 -- 假如 x 与 y 的距离为 0，则 x=y
+
+d(x,y) = d(y,x) -- x 到 y 的距离等同于 y 到 x 的距离
+
+d(x,y) + d(y,z) >= d(x,z) -- 三角不等式
+
+
+**1、** 根据三角不等式，则满足与 query 距离在 n 范围内的另一个字符转 B，其与 A的距离最大为 d+n，最小为 d-n。
+
+**2、** BK 树的构造就过程如下：每个节点有任意个子节点，每条边有个值表示编辑距离。所有子节点到父节点的边上标注 n 表示编辑距离恰好为 n。比如，我们有棵树父节点是”book”和两个子
+
+**点”cake”和”books”，”book”到”books”的边标号 ：**
+
+**1、** ”book”到”cake”的边上标号.
+
+**2、** 从字典里构造好树后，无论何时你想插入新单词时.计算该单词与根节点的编辑距离，并且查找数值为 d(neweord, root)的边。递归得与各子节点进行比较，直到没有子节点，你就可以创建新的子节点并将新单词保存在那。比如，插入”boo”到刚才上述例子的树中，我们先检查根节点，查找 d(“book”, “boo”) = 1 的边，然后检查标号为1 的边的子节点，得到单词”books”。我们再计算距离 d(“books”, “boo”)=2，则将新单词插在”books”之后，边标号为 2。
+
+**3、** 查询相似词如下：计算单词与根节点的编辑距离 d，然后递归查找每个子节点标号为 d-n 到 d+n（包含）的边。假如被检查的节点与搜索单词的距离 d 小于n，则返回该节点并继续查询。比如输入 cape 且最大容忍距离为 1，则先计算和根的编辑距离 d(“book”,“cape”)=4，然后接着找和根节点之间编辑距离为 3 到5 的，这个就找到了cake 这个节点，计算 d(“cake”, “cape”)=1，满足条件所以返回 cake，然后再找和 cake 节点编辑距离是 0 到 2 的，分别找到 cape 和cart 节点，这样就得到 cape 这个满足条件的结果。
+
+
+
+### 3、迁移 Migration API 如何用作 Elasticsearch？
+
+迁移 API简化了X-Pack索引从一个版本到另一个版本的升级。
+
+点到为止即可，类似问题实际开发现用现查，类似问题没有什么意义。
+
+[https://www.elastic.co/guide/en/elasticsearch/reference/current/migration-api.html](https://www.elastic.co/guide/en/elasticsearch/reference/current/migration-api.html)
+
+
+### 4、详细描述一下Elasticsearch搜索的过程？
+
+`面试官`：想了解ES搜索的底层原理，不再只关注业务层面了。
+
+搜索拆解为“query then fetch” 两个阶段。
+
+**query阶段的目的**：定位到位置，但不取。
+
+步骤拆解如下：
+
+**1、** 假设一个索引数据有5主+1副本 共10分片，一次请求会命中（主或者副本分片中）的一个。
+
+**2、** 每个分片在本地进行查询，结果返回到本地有序的优先队列中。
+
+**3、** 第2）步骤的结果发送到协调节点，协调节点产生一个全局的排序列表。
+
+**fetch阶段的目的**：取数据。
+
+路由节点获取所有文档，返回给客户端。
+
+
+### 5、elasticsearch 全文检索
+
+(1) 客户端使用RestFul API向对应的node发送查询请求
+
+(2)协调节点将请求转发到所有节点（primary或者replica）所有节点将对应的数据查询之后返回对应的doc id 返回给协调节点
+
+(3)协调节点将doc进行排序聚合
+
+(4) 协调节点再根据doc id 把查询请求发送到对应shard的node，返回document
+
+
+### 6、elasticsearch 索引数据多了怎么办，如何调优，部署
+
+面试官：想了解大数据量的运维能力。
+
+解索引数据的规划，应在前期做好规划，正所谓“设计先行，编码在后”，这样才能有效的避免突如其来的数据激增导致集群处理能力不足引发的线上客户检索或者其他业务受到影响。
+
+如何调优，正如问题 1 所说，这里细化一下：
+
+**动态索引层面**
+
+基于模板+时间+rollover api 滚动创建索引，举例：设计阶段定义：blog 索引的模板格式为：blog_index_时间戳的形式，每天递增数据。
+
+这样做的好处：不至于数据量激增导致单个索引数据量非常大，接近于上线 2 的32 次幂-1，索引存储达到了 TB+甚至更大。
+
+一旦单个索引很大，存储等各种风险也随之而来，所以要提前考虑+及早避免。
+
+**存储层面**
+
+冷热数据分离存储，热数据（比如最近 3 天或者一周的数据），其余为冷数据。
+
+对于冷数据不会再写入新数据，可以考虑定期 force_merge 加 shrink 压缩操作，节省存储空间和检索效率。
+
+**部署层面**
+
+一旦之前没有规划，这里就属于应急策略。结合 ES 自身的支持动态扩展的特点，动态新增机器的方式可以缓解集群压力，注意：如果之前主节点等规划合理，不需要重启集群也能完成动态新增的。
+
+
+### 7、解释一下 Elasticsearch 的 分片？
+
+当文档数量增加，硬盘容量和处理能力不足时，对客户端请求的响应将延迟。
+
+在这种情况下，将索引数据分成小块的过程称为分片，可改善数据搜索结果的获取。
+
+
+### 8、在Elasticsearch中 cat API的功能是什么？
+
+cat API 命令提供了Elasticsearch 集群的分析、概述和运行状况，其中包括与别名，分配，索引，节点属性等有关的信息。
+
+这些 cat 命令使用查询字符串作为其参数，并以J SON 文档格式返回结果信息。
+
+
+### 9、ElasticSearch中的倒排索引是什么？
+
+倒排索引是搜索引擎的核心，搜索引擎的主要目标是在查找发生搜索条件的文档时提供快速搜索。倒排索引是一种像数据结构一样的散列图，可将用户从单词导向文档或网页，它是搜索引擎的核心。其主要目标是快速搜索从数百万文件中查找数据。
+
+
+### 10、对于 GC 方面，在使用 Elasticsearch 时要注意什么？
 
 **1、** SEE
 
@@ -23,142 +162,22 @@
 **6、** 想知道 heap 够不够，必须结合实际应用场景，并对集群的 heap 使用情况做持续的监控。
 
 
-### 2、解释一下 Elasticsearch Node？
-
-节点是 Elasticsearch 的实例。实际业务中，我们会说：ES集群包含3个节点、7个节点。
-
-这里节点实际就是：一个独立的 Elasticsearch 进程，一般将一个节点部署到一台独立的服务器或者虚拟机、容器中。
-
-不同节点根据角色不同，可以划分为：
-
-**主节点**
-
-帮助配置和管理在整个集群中添加和删除节点。
-
-**数据节点**
-
-存储数据并执行诸如CRUD（创建/读取/更新/删除）操作，对数据进行搜索和聚合的操作。
-
-**1、** 客户端节点（或者说：协调节点） 将集群请求转发到主节点，将与数据相关的请求转发到数据节点
-
-**2、** 摄取节点
-
-用于在索引之前对文档进行预处理。
-
-
-### 3、客户端在和集群连接时，如何选择特定的节点执行请求的？
-
-TransportClient 利用 transport 模块远程连接一个 elasticsearch 集群。它并不加入到集群中，只是简单的获得一个或者多个初始化的 transport 地址，并以 轮询 的方式与这些地址进行通信。
-
-
-### 4、我们可以在 Elasticsearch 中执行搜索的各种可能方式有哪些？
-
-核心方式如下：
-
-方式一：基于 DSL 检索（最常用） Elasticsearch提供基于JSON的完整查询DSL来定义查询。
-
-```
-GET /shirts/_search
-{
-  "query": {
-    "bool": {
-      "filter": [
-        { "term": { "color": "red"   }},
-        { "term": { "brand": "gucci" }}
-      ]
-    }
-  }
-}
-```
-
-方式二：基于 URL 检索
-
-```
-GET /my_index/_search?q=user:seina
-```
-
-方式三：类SQL 检索
-
-```
-POST /_sql?format=txt
-{
-  "query": "SELECT * FROM uint-2020-08-17 ORDER BY itemid DESC LIMIT 5"
-}
-```
-
-功能还不完备，不推荐使用。
-
-
-### 5、Master 节点和 候选 Master节点有什么区别？
-
-主节点负责集群相关的操作，例如创建或删除索引，跟踪哪些节点是集群的一部分，以及决定将哪些分片分配给哪些节点。
-
-拥有稳定的主节点是衡量集群健康的重要标志。
-
-而候选主节点是被选具备候选资格，可以被选为主节点的那些节点。
-
-
-### 6、Elasticsearch中的节点（比如共20个），其中的10个选了一个master，另外10个选了另一个master，怎么办？
-
-**1、** 当集群master候选数量不小于3个时，可以通过设置最少投票通过数量（**discovery.zen.minimum_master_nodes**）超过所有候选节点一半以上来解决脑裂问题；
-
-**2、** 当候选数量为两个时，只能修改为唯一的一个master候选，其他作为data节点，避免脑裂问题。
-
-
-### 7、在 Elasticsearch 中删除索引的语法是什么？
-
-可以使用以下语法删除现有索引：
-
-```
-DELETE <index_name>
-```
-
-支持通配符删除：
-
-```
-DELETE my_*
-```
-
-
-### 8、介绍下你们电商搜索的整体技术架构。
-
-![](https://gitee.com/souyunkutech/souyunku-home/raw/master/images/souyunku-web/2019/08/0820/02/img_3.png#alt=img%5C_3.png)
-
-
-### 9、介绍一下你们的个性化搜索方案？
-
-SEE [基于word2vec和Elasticsearch实现个性化搜索](http://ginobefunny.com/post/personalized_search_implemention_based_word2vec_and_elasticsearch/)
-
-
-### 10、你是如何做 ElasticSearch 写入调优的？
-
-1）写入前副本数设置为0；
-
-2）写入前关闭refresh_interval设置为-1，禁用刷新机制；
-
-3）写入过程中：采取bulk批量写入；
-
-4） 写入后恢复副本数和刷新间隔；
-
-5） 尽量使用自动生成的id。
-
-
-### 11、详细描述一下Elasticsearch更新和删除文档的过程。
-### 12、详细描述一下Elasticsearch索引文档的过程
-### 13、Elasticsearch在部署时，对Linux的设置有哪些优化方法
-### 14、客户端在和集群连接时，如何选择特定的节点执行请求的？
-### 15、在索引中更新 Mapping 的语法？
-### 16、Elasticsearch 支持哪些类型的查询？
-### 17、Elasticsearch 支持哪些配置管理工具？
-### 18、安装 Elasticsearch 需要依赖什么组件吗？
-### 19、你能告诉我 Elasticsearch 中的数据存储功能吗？
-### 20、你可以列出 Elasticsearch 各种类型的分析器吗？
-### 21、精准匹配检索和全文检索匹配检索的不同？
-### 22、Elasticsearch 在部署时，对 Linux 的设置有哪些优化方法
-### 23、在Elasticsearch中 按 ID检索文档的语法是什么？
-### 24、elasticsearch 数据的写入原理
-### 25、elasticsearch 实际设计
-### 26、解释一下 Elasticsearch 集群中的 Type 的概念 ？
+### 11、拼写纠错是如何实现的？
+### 12、介绍一下你们的个性化搜索方案？
+### 13、Elasticsearch 支持哪些配置管理工具？
+### 14、Elasticsearch 中的节点（比如共 20 个），其中的 10 个选了一个master，另外 10 个选了另一个 master，怎么办？
+### 15、对于GC方面，在使用Elasticsearch时要注意什么？
+### 16、能列出 10 个使用 Elasticsearch 作为其搜索引擎或数据库的公司吗？
+### 17、你可以列出 Elasticsearch 各种类型的分析器吗？
+### 18、您能解释一下 Elasticsearch 中的 Explore API 吗？
+### 19、Elasticsearch 在部署时，对 Linux 的设置有哪些优化方法
+### 20、你之前公司的ElasticSearch集群，一个Node一般会分配几个分片？
+### 21、客户端在和集群连接时，如何选择特定的节点执行请求的？
+### 22、解释一下 Elasticsearch 集群中的 Type 的概念 ？
+### 23、Elasticsearch对于大数据量（上亿量级）的聚合如何实现？
+### 24、ES在生产集群的部署架构是什么，每个索引有多大的数据量，每个索引有多少分片
+### 25、什么是ElasticSearch索引？
+### 26、在并发情况下，Elasticsearch如果保证读写一致？
 
 
 
@@ -172,6 +191,6 @@ SEE [基于word2vec和Elasticsearch实现个性化搜索](http://ginobefunny.com
 
 ## 最新，高清PDF：172份，7701页，最新整理
 
-[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/mst.png "大厂面试题")](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png"大厂面试题")
+[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/mst.png "架构师专栏")](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png "架构师专栏")
 
 [![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png "架构师专栏")](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png "架构师专栏")

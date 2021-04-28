@@ -8,111 +8,127 @@
 
 
 
-### 1、Ribbon和Feign调用服务的区别
+### 1、哪些是重要的bean生命周期方法？ 你能重载它们吗？
 
-**1、** 调用方式同：Ribbon需要我们自己构建Http请求，模拟Http请求然后通过RestTemplate发给其他服务，步骤相当繁琐
+有两个重要的bean 生命周期方法，第一个是setup ， 它是在容器加载bean的时候被调用。第二个方法是 teardown 它是在容器卸载类的时候被调用。
 
-**2、** 而Feign则是在Ribbon的基础上进行了一次改进，采用接口的形式，将我们需要调用的服务方法定义成抽象方法保存在本地就可以了，不需要自己构建Http请求了，直接调用接口就行了，不过要注意，调用方法要和本地抽象方法的签名完全一致。
-
-
-### 2、什么是 AOP 切点
-
-切入点是一个或一组连接点，通知将在这些位置执行。可以通过表达式或匹配的方式指明切入点。
+The bean 标签有两个重要的属性（init-method和destroy-method）。用它们你可以自己定制初始化和注销方法。它们也有相应的注解（@PostConstruct和@PreDestroy）。
 
 
-### 3、在Spring MVC应用程序中使用WebMvcTest注释有什么用处？
+### 2、访问RESTful微服务的方法是什么？
 
-WebMvcTest注释用于单元测试Spring MVC应用程序。我们只想启动ToTestController。执行此单元测试时，不会启动所有其他控制器和映射。
+另一个经常被问到的微服务面试问题是如何访问RESTful微服务？你可以通过两种方法做到这一点：
 
-```
-@WebMvcTest(value = ToTestController.class, secure = false):
-```
+**1、** 使用负载平衡的REST模板。
 
-
-### 4、有哪些不同类型的IOC（依赖注入）方式？
-
-构造器依赖注入：构造器依赖注入通过容器触发一个类的构造器来实现的，该类有一系列参数，每个参数代表一个对其他类的依赖。
-
-Setter方法注入：Setter方法注入是容器通过调用无参构造器或无参static工厂 方法实例化bean之后，调用该bean的setter方法，即实现了基于setter的依赖注入。
+**2、** 使用多个微服务。
 
 
-### 5、什么是 Spring Framework？
+### 3、SpringBoot 中的监视器是什么？
 
-Spring 是一个开源应用框架，旨在降低应用程序开发的复杂度。它是轻量级、松散耦合的。它具有分层体系结构，允许用户选择组件，同时还为 J2EE 应用程序开发提供了一个有凝聚力的框架。它可以集成其他框架，如 Structs、Hibernate、EJB 等，所以又称为框架的框架。
-
-
-### 6、什么是FreeMarker模板？
-
-FreeMarker是一个基于Java的模板引擎，最初专注于使用MVC软件架构进行动态网页生成。使用Freemarker的主要优点是表示层和业务层的完全分离。程序员可以处理应用程序代码，而设计人员可以处理html页面设计。最后使用freemarker可以将这些结合起来，给出最终的输出页面。
+Spring boot actuator 是 spring 启动框架中的重要功能之一。Spring boot 监视器可帮助您访问生产环境中正在运行的应用程序的当前状态。有几个指标必须在生产环境中进行检查和监控。即使一些外部应用程序可能正在使用这些服务来向相关人员触发警报消息。监视器模块公开了一组可直接作为 HTTP URL 访问的REST 端点来检查状态。
 
 
-### 7、什么是 AOP什么是目标对象?
+### 4、SpringBoot、Spring MVC 和 Spring 有什么区别？
 
-被一个或者多个切面所通知的对象。它通常是一个代理对象。也指被通知（advised）对象。
+**1、** Spring
 
+Spring最重要的特征是依赖注入。所有 SpringModules 不是依赖注入就是 IOC 控制反转。
 
-### 8、SpringBoot 自动配置原理
+当我们恰当的使用 DI 或者是 IOC 的时候，我们可以开发松耦合应用。松耦合应用的单元测试可以很容易的进行。
 
-**1、** SpringBoot启动的时候加载主配置类，开启了自动配置功能 @EnableAutoConfiguration
+**2、** Spring MVC
 
-**2、** @EnableAutoConfiguration 作用:
+Spring MVC 提供了一种分离式的方法来开发 Web 应用。通过运用像 DispatcherServelet，MoudlAndView 和 ViewResolver 等一些简单的概念，开发 Web 应用将会变的非常简单。
 
-将类路径下 META-INF/spring.factories 里面配置的所有EnableAutoConfiguration的值加入到了容器中;
+**3、** SpringBoot
 
-每一个这样的 xxxAutoConfiguration类都是容器中的一个组件，都加入到容器中;用他们来做自动配置;
+Spring 和 SpringMVC 的问题在于需要配置大量的参数。
 
-**3、** 每一个自动配置类进行自动配置功能;
-
-根据当前不同的条件判断，决定这个配置类是否生效；
-
-**4、** 一但这个配置类生效;这个配置类就会给容器中添加各种组件;这些组件的属性是从对应的properties类中获取 的，这些类里面的每一个属性又是和配置文件绑定的;
-
-**5、** 所有在配置文件中能配置的属性都是在xxxxProperties类中封装者‘;配置文件能配置什么就可以参照某个功 能对应的这个属性类
+SpringBoot 通过一个自动配置和启动的项来目解决这个问题。为了更快的构建产品就绪应用程序，SpringBoot 提供了一些非功能性特征。
 
 
-### 9、解释对象/关系映射集成模块。
+### 5、自动装配有什么局限？
 
-Spring 通过提供ORM模块，支持我们在直接JDBC之上使用一个对象/关系映射映射(ORM)工具，Spring 支持集成主流的ORM框架，如Hiberate,JDO和 iBATIS SQL Maps。Spring的事务管理同样支持以上所有ORM框架及JDBC。
-
-
-### 10、什么是 AOP 通知
-
-通知是个在方法执行前或执行后要做的动作，实际上是程序执行时要通过SpringAOP框架触发的代码段。
-
-**Spring切面可以应用五种类型的通知：**
-
-before：前置通知，在一个方法执行前被调用。
-
-after: 在方法执行之后调用的通知，无论方法执行是否成功。
-
-after-returning: 仅当方法成功完成后执行的通知。
-
-after-throwing: 在方法抛出异常退出时执行的通知。
-
-around: 在方法执行之前和之后调用的通知。
+覆盖的可能性 - 您始终可以使用 `<constructor-arg>` 和 `<property>` 设置指定依赖项，这将覆盖自动装配。基本元数据类型 - 简单属性（如原数据类型，字符串和类）无法自动装配。令人困惑的性质 - 总是喜欢使用明确的装配，因为自动装配不太精确。
 
 
-### 11、SpringBoot支持什么前端模板，
-### 12、什么是幂等性?它是如何使用的？
-### 13、列举 Spring Framework 的优点。
-### 14、Spring Cloud Consul
-### 15、怎么样把ModelMap里面的数据放入Session里面？
-### 16、SpingMvc中的控制器的注解一般用哪个,有没有别的注解可以替代？
-### 17、列举 Spring Framework 的优点。
-### 18、spring-boot-starter-parent有什么用？
-### 19、什么是服务熔断
-### 20、你如何理解 SpringBoot 配置加载顺序？
-### 21、如何给Spring 容器提供配置元数据?
-### 22、SpringBoot 自动配置原理是什么？
-### 23、@PathVariable和@RequestParam的区别
-### 24、[@Required ](/Required ) 注解
-### 25、如何在 SpringBoot 中禁用 Actuator 端点安全性？
-### 26、SpringBoot 最大的优势是什么呢？
-### 27、分布式配置中心的作用？
-### 28、Spring MVC的控制器是不是单例模式,如果是,有什么问题,怎么解决？
-### 29、SpringBoot 自动配置原理是什么？
-### 30、shiro和oauth还有cas他们之间的关系是什么？问下您公司权限是如何设计，还有就是这几个概念的区别。
-### 31、Actuator在SpringBoot中的作用
+### 6、什么是不同类型的双因素身份认证？
+
+执行双因素身份验证需要三种类型的凭据：
+
+**1、** 一件你知道的事情——比如密码、密码或屏幕锁定模式。
+
+**2、** 您拥有的物理凭证，如OTP、电话或ATM卡，换句话说，您在外部或第三方设备中拥有的任何类型的凭证。
+
+**3、** 您的物理身份–如语音认证或生物特征安全，如指纹或眼睛扫描仪。
+
+
+### 7、如何设置服务发现？
+
+有多种方法可以设置服务发现。我将选择我认为效率最高的那个，Netflix的Eureka。这是一个简单的程序，不会对应用程序造成太大影响。此外，它支持多种类型的Web应用程序。 Eureka配置包括两个步骤 - 客户端配置和服务器配置。
+
+使用属性文件可以轻松完成客户端配置。在clas spath中，Eureka搜索一个eureka-client.properties文件。它还搜索由特定于环境的属性文件中的环境引起的覆盖。
+
+对于服务器配置，您必须首先配置客户端。完成后，服务器启动一个客户端，该客户端用于查找其他服务器。。默认情况下，Eureka服务器使用客户端配置来查找对等服务器。
+
+
+### 8、什么是 Aspect 切面
+
+AOP核心就是切面，它将多个类的通用行为封装成可重用的模块，该模块含有一组API提供横切功能。比如，一个日志模块可以被称作日志的AOP切面。根据需求的不同，一个应用程序可以有若干切面。在Spring AOP中，切面通过带有@Aspect注解的类实现。
+
+
+### 9、列举微服务技术栈
+
+**1、** 服务⽹关Zuul
+
+**2、** 服务注册发现Eureka+Ribbon
+
+**3、** 服务配置中⼼Apollo
+
+**4、** 认证授权中⼼Spring Security OAuth2
+
+**5、** 服务框架SpringBoot
+
+**6、** 数据总线Kafka
+
+**7、** ⽇志监控ELK
+
+**8、** 调⽤链监控CAT
+
+**9、** Metrics监控KairosDB
+
+**10、** 健康检查和告警ZMon
+
+**11、** 限流熔断和流聚合Hystrix/Turbine
+
+
+### 10、什么是 Swagger？你用 SpringBoot 实现了它吗？
+
+Swagger 广泛用于可视化 API，使用 Swagger UI 为前端开发人员提供在线沙箱。Swagger 是用于生成 RESTful Web 服务的可视化表示的工具，规范和完整框架实现。它使文档能够以与服务器相同的速度更新。当通过 Swagger 正确定义时，消费者可以使用最少量的实现逻辑来理解远程服务并与其进行交互。因此，Swagger消除了调用服务时的猜测。
+
+
+### 11、开启 SpringBoot 特性有哪几种方式？
+### 12、自动装配有哪些方式？
+### 13、Spring支持的事务管理类型
+### 14、什么是SpringBoot？
+### 15、什么是OAuth？
+### 16、请描述Spring MVC的工作流程？描述一下 DispatcherServlet 的工作流程？
+### 17、微服务有哪些特点？
+### 18、什么是 spring bean？
+### 19、如何给Spring 容器提供配置元数据?
+### 20、怎样在方法里面得到Request,或者Session？
+### 21、spring JDBC API 中存在哪些类？
+### 22、什么是织入。什么是织入应用的不同点？
+### 23、spring cloud 和dubbo区别?
+### 24、[@Controller ](/Controller ) 注解
+### 25、SpringBoot 还提供了其它的哪些 Starter Project Options？
+### 26、SpringBoot 的核心注解是哪个？它主要由哪几个注解组成的？
+### 27、spring boot 核心配置文件是什么？bootstrap.properties 和 application.properties 有何区别 ?
+### 28、为什么需要域驱动设计（DDD）？
+### 29、在微服务中，如何保护服务?
+### 30、SpringBoot 如何设置支持跨域请求？
+### 31、ApplicationContext通常的实现是什么?
 
 
 
@@ -126,6 +142,6 @@ around: 在方法执行之前和之后调用的通知。
 
 ## 最新，高清PDF：172份，7701页，最新整理
 
-[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/mst.png "大厂面试题")](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png"大厂面试题")
+[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/mst.png "架构师专栏")](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png "架构师专栏")
 
 [![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png "架构师专栏")](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png "架构师专栏")

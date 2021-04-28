@@ -8,155 +8,172 @@
 
 
 
-### 1、说说 ContentProvider、ContentResolver、ContentObserver 之间的关系
+### 1、java中如何引用本地语言
 
-```
-ContentProvider：内容提供者，对外提供数据的操作，contentProvider.notifyChanged(uir)：可以更新数据
-contentResolver：内容解析者，解析ContentProvider返回的数据
-ContentObServer:内容监听者，监听数据的改变，contentResolver.registerContentObServer()
-```
+可以用JNI（java native interface  java 本地接口）接口 。
 
 
-### 2、Android中常用布局
+### 2、如果后台的Activity由于某原因被系统回收了，如何在被系统回收之前保存当前状态？
 
-常用的布局：
-
-```
-FrameLayout(帧布局):所有东西依次都放在左上角，会重叠
-LinearLayout(线性布局):按照水平和垂直进行数据展示
-RelativeLayout(相对布局):以某一个元素为参照物，来定位的布局方式
-```
-
-不常用的布局：
-
-```
-TableLayout(表格布局): 每一个TableLayout里面有表格行TableRow，TableRow里面可以具体定义每一个元素（Android TV上使用）
-AbsoluteLayout(绝对布局):用X,Y坐标来指定元素的位置，元素多就不适用。（机顶盒上使用）
-```
-
-新增布局：
-
-```
-PercentRelativeLayout（百分比相对布局）可以通过百分比控制控件的大小。
-PercentFrameLayout（百分比帧布局）可以通过百分比控制控件的大小。
-```
+重写onSaveInstanceState()方法，在此方法中保存需要保存的数据，该方法将会在activity被回收之前调用。通过重写onRestoreInstanceState()方法可以从中提取保存好的数据
 
 
-### 3、AIDL 的全称是什么?如何工作?能处理哪些类型的数据？
+### 3、什么是 AIDL？如何使用？
 
-AIDL 全称 Android Interface Definition Language（AndRoid 接口描述语言） 是一种接口描述语言; 编译器可以通过 aidl 文件生成一段代码，通过预先定义的接口达到两个进程内部通信进程跨界对象访问的目的。需要完成两件事情：
+aidl 是 Android interface definition Language 的英文缩写，意思 Android 接口定义语言。
 
-**1、** 引入 AIDL 的相关类.;
+使用 aidl 可以帮助我们发布以及调用远程服务，实现跨进程通信。
 
-**2、** 调用 aidl 产生的 class
+**1、** 将服务的 aidl 放到对应的 src 目录，工程的 gen 目录会生成相应的接口类
 
-理论上, 参数可以传递基本数据类型和 String, 还有就是 Bundle 的派生类, 不过在 Eclipse 中,目前的 ADT 不支持 Bundle 做为参数。
-
-
-### 4、jni 的调用过程?
-
-**1、** 安装和下载 Cygwin，下载 Android NDK。
-
-**2、** ndk 项目中 JNI 接口的设计。
-
-**3、** 使用 C/C++实现本地方法。
-
-**4、** JNI 生成动态链接库.so 文件。
-
-**5、** 将动态链接库复制到 java 工程，在 java 工程中调用，运行 java 工程即可。
+**2、** 我们通过 bindService（Intent，ServiceConnect，int）方法绑定远程服务，在 bindService中 有 一 个 ServiceConnec 接 口 ， 我 们 需 要 覆 写 该 类 的onServiceConnected(ComponentName,IBinder)方法，这个方法的第二个参数 IBinder 对象其实就是已经在 aidl 中定义的接口，因此我们可以将 IBinder 对象强制转换为 aidl 中的接口类。我们通过 IBinder 获取到的对象（也就是 aidl 文件生成的接口）其实是系统产生的代理对象，该代理对象既可以跟我们的进程通信， 又可以跟远程进程通信， 作为一个中间的角色实现了进程间通信。
 
 
-### 5、Service 和 Activity 在同一个线程吗
+### 4、什么是 IntentService？有何优点？
 
-默认情况下service与activity在同一个线程，都在main Thread，或者ui线程中。
+IntentService 是 Service 的子类，比普通的 Service 增加了额外的功能。先看 Service 本身存在两个问题：
 
-如果在清单文件中指定service的process属性，那么service就在另一个进程中运行。
+**1、** Service 不会专门启动一条单独的进程，Service 与它所在应用位于同一个进程中；
 
+**2、** Service 也不是专门一条新线程，因此不应该在 Service 中直接处理耗时的任务；
 
-### 6、activity，fragment传值问题
+**IntentService 特征**
 
-通过Bundle传值，在activty定义变量传值，扩展fragment创建传值
+**1、** 会创建独立的 worker 线程来处理所有的 Intent 请求；
 
+**2、** 会创建独立的 worker 线程来处理 onHandleIntent()方法实现的代码，无需处理多线程问题；
 
-### 7、开发中都使用过哪些框架、平台
+**3、** 所有请求处理完成后，IntentService 会自动停止，无需调用 stopSelf()方法停止 Service；
 
-**1、** EventBus（事件处理）
+**4、** 为 Service 的 onBind()提供默认实现，返回 null；
 
-**2、** xUtils（网络、图片、ORM）
-
-**3、** JPush（推送平台）
-
-**4、** 友盟（统计平台）
-
-**5、** 有米（优米）（广告平台）
-
-**6、** 百度地图
-
-**7、** bmob（服务器平台、短信验证、邮箱验证、第三方支付）
-
-**8、** 阿里云 OSS（云存储）
-
-**9、** ShareSDK（分享平台、第三方登录）
-
-**10、** Gson（解析 json 数据框架）
-
-**11、** imageLoader （图片处理框架）
-
-**12、** zxing （二维码扫描）
-
-**13、** anroid-asyn-http（网络通讯）
-
-**14、** DiskLruCache(硬盘缓存框架)
-
-**15、** Viatimo（多媒体播放框架）
-
-**16、** universal-image-loader(图片缓存框架)
-
-**17、** 讯飞语音（语音识别）
+**5、** 为 Service 的 onStartCommand 提供默认实现，将请求 Intent 添加到队列中；
 
 
-### 8、什么情况会导致Force Close ？如何避免？能否捕获导致其的异常？
+### 5、如何退出Activity？如何安全退出已调用多个Activity的Application？
 
-**程序出现异常，比如nullpointer。**
+对于单一Activity的应用来说，退出很简单，直接finish()即可。当然，也可以用killProcess()和System.exit()这样的方法。
 
-避免：编写程序时逻辑连贯，思维缜密。能捕获异常，在logcat中能看到异常信息
+对于多个activity，1、记录打开的Activity：每打开一个Activity，就记录下来。在需要退出时，关闭每一个Activity即可。2、发送特定广播：在需要结束应用时，发送一个特定的广播，每个Activity收到广播后，关闭即可。3、递归退出：在打开新的Activity时使用startActivityForResult，然后自己加标志，在onActivityResult中处理，递归关闭。为了编程方便，最好定义一个Activity基类，处理这些共通问题。
+
+在2.1之前，可以使用ActivityManager的restartPackage方法。
+
+它可以直接结束整个应用。在使用时需要权限android.permission.RESTART_PACKAGES。
+
+注意不要被它的名字迷惑。
+
+可是，在2.2，这个方法失效了。在2.2添加了一个新的方法，killBackground Processes()，需要权限 android.permission.KILL_BACKGROUND_PROCESSES。可惜的是，它和2.2的restartPackage一样，根本起不到应有的效果。
+
+另外还有一个方法，就是系统自带的应用程序管理里，强制结束程序的方法，forceStopPackage()。它需要权限android.permission.FORCE_STOP_PACKAGES。并且需要添加android:sharedUserId="android.uid.system"属性。同样可惜的是，该方法是非公开的，他只能运行在系统进程，第三方程序无法调用。
+
+因为需要在Android.mk中添加LOCAL_CERTIFICATE := platform。
+
+而Android.mk是用于在Android源码下编译程序用的。
+
+从以上可以看出，在2.2，没有办法直接结束一个应用，而只能用自己的办法间接办到。
+
+**现提供几个方法，供参考：**
+
+**1、** 抛异常强制退出：
+
+该方法通过抛异常，使程序Force Close。
+
+验证可以，但是，需要解决的问题是，如何使程序结束掉，而不弹出Force Close的窗口。
+
+**2、** 记录打开的Activity：
+
+每打开一个Activity，就记录下来。在需要退出时，关闭每一个Activity即可。
+
+**3、** 发送特定广播：
+
+在需要结束应用时，发送一个特定的广播，每个Activity收到广播后，关闭即可。
+
+**4、** 递归退出
+
+在打开新的Activity时使用startActivityForResult，然后自己加标志，在onActivityResult中处理，递归关闭。
+
+除了第一个，都是想办法把每一个Activity都结束掉，间接达到目的。但是这样做同样不完美。你会发现，如果自己的应用程序对每一个Activity都设置了nosensor，在两个Activity结束的间隙，sensor可能有效了。但至少，我们的目的达到了，而且没有影响用户使用。为了编程方便，最好定义一个Activity基类，处理这些共通问题。
 
 
-### 9、View的绘制原理
+### 6、如果后台的Activity由于某原因被系统回收了，如何在被系统回收之前保存当前状态？
 
-View为所有图形控件的基类，View的绘制由3个函数完成
-
-measure,计算视图的大小
-
-layout,提供视图要显示的位置
-
-draw,绘制
+在onPuase方法中调用onSavedInstanceState()
 
 
-### 10、android 中有哪几种解析xml的类？官方推荐哪种？以及它们的原理和区别。
+### 7、andorid 应用第二次登录实现自动登录
 
-XML解析主要有三种方式，SAX、DOM、PULL。常规在PC上开发我们使用Dom相对轻松些，但一些性能敏感的数据库或手机上还是主要采用SAX方式，SAX读取是单向的，优点:不占内存空间、解析属性方便，但缺点就是对于套嵌多个分支来说处理不是很方便。而DOM方式会把整个XML文件加载到内存中去，这里Android开发网提醒大家该方法在查找方面可以和XPath很好的结合如果数据量不是很大推荐使用，而PULL常常用在J2ME对于节点处理比较好，类似SAX方式，同样很节省内存，在J2ME中我们经常使用的KXML库来解析。
+前置条件是所有用户相关接口都走 https，非用户相关列表类数据走 http。
+
+**步骤**
+
+**1、** 第一次登陆 getUserInfo 里带有一个长效 token，该长效 token 用来判断用户是否登陆和换取短 token
+
+**2、** 把长效 token 保存到 SharedPreferences
+
+**3、** 接口请求用长效 token 换取短token，短 token 服务端可以根据你的接口最后一次请求作为标示，超时时间为一天。
+
+**4、** 所有接口都用短效 token
+
+**5、** 如果返回短效 token 失效，执行第3步，再直接当前接口
+
+**6、** 如果长效 token 失效（用户换设备或超过一月），提示用户登录。
 
 
-### 11、andorid 应用第二次登录实现自动登录
-### 12、Fragment中add与replace的区别？
-### 13、如何退出Activity？如何安全退出已调用多个Activity的Application？
-### 14、什么是ANR 如何避免它？
-### 15、SQLite支持事务吗? 添加删除如何提高性能?
-### 16、简要解释一下activity、 intent 、intent filter、service、Broadcase、BroadcaseReceiver
-### 17、Service 是否在 main thread 中执行, service 里面是否能执行耗时的操作?
-### 18、如何对 Android 应用进行性能分析
-### 19、DDMS和TraceView的区别?
-### 20、说说mvc模式的原理，它在android中的运用,android的官方建议应用程序的开发采用mvc模式。何谓mvc？
-### 21、9.进程和线程的区别
-### 22、请介绍下Android中常用的五种布局。
-### 23、Android中任务栈的分配
-### 24、android的数据存储
-### 25、activity之间传递参数，除了intent，广播接收器，contentProvider之外，还有那些方法？
-### 26、GLSurfaceView
-### 27、广播接受者的生命周期？
-### 28、activity的启动模式有哪些？是什么含义
-### 29、什么是IntentService？有何优点？
+### 8、如何对 Android 应用进行性能分析
+
+如果不考虑使用其他第三方性能分析工具的话，我们可以直接使用 ddms 中的工具，其实 ddms 工具已经非常的强大了。ddms 中有 traceview、heap、allocation tracker 等工具都可以帮助我们分析应用的方法执行时间效率和内存使用情况。
+
+Traceview 是 Android 平台特有的数据采集和分析工具，它主要用于分析 Android 中应用程序的 hotspot（瓶颈）。Traceview 本身只是一个数据分析工具，而数据的采集则需要使用 AndroidSDK 中的 Debug 类或者利用 DDMS 工具。
+
+heap 工具可以帮助我们检查代码中是否存在会造成内存泄漏的地方。
+
+allocation tracker 是内存分配跟踪工具
+
+
+### 9、如何提升Service进程优先级
+
+在AndroidManifest.xml文件中对于intent-filter可以通过android:priority = “1000”这个属性设置最高优先级，1000是最高值，如果数字越小则优先级越低，同时适用于广播。
+
+
+
+### 10、横竖屏切换的Activity 生命周期变化？
+
+不设置 Activity 的 android:configChanges 时，切屏会销毁当前Activity，然后重新加载调用各个生命周期，切横屏时会执行一次，切竖屏时会执行两次；
+
+onPause()→onStop()→onDestory()→onCreate()→onStart()→onResume()
+
+设置 Activity 的 android:configChanges=" orientation"，经过机型测试
+
+在 Android5.1 即 即 API 3 23 级别下，切屏还是会重新调用各个生命周期，切横、竖屏时只会执行一次
+
+在 Android9 即 即 API 8 28 级别下，切屏不会重新调用各个生命周期，只会执行 onConfigurationChanged方法
+
+官方纠正后，原话如下
+
+如果您的应用面向 Android 2 3.2 即 即 API 级别 3 13 或更
+
+高级别（按照 minSdkVersion 和 targetSdkVersion)
+
+
+### 11、请介绍下 AsyncTask 的内部实现和适用的场景
+### 12、Android的四大组件是哪些，它们的作用？
+### 13、谈谈你对 Bitmap 的理解, 什么时候应该手动调用 bitmap.recycle()
+### 14、Fragment 如何实现类似 Activity 栈的压栈和出栈效果的？
+### 15、什么是嵌入式实时操作系统, Android 操作系统属于实时操作系统吗?
+### 16、Android中任务栈的分配
+### 17、属性动画
+### 18、Adapter是什么？你所接触过的adapter有那些？
+### 19、android 中有哪几种解析xml的类？官方推荐哪种？以及它们的原理和区别。
+### 20、Service 里面可以弹吐司么
+### 21、Fragment中add与replace的区别？
+### 22、什么是IntentService？有何优点？
+### 23、请解释下Android程序运行时权限与文件系统权限的区别。
+### 24、描述下Handler 机制
+### 25、事件分发中的 onTouch 和 onTouchEvent 有什么区别，又该如何使用？
+### 26、activity与fragment区别
+### 27、请描述一下 Intent 和 IntentFilter
+### 28、即时通讯是是怎么做的?
+### 29、注册广播有几种方式，这些方式有何优缺点？请谈谈Android引入广播机制的用意。
 
 
 
@@ -170,6 +187,6 @@ XML解析主要有三种方式，SAX、DOM、PULL。常规在PC上开发我们�
 
 ## 最新，高清PDF：172份，7701页，最新整理
 
-[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/mst.png "大厂面试题")](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png"大厂面试题")
+[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/mst.png "架构师专栏")](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png "架构师专栏")
 
 [![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png "架构师专栏")](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png "架构师专栏")

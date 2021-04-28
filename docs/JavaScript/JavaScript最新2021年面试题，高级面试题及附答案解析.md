@@ -8,145 +8,183 @@
 
 
 
-### 1、为什么在 JS 中比较两个相似的对象时返回 false？
+### 1、git 和 svn的区别?
 
-先看下面的例子：
+SVN是集中式版本控制系统，版本库是集中放在中央服务器的，而干活的时候，用的都是自己的电脑，所以首先要从中央服务器哪里得到最新的版本，然后干活，干完后，需要把自己做完的活推送到中央服务器。集中式版本控制系统是必须联网才能工作，如果在局域网还可以，带宽够大，速度够快，如果在互联网下，如果网速慢的话，就纳闷了。
 
-```
-let a = { a: 1 };
-let b = { a: 1 };
-let c = a;
-console.log(a === b); // 打印 false，即使它们有相同的属性
-console.log(a === c); // true
-```
-
-JS 以不同的方式比较对象和基本类型。在基本类型中，JS 通过值对它们进行比较，而在对象中，JS 通过引用或存储变量的内存中的地址对它们进行比较。这就是为什么第一个`console.log`语句返回`false`，而第二个`console.log`语句返回`true`。`a`和`c`有相同的引用地址，而`a`和`b`没有。
+Git是分布式版本控制系统，那么它就没有中央服务器的，每个人的电脑就是一个完整的版本库，这样，工作的时候就不需要联网了，因为版本都是在自己的电脑上。既然每个人的电脑都有一个完整的版本库，那多个人如何协作呢？比如说自己在电脑上改了文件A，其他人也在电脑上改了文件A，这时，你们两之间只需把各自的修改推送给对方，就可以互相看到对方的修改了。
 
 
-### 2、什么是构造函数？与普通函数有什么区别?
+### 2、判断数据类型
 
-构造函数：是一种特殊的方法、主要用来创建对象时初始化对象，总与new运算符一起使用，创建对象的语句中构造函数的函数名必须与类名完全相同。
+**1、** typeof返回的类型都是字符串形式，可以判断function的类型；在判断除Object类型的对象时比较方便。
 
-与普通函数相比只能由new关键字调用，构造函数是类的标示
-
-
-### 3、AJAX 是什么？
-
-即异步的 **JavaScript 和 XML**，是一种用于创建快速动态网页的技术，传统的网页（不使用 AJAX）如果需要更新内容，必需重载整个网页面。使用**AJAX**则不需要加载更新整个网页，实现部分内容更新
-
-用到AJAX的技术：
-
-**HTML** - 网页结构
-
-**CSS** - 网页的样式
-
-**JavaScript** - 操作网页的行为和更新DOM
-
-**XMLHttpRequest API** - 用于从服务器发送和获取数据
-
-**PHP，Python，Nodejs** - 某些服务器端语言
+**2、** 判断已知对象类型的方法： instanceof，后面一定要是对象类型，并且大小写不能错，该方法适合一些条件选择或分支。
 
 
-### 4、new操作符具体干了什么呢?
+### 3、常见兼容性问题？
 
-**1、** 创建一个空对象，并且 `this` 变量引用该对象，同时还继承了该函数的原型
+**1、** `png24`位的图片在iE6浏览器上出现背景，解决方案是做成`PNG8`
 
-**2、** 属性和方法被加入到 `this` 引用的对象中
-
-**3、** 新创建的对象由 `this` 所引用，并且最后隐式的返回 `this`
-
-
-### 5、Jq中有几种选择器?分别是什么?
-
-层叠选择器、基本过滤选择器、内容过滤选择器、可视化过滤选择器、属性过滤选择器、子元素过滤选择器、表单元素选择器、表单元素过滤选择器
-
-
-### 6、JavaScript原型，原型链 ? 有什么特点？
-
-**1、** 每个对象都会在其内部初始化一个属性，就是`prototype`(原型)，当我们访问一个对象的属性时
-
-**2、** 如果这个对象内部不存在这个属性，那么他就会去`prototype`里找这个属性，这`个prototype`又会有自己的`prototype`，于是就这样一直找下去，也就是我们平时所说的原型链的概念
-
-**3、** 关系：`instance.constructor.prototype = instance.__proto__`
-
-**特点：**
-
-**1、** `JavaScript`对象是通过引用来传递的，我们创建的每个新对象实体中并没有一份属于自己的原型副本。当我们修改原型时，与之相关的对象也会继承这一改变
-
-2.当我们需要一个属性的时，`Javascript`引擎会先看当前对象中是否有这个属性， 如果没有的 就会查找他的`Prototype`对象是否有这个属性，如此递推下去，一直检索到 `Object` 内建对象
-
-
-### 7、attribute和property的区别是什么？
-
-**1、** `attribute`是`dom`元素在文档中作为`html`标签拥有的属性；
-
-**2、** `property`就是`dom`元素在`js`中作为对象拥有的属性。
-
-**3、** 对于`html`的标准属性来说，`attribute`和`property`是同步的，是会自动更新的
-
-**4、** 但是对于自定义的属性来说，他们是不同步的
-
-
-### 8、简述下 this 和定义属性和方法的时候有什么区别?Prototype？
-
-this表示当前对象，如果在全局作用范围内使用this，则指代当前页面对象window； 如果在函数中使用this，则this指代什么是根据运行时此函数在什么对象上被调用。 我们还可以使用apply和call两个全局方法来改变函数中this的具体指向。
-
-prototype本质上还是一个JavaScript对象。 并且每个函数都有一个默认的prototype属性。
-
-在prototype上定义的属性方法为所有实例共享，所有实例皆引用到同一个对象，单一实例对原型上的属性进行修改，也会影响到所有其他实例。
-
-
-### 9、函数表达式和函数声明之间有什么区别？
-
-看下面的例子：
+**2、** 浏览器默认的`margin`和`padding`不同。解决方案是加一个全局的`*{margin:0;padding:0;}`来统一,，但是全局效率很低，一般是如下这样解决：
 
 ```
-hoistedFunc();
-notHoistedFunc();
-
-function hoistedFunc(){
-  console.log("注意：我会被提升");
-}
-
-var notHoistedFunc = function(){
-  console.log("注意：我没有被提升");
+body,ul,li,ol,dl,dt,dd,form,input,h1,h2,h3,h4,h5,h6,p{
+    margin:0;
+    padding:0;
 }
 ```
 
-`notHoistedFunc`调用抛出异常：`Uncaught TypeError: notHoistedFunc is not a function`，而`hoistedFunc`调用不会，因为`hoistedFunc`会被提升到作用域的顶部，而`notHoistedFunc` 不会。
+`IE`下,`event`对象有`x`,`y`属性,但是没有`pageX`,`pageY`属性
+
+`Firefox`下,`event`对象有`pageX`,`pageY`属性,但是没有`x,y`属性.
 
 
-### 10、怎么理解宏任务，微任务？？？
+### 4、你有哪些性能优化的方法？
 
-**1、** 宏任务有：`script(整体代码)`、`setTimeout`、`setInterval`、`I/O`、页面渲染；
+**1、** 减少http请求次数：CSS Sprites, JS、CSS源码压缩、图片大小控制合适；网页Gzip， CDN托管，data缓存 ，图片服务器。
 
-**2、** 微任务有：`Promise.then`、`Object.observe`、`MutationObserver`。
+**2、** 前端模板 JS+数据，减少由于HTML标签导致的带宽浪费，前端用变量保存AJAX请求结果，每次操作本地变量，不用请求，减少请求次数
 
-**3、** 执行顺序大致如下：
+**3、** 用innerHTML代替DOM操作，减少DOM操作次数，优化javascript性能。
 
-**4、** 主线程任务——>宏任务——>微任务——>微任务里的宏任务——>.......——>直到任务全部完成
+**4、** 当需要设置的样式很多时设置className而不是直接操作style。
+
+**5、** 少用全局变量、缓存DOM节点查找的结果。减少IO读取操作。
+
+**6、** 避免使用CSS Expression（css表达式)又称Dynamic properties(动态属性)。
+
+**7、** 图片预加载，将样式表放在顶部，将脚本放在底部 加上时间戳。
+
+**8、** 避免在页面的主体布局中使用table，table要等其中的内容完全下载之后才会显示出来，显示比div+css布局慢。
 
 
-### 11、Jq中 attr 和 prop 有什么区别###
-### 12、如何确保ajax或连接不走缓存路径
-### 13、30.Jq中怎么样编写插件?
-### 14、什么是回调函数？
-### 15、html和xhtml有什么区别?
-### 16、offsetWidth/offsetHeight,clientWidth/clientHeight与scrollWidth/scrollHeight的区别
-### 17、你有哪些性能优化的方法？
-### 18、vue、react、angular
-### 19、split() join()?
-### 20、闭包
-### 21、Promise 是什么？
-### 22、那些操作会造成内存泄漏？
-### 23、简述下工作流程###
-### 24、在jq中 mouseover mouseenter mouseout mouseleave 和 hover有什么关联?
-### 25、js的几种继承方式？
-### 26、手动实现 `Array.prototype.map 方法`
-### 27、有哪些数据类型？
-### 28、25.Jq如何判断元素显示隐藏？
-### 29、手动实现`Array.prototype.reduce`方法
-### 30、如何使用storage 对js文件进行缓存
+### 5、Gc机制是什么？为什么闭包不会被回收变量和函数？
+
+**1、** Gc垃圾回收机制;
+
+**2、** 外部变量没释放，所以指向的大函数内的小函数也释放不了
+
+
+### 6、什么是箭头函数？
+
+箭头函数表达式的语法比函数表达式更简洁，并且没有自己的`this`，`arguments`，`super`或`new.target`。箭头函数表达式更适用于那些本来需要匿名函数的地方，并且它不能用作构造函数。
+
+```
+//ES5 Version
+var getCurrentDate = function (){
+  return new Date();
+}
+
+//ES6 Version
+const getCurrentDate = () => new Date();
+```
+
+在本例中，ES5 版本中有`function(){}`声明和`return`关键字，这两个关键字分别是创建函数和返回值所需要的。在箭头函数版本中，我们只需要`()`括号，不需要 `return` 语句，因为如果我们只有一个表达式或值需要返回，箭头函数就会有一个隐式的返回。
+
+```
+//ES5 Version
+function greet(name) {
+  return 'Hello ' + name + '!';
+}
+
+//ES6 Version
+const greet = (name) => `Hello ${name}`;
+const greet2 = name => `Hello ${name}`;
+```
+
+我们还可以在箭头函数中使用与函数表达式和函数声明相同的参数。如果我们在一个箭头函数中有一个参数，则可以省略括号。
+
+`const getArgs = () => arguments const getArgs2 = (...rest) => rest`
+
+箭头函数不能访问`arguments`对象。所以调用第一个`getArgs`函数会抛出一个错误。相反，我们可以使用**rest**参数来获得在箭头函数中传递的所有参数。
+
+```
+const data = {
+  result: 0,
+  nums: [1, 2, 3, 4, 5],
+  computeResult() {
+    // 这里的“this”指的是“data”对象
+    const addAll = () => {
+      return this.nums.reduce((total, cur) => total + cur, 0)
+    };
+    this.result = addAll();
+  }
+};
+```
+
+箭头函数没有自己的`this`值。它捕获词法作用域函数的`this`值，在此示例中，`addAll`函数将复制`computeResult` 方法中的`this`值，如果我们在全局作用域声明箭头函数，则`this`值为 `window` 对象。
+
+
+### 7、基本数据类型和引用数据类型有什么区别？
+
+**两者作为函数的参数进行传递时：**
+
+**1、** 基本数据类型传入的是数据的副本，原数据的更改不会影响传入后的数据。
+
+**2、** 引用数据类型传入的是数据的引用地址，原数据的更改会影响传入后的数据。
+
+**两者在内存中的存储位置：**
+
+**1、** 基本数据类型存储在栈中。
+
+**2、** 引用数据类型在栈中存储了指针，该指针指向的数据实体存储在堆中。
+
+
+### 8、同步异步?
+
+**1、** 进程同步：就是在发出一个功能调用时，在没有得到结果之前，该调用就不返回。也就是必须一件一件事做,等前一件做完了才能做下一件事
+
+**2、** 异步的概念和同步相对。当一个异步过程调用发出后，调用者不能立刻得到结果。实际处理这个调用的部件在完成后，通过状态、通知和回调来通知调用者。
+
+
+### 9、与深拷贝有何区别？如何实现？
+
+**浅拷贝只复制指向某个对象的指针，而不复制对象本身。浅拷贝的实现方式有：**
+
+**1、** `Object.assign()`：需注意的是目标对象只有一层的时候，是深拷贝；
+
+**2、** 扩展运算符；
+
+**深拷贝就是在拷贝数据的时候，将数据的所有引用结构都拷贝一份。深拷贝的实现方式有：**
+
+**1、** 手写遍历递归赋值；
+
+**2、** 结合使用`JSON.parse()`和`JSON.stringify()`方法。
+
+
+### 10、ajax 和 jsonp ？
+
+**ajax和jsonp的区别：**
+
+相同点：都是请求一个url
+
+不同点：ajax的核心是通过xmlHttpRequest获取内容
+
+jsonp的核心则是动态添加
+
+
+
+### 11、事件模型
+### 12、attribute和property的区别是什么？
+### 13、说说你对AMD和Commonjs的理解
+### 14、$$('div+.ab')和$$('.ab+div') 哪个效率高？
+### 15、数据持久化技术(ajax)?简述ajax流程###
+### 16、如何对登录的账号密码进行加密?
+### 17、Javascript如何实现继承？
+### 18、`var`,`let`和`const`的区别是什么？
+### 19、promise###
+### 20、什么是跨域？怎么解决跨域问题？
+### 21、简述一下你理解的面向对象？
+### 22、JS是如何实现异步的？
+### 23、什么是默认参数？
+### 24、你对数据校验是怎么样处理的？jquery.validate？
+### 25、!! 运算符能做什么？
+### 26、编写一个 getElementsByClassName 封装函数?
+### 27、谁是c的构造函数?
+### 28、谈谈你对AMD、CMD的理解
+### 29、ajax请求方式有几种（8种）？
+### 30、什么是 event.currentTarget？？
 
 
 
@@ -160,6 +198,6 @@ var notHoistedFunc = function(){
 
 ## 最新，高清PDF：172份，7701页，最新整理
 
-[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/mst.png "大厂面试题")](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png"大厂面试题")
+[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/mst.png "架构师专栏")](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png "架构师专栏")
 
 [![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png "架构师专栏")](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png "架构师专栏")

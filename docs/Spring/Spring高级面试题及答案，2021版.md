@@ -8,133 +8,162 @@
 
 
 
-### 1、使用Spring通过什么方式访问Hibernate?
+### 1、SpringBoot 的核心注解是哪个？它主要由哪几个注解组成的？
 
-在Spring中有两种方式访问Hibernate：
+启动类上面的注解是@SpringBootApplication，它也是 SpringBoot 的核心注解，主要组合包含了以下 3 个注解：
 
-**1、** 控制反转 Hibernate Template和 Callback。
+@SpringBootConfiguration：组合了 [@Configuration ](/Configuration ) 注解，实现配置文件的功能。
 
-**2、** 继承 HibernateDAOSupport提供一个AOP 拦截器。
+[@EnableAutoConfiguration：打开自动配置的功能，也可以关闭某个自动配置的选项，如关闭数据源自动配置功能：@SpringBootApplication(exclude ](/EnableAutoConfiguration：打开自动配置的功能，也可以关闭某个自动配置的选项，如关闭数据源自动配置功能：@SpringBootApplication(exclude ) = { DataSourceAutoConfiguration.class })。
 
-
-### 2、什么是 AOP 通知
-
-通知是个在方法执行前或执行后要做的动作，实际上是程序执行时要通过SpringAOP框架触发的代码段。
-
-Spring切面可以应用五种类型的通知：
-
-**1、** before：前置通知，在一个方法执行前被调用。
-
-**2、** after: 在方法执行之后调用的通知，无论方法执行是否成功。
-
-**3、** after-returning: 仅当方法成功完成后执行的通知。
-
-**4、** after-throwing: 在方法抛出异常退出时执行的通知。
-
-**5、** around: 在方法执行之前和之后调用的通知。
+@ComponentScan：Spring组件扫描。
 
 
-### 3、SpringBoot中的监视器是什么？
+### 2、什么是Spring Cloud Bus?
 
-Spring boot actuator是spring启动框架中的重要功能之一。Spring boot监视器可帮助您访问生产环境中正在运行的应用程序的当前状态。有几个指标必须在生产环境中进行检查和监控。即使一些外部应用程序可能正在使用这些服务来向相关人员触发警报消息。监视器模块公开了一组可直接作为HTTP URL访问的REST端点来检查状态。
+spring cloud bus 将分布式的节点用轻量的消息代理连接起来，它可以用于广播配置文件的更改或者服务直接的通讯，也可用于监控。
 
+如果修改了配置文件，发送一次请求，所有的客户端便会重新读取配置文件。
 
-### 4、SpringBoot 的核心配置文件有哪几个？它们的区别是什么？
+**使用:**
 
-**1、** SpringBoot 的核心配置文件是 application 和 bootstrap 配置文件。
+**1、** 添加依赖
 
-**2、** application 配置文件这个容易了解，主要用于 SpringBoot 项目的自动化配置。
-
-**3、** bootstrap 配置文件有以下几个应用场景。
-
-**4、** 使用 Spring Cloud Config 配置中心时，这时需要在 bootstrap 配置文件中增加连接到配置中心的配置属性来加载外部配置中心的配置信息；
-
-**5、** 少量固定的不能被覆盖的属性；
-
-**6、** 少量加密/解密的场景；
+**2、** 配置rabbimq
 
 
-### 5、SpringBoot性能如何优化
+### 3、什么是Semantic监控？
 
-如果项目比较大，类比较多，不使用@SpringBootApplication，采用@Compoment指定扫包范围
-
-在项目启动时设置JVM初始内存和最大内存相同
-
-将SpringBoot内置服务器由tomcat设置为undertow
+它结合了对整个应用程序的监控以及自动化测试。语义监控的主要好处是找出对您的业务更有利可图的因素。 从业务角度来看，语义监控以及服务层监控可以监控微服务。一旦检测到问题，它们就可以实现更快的隔离和 错误分类，从而减少修复所需的主要时间。它对服务层和事务层进行分类，以确定受可用性或性能不佳影响的事务。
 
 
-### 6、你更倾向用那种事务管理类型？
+### 4、SpringBoot 自动配置原理
 
-大多数Spring框架的用户选择声明式事务管理，因为它对应用代码的影响最小，因此更符合一个无侵入的轻量级容器的思想。声明式事务管理要优于编程式事务管理，虽然比编程式事务管理（这种方式允许你通过代码控制事务）少了一点灵活性。
+**1、** SpringBoot启动的时候加载主配置类，开启了自动配置功能 @EnableAutoConfiguration
 
+**2、** @EnableAutoConfiguration 作用:
 
-### 7、spring 中有多少种 IOC 容器？
+将类路径下 META-INF/spring.factories 里面配置的所有EnableAutoConfiguration的值加入到了容器中;
 
-BeanFactory - BeanFactory 就像一个包含 bean 集合的工厂类。它会在客户端要求时实例化 bean。
+每一个这样的 xxxAutoConfiguration类都是容器中的一个组件，都加入到容器中;用他们来做自动配置;
 
-ApplicationContext - ApplicationContext 接口扩展了 BeanFactory 接口。它在 BeanFactory 基础上提供了一些额外的功能。
+**3、** 每一个自动配置类进行自动配置功能;
 
+根据当前不同的条件判断，决定这个配置类是否生效；
 
-### 8、如何重新加载SpringBoot上的更改，而无需重新启动服务器？
+**4、** 一但这个配置类生效;这个配置类就会给容器中添加各种组件;这些组件的属性是从对应的properties类中获取 的，这些类里面的每一个属性又是和配置文件绑定的;
 
-这可以使用DEV工具来实现。通过这种依赖关系，您可以节省任何更改，嵌入式tomcat将重新启动。
-
-SpringBoot有一个开发工具（DevTools）模块，它有助于提高开发人员的生产力。Java开发人员面临的一个主要挑战是将文件更改自动部署到服务器并自动重启服务器。
-
-开发人员可以重新加载SpringBoot上的更改，而无需重新启动服务器。这将消除每次手动部署更改的需要。SpringBoot在它的第一个版本时没有这个功能。
-
-这是开发人员最需要的功能。DevTools模块完全满足开发人员的需求。该模块将在生产环境中被禁用。它还提供H2数据库控制台以更好地测试应用程序。
-
-org.springframework.boot
-
-spring-boot-devtools
-
-true
+**5、** 所有在配置文件中能配置的属性都是在xxxxProperties类中封装者‘;配置文件能配置什么就可以参照某个功 能对应的这个属性类
 
 
-### 9、使用Spring框架的好处是什么？
-
-**轻量：**Spring 是轻量的，基本的版本大约2MB。
-
-控制反转：Spring通过控制反转实现了松散耦合，对象们给出它们的依赖，而不是创建或查找依赖的对象们。
-
-面向切面的编程(AOP)：Spring支持面向切面的编程，并且把应用业务逻辑和系统服务分开。
-
-**容器：**Spring 包含并管理应用中对象的生命周期和配置。
-
-**MVC框架：**Spring的WEB框架是个精心设计的框架，是Web框架的一个很好的替代品。
-
-**事务管理：**Spring 提供一个持续的事务管理接口，可以扩展到上至本地事务下至全局事务（JTA）。
-
-**异常处理：**Spring 提供方便的API把具体技术相关的异常（比如由JDBC，Hibernate or JDO抛出的）转化为一致的unchecked 异常。
+### 5、区分构造函数注入和 setter 注入。
+| 构造函数注入 | setter 注入 |
+| --- | --- |
+| 没有部分注入 | 有部分注入 |
+| 不会覆盖 setter 属性 | 会覆盖 setter 属性 |
+| 任意修改都会创建一个新实例 | 任意修改不会创建一个新实例 |
+| 适用于设置很多属性 | 适用于设置少量属性 |
 
 
-### 10、Spring Cloud Gateway
 
-Spring cloud gateway是spring官方基于Spring 5.0、SpringBoot2.0和Project Reactor等技术开发的网关，Spring Cloud Gateway旨在为微服务架构提供简单、有效和统一的API路由管理方式，Spring Cloud Gateway作为Spring Cloud生态系统中的网关，目标是替代Netflix Zuul，其不仅提供统一的路由方式，并且还基于Filer链的方式提供了网关基本的功能，例如：安全、监控/埋点、限流等。
+### 6、Mock或Stub有什么区别？
+
+存根
+
+一个有助于运行测试的虚拟对象。
+
+在某些可以硬编码的条件下提供固定行为。
+
+永远不会测试存根的任何其他行为。
+
+例如，对于空堆栈，您可以创建一个只为empty（）方法返回true的存根。因此，这并不关心堆栈中是否存在元素。
+
+嘲笑
+
+一个虚拟对象，其中最初设置了某些属性。
+
+此对象的行为取决于set属性。
+
+也可以测试对象的行为。
+
+例如，对于Customer对象，您可以通过设置名称和年龄来模拟它。您可以将age设置为12，然后测试isAdult（）方法，该方法将在年龄大于18时返回true。因此，您的Mock Customer对象适用于指定的条件。
 
 
-### 11、Spring MVC 框架有什么用？
-### 12、Spring Cloud Security
-### 13、SpringBoot与SpringCloud 区别
-### 14、Spring AOP and AspectJ AOP 有什么区别？
-### 15、Spring Cloud Sleuth
-### 16、我们可以用微服务创建状态机吗？
-### 17、什么是客户证书？
-### 18、什么是Spring Cloud？
-### 19、SpringBoot和SpringCloud的区别？
-### 20、Spring MVC常用的注解有哪些？
-### 21、Bean 工厂和 Application contexts 有什么区别？
-### 22、Spring、SpringBoot、SpringMVC的区别？
-### 23、什么是OAuth？
-### 24、介绍一下 WebApplicationContext
-### 25、负载平衡的意义什么？
-### 26、什么是 AOP什么是引入?
-### 27、描述一下 DispatcherServlet 的工作流程
-### 28、什么是 Apache Kafka？
-### 29、SpringBoot 的核心注解是哪个？它主要由哪几个注解组成的？
-### 30、什么是Spring Cloud Config?
-### 31、如何通过HibernateDaoSupport将Spring和Hibernate结合起来？
+### 7、Web，RESTful API在微服务中的作用是什么？
+
+微服务架构基于一个概念，其中所有服务应该能够彼此交互以构建业务功能。因此，要实现这一点，每个微服务必须具有接口。这使得Web API成为微服务的一个非常重要的推动者。RESTful API基于Web的开放网络原则，为构建微服务架构的各个组件之间的接口提供了最合理的模型。
+
+
+### 8、如何使用 SpringBoot 自动重装我的应用程序？
+
+使用 SpringBoot 开发工具。
+
+把 SpringBoot 开发工具添加进入你的项目是简单的。
+
+把下面的依赖项添加至你的 SpringBoot Project pom.xml 中
+
+重启应用程序，然后就可以了。
+
+同样的，如果你想自动装载页面，有可以看看 FiveReload
+
+```
+http://www.logicbig.com/tutorials/spring-framework/spring-boot/boot-live-reload/.
+```
+
+在我测试的时候，发现了 LiveReload 漏洞，如果你测试时也发现了，请一定要告诉我们。
+
+
+### 9、什么是嵌入式服务器？我们为什么要使用嵌入式服务器呢?
+
+思考一下在你的虚拟机上部署应用程序需要些什么。
+
+**第一步：**安装 Java
+
+**第二步：**安装 Web 或者是应用程序的服务器（Tomat/Wbesphere/Weblogic 等等）
+
+**第三步：**部署应用程序 war 包
+
+如果我们想简化这些步骤，应该如何做呢？
+
+让我们来思考如何使服务器成为应用程序的一部分？
+
+你只需要一个安装了 Java 的虚拟机，就可以直接在上面部署应用程序了，
+
+这个想法是嵌入式服务器的起源。
+
+当我们创建一个可以部署的应用程序的时候，我们将会把服务器（例如，tomcat）嵌入到可部署的服务器中。
+
+例如，对于一个 SpringBoot 应用程序来说，你可以生成一个包含 Embedded Tomcat 的应用程序 jar。你就可以想运行正常 Java 应用程序一样来运行 web 应用程序了。
+
+嵌入式服务器就是我们的可执行单元包含服务器的二进制文件（例如，tomcat.jar）。
+
+
+### 10、解释AOP模块
+
+AOP模块用于发给我们的Spring应用做面向切面的开发， 很多支持由AOP联盟提供，这样就确保了Spring和其他AOP框架的共通性。这个模块将元数据编程引入Spring。
+
+
+### 11、Spring Cloud和SpringBoot版本对应关系
+### 12、SpringBoot中的监视器是什么？
+### 13、如何实现SpringBoot应用程序的安全性？
+### 14、eureka服务注册与发现原理
+### 15、使用Spring框架的好处是什么？
+### 16、SpringCloud Config 可以实现实时刷新吗？
+### 17、什么是 JavaConfig？
+### 18、什么是 JavaConfig？
+### 19、你怎样定义类的作用域?
+### 20、如何配置SpringBoot应用程序日志记录？
+### 21、Docker的目的是什么？
+### 22、什么是Spring beans?
+### 23、Ribbon底层实现原理
+### 24、有几种不同类型的自动代理？
+### 25、解释JDBC抽象和DAO模块。
+### 26、康威定律是什么？
+### 27、spring DAO 有什么用？
+### 28、一个Spring的应用看起来象什么？
+### 29、什么是服务熔断
+### 30、Spring MVC与Struts2区别
+### 31、有哪些类型的通知（Advice）？
 
 
 
@@ -148,6 +177,6 @@ Spring cloud gateway是spring官方基于Spring 5.0、SpringBoot2.0和Project Re
 
 ## 最新，高清PDF：172份，7701页，最新整理
 
-[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/mst.png "大厂面试题")](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png"大厂面试题")
+[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/mst.png "架构师专栏")](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png "架构师专栏")
 
 [![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png "架构师专栏")](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png "架构师专栏")

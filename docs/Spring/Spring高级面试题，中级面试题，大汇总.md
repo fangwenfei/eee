@@ -8,162 +8,143 @@
 
 
 
-### 1、什么是 Spring Data ?
+### 1、为什么我们需要 spring-boot-maven-plugin?
 
-Spring Data 是 Spring 的一个子项目。用于简化数据库访问，支持NoSQL 和 关系数据存储。其主要目标是使数据库的访问变得方便快捷。Spring Data 具有如下特点：
+spring-boot-maven-plugin 提供了一些像 jar 一样打包或者运行应用程序的命令。
 
-**SpringData 项目支持 NoSQL 存储：**
+**1、** spring-boot:run 运行你的 SpringBooty 应用程序。
 
-**1、** MongoDB （文档数据库）
+**2、** spring-boot：repackage 重新打包你的 jar 包或者是 war 包使其可执行
 
-**2、** Neo4j（图形数据库）
+**3、** spring-boot：start 和 spring-boot：stop 管理 SpringBoot 应用程序的生命周期（也可以说是为了集成测试）。
 
-**3、** Redis（键/值存储）
-
-**4、** Hbase（列族数据库）
+**4、** spring-boot:build-info 生成执行器可以使用的构造信息。
 
 
-### 2、分布式配置中心有那些框架？
+### 2、列举 IoC 的一些好处。
 
-Apollo、zookeeper、springcloud config。
+**IoC 的一些好处是：**
 
+**1、** 它将最小化应用程序中的代码量。
 
-### 3、在Spring AOP 中，关注点和横切关注的区别是什么？
+**2、** 它将使您的应用程序易于测试，因为它不需要单元测试用例中的任何单例或 JNDI 查找机制。
 
-关注点是应用中一个模块的行为，一个关注点可能会被定义成一个我们想实现的一个功能。
+**3、** 它以最小的影响和最少的侵入机制促进松耦合。
 
-横切关注点是一个关注点，此关注点是整个应用都会使用的功能，并影响整个应用，比如日志，安全和数据传输，几乎应用的每个模块都需要的功能。因此这些都属于横切关注点。
-
-
-### 4、SpringBoot 支持哪些日志框架？推荐和默认的日志框架是哪个？
-
-SpringBoot 支持 Java Util Logging, Log4j2, Lockback 作为日志框架，如果你使用 Starters 启动器，SpringBoot 将使用 Logback 作为默认日志框架.
+**4、** 它支持即时的实例化和延迟加载服务。
 
 
-### 5、如何不通过任何配置来选择 Hibernate 作为 JPA 的默认实现？
+### 3、可以通过多少种方式完成依赖注入？
 
-因为 SpringBoot 是自动配置的。
+通常，依赖注入可以通过三种方式完成，即：
 
-**下面是我们添加的依赖项:**
+**1、** 构造函数注入
 
-spring-boot-stater-data-jpa 对于 Hibernate 和 JPA 有过渡依赖性。
+**2、** setter 注入
 
-当 SpringBoot 在类路径中检测到 Hibernate 中，将会自动配置它为默认的 JPA 实现。
+**3、** 接口注入
+
+在 Spring Framework 中，仅使用构造函数和 setter 注入。
 
 
-### 6、eureka缓存机制：
+### 4、如何在 SpringBoot 中添加通用的 JS 代码？
 
-![](https://gitee.com/souyunkutech/souyunku-home/raw/master/images/souyunku-web/2020/5/2/01/44/45_10.png#alt=45%5C_10.png)
+在源文件夹下，创建一个名为 static 的文件夹。然后，你可以把你的静态的内容放在这里面。
 
-#
-### 7、Spring IoC 的实现机制。
+例如，myapp.js 的路径是 resources\static\js\myapp.js
 
-Spring 中的 IoC 的实现原理就是工厂模式加反射机制。
+**
 
-示例：
+你可以参考它在 jsp 中的使用方法：**
+
+错误：HAL browser gives me unauthorized error - Full authenticaition is required to access this resource.
+
+该如何来修复这个错误呢？
+
+两种方法：
+
+方法 1：关闭安全验证
+
+application.properties
 
 ```
-interface Fruit {
-     public abstract void eat();
-}
-class Apple implements Fruit {
-    public void eat(){
-        System.out.println("Apple");
-    }
-}
-class Orange implements Fruit {
-    public void eat(){
-        System.out.println("Orange");
-    }
-}
-class Factory {
-    public static Fruit getInstance(String ClassName) {
-        Fruit f=null;
-        try {
-            f=(Fruit)Class.forName(ClassName).newInstance();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return f;
-    }
-}
-class Client {
-    public static void main(String[] a) {
-        Fruit f=Factory.getInstance("io.github.dunwu.spring.Apple");
-        if(f!=null){
-            f.eat();
-        }
-    }
-}
+management.security.enabled:FALSE
 ```
 
-
-### 8、Ribbon和Feign的区别？
-
-**1、** Ribbon都是调用其他服务的，但方式不同。
-
-**2、** 启动类注解不同，Ribbon是[@RibbonClient ](/RibbonClient ) feign的是[@EnableFeignClients ](/EnableFeignClients )
-
-**3、** 服务指定的位置不同，Ribbon是在@RibbonClient注解上声明，Feign则是在定义抽象方法的接口中使用@FeignClient声明。
-
-**4、** 调用方式不同，Ribbon需要自己构建http请求，模拟http请求然后使用RestTemplate发送给其他服务，步骤相当繁琐。Feign需要将调用的方法定义成抽象方法即可。
+方法二：在日志中搜索密码并传递至请求标头中
 
 
-### 9、Zuul与Nginx有什么区别？
+### 5、Spring MVC常用的注解有哪些？
 
-Zuul是java语言实现的，主要为java服务提供网关服务，尤其在微服务架构中可以更加灵活的对网关进行操作。Nginx是使用C语言实现，性能高于Zuul，但是实现自定义操作需要熟悉lua语言，对程序员要求较高，可以使用Nginx做Zuul集群。
+**1、** @RequestMapping：用于处理请求 url 映射的注解，可用于类或方法上。用于类上，则表示类中的所有响应请求的方法都是以该地址作为父路径。
 
+**2、** @RequestBody：注解实现接收http请求的json数据，将json转换为java对象。
 
-### 10、微服务之间是如何独立通讯的
+**3、** @ResponseBody：注解实现将conreoller方法返回对象转化为json对象响应给客户。
 
-**1、** 远程过程调用（Remote Procedure Invocation）：也就是我们常说的服务的注册与发现，直接通过远程过程调用来访问别的service。
-
-**优点：**
-
-简单，常见,因为没有中间件代理，系统更简单
-
-**缺点：**
-
-**1、** 只支持请求/响应的模式，不支持别的，比如通知、请求/异步响应、发布/订阅、发布/异步响应
-
-**2、** 降低了可用性，因为客户端和服务端在请求过程中必须都是可用的
-
-**2、** 消息：使用异步消息来做服务间通信。服务间通过消息管道来交换消息，从而通信。
-
-**优点:**
-
-**1、** 把客户端和服务端解耦，更松耦合
-
-**2、** 提高可用性，因为消息中间件缓存了消息，直到消费者可以消费
-
-**3、** 支持很多通信机制比如通知、请求/异步响应、发布/订阅、发布/异步响应
-
-**缺点:**
-
-消息中间件有额外的复杂
+**4、** @Conntroller：控制器的注解，表示是表现层,不能用用别的注解代替
 
 
-### 11、解释不同方式的自动装配
-### 12、SpringBoot自动配置的原理
-### 13、创建一个 SpringBoot Project 的最简单的方法是什么？
-### 14、为什么人们会犹豫使用微服务？
-### 15、在 Spring中如何注入一个java集合？
-### 16、spring boot 核心配置文件是什么？bootstrap.properties 和 application.properties 有何区别 ?
-### 17、什么是基于Java的Spring注解配置? 给一些注解的例子.
-### 18、XMLBeanFactory
-### 19、接⼝限流⽅法？
-### 20、SpringBoot 有哪几种读取配置的方式？
-### 21、什么是 SpringBoot Stater ？
-### 22、一个Spring的应用看起来象什么？
-### 23、SpringBoot 的核心注解是哪个？它主要由哪几个注解组成的？
-### 24、自动装配有哪些局限性 ?
-### 25、Spring支持的事务管理类型
-### 26、你可以在Spring中注入一个null 和一个空字符串吗？
-### 27、使用 Spring 有哪些方式？
-### 28、什么是Spring Cloud Bus?
-### 29、开启 SpringBoot 特性有哪几种方式？
-### 30、保护 SpringBoot 应用有哪些方法？
-### 31、什么是耦合和凝聚力？
+### 6、什么是SpringBoot ？
+
+**1、** 用来简化spring应用的初始搭建以及开发过程 使用特定的方式来进行配置（properties或yml文件）
+
+**2、** 创建独立的spring引用程序 main方法运行
+
+**3、** 嵌入的Tomcat 无需部署war文件
+
+**4、** 简化maven配置
+
+**5、** 自动配置spring添加对应功能starter自动化配置
+
+**6、** spring boot来简化spring应用开发，约定大于配置，去繁从简，just run就能创建一个独立的，产品级别的应用
+
+
+### 7、如何在 SpringBoot 启动的时候运行一些特定的代码？
+
+可以实现接口 ApplicationRunner 或者 CommandLineRunner，这两个接口实现方式一样，它们都只提供了一个 run 方法
+
+
+### 8、什么是Spring的MVC框架？
+
+Spring 配备构建Web 应用的全功能MVC框架。Spring可以很便捷地和其他MVC框架集成，如Struts，Spring 的MVC框架用控制反转把业务对象和控制逻辑清晰地隔离。它也允许以声明的方式把请求参数和业务对象绑定。
+
+
+### 9、什么是耦合和凝聚力？
+
+组件之间依赖关系强度的度量被认为是**耦合**。一个好的设计总是被认为具有**高内聚力和低耦合性**。 面试官经常会问起凝聚力。它也是另一个测量单位。更像是一个模块内部的元素保持结合的程度。 必须记住，设计微服务的一个重要关键是低耦合和高内聚的组合。当低耦合时，服务对其他服务的依赖很少。这样可以保持服务的完整性。在高内聚性中，将所有相关逻辑保存在服务中成为可能。否则，服务将尝试彼此通信，从而影响整体性能。
+
+
+### 10、Spring、SpringBoot、SpringMVC的区别？
+
+**1、** Spring框架就像一个家族，有众多衍生产品，例如boot、mvc、jpa等等。但他们的基础都是Spring的ioc、aop。ioc提供了依赖注入的容器，aop解决了面向横切面编程，然后在此两者的基础上实现了其它延伸产品的高级功能；
+
+**2、** springMVC是基于Servlet的一个MVC框架主要解决WEB开发的问题；
+
+**3、** 为了简化开发的使用，从而创造性地推出了SpringBoot框架，默认优于配置
+
+
+### 11、Container在微服务中的用途是什么？
+### 12、DiscoveryClient的作用
+### 13、spring 支持集中 bean scope？
+### 14、什么是Feign？
+### 15、Spring Cloud和各子项目版本对应关系
+### 16、SpringBoot事物的使用
+### 17、什么是Spring MVC？简单介绍下你对Spring MVC的理解？
+### 18、如何重新加载SpringBoot上的更改，而无需重新启动服务器？
+### 19、网关与过滤器有什么区别
+### 20、不同版本的 Spring Framework 有哪些主要功能？
+### 21、开启 SpringBoot 特性有哪几种方式？
+### 22、什么是Spring Cloud？
+### 23、SpringBoot 需要独立的容器运行吗？
+### 24、解释对象/关系映射集成模块。
+### 25、负载平衡的意义什么？
+### 26、什么是Spring Cloud Zuul（服务网关）
+### 27、SpringBoot 中如何解决跨域问题 ?
+### 28、什么是编织（Weaving）？
+### 29、什么是 AOP 代理?
+### 30、@Controller注解的作用
+### 31、如何使用SpringBoot实现分页和排序？
 
 
 
@@ -177,6 +158,6 @@ Zuul是java语言实现的，主要为java服务提供网关服务，尤其在�
 
 ## 最新，高清PDF：172份，7701页，最新整理
 
-[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/mst.png "大厂面试题")](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png"大厂面试题")
+[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/mst.png "架构师专栏")](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png "架构师专栏")
 
 [![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png "架构师专栏")](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png "架构师专栏")

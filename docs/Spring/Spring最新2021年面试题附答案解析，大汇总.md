@@ -8,117 +8,146 @@
 
 
 
-### 1、什么是 Aspect 切面
+### 1、什么是Spring Cloud Gateway?
 
-AOP核心就是切面，它将多个类的通用行为封装成可重用的模块，该模块含有一组API提供横切功能。比如，一个日志模块可以被称作日志的AOP切面。根据需求的不同，一个应用程序可以有若干切面。在Spring AOP中，切面通过带有@Aspect注解的类实现。
+Spring Cloud Gateway是Spring Cloud官方推出的第二代网关框架，取代Zuul网关。网关作为流量的，在微服务系统中有着非常作用，网关常见的功能有路由转发、权限校验、限流控制等作用。
 
-
-### 2、@Component, @Controller, @Repository, [@Service ](/Service ) 有何区别？
-
-@Component：这将 java 类标记为 bean。它是任何 Spring 管理组件的通用构造型。spring 的组件扫描机制现在可以将其拾取并将其拉入应用程序环境中。@Controller：这将一个类标记为 Spring Web MVC 控制器。标有它的 Bean 会自动导入到 IoC 容器中。@Service：此注解是组件注解的特化。它不会对 [@Component ](/Component ) 注解提供任何其他行为。您可以在服务层类中使用 [@Service ](/Service ) 而不是 @Component，因为它以更好的方式指定了意图。@Repository：这个注解是具有类似用途和功能的 [@Component ](/Component ) 注解的特化。它为 DAO 提供了额外的好处。它将 DAO 导入 IoC 容器，并使未经检查的异常有资格转换为 Spring DataAccessException。
+使用了一个RouteLocatorBuilder的bean去创建路由，除了创建路由RouteLocatorBuilder可以让你添加各种predicates和filters，predicates断言的意思，顾名思义就是根据具体的请求的规则，由具体的route去处理，filters是各种过滤器，用来对请求做各种判断和修改。
 
 
-### 3、您对Distributed Transaction有何了解？
+### 2、第⼆层缓存：
 
-分布式事务是指单个事件导致两个或多个不能以原子方式提交的单独数据源的突变的任何情况。在微服务的世界中，它变得更加复杂，因为每个服务都是一个工作单元，并且大多数时候多个服务必须协同工作才能使业务成功。
+readWriteCacheMap，本质上是Guava缓存：此处存放的是最终的缓存， 当服务下线，过期，注册，状态变更，都会来清除这个缓存⾥⾯的数据。 然后通过CacheLoader进⾏缓存加载，在进⾏readWriteCacheMap.get(key)的时候，⾸先看这个缓存⾥⾯有没有该数据，如果没有则通过CacheLoader的load⽅法去加载，加载成功之后将数据放⼊缓存，同时返回数据。 readWriteCacheMap 缓存过期时间，默认为 180 秒 。
 
+#
+### 3、什么是 Spring Batch?
 
-### 4、一个 Spring Bean 定义 包含什么？
-
-一个Spring Bean 的定义包含容器必知的所有配置元数据，包括如何创建一个bean，它的生命周期详情及它的依赖。
-
-
-### 5、Spring Cloud抛弃了Dubbo 的RPC通信，采用的是基于HTTP的REST方式。
-
-严格来说，这两种方式各有优劣。虽然在一定程度上来说，后者牺牲了服务调用的性能，但也避免了上面提到的原生RPC带来的问题。而且REST相比RPC更为灵活，服务提供方和调用方的依赖只依靠一纸契约，不存在代码级别的强依赖，这在强调快速演化的微服务环境下，显得更为合适。
+`SpringBoot Batch`提供可重用的函数，这些函数在处理大量记录时非常重要；包括日志/跟踪，事务管理，作业处理统计信息，作业重新启动，跳过和资源管理。它还提供了更先进的技术服务和功能，通过优化和分区技术，可以实现极高批量和高性能批处理作业。简单以及复杂的大批量批处理作业可以高度可扩展的方式利用框架处理重要大量的信息。
 
 
 
-### 6、解释不同方式的自动装配 。
+### 4、SpringBoot 的核心配置文件有哪几个？它们的区别是什么？
 
-有五种自动装配的方式，可以用来指导Spring容器用自动装配方式来进行依赖注入。
+SpringBoot 的核心配置文件是 application 和 bootstrap 配置文件。
 
-**1、** no：默认的方式是不进行自动装配，通过显式设置ref 属性来进行装配。
+application 配置文件这个容易理解，主要用于 SpringBoot 项目的自动化配置。
 
-**2、** byName：通过参数名 自动装配，Spring容器在配置文件中发现bean的autowire属性被设置成byname，之后容器试图匹配、装配和该bean的属性具有相同名字的bean。
+bootstrap 配置文件有以下几个应用场景。
 
-**3、** byType:：通过参数类型自动装配，Spring容器在配置文件中发现bean的autowire属性被设置成byType，之后容器试图匹配、装配和该bean的属性具有相同类型的bean。如果有多个bean符合条件，则抛出错误。
+使用 Spring Cloud Config 配置中心时，这时需要在 bootstrap 配置文件中添加连接到配置中心的配置属性来加载外部配置中心的配置信息；
 
-**4、** constructor：这个方式类似于byType， 但是要提供给构造器参数，如果没有确定的带参数的构造器参数类型，将会抛出异常。
+一些固定的不能被覆盖的属性；
 
-**5、** autodetect：首先尝试使用constructor来自动装配，如果无法工作，则使用byType方式。
-
-
-### 7、我们如何连接一个像 MySQL 或者Orcale 一样的外部数据库？
-
-让我们以 MySQL 为例来思考这个问题：
-
-**第一步** - 把 MySQL 连接器的依赖项添加至 pom.xml
-
-**第二步** - 从 pom.xml 中移除 H2 的依赖项
-
-或者至少把它作为测试的范围。
-
-**第三步** - 安装你的 MySQL 数据库
-
-更多的来看看这里 -[https://github.com/in28minutes/jpa-with-hibernate#installing-and-setting-up-MySQL](https://github.com/in28minutes/jpa-with-hibernate#installing-and-setting-up-MySQL)
-
-**第四步** - 配置你的 MySQL 数据库连接
-
-配置 application.properties
-
-```
-spring.jpa.hibernate.ddl-auto=none spring.datasource.url=jdbc:MySQL://localhost:3306/todo_example
-spring.datasource.username=todouser spring.datasource.password=YOUR_PASSWORD
-```
-
-**第五步** - 重新启动，你就准备好了！
-
-就是这么简单！
+一些加密/解密的场景；
 
 
-### 8、WebApplicationContext
+### 5、什么是 AOP什么是引入?
 
-WebApplicationContext 继承了ApplicationContext 并增加了一些WEB应用必备的特有功能，它不同于一般的ApplicationContext ，因为它能处理主题，并找到被关联的servlet。
-
-
-### 9、怎样开启注解装配？
-
-注解装配在默认情况下是不开启的，为了使用注解装配，我们必须在Spring配置文件中配置 [context:annotation-config/]()元素。
+引入允许我们在已存在的类中增加新的方法和属性。
 
 
-### 10、什么是不同类型的微服务测试？
+### 6、[@Autowired ](/Autowired ) 注解
 
-在使用微服务时，由于有多个微服务协同工作，测试变得非常复杂。因此，测试分为不同的级别。
-
-在底层，我们有面向技术的测试，如单元测试和性能测试。这些是完全自动化的。
-
-在中间层面，我们进行了诸如压力测试和可用性测试之类的探索性测试。
-
-在顶层， 我们的 验收测试数量很少。这些验收测试有助于利益相关者理解和验证软件功能。
+[@Autowired ](/Autowired ) 注解提供了更细粒度的控制，包括在何处以及如何完成自动装配。它的用法和@Required一样，修饰setter方法、构造器、属性或者具有任意名称和/或多个参数的PN方法。
 
 
-### 11、SpringBoot 提供了哪些核心功能？
-### 12、开启 SpringBoot 特性有哪几种方式？
-### 13、什么是 AOP 代理?
-### 14、设计微服务的最佳实践是什么？
-### 15、什么是Spring的依赖注入？
-### 16、什么是 AOP Aspect 切面
-### 17、谈谈服务雪崩效应
-### 18、SpringBoot 有哪几种读取配置的方式？
-### 19、SpringBoot中的监视器是什么?
-### 20、什么是微服务架构
-### 21、Spring Cloud Config
-### 22、微服务同时调用多个接口，怎么支持事务的啊？
-### 23、SpringBoot运行项目的几种方式？
-### 24、核心容器（应用上下文) 模块。
-### 25、如何设置服务发现？
-### 26、如何在SpringBoot中禁用Actuator端点安全性？
-### 27、介绍一下 WebApplicationContext
-### 28、[@Required ](/Required ) 注解有什么用？
-### 29、如何实现动态Zuul网关路由转发
-### 30、SpringBoot 的核心注解是哪个？它主要由哪几个注解组成的？
-### 31、SpringBoot、Spring MVC 和 Spring 有什么区别？
+### 7、Spring AOP and AspectJ AOP 有什么区别？
+
+Spring AOP 基于动态代理方式实现；AspectJ 基于静态代理方式实现。Spring AOP 仅支持方法级别的 PointCut；提供了完全的 AOP 支持，它还支持属性级别的 PointCut。
+
+
+### 8、Spring Framework 有哪些不同的功能？
+
+**1、** 轻量级 - Spring 在代码量和透明度方面都很轻便。
+
+**2、** IOC - 控制反转
+
+**3、** AOP - 面向切面编程可以将应用业务逻辑和系统服务分离，以实现高内聚。
+
+**4、** 容器 - Spring 负责创建和管理对象（Bean）的生命周期和配置。
+
+**5、** MVC - 对 web 应用提供了高度可配置性，其他框架的集成也十分方便。
+
+**6、** 事务管理 - 提供了用于事务管理的通用抽象层。 Spring 的事务支持也可用于容器较少的环境。
+
+**7、** JDBC 异常 - Spring 的 JDBC 抽象层提供了一个异常层次结构，简化了错误处理策略。4、Spring Framework 中有多少个模块，它们分别是什么？
+
+**1、** Spring 核心容器 – 该层基本上是 Spring Framework 的核心。它包含以下模块：
+
+**2、** Spring Core
+
+**3、** Spring Bean
+
+**4、** SpEL (Spring Expression Language)
+
+**5、** Spring Context
+
+**数据访问/集成 – 该层提供与数据库交互的支持。 它包含以下模块：**
+
+**1、** JDBC (Java DataBase Connectivity)
+
+**2、** ORM (Object Relational Mapping)
+
+**3、** OXM (Object XML Mappers)
+
+**4、** JMS (Java Messaging Service)
+
+**5、** Transaction
+
+**1、** Web – 该层提供了创建 Web 应用程序的支持。它包含以下模块：AOP – 该层支持面向切面编程
+
+**2、** Web
+
+**3、** Web – Servlet
+
+**4、** Web – Socket
+
+**5、** Web – Portlet
+
+**6、** Instrumentation – 该层为类检测和类加载器实现提供支持。
+
+**7、** Test – 该层为使用 JUnit 和 TestNG 进行测试提供支持
+
+**几个杂项模块:**
+
+Messaging – 该模块为 STOMP 提供支持。它还支持注解编程模型，该模型用于从 WebSocket 客户端路由和处理 STOMP 消息。
+
+Aspects – 该模块为与 AspectJ 的集成提供支持。
+
+
+### 9、什么是基于Java的Spring注解配置? 给一些注解的例子.
+
+基于Java的配置，允许你在少量的Java注解的帮助下，进行你的大部分Spring配置而非通过XML文件。
+
+以[@Configuration ](/Configuration ) 注解为例，它用来标记类可以当做一个bean的定义，被Spring IOC容器使用。另一个例子是@Bean注解，它表示此方法将要返回一个对象，作为一个bean注册进Spring应用上下文。
+
+
+### 10、在 Spring Initializer 中，如何改变一个项目的包名字？
+
+好消息是你可以定制它。点击链接“转到完整版本”。你可以配置你想要修改的包名称！
+
+
+### 11、SpringBoot 日志框架：
+### 12、什么是代理?
+### 13、为什么我们需要微服务容器？
+### 14、什么是网关?
+### 15、什么是starter?
+### 16、SpringData 项目所支持的关系数据存储技术：
+### 17、介绍一下 WebApplicationContext
+### 18、微服务有什么特点？
+### 19、spring DAO 有什么用？
+### 20、SpringBoot的自动配置原理是什么
+### 21、Spring Cloud OpenFeign
+### 22、如何禁用特定的自动配置类？
+### 23、如何在SpringBoot中禁用Actuator端点安全性？
+### 24、什么是 Spring Cloud Bus？
+### 25、我们如何在测试中消除非决定论？
+### 26、SpringCloud有几种调用接口方式
+### 27、SpringBoot 的核心注解是哪个？它主要由哪几个注解组成的？
+### 28、Spring Initializr 是创建 SpringBoot Projects 的唯一方法吗？
+### 29、什么是 Spring Data REST?
+### 30、MVC是什么？MVC设计模式的好处有哪些
+### 31、什么是依赖注入？
 
 
 
@@ -132,6 +161,6 @@ WebApplicationContext 继承了ApplicationContext 并增加了一些WEB应用必
 
 ## 最新，高清PDF：172份，7701页，最新整理
 
-[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/mst.png "大厂面试题")](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png"大厂面试题")
+[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/mst.png "架构师专栏")](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png "架构师专栏")
 
 [![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png "架构师专栏")](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png "架构师专栏")

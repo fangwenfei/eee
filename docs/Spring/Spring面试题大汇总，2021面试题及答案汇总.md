@@ -8,151 +8,128 @@
 
 
 
-### 1、列举 IoC 的一些好处。
+### 1、[@RequestMapping ](/RequestMapping ) 注解有什么用？
 
-**IoC 的一些好处是：**
+[@RequestMapping ](/RequestMapping ) 注解用于将特定 HTTP 请求方法映射到将处理相应请求的控制器中的特定类/方法。此注释可应用于两个级别：
 
-**1、** 它将最小化应用程序中的代码量。
-
-**2、** 它将使您的应用程序易于测试，因为它不需要单元测试用例中的任何单例或 JNDI 查找机制。
-
-**3、** 它以最小的影响和最少的侵入机制促进松耦合。
-
-**4、** 它支持即时的实例化和延迟加载服务。
+类级别：映射请求的 URL方法级别：映射 URL 以及 HTTP 请求方法
 
 
-### 2、Eureka和ZooKeeper都可以提供服务注册与发现的功能,请说说两个的区别
+### 2、SpringBoot 的核心注解是哪个？它主要由哪几个注解组成的？
 
-ZooKeeper保证的是CP,Eureka保证的是AP，ZooKeeper在选举期间注册服务瘫痪,虽然服务最终会恢复,但是选举期间不可用的。Eureka各个节点是平等关系,只要有一台Eureka就可以保证服务可用,而查询到的数据并不是最新的自我保护机制会导致Eureka不再从注册列表移除因长时间没收到心跳而应该过期的服务。Eureka仍然能够接受新服务的注册和查询请求,但是不会被同步到其他节点(高可用)。当网络稳定时,当前实例新的注册信息会被同步到其他节点中(最终一致性)。Eureka可以很好的应对因网络故障导致部分节点失去联系的情况,而不会像ZooKeeper一样使得整个注册系统瘫痪。
+启动类上面的注解是@SpringBootApplication，它也是 SpringBoot 的核心注解，主要组合包含了以下 3 个注解：
 
-**1、** ZooKeeper有Leader和Follower角色,Eureka各个节点平等
+@SpringBootConfiguration：组合了 [@Configuration ](/Configuration ) 注解，实现配置文件的功能。
 
-**2、** ZooKeeper采用过半数存活原则,Eureka采用自我保护机制解决分区问题
+@EnableAutoConfiguration：打开自动配置的功能，也可以关闭某个自动配置的选项，如关闭数据源自动配置功能： [@SpringBootApplication(exclude ](/SpringBootApplication(exclude ) = { DataSourceAutoConfiguration.class }。
 
-**3、** Eureka本质上是一个工程,而ZooKeeper只是一个进程
-
-
-### 3、为什么我们不建议在实际的应用程序中使用 Spring Data Rest?
-
-我们认为 Spring Data Rest 很适合快速原型制造！在大型应用程序中使用需要谨慎。
-
-通过 Spring Data REST 你可以把你的数据实体作为 RESTful 服务直接。
-
-当你设计 RESTful 服务器的时候，最佳实践表明，你的接口应该考虑到两件重要的事情：
-
-你的模型范围。
-
-你的客户。
-
-通过 With Spring Data REST，你不需要再考虑这两个方面，只需要作为 TEST 服务实体。
-
-这就是为什么我们建议使用 Spring Data Rest 在快速原型构造上面，或者作为项目的初始解决方法。对于完整演变项目来说，这并不是一个好的注意。
+@ComponentScan：Spring组件扫描
 
 
-### 4、如何在SpringBoot应用程序中实现Spring安全性？
+### 3、当 SpringBoot 应用程序作为 Java 应用程序运行时，后台会发生什么？
 
-实施需要最少的配置。您需要做的就是spring-boot-starter-security在pom.xml文件中添加starter。您还需要创建一个Spring配置类，它将覆盖所需的方法，同时扩展 WebSecurityConfigurerAdapter 应用程序中的安全性。这是一些示例代码：
+如果你使用 Eclipse IDE，Eclipse maven 插件确保依赖项或者类文件的改变一经添加，就会被编译并在目标文件中准备好！在这之后，就和其它的 Java 应用程序一样了。
 
-```
-package com.gkatzioura.security.securityendpoints.config;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;@
-Configuration
-public class SecurityConfig extends WebSecurityConfigurerAdapter {@
-    Override
-    protected void configure(HttpSecurity http) throws Exception {
-        http.
-        authorizeRequests().
-        antMatchers("/welcome").
-        permitAll().anyRequest().
-        authenticated().and().
-        formLogin().
-        permitAll().
-        and().
-        logout().
-        permitAll();
-    }
-}
-```
+当你启动 java 应用程序的时候，spring boot 自动配置文件就会魔法般的启用了。
+
+当 SpringBoot 应用程序检测到你正在开发一个 web 应用程序的时候，它就会启动 tomcat。
 
 
-### 5、为什么我们需要 spring-boot-maven-plugin?
+### 4、SpringBoot 的核心注解是哪个？它主要由哪几个注解组成的？
 
-spring-boot-maven-plugin 提供了一些像 jar 一样打包或者运行应用程序的命令。
+启动类上面的注解是@SpringBootApplication，它也是 SpringBoot 的核心注解，主要组合包含了以下 3 个注解：
 
-**1、** spring-boot:run 运行你的 SpringBooty 应用程序。
+@SpringBootConfiguration：组合了 [@Configuration ](/Configuration ) 注解，实现配置文件的功能。
 
-**2、** spring-boot：repackage 重新打包你的 jar 包或者是 war 包使其可执行
+@EnableAutoConfiguration：打开自动配置的功能，也可以关闭某个自动配置的选项，如关闭数据源自动配置功能： [@SpringBootApplication(exclude ](/SpringBootApplication(exclude ) = { DataSourceAutoConfiguration.class })。
 
-**3、** spring-boot：start 和 spring-boot：stop 管理 SpringBoot 应用程序的生命周期（也可以说是为了集成测试）。
-
-**4、** spring-boot:build-info 生成执行器可以使用的构造信息。
+@ComponentScan：Spring组件扫描。
 
 
-### 6、谈谈服务降级、熔断、服务隔离
+### 5、SpringBoot 中的 starter 到底是什么 ?
 
-**1、** 服务降级：当客户端请求服务器端的时候，防止客户端一直等待，不会处理业务逻辑代码，直接返回一个友好的提示给客户端。
-
-**2、** 服务熔断是在服务降级的基础上更直接的一种保护方式，当在一个统计时间范围内的请求失败数量达到设定值（requestVolumeThreshold）或当前的请求错误率达到设定的错误率阈值（errorThresholdPercentage）时开启断路，之后的请求直接走fallback方法，在设定时间（sleepWindowInMilliseconds）后尝试恢复。
-
-**3、** 服务隔离就是Hystrix为隔离的服务开启一个独立的线程池，这样在高并发的情况下不会影响其他服务。服务隔离有线程池和信号量两种实现方式，一般使用线程池方式。
+首先，这个 Starter 并非什么新的技术点，基本上还是基于 Spring 已有功能来实现的。首先它提供了一个自动化配置类，一般命名为 `XXXAutoConfiguration` ，在这个配置类中通过条件注解来决定一个配置是否生效（条件注解就是 Spring 中原本就有的），然后它还会提供一系列的默认配置，也允许开发者根据实际情况自定义相关配置，然后通过类型安全的属性(spring、factories)注入将这些配置属性注入进来，新注入的属性会代替掉默认属性。正因为如此，很多第三方框架，我们只需要引入依赖就可以直接使用了。当然，开发者也可以自定义 Starter
 
 
-### 7、如何使用SpringBoot实现分页和排序？
+### 6、什么是SpringBoot？
 
-使用SpringBoot实现分页非常简单。使用Spring Data-JPA可以实现将可分页的
+多年来，随着新功能的增加，spring变得越来越复杂。只需访问https://spring.io/projects
 
-org.springframework.data.domain.Pageable
+如果必须启动一个新的Spring项目，我们必须添加构建路径或添加Maven依赖关系，配置应用程序服务器，添加spring配置。
 
-传递给存储库方法。
+因此，开始一个新的spring项目需要很多努力，因为我们现在必须从头开始做所有事情。
 
+SpringBoot是解决这个问题的方法。SpringBoot已经建立在现有spring框架之上。使用spring启动，我们避免了之前我们必须做的所有样板代码和配置。
 
-### 8、PACT在微服务架构中的用途是什么？
-
-PACT是一个开源工具，允许测试服务提供者和消费者之间的交互，与合同隔离，从而提高微服务集成的可靠性。
-
-微服务中的用法
-
-用于在微服务中实现消费者驱动的合同。
-
-测试微服务的消费者和提供者之间的消费者驱动的合同。
-
-查看即将到来的批次
+因此，SpringBoot可以帮助我们以最少的工作量，更加健壮地使用现有的Spring功能。
 
 
-### 9、如果在拦截请求中，我想拦截get方式提交的方法,怎么配置
+### 7、什么是消费者驱动的合同（CDC）？
+
+这基本上是用于开发微服务的模式，以便它们可以被外部系统使用。当我们处理微服务时，有一个特定的提供者构建它，并且有一个或多个使用微服务的消费者。
+
+通常，提供程序在XML文档中指定接口。但在消费者驱动的合同中，每个服务消费者都传达了提供商期望的接口。
 
 
+### 8、什么是持续监测？
 
-可以在@RequestMapping注解里面加上method=RequestMethod.GET。
-
-
-### 10、解释AOP
-
-面向切面的编程，或AOP， 是一种编程技术，允许程序模块化横向切割关注点，或横切典型的责任划分，如日志和事务管理。
+持续监控深入监控覆盖范围，从浏览器内前端性能指标，到应用程序性能，再到主机虚拟化基础架构指标。
 
 
-### 11、什么是 YAML？
-### 12、spring bean 容器的生命周期是什么样的？
-### 13、服务注册和发现是什么意思？Spring Cloud如何实现？
-### 14、什么是嵌入式服务器？我们为什么要使用嵌入式服务器呢?
-### 15、Eureka如何 保证AP
-### 16、SpringBoot Starter的工作原理
-### 17、SpringBoot常用的starter有哪些?
-### 18、如何在 spring 中启动注解装配？
-### 19、Spring MVC用什么对象从后台向前台传递数据的？
-### 20、我们如何进行跨功能测试？
-### 21、什么是 AOP 引入?
-### 22、解释Spring框架中bean的生命周期。
-### 23、如何理解 Spring 中的代理？
-### 24、什么是 Spring IOC 容器？
-### 25、Zuul网关如何搭建集群
-### 26、[@Qualifier ](/Qualifier ) 注解
-### 27、Spring Cloud OpenFeign
-### 28、SpringBoot有哪些优点？
-### 29、什么是CSRF攻击？
-### 30、Ribbon底层实现原理
+### 9、Spring支持的ORM
+
+Spring支持以下ORM：
+
+**1、** Hibernate
+
+**2、** iBatis
+
+**3、** JPA (Java Persistence API)
+
+**4、** TopLink
+
+**5、** JDO (Java Data Objects)
+
+**6、** OJB
+
+
+### 10、spring 支持集中 bean scope？
+
+**Spring bean 支持 5 种 scope：**
+
+**1、** Singleton - 每个 Spring IoC 容器仅有一个单实例。
+
+**2、** Prototype - 每次请求都会产生一个新的实例。
+
+**3、** Request - 每一次 HTTP 请求都会产生一个新的实例，并且该 bean 仅在当前 HTTP 请求内有效。
+
+**4、** Session - 每一次 HTTP 请求都会产生一个新的 bean，同时该 bean 仅在当前 HTTP session 内有效。
+
+**5、** Global-session - 类似于标准的 HTTP Session 作用域，不过它仅仅在基于 portlet 的 web 应用中才有意义。 Portlet 规范定义了全局 Session 的概念，它被所有构成某个 portlet web 应用的各种不同的 portlet 所共享。 在 global session 作用域中定义的 bean 被限定于全局 portlet Session 的生命周期范围内。 如果你在 web 中使用 global session 作用域来标识 bean，那么 web 会自动当成 session 类型来使用。
+
+**6、** 仅当用户使用支持 Web 的 ApplicationContext 时，最后三个才可用。
+
+
+### 11、解释Spring框架中bean的生命周期。
+### 12、如何使用 SpringBoot 实现分页和排序？
+### 13、您使用了哪些 starter maven 依赖项？
+### 14、使用 SpringBoot 启动连接到内存数据库 H2 的 JPA 应用程序需要哪些依赖项？
+### 15、Spring MVC的控制器是不是单例模式,如果是,有什么问题,怎么解决？
+### 16、SpringBoot 可以兼容老 Spring 项目吗，如何做？
+### 17、什么是YAML？
+### 18、怎么设计无状态服务？
+### 19、spring 提供了哪些配置方式？
+### 20、什么是Spring Cloud Config?
+### 21、SpringBoot 配置加载顺序?
+### 22、列举 Spring Framework 的优点。
+### 23、如何给Spring 容器提供配置元数据?
+### 24、[@Required ](/Required ) 注解有什么用？
+### 25、SpringBoot有哪些优点？
+### 26、什么是 JavaConfig？
+### 27、什么是 YAML？
+### 28、SpringCloud主要项目
+### 29、架构师在微服务架构中的角色是什么？
+### 30、Bean 工厂和 Application contexts 有什么区别？
 
 
 
@@ -166,6 +143,6 @@ PACT是一个开源工具，允许测试服务提供者和消费者之间的交�
 
 ## 最新，高清PDF：172份，7701页，最新整理
 
-[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/mst.png "大厂面试题")](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png"大厂面试题")
+[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/mst.png "架构师专栏")](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png "架构师专栏")
 
 [![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png "架构师专栏")](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png "架构师专栏")

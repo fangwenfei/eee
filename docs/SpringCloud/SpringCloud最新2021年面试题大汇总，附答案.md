@@ -8,100 +8,116 @@
 
 
 
-### 1、springcloud核⼼组件及其作⽤，以及springcloud⼯作原理：
+### 1、如何实现动态Zuul网关路由转发
 
-![](https://gitee.com/souyunkutech/souyunku-home/raw/master/images/souyunku-web/2020/5/2/01/44/45_9.png#alt=45%5C_9.png)
-
-**springcloud由以下⼏个核⼼组件构成：**
-
-**1、** Eureka：各个服务启动时，Eureka Client都会将服务注册到Eureka Server，并且Eureka Client还可以反过来从Eureka Server拉取注册表，从⽽知道其他服务在哪⾥
-
-**2、** Ribbon：服务间发起请求的时候，基于Ribbon做负载均衡，从⼀个服务的多台机器中选择⼀台
-
-**3、** Feign：基于Feign的动态代理机制，根据注解和选择的机器，拼接请求URL地址，发起请求
-
-**4、** Hystrix：发起请求是通过Hystrix的线程池来⾛的，不同的服务⾛不同的线程池，实现了不同服务调⽤的隔离，避免了服务雪崩的问题
-
-**5、** Zuul：如果前端、移动端要调⽤后端系统，统⼀从Zuul⽹关进⼊，由Zuul⽹关转发请求给对应的服务
+通过path配置拦截请求，通过ServiceId到配置中心获取转发的服务列表，Zuul内部使用Ribbon实现本地负载均衡和转发。
 
 
-### 2、SpringCloud Config 可以实现实时刷新吗？
+### 2、eureka和zookeeper都可以提供服务注册与发现的功能，请说说两个的区别？
 
-springcloud config实时刷新采用SpringCloud Bus消息总线。
+**1、** zookeeper 是CP原则，强一致性和分区容错性。
 
+**2、** eureka 是AP 原则 可用性和分区容错性。
 
-### 3、为什么在微服务中需要Reports报告和Dashboards仪表板？
+**3、** zookeeper当主节点故障时，zk会在剩余节点重新选择主节点，耗时过长，虽然最终能够恢复，但是选取主节点期间会导致服务不可用，这是不能容忍的。
 
-报告和仪表板主要用于监视和维护微服务。有多种工具可以帮助实现此目的。报告 和仪表板可用于： 找出哪些微服务公开了哪些资源。 找出组件发生变化时受影响的服务。 提供一个简单的点，只要需要文档，就可以访问它。 部署的组件的版本。
-
-
-### 4、微服务之间是如何独⽴通讯的
-
-**1、** Dubbo 使⽤的是 RPC 通信，⼆进制传输，占⽤带宽⼩；
-
-**2、** Spring Cloud 使⽤的是 HTTP RESTFul ⽅式。
-
-![](https://gitee.com/souyunkutech/souyunku-home/raw/master/images/souyunku-web/2020/5/2/01/44/45_2.png#alt=45%5C_2.png)
+**4、** eureka各个节点是平等的，一个节点挂掉，其他节点仍会正常保证服务。
 
 
-### 5、什么是REST / RESTful以及它的用途是什么？
+### 3、过渡到微服务时的常见错误
 
-Representational State Transfer（REST）/ RESTful Web服务是一种帮助计算机系统通过Internet进行通信的架构风格。这使得微服务更容易理解和实现。
+不仅在开发上，而且在方面流程也经常发生错误。一些常见错误是：
 
-微服务可以使用或不使用RESTful API实现，但使用RESTful API构建松散耦合的微服务总是更容易。
+**1、** 通常开发人员无法概述当前的挑战。
 
+**2、** 重写已经存在的程序。
 
-### 6、Spring Cloud Gateway
+**3、** 职责、时间线和界限没有明确定义。
 
-API网关组件，对请求提供路由及过滤功能。
-
-
-### 7、什么是Idempotence以及它在哪里使用？
-
-幂等性是能够以这样的方式做两次事情的特性，即最终结果将保持不变，即好像它只做了一次。
-
-用法：在远程服务或数据源中使用 Idempotence，这样当它多次接收指令时，它只处理指令一次。
+**4、** 未能从一开始就实施和确定自动化的范围。
 
 
-### 8、Ribbon和Feign调用服务的区别
+### 4、Eureka如何 保证AP
 
-**1、** 调用方式同：Ribbon需要我们自己构建Http请求，模拟Http请求然后通过RestTemplate发给其他服务，步骤相当繁琐
+Eureka看明⽩了这⼀点，因此在设计时就优先保证可⽤性。Eureka各个节点都是平等的，⼏个节点挂掉不会影响正常节点的⼯作，剩余的节点依然可以提供注册和查询服务。⽽Eureka的客户端在向某个Eureka注册或如果发现连接失败，则会⾃动切换⾄其它节点，只要有⼀台Eureka还在，就能保证注册服务可⽤(保证可⽤性)，只不过查到的信息可能不是最新的(不保证强⼀致性)。除此之外，Eureka还有⼀种⾃我保护机制，如果在15分钟内超过85%的节点都没有正常的⼼跳，那么Eureka就认为客户端与注册中⼼出现了⽹络故障，此时会出现以下⼏种情况：
 
-**2、** 而Feign则是在Ribbon的基础上进行了一次改进，采用接口的形式，将我们需要调用的服务方法定义成抽象方法保存在本地就可以了，不需要自己构建Http请求了，直接调用接口就行了，不过要注意，调用方法要和本地抽象方法的签名完全一致。
+**1、** Eureka不再从注册列表中移除因为⻓时间没收到⼼跳⽽应该过期的服务
 
+**2、** Eureka仍然能够接受新服务的注册和查询请求，但是不会被同步到其它节点上(即保证当前节点依然可⽤)
 
-### 9、springcloud如何实现服务的注册?
+**3、** 当⽹络稳定时，当前实例新的注册信息会被同步到其它节点中
 
-**1、** 服务发布时，指定对应的服务名,将服务注册到 注册中心(eureka zookeeper)
-
-**2、** 注册中心加@EnableEurekaServer,服务用@EnableDiscoveryClient，然后用ribbon或feign进行服务直接的调用发现。
-
-
-### 10、既然Nginx可以实现网关？为什么还需要使用Zuul框架
-
-Zuul是SpringCloud集成的网关，使用Java语言编写，可以对SpringCloud架构提供更灵活的服务。
+因此， Eureka可以很好的应对因⽹络故障导致部分节点失去联系的情况，⽽不会像zookeeper那样使整个注册服务瘫痪。
 
 
-### 11、SpringBoot和SpringCloud的区别？
-### 12、Eureka和ZooKeeper都可以提供服务注册与发现的功能,请说说两个的区别
-### 13、网关的作用是什么
-### 14、什么是 Spring Cloud Bus？
-### 15、什么是Hystrix断路器？我们需要它吗？
-### 16、单片，SOA和微服务架构有什么区别？
-### 17、Spring Cloud Bus
-### 18、熔断的原理，以及如何恢复？
-### 19、SOA和微服务架构之间的主要区别是什么？
-### 20、Spring Cloud 实现服务注册和发现的原理是什么？
-### 21、如何覆盖SpringBoot项目的默认属性？
-### 22、什么是Spring Cloud Bus？我们需要它吗？
-### 23、什么是领域驱动设计？
-### 24、设计微服务的最佳实践是什么？
-### 25、为什么人们会犹豫使用微服务？
-### 26、微服务限流 http限流：我们使⽤nginx的limitzone来完成：
-### 27、Spring Cloud Gateway
-### 28、Spring Cloud和各子项目版本对应关系
-### 29、什么是OAuth？
-### 30、什么是微服务架构中的DRY？
+### 5、SpringBoot和SpringCloud的区别？
+
+**1、** SpringBoot专注于快速方便的开发单个个体微服务。
+
+**2、** SpringCloud是关注全局的微服务协调整理治理框架，它将SpringBoot开发的一个个单体微服务整合并管理起来，
+
+**3、** 为各个微服务之间提供，配置管理、服务发现、断路器、路由、微代理、事件总线、全局锁、决策竞选、分布式会话等等集成服务
+
+**4、** SpringBoot可以离开SpringCloud独立使用开发项目， 但是SpringCloud离不开SpringBoot ，属于依赖的关系
+
+**5、** SpringBoot专注于快速、方便的开发单个微服务个体，SpringCloud关注全局的服务治理框架。
+
+
+### 6、服务注册和发现是什么意思？Spring Cloud如何实现？
+
+当我们开始一个项目时，我们通常在属性文件中进行所有的配置。随着越来越多的服务开发和部署，添加和修改这些属性变得更加复杂。有些服务可能会下降，而某些位置可能会发生变化。手动更改属性可能会产生问题。 Eureka服务注册和发现可以在这种情况下提供帮助。由于所有服务都在Eureka服务器上注册并通过调用Eureka服务器完成查找，因此无需处理服务地点的任何更改和处理。
+
+
+### 7、Spring Cloud和SpringBoot版本对应关系
+| Spring Cloud Version | SpringBoot Version |
+| --- | --- |
+| Hoxton | 2.2.x |
+| Greenwich | 2.1.x |
+| Finchley | 2.0.x |
+| Edgware | 1.5.x |
+| Dalston | 1.5.x |
+
+
+
+### 8、什么是Eureka
+
+Eureka作为SpringCloud的服务注册功能服务器，他是服务注册中心，系统中的其他服务使用Eureka的客户端将其连接到Eureka Service中，并且保持心跳，这样工作人员可以通过Eureka Service来监控各个微服务是否运行正常。
+
+
+### 9、Zookeeper如何 保证CP
+
+当向注册中⼼查询服务列表时，我们可以容忍注册中⼼返回的是⼏分钟以前的注册信息，但不能接受服务直接down掉不可⽤。也就是说，服务注册功能对可⽤性的要求要⾼于⼀致性。但是zk会出现这样⼀种情况，当master节点因为⽹络故障与其他节点失去联系时，剩余节点会重新进⾏leader选举。问题在于，选举leader的时间太⻓，30 ~ 120s, 且选举期间整个zk集群都是不可⽤的，这就导致在选举期间注册服务瘫痪。在云部署的环境下，因⽹络问题使得zk集群失去master节点是较⼤概率会发⽣的事，虽然服务能够最终恢复，但是漫⻓的选举时间导致的注册⻓期不可⽤是不能容忍的。
+
+
+### 10、什么是微服务
+
+**1、** 微服务是⼀种架构⻛格，也是⼀种服务；
+
+**2、** 微服务的颗粒⽐较⼩，⼀个⼤型复杂软件应⽤由多个微服务组成，⽐如Netflix⽬前由500多的微服务组成；
+
+**3、** 它采⽤UNIX设计的哲学，每种服务只做⼀件事，是⼀种松耦合的能够被独⽴开发和部署的⽆状态化服务（独⽴扩展、升级和可替换）。
+
+
+### 11、什么是网关?
+### 12、分布式配置中心有那些框架？
+### 13、服务雪崩效应产生的原因
+### 14、微服务之间是如何独立通讯的?
+### 15、Ribbon和Feign的区别？
+### 16、微服务之间是如何独立通讯的
+### 17、如何配置SpringBoot应用程序日志记录？
+### 18、康威定律是什么？
+### 19、Mock或Stub有什么区别？
+### 20、Spring Cloud 是什么
+### 21、微服务限流 dubbo限流：dubbo提供了多个和请求相关的filter：ActiveLimitFilter ExecuteLimitFilter TPSLimiterFilter
+### 22、单片，SOA和微服务架构有什么区别？
+### 23、spring cloud 和dubbo区别?
+### 24、架构师在微服务架构中的角色是什么？
+### 25、为什么要选择微服务架构？
+### 26、Spring Cloud的版本关系
+### 27、eureka缓存机制：
+### 28、微服务之间是如何独⽴通讯的
+### 29、微服务限流 http限流：我们使⽤nginx的limitzone来完成：
+### 30、在使用微服务架构时，您面临哪些挑战？
 
 
 
@@ -115,6 +131,6 @@ Zuul是SpringCloud集成的网关，使用Java语言编写，可以对SpringClou
 
 ## 最新，高清PDF：172份，7701页，最新整理
 
-[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/mst.png "大厂面试题")](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png"大厂面试题")
+[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/mst.png "架构师专栏")](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png "架构师专栏")
 
 [![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png "架构师专栏")](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png "架构师专栏")

@@ -8,22 +8,51 @@
 
 
 
-### 1、在MongoDB中创建模式时，需要考虑哪些要点？
+### 1、你怎么比较MongoDB、CouchDB及CouchBase?
 
-**需要考虑的要点是**
-
-**1、** 根据用户要求设计架构
-
-**2、** 如果将它们一起使用，则将它们组合到一个文档中。否则，将它们分开
-
-**3、** 在写入时进行连接，而不是在读取时进行连接
-
-**4、** 对于最常见的用例，请优化您的架构
-
-**5、** 在架构中进行复杂的汇总
+不知道
 
 
-### 2、提及Objecld由什么组成？
+### 2、如何查询集合中的文档
+
+db.collectionName.find({key:value})
+
+
+### 3、要进行安全备份，可以使用MongoDB中的功能是什么？
+
+日记功能是MongoDB中的功能，可用于执行安全备份。
+
+
+### 4、解释什么是副本集？
+
+副本集是一组托管相同数据集的mongo实例。在副本集中，一个节点是主节点，另一个是辅助节点。从主节点到辅助节点，所有数据都会复制。
+
+
+### 5、什么是MongoDB
+
+MongoDB是一个文档数据库，提供好的性能，领先的非关系型数据库。采用BSON存储文档数据。
+
+BSON（）是一种类json的一种二进制形式的存储格式，简称Binary JSON.
+
+相对于json多了date类型和二进制数组。
+
+
+### 6、用什么方法可以格式化输出结果
+
+db.collectionName.find().pretty()
+
+
+### 7、查看是否在主服务器上的命令语法是什么？MongoDB允许多少个主机？
+
+命令语法Db.isMaster（）会告诉您是否在主服务器上。MongoDB仅允许一个主服务器，而ouchDB允许多个主服务器。
+
+
+### 8、分片(sharding)和复制(replication)是怎样工作的?
+
+每一个分片(shard)是一个分区数据的逻辑集合.分片可能由单一服务器或者集群组成,我们推荐为每一个分片(shard)使用集群.
+
+
+### 9、提及Objecld由什么组成？
 
 **Objectld由以下组成**
 
@@ -36,81 +65,30 @@
 **4、** 3字节递增计数器
 
 
-### 3、解释什么是MongoDB中的GridFS？
+### 10、如果块移动操作(movechunk)失败了,我需要手动清除部分转移的文档吗?
 
-为了存储和检索大文件，例如图像，视频文件和音频文件，使用GridFS。默认情况下，它使用两个文件fs.files和fs.chunks来存储文件的元数据和数据块。
-
-
-### 4、MongoDB相似的产品有哪些？
-
-Cassandra，CouchDB，Redis，Riak，Hbase
+不需要,移动操作是一致(consistent)并且是确定性的(deterministic);一次失败后,移动操作会不断重试;当完成后,数据只会出现在新的分片里(shard).
 
 
-
-### 5、用什么方法可以格式化输出结果
-
-db.collectionName.find().pretty()
-
-
-### 6、MongoDB的优势有哪些
-
-1. 面向文档的存储：以 JSON 格式的文档保存数据。
-2. 任何属性都可以建立索引。
-3. 复制以及高可扩展性。
-4. 自动分片。
-5. 丰富的查询功能。
-6. 快速的即时更新。
-
-
-### 7、什么是master或primary？
-
-当前备份集群负责所有的写入操作的主要节点，在集群中，当主节点（master）失效，另一个成员会变为master
-
-
-### 8、使用mongodb的优点
-
-**1、** 面向文件
-
-**2、** 高性能
-
-**3、** 高可用
-
-**4、** 易扩展
-
-**5、** 可分片
-
-**6、** 对数据存储友好
-
-
-### 9、分片(sharding)和复制(replication)是怎样工作的?
-
-每一个分片(shard)是一个分区数据的逻辑集合.分片可能由单一服务器或者集群组成,我们推荐为每一个分片(shard)使用集群.
-
-
-### 10、分析器在MongoDB中的作用是什么?
-
-分析器就是explain 显示每次操作性能特点的数据库分析器。通过分析器可能查找比预期慢的操作
-
-
-### 11、解释一下您可以将旧文件移动到moveChunk目录中吗？
-### 12、查看是否在主服务器上的命令语法是什么？MongoDB允许多少个主机？
-### 13、31如何理解MongoDB中的GridFS机制，MongoDB为何使用GridFS来存储文件？
-### 14、什么是聚合
-### 15、如何删除文档
-### 16、数据在什么时候才会扩展到多个分片（shard）里？
-### 17、为什么要在MongoDB中使用分析器
-### 18、在哪些场景使用MongoDB
-### 19、当我试图更新一个正在被迁移的块(chunk)上的文档时会发生什么?
-### 20、我怎么查看 Mongo 正在使用的链接？
-### 21、当我试图更新一个正在被迁移的块（chunk）上的文档时会发生什么？
-### 22、monogodb 中的分片什么意思
-### 23、ObjectID"有哪些部分组成
-### 24、分片（sharding）和复制（replication）是怎样工作的？
-### 25、什么是非关系型数据库
-### 26、如何使用"AND"或"OR"条件循环查询集合中的文档
-### 27、MongoDB支持存储过程吗？如果支持的话，怎么用？
-### 28、如何添加索引
-### 29、在MongoDB中什么是副本集（避免单点故障）
+### 11、如何使用"AND"或"OR"条件循环查询集合中的文档
+### 12、分析器在MongoDB中的作用是什么?
+### 13、ObjectID"有哪些部分组成
+### 14、getLastError的作用
+### 15、复制在MongoDB中如何工作？
+### 16、mongodb是否支持事务
+### 17、数据库的整体结构
+### 18、mongodb的结构介绍
+### 19、在MongoDB中创建集合并将其删除的语法是什么？
+### 20、如果在一个分片(shard)停止或者很慢的时候,我发起一个查询会怎样?
+### 21、什么是master或primary?
+### 22、什么是集合(表)
+### 23、MongoDB的优势有哪些
+### 24、数据在什么时候才会扩展到多个分片(shard)里?
+### 25、MongoDB在A:{B,C}上建立索引，查询A:{B,C}和A:{C,B}都会使用索引吗？
+### 26、数据在什么时候才会扩展到多个分片（shard）里？
+### 27、在哪些场景使用MongoDB
+### 28、nosql数据库有哪些
+### 29、提到在MongoDB中使用索引的基本语法是什么？
 
 
 
@@ -124,6 +102,6 @@ db.collectionName.find().pretty()
 
 ## 最新，高清PDF：172份，7701页，最新整理
 
-[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/mst.png "大厂面试题")](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png"大厂面试题")
+[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/mst.png "架构师专栏")](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png "架构师专栏")
 
 [![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png "架构师专栏")](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png "架构师专栏")

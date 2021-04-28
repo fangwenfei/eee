@@ -8,196 +8,139 @@
 
 
 
-### 1、类的实例化顺序
+### 1、代理模式应用场景
 
-**1、** 父类静态成员和静态初始化块 ，按在代码中出现的顺序依次执行
+Spring AOP、日志打印、异常处理、事务控制、权限控制等
 
-**2、** 子类静态成员和静态初始化块 ，按在代码中出现的顺序依次执行
 
-**3、** 父类实例成员和实例初始化块 ，按在代码中出现的顺序依次执行
+### 2、为什么要学习工厂设计模式
 
-**4、** 父类构造方法
+不知道你们面试题问到过源码没有，你知道Spring的源码吗，MyBatis的源码吗，等等等 如果你想学习很多框架的源码，或者你想自己开发自己的框架，就必须先掌握设计模式（工厂设计模式用的是非常非常广泛的）
 
-**5、** 子类实例成员和实例初始化块 ，按在代码中出现的顺序依次执行
 
-**6、** 子类构造方法
+### 3、Java线程池中submit() 和 execute()方法有什么区别？
 
-**检验一下是不是真懂了：**
+两个方法都可以向线程池提交任务，execute()方法的返回类型是void，它定义在Executor接口中。
+
+而submit()方法可以返回持有计算结果的Future对象，它定义在ExecutorService接口中，它扩展了Executor接口，其它线程池类像ThreadPoolExecutor和ScheduledThreadPoolExecutor都有这些方法。
+
+
+### 4、嵌套静态类与顶级类有什么区别？
+
+一个公共的顶级类的源文件名称与类名相同，而嵌套静态类没有这个要求。一个嵌套类位于顶级类内部，需要使用顶级类的名称来引用嵌套静态类，如 HashMap.Entry 是一个嵌套静态类，HashMap 是一个顶级类，Entry是一个嵌套静态类。
+
+
+### 5、HashMap是怎么解决哈希冲突的？
+
+在解决这个问题之前，我们首先需要知道**什么是哈希冲突**，而在了解哈希冲突之前我们还要知道**什么是哈希**才行；
+
+**什么是哈希？**
+
+Hash，一般翻译为“散列”，也有直接音译为“哈希”的， Hash就是指使用哈希算法是指把任意长度的二进制映射为固定长度的较小的二进制值，这个较小的二进制值叫做哈希值。
+
+**什么是哈希冲突？**
+
+当两个不同的输入值，根据同一散列函数计算出相同的散列值的现象，我们就把它叫做碰撞（哈希碰撞）
+
+**HashMap的数据结构**
+
+在Java中，保存数据有两种比较简单的数据结构：数组和链表
+
+**1、** 数组的特点是：寻址容易，插入和删除困难；
+
+**2、** 链表的特点是：寻址困难，但插入和删除容易；
+
+**3、** 所以我们将数组和链表结合在一起，发挥两者各自的优势，就可以使用俩种方式：链地址法和开放地址法可以解决哈希冲突：
+
+![](https://gitee.com/souyunkutech/souyunku-home/raw/master/images/souyunku-web/2020/5/2/056/58/114_9.png#alt=114%5C_9.png)
+
+**1、** 链表法就是将相同hash值的对象组织成一个链表放在hash值对应的槽位；
+
+**2、** 开放地址法是通过一个探测算法，当某个槽位已经被占据的情况下继续查找下一个可以使用的槽位。
+
+但相比于hashCode返回的int类型，我们HashMap初始的容量大小`DEFAULT_INITIAL_CAPACITY = 1 << 4`（即2的四次方16）要远小于int类型的范围，所以我们如果只是单纯的用hashCode取余来获取对应的bucket这将会大大增加哈希碰撞的概率，并且最坏情况下还会将HashMap变成一个单链表，所以我们还需要对hashCode作一定的优化
+
+**hash()函数**
+
+上面提到的问题，主要是因为如果使用hashCode取余，那么相当于**参与运算的只有hashCode的低位**，高位是没有起到任何作用的，所以我们的思路就是让hashCode取值出的高位也参与运算，进一步降低hash碰撞的概率，使得数据分布更平均，我们把这样的操作称为**扰动**，在**JDK 1.8**中的hash()函数如下：
 
 ```
-public class Base {
-    private String name = "博客：Soinice";
-
-    public Base() {
-        tellName();
-        printName();
-    }
-
-    public void tellName() {
-        System.out.println("Base tell name: " + name);
-    }
-
-    public void printName() {
-        System.out.println("Base print name: " + name);
-    }
+static final int hash(Object key) {
+int h;
+return (key == null) ? 0 : (h = key.hashCode()) ^ (h >>> 16);// 与自己右移16位进行异或运算（高低位异或）
 }
 ```
 
-```
-public class Dervied extends Base {
-    private String name = "Java3y";
+这比在JDK 1.7中，更为简洁，相比在1.7中的4次位运算，5次异或运算（9次扰动），在1.8中，只进行了1次位运算和1次异或运算（2次扰动）
 
-    public Dervied() {
-        tellName();
-        printName();
-    }
+**简单总结一下HashMap是使用了哪些方法来有效解决哈希冲突的：**
 
-    @Override
-    public void tellName() {
-        System.out.println("Dervied tell name: " + name);
-    }
+**1、** 链表法就是将相同hash值的对象组织成一个链表放在hash值对应的槽位；
 
-    @Override
-    public void printName() {
-        System.out.println("Dervied print name: " + name);
-    }
-
-    public static void main(String[] args) {
-        new Dervied();
-    }
-}
-```
-
-**输出数据：**
-
-```
-Dervied tell name: null
-Dervied print name: null
-Dervied tell name: Java3y
-Dervied print name: Java3y
-
-Process finished with exit code 0
-```
-
-第一次做错的同学点个赞，加个关注不过分吧(hahaha。
+**2、** 开放地址法是通过一个探测算法，当某个槽位已经被占据的情况下继续查找下一个可以使用的槽位。
 
 
-### 2、如何将字符串反转？
+### 6、线程类的构造方法、静态块是被哪个线程调用的
 
-使用 StringBuilder 或者 stringBuffer 的 reverse() 方法。
+**1、** 这是一个非常刁钻和狡猾的问题。请记住：线程类的构造方法、静态块是被 new这个线程类所在的线程所调用的，而 run 方法里面的代码才是被线程自身所调用的。
 
-示例代码：
+**2、** 如果说上面的说法让你感到困惑，那么我举个例子，假设 Thread2 中 new 了Thread1，main 函数中 new 了 Thread2，那么：
 
-```
-// StringBuffer reverse
-StringBuffer stringBuffer = new StringBuffer();
-stringBuffer.append("abcdefg");
-System.out.println(stringBuffer.reverse()); // gfedcba
-// StringBuilder reverse
-StringBuilder stringBuilder = new StringBuilder();
-stringBuilder.append("abcdefg");
-System.out.println(stringBuilder.reverse()); // gfedcba
-```
+Thread2 的构造方法、静态块是 main 线程调用的，Thread2 的 run()方法是Thread2 自己调用的
+
+Thread1 的构造方法、静态块是 Thread2 调用的，Thread1 的 run()方法是Thread1 自己调用的
 
 
-### 3、Iterator 和 ListIterator 有什么区别？
+### 7、Set接口有什么特点
 
-**1、** Iterator 可以遍历 Set 和 List 集合，而 ListIterator 只能遍历 List。
-
-**2、** Iterator 只能单向遍历，而 ListIterator 可以双向遍历（向前/后遍历）。
-
-**3、** ListIterator 实现 Iterator 接口，然后添加了一些额外的功能，比如添加一个元素、替换一个元素、获取前面或后面元素的索引位置。
+无须存储、不能有重复值。
 
 
-### 4、在 Java 中 Executor 和 Executors 的区别？
+### 8、Java 中的同步集合与并发集合有什么区别？
 
-**1、** Executors 工具类的不同方法按照我们的需求创建了不同的线程池，来满足业务的需求。
-
-**2、** Executor 接口对象能执行我们的线程任务。
-
-**3、** ExecutorService 接口继承了 Executor 接口并进行了扩展，提供了更多的方法我们能获得任务执行的状态并且可以获取任务的返回值。
-
-**4、** 使用 ThreadPoolExecutor 可以创建自定义线程池。
+同步集合与并发集合都为多线程和并发提供了合适的线程安全的集合，不过并发集合的可扩展性更高。在 Java1.5 之前程序员们只有同步集合来用且在多线程并发的时候会导致争用，阻碍了系统的扩展性。Java5 介绍了并发集合像ConcurrentHashMap，不仅提供线程安全还用锁分离和内部分区等现代技术提高了可扩展性。
 
 
-### 5、什么是多线程环境下的伪共享（false sharing）？
+### 9、什么是方法内联？
 
-伪共享是多线程系统（每个处理器有自己的局部缓存）中一个众所周知的性能问题。伪共享发生在不同处理器的上的线程对变量的修改依赖于相同的缓存行
-
-
-### 6、HashSet与HashMap的区别
-| HashMap | HashSet |
-| --- | --- |
-| 实现了Map接口 | 实现Set接口 |
-| 存储键值对 | 仅存储对象 |
-| 调用put（）向map中添加元素 | 调用add（）方法向Set中添加元素 |
-| HashMap使用键（Key）计算Hashcode | HashSet使用成员对象来计算hashcode值，对于两个对象来说hashcode可能相同，所以equals()方法用来判断对象的相等性，如果两个对象不同的话，那么返回false |
-| HashMap相对于HashSet较快，因为它是使用唯一的键获取对象 | HashSet较HashMap来说比较慢 |
+为了减少方法调用的开销，可以把一些短小的方法，纳入到目标方法的调用范围之内，这样就少了一次方法调用，提升速度
 
 
+### 10、JAVA为什么需要接口？
 
-### 7、js如何实现页面刷新呢？
-
-**1、** history.go(0)
-
-**2、** location.reload()
+接口弥补了java单继承的缺点
 
 
-### 8、如何使session失效
-
-Session.invalidate()
-
-
-### 9、ArrayList 和 HashMap 的默认大小是多数？
-
-在 Java 7 中，ArrayList 的默认大小是 10 个元素，HashMap 的默认大小是16个元素（必须是2的幂）。这就是 Java 7 中 ArrayList 和 HashMap 类的代码片段：
-
-```java
-// from ArrayList.java JDK 1.7
-private static final int DEFAULT_CAPACITY = 10;
-
-//from HashMap.java JDK 7
-static final int DEFAULT_INITIAL_CAPACITY = 1 << 4; // aka 16
-```
-
-
-### 10、invokedynamic指令是干什么的？
-
-属于比较高级的题目。没看过虚拟机的一般是不知道的。所以如果你不太熟悉，不要气馁，加油！（小拳拳锤你胸口）。
-
-`invokedynamic`是`Java7`之后新加入的字节码指令，使用它可以实现一些动态类型语言的功能。我们使用的Lambda表达式，在字节码上就是invokedynamic指令实现的。它的功能有点类似反射，但它是使用方法句柄实现的，执行效率更高。
-
-
-### 11、JAVA虚引用
-### 12、被引用的对象就一定能存活吗？
-### 13、数组实例化有几种方式？
-### 14、ArrayList 与 LinkedList 的不区别？
-### 15、OOP 中的 组合、聚合和关联有什么区别？
-### 16、什么叫线程安全？servlet是线程安全吗?
-### 17、生产环境服务器变慢，如何诊断处理？
-### 18、你熟悉哪些垃圾收集算法？
-### 19、堆和栈的区别
-### 20、多线程的好处
-### 21、字符串常量存放在哪个区域？
-### 22、说一下 HashSet 的实现原理？
-### 23、volatile关键字的原理是什么？干什么用的？
-### 24、什么是设计模式
-### 25、如果你提交任务时，线程池队列已满，这时会发生什么
-### 26、Java 中能创建 volatile 数组吗？
-### 27、什么是观察者模式
-### 28、Object类常用方法有那些？
-### 29、两个相同的对象会有不同的的 hash code 吗？
-### 30、GC是什么？为什么要有GC？
-### 31、用哪两种方式来实现集合的排序？
-### 32、强引用、软引用、弱引用、虚引用是什么，有什么区别？
-### 33、说说Java 垃圾回收机制
-### 34、事务的ACID是指什么？
-### 35、Servlet生命周期内调用的方法过程？
-### 36、如何停止一个正在运行的线程？
-### 37、串行（serial）收集器和吞吐量（throughput）收集器的区别是什么？
-### 38、简述一下面向对象的”六原则一法则”。
-### 39、乐观锁和悲观锁的理解及如何实现，有哪些实现方式？
-### 40、说出 5 条 IO 的最佳实践(答案)
+### 11、什么是“依赖注入”和“控制反转”？为什么有人使用？
+### 12、接口是否可继承（extends）接口？抽象类是否可实现（implements）接口？抽象类是否可继承具体类（concrete class）？
+### 13、内部类与静态内部类的区别？
+### 14、说出 5 个 JDK 1.8 引入的新特性？
+### 15、什么是数据结构？
+### 16、Spring中自动装配的方式有哪些？
+### 17、你如何在Java中获取线程堆栈？
+### 18、Java 中 LinkedHashMap 和 PriorityQueue 的区别是什么？
+### 19、你平时工作中用过的JVM常用基本配置参数有哪些？
+### 20、JVM的永久代中会发生垃圾回收么
+### 21、Java 中怎么创建 ByteBuffer？
+### 22、JIT是什么？
+### 23、Java中集合框架的有几个？
+### 24、谈谈JVM中，对类加载器的认识
+### 25、如何判断一个常量是废弃常量 ？
+### 26、线程的基本状态以及状态之间的关系？
+### 27、说出几点 Java 中使用 Collections 的最佳实践
+### 28、如何设置请求的编码以及响应内容的类型？
+### 29、String 属于基础的数据类型吗？
+### 30、线程的状态
+### 31、synchronized关键字的用法？
+### 32、在Java中定义一个不做事且没有参数的构造方法的作用
+### 33、ArrayList 与 LinkedList 的不区别？
+### 34、你能保证 GC 执行吗？
+### 35、你能解释一下里氏替换原则吗?
+### 36、== 和 equals 的区别是什么？
+### 37、Java 中的内存映射缓存区是什么？
+### 38、集合的特点
+### 39、SynchronizedMap 和 ConcurrentHashMap 有什么区别？
+### 40、栈
 
 
 
@@ -211,6 +154,6 @@ static final int DEFAULT_INITIAL_CAPACITY = 1 << 4; // aka 16
 
 ## 最新，高清PDF：172份，7701页，最新整理
 
-[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/mst.png "大厂面试题")](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png"大厂面试题")
+[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/mst.png "架构师专栏")](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png "架构师专栏")
 
 [![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png "架构师专栏")](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png "架构师专栏")

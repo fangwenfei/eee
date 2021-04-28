@@ -8,156 +8,270 @@
 
 
 
-### 1、Java 中，嵌套公共静态类与顶级类有什么不同？
+### 1、Java 中，编写多线程程序的时候你会遵循哪些最佳实践？
 
-类的内部可以有多个嵌套公共静态类，但是一个 Java 源文件只能有一个顶级公共类，并且顶级公共类的名称与源文件名称必须一致。
+这是我在写Java 并发程序的时候遵循的一些最佳实践：
 
+**1、** 给线程命名，这样可以帮助调试。
 
-### 2、写一段代码在遍历 ArrayList 时移除一个元素？
+**2、** 最小化同步的范围，而不是将整个方法同步，只对关键部分做同步。
 
-该问题的关键在于面试者使用的是 ArrayList 的 remove() 还是 Iterator 的 remove()方法。这有一段[示例代码](http://java67.blogspot.com/2015/10/how-to-solve-concurrentmodificationexception-in-java-arraylist.html)，是使用正确的方式来实现在遍历的过程中移除元素，而不会出现 ConcurrentModificationException 异常的示例代码。
+**3、** 如果可以，更偏向于使用 volatile 而不是 synchronized。
 
+**4、** 使用更高层次的并发工具，而不是使用 wait() 和 notify() 来实现线程间通信，如 BlockingQueue，CountDownLatch 及 Semeaphore。
 
-### 3、ZGC 了解吗？
-
-JDK11 中加入的具有实验性质的低延迟垃圾收集器，目标是尽可能在不影响吞吐量的前提下，实现在任意堆内存大小都可以把停顿时间限制在 10ms 以内的低延迟。
-
-基于 Region 内存布局，不设分代，使用了读屏障、染色指针和内存多重映射等技术实现可并发的标记-整理，以低延迟为首要目标。
-
-ZGC 的 Region 具有动态性，是动态创建和销毁的，并且容量大小也是动态变化的。
+**5、** 优先使用并发集合，而不是对集合进行同步。并发集合提供更好的可扩展性。
 
 
-### 4、用最有效率的方法计算2乘以8？
+### 2、线程的生命周期？
+
+1、新建
+
+2、就绪
+
+3、运行
+
+4、死亡
+
+5、阻塞
+
+
+### 3、Java线程数过多会造成什么异常？
+
+**1、** 线程的生命周期开销非常高
+
+**2、** 消耗过多的CPU资源
+
+如果可运行的线程数量多于可用处理器的数量，那么有线程将会被闲置。大量空闲的线程会占用许多内存，给垃圾回收器带来压力，而且大量的线程在竞争CPU资源时还将产生其他性能的开销。
+
+**3、** 降低稳定性
+
+JVM在可创建线程的数量上存在一个限制，这个限制值将随着平台的不同而不同，并且承受着多个因素制约，包括JVM的启动参数、Thread构造函数中请求栈的大小，以及底层操作系统对线程的限制等。如果破坏了这些限制，那么可能抛出OutOfMemoryError异常。
+
+
+### 4、模块化编程与热插拔
+
+OSGi 旨在为实现 Java 程序的模块化编程提供基础条件，基于 OSGi 的程序很可能可以实现模块级的热插拔功能，当程序升级更新时，可以只停用、重新安装然后启动程序的其中一部分，这对企业级程序开发来说是非常具有诱惑力的特性。
+
+OSGi 描绘了一个很美好的模块化开发目标，而且定义了实现这个目标的所需要服务与架构，同时也有成熟的框架进行实现支持。但并非所有的应用都适合采用 OSGi 作为基础架构，它在提供强大功能同时，也引入了额外的复杂度，因为它不遵守了类加载的双亲委托模型。
+
+
+### 5、适配器模式和代理模式之前有什么不同？
+
+这个问题与前面的类似，适配器模式和代理模式的区别在于他们的意图不同。由于适配器模式和代理模式都是封装真正执行动作的类，因此结构是一致的，但是适配器模式用于接口之间的转换，而代理模式则是增加一个额外的中间层，以便支持分配、控制或智能访问。
+
+
+### 6、什么是ORM？
+
+对象关系映射（Object-Relational Mapping，简称ORM）是一种为了解决程序的面向对象模型与数据库的关系模型互不匹配问题的技术
+
+
+### 7、Java中是如何支持正则表达式操作的？
 
 
 
-2 << 3（左移3位相当于乘以2的3次方，右移3位相当于除以2的3次方）。
+Java中的String类提供了支持正则表达式操作的方法，包括：matches()、replaceAll()、replaceFirst()、split()。此外，Java中可以用Pattern类表示正则表达式对象，它提供了丰富的API进行各种正则表达式操作，请参考下面面试题的代码。
 
-**补充：**
+> 面试题： - 如果要从字符串中截取第一个英文左括号之前的字符串，例如：北京市(朝阳区)(西城区)(海淀区)，截取结果为：北京市，那么正则表达式怎么写？
 
-我们为编写的类重写hashCode方法时，可能会看到如下所示的代码，其实我们不太理解为什么要使用这样的乘法运算来产生哈希码（散列码），而且为什么这个数是个素数，为什么通常选择31这个数？前两个问题的答案你可以自己百度一下，选择31是因为可以用移位和减法运算来代替乘法，从而得到更好的性能。说到这里你可能已经想到了：31 * num 等价于(num << 5) - num，左移5位相当于乘以2的5次方再减去自身就相当于乘以31，现在的VM都能自动完成这个优化。
 
 ```
-public class PhoneNumber {
-    private int areaCode;
-    private String prefix;
-    private String lineNumber;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
-    @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + areaCode;
-        result = prime * result
-                + ((lineNumber == null) ? 0 : lineNumber.hashCode());
-        result = prime * result + ((prefix == null) ? 0 : prefix.hashCode());
-        return result;
+class RegExpTest {
+
+    public static void main(String[] args) {
+        String str = "北京市(朝阳区)(西城区)(海淀区)";
+        Pattern p = Pattern.compile(".*?(?=\\()");
+        Matcher m = p.matcher(str);
+        if(m.find()) {
+            System.out.println(m.group());
+        }
+    }
+}
+```
+
+> 说明：上面的正则表达式中使用了懒惰匹配和前瞻，如果不清楚这些内容，推荐读一下网上很有名的[《正则表达式30分钟入门教程》](http://www.jb51.net/tools/zhengze.html)。
+
+
+
+### 8、对象的内存布局了解吗？
+
+对象在堆内存的存储布局可分为对象头、实例数据和对齐填充。
+
+**对象头**占 12B，包括对象标记和类型指针。对象标记存储对象自身的运行时数据，如哈希码、GC 分代年龄、锁标志、偏向线程 ID 等，这部分占 8B，称为 Mark Word。Mark Word 被设计为动态数据结构，以便在极小的空间存储更多数据，根据对象状态复用存储空间。
+
+类型指针是对象指向它的类型元数据的指针，占 4B。JVM 通过该指针来确定对象是哪个类的实例。
+
+**实例数据**是对象真正存储的有效信息，即本类对象的实例成员变量和所有可见的父类成员变量。存储顺序会受到虚拟机分配策略参数和字段在源码中定义顺序的影响。相同宽度的字段总是被分配到一起存放，在满足该前提条件的情况下父类中定义的变量会出现在子类之前。
+
+**对齐填充**不是必然存在的，仅起占位符作用。虚拟机的自动内存管理系统要求任何对象的大小必须是 8B 的倍数，对象头已被设为 8B 的 1 或 2 倍，如果对象实例数据部分没有对齐，需要对齐填充补全。
+
+
+### 9、多线程的常用方法
+| 方法 名 | 描述 |
+| --- | --- |
+| sleep() | 强迫一个线程睡眠Ｎ毫秒 |
+| isAlive() | 判断一个线程是否存活。 |
+| join() | 等待线程终止。 |
+| activeCount() | 程序中活跃的线程数。 |
+| enumerate() | 枚举程序中的线程。 |
+| currentThread() | 得到当前线程。 |
+| isDaemon() | 一个线程是否为守护线程。 |
+| setDaemon() | 设置一个线程为守护线程。 |
+| setName() | 为线程设置一个名称。 |
+| wait() | 强迫一个线程等待。 |
+| notify() | 通知一个线程继续运行。 |
+| setPriority() | 设置一个线程的优先级。 |
+
+
+
+### 10、策略模式的优点和缺点
+
+**优点：**
+
+**1、** 算法可以自由切换。
+
+**2、** 避免使用多重条件判断。
+
+**3、** 扩展性非常良好。
+
+**缺点：**
+
+**1、** 策略类会增多。
+
+**2、** 所有策略类都需要对外暴露。
+
+- 代码演示
+
+模拟支付模块有微信支付、支付宝支付、银联支付
+
+**1、** 定义抽象的公共方法
+
+```
+package com.lijie;
+
+//策略模式 定义抽象方法 所有支持公共接口
+abstract class PayStrategy {
+
+    // 支付逻辑方法
+    abstract void algorithmInterface();
+
+}
+```
+
+**2、** 定义实现微信支付
+
+```
+package com.lijie;
+
+class PayStrategyA extends PayStrategy {
+
+    void algorithmInterface() {
+        System.out.println("微信支付");
+    }
+}
+```
+
+**3、** 定义实现支付宝支付
+
+```
+package com.lijie;
+
+class PayStrategyB extends PayStrategy {
+
+    void algorithmInterface() {
+        System.out.println("支付宝支付");
+    }
+}
+```
+
+**4、** 定义实现银联支付
+
+```
+package com.lijie;
+
+class PayStrategyC extends PayStrategy {
+
+    void algorithmInterface() {
+        System.out.println("银联支付");
+    }
+}
+```
+
+**5、** 定义下文维护算法策略
+
+```
+package com.lijie;// 使用上下文维护算法策略
+
+class Context {
+
+    PayStrategy strategy;
+
+    public Context(PayStrategy strategy) {
+        this.strategy = strategy;
     }
 
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        PhoneNumber other = (PhoneNumber) obj;
-        if (areaCode != other.areaCode)
-            return false;
-        if (lineNumber == null) {
-            if (other.lineNumber != null)
-                return false;
-        } else if (!lineNumber.equals(other.lineNumber))
-            return false;
-        if (prefix == null) {
-            if (other.prefix != null)
-                return false;
-        } else if (!prefix.equals(other.prefix))
-            return false;
-        return true;
+    public void algorithmInterface() {
+        strategy.algorithmInterface();
     }
 
 }
 ```
 
+**6、** 运行测试
 
-### 5、动态改变构造
+```
+package com.lijie;
 
-OSGi 服务平台提供在多种网络设备上无需重启的动态改变构造的功能。为了最小化耦合度和促使这些耦合度可管理， OSGi 技术提供一种面向服务的架构，它能使这些组件动态地发现对方。
-
-
-### 6、有没有可能两个不相等的对象有有相同的 hashcode？
-
-有可能，两个不相等的对象可能会有相同的 hashcode 值，这就是为什么在 hashmap 中会有冲突。相等 hashcode 值的规定只是说如果两个对象相等，必须有相同的hashcode 值，但是没有关于不相等对象的任何规定。
-
-
-### 7、Java Concurrency API中的Lock接口(Lock interface)是什么？对比同步它有什么优势？
-
-Lock接口比同步方法和同步块提供了更具扩展性的锁操作。
-
-他们允许更灵活的结构，可以具有完全不同的性质，并且可以支持多个相关类的条件对象。
-
-**它的优势有**：
-
-**1、** 可以使锁更公平
-
-**2、** 可以使线程在等待锁的时候响应中断
-
-**3、** 可以让线程尝试获取锁，并在无法获取锁的时候立即返回或者等待一段时间
-
-**4、** 可以在不同的范围，以不同的顺序获取和释放锁
-
-**5、** 整体上来说Lock是synchronized的扩展版，Lock提供了无条件的、可轮询的(tryLock方法)、定时的(tryLock带参方法)、可中断的(lockInterruptibly)、可多条件队列的(newCondition方法)锁操作。另外Lock的实现类基本都支持非公平锁(默认)和公平锁，synchronized只支持非公平锁，当然，在大部分情况下，非公平锁是高效的选择。
+class ClientTestStrategy {
+    public static void main(String[] args) {
+        Context context;
+        //使用支付逻辑A
+        context = new Context(new PayStrategyA());
+        context.algorithmInterface();
+        //使用支付逻辑B
+        context = new Context(new PayStrategyB());
+        context.algorithmInterface();
+        //使用支付逻辑C
+        context = new Context(new PayStrategyC());
+        context.algorithmInterface();
+    }
+}
+```
 
 
-### 8、什么是ORM？
-
-对象关系映射（Object-Relational Mapping，简称ORM）是一种为了解决程序的面向对象模型与数据库的关系模型互不匹配问题的技术
-
-
-### 9、为什么Thread类的sleep()和yield ()方法是静态的？
-
-Thread类的sleep()和yield()方法将在当前正在执行的线程上运行。所以在其他处于等待状态的线程上调用这些方法是没有意义的。这就是为什么这些方法是静态的。它们可以在当前正在执行的线程中工作，并避免程序员错误的认为可以在其他非运行线程调用这些方法。
-
-
-### 10、什么是过滤器？怎么创建一个过滤器
-
-过滤器：在请求发送之后，处理之前对请求的一次拦截，可以更改请求状态或者参数值等。
-
-创建过滤器：实现filter接口，重写doFilter方法，最后在web.xml中配置过滤器
-
-
-### 11、原型模式的应用场景
-### 12、使用Log4j对程序有影响吗？
-### 13、在java中守护线程和本地线程区别？
-### 14、什么是Java Timer 类？如何创建一个有特定时间间隔的任务？
-### 15、CopyOnWriteArrayList 的使用场景?
-### 16、创建一个对象用什么运算符？对象实体与对象引用有何不同？
-### 17、Java 中 interrupted 和 isInterrupted 方法的区别？
-### 18、int 和 Integer 哪个会占用更多的内存？
-### 19、float f=3.4;是否正确？
-### 20、Java中用到的线程调度算法是什么
-### 21、如何合理分配线程池大小?
-### 22、什么是线程调度器(Thread Scheduler)和时间分片(Time Slicing)？
-### 23、Java中集合框架的有几个？
-### 24、Java 中 ++ 操作符是线程安全的吗？
-### 25、程序计数器
-### 26、Java线程数过多会造成什么异常？
-### 27、Spring中Bean的作用域有哪些？
-### 28、Final在java中的作用
-### 29、什么是面向对象？
-### 30、java中有没有指针？
-### 31、short s1 = 1; s1 = s1 + 1;有错吗?short s1 = 1; s1 += 1;有错吗？
-### 32、创建一个子类对象的时候，那么父类的构造方法会执行吗？
-### 33、说一下堆内存中对象的分配的基本策略
-### 34、Java语言采用何种编码方案？有何特点？
-### 35、Thow与thorws区别
-### 36、Java 中会存在内存泄漏?简述一下
-### 37、url是什么？由哪些部分组成？
-### 38、你都有哪些手段用来排查内存溢出？
-### 39、Java 中，编写多线程程序的时候你会遵循哪些最佳实践？
-### 40、怎么检查一个字符串只包含数字？解决方案
+### 11、Java 中，直接缓冲区与非直接缓冲器有什么区别？
+### 12、int和Integer有什么区别？
+### 13、如何判断对象可以被回收
+### 14、怎么看死锁的线程？
+### 15、什么是多态机制？Java语言是如何实现多态的？
+### 16、什么是工厂模式
+### 17、什么时候使用访问者模式？
+### 18、对象在哪块内存分配？
+### 19、Parallel Old 收集器（多线程标记整理算法）
+### 20、如何使用exception对象？
+### 21、什么是并发容器的实现？
+### 22、栈溢出的原因？
+### 23、ArrayList 和 HashMap 的默认大小是多数？
+### 24、如何查看 JVM 当前使用的是什么垃圾收集器？
+### 25、Java 中用到的线程调度算法是什么？
+### 26、用 wait-notify 写一段代码来解决生产者-消费者问题？
+### 27、JDK 和 JRE 有什么区别？
+### 28、类加载的过程是什么？
+### 29、为什么使用Executor框架？
+### 30、什么是happen-before原则？
+### 31、Session与cookie的区别？
+### 32、说说CMS垃圾收集器的工作原理
+### 33、JDBC操作的步骤
+### 34、JAVA弱引用
+### 35、解释什么是Tomcat Valve?
+### 36、策略模式应用场景
+### 37、抽象类必须要有抽象方法吗
+### 38、Java 中，抽象类与接口之间有什么不同？
+### 39、形成死锁的四个必要条件是什么
+### 40、UML中有哪些常用的图？
 
 
 
@@ -171,6 +285,6 @@ Thread类的sleep()和yield()方法将在当前正在执行的线程上运行。
 
 ## 最新，高清PDF：172份，7701页，最新整理
 
-[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/mst.png "大厂面试题")](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png"大厂面试题")
+[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/mst.png "架构师专栏")](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png "架构师专栏")
 
 [![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png "架构师专栏")](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png "架构师专栏")

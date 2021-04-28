@@ -8,44 +8,27 @@
 
 
 
-### 1、ContentProvider与sqlite有什么不一样的？
+### 1、谈MVC ，MVP，MVVM
 
-```
-ContentProvider会对外隐藏内部实现，只需要关注访问contentProvider的uri即可，contentProvider应用在应用间共享。
-Sqlite操作本应用程序的数据库。
-ContentProiver可以对本地文件进行增删改查操作
-```
+MVC:View是可以直接访问Model的！从而，View里会包含Model信息，不可避免的还要包括一些 业务逻辑。 在MVC模型里，更关注的Model的不变，而同时有多个对Model的不同显示，及View。所以，在MVC模型里，Model不依赖于View，但是 View是依赖于Model的。不仅如此，因为有一些业务逻辑在View里实现了，导致要更改View也是比较困难的，至少那些业务逻辑是无法重用的。
 
+MVP：MVP 是从经典的模式MVC演变而来，它们的基本思想有相通的地方：Controller/Presenter负责逻辑的处理，Model提供数据，View负 责显示。作为一种新的模式，MVP与MVC有着一个重大的区别：在MVP中View并不直接使用Model，它们之间的通信是通过Presenter (MVC中的Controller)来进行的，所有的交互都发生在Presenter内部，而在MVC中View会从直接Model中读取数据而不是通过 Controller。
 
-### 2、启动一个程序，可以主界面点击图标进入，也可以从一个程序中跳转过去，二者有什么区别？
-
-通过主界面进入，就是设置默认启动的activity。在manifest.xml文件的activity标签中，写以下代码
-
-```
-<intent- filter>
-<intent android:name=“android.intent.action.MAIN”>
-<intent android:name=”android:intent.category.LAUNCHER”>
-</intent-filter>
-```
-
-从另一个组件跳转到目标activity，需要通过intent进行跳转。具体
-
-```
-Intent intent=new Intent(this,activity.class),startActivity(intent)
-```
+MVVM：数据双向绑定，通过数据驱动UI，M提供数据，V视图，VM即数据驱动层
 
 
-### 3、ListView 中图片错位的问题是如何产生的
+### 2、Android 引入广播机制的用意
 
-图片错位问题的本质源于我们的 listview 使用了缓存 convertView， 假设一种场景， 一个 listview一屏显示九个 item，那么在拉出第十个 item 的时候，事实上该 item 是重复使用了第一个 item，也就是说在第一个 item 从网络中下载图片并最终要显示的时候，其实该 item 已经不在当前显示区域内了，此时显示的后果将可能在第十个 item 上输出图像，这就导致了图片错位的问题。所以解决办法就是可见则显示，不可见则不显示。
+从 MVC 的角度考虑(应用程序内) 其实回答这个问题的时候还可以这样问，android 为什么要有那 4 大组件，现在的移动开发模型基本上也是照搬的 web 那一套 MVC 架构，只不过稍微做了修改。android 的四大组件本质上就是为了实现移动或者说嵌入式设备上的 MVC 架构，它们之间有时候是一种相互依存的关系，有时候又是一种补充关系，引入广播机制可以方便几大组件的信息和数据交互。
+
+程序间互通消息(例如在自己的应用程序内监听系统来电)
+
+效率上(参考 UDP 的广播协议在局域网的方便性)
+
+设计模式上(反转控制的一种应用，类似监听者模式)
 
 
-### 4、sim卡的EF文件是什么？有何作用
-
-sim卡的文件系统有自己规范，主要是为了和手机通讯，sim本 身可以有自己的操作系统，EF就是作存储并和手机通讯用的
-
-
-### 5、SharedPreference跨进程使用会怎么样？如何保证跨进程使用安全？
+### 3、SharedPreference跨进程使用会怎么样？如何保证跨进程使用安全？
 
 在两个应用的manifest配置中好相同的shartdUserId属性，A应用正常保存数据，B应用
 
@@ -54,75 +37,97 @@ createPackageContext("com.netease.nim.demo", CONTEXT_IGNORE_SECURITY)
 获取context然后获取应用数据，为保证数据安全，使用加密存储
 
 
-### 6、谈谈Android的IPC（进程间通信）机制
+### 4、android:gravity与android:layout_gravity的区别
 
-IPC是内部进程通信的简称， 是共享"命名管道"的资源。Android中的IPC机制是为了让Activity和Service之间可以随时的进行交互，故在Android中该机制，只适用于Activity和Service之间的通信，类似于远程方法调用，类似于C/S模式的访问。通过定义AIDL接口文件来定义IPC接口。Servier端实现IPC接口，Client端调用IPC接口本地代理。
+gravity：表示组件内元素的对齐方式
 
-
-### 7、java中如何引用本地语言
-
-可以用JNI（java native interface  java 本地接口）接口 。
+layout_gravity：相对于父类容器，该视图组件的对齐方式
 
 
-### 8、Android中4大组件
+### 5、描述一下android的系统架构
 
-**1、** Activity：Activity是Android程序与用户交互的窗口，是Android构造块中最基本的一种，它需要为保持各界面的状态，做很多持久化的事情，妥善管理生命周期以及一些跳转逻辑。
+android系统架构分从下往上为linux 内核层、运行库、应用程序框架层、和应用程序层。
 
-**2、** BroadCast Receiver：接受一种或者多种Intent作触发事件，接受相关消息，做一些简单处理，转换成一条Notification，统一了Android的事件广播模型。
+linuxkernel：负责硬件的驱动程序、网络、电源、系统安全以及内存管理等功能。
 
-**3、** Content Provider：是Android提供的第三方应用数据的访问方案，可以派生Content Provider类，对外提供数据，可以像数据库一样进行选择排序，屏蔽内部数据的存储细节，向外提供统一的接口模型，大大简化上层应用，对数据的整合提 供了更方便的途径。
+libraries和 android runtime：libraries：即c/c++函数库部分，大多数都是开放源代码的函数库，例如webkit（引擎），该函数库负责 android网页浏览器的运行，例如标准的c函数库libc、openssl、sqlite等，当然也包括支持游戏开发2dsgl和 3dopengles，在多媒体方面有mediaframework框架来支持各种影音和图形文件的播放与显示，例如mpeg4、h.264、mp3、 aac、amr、jpg和png等众多的多媒体文件格式。android的runtime负责解释和执行生成的dalvik格式的字节码。
 
-**4、** service：后台服务于Activity，封装有一个完整的功能逻辑实现，接受上层指令，完成相关的事务，定义好需要接受的Intent提供同步和异步的接口。
+applicationframework（应用软件架构），java应用程序开发人员主要是使用该层封装好的api进行快速开发。
 
+applications:该层是java的应用程序层，android内置的googlemaps、e-mail、即时通信工具、浏览器、mp3播放器等处于该层，java开发人员开发的程序也处于该层，而且和内置的应用程序具有平等的位置，可以调用内置的应用程序，也可以替换内置的应用程序。
 
-### 9、Android 判断SD卡是否存在
+上面的四个层次，下层为上层服务，上层需要下层的支持，调用下层的服务，这种严格分层的方式带来的极大的稳定性、灵活性和可扩展性，使得不同层的开发人员可以按照规范专心特定层的开发。
 
-首先要在AndroidManifest.xml中增加SD卡访问权限
-
-
-### 10、Android 中如何捕获未捕获的异常
-
-**UncaughtExceptionHandler**
-
-**1、** 自 定 义 一 个 Application ， 比 如 叫 MyApplication 继 承 Application 实 现UncaughtExceptionHandler。
-
-**2、** 覆写 UncaughtExceptionHandler 的 onCreate 和 uncaughtException 方法。 注意：上面的代码只是简单的将异常打印出来。在 onCreate 方法中我们给 Thread 类设置默认异常处理 handler，如果这句代码不执行则一切都是白搭。在 uncaughtException 方法中我们必须新开辟个线程进行我们异常的收集工作，然后将系统给杀死。
-
-**3、** 在 AndroidManifest 中配置该 Application：<application android:name="com.example.uncatchexception.MyApplication"
-
-Bug 收集工具 Crashlytics
-
-Crashlytics 是专门为移动应用开发者提供的保存和分析应用崩溃的工具。国内主要使用的是友盟做数据统计。
-
-**Crashlytics 的好处：**
-
-**1、** Crashlytics 不会漏掉任何应用崩溃信息。
-
-**2、** Crashlytics 可以象 Bug 管理工具那样，管理这些崩溃日志。
-
-**3、** Crashlytics 可以每天和每周将崩溃信息汇总发到你的邮箱，所有信息一目了然。
+android应用程序使用框架的api并在框架下运行，这就带来了程序开发的高度一致性，另一方面也告诉我们，要想写出优质高效的程序就必须对整个 applicationframework进行非常深入的理解。精通applicationframework，你就可以真正的理解android的设计和运行机制，也就更能够驾驭整个应用层的开发。
 
 
-### 11、嵌入式操作系统内存管理有哪几种， 各有何特性
-### 12、String,StringBuffer,StringBuilder的区别
-### 13、Android中activity，context，application有什么不同。
-### 14、跟activity和Task 有关的 Intent启动方式有哪些？其含义？
-### 15、dagger2
-### 16、View和SurfaceView的区别
-### 17、在 service 的生命周期方法 onstartConmand()可不可以执行网络操作？如何在 service 中执行网络操作？
-### 18、activity在屏幕旋转时的生命周期
-### 19、Android 应用中验证码登陆都有哪些实现方案
-### 20、谈MVC ，MVP，MVVM
-### 21、AIDL的全称是什么？如何工作？能处理哪些类型的数据？
-### 22、描述下Handler 机制
-### 23、内存泄露如何查看和解决
-### 24、请解释下 Android 程序运行时权限与文件系统权限的区别？
-### 25、Activity启动模式
-### 26、Android中的长度单位详解
-### 27、为什么Android引入广播机制?
-### 28、自定义view的基本流程
-### 29、内存溢出和内存泄漏有什么区别？何时会产生内存泄漏？
-### 30、音视频相关类
+### 6、Fragment的生命周期
+
+Fragment的生命周期
+
+![92_2.png][92_2.png]
+
+Fragment与Activity生命周期对比
+
+![92_3.png][92_3.png]
+
+Fragment的生命周期方法主要有onAttach()、onCreate()、onCreateView()、onActivityCreated()、onstart()、onResume()、onPause()、onStop()、onDestroyView()、onDestroy()、onDetach()等11个方法。
+
+**1、** 切换到该Fragment，分别执行onAttach()、onCreate()、onCreateView()、onActivityCreated()、onstart()、onResume()方法。
+
+**2、** 锁屏，分别执行onPause()、onStop()方法。
+
+**3、** 亮屏，分别执行onstart()、onResume()方法。
+
+**4、** 覆盖，切换到其他Fragment，分别执行onPause()、onStop()、onDestroyView()方法。
+
+**5、** 从其他Fragment回到之前Fragment，分别执行onCreateView()、onActivityCreated()、onstart()、onResume()方法。
+
+
+### 7、在 service 的生命周期方法 onstartConmand()可不可以执行网络操作？如何在 service 中执行网络操作？
+
+可以的，就在onstartConmand方法内执行。
+
+
+### 8、Android root机制
+
+root指的是你有权限可以再系统上对所有档案有 "读" "写" "执行"的权力。root机器不是真正能让你的应用程序具有root权限。它原理就跟linux下的像sudo这样的命令。在系统的bin目录下放个su程序并属主是root并有suid权限。则通过su执行的命令都具有Android root权限。当然使用临时用户权限想把su拷贝的/system/bin目录并改属性并不是一件容易的事情。这里用到2个工具跟2个命令。把busybox拷贝到你有权限访问的目录然后给他赋予4755权限，你就可以用它做很多事了。
+
+
+### 9、Activity的状态有几种？
+
+```
+运行
+暂停
+停止
+```
+
+
+### 10、FragmentPagerAdapter 与 与 FragmentStatePagerAdapter 的区别与使用场景？
+
+FragmentPagerAdapter 的每个 Fragment 会持久的保存在 FragmentManager 中，只要用户可以返回到页面中，它都不会被销毁。因此适用于那些数据 相对静态的页，Fragment 数量也比较少的那种;FragmentStatePagerAdapter 只保留当前页面，当页面不可见时，该 Fragment 就会被消除，释放其资源。因此适用于那些 数据动态性较大、 占用内存较多，多 Fragment 的情况；
+
+
+### 11、请介绍下Android中常用的五种布局。
+### 12、Android 中如何捕获未捕获的异常
+### 13、Android 判断SD卡是否存在
+### 14、如何将SQLite数据库(dictionary.db文件)与apk文件一起发布
+### 15、说说 LruCache 底层原理
+### 16、jni 的调用过程?
+### 17、子线程中能不能 new handler？为什么？
+### 18、DDMS和TraceView的区别?
+### 19、Android数字签名
+### 20、ListView优化
+### 21、Service 是否在 main thread 中执行, service 里面是否能执行耗时的操作?
+### 22、推送到达率如何提高
+### 23、Android i18n
+### 24、sim卡的EF 文件有何作用
+### 25、自定义view的基本流程
+### 26、16Android性能优化
+### 27、Android 应用中验证码登陆都有哪些实现方案
+### 28、如何修改 Activity 进入和退出动画
+### 29、属性动画，例如一个 button 从 A 移动到 B 点，B 点还是可以响应点击事件，这个原理是什么？
+### 30、NDK是什么
 
 
 
@@ -136,6 +141,6 @@ Crashlytics 是专门为移动应用开发者提供的保存和分析应用崩�
 
 ## 最新，高清PDF：172份，7701页，最新整理
 
-[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/mst.png "大厂面试题")](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png"大厂面试题")
+[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/mst.png "架构师专栏")](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png "架构师专栏")
 
 [![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png "架构师专栏")](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png "架构师专栏")

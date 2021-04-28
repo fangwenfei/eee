@@ -8,135 +8,152 @@
 
 
 
-### 1、Zookeeper如何 保证CP
+### 1、使⽤中碰到的坑
 
-当向注册中⼼查询服务列表时，我们可以容忍注册中⼼返回的是⼏分钟以前的注册信息，但不能接受服务直接down掉不可⽤。也就是说，服务注册功能对可⽤性的要求要⾼于⼀致性。但是zk会出现这样⼀种情况，当master节点因为⽹络故障与其他节点失去联系时，剩余节点会重新进⾏leader选举。问题在于，选举leader的时间太⻓，30 ~ 120s, 且选举期间整个zk集群都是不可⽤的，这就导致在选举期间注册服务瘫痪。在云部署的环境下，因⽹络问题使得zk集群失去master节点是较⼤概率会发⽣的事，虽然服务能够最终恢复，但是漫⻓的选举时间导致的注册⻓期不可⽤是不能容忍的。
+**1、** 超时：确保Hystrix超时时间配置为⻓于配置的Ribbon超时时间
 
+**2、** feign path：feign客户端在部署时若有contextpath应该设置 path="/***"来匹配你的服务名。
 
-### 2、什么是Spring Actuator？它有什么优势？
-
-这是SpringBoot中最常见的面试问题之一。根据Spring文件：
-
-执行器是一个制造术语，指的是移动或控制某物的机械装置。执行机构可以从一个小的变化中产生大量的运动。
-
-众所周知，SpringBoot提供了许多自动配置特性，帮助开发人员快速开发生产组件。但是，当考虑调试和如何调试，如果出现问题，总是需要分析日志并挖掘应用程序的数据流，检查问题出在何处。因此，Spring Actuator提供了方便的访问这些类型的途径。它提供了许多特性，例如创建了什么样的bean、控制器中的映射、CPU使用情况等等。它还可以将自动收集和审计健康状况和指标应用到应用程序中。
-
-它提供了一种非常简单的方法来访问少数生产就绪的REST端点，并从Web获取各种信息。但是通过使用这些端点，你可以做很多事情来查看端点文档。没有必要担心安全问题;如果存在Spring Security，则默认使用Spring Security的内容协商策略保护这些端点。或者，可以在RequestMatcher的帮助下配置自定义安全性。
+**3、** 版本：SpringBoot和springcloud版本要兼容。
 
 
-### 3、Spring Cloud Task
+### 2、什么是 AOP 通知
 
-Spring Cloud Task的目标是为SpringBoot应用程序提供创建短运行期微服务的功能。在Spring Cloud Task中，我们可以灵活地动态运行任何任务，按需分配资源并在任务完成后检索结果。Tasks是Spring Cloud Data Flow中的一个基础项目，允许用户将几乎任何SpringBoot应用程序作为一个短期任务执行。
+通知是个在方法执行前或执行后要做的动作，实际上是程序执行时要通过SpringAOP框架触发的代码段。
 
+**Spring切面可以应用五种类型的通知：**
 
-### 4、Docker的目的是什么？
+before：前置通知，在一个方法执行前被调用。
 
-Docker提供了一个可用于托管任何应用程序的容器环境。在此，软件应用程序和支持它的依赖项紧密打包在一起。
+after: 在方法执行之后调用的通知，无论方法执行是否成功。
 
-因此，这个打包的产品被称为Container，因为它是由Docker完成的，所以它被称为Docker容器！
+after-returning: 仅当方法成功完成后执行的通知。
 
+after-throwing: 在方法抛出异常退出时执行的通知。
 
-### 5、能否举一个例子来解释更多 Staters 的内容？
-
-让我们来思考一个 Stater 的例子 -SpringBoot Stater Web。
-
-如果你想开发一个 web 应用程序或者是公开 REST 服务的应用程序。SpringBoot Start Web 是首选。让我们使用 Spring Initializr 创建一个 SpringBoot Start Web 的快速项目。
-
-**依赖项可以被分为：**
-
-**1、** Spring - core，beans，context，aop
-
-**2、** Web MVC - （Spring MVC）
-
-**3、** Jackson - for JSON Binding
-
-**4、** Validation - Hibernate,Validation API
-
-**5、** Enbedded Servlet Container - Tomcat
-
-**6、** Logging - logback,slf4j
-
-任何经典的 Web 应用程序都会使用所有这些依赖项。SpringBoot Starter Web 预先打包了这些依赖项。
-
-作为一个开发者，我不需要再担心这些依赖项和它们的兼容版本。
+around: 在方法执行之前和之后调用的通知。
 
 
-### 6、SpringCloud的优缺点
+### 3、Springboot 有哪些优点？
 
-**优点：**
+**1、** 快速创建独立运行的spring项目与主流框架集成
 
-**1、** 耦合度比较低。不会影响其他模块的开发。
+**2、** 使用嵌入式的servlet容器，应用无需打包成war包
 
-**2、** 减轻团队的成本，可以并行开发，不用关注其他人怎么开发，先关注自己的开发。
+**3、** starters自动依赖与版本控制
 
-**3、** 配置比较简单，基本用注解就能实现，不用使用过多的配置文件。
+**4、** 大量的自动配置，简化开发，也可修改默认值
 
-**4、** 微服务跨平台的，可以用任何一种语言开发。
+**5、** 准生产环境的运行应用监控
 
-**5、** 每个微服务可以有自己的独立的数据库也有用公共的数据库。
-
-**6、** 直接写后端的代码，不用关注前端怎么开发，直接写自己的后端代码即可，然后暴露接口，通过组件进行服务通信。
-
-**缺点：**
-
-1、部署比较麻烦，给运维工程师带来一定的麻烦。
-
-2、针对数据的管理比麻烦，因为微服务可以每个微服务使用一个数据库。
-
-3、系统集成测试比较麻烦
-
-4、性能的监控比较麻烦。【最好开发一个大屏监控系统】
-
-总的来说优点大过于缺点，目前看来Spring Cloud是一套非常完善的分布式框架，目前很多企业开始用微服务、Spring Cloud的优势是显而易见的。因此对于想研究微服务架构的同学来说，学习Spring Cloud是一个不错的选择。
+**6、** 与云计算的天然集成
 
 
-### 7、如何使用SpringBoot实现异常处理?
+### 4、什么是 Spring Data ?
 
-`SpringControllerAdvice`提供了一种使用处理异常的非常有用的方法。通过实现一个 `ControllerAdvice`类，来处理控制器类抛出的所有异常。
+Spring Data 是 Spring 的一个子项目。用于简化数据库访问，支持NoSQL 和 关系数据存储。其主要目标是使数据库的访问变得方便快捷。Spring Data 具有如下特点：
 
+**SpringData 项目支持 NoSQL 存储：**
 
-### 8、Spring MVC怎么和AJAX相互调用的？
+**1、** MongoDB （文档数据库）
 
-通过Jackson框架就可以把Java里面的对象直接转化成Js可以识别的Json对象。具体步骤如下 ：
+**2、** Neo4j（图形数据库）
 
-**1、** 加入Jackson.jar
+**3、** Redis（键/值存储）
 
-**2、** 在配置文件中配置json的映射
-
-**3、** 在接受Ajax方法里面可以直接返回Object,List等,但方法前面要加上@ResponseBody注解。
-
-
-### 9、Spring Cloud Bus
-
-用于传播集群状态变化的消息总线，使用轻量级消息代理链接分布式系统中的节点，可以用来动态刷新集群中的服务配置。
+**4、** Hbase（列族数据库）
 
 
-### 10、什么是代理?
+### 5、什么是 CSRF 攻击？
 
-代理是通知目标对象后创建的对象。从客户端的角度看，代理对象和目标对象是一样的。
+CSRF 代表跨站请求伪造。这是一种攻击，迫使最终用户在当前通过身份验证的Web 应用程序上执行不需要的操作。CSRF 攻击专门针对状态改变请求，而不是数据窃取，因为攻击者无法查看对伪造请求的响应。
 
 
-### 11、Spring 、SpringBoot 和 Spring Cloud 的关系?
-### 12、开启 SpringBoot 特性有哪几种方式？
-### 13、SpringBoot 中如何实现定时任务 ?
-### 14、使用 SpringBoot 启动连接到内存数据库 H2 的 JPA 应用程序需要哪些依赖项？
-### 15、什么是Spring的MVC框架？
-### 16、AOP 有哪些实现方式？
-### 17、SpringBoot的缺点
-### 18、什么是Spring引导的执行器？
-### 19、eureka和zookeeper都可以提供服务注册与发现的功能，请说说两个的区别？
-### 20、[@RequestMapping ](/RequestMapping ) 注解
-### 21、SpringData 项目所支持的关系数据存储技术：
-### 22、SpringBoot 的核心注解是哪个？它主要由哪几个注解组成的？
-### 23、[@RequestMapping ](/RequestMapping ) 注解有什么用？
-### 24、如何覆盖SpringBoot项目的默认属性？
-### 25、spring JDBC API 中存在哪些类？
-### 26、SpringBoot 有哪些优点？
-### 27、什么是基于注解的容器配置
-### 28、什么是Semantic监控？
-### 29、什么是 SpringBoot 启动类注解：
-### 30、如何使用SpringBoot实现分页和排序？
-### 31、SpringCloud由什么组成
+### 6、项目中前后端分离部署，所以需要解决跨域的问题。
+
+我们使用cookie存放用户登录的信息，在spring拦截器进行权限控制，当权限不符合时，直接返回给用户固定的json结果。
+
+当用户登录以后，正常使用；当用户退出登录状态时或者token过期时，由于拦截器和跨域的顺序有问题，出现了跨域的现象。
+
+我们知道一个http请求，先走filter，到达servlet后才进行拦截器的处理，如果我们把cors放在filter里，就可以优先于权限拦截器执行。
+
+```
+@Configuration
+public class CorsConfig {
+
+    @Bean
+    public CorsFilter corsFilter() {
+        CorsConfiguration corsConfiguration = new CorsConfiguration();
+        corsConfiguration.addAllowedOrigin("*");
+        corsConfiguration.addAllowedHeader("*");
+        corsConfiguration.addAllowedMethod("*");
+        corsConfiguration.setAllowCredentials(true);
+        UrlBasedCorsConfigurationSource urlBasedCorsConfigurationSource = new UrlBasedCorsConfigurationSource();
+        urlBasedCorsConfigurationSource.registerCorsConfiguration("/**", corsConfiguration);
+        return new CorsFilter(urlBasedCorsConfigurationSource);
+    }
+
+}
+```
+
+
+### 7、dubbo服务注册与发现原理
+
+![](https://gitee.com/souyunkutech/souyunku-home/raw/master/images/souyunku-web/2020/5/2/01/44/45_5.png#alt=45%5C_5.png)
+
+![](https://gitee.com/souyunkutech/souyunku-home/raw/master/images/souyunku-web/2020/5/2/01/44/45_6.png#alt=45%5C_6.png)
+
+调⽤关系说明：
+
+**1、** 服务容器负责启动,加载,运⾏服务提供者。
+
+**2、** 服务提供者在启动时,向注册中⼼注册⾃⼰提供的服务。
+
+**3、** 服务消费者在启动时,向注册中⼼订阅⾃⼰所需的服务。
+
+**4、** 注册中⼼返回服务提供者地址列表给消费者,如果有变更,注册中⼼将基于⻓连接推送变更数据给消费者。
+
+**5、** 服务消费者,从提供者地址列表中,基于软负载均衡算法,选⼀台提供者进⾏调⽤,如果调⽤失败,再选另⼀台调⽤。
+
+**6、** 服务消费者和提供者,在内存中累计调⽤次数和调⽤时间,定时每分钟发送⼀次统计数据到监控中⼼。
+
+
+### 8、@Component, @Controller, @Repository, [@Service ](/Service ) 有何区别？
+
+@Component：这将 java 类标记为 bean。它是任何 Spring 管理组件的通用构造型。spring 的组件扫描机制现在可以将其拾取并将其拉入应用程序环境中。@Controller：这将一个类标记为 Spring Web MVC 控制器。标有它的 Bean 会自动导入到 IoC 容器中。@Service：此注解是组件注解的特化。它不会对 [@Component ](/Component ) 注解提供任何其他行为。您可以在服务层类中使用 [@Service ](/Service ) 而不是 @Component，因为它以更好的方式指定了意图。@Repository：这个注解是具有类似用途和功能的 [@Component ](/Component ) 注解的特化。它为 DAO 提供了额外的好处。它将 DAO 导入 IoC 容器，并使未经检查的异常有资格转换为 Spring DataAccessException。
+
+
+### 9、SpringBoot 是否可以使用 XML 配置 ?
+
+SpringBoot 推荐使用 Java 配置而非 XML 配置，但是 SpringBoot 中也可以使用 XML 配置，通过 [@ImportResource ](/ImportResource ) 注解可以引入一个 XML 配置。
+
+
+### 10、什么是 AOP 目标对象?
+
+被一个或者多个切面所通知的对象。它通常是一个代理对象。也指被通知（advised）对象。
+
+
+### 11、如何在自定义端口上运行 SpringBoot 应用程序？
+### 12、常用网关框架有那些？
+### 13、核心容器（应用上下文) 模块。
+### 14、接⼝限流⽅法？
+### 15、SpringBoot默认支持的日志框架有哪些？可以进行哪些设置？
+### 16、SpringBoot与SpringCloud 区别
+### 17、什么是有界上下文？
+### 18、什么是Swagger？你用SpringBoot实现了它吗？
+### 19、spring bean 容器的生命周期是什么样的？
+### 20、SpringBoot需要独立的容器运行？
+### 21、服务注册和发现是什么意思？Spring Cloud 如何实现？
+### 22、SpringBoot 有哪几种读取配置的方式？
+### 23、微服务之间是如何独立通讯的?
+### 24、各服务之间通信，对Restful和Rpc这2种方式如何做选择？
+### 25、Spring MVC的主要组件？
+### 26、列举 spring 支持的事务管理类型
+### 27、什么是 Aspect？
+### 28、解释AOP
+### 29、什么是 AOP Aspect 切面
+### 30、什么是 WebSockets？
+### 31、什么是 Apache Kafka？
 
 
 
@@ -150,6 +167,6 @@ Docker提供了一个可用于托管任何应用程序的容器环境。在此�
 
 ## 最新，高清PDF：172份，7701页，最新整理
 
-[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/mst.png "大厂面试题")](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png"大厂面试题")
+[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/mst.png "架构师专栏")](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png "架构师专栏")
 
 [![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png "架构师专栏")](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png "架构师专栏")

@@ -8,139 +8,150 @@
 
 
 
-### 1、我们如何监视所有 SpringBoot 微服务？
+### 1、SpringCloud 和 Dubbo 有哪些区别?
 
-SpringBoot 提供监视器端点以监控各个微服务的度量。这些端点对于获取有关应用程序的信息（如它们是否已启动）以及它们的组件（如数据库等）是否正常运行很有帮助。但是，使用监视器的一个主要缺点或困难是，我们必须单独打开应用程序的知识点以了解其状态或健康状况。想象一下涉及 50 个应用程序的微服务，管理员将不得不击中所有 50 个应用程序的执行终端。
+首先，他们都是分布式管理框架。
 
+dubbo 是二进制传输，占用带宽会少一点。SpringCloud是http 传输，带宽会多一点，同时使用http协议一般会使用JSON报文，消耗会更大。
 
-### 2、Spring Framework 有哪些不同的功能？
+dubbo 开发难度较大，所依赖的 jar 包有很多问题大型工程无法解决。SpringCloud 对第三方的继承可以一键式生成，天然集成。
 
-**1、** 轻量级 - Spring 在代码量和透明度方面都很轻便。
+SpringCloud 接口协议约定比较松散，需要强有力的行政措施来限制接口无序升级。
 
-**2、** IOC - 控制反转
-
-**3、** AOP - 面向切面编程可以将应用业务逻辑和系统服务分离，以实现高内聚。
-
-**4、** 容器 - Spring 负责创建和管理对象（Bean）的生命周期和配置。
-
-**5、** MVC - 对 web 应用提供了高度可配置性，其他框架的集成也十分方便。
-
-**6、** 事务管理 - 提供了用于事务管理的通用抽象层。Spring 的事务支持也可用于容器较少的环境。
-
-**7、** JDBC 异常 - Spring 的 JDBC 抽象层提供了一个异常层次结构，简化了错误处理策略。
+最大的区别:
 
 
-### 3、什么是 AOP切点
+### 2、SpringBoot如何配置log4j？
 
-切入点是一个或一组连接点，通知将在这些位置执行。可以通过表达式或匹配的方式指明切入点。
-
-
-### 4、SpringBoot 2.X 有什么新特性？与 1.X 有什么区别？
-
-**1、** 依赖 JDK 版本升级：2.x 里面的许多方法应用了 JDK 8 的许多高级新特性，至少需要 JDK 8 的支持；
-
-**2、** 第三方类库升：2.x 对第三方类库升级了所有能升级的稳定版本，例如：Spring Framework 5+、Tomcat 8.5+、Hibernate 5.2+、Thymeleaf 3+；
-
-**3、** 响应式 Spring 编程：2.x 通过启动器和自动配置全面支持 Spring 的响应式编程，响应式编程是完全异步和非阻塞的，它是基于事件驱动模型，而不是传统的线程模型；
-
-**4、** 连接池：2.x 默认使用 HikariCP 连接池；
-
-**5、** json：提供了一个 spring-boot-starter-json 启动器对 JSON 读写的支持；
-
-**6、** Quartz：2.x 提供了一个 spring-boot-starter-quartz 启动器对定时任务框架 Quartz 的支持；
-
-**7、** HTTP/2 支持：提供对HTTP/2 的支持，如：Tomcat, Undertow, Jetty；
-
-**8、** Actuator加强：在 2.x 中，对执行器端点进行了许多改进，所有的 HTTP 执行端点现在都暴露在 /actuator路径下，并对 JSON 结果集也做了改善。
+在引用log4j之前，需要先排除项目创建时候带的日志，因为那个是Logback，然后再引入log4j的依赖，引入依赖之后，去src/main/resources目录下的log4j-spring.properties配置文件，就可以开始对应用的日志进行配置使用。
 
 
-### 5、什么是JavaConfig？
+### 3、微服务之间是如何独立通讯的
 
-Spring JavaConfig是Spring社区的产品，它提供了配置Spring IoC容器的纯Java方法。因此它有助于避免使用XML配置。使用JavaConfig的优点在于：
+**1、** 远程过程调用（Remote Procedure Invocation）：也就是我们常说的服务的注册与发现，直接通过远程过程调用来访问别的service。
 
-面向对象的配置。由于配置被定义为JavaConfig中的类，因此用户可以充分利用Java中的面向对象功能。一个配置类可以继承另一个，重写它的@Bean方法等。
+**优点：**
 
-减少或消除XML配置。基于依赖注入原则的外化配置的好处已被证明。但是，许多开发人员不希望在XML和Java之间来回切换。
+简单，常见,因为没有中间件代理，系统更简单
 
-JavaConfig为开发人员提供了一种纯Java方法来配置与XML配置概念相似的Spring容器。
+**缺点：**
 
-从技术角度来讲，只使用JavaConfig配置类来配置容器是可行的，但实际上很多人认为将JavaConfig与XML混合匹配是理想的。
+**1、** 只支持请求/响应的模式，不支持别的，比如通知、请求/异步响应、发布/订阅、发布/异步响应
 
-类型安全和重构友好。JavaConfig提供了一种类型安全的方法来配置Spring容器。由于Java 5.0对泛型的支持，现在可以按类型而不是按名称检索bean，不需要任何强制转换或基于字符串的查找
+**2、** 降低了可用性，因为客户端和服务端在请求过程中必须都是可用的
 
+**2、** 消息：使用异步消息来做服务间通信。服务间通过消息管道来交换消息，从而通信。
 
-### 6、运行 SpringBoot 有哪几种方式？
+**优点:**
 
-**1、** 打包成 Fat Jar ，直接使用 java -jar 运行。目前主流的做法，推荐。
+**1、** 把客户端和服务端解耦，更松耦合
 
-**2、** 在 IDEA 或 Eclipse 中，直接运行应用的 SpringBoot 启动类的 #main(String[] args 启动。适用于开发调试场景。
+**2、** 提高可用性，因为消息中间件缓存了消息，直到消费者可以消费
 
-**3、** 如果是 Web 项目，可以打包成 War 包，使用外部 Tomcat 或 Jetty 等容器。
+**3、** 支持很多通信机制比如通知、请求/异步响应、发布/订阅、发布/异步响应
 
+**缺点:**
 
-### 7、如何集成SpringBoot和ActiveMQ？
-
-对于集成SpringBoot和ActiveMQ，我们使用
-
-依赖关系。 它只需要很少的配置，并且不需要样板代码。
+消息中间件有额外的复杂
 
 
-### 8、Spring Cloud Netflix(重点，这些组件用的最多)
+### 4、SpringBoot自动配置的原理
 
-Netflix OSS 开源组件集成，包括Eureka、Hystrix、Ribbon、Feign、Zuul等核心组件。
+在spring程序main方法中 添加@SpringBootApplication或者@EnableAutoConfiguration
 
-**1、** Eureka：服务治理组件，包括服务端的注册中心和客户端的服务发现机制；
-
-**2、** Ribbon：负载均衡的服务调用组件，具有多种负载均衡调用策略；
-
-**3、** Hystrix：服务容错组件，实现了断路器模式，为依赖服务的出错和延迟提供了容错能力；
-
-**4、** Feign：基于Ribbon和Hystrix的声明式服务调用组件；
-
-**5、** Zuul：API网关组件，对请求提供路由及过滤功能。
-
-`我觉得SpringCloud的福音是Netflix，他把人家的组件都搬来进行封装了，使开发者能快速简单安全的使用`
+会自动去maven中读取每个starter中的spring.factories文件 该文件里配置了所有需要被创建spring容器中的bean
 
 
-### 9、您使用了哪些 starter maven 依赖项？
+### 5、path=”users”, collectionResourceRel=”users” 如何与 Spring Data Rest 一起使用？
 
-使用了下面的一些依赖项：
+path- 这个资源要导出的路径段。
 
-spring-boot-starter-activemq
-
-spring-boot-starter-security
-
-这有助于增加更少的依赖关系，并减少版本的冲突。
+collectionResourceRel- 生成指向集合资源的链接时使用的 rel 值。在生成 HATEOAS 链接时使用。
 
 
-### 10、如果想在拦截的方法里面得到从前台传入的参数,怎么得到？
+### 6、什么是 SpringBoot 启动类注解：
+
+@SpringBootConfiguration:SpringBoot的配置类; 标注在某个类上，表示这是一个SpringBoot的配置类; @Configuration:配置类上来标注这个注解;配置类 ----- 配置文件;配置类也是容器中的一个组件;[@Component ](/Component )
+
+@EnableAutoConfiguration:开启自动配置功能;
+
+以前我们需要配置的东西，SpringBoot帮我们自动配置;@EnableAutoConfiguration告诉SpringBoot开启自动配置功能;这样自动配置才能生效;
+
+SpringBoot在启动的时候从类路径下的META-INF/spring.factories中获取EnableAutoConfiguration指定的值，将这些值作为自动配置类导入到容器中，自动配置类就失效，帮我们进行自动配置工作
 
 
+### 7、什么是feigin？它的优点是什么？
 
-直接在形参里面声明这个参数就可以,但必须名字和传过来的参数一样。
+**1、** feign采用的是基于接口的注解
+
+**2、** feign整合了ribbon，具有负载均衡的能力
+
+**3、** 整合了Hystrix，具有熔断的能力
+
+**使用:**
+
+**1、** 添加pom依赖。
+
+**2、** 启动类添加[@EnableFeignClients ](/EnableFeignClients )
+
+**3、** 定义一个接口@FeignClient(name=“xxx”)指定调用哪个服务
 
 
-### 11、Container在微服务中的用途是什么？
-### 12、SpringBoot 需要独立的容器运行吗？
-### 13、Spring MVC的异常处理？
-### 14、什么是Spring MVC？简单介绍下你对Spring MVC的理解？
-### 15、Spring Cloud 是什么
-### 16、微服务限流 http限流：我们使⽤nginx的limitzone来完成：
-### 17、是否可以在SpringBoot中覆盖或替换嵌入式Tomcat？
-### 18、什么是Feign？
-### 19、有几种不同类型的自动代理？
-### 20、RequestMapping 和 GetMapping 的不同之处在哪里？
-### 21、Spring Cloud解决了哪些问题？
-### 22、什么是Netflix Feign？它的优点是什么？
-### 23、REST 和RPC对比
-### 24、在Spring框架中如何更有效地使用JDBC?
-### 25、指出在 spring aop 中 concern 和 cross-cutting concern 的不同之处。
-### 26、什么是 Spring Data REST?
-### 27、解释基于XML Schema方式的切面实现。
-### 28、单片，SOA和微服务架构有什么区别？
-### 29、常用网关框架有那些？
-### 30、使用Spring框架的好处是什么？
-### 31、什么是凝聚力？
+### 8、运行 SpringBoot 有哪几种方式？
+
+**1、** 打包用命令或者者放到容器中运行
+
+**2、** 用 Maven/ Gradle 插件运行
+
+**3、** 直接执行 main 方法运行
+
+
+### 9、前后端分离，如何维护接口文档 ?
+
+前后端分离开发日益流行，大部分情况下，我们都是通过 SpringBoot 做前后端分离开发，前后端分离一定会有接口文档，不然会前后端会深深陷入到扯皮中。一个比较笨的方法就是使用 word 或者 md 来维护接口文档，但是效率太低，接口一变，所有人手上的文档都得变。在 SpringBoot 中，这个问题常见的解决方案是 Swagger ，使用 Swagger 我们可以快速生成一个接口文档网站，接口一旦发生变化，文档就会自动更新，所有开发工程师访问这一个在线网站就可以获取到最新的接口文档，非常方便。
+
+
+### 10、[@Required ](/Required ) 注解有什么用？
+
+[@Required ](/Required ) 应用于 bean 属性 setter 方法。此注解仅指示必须在配置时使用 bean 定义中的显式属性值或使用自动装配填充受影响的 bean 属性。如果尚未填充受影响的 bean 属性，则容器将抛出 BeanInitializationException。
+
+示例：
+
+```
+public class Employee {
+    private String name;
+    @Required
+    public void setName(String name){
+        this.name=name;
+    }
+    public string getName(){
+        return name;
+    }
+}
+```
+
+
+### 11、@PathVariable和@RequestParam的区别
+### 12、如何在不使用BasePACKAGE过滤器的情况下排除程序包？
+### 13、什么是Spring Batch？
+### 14、什么是SpringBoot？
+### 15、[@Autowired ](/Autowired ) 注解有什么用？
+### 16、如何启用/禁用执行器？
+### 17、微服务之间如何独立通讯的?
+### 18、SpringBoot、Spring MVC 和 Spring 有什么区别
+### 19、为什么人们会犹豫使用微服务？
+### 20、你如何理解 SpringBoot 配置加载顺序？
+### 21、什么是端到端微服务测试？
+### 22、微服务的缺点：
+### 23、什么是 AOP切点
+### 24、什么是 FreeMarker 模板？
+### 25、@RequestMapping注解的作用
+### 26、比较一下 Spring Security 和 Shiro 各自的优缺点 ?
+### 27、SpringBoot 有哪些优点？
+### 28、如何集成 SpringBoot 和 ActiveMQ？
+### 29、你对SpringBoot有什么了解？
+### 30、Spring Cloud Netflix
+### 31、SpringBoot 有哪几种读取配置的方式？
 
 
 
@@ -154,6 +165,6 @@ spring-boot-starter-security
 
 ## 最新，高清PDF：172份，7701页，最新整理
 
-[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/mst.png "大厂面试题")](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png"大厂面试题")
+[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/mst.png "架构师专栏")](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png "架构师专栏")
 
 [![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png "架构师专栏")](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png "架构师专栏")

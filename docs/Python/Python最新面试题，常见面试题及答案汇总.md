@@ -8,201 +8,187 @@
 
 
 
-### 1、什么是负载均衡
+### 1、python的垃圾回收机制
 
-负载均衡建立在现有网络结构之上，它提供了一种廉价有效透明的方法扩展网络设备和服务器的带宽、增加吞吐量、加强网络数据处理能力、提高网络的灵活性和可用性。
+[python垃圾回收机制详解](https://testerhome.com/topics/16556)
 
-负载均衡其意思就是分摊到多个操作单元上进行执行。
+**1、** 概述：python采用的是引用计数机制为主，标记-清除和分代收集两种机制为辅的策略
+
+**2、** 引用计数：
+
+**3、** 每当新的引用指向该对象时，引用计数加1，当对该对象的引用失效时，引用计数减1，当对象的引用计数为0时，对象被回收。缺点是，需要额外的空间来维护引用计数，并且无法解决对象的循环引用。
+
+**4、** 分代回收：（具体见上面链接）
+
+**5、** 以时间换空间的回收方式
+
+**6、** 标记清除：
+
+**7、** 活动对象会被打上标记，会把那些没有被打上标记的非活动对象进行回收。
 
 
-### 2、用尽量简洁的方法将二维数组合并成一维数组
+### 2、比较：a=[1,2,3]和b=[(1),(2),(3)]以及c=[(1,),(2,),(3,)]的区别
+
+a和b的结果相同，列表里面的值相同，类型也相同
+
+c中的列表里面的值是元组类型的
+
+
+### 3、MySQL如何创建索引
+
+**1、** ALTER TABLE
+
+**2、** ALTER TABLE用来创建普通索引、UNIQUE索引或PRIMARY KEY索引。
+
+**3、** ALTER TABLE table_name ADD INDEX index_name (column_list)
+
+**4、** ALTER TABLE table_name ADD UNIQUE (column_list)
+
+**5、** ALTER TABLE table_name ADD PRIMARY KEY (column_list)
+
+**6、** CREATE INDEX
+
+**7、** CREATE INDEX可对表增加普通索引或UNIQUE索引。
+
+**8、** CREATE INDEX index_name ON table_name (column_list)
+
+**9、** CREATE UNIQUE INDEX index_name ON table_name (column_list)
+
+
+### 4、输入某年某月某日，判断这是这一年的第几天？
 
 ```python
-lst = [[1,2,3],[4,5,6],[7,8,9]]
-ll=[]
-for l in lst:
-# ll+=l
-ll.extend(l)
-print(ll)
+date=input('请输入某年某月某日，格式：xxxx.xx.xx')
+def get_day(date):
+days1=[31,28,31,30,31,30,31,31,30,31,30,31]
+days2=[31,29,31,30,31,30,31,31,30,31,30,31]
+year,month,day = [int(i) for i in date.split('.')]
+if year % 400 ==0 or (year % 4==0 and year % 100!=0):
+days=days2
+else:
+days=days1
+return sum(days[:month-1])+day
+print(get_day(date))
 ```
 
 
-### 3、在python中如何拷贝一个对象，并说明他们之间的区别
+### 5、深拷贝和浅拷贝之间的区别是什么？
 
-**1、** 赋值（=），就是创建了对象的一个新的引用，修改其中任意一个变量都会影响到另一个。
-
-**2、** 浅拷贝：创建一个新的对象，但它包含的是对原始对象中包含项的引用（copy模块的copy()函数）
-
-**3、** 深拷贝：创建一个新的对象，并且递归的复制它所包含的对象（修改其中一个，另外一个不会改变）（copy模块的deep.deepcopy()函数）
-
-
-### 4、什么是arp协议
-
-**1、** ARP全称“Address Resolution Protocol”，地址解析协议。
-
-**2、** 实现局域网内通过IP地址获取主机的MAC地址。
-
-**3、** MAC地址48位主机的物理地址，局域网内唯一。
-
-**4、** ARP协议类似DNS服务，但不需要配置服务。
-
-**5、** ARP协议是三层协议。
-
-
-### 5、进程之间如何进行通信？
-
-**1、** 共享内存
-
-通过mmap模块实现
-
-2、信号
-
-**3、** 通过Queue队列
-
-**4、** 通过Pipe管道
-
-**5、** 通过socket
-
-
-### 6、Redis如何实现主从复制？以及数据同步机制？
-
-Redis从主从结构可以采用一主多从或者级联结构，主从复制可以根据是否全量分为全量同步和增量同步。
-
-**全量同步：**
-
-Redis全量复制一般发生在slave初始化阶段，这时slave需要将master上的所有数据都复制一份步骤如下：
-
-**1、** 从服务器连接主服务器，发送SYNC命令；
-
-**2、** 主服务器接收到SYNC命名后，开始执行BGSAVE命令生成RDB文件并使用缓冲区记录此后执行的所有写命令；
-
-**3、** 主服务器BGSAVE执行完后，向所有从服务器发送快照文件，并在发送期间继续记录被执行的写命令；
-
-**4、** 从服务器收到快照文件后丢弃所有旧数据，载入收到的快照；
-
-**5、** 主服务器快照发送完毕后开始向从服务器发送缓冲区中的写命令；
-
-**6、** 从服务器完成对快照的载入，开始接收命令请求，并执行来自主服务器缓冲区的写命令；
-
-**增量同步：**
-
-**1、** Redis增量复制是指Slave初始化后开始正常工作时主服务器发生的写操作同步到从服务器的过程。 增量复制的过程主要是主服务器每执行一个写命令就会向从服务器发送相同的写命令，从服务器接收并执行收到的写命令。
-
-**2、** Redis主从同步策略
-
-**3、** 主从刚刚连接的时候，进行全量同步；全同步结束后，进行增量同步。当然，如果有需要，slave 在任何时候都可以发起全量同步。Redis 策略是，无论如何，首先会尝试进行增量同步，如不成功，要求从机进行全量同步
-
-
-### 7、DNS域名解析过程
-
-**1、** 浏览器检查缓存中有没有这个域名对应的解析后的IP地址，如果缓存中有，解析过程结束。缓存大小、时间都有限制，时间由TTL属性决定；
-
-**2、** 如果浏览器缓存中么有，浏览器会查找操作系统缓存中有无这个域名DNS解析后的结果。操作系统也有一个域名解析的过程，windows通过C:\Windows\System32\drivers\etc\hosts，浏览器会优先使用这个解析结果（Win7已将hosts设置为只读），linux系统中/etc/named.conf。目前为止都是在本机完成，如果未完成，才会真正请求域名服务器解析域名。
-
-**3、** “网络配置”中都会有“DNX服务器地址”，操作系统会把域名发送给这个LDNS，本地区的域名服务器，通常都会提供一个本地互联网接入的DNS解析服务。就在你所在城市的某个角落，通过ipconfig可以看到。
-
-**4、** 如果LDNS仍然没有命中，则向RootServer域名服务器请求解析。
-
-**5、** 根域名服务器向本地域名服务器返回一个所查询域的主域名服务器（gTLD Server）。国际顶级域名服务器（.com、.cn、.org等），全球13台。
-
-**6、** 本地域名服务器（Local DNS Server）再向上一步返回的gTLD发送请求。
-
-**7、** gTLD返回域名对应NameServer域名服务器地址，通常由你购买域名的服务商提供。
-
-**8、** NameServer服务器查询域名与IP映射关系表，返回目标IP记录和TTL值给DNS Server域名服务器。
-
-**9、** Local DNS Server根据TTL缓存该IP解析。
-
-**10、** 缓存结果返回给用户，用户根据TTL缓存到本地操作系统中，域名解析过程结束。
-
-
-### 8、怎样将字符串转换为小写？
-
-我们使用lower()方法。
+深拷贝就是将一个对象拷贝到另一个对象中，这意味着如果你对一个对象的拷贝做出改变时，不会影响原对象。在Python中，我们使用函数deepcopy()执行深拷贝，导入模块copy，如下所示：
 
 ```
->>> 'AyuShi'.lower()
+>>> import copy
+>>> b=copy.deepcopy(a)
 ```
 
-结果：
+![](https://gitee.com/souyunkutech/souyunku-home/raw/master/images/souyunku-web/2020/4/30/200/33/53_1.png#alt=53%5C_1.png)而浅拷贝则是将一个对象的引用拷贝到另一个对象上，所以如果我们在拷贝中改动，会影响到原对象。我们使用函数function()执行浅拷贝，使用如下所示：
 
 ```
-‘ayushi’
+>>> b=copy.copy(a)
 ```
 
-使用upper()方法可以将其转换为大写。
+![](https://gitee.com/souyunkutech/souyunku-home/raw/master/images/souyunku-web/2020/4/30/200/33/53_2.png#alt=53%5C_2.png)
 
-```
->>> 'AyuShi'.upper()
-```
 
-结果：
+### 6、写一个的支持with语句的类
 
-```
-‘AYUSHI’
-```
+[参考链接](https://www.cnblogs.com/yidashi110/p/10091991.html)
 
-另外，使用isupper()和islower()方法检查字符春是否全为大写或小写。
+```python
+class W(object):
+def __init__(self):
+pass
+def __enter__(self):
+print('进入with语句')
+return self
 
-```
->>> 'AyuShi'.isupper()
-False
- 
->>> 'AYUSHI'.isupper()
-True
- 
->>> 'ayushi'.islower()
-True
- 
->>> '@yu$hi'.islower()
-True
- 
->>> '@YU$HI'.isupper()
-True
-```
+def __exit__(self,*args,**kwargs):
+print('退出with语句')
 
-那么，像@和$这样的字符既满足大写也满足小写。
-
-Istitle()能告诉我们一个字符串是否为标题格式。
-
-```
->>> 'The Corpse Bride'.istitle()
-True
+with W() as w:
+print('之前')
+print(w)
+print('之后')
 ```
 
 
-### 9、1<(22)和1<22的结果分别是什么？
+### 7、Python是否有main函数？
 
-第一个为False，第二个为True，暂时按照第一个类型进行相应的转换
-
-
-### 10、logging模块的作用以及应用场景
-
-logging模块定义的函数和类为应用程序和库的开发实现了一个灵活的事件日志系统。
-
-记录日志
+是的，它有的。只要我们运行Python脚本，它就会自动执行。
 
 
-### 11、Python中的单引号和双引号有什么区别？
-### 12、_init_在Python中有什么用？
-### 13、使用两个队列实现一个栈
-### 14、JavaScript(或者jQuery)如何选择一个id为main的容器
-### 15、用一行代码实现数值交换
-### 16、将列表按照下列规则排序：
-### 17、Python代码是如何执行的？
-### 18、从0-99这100个数中随机取出10个，要求不能重复
-### 19、对字典d={'a':30,'g':17,'b':25,'c':18,'d':50,'e':36,'f':57,'h':25}按照value字段进行排序
-### 20、python的垃圾回收机制
-### 21、解释re模块的split()、sub()、subn()方法？
-### 22、什么是asyncio
-### 23、b、B、kB、MB、GB的关系
-### 24、使用生成器编写一个函数实现生成指定个数的斐波那契数列
-### 25、编写程序，计算文件中单词的出现频率
-### 26、列举常见的关系型数据库和非关系型数据库。
-### 27、char和varchar的区别
-### 28、Python中的Map Function是什么？
-### 29、Redis和Memcached的区别
-### 30、如何使用python删除一个文件或者文件夹？
+### 8、Python中的字典是什么？
+
+字典是C++和Java等编程语言中所没有的东西，它具有键值对。
+
+```
+>>> roots={25:5,16:4,9:3,4:2,1:1}
+>>> type(roots)
+<class 'dict'>
+>>> roots[9]
+```
+
+运行结果为：
+
+```
+3
+```
+
+字典是不可变的，我们也能用一个推导式来创建它。
+
+```
+>>> roots={x**2:x for x in range(5,0,-1)}
+>>> roots
+```
+
+运行结果：
+
+```
+{25: 5, 16: 4, 9: 3, 4: 2, 1: 1}
+```
+
+
+### 9、一行代码实现删除列表中的所有的重复的值
+
+```python
+lis=[1,1,2,1,22,5]
+lis=list(set(lis))
+```
+
+
+### 10、MySQL索引种类
+
+**1、** 普通索引：仅加速查询
+
+**2、** 唯一索引：加速查询 + 列值唯一（可以有null）
+
+**3、** 主键索引：加速查询 + 列值唯一（不可以有null）+ 表中只有一个
+
+**4、** 组合索引：多列值组成一个索引，专门用于组合搜索，其效率大于索引合并
+
+**5、** 全文索引：对文本的内容进行分词，进行搜索
+
+
+### 11、==和is的区别是？
+### 12、Redis和Memcached的区别
+### 13、写出如下代码的输出结果
+### 14、什么是Nginx
+### 15、JavaScript(或者jQuery)如何选择一个id为main的容器
+### 16、一个大小为100G的文件etl_log.txt，要读取文件的内容，写出具体过程代码
+### 17、曾经使用过哪些前端框架
+### 18、b、B、kB、MB、GB的关系
+### 19、一行代码通过filter和lambda函数输出alist=[1,22,2,33,23,32]中索引为奇数的值
+### 20、简述触发器、函数、视图和存储过程
+### 21、简述面向对象的三大特性？
+### 22、简述jsonp及其原理
+### 23、数据库的导入与导出命令
+### 24、Redis是单进程单线程的吗？
+### 25、Redis如何实现事务
+### 26、什么是轮询和长轮询
+### 27、什么是覆盖索引
+### 28、什么是多态？
+### 29、当退出Python时，是否释放全部内存？
+### 30、解释Python中map()函数？
 
 
 
@@ -216,6 +202,6 @@ logging模块定义的函数和类为应用程序和库的开发实现了一个�
 
 ## 最新，高清PDF：172份，7701页，最新整理
 
-[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/mst.png "大厂面试题")](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png"大厂面试题")
+[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/mst.png "架构师专栏")](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png "架构师专栏")
 
 [![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png "架构师专栏")](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png "架构师专栏")

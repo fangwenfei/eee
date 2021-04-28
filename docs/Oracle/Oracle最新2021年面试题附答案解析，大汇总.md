@@ -8,7 +8,29 @@
 
 
 
-### 1、解释什么是死锁，如何解决Oracle中的死锁？
+### 1、说下 Oracle中有哪几种文件？
+
+**1、** 数据文件（一般后缀为.dbf或者.ora）
+
+**2、** 日志文件(后缀名.log)
+
+**3、** 控制文件（后缀名为.c
+
+
+### 2、Oralce怎样存储文件，能够存储哪些文件？
+
+**1、** Oracle 能存储 clob、nclob、 blob、 bfile
+
+**2、** Clob 可变长度的字符型数据，也就是其他数据库中提到的文本型数据类型
+
+**3、** Nclob 可变字符类型的数据，不过其存储的是Unicode字符集的字符数据
+
+**4、** Blob 可变长度的二进制数据
+
+**5、** Bfile 数据库外面存储的可变二进制数据
+
+
+### 3、解释什么是死锁，如何解决Oracle中的死锁？
 
 简言之就是存在加了锁而没有解锁，可能是使用锁没有提交或者回滚事务，如果是表级锁则不能操作表，客户端处于等在状态，如果是行级锁则不能操作锁定行
 
@@ -31,96 +53,60 @@ where a.session_id = b.sid order by b.logon_time;
 `alter system kill session "sid,serial#";`
 
 
-### 2、Oracle的导入导出有几种方式，有何区别？
+### 4、如何判断哪个session正在连结以及它们等待的资源？
 
-**1、** 使用oracle工具 exp/imp
-
-**2、** 使用plsql相关工具
-
-**方法1.**
-
-导入/导出的是二进制的数据， 2.plsql导入/导出的是sql语句的文本文件
-
-**3、** sqlloader
-
-**4、** dblink
+V$$SESSION / V$$SESSION_WAIT
 
 
-### 3、Oracle跟SQL Server 2005的区别？
+### 5、描述tablespace和datafile之间的关系
 
-**宏观上：**
-
-**1、** 最大的区别在于平台，oracle可以运行在不同的平台上，sql server只能运行在windows平台上，由于windows平台的稳定性和安全性影响了sql server的稳定性和安全性
-
-**2、** oracle使用的脚本语言为PL-SQL，而sql server使用的脚本为T-SQL
-
-**微观上：**
-
-**1、** 从数据类型,数据库的结构等等回答
+一个tablespace可以有一个或多个datafile，每个datafile只能在一个tablespace内，table中的数据,通过hash算法分布在tablespace中的各个datafile中，tablespace是逻辑上的概念,datafile则在物理上储存了数据库的种种对象。
 
 
-### 4、如何判断数据库的时区？
+### 6、列出Oracle Forms配置文件?
 
-SELECT DBTIMEZONE FROM DUAL;
-
-
-### 5、哪个column可以用来区别V$$视图和GV$$视图?
-
-INST_ID 指明集群环境中具体的 某个instance 。
+Oracle Forms配置文件包括：　　基本HTML文件(base.htm，basejini.htm，basejpi.htm和baseie.htm)　　ENV　　CFG　　CFG　　DEVLOBER
 
 
-### 6、Oralce怎样存储文件，能够存储哪些文件？
+### 7、用于网络连接的2个文件？
 
-**1、** Oracle 能存储 clob、nclob、 blob、 bfile
-
-**2、** Clob 可变长度的字符型数据，也就是其他数据库中提到的文本型数据类型
-
-**3、** Nclob 可变字符类型的数据，不过其存储的是Unicode字符集的字符数据
-
-**4、** Blob 可变长度的二进制数据
-
-**5、** Bfile 数据库外面存储的可变二进制数据
+TNSNAMES.ORA and SQLNET.ORA
 
 
-### 7、哪个VIEW用来检查数据文件的大小？
+### 8、可以从表单执行动态SQL吗?
 
-DBA_DATA_FILES
-
-
-### 8、给出两个检查表结构的方法
-
-**1、** DESCRIBE命令
-
-**2、**  DBMS_METADATA.GET_DDL 包
+是的，可以通过使用内置的FORMS_DDL或通过从表单调用DBNS_SQL数据库包从表单执行动态SQL。
 
 
-### 9、ORA-01555的应对方法?
+### 9、说一下，什么是Oracle分区
 
-具体的出错信息是snapshot too old within rollback seg , 通常可以通过增大rollback seg来解决问题。当然也需要察看一下具体造成错误的SQL文本
+分区的实质是把一张大表的数据按照某种规则使用多张子表来存储。
 
-
-### 10、如何变动数据文件的大小？
-
-ALTER DATABASE DATAFILE <datafile_name> RESIZE <new_size>;
+然后这多张子表使用统一的表名对外提供服务，子表实际对用户不可见。类似于在多张子表上建立一个视图，然后用户直接使用该视图来访问数据。
 
 
-### 11、比较truncate和delete 命令
-### 12、解释data block , extent 和 segment的区别（这里建议用英文术语）
-### 13、用于网络连接的2个文件？
-### 14、给出数据库正常启动所经历的几种状态 ?
-### 15、解释data block , extent 和 segment的区别？
-### 16、FACT Table上需要建立何种索引?
-### 17、当用户进程出错，哪个后台进程负责清理它
-### 18、说下 Oracle中有哪几种文件？
-### 19、集合操作符
-### 20、解释$$ORACLE_HOME和$$ORACLE_BASE的区别？
-### 21、解释冷备份和热备份的不同点以及各自的优点
-### 22、说一下，Oracle的分区有几种
-### 23、哪个VIEW用来判断tablespace的剩余空间
-### 24、如何建立一个备份控制文件？
-### 25、FACT Table上需要建立何种索引？
-### 26、说下 Oracle的导入导出有几种方式，有何区别？
-### 27、如何定位重要(消耗资源多)的SQL
+### 10、pctused and pctfree 表示什么含义有什么作用？
+
+pctused与pctfree控制数据块是否出现在freelist中,pctfree控制数据块中保留用于update的空间,当数据块中的free space小于pctfree设置的空间时，该数据块从freelist中去掉,当块由于dml操作free space大于pct_used设置的空间时,该数据库块将被添加在freelist链表中。
+
+
+### 11、给出在STAR SCHEMA中的两种表及它们分别含有的数据
+### 12、怎样查看数据库引擎的报错
+### 13、如何判断谁往表里增加了一条纪录？
+### 14、解释$$ORACLE_HOME和$$ORACLE_BASE的区别？
+### 15、解释GLOBAL_NAMES设为TRUE的用途？
+### 16、解释data block , extent 和 segment的区别（这里建议用英文术语）
+### 17、数据库的三大范式是什么？
+### 18、存储过程的操作 当它抛出异常的时候 你是如何解决的用了什么技术
+### 19、Oracle中function和procedure的区别？
+### 20、说下 怎样创建一个视图,视图的好处, 视图可以控制权限吗?
+### 21、解释data block , extent 和 segment的区别(这里建议用英文术语)
+### 22、如何转换init.ora到spfile?
+### 23、oracle中存储过程，游标和函数的区别
+### 24、SGA主要有那些部分，主要作用是什么?
+### 25、在千万级的数据库查询中，如何提高效率？
+### 26、truncate和delete区别：
+### 27、FACT Table上需要建立何种索引？
 
 
 
@@ -134,6 +120,6 @@ ALTER DATABASE DATAFILE <datafile_name> RESIZE <new_size>;
 
 ## 最新，高清PDF：172份，7701页，最新整理
 
-[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/mst.png "大厂面试题")](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png"大厂面试题")
+[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/mst.png "架构师专栏")](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png "架构师专栏")
 
 [![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png "架构师专栏")](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png "架构师专栏")

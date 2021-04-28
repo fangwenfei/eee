@@ -8,75 +8,83 @@
 
 
 
-### 1、提及插入文档的命令语法是什么？
+### 1、查看Mongos使用的连接？
 
-用于插入文档的命令语法是database.collection.insert（文档）。
-
-
-### 2、解释一下MongoDB中的索引是什么？
-
-索引是MongoDB中的特殊结构，它以易于遍历的形式存储一小部分数据集。索引按索引中指定的字段的值排序，存储特定字段或一组字段的值。
+要查看Mongos使用的连接，请使用db_adminCommand（“ connPoolStats”）；
 
 
-### 3、名字空间（namespace）是什么？
+### 2、更新操作立刻fsync到磁盘？
+
+一般磁盘的写操作都是延迟执行的
+
+
+### 3、如何执行事务/加锁?
+
+mongodb没有使用传统的锁或者复杂的带回滚的事务,因为它设计的宗旨是轻量,快速以及可预计的高性能.可以把它类比成MySQL mylsam的自动提交模式.通过精简对事务的支持,性能得到了提升,特别是在一个可能会穿过多个服务器的系统里.
+
+
+### 4、名字空间（namespace）是什么？
 
 在collection中，数据库名+集合名叫做名字空间。也就是一个集合的完整名
 
 
-### 4、为什么MongoDB的数据文件很大？
-
-MongoDB采用的预分配空间的方式来防止文件碎片。
-
-
-### 5、MongoDB中的分片是什么？
-
-在多台计算机上存储数据记录的过程称为分片。这是一种MongoDB方法，可以满足数据增长的需求。它是数据库或搜索引擎中数据的水平分区。每个分区称为分片或数据库分片。
-
-
-### 6、启用备份故障恢复需要多久?
-
-从备份数据库声明主数据库宕机到选出一个备份数据库作为新的主数据库将花费10到30秒时间.这期间在主数据库上的操作将会失败–包括写入和强一致性读取(strong consistent read)操作.然而,你还能在第二数据库上执行最终一致性查询(eventually consistent query)(在slaveok模式下),即使在这段时间里.
-
-
-### 7、你怎么比较MongoDB、CouchDB及CouchBase?
-
-不知道
-
-
-### 8、为什么要在MongoDB中用"Regular Expression"数据类型
+### 5、为什么要在MongoDB中用"Regular Expression"数据类型
 
 "Regular Expression"类型用于在文档中存储正则表达式
 
 
-### 9、能否使用日志特征进行安全备份？
+### 6、提到用于查看Mongo的命令语法正在使用链接吗？
 
-是的。
-
-
-### 10、数据在什么时候才会扩展到多个分片(shard)里?
-
-mongodb 分片是基于区域(range)的.所以一个集合(collection)中的所有的对象都被存放到一个块(chunk)中.只有当存在多余一个块的时候,才会有多个分片获取数据的选项.现在,每个默认块的大小是 64mb,所以你需要至少 64 mb 空间才可以实施一个迁移.
+用于查看mongo的命令语法使用的链接是db._adminCommand（“ connPoolStats。”）。
 
 
-### 11、提到用于查看Mongo的命令语法正在使用链接吗？
-### 12、MySQL与mongodb本质之间最基本的差别是什么
-### 13、复制在MongoDB中如何工作？
-### 14、如何执行事务/加锁？
-### 15、更新操作立刻fsync到磁盘?
-### 16、提到如何检查函数的源代码？
-### 17、MongoDB在A:{B,C}上建立索引，查询A:{B,C}和A:{C,B}都会使用索引吗？
-### 18、nosql数据库有哪些
-### 19、什么是NoSQL数据库？NoSQL和RDBMS有什么区别？在哪些情况下使用和不使用NoSQL数据库？
-### 20、查看Mongos使用的连接？
-### 21、在MongoDb中什么是索引
-### 22、我应该启动一个集群分片(sharded)还是一个非集群分片的 mongodb 环境?
-### 23、为什么mongodb的数据文件那么庞大
-### 24、什么是MongoDB
-### 25、如何查询集合中的文档
-### 26、如果块移动操作(movechunk)失败了,我需要手动清除部分转移的文档吗?
-### 27、解释什么是MongoDB？
-### 28、getLastError的作用
-### 29、为什么用MOngoDB？
+### 7、什么是文档(记录)
+
+文档由一组key value组成。文档是动态模式,这意味着同一集合里的文档不需要有相同的字段和结构。在关系型
+
+数据库中table中的每一条记录相当于MongoDB中的一个文
+
+
+### 8、为什么用MOngoDB？
+
+1. 架构简单
+2. 没有复杂的连接
+3. 深度查询能力,MongoDB支持动态查询。
+4. 容易调试
+5. 容易扩展
+6. 不需要转化/映射应用对象到数据库对象
+7. 使用内部内存作为存储工作区,以便更快的存取数据。
+
+
+### 9、更新数据
+
+db.collectionName.update({key:value},{$set:{newkey:newValue}})
+
+
+### 10、如何添加索引
+
+使用db.collection.createIndex()在集合中创建一个索引
+
+
+### 11、当更新一个正在被迁移的块（Chunk）上的文档时会发生什么？
+### 12、在MongoDB中创建模式时，需要考虑哪些要点？
+### 13、MongoDB中的命名空间是什么意思?
+### 14、为什么要在MongoDB中用"Code"数据类型
+### 15、.MongoDB支持主键外键关系吗
+### 16、31如何理解MongoDB中的GridFS机制，MongoDB为何使用GridFS来存储文件？
+### 17、什么是聚合
+### 18、如果用户移除对象的属性，该属性是否从存储层中删除？
+### 19、如何删除文档
+### 20、MongoDB支持哪些数据类型
+### 21、MongoDB支持存储过程吗？如果支持的话，怎么用？
+### 22、分片（sharding）和复制（replication）是怎样工作的？
+### 23、为什么MongoDB的数据文件很大？
+### 24、MongoDB相似的产品有哪些？
+### 25、能否使用日志特征进行安全备份？
+### 26、当我试图更新一个正在被迁移的块(chunk)上的文档时会发生什么?
+### 27、为什么在MongoDB中使用"Object ID"数据类型
+### 28、解释一下您可以将旧文件移动到moveChunk目录中吗？
+### 29、可以把movechunk目录里的旧文件删除吗?
 
 
 
@@ -90,6 +98,6 @@ mongodb 分片是基于区域(range)的.所以一个集合(collection)中的所�
 
 ## 最新，高清PDF：172份，7701页，最新整理
 
-[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/mst.png "大厂面试题")](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png"大厂面试题")
+[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/mst.png "架构师专栏")](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png "架构师专栏")
 
 [![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png "架构师专栏")](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png "架构师专栏")

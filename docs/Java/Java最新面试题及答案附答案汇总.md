@@ -8,268 +8,261 @@
 
 
 
-### 1、阻塞队列和非阻塞队列区别
+### 1、mixin、hoc、render props、react-hooks的优劣如何？
 
-**1、** 当队列阻塞队列为空的时，从队列中获取元素的操作将会被阻塞。
+**Mixin的缺陷：**
 
-**2、** 或者当阻塞队列是满时，往队列里添加元素的操作会被阻塞。
+**1、** 组件与 Mixin 之间存在隐式依赖（Mixin 经常依赖组件的特定方法，但在定义组件时并不知道这种依赖关系）
 
-**3、** 或者试图从空的阻塞队列中获取元素的线程将会被阻塞，直到其他的线程往空的队列插入新的元素。
+**2、** 多个 Mixin 之间可能产生冲突（比如定义了相同的state字段）
 
-**4、** 试图往已满的阻塞队列中添加新元素的线程同样也会被阻塞，直到其他的线程使队列重新变得空闲起来
+**3、** Mixin 倾向于增加更多状态，这降低了应用的可预测性（The more state in your application, the harder it is to reason about it.），导致复杂度剧增
 
+**隐式依赖导致依赖关系不透明，维护成本和理解成本迅速攀升：**
 
-### 2、现实生活中的模板方法
+**1、** 难以快速理解组件行为，需要全盘了解所有依赖 Mixin 的扩展行为，及其之间的相互影响
 
-**例如：**
+**2、** 组价自身的方法和state字段不敢轻易删改，因为难以确定有没有 Mixin 依赖它
 
-去餐厅吃饭，餐厅给我们提供了一个模板就是：看菜单，点菜，吃饭，付款，走人 （这里 “**点菜和付款**” 是不确定的由子类来完成的，其他的则是一个模板。）
+**3、** Mixin 也难以维护，因为 Mixin 逻辑最后会被打平合并到一起，很难搞清楚一个 Mixin 的输入输出
 
-- 代码演示
+**HOC相比Mixin的优势:**
 
-**1、** 先定义一个模板。把模板中的点菜和付款，让子类来实现。
+**1、** HOC通过外层组件通过 Props 影响内层组件的状态，而不是直接改变其 State不存在冲突和互相干扰,这就降低了耦合度
 
-```
-package com.lijie;
+**2、** 不同于 Mixin 的打平+合并，HOC 具有天然的层级结构（组件树结构），这又降低了复杂度
 
-//模板方法
-public abstract class RestaurantTemplate {
+**HOC的缺陷:**
 
-    // 1.看菜单
-    public void menu() {
-        System.out.println("看菜单");
-    }
+**1、** 扩展性限制: HOC 无法从外部访问子组件的 State因此无法通过shouldComponentUpdate滤掉不必要的更新,React 在支持 ES6 Class 之后提供了React.PureComponent来解决这个问题
 
-    // 2.点菜业务
-    abstract void spotMenu();
+**2、** Ref 传递问题: Ref 被隔断,后来的React.forwardRef 来解决这个问题
 
-    // 3.吃饭业务
-    public void havingDinner(){ System.out.println("吃饭"); }
+**3、** Wrapper Hell: HOC可能出现多层包裹组件的情况,多层抽象同样增加了复杂度和理解成本
 
-    // 3.付款业务
-    abstract void payment();
+**4、** 命名冲突: 如果高阶组件多次嵌套,没有使用命名空间的话会产生冲突,然后覆盖老属性
 
-    // 3.走人
-    public void GoR() { System.out.println("走人"); }
+**5、** 不可见性: HOC相当于在原有组件外层再包装一个组件,你压根不知道外层的包装是啥,对于你是黑盒
 
-    //模板通用结构
-    public void process(){
-        menu();
-        spotMenu();
-        havingDinner();
-        payment();
-        GoR();
-    }
-}
-```
+**Render Props优点:**
 
-**2、** 具体的模板方法子类 1
+上述HOC的缺点Render Props都可以解决
 
-```
-package com.lijie;
+**Render Props缺陷:**
 
-public class RestaurantGinsengImpl extends RestaurantTemplate {
+**1、** 使用繁琐: HOC使用只需要借助装饰器语法通常一行代码就可以进行复用,Render Props无法做到如此简单
 
-    void spotMenu() {
-        System.out.println("人参");
-    }
+**2、** 嵌套过深: Render Props虽然摆脱了组件多层嵌套的问题,但是转化为了函数回调的嵌套
 
-    void payment() {
-        System.out.println("5快");
-    }
-}
-```
+**React Hooks优点:**
 
-**3、** 具体的模板方法子类 2
+**1、** 简洁: React Hooks解决了HOC和Render Props的嵌套问题,更加简洁
 
-```
-package com.lijie;
+**2、** 解耦: React Hooks可以更方便地把 UI 和状态分离,做到更彻底的解耦
 
-public class RestaurantLobsterImpl  extends RestaurantTemplate  {
+**3、** 组合: Hooks 中可以引用另外的 Hooks形成新的Hooks,组合变化万千
 
-    void spotMenu() {
-        System.out.println("龙虾");
-    }
+**4、** 函数友好: React Hooks为函数组件而生,从而解决了类组件的几大问题:
 
-    void payment() {
-        System.out.println("50块");
-    }
-}
-```
+**1、** this 指向容易错误
 
-**4、** 客户端测试
+**2、** 分割在不同声明周期中的逻辑使得代码难以理解和维护
 
-```
-package com.lijie;
+**3、** 代码复用成本高（高阶组件容易使代码量剧增）
 
-public class Client {
+**React Hooks缺陷:**
 
-    public static void main(String[] args) {
-        //调用第一个模板实例
-        RestaurantTemplate restaurantTemplate = new RestaurantGinsengImpl();
-        restaurantTemplate.process();
-    }
-}
-```
+**1、** 额外的学习成本（Functional Component 与 Class Component 之间的困惑）
 
+**2、** 写法上有限制（不能出现在条件、循环中），并且写法限制增加了重构成本
 
-### 3、如何避免线程死锁
+**3、** 破坏了PureComponent、React.memo浅比较的性能优化效果（为了取最新的props和state，每次render()都要重新创建事件处函数）
 
-**1、** 避免一个线程同时获得多个锁
+**4、** 在闭包场景可能会引用到旧的state、props值
 
-**2、** 避免一个线程在锁内同时占用多个资源，尽量保证每个锁只占用一个资源
+**5、** 内部实现上不直观（依赖一份可变的全局状态，不再那么“纯”）
 
-**3、** 尝试使用定时锁，使用lock.tryLock(timeout)来替代使用内部锁机制
+**6、** React.memo并不能完全替代shouldComponentUpdate（因为拿不到 state change，只针对 props change）
 
+> 关于react-hooks的评价来源于官方[react-hooks RFC](https://github.com/reactjs/rfcs/blob/master/text/0068-react-hooks.md#drawbacks)
 
-### 4、Java 中能创建 volatile 数组吗？
 
-能，Java 中可以创建 volatile 类型数组，不过只是一个指向数组的引用，而不是整个数组。意思是，如果改变引用指向的数组，将会受到 volatile 的保护，但是如果多个线程同时改变数组的元素，volatile 标示符就不能起到之前的保护作用了。
 
+### 2、什么是 Callable 和 Future?
 
-### 5、32 位 JVM 和 64 位 JVM 的最大堆内存分别是多数？
+Callable 接口类似于 Runnable，从名字就可以看出来了，但是 Runnable 不会返回结果，并且无法抛出返回结果的异常，而 Callable 功能更强大一些，被线程执行后，可以返回值，这个返回值可以被 Future 拿到，也就是说，Future 可以拿到异步执行任务的返回值。
 
-理论上说上 32 位的 JVM 堆内存可以到达 2^32，即 4GB，但实际上会比这个小很多。不同操作系统之间不同，如 Windows 系统大约 1.5 GB，Solaris 大约 3GB。64 位 JVM允许指定最大的堆内存，理论上可以达到 2^64，这是一个非常大的数字，实际上你可以指定堆内存大小到 100GB。甚至有的 JVM，如 Azul，堆内存到 1000G 都是可能的。
+Future 接口表示异步任务，是一个可能还没有完成的异步任务的结果。所以说 Callable用于产生结果，Future 用于获取结果。
 
 
-### 6、介绍一下 JVM 中垃圾收集器有哪些？ 他们特点分别是什么？
+### 3、ArrayList 和 LinkedList 的区别是什么？
 
-**新生代垃圾收集器**
+**1、** 数据结构实现：ArrayList 是动态数组的数据结构实现，而 LinkedList 是双向链表的数据结构实现。
 
-**Serial 收集器**
+**2、** 随机访问效率：ArrayList 比 LinkedList 在随机访问的时候效率要高，因为 LinkedList 是线性的数据存储方式，所以需要移动指针从前往后依次查找。
 
-特点： Serial 收集器只能使用一条线程进行垃圾收集工作，并且在进行垃圾收集的时候，所有的工作线程都需要停止工作，等待垃圾收集线程完成以后，其他线程才可以继续工作。
+**3、** 增加和删除效率：在非首尾的增加和删除操作，LinkedList 要比 ArrayList 效率要高，因为 ArrayList 增删操作要影响数组内的其他数据的下标。
 
-**使用算法：复制算法**
+**4、** 内存空间占用：LinkedList 比 ArrayList 更占内存，因为 LinkedList 的节点除了存储数据，还存储了两个引用，一个指向前一个元素，一个指向后一个元素。
 
-**ParNew 收集器**
+**5、** 线程安全：ArrayList 和 LinkedList 都是不同步的，也就是不保证线程安全；
 
-特点： ParNew 垃圾收集器是Serial收集器的多线程版本。为了利用 CPU 多核多线程的优势，ParNew 收集器可以运行多个收集线程来进行垃圾收集工作。这样可以提高垃圾收集过程的效率。
+**6、** 综合来说，在需要频繁读取集合中的元素时，更推荐使用 ArrayList，而在插入和删除操作较多时，更推荐使用 LinkedList。
 
-**使用算法：复制算法**
+**7、** LinkedList 的双向链表也叫双链表，是链表的一种，它的每个数据结点中都有两个指针，分别指向直接后继和直接前驱。所以，从双向链表中的任意一个结点开始，都可以很方便地访问它的前驱结点和后继结点。
 
-**Parallel Scavenge 收集器**
 
-特点： Parallel Scavenge 收集器是一款多线程的垃圾收集器，但是它又和 ParNew 有很大的不同点。
+### 4、React最新的生命周期是怎样的?
 
-Parallel Scavenge 收集器和其他收集器的关注点不同。其他收集器，比如 ParNew 和 CMS 这些收集器，它们主要关注的是如何缩短垃圾收集的时间。而 Parallel Scavenge 收集器关注的是如何控制系统运行的吞吐量。这里说的吞吐量，指的是 CPU 用于运行应用程序的时间和 CPU 总时间的占比，吞吐量 = 代码运行时间 / （代码运行时间 + 垃圾收集时间）。如果虚拟机运行的总的 CPU 时间是 100 分钟，而用于执行垃圾收集的时间为 1 分钟，那么吞吐量就是 99%。
+React 16之后有三个生命周期被废弃(但并未删除)
 
-**使用算法：复制算法**
+**1、** componentWillMount
 
-**老年代垃圾收集器**
+**2、** componentWillReceiveProps
 
-**Serial Old 收集器**
+**3、** componentWillUpdate
 
-特点： Serial Old 收集器是 Serial 收集器的老年代版本。这款收集器主要用于客户端应用程序中作为老年代的垃圾收集器，也可以作为服务端应用程序的垃圾收集器。
+官方计划在17版本完全删除这三个函数，只保留UNSAVE_前缀的三个函数，目的是为了向下兼容，但是对于开发者而言应该尽量避免使用他们，而是使用新增的生命周期函数替代它们
 
-**使用算法：标记-整理**
+目前React 16.8 +的生命周期分为三个阶段,分别是挂载阶段、更新阶段、卸载阶段
 
-**Parallel Old 收集器**
+**挂载阶段:**
 
-特点： Parallel Old 收集器是 Parallel Scavenge 收集器的老年代版本这个收集器是在 JDK1.6 版本中出现的，所以在 JDK1.6 之前，新生代的 Parallel Scavenge 只能和 Serial Old 这款单线程的老年代收集器配合使用。Parallel Old 垃圾收集器和 Parallel Scavenge 收集器一样，也是一款关注吞吐量的垃圾收集器，和 Parallel Scavenge 收集器一起配合，可以实现对 Java 堆内存的吞吐量优先的垃圾收集策略。
+**1、** constructor: 构造函数，最先被执行,我们通常在构造函数里初始化state对象或者给自定义方法绑定this
 
-**使用算法：标记-整理**
+**2、** getDerivedStateFromProps: `static getDerivedStateFromProps(nextProps, prevState)`,这是个静态方法,当我们接收到新的属性想去修改我们state，可以使用getDerivedStateFromProps
 
-**CMS 收集器**
+**3、** render: render函数是纯函数，只返回需要渲染的东西，不应该包含其它的业务逻辑,可以返回原生的DOM、React组件、Fragment、Portals、字符串和数字、Boolean和null等内容
 
-特点： CMS 收集器是目前老年代收集器中比较优秀的垃圾收集器。CMS 是 Concurrent Mark Sweep，从名字可以看出，这是一款使用"标记-清除"算法的并发收集器。
+**4、** componentDidMount: 组件装载之后调用，此时我们可以获取到DOM节点并操作，比如对canvas，svg的操作，服务器请求，订阅都可以写在这个里面，但是记得在componentWillUnmount中取消订阅
 
-CMS 垃圾收集器是一款以获取最短停顿时间为目标的收集器。如下图所示：
+**更新阶段:**
 
-![](https://gitee.com/souyunkutech/souyunku-home/raw/master/images/souyunku-web/2020/5/2/05/34/39_3.png#alt=39%5C_3.png)
+**1、** getDerivedStateFromProps: 此方法在更新个挂载阶段都可能会调用
 
-**从图中可以看出，CMS 收集器的工作过程可以分为 4 个阶段：**
+**2、** shouldComponentUpdate: `shouldComponentUpdate(nextProps, nextState)`,有两个参数nextProps和nextState，表示新的属性和变化之后的state，返回一个布尔值，true表示会触发重新渲染，false表示不会触发重新渲染，默认返回true,我们通常利用此生命周期来优化React程序性能
 
-**1、** 初始标记（CMS initial mark）阶段
+**3、** render: 更新阶段也会触发此生命周期
 
-**2、** 并发标记（CMS concurrent mark）阶段
+**4、** getSnapshotBeforeUpdate: `getSnapshotBeforeUpdate(prevProps, prevState)`,这个方法在render之后，componentDidUpdate之前调用，有两个参数prevProps和prevState，表示之前的属性和之前的state，这个函数有一个返回值，会作为第三个参数传给componentDidUpdate，如果你不想要返回值，可以返回null，此生命周期必须与componentDidUpdate搭配使用
 
-**3、** 重新标记（CMS remark）阶段
+**5、** componentDidUpdate: `componentDidUpdate(prevProps, prevState, snapshot)`,该方法在getSnapshotBeforeUpdate方法之后被调用，有三个参数prevProps，prevState，snapshot，表示之前的props，之前的state，和snapshot。第三个参数是getSnapshotBeforeUpdate返回的,如果触发某些回调函数时需要用到 DOM 元素的状态，则将对比或计算的过程迁移至 getSnapshotBeforeUpdate，然后在 componentDidUpdate 中统一触发回调或更新状态。
 
-**4、** 并发清除(（CMS concurrent sweep）阶段
+**卸载阶段:**
 
-使用算法：复制+标记清除
+componentWillUnmount: 当我们的组件被卸载或者销毁了就会调用，我们可以在这个函数里去清除一些定时器，取消网络请求，清理无效的DOM元素等垃圾清理工作
 
-**其他**
+![](https://gitee.com/souyunkutech/souyunku-home/raw/master/images/souyunku-web/2020/4/30/1939/39/97_1.png#alt=97%5C_1.png)
 
-**G1 垃圾收集器**
+> 一个查看react生命周期的[网站](http://projects.wojtekmaj.pl/react-lifecycle-methods-diagram/)
 
-特点： 主要步骤：`初始标记，并发标记，重新标记，复制清除。`
 
-**使用算法：复制 + 标记整理**
 
+### 5、Serial 与 Parallel GC 之间的不同之处？
 
-### 7、自动装箱与拆箱
+Serial 与 Parallel 在 GC 执行的时候都会引起 stop-the-world。它们之间主要不同 serial 收集器是默认的复制收集器，执行 GC 的时候只有一个线程，而parallel 收集器使用多个 GC 线程来执行。
 
-**装箱**：将基本类型用它们对应的引用类型包装起来；
 
-**拆箱**：将包装类型转换为基本数据类型；
+### 6、Java 中如何格式化一个日期？如格式化为 ddMMyyyy 的形式？
 
-Java使用自动装箱和拆箱机制，节省了常用数值的内存开销和创建对象的开销，提高了效率，由编译器来完成，编译器会在编译期根据语法决定是否进行装箱和拆箱动作。
+[http://javarevisited.blogspot.com/2011/09/convert-date-to-string-simpledateformat.html](http://javarevisited.blogspot.com/2011/09/convert-date-to-string-simpledateformat.html)
 
+Java 中，可以使用 SimpleDateFormat 类或者 joda-time 库来格式日期。DateFormat 类允许你使用多种流行的格式来格式化日期。参见中的示例代码，代码中演示了将日期格式化成不同的格式，如 dd-MM-yyyy 或 ddMMyyyy。
 
-### 8、解释什么是Jasper?
 
-Jasper是Tomcat的JSP引擎
+### 7、运行时异常与受检异常有何异同？
 
-它解析JSP文件，将它们编译成JAVA代码作为servlet
 
-在运行时，Jasper允许自动检测JSP文件的更改并重新编译它们
 
+异常表示程序运行过程中可能出现的非正常状态，运行时异常表示虚拟机的通常操作中可能遇到的异常，是一种常见运行错误，只要程序设计得没有问题通常就不会发生。受检异常跟程序运行的上下文环境有关，即使程序设计无误，仍然可能因使用的问题而引发。Java编译器要求方法必须声明抛出可能发生的受检异常，但是并不要求必须声明抛出未被捕获的运行时异常。异常和继承一样，是面向对象程序设计中经常被滥用的东西，在_Effective Java_中对异常的使用给出了以下指导原则：
 
-### 9、在多线程环境下，SimpleDateFormat 是线程安全的吗？
+**1、** 不要将异常处理用于正常的控制流（设计良好的API不应该强迫它的调用者为了正常的控制流而使用异常）
 
-不是，非常不幸，DateFormat 的所有实现，包括 SimpleDateFormat 都不是线程安全的，因此你不应该在多线程序中使用，除非是在对外线程安全的环境中使用，如 将 SimpleDateFormat 限制在 ThreadLocal 中。如果你不这么做，在解析或者格式化日期的时候，可能会获取到一个不正确的结果。因此，从日期、时间处理的所有实践来说，我强力推荐 joda-time 库。
+**2、** 对可以恢复的情况使用受检异常，对编程错误使用运行时异常
 
+**3、** 避免不必要的使用受检异常（可以通过一些状态检测手段来避免异常的发生）
 
-### 10、Java常用包有那些？
+**4、** 优先使用标准的异常
 
-**1、** Java.lang
+**5、** 每个方法抛出的异常都要有文档
 
-**2、** Java.io
+**6、** 保持异常的原子性
 
-**3、** Java.sql
+**7、** 不要在catch中忽略掉捕获到的异常
 
-**4、** Java.util
 
-**5、** Java.awt
+### 8、Java最顶级的父类是哪个？
 
-**6、** Java.net
+Object
 
-**7、** Java.math
 
+### 9、集合框架底层数据结构
 
-### 11、HashMap 和 ConcurrentHashMap 的区别
-### 12、遇到过元空间溢出吗？
-### 13、String 类的常用方法都有那些？
-### 14、什么是方法重载？
-### 15、JVM 出现 fullGC 很频繁，怎么去线上排查问题
-### 16、线程的调度策略
-### 17、什么是Hash算法
-### 18、Hashtable 与 HashMap 有什么不同之处？
-### 19、Spring开发中的工厂设计模式
-### 20、说一下 Atomic的原理？
-### 21、请解释一下什么时候可以使用“.”，什么时候可以使用“[]”?
-### 22、JVM 数据运行区，哪些会造成 OOM 的情况？
-### 23、阐述JDBC操作数据库的步骤。
-### 24、使用集合框架的好处
-### 25、HashMap中的key，可以是普通对象么？需要什么注意的地方？
-### 26、什么是重写？什么是重载？
-### 27、volatile 能使得一个非原子操作变成原子操作吗？
-### 28、线程之间是如何通信的？
-### 29、如何自定义线程线程池?
-### 30、什么是Executors框架？
-### 31、什么是重排序
-### 32、类加载是什么？
-### 33、在使用jdbc的时候，如何防止出现sql注入的问题。
-### 34、抽象的（abstract）方法是否可同时是静态的（static）,是否可同时是本地方法（native），是否可同时被synchronized修饰？
-### 35、什么时候使用享元模式？
-### 36、说下有哪些类加载器？
-### 37、synchronized、volatile、CAS 比较
-### 38、你都用过G1垃圾回收器的哪几个重要参数？
-### 39、什么叫线程安全？servlet 是线程安全吗?
-### 40、CyclicBarrier和CountDownLatch的区别
-### 41、HTTP的状态码
+**Collection**
+
+**List**
+
+**1、** Arraylist： Object数组
+
+**2、** Vector： Object数组
+
+**3、** LinkedList： 双向循环链表
+
+**Set**
+
+**1、** HashSet（无序，唯一）：基于 HashMap 实现的，底层采用 HashMap 来保存元素
+
+**2、** LinkedHashSet： LinkedHashSet 继承与 HashSet，并且其内部是通过 LinkedHashMap 来实现的。有点类似于我们之前说的LinkedHashMap 其内部是基于 Hashmap 实现一样，不过还是有一点点区别的。
+
+**3、** TreeSet（有序，唯一）： 红黑树(自平衡的排序二叉树。)
+
+**Map**
+
+**1、** HashMap： JDK1.8之前HashMap由数组+链表组成的，数组是HashMap的主体，链表则是主要为了解决哈希冲突而存在的（“拉链法”解决冲突）.JDK1.8以后在解决哈希冲突时有了较大的变化，当链表长度大于阈值（默认为8）时，将链表转化为红黑树，以减少搜索时间
+
+**2、** LinkedHashMap：LinkedHashMap 继承自 HashMap，所以它的底层仍然是基于拉链式散列结构即由数组和链表或红黑树组成。另外，LinkedHashMap 在上面结构的基础上，增加了一条双向链表，使得上面的结构可以保持键值对的插入顺序。同时通过对链表进行相应的操作，实现了访问顺序相关逻辑。
+
+**3、** HashTable： 数组+链表组成的，数组是 HashMap 的主体，链表则是主要为了解决哈希冲突而存在的
+
+**4、** TreeMap： 红黑树（自平衡的排序二叉树）
+
+
+### 10、实例化数组后，能不能改变数组长度呢？
+
+不能，数组一旦实例化，它的长度就是固定的
+
+
+### 11、创建一个对象用什么运算符？对象实体与对象引用有何不同？
+### 12、JVM 选项 -XX:+UseCompressedOops 有什么作用？为什么要使用？
+### 13、你是如何调用 wait() 方法的？使用 if 块还是循环？为什么？
+### 14、请说出与线程同步以及线程调度相关的方法。
+### 15、程序计数器有什么作用？
+### 16、并发队列和并发集合的区别：
+### 17、如何用Java代码列出一个目录下所有的文件？
+### 18、怎么检查一个字符串只包含数字？解决方案
+### 19、Java是否需要开发人员回收内存垃圾吗？
+### 20、说一下堆内存中对象的分配的基本策略
+### 21、ConcurrentHashMap 底层具体实现知道吗？实现原理是什么？
+### 22、栈帧里面包含哪些东西？
+### 23、为什么要学习设计模式
+### 24、在异常捕捉时，如果发生异常，那么try.catch.finally块外的return语句会执行吗？
+### 25、常用的集合类有哪些？
+### 26、用Java的套接字编程实现一个多线程的回显（echo）服务器。
+### 27、在新生代-复制算法
+### 28、什么是Java虚拟机？为什么Java被称作是“平台无关的编程语言”？
+### 29、如何让正在运行的线程暂停一段时间？
+### 30、在不使用 StringBuffer 的前提下，怎么反转一个字符串？
+### 31、HashMap 的长度为什么是2的幂次方
+### 32、Tomcat是怎么打破双亲委派机制的呢？
+### 33、Linux环境下如何查找哪个线程使用CPU最长
+### 34、并行和并发有什么区别？
+### 35、垃圾回收的优点和原理。说说2种回收机制
+### 36、线程之间如何通信及线程之间如何同步
+### 37、什么是游标？
+### 38、什么是AQS
+### 39、Java应用程序与小程序之间有那些差别？
+### 40、什么是方法的返回值？返回值在类的方法里的作用是什么？
+### 41、什么是 Busy spin？我们为什么要使用它？
 
 
 
@@ -283,6 +276,6 @@ Jasper是Tomcat的JSP引擎
 
 ## 最新，高清PDF：172份，7701页，最新整理
 
-[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/mst.png "大厂面试题")](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png"大厂面试题")
+[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/mst.png "架构师专栏")](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png "架构师专栏")
 
 [![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png "架构师专栏")](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png "架构师专栏")

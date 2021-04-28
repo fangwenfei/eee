@@ -8,173 +8,105 @@
 
 
 
-### 1、Spring框架的事务管理有哪些优点？
+### 1、服务降级底层是如何实现的？
 
-**1、** 它为不同的事务API 如 JTA，JDBC，Hibernate，JPA 和JDO，提供一个不变的编程模式。
+Hystrix实现服务降级的功能是通过重写HystrixCommand中的getFallback()方法，当Hystrix的run方法或construct执行发生错误时转而执行getFallback()方法。
 
-**2、** 它为编程式事务管理提供了一套简单的API而不是一些复杂的事务API如
 
-**3、** 它支持声明式事务管理。
+### 2、Spring Cloud Bus
 
-**4、** 它和Spring各种数据访问抽象层很好得集成。
+用于传播集群状态变化的消息总线，使用轻量级消息代理链接分布式系统中的节点，可以用来动态刷新集群中的服务配置。
 
 
-### 2、spring bean 容器的生命周期是什么样的？
+### 3、能否举一个例子来解释更多 Staters 的内容？
 
-**1、** spring bean 容器的生命周期流程如下：
+让我们来思考一个 Stater 的例子 -SpringBoot Stater Web。
 
-**2、** Spring 容器根据配置中的 bean 定义中实例化 bean。
+如果你想开发一个 web 应用程序或者是公开 REST 服务的应用程序。SpringBoot Start Web 是首选。让我们使用 Spring Initializr 创建一个 SpringBoot Start Web 的快速项目。
 
-**3、** Spring 使用依赖注入填充所有属性，如 bean 中所定义的配置。
+**依赖项可以被分为：**
 
-**4、** 如果 bean 实现 BeanNameAware 接口，则工厂通过传递 bean 的 ID 来调用 setBeanName()。
+**1、** Spring - core，beans，context，aop
 
-**5、** 如果 bean 实现 BeanFactoryAware 接口，工厂通过传递自身的实例来调用 setBeanFactory()。
+**2、** Web MVC - （Spring MVC）
 
-**6、** 如果存在与 bean 关联的任何 BeanPostProcessors，则调用 preProcessBeforeInitialization() 方法。
+**3、** Jackson - for JSON Binding
 
-**7、** 如果为 bean 指定了 init 方法（ 的 init-method 属性），那么将调用它。
+**4、** Validation - Hibernate,Validation API
 
-**8、** 最后，如果存在与 bean 关联的任何 BeanPostProcessors，则将调用 postProcessAfterInitialization() 方法。
+**5、** Enbedded Servlet Container - Tomcat
 
-**9、** 如果 bean 实现 DisposableBean 接口，当 spring 容器关闭时，会调用 destory()。
+**6、** Logging - logback,slf4j
 
-**10、** 如果为 bean 指定了 destroy 方法（ 的 destroy-method 属性），那么将调用它。
+任何经典的 Web 应用程序都会使用所有这些依赖项。SpringBoot Starter Web 预先打包了这些依赖项。
 
-###什么是 spring 的内部 bean？
+作为一个开发者，我不需要再担心这些依赖项和它们的兼容版本。
 
-只有将 bean 用作另一个 bean 的属性时，才能将 bean 声明为内部 bean。 为了定义 bean，Spring 的基于 XML 的配置元数据在 或 中提供了 元素的使用。 内部 bean 总是匿名的，它们总是作为原型。
 
-###什么是 spring 装配
+### 4、如何集成SpringBoot和ActiveMQ？
 
-当 bean 在 Spring 容器中组合在一起时，它被称为装配或 bean 装配。
+对于集成SpringBoot和ActiveMQ，我们使用spring-boot-starter-activemq 依赖关系。 它只需要很少的配置，并且不需要样板代码。
 
-Spring 容器需要知道需要什么 bean 以及容器应该如何使用依赖注入来将 bean 绑定在一起，同时装配 bean。
 
-###自动装配有哪些方式？
+### 5、什么是 Spring Data？
 
-Spring 容器能够自动装配 bean。 也就是说，可以通过检查 BeanFactory 的内容让 Spring 自动解析 bean 的协作者。
+来自：[//projects.spring.io/spring-](//projects.spring.io/spring-) data/
 
-**自动装配的不同模式：**
+Spring Data 的使命是在保证底层数据存储特殊性的前提下，为数据访问提供一个熟悉的，一致性的，基于 Spring 的编程模型。这使得使用数据访问技术，关系数据库和非关系数据库，map-reduce 框架以及基于云的数据服务变得很容易。
 
-**1、** no - 这是默认设置，表示没有自动装配。 应使用显式 bean 引用进行装配。
+为了让它更简单一些，Spring Data 提供了不受底层数据源限制的 Abstractions 接口。
 
-**2、** byName - 它根据 bean 的名称注入对象依赖项。 它匹配并装配其属性与 XML 文件中由相同名称定义的 bean。
+你可以定义一简单的库，用来插入，更新，删除和检索代办事项，而不需要编写大量的代码。
 
-**3、** byType - 它根据类型注入对象依赖项。 如果属性的类型与 XML 文件中的一个 bean 名称匹配，则匹配并装配属性。
 
-**4、** 构造函数 - 它通过调用类的构造函数来注入依赖项。 它有大量的参数。
+### 6、什么是耦合？
 
-**5、** autodetect - 首先容器尝试通过构造函数使用 autowire 装配，如果不能，则尝试通过 byType 自动装配。
+组件之间依赖关系强度的度量被认为是耦合。一个好的设计总是被认为具有高内聚力和低耦合性。
 
 
-### 3、如何使用SpringBoot实现异常处理？
+### 7、什么是依赖注入？
 
-Spring提供了一种使用ControllerAdvice处理异常的非常有用的方法。 我们通过实现一个ControlerAdvice类，来处理控制器类抛出的所有异常。
+在依赖注入中，您不必创建对象，但必须描述如何创建它们。您不是直接在代码中将组件和服务连接在一起，而是描述配置文件中哪些组件需要哪些服务。由 IoC 容器将它们装配在一起。
 
 
-### 4、SpringBoot 的配置文件有哪几种格式？它们有什么区别？
+### 8、Async异步调用方法
 
-.properties 和 .yml，它们的区别主要是书写格式不同。
+在SpringBoot中使用异步调用是很简单的，只需要在方法上使用@Async注解即可实现方法的异步调用。 注意：需要在启动类加入@EnableAsync使异步调用@Async注解生效。
 
-**1、** properties
 
-```
-app.user.name = javastack
-```
+### 9、什么是 AOP 连接点
 
-**2、** yml
+连接点代表一个应用程序的某个位置，在这个位置我们可以插入一个AOP切面，它实际上是个应用程序执行Spring AOP的位置。
 
-```
-app:
- user:
- name: javastack
-```
 
-另外，.yml 格式不支持 [@PropertySource ](/PropertySource ) 注解导入配置。
+### 10、JPA 和 Hibernate 有哪些区别？JPA 可以支持动态 SQL 吗？
 
+JPA本身是一种规范，它的本质是一种ORM规范（不是ORM框架，因为JPA并未提供ORM实现，只是制定了规范）因为JPA是一种规范，所以，只是提供了一些相关的接口，但是接口并不能直接使用，JPA底层需要某种JPA实现，Hibernate 是 JPA 的一个实现集。
 
-### 5、SpringBoot微服务中如何实现 session 共享 ?
+JPA 是根据实体类的注解来创建对应的表和字段，如果需要动态创建表或者字段，需要动态构建对应的实体类，再重新调用Jpa刷新整个Entity。动态SQL，mybatis支持的最好，jpa也可以支持，但是没有Mybatis那么灵活。
 
-在微服务中，一个完整的项目被拆分成多个不相同的独立的服务，各个服务独立部署在不同的服务器上，各自的 session 被从物理空间上隔离开了，但是经常，我们需要在不同微服务之间共享 session ，常见的方案就是 Spring Session + Redis 来实现 session 共享。将所有微服务的 session 统一保存在 Redis 上，当各个微服务对 session 有相关的读写操作时，都去操作 Redis 上的 session 。这样就实现了 session 共享，Spring Session 基于 Spring 中的代理过滤器实现，使得 session 的同步操作对开发人员而言是透明的，非常简便。
 
-
-### 6、SpringBoot 的配置文件有哪几种格式？它们有什么区别？
-
-.properties 和 .yml，它们的区别主要是书写格式不同。
-
-**properties**
-
-```
-app.user.name = javastack
-```
-
-**yml**
-
-```
-app:
-  user:
-    name: javastack
-```
-
-
-### 7、BeanFactory – BeanFactory 实现举例。
-
-Bean 工厂是工厂模式的一个实现，提供了控制反转功能，用来把应用的配置和依赖从正真的应用代码中分离。
-
-最常用的BeanFactory 实现是XmlBeanFactory 类。
-
-
-### 8、Spring Cloud Gateway
-
-API网关组件，对请求提供路由及过滤功能。
-
-
-### 9、熔断的原理，以及如何恢复？
-
-![](https://gitee.com/souyunkutech/souyunku-home/raw/master/images/souyunku-web/2020/5/2/01/44/45_11.png#alt=45%5C_11.png)
-
-**服务的健康状况 = 请求失败数 / 请求总数.**
-
-熔断器开关由关闭到打开的状态转换是通过当前服务健康状况和设定阈值⽐较决定的.
-
-**1、** 当熔断器开关关闭时, 请求被允许通过熔断器、如果当前健康状况⾼于设定阈值, 开关继续保持关闭、如果当前健康状况低于设定阈值, 开关则切换为打开状态.
-
-**2、** 当熔断器开关打开时, 请求被禁⽌通过.
-
-**3、** 当熔断器开关处于打开状态, 经过⼀段时间后, 熔断器会⾃动进⼊半开状态, 这时熔断器只允许⼀个请求通过、当该请求调⽤成功时, 熔断器恢复到关闭状态、若该请求失败, 熔断器继续保持打开状态, 接下来的请求被禁⽌通过.
-
-熔断器的开关能保证服务调⽤者在调⽤异常服务时, 快速返回结果, 避免⼤量的同步等待、并且熔断器能在⼀段时间后继续侦测请求执⾏结果, 提供恢复服务调⽤的可能。
-
-
-### 10、什么是Idempotence以及它在哪里使用？
-
-幂等性是能够以这样的方式做两次事情的特性，即最终结果将保持不变，即好像它只做了一次。
-
-用法：在远程服务或数据源中使用 Idempotence，这样当它多次接收指令时，它只处理指令一次。
-
-
-### 11、微服务的优点
-### 12、Spring MVC的主要组件？
-### 13、康威定律是什么？
-### 14、SpringBoot有哪些优点？
-### 15、微服务有什么特点？
-### 16、什么是 Spring Batch？
-### 17、SpringBoot 中的 starter 到底是什么 ?
-### 18、为什么在微服务中需要Reports报告和Dashboards仪表板？
-### 19、22。你能否给出关于休息和微服务的要点？
-### 20、SpringBoot如何实现打包
-### 21、SpringBoot 2、X 有什么新特性？与 1、X 有什么区别？
-### 22、什么是织入。什么是织入应用的不同点？
-### 23、如何给静态变量赋值？
-### 24、什么是JavaConfig？
-### 25、SpringBoot、Spring MVC 和 Spring 有什么区别？
-### 26、SpringBoot需要独立的容器运行？
-### 27、自动装配有哪些方式？
-### 28、如何集成 SpringBoot 和 ActiveMQ？
-### 29、注解原理是什么
-### 30、SpringBoot自动配置的原理是什么？
-### 31、不同版本的 Spring Framework 有哪些主要功能？
+### 11、自动装配有哪些局限性 ?
+### 12、SpringBoot 自动配置原理是什么？
+### 13、解释WEB 模块。
+### 14、使用 Spring 访问 Hibernate 的方法有哪些？
+### 15、什么是Hystrix?
+### 16、如果在拦截请求中，我想拦截get方式提交的方法,怎么配置
+### 17、什么是Netflix Feign？它的优点是什么？
+### 18、Spring配置文件
+### 19、什么是Oauth？
+### 20、如何通过HibernateDaoSupport将Spring和Hibernate结合起来？
+### 21、Spring支持的事务管理类型
+### 22、如何给静态变量赋值？
+### 23、什么是 Spring Profiles？
+### 24、SpringBoot 的配置文件有哪几种格式？它们有什么区别？
+### 25、什么是Netflix Feign？它的优点是什么？
+### 26、SpringBoot Starter的工作原理
+### 27、什么是REST / RESTful以及它的用途是什么？
+### 28、微服务限流 dubbo限流：dubbo提供了多个和请求相关的filter：ActiveLimitFilter ExecuteLimitFilter TPSLimiterFilter
+### 29、Spring Cloud 是什么
+### 30、Spring框架中的单例bean是线程安全的吗?
+### 31、如何重新加载SpringBoot上的更改，而无需重新启动服务器？
 
 
 
@@ -188,6 +120,6 @@ API网关组件，对请求提供路由及过滤功能。
 
 ## 最新，高清PDF：172份，7701页，最新整理
 
-[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/mst.png "大厂面试题")](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png"大厂面试题")
+[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/mst.png "架构师专栏")](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png "架构师专栏")
 
 [![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png "架构师专栏")](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png "架构师专栏")

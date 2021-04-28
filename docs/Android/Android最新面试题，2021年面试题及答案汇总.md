@@ -8,132 +8,127 @@
 
 
 
-### 1、如何保存activity的状态？
-
-默认情况下activity的状态系统会自动保存，有些时候需要我们手动调用保存。
-
-当activity处于onPause，onStop之后，activity处于未活动状态，但是activity对象却仍然存在。当内存不足，onPause，onStop之后的activity可能会被系统摧毁。
-
-当通过返回退出activity时，activity状态并不会保存。
-
-保存activity状态需要重写onSavedInstanceState()方法，在执行onPause,onStop之前调用onSavedInstanceState方法，onSavedInstanceState需要一个Bundle类型的参数，我们可以将数据保存到bundle中，通过实参传递给onSavedInstanceState方法。
-
-Activity被销毁后，重新启动时，在onCreate方法中，接受保存的bundle参数，并将之前的数据取出。
-
-
-### 2、ListView的优化方案
-
-**1、** 如果自定义适配器，那么在getView方法中要考虑方法传进来的参数contentView是否为null，如果为null就创建contentView并返回，如果不为null则直接使用。在这个方法中尽可能少创建view。
-
-**2、** 给contentView设置tag（setTag（）），传入一个viewHolder对象，用于缓存要显示的数据，可以达到图像数据异步加载的效果。
-
-**3、** 如果listview需要显示的item很多，就要考虑分页加载。比如一共要显示100条或者更多的时候，我们可以考虑先加载20条，等用户拉到列表底部的时候再去加载接下来的20条。
-
-
-### 3、Service和Thread的区别？
-
-servie是系统的组件，它由系统进程托管（servicemanager）；它们之间的通信类似于client和server，是一种轻量级的ipc通信，这种通信的载体是binder，它是在linux层交换信息的一种ipc。而thread是由本应用程序托管。1)、Thread：Thread 是程序执行的最小单元，它是分配CPU的基本单位。可以用 Thread 来执行一些异步的操作。
-
-2)、Service：Service 是android的一种机制，当它运行的时候如果是Local Service，那么对应的 Service 是运行在主进程的 main 线程上的。如：onCreate，onStart 这些函数在被系统调用的时候都是在主进程的 main 线程上运行的。如果是Remote Service，那么对应的 Service 则是运行在独立进程的 main 线程上。
-
-既然这样，那么我们为什么要用 Service 呢？其实这跟 android 的系统机制有关，我们先拿 Thread 来说。Thread 的运行是独立于 Activity 的，也就是说当一个 Activity 被 finish 之后，如果你没有主动停止 Thread 或者 Thread 里的 run 方法没有执行完毕的话，Thread 也会一直执行。因此这里会出现一个问题：当 Activity 被 finish 之后，你不再持有该 Thread 的引用。另一方面，你没有办法在不同的 Activity 中对同一 Thread 进行控制。
-
-举个例子：如果你的 Thread 需要不停地隔一段时间就要连接服务器做某种同步的话，该 Thread 需要在 Activity 没有start的时候也在运行。这个时候当你 start 一个 Activity 就没有办法在该 Activity 里面控制之前创建的 Thread。因此你便需要创建并启动一个 Service ，在 Service 里面创建、运行并控制该 Thread，这样便解决了该问题（因为任何 Activity 都可以控制同一 Service，而系统也只会创建一个对应 Service 的实例）。
-
-因此你可以把 Service 想象成一种消息服务，而你可以在任何有 Context 的地方调用 Context.startService、Context.stopService、Context.bindService，Context.unbindService，来控制它，你也可以在 Service 里注册 BroadcastReceiver，在其他地方通过发送 broadcast 来控制它，当然这些都是 Thread 做不到的。
-
-
-### 4、SurfaceView
-
-基于view视图进行拓展的视图类，更适合2D游戏的开发，是view的子类，类似使用双缓机制，在新的线程中更新画面所以刷新界面速度比view快
-
-
-### 5、SQLite支持事务吗?添加删除如何提高性能?
-
-SQLite作为轻量级的数据库，比MySQL还小，但支持SQL语句查询，提高性能可以考虑通过原始经过优化的SQL查询语句方式处理
-
-
-### 6、如何将打开res aw目录中的数据库文件?
-
-**1、** 在Android中不能直接打开res aw目录中的数据库文件，而需要在程序第一次启动时将该文件复制到手机内存或SD卡的某个目录中，然后再打开该数据库文件。
-
-**2、** 复制的基本方法是使用getResources().openRawResource方法获得res aw目录中资源的 InputStream对象，然后将该InputStream对象中的数据写入其他的目录中相应文件中。
-
-**3、** 在Android SDK中可以使用SQLiteDatabase.openOrCreateDatabase方法来打开任意目录中的SQLite数据库文件。
-
-
-### 7、请描述一下 Intent 和 IntentFilter
+### 1、广播接受者的生命周期？
 
 ```
-Intent是组件的通讯使者，可以在组件间传递消息和数据。
-IntentFilter是intent的筛选器，可以对intent的action，data，catgory，uri这些属性进行筛选，确定符合的目标组件。
+广播接收者的生命周期非常短。当执行onRecieve方法之后，广播就会销毁
+在广播接受者不能进行耗时较长的操作
+在广播接收者不要创建子线程。广播接收者完成操作后，所在进程会变成空进程，很容易被系统回收
 ```
 
 
-### 8、Android i18n
+### 2、Service 和 Activity 在同一个线程吗
 
-I18n 叫做国际化。android 对i18n和L10n提供了非常好的支持。软件在res/vales 以及 其他带有语言修饰符的文件夹。如： values-zh 这些文件夹中 提供语言，样式，尺寸 xml 资源。
+默认情况下service与activity在同一个线程，都在main Thread，或者ui线程中。
 
-
-### 9、什么是 IntentService？有何优点？
-
-IntentService 是 Service 的子类，比普通的 Service 增加了额外的功能。先看 Service 本身存在两个问题：
-
-**1、** Service 不会专门启动一条单独的进程，Service 与它所在应用位于同一个进程中；
-
-**2、** Service 也不是专门一条新线程，因此不应该在 Service 中直接处理耗时的任务；
-
-**IntentService 特征**
-
-**1、** 会创建独立的 worker 线程来处理所有的 Intent 请求；
-
-**2、** 会创建独立的 worker 线程来处理 onHandleIntent()方法实现的代码，无需处理多线程问题；
-
-**3、** 所有请求处理完成后，IntentService 会自动停止，无需调用 stopSelf()方法停止 Service；
-
-**4、** 为 Service 的 onBind()提供默认实现，返回 null；
-
-**5、** 为 Service 的 onStartCommand 提供默认实现，将请求 Intent 添加到队列中；
+如果在清单文件中指定service的process属性，那么service就在另一个进程中运行。
 
 
-### 10、Android中的ANR
+### 3、Android dvm的进程和Linux的进程, 应用程序的进程是否为同一个概念
 
-ANR的全称application not responding 应用程序未响应。
+DVM指dalivk的虚拟机。每一个Android应用程序都在它自己的进程中运行，都拥有一个独立的Dalvik虚拟机实例。而每一个DVM都是在Linux 中的一个进程，所以说可以认为是同一个概念。
+
+
+### 4、说说 ContentProvider、ContentResolver、ContentObserver 之间的关系
 
 ```
-在android中Activity的最长执行时间是5秒。
-BroadcastReceiver的最长执行时间则是10秒。
-Service的最长执行时间则是20秒。
+ContentProvider：内容提供者，对外提供数据的操作，contentProvider.notifyChanged(uir)：可以更新数据
+contentResolver：内容解析者，解析ContentProvider返回的数据
+ContentObServer:内容监听者，监听数据的改变，contentResolver.registerContentObServer()
 ```
 
-超出执行时间就会产生ANR。注意：ANR是系统抛出的异常，程序是捕捉不了这个异常的。
 
-解决方法:
+### 5、Fragment 在你们项目中的使用
 
-**1、** 运行在主线程里的任何方法都尽可能少做事情。特别是，Activity应该在它的关键生命周期方法 （如onCreate()和onResume()）里尽可能少的去做创建操作。（可以采用重新开启子线程的方式，然后使用Handler+Message 的方式做一些操作，比如更新主线程中的ui等）
+Fragment 是 android3.0 以后引入的的概念，做局部内容更新更方便，原来为了到达这一点要把多个布局放到一个 activity 里面，现在可以用多 Fragment 来代替，只有在需要的时候才加载Fragment，提高性能。
 
-**2、** 应用程序应该避免在BroadcastReceiver里做耗时的操作或计算。但不再是在子线程里做这些任务（因为 BroadcastReceiver的生命周期短），替代的是，如果响应Intent广播需要执行一个耗时的动作的话，应用程序应该启动一个 Service。
+**Fragment 的好处：**
+
+**1、** Fragment 可以使你能够将 activity 分离成多个可重用的组件，每个都有它自己的生命周期和UI。
+
+**2、** Fragment 可以轻松得创建动态灵活的 UI 设计，可以适应于不同的屏幕尺寸。从手机到平板电脑。
+
+**3、** Fragment 是一个独立的模块,紧紧地与 activity 绑定在一起。可以运行中动态地移除、加入、交换等。
+
+**4、** Fragment 提供一个新的方式让你在不同的安卓设备上统一你的 UI。
+
+**5、** Fragment 解决 Activity 间的切换不流畅，轻量切换。
+
+**6、** Fragment 替代 TabActivity 做导航，性能更好。
+
+**7、** Fragment 在 4.2.版本中新增嵌套 fragment 使用方法，能够生成更好的界面效果。
 
 
-### 11、activity，service，intent之间的关系
-### 12、广播注册
-### 13、Android 中的动画有哪几类，它们的特点和区别是什么
-### 14、AsyncTask使用在哪些场景？它的缺陷是什么？如何解决？
-### 15、请介绍下 ContentProvider 是如何实现数据共享的
-### 16、FragmentPagerAdapter 与 与 FragmentStatePagerAdapter 的区别与使用场景？
-### 17、如果有个100M大的文件，需要上传至服务器中，而服务器form表单最大只能上传2M，可以用什么方法。
-### 18、请介绍下ContentProvider是如何实现数据共享的。
-### 19、ListView优化
-### 20、如何将打开res aw目录中的数据库文件?
-### 21、如何将SQLite数据库(dictionary.db文件)与apk文件一起发布
-### 22、谈谈对Android NDK的理解
-### 23、Android本身的api并未声明会抛出异常，则其在运行时有无可能抛出runtime异常，你遇到过吗？诺有的话会导致什么问题？如何解决？
-### 24、描述一下android的系统架构
-### 25、即时通讯是是怎么做的?
-### 26、ListView 如何定位到指定位置
-### 27、跨进程通信的几种方式
-### 28、如何修改 Activity 进入和退出动画
-### 29、Fragment 在你们项目中的使用
+### 6、如何将SQLite数据库(dictionary.db文件)与apk文件一起发布
+
+解可以将dictionary.db文件复制到Eclipse Android工程中的res aw目录中。所有在res aw目录中的文件不会被压缩，这样可以直接提取该目录中的文件。可以将dictionary.db文件复制到res aw目录中
+
+
+### 7、Activity间通过Intent传递数据大小有没有限制？
+
+Intent在传递数据时是有大小限制的，这里官方并未详细说明，不过通过实验的方法可以测出数据应该被限制在1MB之内（1024KB），笔者采用的是传递Bitmap的方法，发现当图片大小超过1024（准确地说是1020左右）的时候，程序就会出现闪退、停止运行等异常(不同的手机反应不同)，因此可以判断Intent的传输容量在1MB之内。
+
+
+### 8、Fragment 的 replace 和 add 方法的区别
+
+Fragment 本身并没有 replace 和 add 方法，FragmentManager才有replace和add方法。我们经常使用的一个架构就是通过RadioGroup切换Fragment，每个 Fragment 就是一个功能模块。
+
+Fragment 的容器一个 FrameLayout，add 的时候是把所有的 Fragment 一层一层的叠加到了。FrameLayout 上了，而 replace 的话首先将该容器中的其他 Fragment 去除掉然后将当前Fragment添加到容器中。
+
+一个 Fragment 容器中只能添加一个 Fragment 种类，如果多次添加则会报异常，导致程序终止，而 replace 则无所谓，随便切换。因为通过 add 的方法添加的 Fragment，每个 Fragment 只能添加一次，因此如果要想达到切换效果需要通过 Fragment 的的 hide 和 show 方法结合者使用。将要显示的 show 出来，将其他 hide起来。这个过程 Fragment 的生命周期没有变化。
+
+通过 replace 切换 Fragment，每次都会执行上一个 Fragment 的 onDestroyView，新 Fragment的 onCreateView、onStart、onResume 方法。基于以上不同的特点我们在使用的使用一定要结合着生命周期操作我们的视图和数据。
+
+
+### 9、9.进程和线程的区别
+
+概念：进程包括多个线程，一个程序一个进程，多线程的优点可以提高执行效率，提高资源利用率
+
+创建：Thread类和Runnable接口
+
+**常用方法有：**
+
+**1、** start()用于启动线程
+
+**2、** run()调用线程对象中的run方法
+
+**3、** join()合并插队到当前线程
+
+**4、** sellp()睡眠释放cpu资源
+
+**5、** setPriority()设置线程优先级
+
+
+### 10、定位项目中，如何选取定位方案，如何平衡耗电与实时位置的精度？
+
+开始定位，Application 持有一个全局的公共位置对象，然后隔一定时间自动刷新位置，每次刷新成功都把新的位置信息赋值到全局的位置对象， 然后每个需要使用位置请求的地方都使用全局的位置信息进行请求。
+
+**1、** 该方案好处：请求的时候无需再反复定位，每次请求都使用全局的位置对象，节省时间。
+
+**2、** 该方案弊端：耗电，每隔一定时间自动刷新位置，对电量的消耗比较大。
+
+按需定位，每次请求前都进行定位。这样做的好处是比较省电，而且节省资源，但是请求时间会变得相对较长。
+
+
+### 11、View的分发机制，滑动冲突
+### 12、如何将SQLite数据库(dictionary.db文件)与apk文件一起发布?
+### 13、Service和Thread的区别？
+### 14、补间动画
+### 15、Android中4大组件
+### 16、简述TCP，UDP，Socket
+### 17、开发中都使用过哪些框架、平台
+### 18、ListView 如何提高其效率？
+### 19、Hander原理
+### 20、怎样对 android 进行优化？
+### 21、Android 中的动画有哪几类，它们的特点和区别是什么
+### 22、请介绍下 ContentProvider 是如何实现数据共享的
+### 23、如何启用Service，如何停用Service。
+### 24、GLSurfaceView
+### 25、子线程发消息到主线程进行更新 UI，除了 handler 和 AsyncTask，还有什么？
+### 26、如何在 ScrollView 中如何嵌入 ListView
+### 27、View和SurfaceView的区别
+### 28、启动一个程序，可以主界面点击图标进入，也可以从一个程序中跳转过去，二者有什么区别？
+### 29、Android本身的api并未声明会抛出异常，则其在运行时有无可能抛出runtime异常，你遇到过吗？诺有的话会导致什么问题？如何解决？
 
 
 
@@ -147,6 +142,6 @@ Service的最长执行时间则是20秒。
 
 ## 最新，高清PDF：172份，7701页，最新整理
 
-[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/mst.png "大厂面试题")](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png"大厂面试题")
+[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/mst.png "架构师专栏")](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png "架构师专栏")
 
 [![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png "架构师专栏")](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png "架构师专栏")

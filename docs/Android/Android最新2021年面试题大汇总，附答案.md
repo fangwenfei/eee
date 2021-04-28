@@ -8,247 +8,153 @@
 
 
 
-### 1、android中的动画有哪几类，它们的特点和区别是什么
+### 1、跨进程通信的几种方式
 
-两种，一种是Tween动画、还有一种是Frame动画。Tween动画，这种实现方式可以使视图组件移动、放大、缩小以及产生透明度的变化;另一种Frame动画，传统的动画方法，通过顺序的播放排列好的图片来实现，类似电影。
+Intent,比如拨打电话
+
+ContentProvider数据库存储数据
+
+Broadcast广播通信
+
+AIDL通信，通过接口共享数据
 
 
-### 2、说下 Activity 跟 跟 window ， view 之间的关系？
+### 2、说下Activity 的四种启动模式、应用场景 ？
 
-Activity 创建时通过 attach()初始化了一个 Window 也就是PhoneWindow，一个 PhoneWindow 持有一个DecorView 的实例，DecorView 本身是一个 FrameLayout，继承于 View，Activty 通过setContentView 将xml 布局控件不断 addView()添加到 View 中，最终显示到 Window 于我们交互；
+standard 标准模式： 每次启动一个 Activity 都会重新创建一个新的实例，不管这个实例是否已经存在，此模式的 Activity 默认会进入启动它的 Activity 所属的任务栈中； singleTop 栈顶复用模式： 如果新 Activity 已经位于任务栈的栈顶，那么此 Activity 不会被重新创建，同时会回调 onNewIntent方法，如果新 Activity 实例已经存在但不在栈顶，那么Activity 依然会被重新创建；
+
+singleTask 栈内复用模式： 只要 Activity 在一个任务栈中存在，那么多次启动此 Activity 都不会重新创建实例，并回调onNewIntent 方法，此模式启动 Activity A，系统首先会寻找是否存在 A 想要的任务栈，如果不存在，就会重新创建一个任务栈，然后把创建好 A 的实例放到栈中；
+
+singleInstance单实例模式： 这是一种加强的 singleTask 模式，具有此种模式的 Activity 只能单独地位于一个任务栈中，且此任务栈中只有唯一一个实例；
 
 
-### 3、Service生命周期
-
-在Service的生命周期里，常用的有：
-
-4个手动调用的方法
-
-```
-startService()    启动服务
-stopService()    关闭服务
-bindService()    绑定服务
-unbindService()    解绑服务
-```
-
-5个内部自动调用的方法
+### 3、ContentProvider与sqlite有什么不一样的？
 
 ```
-onCreat()            创建服务
-onStartCommand()    开始服务
-onDestroy()            销毁服务
-onBind()            绑定服务
-onUnbind()            解绑服务
+ContentProvider会对外隐藏内部实现，只需要关注访问contentProvider的uri即可，contentProvider应用在应用间共享。
+Sqlite操作本应用程序的数据库。
+ContentProiver可以对本地文件进行增删改查操作
 ```
 
-**1、** 手动调用startService()启动服务，自动调用内部方法：onCreate()、onStartCommand()，如果一个Service被startService()多次启动，那么onCreate()也只会调用一次。
 
-**2、** 手动调用stopService()关闭服务，自动调用内部方法：onDestory()，如果一个Service被启动且被绑定，如果在没有解绑的前提下使用stopService()关闭服务是无法停止服务的。
+### 4、activity的启动模式有哪些？是什么含义
 
-**3、** 手动调用bindService()后，自动调用内部方法：onCreate()、onBind()。
+在android里，有4种activity的启动模式，分别为：
 
-**4、** 手动调用unbindService()后，自动调用内部方法：onUnbind()、onDestory()。
+**1、** “standard” (默认)
 
-**5、** startService()和stopService()只能开启和关闭Service，无法操作Service，调用者退出后Service仍然存在；bindService()和unbindService()可以操作Service，调用者退出后，Service随着调用者销毁。
+**2、** “singleTop”
 
+**3、** “singleTask”
 
-### 4、Serializable 和 Parcelable 的区别？
+**4、** “singleInstance”
 
-如果存储在内存中，推荐使用parcelable，使用serialiable在序列化的时候会产生大量的临时变量，会引起频繁的GC
+它们主要有如下不同
 
-如果存储在硬盘上，推荐使用Serializable，虽然serializable效率较低
+**1、** 如何决定所属task
 
-Serializable的实现：只需要实现Serializable接口，就会自动生成一个序列化id
+“standard”和”singleTop”的activity的目标task，和收到的Intent的发送者在同一个task内，除非intent包括参数FLAG_ACTIVITY_NEW_TASK
 
-Parcelable的实现：需要实现Parcelable接口，还需要Parcelable.CREATER变量
+如果提供了FLAG_ACTIVITY_NEW_TASK参数，会启动到别的task里。
 
+“singleTask”和”singleInstance”总是把activity作为一个task的根元素，他们不会被启动到一个其他task里
 
-### 5、消息推送的方式
+**2、** 是否允许多个实例
 
-**1、** 使用极光和友盟推送。
+“standard”和”singleTop”可以被实例化多次，并且存在于不同的task中，且一个task可以包括一个activity的多个实例；
 
-**2、** 使用XMPP协议（Openfire + Spark + Smack）
+“singleTask”和”singleInstance”则限制只生成一个实例，并且是task的根元素。 singleTop要求如果创建intent的时候栈顶已经有要创建的Activity的实例，则将intent发送给该实例，而不发送给新的实例
 
-**简介：**基于XML协议的通讯协议，前身是Jabber，目前已由IETF国际标准化组织完成了标准化工作。
+**3、** 是否允许其它activity存在于本task内
 
-**优点：**协议成熟、强大、可扩展性强、目前主要应用于许多聊天系统中，且已有开源的Java版的开发实例androidpn。
+“singleInstance”独占一个task，其它activity不能存在那个task里；如果它启动了一个新的activity，不管新的activity的launch mode 如何，新的activity都将会到别的task里运行（如同加了FLAG_ACTIVITY_NEW_TASK参数）。
 
-**缺点：**协议较复杂、冗余（基于XML）、费流量、费电，部署硬件成本高。
+而另外三种模式，则可以和其它activity共存
 
-**3、** 使用MQTT协议（更多信息见：[mqtt.org/）][mqtt.org]
+**4、** 是否每次都生成新实
 
-**简介：**轻量级的、基于代理的“发布/订阅”模式的消息传输协议。
+“standard”对于没一个启动Intent都会生成一个activity的新实例；
 
-**优点：**协议简洁、小巧、可扩展性强、省流量、省电，目前已经应用到企业领域（参考：[mqtt.org/software），且…][mqtt.org_software]
+“singleTop”的activity如果在task的栈顶的话，则不生成新的该activity的实例，直接使用栈顶的实例，否则，生成该activity的实例。
 
-**缺点：**不够成熟、实现较复杂、服务端组件rsmb不开源，部署硬件成本较高。
+比如现在task栈元素为A-B-C-D（D在栈顶），这时候给D发一个启动intent，如果D是 “standard”的，则生成D的一个新实例，栈变为A－B－C－D－D
 
-**4、** 使用HTTP轮循方式
+如果D是singleTop的话，则不会生产D的新实例，栈状态仍为A-B-C-D
 
-**简介：**定时向HTTP服务端接口（Web Service API）获取最新消息。
+如果这时候给B发Intent的话，不管B的launchmode是”standard” 还是 “singleTop” ，都会生成B的新实例，栈状态变为A-B-C-D-B
 
-**优点：**实现简单、可控性强，部署硬件成本低。
+“singleInstance”是其所在栈的唯一activity，它会每次都被重用
 
-**缺点：**实时性差。
+“singleTask”如果在栈顶，则接受intent，否则，该intent会被丢弃，但是该task仍会回到前台
 
+当已经存在的activity实例处理新的intent时候，会调用onNewIntent()方法 如果收到intent生成一个activity实例，那么用户可以通过back键回到上一个状态；如果是已经存在的一个activity来处理这个intent的话，用户不能通过按back键返回到这之前的状态
 
-### 6、请解释下Android程序运行时权限与文件系统权限的区别。
 
-运行时权限Dalvik( android授权)
+### 5、ListView的优化方案
 
-文件系统 linux 内核授权
+**1、** 如果自定义适配器，那么在getView方法中要考虑方法传进来的参数contentView是否为null，如果为null就创建contentView并返回，如果不为null则直接使用。在这个方法中尽可能少创建view。
 
+**2、** 给contentView设置tag（setTag（）），传入一个viewHolder对象，用于缓存要显示的数据，可以达到图像数据异步加载的效果。
 
-### 7、如果后台的Activity由于某原因被系统回收了，如何在被系统回收之前保存当前状态？
+**3、** 如果listview需要显示的item很多，就要考虑分页加载。比如一共要显示100条或者更多的时候，我们可以考虑先加载20条，等用户拉到列表底部的时候再去加载接下来的20条。
 
-重写onSaveInstanceState()方法，在此方法中保存需要保存的数据，该方法将会在activity被回收之前调用。通过重写onRestoreInstanceState()方法可以从中提取保存好的数据
 
+### 6、如何将打开res aw目录中的数据库文件?
 
-### 8、请介绍下Android的数据存储方式。
+解在Android中不能直接打开res aw目录中的数据库文件，而需要在程序第一次启动时将该文件复制到手机内存或SD卡的某个目录中，然后再打开该数据库文件。
 
-使用SharedPreferences存储数据；文件存储数据；SQLite数据库存储数据；使用ContentProvider存储数据；网络存储数据；
+复制的基本方法是使用getResources().openRawResource方法获得res aw目录中资源的 InputStream对象，然后将该InputStream对象中的数据写入其他的目录中相应文件中。在Android SDK中可以使用SQLiteDatabase.openOrCreateDatabase方法来打开任意目录中的SQLite数据库文件。
 
-Preference，File， DataBase这三种方式分别对应的目录是/data/data/Package Name/Shared_Pref, /data/data/Package Name/files, /data/data/Package Name/database 。
 
-**一：使用SharedPreferences存储数据**
+### 7、AIDL 的全称是什么?如何工作?能处理哪些类型的数据？
 
-首先说明SharedPreferences存储方式，它是 Android提供的用来存储一些简单配置信息的一种机制，例如：登录用户的用户名与密码。其采用了Map数据结构来存储数据，以键值的方式存储，可以简单的读取与写入，具体实例如下：
+AIDL 全称 Android Interface Definition Language（AndRoid 接口描述语言） 是一种接口描述语言; 编译器可以通过 aidl 文件生成一段代码，通过预先定义的接口达到两个进程内部通信进程跨界对象访问的目的。需要完成两件事情：
 
-```
-void  ReadSharedPreferences() {
-    String  strName, strPassword;
-    SharedPreferences    user  =  getSharedPreferences(“user_info”, 0);
-    strName  =  user.getString(“NAME”, ””);
-    strPassword  =  user  getString(“PASSWORD”, ””);
-}
-void  WriteSharedPreferences(String  strName, String  strPassword) {
-    SharedPreferences    user  =  getSharedPreferences(“user_info”, 0);
-    uer.edit();
-    user.putString(“NAME”,  strName);
-    user.putString(“PASSWORD” , strPassword);
-    user.commit();
-}
-```
+**1、** 引入 AIDL 的相关类.;
 
-数据读取与写入的方法都非常简单，只是在写入的时候有些区别：先调用edit()使其处于编辑状态，然后才能修改数据，最后使用commit()提交修改的数据。实际上SharedPreferences是采用了XML格式将数据存储到设备中，在DDMS中的File Explorer中的/data/data//shares_prefs下。使用SharedPreferences是有些限制的：只能在同一个包内使用，不能在不同的包之间使用</package name>
+**2、** 调用 aidl 产生的 class
 
-**二：文件存储数**
+理论上, 参数可以传递基本数据类型和 String, 还有就是 Bundle 的派生类, 不过在 Eclipse 中,目前的 ADT 不支持 Bundle 做为参数。
 
-文件存储方式是一种较常用的方法，在Android中读取/写入文件的方法，与 Java中实现I/O的程序是完全一样的，提供了openFileInput()和openFileOutput()方法来读取设备上的文件。具体实例如下
 
-```
-String fn = “moandroid.log”;
-FileInputStream fis = openFileInput(fn);
-FileOutputStream fos = openFileOutput(fn,Context.MODE_PRIVATE);
-```
+### 8、Android与服务器交互的方式中的对称加密和非对称加密是什么?
 
-**三：网络存储数**
+对称加密，就是加密和解密数据都是使用同一个key，这方面的算法有DES。
 
-网络存储方式，需要与Android 网络数据包打交道，关于Android 网络数据包的详细说明，请阅读Android SDK引用了Java SDK的哪些package？
+非对称加密，加密和解密是使用不同的key。发送数据之前要先和服务端约定生成公钥和私钥，使用公钥加密的数据可以用私钥解密，反之。这方面的算法有RSA。ssh 和 ssl都是典型的非对称加密。
 
-**四：ContentProvide**
 
-**1、** ContentProvider简
+### 9、RecyclerView和ListView的区别
 
-当应用继承ContentProvider类，并重写该类用于提供数据和存储数据的方法，就可以向其他应用共享其数据。虽然使用其他方法也可以对外共享数据，但数据访问方式会因数据存储的方式而不同，如：采用文件方式对外共享数据，需要进行文件操作读写数据；采用sharedpreferences共享数据，需要使用sharedpreferences API读写数据。而使用ContentProvider共享数据的好处是统一了数据访问方式
+缓存上:前者缓存的是View+ViewHolder+flag，不用每次调用findViewById,后者则只是缓存View
 
-**2、** Uri类简
+刷新数据方面，前者提供了局部刷新，后者则全部刷新
 
-Uri代表了要操作的数据，Uri主要包含了两部分信息：1.需要操作的ContentProvider ，2.对ContentProvider中的什么数据进行操作，一个Uri由以下几部分组成
 
-**1、** scheme：ContentProvider（内容提供者）的scheme已经由Android所规定为：content://
+### 10、ListView 中图片错位的问题是如何产生的
 
-**2、** 主机名（或Authority）：用于唯一标识这个ContentProvider，外部调用者可以根据这个标识来找到它
+图片错位问题的本质源于我们的 listview 使用了缓存 convertView， 假设一种场景， 一个 listview一屏显示九个 item，那么在拉出第十个 item 的时候，事实上该 item 是重复使用了第一个 item，也就是说在第一个 item 从网络中下载图片并最终要显示的时候，其实该 item 已经不在当前显示区域内了，此时显示的后果将可能在第十个 item 上输出图像，这就导致了图片错位的问题。所以解决办法就是可见则显示，不可见则不显示。
 
-**3、** 路径（path）：可以用来表示我们要操作的数据，路径的构建应根据业务而定，如下
 
-**1、** 要操作contact表中id为10的记录，可以构建这样的路径:/contact/10
-
-**2、** 要操作contact表中id为10的记录的name字段， contact/10/name
-
-**3、** 要操作contact表中的所有记录，可以构建这样的路径:/contact?
-
-**4、** 要操作的数据不一定来自数据库，也可以是文件等他存储方式，如下:
-
-**5、** 要操作xml文件中contact节点下的name节点，可以构建这样的路径：/contact/name
-
-**6、** 如果要把一个字符串转换成Uri，可以使用Uri类中的parse()方法，如下：
-
-Uri uri = Uri.parse("content://com.changcheng.provider.contactprovider/contact")
-
-**3、** UriMatcher、ContentUrist和ContentResolver简介
-
-因为Uri代表了要操作的数据，所以我们很经常需要解析Uri，并从 Uri中获取数据。Android系统提供了两个用于操作Uri的工具类，分别为UriMatcher 和ContentUris 。掌握它们的使用，会便于我们的开发工作。
-
-**UriMatcher：用于匹配Uri，它的用法如下：**
-
-1.首先把你需要匹配Uri路径全部给注册上，如下
-
-```
-//常量UriMatcher.NO_MATCH表示不匹配任何路径的返回码(-1)。
-UriMatcher uriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
-//如果match()方法匹配content://com.changcheng.sqlite.provider.contactprovider /contact路径，返回匹配码为1
-uriMatcher.addURI(“com.changcheng.sqlite.provider.contactprovider”, “contact”, 1);//添加需要匹配uri，如果匹配就会返回匹配码
-//如果match()方法匹配 content://com.changcheng.sqlite.provider.contactprovider/contact/230路径，返回匹配码为2
-uriMatcher.addURI(“com.changcheng.sqlite.provider.contactprovider”, “contact/#”, 2);//#号为通配符
-```
-
-2.注册完需要匹配的Uri后，就可以使用uriMatcher.match(uri)方法对输入的Uri进行匹配，如果匹配就返回匹配码，匹配码是调用 addURI()方法传入的第三个参数，假设匹配 content://com.changcheng.sqlite.provider.contactprovider/contact路径，返回的匹配码为1
-
-ContentUris：用于获取Uri路径后面的ID部分，它有两个比较实用的方法
-
-withAppendedId(uri, id)用于为路径加上ID部
-
-parseId(uri)方法用于从路径中获取ID部
-
-ContentResolver：当外部应用需要对ContentProvider中的数据进行添加、删除、修改和查询操作时，可以使用 ContentResolver 类来完成，要获取ContentResolver 对象，可以使用Activity提供的getContentResolver()方法。 ContentResolver使用insert、delete、update、query方法，来操作数据
-
-
-### 9、如何退出Activity
-
-结束当前activity
-
-```
-Finish()
-killProgress()
-System.exit(0)
-```
-
-关闭应用程序时，结束所有的activity
-
-可以创建一个List集合，每新创建一个activity，将该activity的实例放进list中，程序结束时，从集合中取出循环取出activity实例，调用finish()方法结束
-
-
-### 10、什么是 AIDL？如何使用？
-
-aidl 是 Android interface definition Language 的英文缩写，意思 Android 接口定义语言。
-
-使用 aidl 可以帮助我们发布以及调用远程服务，实现跨进程通信。
-
-**1、** 将服务的 aidl 放到对应的 src 目录，工程的 gen 目录会生成相应的接口类
-
-**2、** 我们通过 bindService（Intent，ServiceConnect，int）方法绑定远程服务，在 bindService中 有 一 个 ServiceConnec 接 口 ， 我 们 需 要 覆 写 该 类 的onServiceConnected(ComponentName,IBinder)方法，这个方法的第二个参数 IBinder 对象其实就是已经在 aidl 中定义的接口，因此我们可以将 IBinder 对象强制转换为 aidl 中的接口类。我们通过 IBinder 获取到的对象（也就是 aidl 文件生成的接口）其实是系统产生的代理对象，该代理对象既可以跟我们的进程通信， 又可以跟远程进程通信， 作为一个中间的角色实现了进程间通信。
-
-
-### 11、NDK是什么
-### 12、activity与fragment区别
-### 13、子线程发消息到主线程进行更新 UI，除了 handler 和 AsyncTask，还有什么？
-### 14、请解释下在单线程模型中Message、Handler、Message Queue、Looper之间的关系。
-### 15、请描述下Activity的生命周期。
-### 16、Intent 传递数据时，可以传递哪些类型数据？
-### 17、补间动画
-### 18、一条最长的短信息约占多少byte?
-### 19、简述TCP，UDP，Socket
-### 20、activity的生命周期
-### 21、如何提升Service进程优先级
-### 22、如何将一个Activity设置成窗口的样式。
-### 23、Manifest.xml文件中主要包括哪些信息？
-### 24、recyclerView嵌套卡顿解决如何解决
-### 25、属性动画
-### 26、你一般在开发项目中都使用什么设计模式？如何来重构，优化你的代码？
-### 27、横竖屏切换的Activity 生命周期变化？
-### 28、ListView 可以显示多种类型的条目吗
-### 29、如何将SQLite数据库(dictionary.db文件)与apk文件一起发布
+### 11、如何切换 fragement,不重新实例化
+### 12、sim卡的EF文件是什么？有何作用
+### 13、说下 Activity 跟 跟 window ， view 之间的关系？
+### 14、简述JNI
+### 15、SurfaceView
+### 16、Android系统的架构
+### 17、什么情况会导致Force Close ？如何避免？能否捕获导致其的异常？
+### 18、什么是ANR 如何避免它？
+### 19、android的数据存储
+### 20、Activity启动模式
+### 21、什么是aar?aar是jar有什么区别?
+### 22、如何保存activity的状态？
+### 23、广播注册
+### 24、内存泄露如何查看和解决
+### 25、谈谈对Android NDK的理解
+### 26、嵌入式操作系统内存管理有哪几种， 各有何特性
+### 27、Serializable 和 Parcelable 的区别？
+### 28、简要解释一下activity、 intent 、intent filter、service、Broadcase、BroadcaseReceiver
+### 29、Android中常用布局
 
 
 
@@ -262,6 +168,6 @@ aidl 是 Android interface definition Language 的英文缩写，意思 Android 
 
 ## 最新，高清PDF：172份，7701页，最新整理
 
-[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/mst.png "大厂面试题")](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png"大厂面试题")
+[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/mst.png "架构师专栏")](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png "架构师专栏")
 
 [![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png "架构师专栏")](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png "架构师专栏")

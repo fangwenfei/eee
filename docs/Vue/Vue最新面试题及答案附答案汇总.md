@@ -8,12 +8,19 @@
 
 
 
-### 1、第一次页面加载会触发哪几个钩子？
+### 1、vue获取数据在哪个周期函数
 
-beforeCreate， created， beforeMount， mounted
+一般 created/beforeMount/mounted 皆可.
+
+比如如果你要操作 DOM , 那肯定 mounted 时候才能操作.
 
 
-### 2、列出JS中的一些设计模式:
+### 2、说一下v-model的原理
+
+`v-model`本质就是一个语法糖，可以看成是`value + input`方法的语法糖。 可以通过model属性的`prop`和`event`属性来进行自定义。原生的v-model，会根据标签的不同生成不同的事件和属性。
+
+
+### 3、列出JS中的一些设计模式:
 
 设计模式是软件设计中常见问题的通用可重用解决方案，以下是一些设计模式是： 创建模式：该模式抽象了对象实例化过程。
 
@@ -24,175 +31,131 @@ beforeCreate， created， beforeMount， mounted
 并行设计模式：这些模式处理多线程编程范例。 架构设计模式：这些模式用于处理架构设计
 
 
-### 3、cancas和SVG的是什么以及区别
+### 4、vuex有哪几种属性？
 
-**SVG**
+有五种，分别是 State、 Getter、Mutation 、Action、 Module
 
-**1、** SVG 是一种使用 XML 描述 2D 图形的语言。
+**1、** state => 基本数据(数据源存放地)
 
-**2、** SVG 基于 XML，这意味着 SVG DOM 中的每个元素都是可用的。您可以为某个元素附加 JavaScript 事件处理器。
+**2、** getters => 从基本数据派生出来的数据
 
-**3、** 在 SVG 中，每个被绘制的图形均被视为对象。如果 SVG 对象的属性发生变化，那么浏览器能够自动重现图形。
+**3、** mutations => 提交更改数据的方法，同步！
 
-**Canvas**
+**4、** actions => 像一个装饰器，包裹mutations，使之可以异步。
 
-**1、** Canvas 通过 JavaScript 来绘制 2D 图形。
-
-**2、** Canvas 是逐像素进行渲染的。
-
-**3、** 在 canvas 中，一旦图形被绘制完成，它就不会继续得到浏览器的关注。如果其位置发生变化，那么整个场景也需要重新绘制，包括任何或许已被图形覆盖的对象。
-
-**Canvas 与 SVG 的比较**
-
-**Canvas**
-
-**1、** 依赖分辨率
-
-**2、** 不支持事件处理器
-
-**3、** 弱的文本渲染能力
-
-**4、** 能够以 .png 或 .jpg 格式保存结果图像
-
-**5、** 最适合图像密集型的游戏，其中的许多对象会被频繁重绘
-
-**SVG**
-
-**1、** 不依赖分辨率
-
-**2、** 支持事件处理器
-
-**3、** 最适合带有大型渲染区域的应用程序（比如谷歌地图）
-
-**4、** 复杂度高会减慢渲染速度（任何过度使用 DOM 的应用都不快）
-
-**5、** 不适合游戏应用
+**5、** modules => 模块化Vuex
 
 
+### 5、什么是观察者？
 
-### 4、简单描述每个周期具体适合哪些场景？
-
-**1、** 生命周期钩子的一些使用方法： beforecreate : 可以在这加个loading事件，在加载实例时触发 created : 初始化完成时的事件写在这里，如在这结束loading事件，异步请求也适宜在这里调用 mounted : 挂载元素，获取到DOM节点 updated : 如果对数据统一处理，在这里写上相应函数 beforeDestroy : 可以做一个确认停止事件的确认框 nextTick : 更新数据后立即操作dom
-
-**2、** arguments是一个伪数组，没有遍历接口，不能遍历
+观察者允许我们观察更改的特定属性，并执行定义为函数的自定义操作。尽管它们的用例与计算的属性相交叉，但是当某些数据属性发生改变时，有时需要观察者执行自定义操作或运行代价昂贵的操作。
 
 
-### 5、Vue2.x和Vue3.x渲染器的diff算法分别说一下
+### 6、vue更新数组时触发视图更新的方法？
 
-简单来说，diff算法有以下过程
-
-**1、** 同级比较，再比较子节点
-
-**2、** 先判断一方有子节点一方没有子节点的情况(如果新的children没有子节点，将旧的子节点移除)
-
-**3、** 比较都有子节点的情况(核心diff)
-
-**4、** 递归比较子节点
-
-正常Diff两个树的时间复杂度是`O(n^3)`，但实际情况下我们很少会进行`跨层级的移动DOM`，所以Vue将Diff进行了优化，从`O(n^3) -> O(n)`，只有当新旧children都为多个子节点时才需要用核心的Diff算法进行同层级比较。
-
-Vue2的核心Diff算法采用了`双端比较`的算法，同时从新旧children的两端开始进行比较，借助key值找到可复用的节点，再进行相关操作。相比React的Diff算法，同样情况下可以减少移动节点次数，减少不必要的性能损耗，更加的优雅。
-
-Vue3.x借鉴了 [ivi](https://github.com/localvoid/ivi)算法和 [inferno](https://github.com/infernojs/inferno)算法
-
-在创建VNode时就确定其类型，以及在`mount/patch`的过程中采用`位运算`来判断一个VNode的类型，在这个基础之上再配合核心的Diff算法，使得性能上较Vue2.x有了提升。(实际的实现可以结合Vue3.x源码看。)
-
-该算法中还运用了`动态规划`的思想求解最长递归子序列。
-
-(看到这你还会发现，框架内无处不蕴藏着数据结构和算法的魅力)
+push()；pop()；shift()；unshift()；splice()；sort()；reverse()
 
 
-### 6、什么是过滤器？
+### 7、如何将数据从父组件传递到子组件？
 
-过滤器是在 Vue 程序中实现自定义文本格式的一种非常简单的方法。它们就像可以在表达式中通过管道传递（使用管道字符）以取得结果的运算符。下面是一个可以反转文本字符串的过滤器示例：
-
-**模板**
+可以用作为组件中单向入口的 prop 把数据向下传递到子组件。这是一个例子：
 
 ```
-<div id="app">{{ title | reverseText }}</div>
-App
-new Vue({
-    el: '#app',
-    data: {
-      title: 'This is a title'
-    },
-    filters: {
-      reverseText(text) {
-        return text.split('').reverse().join('');
-      }
+<template>
+    <div>
+      <contact-list-item v-for=”contact in contacts” :contact=”contact” />
+   </div>
+</template>
+<script>
+    import ContactListItem from ‘./ContactListItem’;
+    export default {
+name: ‘address-book’,
+data: function() {
+return {
+contacts: [.....]
+}
+},
+components: {
+ContactListItem
+}
+}
+</script>
+```
+
+`contact-list-item` 上绑定的 prop “contact” 是一个入口，用于从用作子项的父组件接收数据。在 `contact-list-item` 组件中：
+
+```
+<template>
+    <div>
+        <span>{{ contact.name }}</span>
+        <span>{{ contact.email }}</span>
+   </div>
+</template>
+
+<script>
+    export default {
+     name: ‘contact-list-item’,
+props: [‘contact’]
     }
-});
+</script>
 ```
 
-**输出**
-
-eltit a si sihT
-
-在上面的例子中，我们创建了一个名为 reverseText 的过滤器，该过滤器反转文本字符串并返回。这是一个简单的函数，接受输入并返回处理后的输出。通过在过滤器下声明，它就可以成为可以在模板中使用的过滤器。
-
-在模板中，我们只是将 reverseText 过滤器通过管道传递到了想要在 mustache 标签中显示的数据变量。这样可以将多个过滤器管道连接在一起。因此过滤器提供了一种非常优雅的方式来处理文本。
+在这里声明了一个名为 “contact” 的 prop 引入数据，然后可以直接在模板部分中显示。
 
 
-### 7、undefined，null 和 undeclared 有什么区别？
+### 8、vue父组件向子组件传递数据？
 
-**null表示"没有对象"，即该处不应该有值，转为数值时为0。典型用法是：**
-
-**1、** 作为函数的参数，表示该函数的参数不是对象。
-
-**2、** 作为对象原型链的终点。
-
-**undefined表示"缺少值"，就是此处应该有一个值，但是还没有定义，转为数值时为NaN。典型用法是：**
-
-**1、** 变量被声明了，但没有赋值时，就等于undefined。
-
-**2、** 调用函数时，应该提供的参数没有提供，该参数等于undefined。
-
-**3、** 对象没有赋值的属性，该属性的值为undefined。
-
-**4、** 函数没有返回值时，默认返回undefined。 3.undeclared：js语法错误，没有申明直接使用，js无法找到对应的上下文。
+通过props
 
 
-### 8、mvvm框架是什么？它和其它框架（jquery）的区别是什么？哪些场景适合？
+### 9、聊聊你对Vue.js的template编译的理解？
 
-一个model+view+viewModel框架，数据模型model，viewModel连接两个
+简而言之，就是先转化成AST树，再得到的render函数返回VNode（Vue的虚拟DOM节点）
 
-**1、** 区别：vue数据驱动，通过数据来显示视图层而不是节点操作。
+**详情步骤：**
 
-**2、** 场景：数据操作比较多的场景，更加便捷
+**1、** 首先，通过compile编译器把template编译成AST语法树（abstract syntax tree 即 源代码的抽象语法结构的树状表现形式），compile是createCompiler的返回值，createCompiler是用以创建编译器的。另外compile还负责合并option。
 
-
-### 9、为什么使用key?
-
-需要使用key来给每个节点做一个唯一标识，Diff算法就可以正确的识别此节点。
-
-作用主要是为了高效的更新虚拟DOM。
+**2、** 然后，AST会经过generate（将AST语法树转化成render funtion字符串的过程）得到render函数，render的返回值是VNode，VNode是Vue的虚拟DOM节点，里面有（标签名、子节点、文本等等）
 
 
-### 10、再说一下Computed和Watch
+### 10、如何在输入框和数据属性之间实现双向数据绑定？
 
-`Computed`本质是一个具备缓存的watcher，依赖的属性发生变化就会更新视图。 适用于计算比较消耗性能的计算场景。当表达式过于复杂时，在模板中放入过多逻辑会让模板难以维护，可以将复杂的逻辑放入计算属性中处理。
+要实现双向数据绑定，可以使用 v-model 指令。 v-model 指令主要是语法糖：
 
-`Watch`没有缓存性，更多的是观察的作用，可以监听某些数据执行回调。当我们需要深度监听对象中的属性时，可以打开`deep：true`选项，这样便会对对象中的每一项进行监听。这样会带来性能问题，优化的话可以使用`字符串形式`监听，如果没有写到组件中，不要忘记使用`unWatch手动注销`哦。
+```
+<input type="text" :value="nameInput" @keyup="nameInput = $event.target.value">
+```
+
+在上面的语句中，每当观察到 “keyup” 事件时，就会将名为 “nameInput” 的数据属性设置为输入框的值。同时，将输入框的 value 属性绑定到 “nameInput” 数据属性。这样在表单字段和数据属性之间建立了双向数据关系。
+
+v-model 可以做到这一点，并且比手动设置更有效地。要使用 v-model 复制上述效果，请再次在同一输入框中输入以下内容：
+
+```
+<input type="text" v-model="nameInput">
+```
+
+需要注意的是，当实现双向数据绑定时，使用的数据属性被认为是事实上的来源。在 data 属性上所做的任何更改都将优先于 form 字段上的用户输入事件。
 
 
-### 11、JS中判断数据类型的方法有几种?
-### 12、子组件更新过程
-### 13、computed和watch的用法和区别？
-### 14、第一次页面加载会触发哪几个钩子？
-### 15、hash路由和history路由实现原理说一下
-### 16、列出JS基本和非基本数据类型之间的一些区别？
-### 17、$nextTick的使用
-### 18、说一下v-if和v-show的区别
-### 19、vuex是什么？怎么使用？哪种功能场景使用它？
-### 20、如何将 JS 日期转换为ISO标准
-### 21、v-model是什么？怎么使用？ vue中标签怎么绑定事件？
-### 22、路由跳转和location.href的区别？
-### 23、Vue模版编译原理知道吗，能简单说一下吗？
-### 24、什么是动态 prop？
-### 25、如何在单页 Vue 应用（SPA）中实现路由？
-### 26、JS的作用域链是什么及其作用
-### 27、Vue中组件生命周期调用顺序说一下
-### 28、JS中如何将页面重定向到另一个页面？
+### 11、什么是组件？
+### 12、第一次页面加载会触发哪几个钩子？
+### 13、v-if和v-show的区别？
+### 14、解释JS中的MUL函数
+### 15、使用 Vue 时调用 event.preventDefault() 的最佳方式是什么？
+### 16、vue修改打包后静态资源路径的修改
+### 17、请说下封装 vue 组件的过程？
+### 18、父组件更新过程
+### 19、简述每个周期具体适合哪些场景
+### 20、JS中let和const有什么用？
+### 21、说说你对angular脏检查理解？
+### 22、vue中transition的理解？
+### 23、引进组件的步骤
+### 24、vue的实现原理？
+### 25、什么是插槽（slot）？
+### 26、说一下Vue的生命周期
+### 27、v-on可以监听多个方法吗？
+### 28、说一下v-if和v-show的区别
 
 
 
@@ -206,6 +169,6 @@ eltit a si sihT
 
 ## 最新，高清PDF：172份，7701页，最新整理
 
-[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/mst.png "大厂面试题")](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png"大厂面试题")
+[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/mst.png "架构师专栏")](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png "架构师专栏")
 
 [![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png "架构师专栏")](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png "架构师专栏")
