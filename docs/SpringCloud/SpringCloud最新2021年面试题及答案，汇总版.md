@@ -6,129 +6,46 @@
 
 
 
-### 1、微服务有哪些特点？
+### 1、Actuator在SpringBoot中的作用
 
-![](https://gitee.com/souyunkutech/souyunku-home/raw/master/images/souyunku-web/2019/08/0816/01/img_3.png#alt=img%5C_3.png)
-
-图3：微服务的 特点 – 微服务访谈问题
-
-解耦 – 系统内的服务很大程度上是分离的。因此，整个应用程序可以轻松构建，更改和扩展
-
-组件化 – 微服务被视为可以轻松更换和升级的独立组件
-
-业务能力 – 微服务非常简单，专注于单一功能
-
-自治 – 开发人员和团队可以彼此独立工作，从而提高速度
-
-持续交付 – 通过软件创建，测试和批准的系统自动化，允许频繁发布软件
-
-责任 – 微服务不关注应用程序作为项目。相反，他们将应用程序视为他们负责的产品
-
-分散治理 – 重点是使用正确的工具来做正确的工作。这意味着没有标准化模式或任何技术模式。开发人员可以自由选择最有用的工具来解决他们的问题
-
-敏捷 – 微服务支持敏捷开发。任何新功能都可以快速开发并再次丢弃
+它是最重要的功能之一，可帮助您访问在生产环境中运行的应用程序的当前状态。有多个指标可用于检查当前状态。它们还为RESTful Web服务提供端点，可以简单地用于检查不同的度量标准。
 
 
-### 2、springcloud如何实现服务的注册?
+### 2、过渡到微服务时的常见错误
 
-**1、** 服务发布时，指定对应的服务名,将服务注册到 注册中心(eureka zookeeper)
+不仅在开发上，而且在方面流程也经常发生错误。一些常见错误是：
 
-**2、** 注册中心加@EnableEurekaServer,服务用@EnableDiscoveryClient，然后用ribbon或feign进行服务直接的调用发现。
+**1、** 通常开发人员无法概述当前的挑战。
+
+**2、** 重写已经存在的程序。
+
+**3、** 职责、时间线和界限没有明确定义。
+
+**4、** 未能从一开始就实施和确定自动化的范围。
 
 
-### 3、如何在SpringBoot应用程序中实现Spring安全性？
+### 3、如何配置SpringBoot应用程序日志记录？
 
-实施需要最少的配置。您需要做的就是spring-boot-starter-security在pom.xml文件中添加starter。您还需要创建一个Spring配置类，它将覆盖所需的方法，同时扩展 WebSecurityConfigurerAdapter 应用程序中的安全性。这是一些示例代码：
+SpringBoot附带了对Log4J2，Java Util Logging和Logback的支持。它通常预先配置为控制台输出。可以通过仅在application.properties文件中指定logging.level来配置它们。
 
 ```
-package com.gkatzioura.security.securityendpoints.config;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;@
-Configuration
-public class SecurityConfig extends WebSecurityConfigurerAdapter {@
-    Override
-    protected void configure(HttpSecurity http) throws Exception {
-        http.
-        authorizeRequests().
-        antMatchers("/welcome").
-        permitAll().anyRequest().
-        authenticated().and().
-        formLogin().
-        permitAll().
-        and().
-        logout().
-        permitAll();
-    }
-}
+logging.level.spring.framework=Debug
 ```
 
 
-### 4、谈一下领域驱动设计
+### 4、eureka的缺点：
 
-主要关注核心领域逻辑。基于领域的模型检测复杂设计。这涉及与公司层面领域方面的专家定期合作，以解决与领域相关的问题并改进应用程序的模型。在回答这个微服务面试问题时，您还需要提及DDD的核心基础知识。他们是：
-
-**1、** DDD主要关注领域逻辑和领域本身。
-
-**2、** 复杂的设计完全基于领域的模型。
-
-**3、** 为了改进模型的设计并解决任何新出现的问题，DDD不断与公司领域方面的专家合作。
+某个服务不可⽤时，各个Eureka Client不能及时的知道，需要1~3个⼼跳周期才能感知，但是，由于基于Netflix的服务调⽤端都会使⽤Hystrix来容错和降级，当服务调⽤不可⽤时Hystrix也能及时感知到，通过熔断机制来降级服务调⽤，因此弥补了基于客户端服务发现的时效性的缺点。
 
 
-### 5、SpringCloud限流：
+### 5、Ribbon是什么？
 
-**1、** 我们可以通过semaphore.maxConcurrentRequests,coreSize,maxQueueSize和queueSizeRejectionThreshold设置信号量模式下的最⼤并发量、线程池⼤⼩、缓冲区⼤⼩和缓冲区降级阈值。
+**1、** Ribbon是Netflix发布的开源项目，主要功能是提供客户端的软件负载均衡算法
 
-```
-#不设置缓冲区，当请求数超过coreSize时直接降级
-hystrix.threadpool.userThreadPool.maxQueueSize=-1超时时间⼤于我们的timeout接⼝返回时间
-hystrix.command.userCommandKey.execution.isolation.thread.timeoutInMilliseconds=15000
-```
-
-这个时候我们连续多次请求/user/command/timeout接⼝，在第⼀个请求还没有成功返回时，查看输出⽇志可以发现只有第⼀个请求正常的进⼊到user-service的接⼝中，其它请求会直接返回降级信息。这样我们就实现了对服务请求的限流。
-
-**2、** 漏桶算法：⽔（请求）先进⼊到漏桶⾥，漏桶以⼀定的速度出⽔，当⽔流⼊速度过⼤会直接溢出，可以看出漏桶算法能强⾏限制数据的传输速率。
-
-![](https://gitee.com/souyunkutech/souyunku-home/raw/master/images/souyunku-web/2020/5/2/01/44/45_7.png#alt=45%5C_7.png)
-
-**3、** 令牌桶算法：除了要求能够限制数据的平均传输速率外，还要求允许某种程度的突发传输。这时候漏桶算法可能就不合适了，令牌桶算法更为适合。 如图所示，令牌桶算法的原理是系统会以⼀个恒定的速度往桶⾥放⼊令牌，⽽如果请求需要被处理，则需要先从桶⾥获取⼀个令牌，当桶⾥没有令牌可取时，则拒绝服务。
-
-![](https://gitee.com/souyunkutech/souyunku-home/raw/master/images/souyunku-web/2020/5/2/01/44/45_8.png#alt=45%5C_8.png)
+**2、** Ribbon客户端组件提供一系列完善的配置项，如连接超时，重试等。简单的说，就是在配置文件中列出后面所有的机器，Ribbon会自动的帮助你基于某种规则（如简单轮询，随即连接等）去连接这些机器。我们也很容易使用Ribbon实现自定义的负载均衡算法。（有点类似Nginx）
 
 
-### 6、什么是微服务中的反应性扩展？
-
-Reactive Extensions也称为Rx。这是一种设计方法，我们通过调用多个服务来收集结果，然后编译组合响应。这些调用可以是同步或异步，阻塞或非阻塞。Rx是分布式系统中非常流行的工具，与传统流程相反。
-
-希望这些微服务面试问题可以帮助您进行微服务架构师访谈。
-
-翻译来源：[https://www.edureka.co/blog/interview-questions/microservices-interview-questions/](https://www.edureka.co/blog/interview-questions/microservices-interview-questions/)
-
-
-
-### 7、什么是Spring Cloud Zuul（服务网关）
-
-Zuul是对SpringCloud提供的成熟对的路由方案，他会根据请求的路径不同，网关会定位到指定的微服务，并代理请求到不同的微服务接口，他对外隐蔽了微服务的真正接口地址。
-
-三个重要概念：动态路由表，路由定位，反向代理：
-
-**1、** 动态路由表：Zuul支持Eureka路由，手动配置路由，这俩种都支持自动更新
-
-**2、** 路由定位：根据请求路径，Zuul有自己的一套定位服务规则以及路由表达式匹配
-
-**3、** 反向代理：客户端请求到路由网关，网关受理之后，在对目标发送请求，拿到响应之后在 给客户端它可以和Eureka,Ribbon,Hystrix等组件配合使用，
-
-**Zuul的应用场景：**
-
-对外暴露，权限校验，服务聚合，日志审计等
-
-
-### 8、既然Nginx可以实现网关？为什么还需要使用Zuul框架
-
-Zuul是SpringCloud集成的网关，使用Java语言编写，可以对SpringCloud架构提供更灵活的服务。
-
-
-### 9、springcloud核⼼组件及其作⽤，以及springcloud⼯作原理：
+### 6、springcloud核⼼组件及其作⽤，以及springcloud⼯作原理：
 
 ![](https://gitee.com/souyunkutech/souyunku-home/raw/master/images/souyunku-web/2020/5/2/01/44/45_9.png#alt=45%5C_9.png)
 
@@ -145,33 +62,46 @@ Zuul是SpringCloud集成的网关，使用Java语言编写，可以对SpringClou
 **5、** Zuul：如果前端、移动端要调⽤后端系统，统⼀从Zuul⽹关进⼊，由Zuul⽹关转发请求给对应的服务
 
 
-### 10、为什么需要域驱动设计（DDD）？
+### 7、您对Distributed Transaction有何了解？
 
-![](https://gitee.com/souyunkutech/souyunku-home/raw/master/images/souyunku-web/2019/08/0816/01/img_11.png#alt=img%5C_11.png)
-
-图9：我们需要DDD的因素 – 微服务面试问题
+分布式事务是指单个事件导致两个或多个不能以原子方式提交的单独数据源的突变的任何情况。在微服务的世界中，它变得更加复杂，因为每个服务都是一个工作单元，并且大多数时候多个服务必须协同工作才能使业务成功。
 
 
-### 11、分布式配置中心的作用？
-### 12、Spring Cloud和SpringBoot版本对应关系
-### 13、springcloud和dubbo有哪些区别
-### 14、Spring Cloud 实现服务注册和发现的原理是什么？
-### 15、过渡到微服务时的常见错误
-### 16、什么是Idempotence以及它在哪里使用？
-### 17、谈谈服务雪崩效应
-### 18、@LoadBalanced注解的作用
-### 19、您对微服务架构中的语义监控有何了解？
-### 20、什么是有界上下文？
-### 21、微服务的优点
-### 22、微服务设计的基础是什么？
-### 23、Actuator在SpringBoot中的作用
-### 24、什么是客户证书？
-### 25、Spring Cloud Gateway
-### 26、熔断的原理，以及如何恢复？
-### 27、什么是OAuth？
-### 28、什么是耦合？
-### 29、负载平衡的意义什么？
-### 30、你所知道微服务的技术栈有哪些？列举一二
+### 8、SpringCloud Config 可以实现实时刷新吗？
+
+springcloud config实时刷新采用SpringCloud Bus消息总线。
+
+
+### 9、什么是Eureka的自我保护模式，
+
+默认情况下，如果Eureka Service在一定时间内没有接收到某个微服务的心跳，Eureka Service会进入自我保护模式，在该模式下Eureka Service会保护服务注册表中的信息，不在删除注册表中的数据，当网络故障恢复后，Eureka Servic 节点会自动退出自我保护模式
+
+
+### 10、Web，RESTful API在微服务中的作用是什么？
+
+微服务架构基于一个概念，其中所有服务应该能够彼此交互以构建业务功能。因此，要实现这一点，每个微服务必须具有接口。这使得Web API成为微服务的一个非常重要的推动者。RESTful API基于Web的开放网络原则，为构建微服务架构的各个组件之间的接口提供了最合理的模型。
+
+
+### 11、Spring Cloud Gateway
+### 12、服务降级底层是如何实现的？
+### 13、使用Spring Cloud有什么优势？
+### 14、什么是Idempotence以及它在哪里使用？
+### 15、什么是客户证书？
+### 16、网关与过滤器有什么区别
+### 17、如何覆盖SpringBoot项目的默认属性？
+### 18、您将如何在微服务上执行安全测试？
+### 19、什么是Spring Cloud Config?
+### 20、SOA和微服务架构之间的主要区别是什么？
+### 21、Ribbon和Feign的区别？
+### 22、什么是幂等性?它是如何使用的？
+### 23、Spring Cloud OpenFeign
+### 24、服务注册和发现是什么意思？Spring Cloud 如何实现？
+### 25、访问RESTful微服务的方法是什么？
+### 26、什么是Semantic监控？
+### 27、什么是不同类型的微服务测试？
+### 28、微服务设计的基础是什么？
+### 29、ZuulFilter常用有那些方法
+### 30、微服务之间是如何独立通讯的
 
 
 

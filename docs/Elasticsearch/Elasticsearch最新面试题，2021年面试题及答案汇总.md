@@ -6,50 +6,7 @@
 
 
 
-### 1、详细描述一下 Elasticsearch 搜索的过程。
-
-**1、** 搜索被执行成一个两阶段过程，我们称之为 Query Then Fetch；
-
-**2、** 在初始查询阶段时，查询会广播到索引中每一个分片拷贝（主分片或者副本分片）。每个分片在本地执行搜索并构建一个匹配文档的大小为 from + size 的优先队列。
-
-PS：在搜索的时候是会查询 Filesystem Cache 的，但是有部分数据还在 Memory Buffer，所以搜索是近实时的。
-
-**3、** 每个分片返回各自优先队列中 所有文档的 ID 和排序值 给协调节点，它合并这些值到自己的优先队列中来产生一个全局排序后的结果列表。
-
-**4、** 接下来就是 取回阶段，协调节点辨别出哪些文档需要被取回并向相关的分片提交多个 GET 请求。每个分片加载并 _丰富_ 文档，如果有需要的话，接着返回文档给协调节点。一旦所有的文档都被取回了，协调节点返回结果给客户端。
-
-**5、** 补充：Query Then Fetch 的搜索类型在文档相关性打分的时候参考的是本分片的数据，这样在文档数量较少的时候可能不够准确，DFS Query Then Fetch 增加了一个预查询的处理，询问 Term 和 Document frequency，这个评分更准确，但是性能会变差。
-
-![70_6.png][70_6.png]
-
-
-### 2、ES更新数据的执行流程？
-
-(1) 将原来的doc标识为deleted状态，然后新写入一条数据。
-
-(2) buffer每refresh一次，就会产生一个segmentfile，所以默认情况下是1s一个segmentfile，segmentfile会越来越多，此时会定期执行merge。
-
-(3) 每次merge时,会将多个segmentfile合并成一个，同时这里会将标识为deleted的doc给物理删除掉，然后将新的segmentfile写入磁盘，这里会写一个commitpoint，标识所有新的segmentfile，然后打开segmentfile供搜索使用，同时删除旧的segmentfile。
-
-
-### 3、介绍一下你们的个性化搜索方案？
-
-SEE 基于 word2vec 和 Elasticsearch 实现个性化搜索
-
-
-### 4、解释一下Elasticsearch Cluster？
-
-Elasticsearch 集群是一组连接在一起的一个或多个 Elasticsearch 节点实例。
-
-Elasticsearch 集群的功能在于在集群中的所有节点之间分配任务，进行搜索和建立索引。
-
-
-### 5、介绍下你们电商搜索的整体技术架构
-
-![70_7.png][70_7.png]
-
-
-### 6、请解释有关 Elasticsearch的 NRT？
+### 1、请解释有关 Elasticsearch的 NRT？
 
 从文档索引（写入）到可搜索到之间的延迟默认一秒钟，因此Elasticsearch是近实时（NRT）搜索平台。
 
@@ -58,86 +15,134 @@ Elasticsearch 集群的功能在于在集群中的所有节点之间分配任务
 写入调优的时候，我们通常会动态调整：refresh_interval = 30s 或者更达值，以使得写入数据更晚一点时间被搜索到。
 
 
-### 7、在并发情况下，Elasticsearch 如果保证读写一致？
+### 2、在索引中更新 Mapping 的语法？
 
-**1、** 可以通过版本号使用乐观并发控制，以确保新版本不会被旧版本覆盖，**由应用**
-
-**层来处理具体的冲突；**
-
-**2、** 另外对于写操作，一致性级别支持 quorum/one/all，默认为 quorum，即只有当大多数分片可用时才允许写操作。但即使大多数可用，也可能存在因为网络等原因导致写入副本失败，这样该副本被认为故障，分片将会在一个不同的节点
-
-上重建。
-
-**3、** 对于读操作，可以设置 replication 为 sync(默认)，这使得操作在主分片和副本分片都完成后才会返回；如果设置 replication 为 async 时，也可以通过设置搜索请求参数_preference 为 primary 来查询主分片，确保文档是最新版本。
-
-
-### 8、ElasticSearch主分片数量可以在后期更改吗？为什么？
-
-不可以，因为根据路由算法shard = hash(document_id) % (num_of_primary_shards)，当主分片数量变化时会影响数据被路由到哪个分片上。
+```
+PUT test_001/_mapping
+{
+  "properties": {
+    "title":{
+      "type":"keyword"
+    }
+  }
+}
+```
 
 
-### 9、elasticsearch 是如何实现 master 选举的
+### 3、如何在 Elasticsearch中 搜索数据？
 
-面试官：想了解 ES 集群的底层原理，不再只关注业务层面了。
+Search API 有助于从索引、路由参数引导的特定分片中查找检索数据。
+
+
+### 4、能列出 10 个使用 Elasticsearch 作为其搜索引擎或数据库的公司吗？
+
+这个问题，铭毅本来想删掉。但仔细一想，至少能看出求职者的视野够不够开阔。
+
+参与过 Elastic中文社区活动或者经常关注社区动态的就知道，公司太多了，列举如下（排名不分先后）：
+
+1、阿里
+
+2、腾讯
+
+3、百度
+
+4、京东
+
+5、美团
+
+6、小米
+
+7、滴滴
+
+8、携程
+
+**9、** 今日头条
+
+**10、** 贝壳找房
+
+**11、** 360
+
+**12、** IBM
+
+**13、** 顺丰快递
+
+几乎我们能想到的互联网公司都在使用 Elasticsearch。
+
+关注 TOP 互联网公司的相关技术的动态和技术博客，也是一种非常好的学习方式。
+
+
+### 5、Elasticsearch 在部署时，对 Linux 的设置有哪些优化方法
+
+面试官：想了解对 ES 集群的运维能力。
 
 解
 
-**前置前提：**
+**1、** 关闭缓存 swap;
 
-**1、** 只有候选主节点（master：true）的节点才能成为主节点。
+**2、** 堆内存设置为：Min（节点内存/2, 32GB）;
 
-**2、** 最小主节点数（min_master_nodes）的目的是防止脑裂。
+**3、** 设置最大文件句柄数；
 
-这个我看了各种网上分析的版本和源码分析的书籍，云里雾里。核对了一下代码，核心入口为 findMaster，选择主节点成功返回对应 Master，否则返回 null。
+**4、** 线程池+队列大小根据业务需要做调整；
 
-**选举流程大致描述如下：**
+**5、** 磁盘存储 raid 方式——存储有条件使用 RAID10，增加单节点性能以及避免单
 
-第一步：确认候选主节点数达标，elasticsearch.yml 设置的值
-
-```
-discovery.zen.minimum_master_nodes；
-```
-
-第二步：比较：先判定是否具备 master 资格，具备候选主节点资格的优先返回；
-
-若两节点都为候选主节点，则 id 小的值会主节点。
-
-注意这里的 id 为 string 类型。
-
-题外话：获取节点 id 的方法。
-
-```
-1GET /_cat/nodes?v&h=ip,port,heapPercent,heapMax,id,name
-2ip
-port heapPercent heapMax id
-name
-```
+节点存储故障。
 
 
-### 10、迁移 Migration API 如何用作 Elasticsearch？
+### 6、Beats 如何与 Elasticsearch 结合使用？
 
-迁移 API简化了X-Pack索引从一个版本到另一个版本的升级。
+Beats是一种开源工具，可以将数据直接传输到 Elasticsearch 或通过 logstash，在使用Kibana进行查看之前，可以对数据进行处理或过滤。
+
+传输的数据类型包含：审核数据，日志文件，云数据，网络流量和窗口事件日志等。
+
+
+### 7、能列举过你使用的 X-Pack 命令吗?
+
+7.1 安全功能免费后，使用了：setup-passwords 为账号设置密码，确保集群安全。
+
+
+### 8、您能否列出 与 ELK日志分析相关的应用场景？
+
+**1、** 电子商务搜索解决方案
+
+**2、** 欺诈识别
+
+**3、** 市场情报
+
+**4、** 风险管理
+
+**5、** 安全分析 等。
+
+### 9、您能解释一下 Elasticsearch 中的 Explore API 吗？
+
+没有用过，这是 Graph （收费功能）相关的API。
 
 点到为止即可，类似问题实际开发现用现查，类似问题没有什么意义。
 
-[https://www.elastic.co/guide/en/elasticsearch/reference/current/migration-api.html](https://www.elastic.co/guide/en/elasticsearch/reference/current/migration-api.html)
+[https://www.elastic.co/guide/en/elasticsearch/reference/current/graph-explore-api.html](https://www.elastic.co/guide/en/elasticsearch/reference/current/graph-explore-api.html)
 
 
-### 11、Elasticsearch 对于大数据量（上亿量级）的聚合如何实现？
-### 12、如何在 Elasticsearch中 搜索数据？
-### 13、详细描述一下 Elasticsearch 索引文档的过程。
-### 14、elasticsearch了解多少，说说你们公司es的集群架构，索引数据大小，分片有多少，以及一些调优手段 。
-### 15、在 Elasticsearch 中，是怎么根据一个词找到对应的倒排索引的？
-### 16、Elasticsearch 中的节点（比如共 20 个），其中的 10 个选了一个master，另外 10 个选了另一个 master，怎么办？
-### 17、elasticsearch 了解多少，说说你们公司 es 的集群架构，索引数据大小，分片有多少，以及一些调优手段 。
-### 18、您能否说明当前可下载的稳定Elasticsearch版本？
-### 19、elasticsearch 数据的写入过程
-### 20、你能告诉我 Elasticsearch 中的数据存储功能吗？
-### 21、elasticsearch 索引数据多了怎么办，如何调优，部署
-### 22、Elasticsearch是如何实现master选举的？
-### 23、详细描述一下Elasticsearch搜索的过程？
-### 24、Beats 如何与 Elasticsearch 结合使用？
-### 25、详细描述一下 Elasticsearch 索引文档的过程
+### 10、ElasticSearch如何监控集群状态？
+
+Marvel让你可以很简单的通过Kibana监控Elasticsearch。你可以实时查看你的集群健康状态和性能，也可以分析过去的集群、索引和节点指标。
+
+
+### 11、解释一下 Elasticsearch 集群中的 Type 的概念 ？
+### 12、Elasticsearch是如何实现master选举的？
+### 13、在安装Elasticsearch时，请说明不同的软件包及其重要性？
+### 14、token filter 过滤器 在 Elasticsearch 中如何工作？
+### 15、可以列出X-Pack API 吗？
+### 16、如何监控 Elasticsearch 集群状态？
+### 17、Elasticsearch在部署时，对Linux的设置有哪些优化方法
+### 18、elasticsearch 数据的写入原理
+### 19、ElasticSearch主分片数量可以在后期更改吗？为什么？
+### 20、elasticsearch 的 document设计
+### 21、Elasticsearch中的节点（比如共20个），其中的10个选了一个master，另外10个选了另一个master，怎么办？
+### 22、elasticsearch 的倒排索引是什么
+### 23、Elasticsearch 中常用的 cat命令有哪些？
+### 24、lucence内部结构是什么？
+### 25、迁移 Migration API 如何用作 Elasticsearch？
 
 
 

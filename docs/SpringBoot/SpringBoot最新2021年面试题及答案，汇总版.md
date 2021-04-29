@@ -6,167 +6,123 @@
 
 
 
-### 1、我们如何连接一个像 MySQL 或者Orcale 一样的外部数据库？
+### 1、SpringBoot 的核心注解是哪个？它主要由哪几个注解组成的？
 
-让我们以 MySQL 为例来思考这个问题：
+启动类上面的注解是@SpringBootApplication，它也是 SpringBoot 的核心注解，主要组合包含了以下 3 个注解：
 
-**第一步** - 把 MySQL 连接器的依赖项添加至 pom.xml
+@SpringBootConfiguration：组合了 [@Configuration ](/Configuration ) 注解，实现配置文件的功能。
 
-**第二步** - 从 pom.xml 中移除 H2 的依赖项
+[@EnableAutoConfiguration：打开自动配置的功能，也可以关闭某个自动配置的选项，如关闭数据源自动配置功能：@SpringBootApplication(exclude ](/EnableAutoConfiguration：打开自动配置的功能，也可以关闭某个自动配置的选项，如关闭数据源自动配置功能：@SpringBootApplication(exclude ) = { DataSourceAutoConfiguration.class })。
 
-或者至少把它作为测试的范围。
+@ComponentScan：Spring组件扫描。
 
-**第三步** - 安装你的 MySQL 数据库
 
-更多的来看看这里 -[https://github.com/in28minutes/jpa-with-hibernate#installing-and-setting-up-MySQL](https://github.com/in28minutes/jpa-with-hibernate#installing-and-setting-up-MySQL)
+### 2、SpringBoot 支持哪些日志框架？推荐和默认的日志框架是哪个？
 
-**第四步** - 配置你的 MySQL 数据库连接
+SpringBoot 支持 Java Util Logging, Log4j2, Lockback 作为日志框架，如果你使用 Starters 启动器，SpringBoot 将使用 Logback 作为默认日志框架，但是不管是那种日志框架他都支持将配置文件输出到控制台或者文件中。
 
-配置 application.properties
 
-```
-spring.jpa.hibernate.ddl-auto=none spring.datasource.url=jdbc:MySQL://localhost:3306/todo_example
-spring.datasource.username=todouser spring.datasource.password=YOUR_PASSWORD
-```
+### 3、SpringBoot 最大的优势是什么呢？
 
-**第五步** - 重新启动，你就准备好了！
+SpringBoot 的最大的优势是“约定优于配置“。“约定优于配置“是一种软件设计范式，开发人员按照约定的方式来进行编程，可以减少软件开发人员需做决定的数量，获得简单的好处，而又不失灵活性。
 
-就是这么简单！
+SpringBoot 中 “约定优于配置“的具体产品体现在哪里。
 
+SpringBoot Starter、SpringBoot Jpa 都是“约定优于配置“的一种体现。都是通过“约定优于配置“的设计思路来设计的，SpringBoot Starter 在启动的过程中会根据约定的信息对资源进行初始化；SpringBoot Jpa 通过约定的方式来自动生成 Sql ，避免大量无效代码编写。具体详细可以参考：SpringBoot 为什么这么火？
 
-### 2、SpringBoot 2、X 有什么新特性？与 1、X 有什么区别？
 
-**1、**  配置变更
+### 4、SpringBoot 的核心配置文件有哪几个？它们的区别是什么？
 
-**2、**  JDK 版本升级
+SpringBoot 的核心配置文件是 application 和 bootstrap 配置文件。
 
-**3、**  第三方类库升级
+application 配置文件这个容易理解，主要用于 SpringBoot 项目的自动化配置。
 
-**4、**  响应式 Spring 编程支持
+bootstrap 配置文件有以下几个应用场景。
 
-**5、**  HTTP/2 支持
+使用 Spring Cloud Config 配置中心时，这时需要在 bootstrap 配置文件中添加连接到配置中心的配置属性来加载外部配置中心的配置信息； 一些固定的不能被覆盖的属性；一些加密/解密的场景
 
-**6、**  配置属性绑定
 
-**7、**  更多改进与加强
+### 5、如何使用SpringBoot实现分页和排序？
 
+使用SpringBoot实现分页非常简单。使用Spring Data-JPA可以实现将可分页的
 
-### 3、什么是执行器停机？
+org.springframework.data.domain.Pageable
 
-关机是允许应用程序正常关机的端点。默认情况下，此功能不启用。你可以在应用程序属性文件中使用management . endpoint . shut down . enabled = true来启用此选项。但是该方法请谨慎使用。
+传递给存储库方法。
 
 
-### 4、SpringBoot、Spring MVC 和 Spring 有什么区别？
+### 6、SpringBoot 的核心注解是哪个？它主要由哪几个注解组成的？
 
-**1、** Spring
+启动类上面的注解是@SpringBootApplication，它也是 SpringBoot 的核心注解，主要组合包含了以下 3 个注解：
 
-Spring最重要的特征是依赖注入。所有 SpringModules 不是依赖注入就是 IOC 控制反转。
+@SpringBootConfiguration：组合了 [@Configuration ](/Configuration ) 注解，实现配置文件的功能。
 
-当我们恰当的使用 DI 或者是 IOC 的时候，我们可以开发松耦合应用。松耦合应用的单元测试可以很容易的进行。
+@EnableAutoConfiguration：打开自动配置的功能，也可以关闭某个自动配置的选项，如关闭数据源自动配置功能： [@SpringBootApplication(exclude ](/SpringBootApplication(exclude ) = { DataSourceAutoConfiguration.class })。
 
-**2、** Spring MVC
+@ComponentScan：Spring组件扫描。
 
-Spring MVC 提供了一种分离式的方法来开发 Web 应用。通过运用像 DispatcherServelet，MoudlAndView 和 ViewResolver 等一些简单的概念，开发 Web 应用将会变的非常简单。
 
-**3、** SpringBoot
+### 7、SpringBoot 2.X 有什么新特性？与 1.X 有什么区别？
 
-Spring 和 SpringMVC 的问题在于需要配置大量的参数。
+**1、** 配置变更
 
-SpringBoot 通过一个自动配置和启动的项来目解决这个问题。为了更快的构建产品就绪应用程序，SpringBoot 提供了一些非功能性特征。
+**2、** JDK 版本升级
 
+**3、** 第三方类库升级
 
-### 5、如何在 SpringBoot 启动的时候运行一些特定的代码？
+**4、** 响应式 Spring 编程支持
 
-可以实现接口 ApplicationRunner 或者 CommandLineRunner，这两个接口实现方式一样，它们都只提供了一个 run 方法
+**5、** HTTP/2 支持
 
+**6、** 配置属性绑定
 
-### 6、SpringBoot 还提供了其它的哪些 Starter Project Options？
+**7、** 更多改进与加强…
 
-SpringBoot 也提供了其它的启动器项目包括，包括用于开发特定类型应用程序的典型依赖项。
 
-**1、** spring-boot-starter-web-services - SOAP Web Services；
+### 8、什么是Swagger？你用SpringBoot实现了它吗？
 
-**2、** spring-boot-starter-web - Web 和 RESTful 应用程序；
+Swagger广泛用于可视化API，使用Swagger UI为前端开发人员提供在线沙箱。Swagger是用于生成RESTful Web服务的可视化表示的工具，规范和完整框架实现。它使文档能够以与服务器相同的速度更新。当通过Swagger正确定义时，消费者可以使用最少量的实现逻辑来理解远程服务并与其进行交互。因此，Swagger消除了调用服务时的猜测。
 
-**3、** spring-boot-starter-test - 单元测试和集成测试；
 
-**4、** spring-boot-starter-jdbc - 传统的 JDBC；
+### 9、spring boot初始化环境变量流程?
 
-**5、** spring-boot-starter-hateoas - 为服务添加 HATEOAS 功能；
+**1、** 调用`prepareEnvironment`方法去设置环境变量
 
-**6、** spring-boot-starter-security - 使用 SpringSecurity 进行身份验证和授权；
+**2、** 接下来有三个方法`getOrCreateEnvironment`，`configureEnvironment`，`environmentPrepared`
 
-**7、** spring-boot-starter-data-jpa - 带有 Hibeernate 的 Spring Data JPA；
+**3、** `getOrCreateEnvironment`去初始化系统环境变量
 
-**8、** spring-boot-starter-data-rest - 使用 Spring Data REST 公布简单的 REST 服务；
+**4、** `configureEnvironment`去初始化命令行参数
 
+**5、** `environmentPrepared`当广播到来的时候调用`onApplicationEnvironmentPreparedEvent`方法去使用`postProcessEnvironment`方法`load yml`和`properties变量`
 
-### 7、spring-boot-starter-parent 有什么用 ?
 
-我们都知道，新创建一个 SpringBoot 项目，默认都是有 parent 的，这个 parent 就是 spring-boot-starter-parent ，spring-boot-starter-parent 主要有如下作用：
+### 10、微服务中如何实现 session 共享 ?
 
-**1、**  定义了 Java 编译版本为 1、8 。
+在微服务中，一个完整的项目被拆分成多个不相同的独立的服务，各个服务独立部署在不同的服务器上，各自的 session 被从物理空间上隔离开了，但是经常，我们需要在不同微服务之间共享 session ，常见的方案就是 Spring Session + Redis 来实现 session 共享。将所有微服务的 session 统一保存在 Redis 上，当各个微服务对 session 有相关的读写操作时，都去操作 Redis 上的 session 。这样就实现了 session 共享，Spring Session 基于 Spring 中的代理过滤器实现，使得 session 的同步操作对开发人员而言是透明的，非常简便。
 
-**2、**  使用 UTF-8 格式编码。
 
-**3、**  继承自 spring-boot-dependencies，这个里边定义了依赖的版本，也正是因为继承了这个依赖，所以我们在写依赖时才不需要写版本号。
-
-**4、**  执行打包操作的配置。
-
-**5、**  自动化的资源过滤。
-
-**6、**  自动化的插件配置。
-
-**7、**  针对 application、properties 和 application、yml 的资源过滤，包括通过 profile 定义的不同环境的配置文件，例如 application-dev、properties 和 application-dev、yml。
-
-总结就是打包用的
-
-
-### 8、如何集成SpringBoot和ActiveMQ？
-
-对于集成SpringBoot和ActiveMQ，我们使用
-
-依赖关系。 它只需要很少的配置，并且不需要样板代码。
-
-
-### 9、如何重新加载SpringBoot上的更改，而无需重新启动服务器？
-
-这可以使用DEV工具来实现。通过这种依赖关系，您可以节省任何更改，嵌入式tomcat将重新启动。SpringBoot有一个开发工具（DevTools）模块，它有助于提高开发人员的生产力。Java开发人员面临的一个主要挑战是将文件更改自动部署到服务器并自动重启服务器。开发人员可以重新加载SpringBoot上的更改，而无需重新启动服务器。这将消除每次手动部署更改的需要。SpringBoot在发布它的第一个版本时没有这个功能。这是开发人员最需要的功能。DevTools模块完全满足开发人员的需求。该模块将在生产环境中被禁用。它还提供H2数据库控制台以更好地测试应用程序。
-
-```
-<dependency>
-<groupId>org.springframework.boot</groupId>
-<artifactId>spring-boot-devtools</artifactId>
-<optional>true</optional>
-```
-
-
-### 10、SpringBoot与SpringCloud 区别
-
-SpringBoot是快速开发的Spring框架，SpringCloud是完整的微服务框架，SpringCloud依赖于SpringBoot。
-
-
-### 11、spring boot扫描流程?
-### 12、SpringBoot 日志框架：
-### 13、什么是 JavaConfig？
-### 14、spring boot 核心配置文件是什么？bootstrap.properties 和 application.properties 有何区别 ?
-### 15、如何使用SpringBoot实现异常处理?
-### 16、SpringBoot常用的starter有哪些?
-### 17、什么是 SpringBoot Stater ？
-### 18、SpringBoot 配置加载顺序?
-### 19、如何使用SpringBoot实现分页和排序？
-### 20、前后端分离，如何维护接口文档 ?
-### 21、什么是 Spring Data REST?
-### 22、什么是SpringBoot
-### 23、如何重新加载SpringBoot上的更改，而无需重新启动服务器？
-### 24、能否举一个例子来解释更多 Staters 的内容？
-### 25、SpringBoot 的核心注解是哪个？它主要由哪几个注解组成的？
-### 26、SpringBoot 怎么用好自动配置，精髓:
-### 27、SpringBoot事物的使用
-### 28、如何禁用特定的自动配置类？
-### 29、SpringBoot有哪些优点？
-### 30、SpringBoot 2.X 有什么新特性？与 1.X 有什么区别？
-### 31、什么是 Spring Batch？
+### 11、什么是YAML？
+### 12、SpringBoot 实现热部署有哪几种方式？
+### 13、SpringBoot、Spring MVC 和 Spring 有什么区别？
+### 14、SpringBoot自动配置的原理是什么？
+### 15、如何不通过任何配置来选择 Hibernate 作为 JPA 的默认实现？
+### 16、什么是 Spring Profiles？
+### 17、SpringBoot 有哪几种读取配置的方式？
+### 18、什么是 Spring Data ?
+### 19、保护 SpringBoot 应用有哪些方法？
+### 20、什么是 SpringBoot 启动类注解：
+### 21、SpringBoot 的核心注解是哪个？它主要由哪几个注解组成的？
+### 22、SpringBoot的自动配置原理是什么
+### 23、SpringBoot 的核心配置文件有哪几个？它们的区别是什么？
+### 24、为什么我们需要 spring-boot-maven-plugin?
+### 25、SpringBoot读取配置文件的方式
+### 26、SpringBoot需要独立的容器运行？
+### 27、比较一下 Spring Security 和 Shiro 各自的优缺点 ?
+### 28、什么是 Apache Kafka？
+### 29、SpringBoot 自动配置原理是什么？
+### 30、YAML 配置的优势在哪里 ?
+### 31、SpringBoot 支持哪些日志框架？推荐和默认的日志框架是哪个？
 
 
 

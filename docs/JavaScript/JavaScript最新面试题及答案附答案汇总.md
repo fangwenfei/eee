@@ -6,240 +6,292 @@
 
 
 
-### 1、简述下工作流程###
+### 1、什么是 IIFE，它的用途是什么？
 
-我在之前的公司工作流程大概是这样的：公司定稿会结束以后，会进行简单的技术研讨，然后我们前端会进行先期的技术准备。前端切图人员会进行psd设计稿切图，并且将css文件进行整合。我们主要编写JS部分，其中包括搭建前端框架（大项目），编写js业务和数据持久化操作，我们也会编写js插件并且进行封装方便使用，还有就是编写JS前端组建和JS测试单元，最后将完成的JS部分与切图人员提供的HTML页面进行整合。最后对完成的页面进行功能测试、页面兼容、产品还原。然后对产品进行封存，提交测试。如果出现BUG会返回给我们开发人员进行修改，再提交测试，最后测试成功，进行版本封存。等到程序全部上线的时候进行线上测试。
-
-
-### 2、JSON 的了解？
-
-JSON(JavaScript Object Notation) 是一种轻量级的数据交换格式。 它是基于JavaScript的一个子集。数据格式简单, 易于读写, 占用带宽小。
-
-
-### 3、什么是回调函数？
-
-**回调函数**是一段可执行的代码段，它作为一个参数传递给其他的代码，其作用是在需要的时候方便调用这段（回调函数）代码。
-
-在JavaScript中函数也是对象的一种，同样对象可以作为参数传递给函数，因此函数也可以作为参数传递给另外一个函数，这个作为参数的函数就是回调函数。
+**IIFE**或立即调用的函数表达式是在创建或声明后将被调用或执行的函数。创建**IIFE的**语法是，将`function (){}`包裹在在括号`()`内，然后再用另一个括号`()`调用它，如：`(function(){})()`
 
 ```
-const btnAdd = document.getElementById('btnAdd');
+(function(){
+  ...
+} ());
 
-btnAdd.addEventListener('click', function clickCallback(e) {
-    // do something useless
+(function () {
+  ...
+})();
+
+(function named(params) {
+  ...
+})();
+
+(() => {
+
+});
+
+(function (global) {
+  ...
+})(window);
+
+const utility = (function () {
+  return {
+    ...
+  }
+})
+```
+
+这些示例都是有效的**IIFE**。倒数第二个救命表明我们可以将参数传递给**IIFE**函数。最后一个示例表明，我们可以将`IIFE`的结果保存到变量中，以便稍后使用。
+
+**IIFE**的一个主要作用是避免与全局作用域内的其他变量命名冲突或污染全局命名空间，来个例子。
+
+`<script src="https://cdnurl.com/somelibrary.js"></script>`
+
+假设我们引入了一个`omelibr.js`的链接，它提供了一些我们在代码中使用的全局函数，但是这个库有两个方法我们没有使用：`createGraph`和`drawGraph`，因为这些方法都有`bug`。我们想实现自己的`createGraph`和`drawGraph`方法。
+
+解决此问题的一种方法是直接覆盖：
+
+```
+<script src="https://cdnurl.com/somelibrary.js"></script>
+<script>
+   function createGraph() {
+      // createGraph logic here
+   }
+   function drawGraph() {
+      // drawGraph logic here
+   }
+</script>
+```
+
+当我们使用这个解决方案时，我们覆盖了库提供给我们的那两个方法。
+
+另一种方式是我们自己改名称：
+
+```
+<script src="https://cdnurl.com/somelibrary.js"></script>
+<script>
+   function myCreateGraph() {
+      // createGraph logic here
+   }
+   function myDrawGraph() {
+      // drawGraph logic here
+   }
+</script>
+```
+
+当我们使用这个解决方案时，我们把那些函数调用更改为新的函数名。
+
+还有一种方法就是使用**IIFE**：
+
+```
+<script src="https://cdnurl.com/somelibrary.js"></script>
+<script>
+   const graphUtility = (function () {
+      function createGraph() {
+         // createGraph logic here
+      }
+      function drawGraph() {
+         // drawGraph logic here
+      }
+      return {
+         createGraph,
+         drawGraph
+      }
+   })
+</script>
+```
+
+在此解决方案中，我们要声明了`graphUtility` 变量，用来保存**IIFE**执行的结果，该函数返回一个包含两个方法`createGraph`和`drawGraph`的对象。
+
+**IIFE** 还可以用来解决一个常见的面试题：
+
+```
+var li = document.querySelectorAll('.list-group > li');
+for (var i = 0, len = li.length; i < len; i++) {
+   li[i].addEventListener('click', function (e) {
+      console.log(i);
+   })
+```
+
+假设我们有一个带有`list-group`类的`ul`元素，它有`5`个`li`子元素。当我们单击单个`li`元素时，打印对应的下标值。但在此外上述代码不起作用，这里每次点击 `li` 打印 `i` 的值都是`5`，这是由于闭包的原因。
+
+**闭包**只是函数记住其当前作用域，父函数作用域和全局作用域的变量引用的能力。当我们在全局作用域内使用`var`关键字声明变量时，就创建全局变量`i`。因此，当我们单击`li`元素时，它将打印`5`，因为这是稍后在回调函数中引用它时`i`的值。
+
+使用 **IIFE** 可以解决此问题：
+
+`var li = document.querySelectorAll('.list-group > li'); for (var i = 0, len = li.length; i < len; i++) { (function (currentIndex) { li[currentIndex].addEventListener('click', function (e) { console.log(currentIndex); }) })(i); }`
+
+该解决方案之所以行的通，是因为**IIFE**会为每次迭代创建一个新的作用域，我们捕获`i`的值并将其传递给`currentIndex`参数，因此调用**IIFE**时，每次迭代的`currentIndex`值都是不同的。
+
+
+### 2、DOM事件模型和事件流？
+
+DOM事件模型包括事件捕获(自上而下触发)与事件冒泡(自下而上触发，ie用的就是冒泡)机制。基于事件冒泡机制可以完成事件代理。
+
+> 事件捕获
+
+
+![](https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/b3d7c68a2b2740e7b784f25c2db3d14d~tplv-k3u1fbpfcp-zoom-1.image#alt=%E5%9C%A8%E8%BF%99%E9%87%8C%E6%8F%92%E5%85%A5%E5%9B%BE%E7%89%87%E6%8F%8F%E8%BF%B0)
+
+> 事件冒泡
+
+
+![](https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/f354c39ed3e9462b9b735297fd031c0b~tplv-k3u1fbpfcp-zoom-1.image#alt=%E5%9C%A8%E8%BF%99%E9%87%8C%E6%8F%92%E5%85%A5%E5%9B%BE%E7%89%87%E6%8F%8F%E8%BF%B0)
+
+DOM事件流包括三个阶段事件捕获阶段、处于目标阶段、事件冒泡阶段。
+
+
+### 3、javascript有哪些方法定义对象
+
+**1、** 对象字面量： `var obj = {};`
+
+**2、** 构造函数： `var obj = new Object();`
+
+**3、** Object.create(): `var obj = Object.create(Object.prototype);`
+
+
+### 4、&& 运算符能做什么
+
+`&&` 也可以叫**逻辑与**，在其操作数中找到第一个虚值表达式并返回它，如果没有找到任何虚值表达式，则返回最后一个真值表达式。它采用短路来防止不必要的工作。
+
+```
+console.log(false && 1 && []); // false
+console.log(" " && true && 5); // 5
+```
+
+**使用`if`语句**
+
+```
+const router: Router = Router();
+router.get('/endpoint', (req: Request, res: Response) => {
+   let conMobile: PoolConnection;
+   try {
+      //do some db operations
+   } catch (e) {
+   if (conMobile) {
+    conMobile.release();
+   }
+  }
 });
 ```
 
-在本例中，我们等待`id`为`btnAdd`的元素中的`click`事件，如果它被单击，则执行`clickCallback`函数。回调函数向某些数据或事件添加一些功能。
-
-数组中的`reduce`、`filter`和`map`方法需要一个回调作为参数。回调的一个很好的类比是，当你打电话给某人，如果他们不接，你留下一条消息，你期待他们回调。调用某人或留下消息的行为是事件或数据，回调是你希望稍后发生的操作。
-
-
-### 4、25.Jq如何判断元素显示隐藏？
+**使用`&&`操作符**
 
 ```
-//第一种：使用CSS属性 
-var display =$('#id').css('display'); 
-if(display == 'none'){    alert("我是隐藏的！"); }
-//第二种：使用jquery内置选择器 
-<div id="test"<p>仅仅是测试所用</p</div>
-if($("#test").is(":hidden")){        $("#test").show();    //如果元素为隐藏,则将它显现 }else{       $("#test").hide();     //如果元素为显现,则将其隐藏 }
-//第三种：jQuery判断元素是否显示 是否隐藏
-var node=$('#id');
-if(node.is(':hidden')){　　//如果node是隐藏的则显示node元素，否则隐藏
-　　node.show();　
-}else{
-　　node.hide();
-}
+const router: Router = Router();
+
+router.get('/endpoint', (req: Request, res: Response) => {
+  let conMobile: PoolConnection;
+  try {
+     //do some db operations
+  } catch (e) {
+    conMobile && conMobile.release()
+  }
+});
 ```
 
 
-### 5、简述一下你理解的面向对象？
+### 5、ajax 和 jsonp ？
 
-面向对象是基于万物皆对象这个哲学观点、把一个对象抽象成类,具体上就是把一个对象的静态特征和动态特征抽象成属性和方法,也就是把一类事物的算法和数据结构封装在一个类之中,程序就是多个对象和互相之间的通信组成的、
+**ajax和jsonp的区别：**
 
-面向对象具有封装性,继承性,多态性。
+相同点：都是请求一个url
 
-封装:隐蔽了对象内部不需要暴露的细节,使得内部细节的变动跟外界脱离,只依靠接口进行通信.封装性降低了编程的复杂性、通过继承,使得新建一个类变得容易,一个类从派生类那里获得其非私有的方法和公用属性的繁琐工作交给了编译器、而 继承和实现接口和运行时的类型绑定机制 所产生的多态,使得不同的类所产生的对象能够对相同的消息作出不同的反应,极大地提高了代码的通用性、
+不同点：ajax的核心是通过xmlHttpRequest获取内容
 
-总之,面向对象的特性提高了大型程序的重用性和可维护性.
+jsonp的核心则是动态添加
 
 
-### 6、常见web安全及防护原理
 
-**`sql`注入原理**
+### 6、同步和异步的区别?
 
-就是通过把`SQL`命令插入到`Web`表单递交或输入域名或页面请求的查询字符串，最终达到欺骗服务器执行恶意的SQL命令
+javascript同步表示sync，指：代码依次执行 javascript异步表示async，指：代码执行不按顺序，‘跳过’执行，待其他某些代码执行完后再来执行，成为异步。
 
-**总的来说有以下几点**
 
-永远不要信任用户的输入，要对用户的输入进行校验，可以通过正则表达式，或限制长度，对单引号和双`"-"`进行转换等
+### 7、ajax请求方式有几种（8种）？
 
-**1、** 永远不要使用动态拼装SQL，可以使用参数化的`SQL`或者直接使用存储过程进行数据查询存取
+1）$$.get(url,\[data\],\[callback\])  
+2）$$.getJSON(url,[data],[callback])
 
-**2、** 永远不要使用管理员权限的数据库连接，为每个应用使用单独的权限有限的数据库连接
+3）$$.post(url,\[data\],\[callback\],\[type\])  
+4）$$.ajax(opiton)
 
-**3、** 不要把机密信息明文存放，请加密或者`hash`掉密码和敏感的信息
+5）$.getScript( url, [callback] )
 
-**XSS原理及防范**
+6）jquery对象.load( url, [data], [callback] )
 
-`Xss(cross-site scripting)`攻击指的是攻击者往`Web`页面里插入恶意`html`标签或者`javascript`代码。
+7）serialize() 与 serializeArray()
 
-**比如：**
 
-攻击者在论坛中放一个看似安全的链接，骗取用户点击后，窃取`cookie`中的用户私密信息；或者攻击者在论坛中加一个恶意表单，当用户提交表单的时候，却把信息传送到攻击者的服务器中，而不是用户原本以为的信任站点
+### 8、JavaScript原型，原型链 ? 有什么特点？
 
-**XSS防范方法**
+**1、** 每个对象都会在其内部初始化一个属性，就是`prototype`(原型)，当我们访问一个对象的属性时
 
-首先代码里对用户输入的地方和变量都需要仔细检查长度和对`”<”,”>”,”;”,”’”`等字符做过滤；其次任何内容写到页面之前都必须加以encode，避免不小心把`html tag` 弄出来。这一个层面做好，至少可以堵住超过一半的XSS 攻击
+**2、** 如果这个对象内部不存在这个属性，那么他就会去`prototype`里找这个属性，这`个prototype`又会有自己的`prototype`，于是就这样一直找下去，也就是我们平时所说的原型链的概念
 
-**XSS与CSRF有什么区别吗？**
+**3、** 关系：`instance.constructor.prototype = instance.__proto__`
 
-**1、** `XSS`是获取信息，不需要提前知道其他用户页面的代码和数据包。`CSRF`是代替用户完成指定的动作，需要知道其他用户页面的代码和数据包。要完成一次`CSRF`攻击，受害者必须依次完成两个步骤
+**特点：**
 
-**2、** 登录受信任网站`A`，并在本地生成`Cookie`
+**1、** `JavaScript`对象是通过引用来传递的，我们创建的每个新对象实体中并没有一份属于自己的原型副本。当我们修改原型时，与之相关的对象也会继承这一改变
 
-**3、** 在不登出`A`的情况下，访问危险网站`B`
+2.当我们需要一个属性的时，`Javascript`引擎会先看当前对象中是否有这个属性， 如果没有的 就会查找他的`Prototype`对象是否有这个属性，如此递推下去，一直检索到 `Object` 内建对象
 
-**CSRF的防御**
 
-服务端的`CSRF`方式方法很多样，但总的思想都是一致的，就是在客户端页面增加伪随机数
+### 9、26.移动端上什么是点击穿透?
 
-通过验证码的方法
+**点击穿透现象有3种：**
 
+**点击穿透问题：**
 
-### 7、如何检查对象中是否存在某个属性？
+点击蒙层（mask）上的关闭按钮，蒙层消失后发现触发了按钮下面元素的click事件跨页面点击穿透问题：如果按钮下面恰好是一个有href属性的a标签，那么页面就会发生跳转另一种跨页面点击穿透问题：这次没有mask了，直接点击页内按钮跳转至新页，然后发现新页面中对应位置元素的click事件被触发了
 
-检查对象中是否存在属性有三种方法。
+**解决方案：**
 
-第一种使用 `in` 操作符号：
+**1、** 只用touch
 
-```
-const o = { 
-  "prop" : "bwahahah",
-  "prop2" : "hweasa"
-};
+最简单的解决方案，完美解决点击穿透问题
 
-console.log("prop" in o); // true
-console.log("prop1" in o); // false
-```
+把页面内所有click全部换成touch事件（ touchstart 、’touchend’、’tap’）
 
-第二种使用 `hasOwnProperty` 方法，`hasOwnProperty()` 方法会返回一个布尔值，指示对象自身属性中是否具有指定的属性（也就是，是否有指定的键）。
+**2、** 只用click
 
-```
-console.log(o.hasOwnProperty("prop2")); // true
-console.log(o.hasOwnProperty("prop1")); // false
-```
+下下策，因为会带来300ms延迟，页面内任何一个自定义交互都将增加300毫秒延迟
 
-第三种使用括号符号`obj["prop"]`。如果属性存在，它将返回该属性的值，否则将返回`undefined`。
+**3、** tap后延迟350ms再隐藏mask
 
-`console.log(o["prop"]); // "bwahahah" console.log(o["prop1"]); // undefined`
+改动最小，缺点是隐藏mask变慢了，350ms还是能感觉到慢的
 
+**4、** pointer-events
 
-### 8、ES6或ECMAScript 2015有哪些新特性？
+比较麻烦且有缺陷， 不建议使用mask隐藏后，给按钮下面元素添上 pointer-events: none; 样式，让click穿过去，350ms后去掉这个样式，恢复响应缺陷是mask消失后的的350ms内，用户可以看到按钮下面的元素点着没反应，如果用户手速很快的话一定会发现
 
-**1、** 箭头函数
 
-2、类
+### 10、请解释什么是事件代理
 
-**3、** 模板字符串
+**1、** 事件代理（`Event Delegation`），又称之为事件委托。是 `JavaScript` 中常用绑定事件的常用技巧。顾名思义，“事件代理”即是把原本需要绑定的事件委托给父元素，让父元素担当事件监听的职务。事件代理的原理是DOM元素的事件冒泡。使用事件代理的好处是可以提高性能
 
-**4、** 加强的对象字面量
+**2、** 可以大量节省内存占用，减少事件注册，比如在`table`上代理所有`td`的`click`事件就非常棒
 
-**5、** 对象解构
+**3、** 可以实现当新增子对象时无需再次对其绑定
 
-**6、** Promise
 
-**7、** 生成器
-
-8、模块
-
-**9、** Symbol
-
-**10、** 代理
-
-**11、** Set
-
-**12、** 函数默认参数
-
-**13、** rest 和展开
-
-**14、** 块作用域
-
-
-### 9、什么是默认参数？
-
-默认参数是在 JS 中定义默认变量的一种新方法，它在ES6或ECMAScript 2015版本中可用。
-
-```
-//ES5 Version
-function add(a,b){
-  a = a || 0;
-  b = b || 0;
-  return a + b;
-}
-
-//ES6 Version
-function add(a = 0, b = 0){
-  return a + b;
-}
-add(1); // returns 1
-```
-
-我们还可以在默认参数中使用解构。
-
-```
-function getFirst([first, ...rest] = [0, 1]) {
-  return first;
-}
-
-getFirst();  // 0
-getFirst([10,20,30]);  // 10
-
-function getArr({ nums } = { nums: [1, 2, 3, 4] }){
-    return nums;
-}
-
-getArr(); // [1, 2, 3, 4]
-getArr({nums:[5,4,3,2,1]}); // [5,4,3,2,1]
-```
-
-我们还可以使用先定义的参数再定义它们之后的参数。
-
-```
-function doSomethingWithValue(value = "Hello World", callback = () => { console.log(value) }) {
-  callback();
-}
-doSomethingWithValue(); //"Hello World"
-```
-
-
-### 10、slice() splice()?
-
-slice() 方法可从已有的数组中返回选定的元素。
-
-splice() 方法向/从数组中添加/删除项目，然后返回被删除的项目。
-
-
-### 11、开发时如何对项目进行管理?gulp?
-### 12、DOM 是什么？
-### 13、`var`,`let`和`const`的区别是什么？
-### 14、如何判断值是否为数组？
-### 15、常见兼容性问题？
-### 16、null，undefined 的区别？
-### 17、`in` 运算符和 `Object.hasOwnProperty` 方法有什么区别？
-### 18、为什么在 JS 中比较两个相似的对象时返回 false？
-### 19、Jq中如何实现多库并存?
-### 20、简述ajax执行流程
-### 21、web开发中会话跟踪的方法有哪些
-### 22、JavaScript提供了哪几种“异步模式”？
-### 23、如何合并两个数组？数组删除一个元素?
-### 24、什么是原型、原型链？
-### 25、&& 运算符能做什么
-### 26、js的几种继承方式？
-### 27、ajax的缺点
-### 28、JavaScript原型，原型链 ? 有什么特点？
-### 29、与深拷贝有何区别？如何实现？
+### 11、什么是默认参数？
+### 12、什么是移动端的300ms延迟？什么是点击穿透？解决方案?
+### 13、["1", "2", "3"].map(parseInt) 答案是多少？
+### 14、简述下 this 和定义属性和方法的时候有什么区别?Prototype？
+### 15、`in` 运算符和 `Object.hasOwnProperty` 方法有什么区别？
+### 16、判断数据类型
+### 17、call & apply 两者之间的区别###
+### 18、如何解决跨域问题?
+### 19、如何检查值是否虚值？
+### 20、30.Jq中怎么样编写插件?
+### 21、defer和async
+### 22、Promise 是什么？
+### 23、函数fn1 函数fn2 函数fn3，如果想在三个函数都执行完成后执行某一个事件应该如何实现?
+### 24、常见兼容性问题？
+### 25、typeof？typeof [ ]返回数据类型是？
+### 26、说说你对AMD和Commonjs的理解
+### 27、25.Jq如何判断元素显示隐藏？
+### 28、何为防抖和节流？如何实现？
+### 29、变量作用域?
 
 
 

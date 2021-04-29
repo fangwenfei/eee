@@ -6,98 +6,126 @@
 
 
 
-### 1、解释AOP
+### 1、为什么要用SpringBoot
 
-面向切面的编程，或AOP， 是一种编程技术，允许程序模块化横向切割关注点，或横切典型的责任划分，如日志和事务管理。
-
-
-### 2、Spring支持的ORM
-
-Spring支持以下ORM：
-
-**1、** Hibernate
-
-**2、** iBatis
-
-**3、** JPA (Java Persistence API)
-
-**4、** TopLink
-
-**5、** JDO (Java Data Objects)
-
-**6、** OJB
+快速开发，快速整合，配置简化、内嵌服务容器
 
 
-### 3、什么是 Spring Framework？
+### 2、SpringBoot 的核心注解是哪个？它主要由哪几个注解组成的？
 
-Spring 是一个开源应用框架，旨在降低应用程序开发的复杂度。它是轻量级、松散耦合的。它具有分层体系结构，允许用户选择组件，同时还为 J2EE 应用程序开发提供了一个有凝聚力的框架。它可以集成其他框架，如 Structs、Hibernate、EJB 等，所以又称为框架的框架。
+启动类上面的注解是@SpringBootApplication，它也是 SpringBoot 的核心注解，主要组合包含了以下 3 个注解：
 
+@SpringBootConfiguration：组合了 [@Configuration ](/Configuration ) 注解，实现配置文件的功能。
 
-### 4、什么是 AOP 引入?
+@EnableAutoConfiguration：打开自动配置的功能，也可以关闭某个自动配置的选项，如关闭数据源自动配置功能：
 
-引入允许我们在已存在的类中增加新的方法和属性。
+[@SpringBootApplication(exclude ](/SpringBootApplication(exclude ) = { DataSourceAutoConfiguration.class })。
 
-
-### 5、[@Required ](/Required ) 注解有什么用？
-
-[@Required ](/Required ) 应用于 bean 属性 setter 方法。 此注解仅指示必须在配置时使用 bean 定义中的显式属性值或使用自动装配填充受影响的 bean 属性。 如果尚未填充受影响的 bean 属性，则容器将抛出 BeanInitializationException。
+@ComponentScan：Spring组件扫描。
 
 
-### 6、常用网关框架有那些？
+### 3、什么是不同类型的双因素身份认证？
 
-Nginx、Zuul、Gateway
+执行双因素身份验证需要三种类型的凭据：
 
+**1、** 一件你知道的事情——比如密码、密码或屏幕锁定模式。
 
-### 7、我们如何监视所有 SpringBoot 微服务？
+**2、** 您拥有的物理凭证，如OTP、电话或ATM卡，换句话说，您在外部或第三方设备中拥有的任何类型的凭证。
 
-SpringBoot 提供监视器端点以监控各个微服务的度量。这些端点对于获取有关应用程序的信息（如它们是否已启动）以及它们的组件（如数据库等）是否正常运行很有帮助。但是，使用监视器的一个主要缺点或困难是，我们必须单独打开应用程序的知识点以了解其状态或健康状况。想象一下涉及 50 个应用程序的微服务，管理员将不得不击中所有 50 个应用程序的执行终端。
-
-
-### 8、既然Nginx可以实现网关？为什么还需要使用Zuul框架
-
-Zuul是SpringCloud集成的网关，使用Java语言编写，可以对SpringCloud架构提供更灵活的服务。
+**3、** 您的物理身份–如语音认证或生物特征安全，如指纹或眼睛扫描仪。
 
 
-### 9、BeanFactory – BeanFactory 实现举例。
+### 4、如何使用 SpringBoot 部署到不同的服务器？
 
-Bean 工厂是工厂模式的一个实现，提供了控制反转功能，用来把应用的配置和依赖从正真的应用代码中分离。
+你需要做下面两个步骤：
 
-最常用的BeanFactory 实现是XmlBeanFactory 类。
+在一个项目中生成一个 war 文件。
 
+将它部署到你最喜欢的服务器（websphere 或者 Weblogic 或者 Tomcat and so on）。
 
-### 10、列举 IoC 的一些好处
+**第一步：**这本入门指南应该有所帮助：
 
-**1、** IoC 的一些好处是：
+[https://spring.io/guides/gs/convert-jar-to-war/](https://spring.io/guides/gs/convert-jar-to-war/)
 
-**2、** 它将最小化应用程序中的代码量。
-
-**3、** 它将使您的应用程序易于测试，因为它不需要单元测试用例中的任何单例或 JNDI 查找机制。
-
-**4、** 它以最小的影响和最少的侵入机制促进松耦合。
-
-**5、** 它支持即时的实例化和延迟加载服务。
+**第二步：**取决于你的服务器。
 
 
-### 11、SpringBoot集成mybatis的过程
-### 12、区分构造函数注入和 setter 注入。
-### 13、Spring Cloud 是什么
-### 14、SpringBoot 中的监视器是什么？
-### 15、SpringBoot 的核心注解是哪个？它主要由哪几个注解组成的？
-### 16、什么是 AOP 连接点
-### 17、微服务之间是如何独立通讯的
-### 18、使用Spring通过什么方式访问Hibernate?
-### 19、您将如何在微服务上执行安全测试？
-### 20、什么是YAML？
-### 21、shiro和oauth还有cas他们之间的关系是什么？问下您公司权限是如何设计，还有就是这几个概念的区别。
-### 22、列举 spring 支持的事务管理类型
-### 23、什么是织入。什么是织入应用的不同点？
-### 24、为什么要选择微服务架构？
-### 25、什么是Spring Cloud？
-### 26、微服务中如何实现 session 共享 ?
-### 27、什么是双因素身份验证？
-### 28、列举微服务技术栈
-### 29、解释基于注解的切面实现
-### 30、使用Spring框架的好处是什么？
+### 5、解释对象/关系映射集成模块。
+
+Spring 通过提供ORM模块，支持我们在直接JDBC之上使用一个对象/关系映射映射(ORM)工具，Spring 支持集成主流的ORM框架，如Hiberate,JDO和 iBATIS SQL Maps。Spring的事务管理同样支持以上所有ORM框架及JDBC。
+
+
+### 6、如何给Spring 容器提供配置元数据?
+
+这里有三种重要的方法给Spring 容器提供配置元数据。
+
+**1、** XML配置文件。
+
+**2、** 基于注解的配置。
+
+**3、** 基于java的配置。
+
+
+### 7、使用Spring通过什么方式访问Hibernate?
+
+**在Spring中有两种方式访问Hibernate：**
+
+控制反转 Hibernate Template和 Callback。
+
+继承 HibernateDAOSupport提供一个AOP 拦截器。
+
+
+### 8、服务网关的作用
+
+**1、** 简化客户端调用复杂度，统一处理外部请求。
+
+**2、** 数据裁剪以及聚合，根据不同的接口需求，对数据加工后对外。
+
+**3、** 多渠道支持，针对不同的客户端提供不同的网关支持。
+
+**4、** 遗留系统的微服务化改造，可以作为新老系统的中转组件。
+
+**5、** 统一处理调用过程中的安全、权限问题。
+
+
+### 9、如何使用SpringBoot实现分页和排序？
+
+使用SpringBoot实现分页非常简单。使用Spring Data-JPA可以实现将可分页的
+
+org.springframework.data.domain.Pageable
+
+传递给存储库方法。
+
+
+### 10、Spring Cache 三种常用的缓存注解和意义？
+
+**1、** [@Cacheable ](/Cacheable ) ，用来声明方法是可缓存，将结果存储到缓存中以便后续使用相同参数调用时不需执行实际的方法，直接从缓存中取值。
+
+**2、** @CachePut，使用 [@CachePut ](/CachePut ) 标注的方法在执行前，不会去检查缓存中是否存在之前执行过的结果，而是每次都会执行该方法，并将执行结果以键值对的形式存入指定的缓存中。
+
+**3、** @CacheEvict，是用来标注在需要清除缓存元素的方法或类上的，当标记在一个类上时表示其中所有的方法的执行都会触发缓存的清除操作。
+
+
+### 11、如何给静态变量赋值？
+### 12、如何使用 SpringBoot 实现异常处理？
+### 13、微服务测试的主要障碍是什么？
+### 14、SpringBoot 中的 starter 到底是什么 ?
+### 15、什么是Hystrix？它如何实现容错？
+### 16、什么是 AOP什么是引入?
+### 17、什么是双因素身份验证？
+### 18、SpringBoot的配置文件有哪几种格式？区别是什么？
+### 19、YAML 配置的优势在哪里 ?
+### 20、Spring Cloud 是什么
+### 21、SpringBoot事物的使用
+### 22、SpringBoot自动配置的原理
+### 23、如果前台有很多个参数传入,并且这些参数都是一个对象的,那么怎么样快速得到这个对象？
+### 24、SpringCloud 和 Dubbo 有哪些区别?
+### 25、什么是 AOP 切点
+### 26、SpringBoot 实现热部署有哪几种方式？
+### 27、什么是 JavaConfig？
+### 28、SpringBoot中的监视器是什么?
+### 29、前后端分离，如何维护接口文档 ?
+### 30、Web，RESTful API在微服务中的作用是什么？
 
 
 

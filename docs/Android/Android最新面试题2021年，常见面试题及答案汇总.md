@@ -6,206 +6,217 @@
 
 
 
-### 1、请介绍下Android的数据存储方式。
+### 1、请介绍下ContentProvider是如何实现数据共享的。
 
-使用SharedPreferences存储数据；文件存储数据；SQLite数据库存储数据；使用ContentProvider存储数据；网络存储数据；
+一个程序可以通过实现一个Content provider的抽象接口将自己的数据完全暴露出去，而且Content providers是以类似数据库中表的方式将数据暴露。Content providers存储和检索数据，通过它可以让所有的应用程序访问到，这也是应用程序之间唯一共享数据的方法。
 
-Preference，File， DataBase这三种方式分别对应的目录是/data/data/Package Name/Shared_Pref, /data/data/Package Name/files, /data/data/Package Name/database 。
+要想使应用程序的数据公开化，可通过2种方法：创建一个属于你自己的Content provider或者将你的数据添加到一个已经存在的Content provider中，前提是有相同数据类型并且有写入Content provider的权限。
 
-**一：使用SharedPreferences存储数据**
+如何通过一套标准及统一的接口获取其他应用程序暴露的数据？
 
-首先说明SharedPreferences存储方式，它是 Android提供的用来存储一些简单配置信息的一种机制，例如：登录用户的用户名与密码。其采用了Map数据结构来存储数据，以键值的方式存储，可以简单的读取与写入，具体实例如下：
+Android提供了ContentResolver，外界的程序可以通过ContentResolver接口访问ContentProvider提供的数据。
 
-```
-void  ReadSharedPreferences() {
-    String  strName, strPassword;
-    SharedPreferences    user  =  getSharedPreferences(“user_info”, 0);
-    strName  =  user.getString(“NAME”, ””);
-    strPassword  =  user  getString(“PASSWORD”, ””);
-}
-void  WriteSharedPreferences(String  strName, String  strPassword) {
-    SharedPreferences    user  =  getSharedPreferences(“user_info”, 0);
-    uer.edit();
-    user.putString(“NAME”,  strName);
-    user.putString(“PASSWORD” , strPassword);
-    user.commit();
-}
-```
 
-数据读取与写入的方法都非常简单，只是在写入的时候有些区别：先调用edit()使其处于编辑状态，然后才能修改数据，最后使用commit()提交修改的数据。实际上SharedPreferences是采用了XML格式将数据存储到设备中，在DDMS中的File Explorer中的/data/data//shares_prefs下。使用SharedPreferences是有些限制的：只能在同一个包内使用，不能在不同的包之间使用</package name>
+### 2、谈谈对Android NDK的理解
 
-**二：文件存储数**
+NDK是一系列工具的集合.NDK提供了一系列的工具,帮助开发者快速开发C或C++的动态库,并能自动将so和java应用一起打包成apk.这些工具对开发者的帮助是巨大的.NDK集成了交叉编译器,并提供了相应的mk文件隔离CPU,平台,ABI等差异,开发人员只需要简单修改 mk文件(指出"哪些文件需要编译","编译特性要求"等),就可以创建出so.
 
-文件存储方式是一种较常用的方法，在Android中读取/写入文件的方法，与 Java中实现I/O的程序是完全一样的，提供了openFileInput()和openFileOutput()方法来读取设备上的文件。具体实例如下
+NDK可以自动地将so和Java应用一起打包,极大地减轻了开发人员的打包工作.NDK提供了一份稳定,功能有限的API头文件声明.
 
-```
-String fn = “moandroid.log”;
-FileInputStream fis = openFileInput(fn);
-FileOutputStream fos = openFileOutput(fn,Context.MODE_PRIVATE);
-```
+Google明确声明该API是稳定的,在后续所有版本中都稳定支持当前发布的API.从该版本的NDK中看出,这些 API支持的功能非常有限,包含有:C标准库(libc),标准数学库(libm ),压缩库(libz),Log库(liblog).
 
-**三：网络存储数**
 
-网络存储方式，需要与Android 网络数据包打交道，关于Android 网络数据包的详细说明，请阅读Android SDK引用了Java SDK的哪些package？
+### 3、activity与fragment区别
 
-**四：ContentProvide**
+生命周期：
 
-**1、** ContentProvider简
+fragment从创建倒销毁整个生命周期依次为onAttach()→onCreate()→onCreateView()→onActivityCreated()→onStart()→onResume()→onPause()→onStop()→onDestroyView()→onDestroy()→onDetach()
 
-当应用继承ContentProvider类，并重写该类用于提供数据和存储数据的方法，就可以向其他应用共享其数据。虽然使用其他方法也可以对外共享数据，但数据访问方式会因数据存储的方式而不同，如：采用文件方式对外共享数据，需要进行文件操作读写数据；采用sharedpreferences共享数据，需要使用sharedpreferences API读写数据。而使用ContentProvider共享数据的好处是统一了数据访问方式
+**与activity不同的方法有**
 
-**2、** Uri类简
+**1、** onAttach():当Fragment和Activity建立关联的时候调用；
 
-Uri代表了要操作的数据，Uri主要包含了两部分信息：1.需要操作的ContentProvider ，2.对ContentProvider中的什么数据进行操作，一个Uri由以下几部分组成
+**2、** onCreateView():当Fragment创建视图调用；
 
-**1、** scheme：ContentProvider（内容提供者）的scheme已经由Android所规定为：content://
+**3、** onActivityCreated:与Fragment相关联的Activity完成onCreate()之后调用；
 
-**2、** 主机名（或Authority）：用于唯一标识这个ContentProvider，外部调用者可以根据这个标识来找到它
+**4、** onDestoryView():在Fragment中的布局被移除时调用；
 
-**3、** 路径（path）：可以用来表示我们要操作的数据，路径的构建应根据业务而定，如下
+**5、** onDetach():当Fragment和Activity解除关联时调用；
 
-**1、** 要操作contact表中id为10的记录，可以构建这样的路径:/contact/10
+**6、** activity常用的生命周期只有以下几个；
 
-**2、** 要操作contact表中id为10的记录的name字段， contact/10/name
+**7、** onCreate()： 表示 Activity 正在被创建，常用来 初始化工作，比如调用 setContentView 加载界面布局资源，初始化 Activity 所需数据等；
 
-**3、** 要操作contact表中的所有记录，可以构建这样的路径:/contact?
+**8、** onRestart()：表示 Activity 正在重新启动，一般情况下，当前Acitivty 从不可见重新变为可见时，OnRestart就会被调用；
 
-**4、** 要操作的数据不一定来自数据库，也可以是文件等他存储方式，如下:
+**9、** onStart()： 表示 Activity 正在被启动，此时 Activity 可见但不在前台，还处于后台，无法与用户交互；
 
-**5、** 要操作xml文件中contact节点下的name节点，可以构建这样的路径：/contact/name
+**10、** onResume()： 表示 Activity 获得焦点，此时 Activity 可见且在前台并开始活动，这是与 onStart 的区别所在；
 
-**6、** 如果要把一个字符串转换成Uri，可以使用Uri类中的parse()方法，如下：
+**11、** onPause()： 表示 Activity 正在停止，此时可做一些 存储数据、停止动画等工作，但是不能太耗时，因为这会影响到新 Activity的显示，onPause 必须先执行完，新 Activity 的 onResume 才会执行；
 
-Uri uri = Uri.parse("content://com.changcheng.provider.contactprovider/contact")
+**12、** onStop()： 表示 Activity 即将停止，可以做一些稍微重量级的回收工作，比如注销广播接收器、关闭网络连接等，同样不能太耗时；
 
-**3、** UriMatcher、ContentUrist和ContentResolver简介
+**13、** onDestroy()： 表示 Activity 即将被销毁，这是 Activity 生命周期中的最后一个回调，常做 回收工作、资源释放；
 
-因为Uri代表了要操作的数据，所以我们很经常需要解析Uri，并从 Uri中获取数据。Android系统提供了两个用于操作Uri的工具类，分别为UriMatcher 和ContentUris 。掌握它们的使用，会便于我们的开发工作。
+**14、** 区别：
 
-**UriMatcher：用于匹配Uri，它的用法如下：**
+**15、** Fragment比Activity多出四个回调周期，控制操作上更灵活；
 
-1.首先把你需要匹配Uri路径全部给注册上，如下
+**16、** Fragment可以在xml文件中直接写入，也可以在Activity中动态添加；
+
+**17、** Fragment可以使用show()/hide()或者replace()对Fragment进行切换，切换的时候不会出现明显的效果，Activity切换的时候会有明显的翻页或其他效果；
+
+
+### 4、Android与服务器交互的方式中的对称加密和非对称加密是什么?
+
+对称加密，就是加密和解密数据都是使用同一个key，这方面的算法有DES。
+
+非对称加密，加密和解密是使用不同的key。发送数据之前要先和服务端约定生成公钥和私钥，使用公钥加密的数据可以用私钥解密，反之。这方面的算法有RSA。ssh 和 ssl都是典型的非对称加密。
+
+
+### 5、Android中常用布局
+
+常用的布局：
 
 ```
-//常量UriMatcher.NO_MATCH表示不匹配任何路径的返回码(-1)。
-UriMatcher uriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
-//如果match()方法匹配content://com.changcheng.sqlite.provider.contactprovider /contact路径，返回匹配码为1
-uriMatcher.addURI(“com.changcheng.sqlite.provider.contactprovider”, “contact”, 1);//添加需要匹配uri，如果匹配就会返回匹配码
-//如果match()方法匹配 content://com.changcheng.sqlite.provider.contactprovider/contact/230路径，返回匹配码为2
-uriMatcher.addURI(“com.changcheng.sqlite.provider.contactprovider”, “contact/#”, 2);//#号为通配符
+FrameLayout(帧布局):所有东西依次都放在左上角，会重叠
+LinearLayout(线性布局):按照水平和垂直进行数据展示
+RelativeLayout(相对布局):以某一个元素为参照物，来定位的布局方式
 ```
 
-2.注册完需要匹配的Uri后，就可以使用uriMatcher.match(uri)方法对输入的Uri进行匹配，如果匹配就返回匹配码，匹配码是调用 addURI()方法传入的第三个参数，假设匹配 content://com.changcheng.sqlite.provider.contactprovider/contact路径，返回的匹配码为1
-
-ContentUris：用于获取Uri路径后面的ID部分，它有两个比较实用的方法
-
-withAppendedId(uri, id)用于为路径加上ID部
-
-parseId(uri)方法用于从路径中获取ID部
-
-ContentResolver：当外部应用需要对ContentProvider中的数据进行添加、删除、修改和查询操作时，可以使用 ContentResolver 类来完成，要获取ContentResolver 对象，可以使用Activity提供的getContentResolver()方法。 ContentResolver使用insert、delete、update、query方法，来操作数据
-
-
-### 2、Android数字签名
-
-**1、** 所有的应用程序都必须有数字证书，Android系统不会安装一个没有数字证书的应用程序
-
-**2、** Android程序包使用的数字证书可以是自签名的，不需要一个权威的数字证书机构签名认证
-
-**3、** 如果要正式发布一个Android ，必须使用一个合适的私钥生成的数字证书来给程序签名。
-
-**4、** 数字证书都是有有效期的，Android只是在应用程序安装的时候才会检查证书的有效期。如果程序已经安装在系统中，即使证书过期也不会影响程序的正常功能。
-
-
-### 3、SQLite支持事务吗? 添加删除如何提高性能?
-
-在sqlite插入数据的时候默认一条语句就是一个事务，有多少条数据就有多少次磁盘操作 比如5000条记录也就是要5000次读写磁盘操作。
-
-添加事务处理，把多条记录的插入或者删除作为一个事务
-
-
-### 4、说说 LruCache 底层原理
-
-LruCache 使用一个 LinkedHashMap 简单的实现内存的缓存，没有软引用，都是强引用。
-
-如果添加的数据大于设置的最大值，就删除最先缓存的数据来调整内存。maxSize 是通过构造方法初始化的值，他表示这个缓存能缓存的最大值是多少。
-
-size 在添加和移除缓存都被更新值， 他通过 safeSizeOf 这个方法更新值。 safeSizeOf 默认返回 1，但一般我们会根据 maxSize 重写这个方法，比如认为 maxSize 代表是 KB 的话，那么就以 KB 为单位返回该项所占的内存大小。
-
-除异常外，首先会判断 size 是否超过 maxSize，如果超过了就取出最先插入的缓存，如果不为空就删掉，并把 size 减去该项所占的大小。这个操作将一直循环下去，直到 size 比 maxSize 小或者缓存为空。
-
-
-### 5、dagger2
-
-Dagger2是一个主要用于依赖注入的框架，减少初始化对象操作，降低耦合度
-
-
-### 6、内存溢出和内存泄漏有什么区别？何时会产生内存泄漏？
-
-内存溢出：当程序运行时所需的内存大于程序允许的最高内存，这时会出现内存溢出；
-
-内存泄漏：在一些比较消耗资源的操作中，如果操作中内存一直未被释放，就会出现内存泄漏。比如未关闭io,cursor。
-
-
-### 7、请介绍下 AsyncTask 的内部实现和适用的场景
-
-AsyncTask 内部也是 Handler 机制来完成的，只不过 Android 提供了执行框架来提供线程池来执行相应地任务，因为线程池的大小问题，所以 AsyncTask 只应该用来执行耗时时间较短的任务，比如 HTTP 请求，大规模的下载和数据库的更改不适用于 AsyncTask，因为会导致线程池堵塞，没有线程来执行其他的任务，导致的情形是会发生 AsyncTask 根本执行不了的问题
-
-
-### 8、Android中，帧动画
-
-帧动画是最容易实现的一种动画，这种动画更多的依赖于完善的UI资源，他的原理就是将一张张单独的图片连贯的进行播放，从而在视觉上产生一种动画的效果；有点类似于某些软件制作gif动画的方式。在有些代码中，我们还会看到android：oneshot="false" ，这个oneshot 的含义就是动画执行一次（true）还是循环执行多次。
+不常用的布局：
 
 ```
-<?xml version="1.0" encoding="utf-8"?>
-<animation-list xmlns:android="http://schemas.android.com/apk/res/android">
-    <item
-        android:drawable="@drawable/a_0"
-        android:duration="100" />
-    <item
-        android:drawable="@drawable/a_1"
-        android:duration="100" />
-    <item
-        android:drawable="@drawable/a_2"
-        android:duration="100" />
-</animation-list>
+TableLayout(表格布局): 每一个TableLayout里面有表格行TableRow，TableRow里面可以具体定义每一个元素（Android TV上使用）
+AbsoluteLayout(绝对布局):用X,Y坐标来指定元素的位置，元素多就不适用。（机顶盒上使用）
+```
+
+新增布局：
+
+```
+PercentRelativeLayout（百分比相对布局）可以通过百分比控制控件的大小。
+PercentFrameLayout（百分比帧布局）可以通过百分比控制控件的大小。
 ```
 
 
-### 9、ListView 如何定位到指定位置
+### 6、如何退出Activity
 
-可以通过 ListView 提供的 lv.setSelection(listView.getPosition())方法。
+结束当前activity
+
+```
+Finish()
+killProgress()
+System.exit(0)
+```
+
+关闭应用程序时，结束所有的activity
+
+可以创建一个List集合，每新创建一个activity，将该activity的实例放进list中，程序结束时，从集合中取出循环取出activity实例，调用finish()方法结束
 
 
+### 7、内存泄露如何查看和解决
 
-### 10、ListView的优化方案
+概念：有些对象只有有限的生命周期，当他们的任务完成之后，它们将被垃圾回收，如果在对象的生命周期本该结束的时候，这个对象还被一系列的引用，着就会导致内存泄露。
 
-**1、** 如果自定义适配器，那么在getView方法中要考虑方法传进来的参数contentView是否为null，如果为null就创建contentView并返回，如果不为null则直接使用。在这个方法中尽可能少创建view。
+解决方法：使用开源框架LeakCanary检测针对性解决
 
-**2、** 给contentView设置tag（setTag（）），传入一个viewHolder对象，用于缓存要显示的数据，可以达到图像数据异步加载的效果。
+**常见的内存泄露有：**
 
-**3、** 如果listview需要显示的item很多，就要考虑分页加载。比如一共要显示100条或者更多的时候，我们可以考虑先加载20条，等用户拉到列表底部的时候再去加载接下来的20条。
+**1、** 单例造成的内存泄露，例如单例中的Context生命周期大于本身Context生命周期
+
+**2、** 线程使用Hander造成的内存卸扣，当activity已经结束，线程依然在运行更新UI
+
+**3、** 非静态类使用静态变量导致无法回收释放造成泄露
+
+**4、** WebView网页过多造成内存泄露
+
+**5、** 资源未关闭造成泄露，例如数据库使用完之后关闭连接
 
 
-### 11、启动一个程序，可以主界面点击图标进入，也可以从一个程序中跳转过去，二者有什么区别？
-### 12、横竖屏切换的Activity 生命周期变化？
-### 13、如果后台的Activity由于某原因被系统回收了，如何在被系统回收之前保存当前状态？
-### 14、IntentService有何优点?
-### 15、请介绍下ContentProvider是如何实现数据共享的。
-### 16、如何修改 Activity 进入和退出动画
-### 17、activity之间传递参数，除了intent，广播接收器，contentProvider之外，还有那些方法？
-### 18、activity的生命周期
-### 19、谈MVC ，MVP，MVVM
-### 20、子线程发消息到主线程进行更新 UI，除了 handler 和 AsyncTask，还有什么？
-### 21、简述TCP，UDP，Socket
-### 22、如何将打开res aw目录中的数据库文件?
-### 23、让Activity变成一个窗口
-### 24、Intent 传递数据时，可以传递哪些类型数据？
-### 25、android:gravity与android:layout_gravity的区别
-### 26、即时通讯是是怎么做的?
-### 27、Fragment 如何实现类似 Activity 栈的压栈和出栈效果的？
-### 28、View的分发机制，滑动冲突
-### 29、Fragment与activity如何传值和交互？
+### 8、SharedPreference跨进程使用会怎么样？如何保证跨进程使用安全？
+
+在两个应用的manifest配置中好相同的shartdUserId属性，A应用正常保存数据，B应用
+
+createPackageContext("com.netease.nim.demo", CONTEXT_IGNORE_SECURITY)
+
+获取context然后获取应用数据，为保证数据安全，使用加密存储
+
+
+### 9、如何退出Activity？如何安全退出已调用多个Activity的Application？
+
+对于单一Activity的应用来说，退出很简单，直接finish()即可。当然，也可以用killProcess()和System.exit()这样的方法。
+
+对于多个activity，1、记录打开的Activity：每打开一个Activity，就记录下来。在需要退出时，关闭每一个Activity即可。2、发送特定广播：在需要结束应用时，发送一个特定的广播，每个Activity收到广播后，关闭即可。3、递归退出：在打开新的Activity时使用startActivityForResult，然后自己加标志，在onActivityResult中处理，递归关闭。为了编程方便，最好定义一个Activity基类，处理这些共通问题。
+
+在2.1之前，可以使用ActivityManager的restartPackage方法。
+
+它可以直接结束整个应用。在使用时需要权限android.permission.RESTART_PACKAGES。
+
+注意不要被它的名字迷惑。
+
+可是，在2.2，这个方法失效了。在2.2添加了一个新的方法，killBackground Processes()，需要权限 android.permission.KILL_BACKGROUND_PROCESSES。可惜的是，它和2.2的restartPackage一样，根本起不到应有的效果。
+
+另外还有一个方法，就是系统自带的应用程序管理里，强制结束程序的方法，forceStopPackage()。它需要权限android.permission.FORCE_STOP_PACKAGES。并且需要添加android:sharedUserId="android.uid.system"属性。同样可惜的是，该方法是非公开的，他只能运行在系统进程，第三方程序无法调用。
+
+因为需要在Android.mk中添加LOCAL_CERTIFICATE := platform。
+
+而Android.mk是用于在Android源码下编译程序用的。
+
+从以上可以看出，在2.2，没有办法直接结束一个应用，而只能用自己的办法间接办到。
+
+**现提供几个方法，供参考：**
+
+**1、** 抛异常强制退出：
+
+该方法通过抛异常，使程序Force Close。
+
+验证可以，但是，需要解决的问题是，如何使程序结束掉，而不弹出Force Close的窗口。
+
+**2、** 记录打开的Activity：
+
+每打开一个Activity，就记录下来。在需要退出时，关闭每一个Activity即可。
+
+**3、** 发送特定广播：
+
+在需要结束应用时，发送一个特定的广播，每个Activity收到广播后，关闭即可。
+
+**4、** 递归退出
+
+在打开新的Activity时使用startActivityForResult，然后自己加标志，在onActivityResult中处理，递归关闭。
+
+除了第一个，都是想办法把每一个Activity都结束掉，间接达到目的。但是这样做同样不完美。你会发现，如果自己的应用程序对每一个Activity都设置了nosensor，在两个Activity结束的间隙，sensor可能有效了。但至少，我们的目的达到了，而且没有影响用户使用。为了编程方便，最好定义一个Activity基类，处理这些共通问题。
+
+
+### 10、ContentProvider与sqlite有什么不一样的？
+
+```
+ContentProvider会对外隐藏内部实现，只需要关注访问contentProvider的uri即可，contentProvider应用在应用间共享。
+Sqlite操作本应用程序的数据库。
+ContentProiver可以对本地文件进行增删改查操作
+```
+
+
+### 11、横竖屏切换的Activity 生命周期变化？
+### 12、开发中都使用过哪些框架、平台
+### 13、什么是嵌入式实时操作系统, Android 操作系统属于实时操作系统吗?
+### 14、Fragment 如何实现类似 Activity 栈的压栈和出栈效果的？
+### 15、广播注册
+### 16、如何将SQLite数据库(dictionary.db文件)与apk文件一起发布?
+### 17、View
+### 18、消息推送的方式
+### 19、Activity间通过Intent传递数据大小有没有限制？
+### 20、让Activity变成一个窗口
+### 21、16Android性能优化
+### 22、注册广播有几种方式，这些方式有何优缺点？请谈谈Android引入广播机制的用意。
+### 23、谈MVC ，MVP，MVVM
+### 24、内存溢出和内存泄漏有什么区别？何时会产生内存泄漏？
+### 25、9.进程和线程的区别
+### 26、recyclerView嵌套卡顿解决如何解决
+### 27、Android本身的api并未声明会抛出异常，则其在运行时有无可能抛出runtime异常，你遇到过吗？诺有的话会导致什么问题？如何解决？
+### 28、请描述下Activity的生命周期。
+### 29、Activity启动模式
 
 
 

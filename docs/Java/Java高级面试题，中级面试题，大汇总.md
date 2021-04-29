@@ -6,132 +6,184 @@
 
 
 
-### 1、HashMap在JDK1.7和JDK1.8中有哪些不同？HashMap的底层实现
-
-在Java中，保存数据有两种比较简单的数据结构：数组和链表。**数组的特点是：寻址容易，插入和删除困难；链表的特点是：寻址困难，但插入和删除容易；所以我们将数组和链表结合在一起，发挥两者各自的优势，使用一种叫做拉链法**的方式可以解决哈希冲突。
-
-**HashMap JDK1.8之前**
-
-JDK1.8之前采用的是拉链法。**拉链法**：将链表和数组相结合。也就是说创建一个链表数组，数组中每一格就是一个链表。若遇到哈希冲突，则将冲突的值加到链表中即可。
-
-![](https://gitee.com/souyunkutech/souyunku-home/raw/master/images/souyunku-web/2020/5/2/056/58/114_5.png#alt=114%5C_5.png)
-
-**HashMap JDK1.8之后**
-
-相比于之前的版本，jdk1.8在解决哈希冲突时有了较大的变化，当链表长度大于阈值（默认为8）时，将链表转化为红黑树，以减少搜索时间。
-
-![](https://gitee.com/souyunkutech/souyunku-home/raw/master/images/souyunku-web/2020/5/2/056/58/114_6.png#alt=114%5C_6.png)
-
-**JDK1.7 VS JDK1.8 比较**
-
-**JDK1.8主要解决或优化了一下问题：**
-
-**1、** resize 扩容优化
-
-**2、** 引入了红黑树，目的是避免单条链表过长而影响查询效率，红黑树算法请参考
-
-**3、** 解决了多线程死循环问题，但仍是非线程安全的，多线程时可能会造成数据丢失问题。
-
-| 不同 | JDK 1.7 | JDK 1.8 |
-| --- | --- | --- |
-| 存储结构 | 数组 + 链表 | 数组 + 链表 + 红黑树 |
-| 初始化方式 | 单独函数：`inflateTable()` | 直接集成到了扩容函数`resize()`中 |
-| hash值计算方式 | 扰动处理 = 9次扰动 = 4次位运算 + 5次异或运算 | 扰动处理 = 2次扰动 = 1次位运算 + 1次异或运算 |
-| 存放数据的规则 | 无冲突时，存放数组；冲突时，存放链表 | 无冲突时，存放数组；冲突 & 链表长度 < 8：存放单链表；冲突 & 链表长度 > 8：树化并存放红黑树 |
-| 插入数据方式 | 头插法（先讲原位置的数据移到后1位，再插入数据到该位置） | 尾插法（直接插入到链表尾部/红黑树） |
-| 扩容后存储位置的计算方式 | 全部按照原来方法进行计算（即hashCode ->> 扰动函数 ->> (h&length-1)） | 按照扩容后的规律计算（即扩容后的位置=原位置 or 原位置 + 旧容量） |
+### 1、如何通过反射获取和设置对象私有字段的值？
 
 
 
-### 2、如何阻止表单提交
-
-Onsubmit=“return false”
-
-
-### 3、JIT是什么？
-
-为了提高热点代码的执行效率，在运行时，虚拟机将会把这些代码编译成与本地平台相关的机器码，并进行各种层次的优化。完成这个任务的编译器，就称为即时编译器（Just In Time Compiler），简称 JIT 编译器。
-
-
-### 4、如果对象的引用被置为null，垃圾收集器是否会立即释放对象占用的内存？
-
-**1、** 不会，在下一个垃圾回调周期中，这个对象将是被可回收的。
-
-**2、** 也就是说并不会立即被垃圾收集器立刻回收，而是在下一次垃圾回收时才会释放其占用的内存。
-
-
-### 5、Java 中能创建 volatile 数组吗？
-
-能，Java 中可以创建 volatile 类型数组，不过只是一个指向数组的引用，而不是整个数组。意思是，如果改变引用指向的数组，将会受到 volatile 的保护，但是如果多个线程同时改变数组的元素，volatile 标示符就不能起到之前的保护作用了。
-
-
-### 6、ConcurrentHashMap的并发度是什么
-
-ConcurrentHashMap的并发度就是segment的大小，默认为16，这意味着最多同时可以有16条线程操作ConcurrentHashMap，这也是ConcurrentHashMap对Hashtable的最大优势，任何情况下，Hashtable能同时有两条线程获取Hashtable中的数据吗？
-
-
-### 7、多线程场景下如何使用 ArrayList？
-
-ArrayList 不是线程安全的，如果遇到多线程场景，可以通过 Collections 的 synchronizedList 方法将其转换成线程安全的容器后再使用。例如像下面这样：
+可以通过类对象的getDeclaredField()方法字段（Field）对象，然后再通过字段对象的setAccessible(true)将其设置为可以访问，接下来就可以通过get/set方法来获取/设置字段的值了。下面的代码实现了一个反射的工具类，其中的两个静态方法分别用于获取和设置私有字段的值，字段可以是基本类型也可以是对象类型且支持多级对象操作，例如ReflectionUtil.get(dog, “owner.car.engine.id”);可以获得dog对象的主人的汽车的引擎的ID号。
 
 ```
-List<String> synchronizedList = Collections.synchronizedList(list);
-synchronizedList.add("aaa");
-synchronizedList.add("bbb");
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
+import java.util.ArrayList;
+import java.util.List;
 
-for (int i = 0; i < synchronizedList.size(); i++) {
-System.out.println(synchronizedList.get(i));
+/
+ * 反射工具类
+ * @author 骆昊
+ *
+ */
+public class ReflectionUtil {
+
+    private ReflectionUtil() {
+        throw new AssertionError();
+    }
+
+    /
+     * 通过反射取对象指定字段(属性)的值
+     * @param target 目标对象
+     * @param fieldName 字段的名字
+     * @throws 如果取不到对象指定字段的值则抛出异常
+     * @return 字段的值
+     */
+    public static Object getValue(Object target, String fieldName) {
+        Class<?> clazz = target.getClass();
+        String[] fs = fieldName.split("\\.");
+
+        try {
+            for(int i = 0; i < fs.length - 1; i++) {
+                Field f = clazz.getDeclaredField(fs[i]);
+                f.setAccessible(true);
+                target = f.get(target);
+                clazz = target.getClass();
+            }
+
+            Field f = clazz.getDeclaredField(fs[fs.length - 1]);
+            f.setAccessible(true);
+            return f.get(target);
+        }
+        catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    /
+     * 通过反射给对象的指定字段赋值
+     * @param target 目标对象
+     * @param fieldName 字段的名称
+     * @param value 值
+     */
+    public static void setValue(Object target, String fieldName, Object value) {
+        Class<?> clazz = target.getClass();
+        String[] fs = fieldName.split("\\.");
+        try {
+            for(int i = 0; i < fs.length - 1; i++) {
+                Field f = clazz.getDeclaredField(fs[i]);
+                f.setAccessible(true);
+                Object val = f.get(target);
+                if(val == null) {
+                    Constructor<?> c = f.getType().getDeclaredConstructor();
+                    c.setAccessible(true);
+                    val = c.newInstance();
+                    f.set(target, val);
+                }
+                target = val;
+                clazz = target.getClass();
+            }
+
+            Field f = clazz.getDeclaredField(fs[fs.length - 1]);
+            f.setAccessible(true);
+            f.set(target, value);
+        }
+        catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
 }
 ```
 
 
-### 8、什么是ORM？
+### 2、Java 堆的结构是什么样子的？什么是堆中的永久代（Perm Gen space）
 
-对象关系映射（Object-Relational Mapping，简称ORM）是一种为了解决程序的面向对象模型与数据库的关系模型互不匹配问题的技术
+JVM 的堆是运行时数据区，所有类的实例和数组都是在堆上分配内存。它在 JVM 启动的时候被创建。对象所占的堆内存是由自动内存管理系统也就是垃圾收集器回收。
 
-
-### 9、Java 中，怎么打印出一个字符串的所有排列？
-
-解决方案
-
-[http://javarevisited.blogspot.com/2015/08/how-to-find-all-permutations-of-string-java-example.html](http://javarevisited.blogspot.com/2015/08/how-to-find-all-permutations-of-string-java-example.html)
+堆内存是由存活和死亡的对象组成的。存活的对象是应用可以访问的，不会被垃圾回收。死亡的对象是应用不可访问尚且还没有被垃圾收集器回收掉的对象。一直到垃圾收集器把这些 对象回收掉之前，他们会一直占据堆内存空间。
 
 
-### 10、Java 中，抽象类与接口之间有什么不同？
+### 3、栈溢出的原因？
 
-Java 中，抽象类和接口有很多不同之处，但是最重要的一个是 Java 中限制一个类只能继承一个类，但是可以实现多个接口。抽象类可以很好的定义一个家族类的默认行为，而接口能更好的定义类型，有助于后面实现多态机制。
+由于 HotSpot 不区分虚拟机和本地方法栈，设置本地方法栈大小的参数没有意义，栈容量只能由 `-Xss` 参数来设定，存在两种异常：
+
+**StackOverflowError：** 如果线程请求的栈深度大于虚拟机所允许的深度，将抛出 StackOverflowError，例如一个递归方法不断调用自己。该异常有明确错误堆栈可供分析，容易定位到问题所在。
+
+**OutOfMemoryError：** 如果 JVM 栈可以动态扩展，当扩展无法申请到足够内存时会抛出 OutOfMemoryError。HotSpot 不支持虚拟机栈扩展，所以除非在创建线程申请内存时就因无法获得足够内存而出现 OOM，否则在线程运行时是不会因为扩展而导致溢出的。
 
 
-### 11、观察者模式应用场景
-### 12、分代收集算法
-### 13、类初始化的情况有哪些？
-### 14、并发队列和并发集合的区别：
-### 15、如何确保线程安全？
-### 16、线程的生命周期？
-### 17、Java 中怎样将 bytes 转换为 long 类型？
-### 18、你将如何使用thread dump？你将如何分析Thread dump？
-### 19、ArrayList和Vector有什么不同之处？
-### 20、Java会存在内存泄漏吗？请简单描述。
-### 21、Java 内存分配与回收策率以及 Minor GC 和 Major GC
-### 22、创建一个子类对象的时候，那么父类的构造方法会执行吗？
-### 23、模块化编程与热插拔
-### 24、线程之间如何通信及线程之间如何同步
-### 25、final、finalize 和 finally 的不同之处？
-### 26、怎么获取 Java 程序使用的内存？堆使用的百分比？
-### 27、HashSet与HashMap的区别
-### 28、可达性分析
-### 29、JVM 年轻代到年老代的晋升过程的判断条件是什么呢？
-### 30、Java 中，受检查异常 和 不受检查异常的区别？
-### 31、阻塞队列和非阻塞队列区别
-### 32、final 在 java 中有什么作用？
-### 33、HTTP的状态码
-### 34、Java 中，怎样才能打印出数组中的重复元素？
-### 35、线程池的优点？
-### 36、Java都有那些开发平台？
-### 37、你知道哪些故障处理工具？
-### 38、switch 是否能作用在byte 上，是否能作用在long 上，是否能作用在String上？
-### 39、MinorGC，MajorGC、FullGC都什么时候发生？
-### 40、抽象类是什么？它与接口有什么区别？你为什么要使用过抽象类？
+### 4、实例化数组后，能不能改变数组长度呢？
+
+不能，数组一旦实例化，它的长度就是固定的
+
+
+### 5、poll() 方法和 remove() 方法的区别？
+
+poll() 和 remove() 都是从队列中取出一个元素，但是 poll() 在获取元素失败的时候会返回空，但是 remove() 失败的时候会抛出异常。
+
+
+### 6、接口和抽象类有什么区别？
+
+实现：抽象类的子类使用 extends 来继承；接口必须使用 implements 来实现接口。 构造函数：抽象类可以有构造函数；接口不能有。 main 方法：抽象类可以有 main 方法，并且我们能运行它；接口不能有 main 方法。 实现数量：类可以实现很多个接口；但是只能继承一个抽象类。 访问修饰符：接口中的方法默认使用 public 修饰；抽象类中的方法可以是任意访问修饰符。
+
+
+### 7、我们可以在 hashcode() 中使用随机数字吗？
+
+答案
+
+[http://javarevisited.blogspot.sg/2011/10/override-hashcode-in-java-example.html](http://javarevisited.blogspot.sg/2011/10/override-hashcode-in-java-example.html)
+
+不行，因为对象的 hashcode 值必须是相同的。参见答案获取更多关于 Java 中重写 hashCode() 方法的知识。
+
+
+### 8、3*0.1 == 0.3 将会返回什么？true 还是 false？
+
+false，因为有些浮点数不能完全精确的表示出来。
+
+
+### 9、在多线程环境下，SimpleDateFormat 是线程安全的吗？
+
+不是，非常不幸，DateFormat 的所有实现，包括 SimpleDateFormat 都不是线程安全的，因此你不应该在多线程序中使用，除非是在对外线程安全的环境中使用，如 将 SimpleDateFormat 限制在 ThreadLocal 中。如果你不这么做，在解析或者格式化日期的时候，可能会获取到一个不正确的结果。因此，从日期、时间处理的所有实践来说，我强力推荐 joda-time 库。
+
+
+### 10、Jsp指令有那些？
+
+Include
+
+Taglib
+
+Page
+
+
+### 11、假如生产环境CPU占用过高，请谈谈你的分析思路和定位。
+### 12、举例说明同步和异步。
+### 13、FutureTask是什么
+### 14、为什么wait(), notify()和notifyAll ()必须在同步方法或者同步块中被调用？
+### 15、什么是建造者模式
+### 16、环境变量Path和ClassPath的作用是什么？如何设置这两个环境变量？
+### 17、如何边遍历边移除 Collection 中的元素？
+### 18、类加载器双亲委派模型机制？
+### 19、ZGC收集器中的染色指针有什么用？
+### 20、什么是单例
+### 21、Java 中怎么打印数组？
+### 22、构造方法能不能显式调用？
+### 23、React最新的生命周期是怎样的?
+### 24、Parallel Old 收集器（多线程标记整理算法）
+### 25、解释内存中的栈(stack)、堆(heap)和方法区(method area)的用法。
+### 26、什么是阻塞队列？阻塞队列的实现原理是什么？如何使用阻塞队列来实现生产者-消费者模型？
+### 27、HashMap的扩容操作是怎么实现的？
+### 28、常见的计算机网络协议有那些？
+### 29、List，Set，Map三者的区别？
+### 30、volatile 变量和 atomic 变量有什么不同？
+### 31、什么是事务？事务有那些特点？
+### 32、堆
+### 33、对象分配规则
+### 34、什么时候用断言（assert）？
+### 35、CMS都有哪些问题？
+### 36、Thow与thorws区别
+### 37、介绍一下类文件结构吧！
+### 38、你对 Time Slice的理解?
+### 39、48、List、Set、Map 和 Queue 之间的区别(答案)
+### 40、对象都是优先分配在年轻代上的吗？
 
 
 

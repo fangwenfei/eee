@@ -6,64 +6,63 @@
 
 
 
-### 1、MyBatis 与 Hibernate 有哪些不同？
+### 1、在mapper中如何传递多个参数?
 
-**1、** Mybatis 和 hibernate 不同，它不完全是一个 ORM 框架，因为 MyBatis 需要程序员自己
+**1、** 第一种：
 
-编写 Sql 语句，不过 mybatis 可以通过 XML 或注解方式灵活配置要运行的 sql 语句，并将
+**DAO层的函数**
 
-java 对象和 sql 语句映射生成最终执行的 sql，最后将 sql 执行的结果再映射生成 java 对
+```java
+public UserselectUser(String name,String area);
+        对应的xml,#{0}代表接收的是dao层中的第一个参数，#{1}代表dao层中第二参数，更多参数一致往后加即可。
+```
 
-象。
+```xml
+<select id="selectUser"resultMap="BaseResultMap">
+    select *  fromuser_user_t   whereuser_name = #{0} anduser_area=#{1}
+</select>
+```
 
-**2、** Mybatis 学习门槛低，简单易学，程序员直接编写原生态 sql，可严格控制 sql 执行性
+**2、** 第二种： 使用 [@param ](/param ) 注解:
 
-能，灵活度高，非常适合对关系数据模型要求不高的软件开发，例如互联网软件、企业运
+```java
+public interface usermapper {
+    user selectuser(@param(“username”) string username,@param(“hashedpassword”) string hashedpassword);
+}
+```
 
-营类软件等，因为这类软件需求变化频繁，一但需求变化要求成果输出迅速。但是灵活的
+然后,就可以在xml像下面这样使用(推荐封装为一个map,作为单个参数传递给mapper):
 
-前提是 mybatis 无法做到数据库无关性，如果需要实现支持多种数据库的软件则需要自定
+```xml
+<select id=”selectuser” resulttype=”user”>
+        select id, username, hashedpassword
+        from some_table
+        where username = #{username}
+        and hashedpassword = #{hashedpassword}
+        </select>
+```
 
-义多套 sql 映射文件，工作量大。
+**3、** 第三种：多个参数封装成map
 
-**3、** Hibernate 对象/关系映射能力强，数据库无关性好，对于关系模型要求高的软件（例如
-
-需求固定的定制化软件、如果用 hibernate 开发可以节省很多代码，提高效率。但是
-
-Hibernate 的缺点是学习门槛高，要精通门槛更高，而且怎么设计 O/R 映射，在性能和对象
-
-模型之间如何权衡，以及怎样用好 Hibernate 需要具有很强的经验和能力才行。
-
-总之，按照用户的需求在有限的资源环境下只要能做出维护性、扩展性良好的软件架构都
-
-是好架构，所以框架只有适合才是最好。
-
-
-### 2、使用Mybatis的mapper接口调用时候有哪些要求？
-
-**1、** Mapper接口方法名和Mapper.xml中定义的每个SQL的id相同；
-
-**2、** Mapper接口方法的输入参数类型和mapper.xml中定义的每个sqlparameterType类型相同
-
-**3、** Mapper接口方法的输入输出参数类型和mapper.xml中定义的每个sql的resultType的类型相同
-
-**4、** Mapper.xml文件中的namespace，就是接口的类路径。
-
-
-### 3、Mybatis 的 Xml 映射文件中，不同的 Xml 映射文件，id 是否可以重复？
-
-不同的 Xml 映射文件，如果配置了 namespace，那么 id 可以重复；如果没有配置
-
-namespace，那么 id 不能重复；毕竟 namespace 不是必须的，只是最佳实践而已。原因就
-
-是 namespace+id 是作为 Map<String, MappedStatement>的 key 使用的，如果没有
-
-namespace，就剩下 id，那么，id 重复会导致数据互相覆盖。有了 namespace，自然 id 就
-
-可以重复，namespace 不同，namespace+id 自然也就不同。
+```java
+try {
+        //映射文件的命名空间.SQL片段的ID，就可以调用对应的映射文件中的SQL
+        //由于我们的参数超过了两个，而方法中只有一个Object参数收集，因此我们使用Map集合来装载我们的参数
+        Map < String, Object > map = new HashMap();
+        map.put("start", start);
+        map.put("end", end);
+        return sqlSession.selectList("StudentID.pagination", map);
+        } catch (Exception e) {
+        e.printStackTrace();
+        sqlSession.rollback();
+        throw e;
+        } finally {
+        MybatisUtil.closeSqlSession();
+        }
+```
 
 
-### 4、JDBC编程有哪些不足之处，MyBatis是如何解决这些问题的？
+### 2、JDBC编程有哪些不足之处，MyBatis是如何解决这些问题的？
 
 **1、** 数据库链接创建、释放频繁造成系统资源浪费从而影响系统性能，使用数据库链接池可解决此问题。解决：在SqlMapConfig.xml中配置数据链接池，使用连接池管理数据库链接。
 
@@ -74,156 +73,202 @@ namespace，就剩下 id，那么，id 重复会导致数据互相覆盖。有�
 **4、** 对结果集解析麻烦，sql 变化导致解析代码变化，且解析前需要遍历，如果能将数据库记录封装成 pojo对象解析比较方便。解决：Mybatis 自动将 sql 执行结果映射至java对象。
 
 
-### 5、Xml 映射文件中，除了常见的 select|insert|updae|delete 标签之外，还有哪些标签？
+### 3、Mybais 常用注解 ？
 
-还有很多其他的标签，、、、、
+[@Insert ](/Insert ) ： 插入sql , 和xml insert sql语法完全一样
 
-，加上动态 sql 的 9 个标签，
+[@Select ](/Select ) ： 查询sql, 和xml select sql语法完全一样
 
-trim|where|set|foreach|if|choose|when|otherwise|bind 等，其中为 sql 片段标签，通
+[@Update ](/Update ) ： 更新sql, 和xml update sql语法完全一样
 
-过标签引入 sql 片段，为不支持自增的主键生成策略标签。
+[@Delete ](/Delete ) ： 删除sql, 和xml delete sql语法完全一样
 
-**1、** 通过在查询的 sql 语句中定义字段名的别名。
+[@Param ](/Param ) ： 入参
 
-**2、** 通过来映射字段名和实体类属性名的一一对应的关系。
+[@Results ](/Results ) ：结果集合
 
-
-### 6、Mybatis 中如何指定使用哪一种 Executor 执行器？
-
-在 Mybatis 配置文件中，可以指定默认的 ExecutorType 执行器类型，也可以手动给
-
-DefaultSqlSessionFactory 的创建 SqlSession 的方法传递 ExecutorType 类型参数。
+[@Result ](/Result ) ： 结果
 
 
-### 7、Mybatis 是否支持延迟加载？如果支持，它的实现原理是什么？
+### 4、MyBatis框架适用场合：
 
-**1、** Mybatis 仅支持 association 关联对象和 collection 关联集合对象的延迟加载，association
+**1、** MyBatis专注于SQL本身，是一个足够灵活的DAO层解决方案；
 
-指的就是一对一，collection 指的就是一对多查询。在 Mybatis 配置文件中，可以配置是否
-
-启用延迟加载 lazyLoadingEnabled=true|false。
-
-**2、** 它的原理是，使用 CGLIB 创建目标对象的代理对象，当调用目标方法时，进入拦截器方
-
-法，比如调用 a.getB().getName()，拦截器 invoke()方法发现 a.getB()是 null 值，那么就会单
-
-独发送事先保存好的查询关联 B 对象的 sql，把 B 查询上来，然后调用 a.setB(b)，于是 a 的
-
-对象 b 属性就有值了，接着完成 a.getB().getName()方法的调用。这就是延迟加载的基本原
-
-理。
+**2、** 对性能的要求很高，或者需求变化较多的项目，如互联网项目，MyBatis将是不错的选择。
 
 
-### 8、Mapper 编写有哪几种方式？
+### 5、Mybatis如何执行批量操作
 
-**第一种：接口实现类继承 SqlSessionDaoSupport：使用此种方法需要编写mapper 接口，mapper 接口实现类、mapper.xml 文件**
+**使用foreach标签**
 
-**1、** 在 sqlMapConfig.xml 中配置 mapper.xml 的位置
+foreach的主要用在构建in条件中，它可以在SQL语句中进行迭代一个集合。foreach标签的属性主要有item，index，collection，open，separator，close。
 
-```
-<mappers>
-    <mapper resource="mapper.xml 文件的地址" />
-    <mapper resource="mapper.xml 文件的地址" />
-</mappers>
-```
+**1、** item   表示集合中每一个元素进行迭代时的别名，随便起的变量名；
 
-**2、** 定义 mapper 接口
+**2、** index   指定一个名字，用于表示在迭代过程中，每次迭代到的位置，不常用；
 
-**3、** 实现类集成 SqlSessionDaoSupport
+**3、** open   表示该语句以什么开始，常用“(”；
 
-mapper 方法中可以 this.getSqlSession()进行数据增删改查。
+**4、** separator 表示在每次进行迭代之间以什么符号作为分隔符，常用“,”；
 
-**4、** spring 配置
+**5、** close   表示以什么结束，常用“)”。
+
+在使用foreach的时候最关键的也是最容易出错的就是collection属性，该属性是必须指定的，但是在不同情况下，该属性的值是不一样的，主要有一下3种情况：
+
+**1、** 如果传入的是单参数且参数类型是一个List的时候，collection属性值为list
+
+**2、** 如果传入的是单参数且参数类型是一个array数组的时候，collection的属性值为array
+
+**3、** 如果传入的参数是多个的时候，我们就需要把它们封装成一个Map了，当然单参数也可以封装成map，实际上如果你在传入参数的时候，在MyBatis里面也是会把它封装成一个Map的，
+
+map的key就是参数名，所以这个时候collection属性值就是传入的List或array对象在自己封装的map里面的key
+
+**具体用法如下：**
 
 ```
-<bean id=" " class="mapper 接口的实现">
-    <property name="sqlSessionFactory"
-    ref="sqlSessionFactory"></property>
-</bean>
+<!-- 批量保存(foreach插入多条数据两种方法)
+   int addEmpsBatch(@Param("emps") List<Employee> emps); -->
+<!-- MySQL下批量保存，可以foreach遍历 MySQL支持values(),(),()语法 --> //推荐使用
+
+<insert id="addEmpsBatch">
+INSERT INTO emp(ename,gender,email,did)
+VALUES
+<foreach collection="emps" item="emp" separator=",">
+    (#{emp.eName},#{emp.gender},#{emp.email},#{emp.dept.id})
+</foreach>
+</insert>
 ```
 
-**第二种：使用 org.mybatis.spring.mapper.MapperFactoryBean：**
-
-**1、** 在 sqlMapConfig.xml 中配置 mapper.xml 的位置，如果 mapper.xml 和mappre 接口的名称相同且在同一个目录，这里可以不用配置
-
-**2、** 定义 mapper 接口：
-
 ```
-<mappers>
-    <mapper resource="mapper.xml 文件的地址" />
-    <mapper resource="mapper.xml 文件的地址" />
-</mappers>
-```
+<!-- 这种方式需要数据库连接属性allowMutiQueries=true的支持
+如jdbc.url=jdbc:MySQL://localhost:3306/mybatis?allowMultiQueries=true -->  
 
-**3、** mapper.xml 中的 namespace 为 mapper 接口的地址
-
-**4、** mapper 接口中的方法名和 mapper.xml 中的定义的 statement 的 id 保持一致
-
-**5、** Spring 中定义
-
-```
-<bean id="" class="org.mybatis.spring.mapper.MapperFactoryBean">
-    <property name="mapperInterface" value="mapper 接口地址" />
-    <property name="sqlSessionFactory" ref="sqlSessionFactory" />
-</bean>
+<insert id="addEmpsBatch">
+<foreach collection="emps" item="emp" separator=";">                                 
+    INSERT INTO emp(ename,gender,email,did)
+    VALUES(#{emp.eName},#{emp.gender},#{emp.email},#{emp.dept.id})
+</foreach>
+</insert>
 ```
 
-**第三种：使用 mapper 扫描器：**
+**使用ExecutorType.BATCH**
 
-**1、** mapper.xml 文件编写：
+Mybatis内置的ExecutorType有3种，默认为simple,该模式下它为每个语句的执行创建一个新的预处理语句，单条提交sql；而batch模式重复使用已经预处理的语句，并且批量执行所有更新语句，显然batch性能将更优； 但batch模式也有自己的问题，比如在Insert操作时，在事务没有提交之前，是没有办法获取到自增的id，这在某型情形下是不符合业务要求的
 
-mapper.xml 中的 namespace 为 mapper 接口的地址；
-
-mapper 接口中的方法名和 mapper.xml 中的定义的 statement 的 id 保持一致；
-
-如果将 mapper.xml 和 mapper 接口的名称保持一致则不用在 sqlMapConfig.xml中进行配置。
-
-**2、** 定义 mapper 接口：
-
-注意 mapper.xml 的文件名和 mapper 的接口名称保持一致，且放在同一个目录
-
-**3、** 配置 mapper 扫描器：
+**具体用法如下：**
 
 ```
-<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
-    <property name="basePackage" value="mapper 接口包地址
-    "></property>
-    <property name="sqlSessionFactoryBeanName"
-    value="sqlSessionFactory"/>
-</bean>
+//批量保存方法测试
+@Test  
+public void testBatch() throws IOException{
+    SqlSessionFactory sqlSessionFactory = getSqlSessionFactory();
+    //可以执行批量操作的sqlSession
+    SqlSession openSession = sqlSessionFactory.openSession(ExecutorType.BATCH);
+
+    //批量保存执行前时间
+    long start = System.currentTimeMillis();
+    try {
+        EmployeeMapper mapper = openSession.getMapper(EmployeeMapper.class);
+        for (int i = 0; i < 1000; i++) {
+            mapper.addEmp(new Employee(UUID.randomUUID().toString().substring(0, 5), "b", "1"));
+        }
+
+        openSession.commit();
+        long end = System.currentTimeMillis();
+        //批量保存执行后的时间
+        System.out.println("执行时长" + (end - start));
+        //批量 预编译sql一次==》设置参数==》10000次==》执行1次   677
+        //非批量  （预编译=设置参数=执行 ）==》10000次   1121
+
+    } finally {
+        openSession.close();
+    }
+}
 ```
 
-**4、** 使用扫描器后从 spring 容器中获取 mapper 的实现对象。
+**mapper和mapper.xml如下**
+
+```
+    public interface EmployeeMapper {   
+        //批量保存员工
+        Long addEmp(Employee employee);
+    }
+```
+
+```
+    <mapper namespace="com.jourwon.mapper.EmployeeMapper"
+         <!--批量保存员工 -->
+        <insert id="addEmp">
+            insert into employee(lastName,email,gender)
+            values(#{lastName},#{email},#{gender})
+        </insert>
+    </mapper>
+```
 
 
-### 9、什么是 MyBatis？
+### 6、{}里面的名称对应的是Map里面的key名称。
 
-MyBatis 是一个可以自定义 SQL、存储过程和高级映射的持久层框架。
+这种方法适合传递多个参数，且参数易变能灵活传递的情况。（推荐使用）。
+
+**方法4：Java Bean传参法**
+
+```
+public User selectUser(User user);
+
+<select id="selectUser" parameterType="com.jourwon.pojo.User" resultMap="UserResultMap">
+select * from user
+where user_name ={userName} and dept_id ={deptId}
+</select>
+```
+
+**1、** #{}里面的名称对应的是User类里面的成员属性。
+
+**2、** 这种方法直观，需要建一个实体类，扩展不容易，需要加属性，但代码可读性强，业务逻辑处理方便，推荐使用。（推荐使用）。
 
 
-### 10、什么是MyBatis的接口绑定？有哪些实现方式？
+### 7、Mybatis的表关联的映射？
 
-接口绑定，就是在MyBatis中任意定义接口,然后把接口里面的方法和SQL语句绑定, 我们直接调用接口方法就可以,这样比起原来了SqlSession提供的方法我们可以有更加灵活的选择和设置。
+**1、** 一对一关联 Property: 对象属性名称 javaType: 对象属性的类型 column: 所对应的外键字段的名称 select: 使用另一个查询封装的结果
 
-接口绑定有两种实现方式,一种是通过注解绑定，就是在接口的方法上面加上 @Select、@Update等注解，里面包含Sql语句来绑定；另外一种就是通过xml里面写SQL来绑定, 在这种情况下,要指定xml映射文件里面的namespace必须为接口的全路径名。当Sql语句比较简单时候,用注解绑定, 当SQL语句比较复杂时候,用xml绑定,一般用xml绑定的比较多。
+**2、** 一对多关联
+
+**3、** 多对多关联
 
 
-### 11、ORM是什么
-### 12、使用 MyBatis 的 mapper 接口调用时有哪些要求？
-### 13、#{}和${}的区别
-### 14、为什么说Mybatis是半自动ORM映射工具？它与全自动的区别在哪里？
-### 15、Mybatis动态SQL？
-### 16、Mybatis是如何将sql执行结果封装为目标对象并返回的？都有哪些映射形式？
-### 17、Mybatis的Xml映射文件中，不同的Xml映射文件，id是否可以重复？
-### 18、Mybatis是如何将sql执行结果封装为目标对象并返回的？都有哪些映射形式？
-### 19、Mybatis 执行批量插入，能返回数据库主键列表吗？
-### 20、Mybatis与Spring 的整合？
-### 21、Mybatis的表关联的映射？
-### 22、Hibernate 和 MyBatis 的区别
-### 23、Mybatis都有哪些Executor执行器？它们之间的区别是什么？
-### 24、Mybatis的Xml映射文件中，不同的Xml映射文件，id是否可以重复？
-### 25、当实体类中的属性名和表中的字段名不一样 ，怎么办 ？
+### 8、Mybatis是否可以映射Enum枚举类？
+
+Mybatis可以映射枚举类，不单可以映射枚举类，Mybatis可以映射任何对象到表的一列上。映射方式为自定义一个TypeHandler，实现TypeHandler的setParameter()和getResult()接口方法。
+
+TypeHandler有两个作用，一是完成从javaType至jdbcType的转换，二是完成jdbcType至javaType的转换，体现为setParameter()和getResult()两个方法，分别代表设置sql问号占位符参数和获取列查询结果。
+
+
+### 9、为什么说Mybatis是半自动ORM映射工具？它与全自动的区别在哪里？
+
+Hibernate属于全自动ORM映射工具，使用Hibernate查询关联对象或者关联集合对象时，可以根据对象关系模型直接获取，所以它是全自动的。
+
+而Mybatis在查询关联对象或关联集合对象时，需要手动编写sql来完成，所以，称之为半自动ORM映射工具。
+
+
+### 10、MyBatis实现一对多有几种方式,怎么操作的？
+
+有联合查询和嵌套查询。联合查询是几个表联合查询,只查询一次,通过在resultMap里面的collection节点配置一对多的类就可以完成；嵌套查询是先查一个表,根据这个表里面的 结果的外键id,去再另外一个表里面查询数据,也是通过配置collection,但另外一个表的查询通过select节点配置。
+
+
+### 11、使用MyBatis的mapper接口调用时有哪些要求？
+### 12、Mybatis是如何将sql执行结果封装为目标对象并返回的？都有哪些映射形式？
+### 13、什么是 MyBatis？
+### 14、MyBatis框架适用场合：
+### 15、使用 MyBatis 的 mapper 接口调用时有哪些要求？
+### 16、Mybatis 执行批量插入，能返回数据库主键列表吗？
+### 17、Mybatis动态sql有什么用？执行原理？有哪些动态sql？
+### 18、模糊查询like语句该怎么写
+### 19、ORM是什么
+### 20、为什么需要预编译
+### 21、在mapper中如何传递多个参数
+### 22、MyBatis和Hibernate的适用场景?
+### 23、#{}和${}的区别是什么？
+### 24、一对一、一对多的关联查询 ？
+### 25、Mybatis 是如何将 sql 执行结果封装为目标对象并返回的？都有哪些映射形式？
 
 
 

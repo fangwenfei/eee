@@ -6,76 +6,72 @@
 
 
 
-### 1、什么是SpringBoot？
+### 1、什么是 Spring Profiles？
 
-Spring boot是微服务面试问题的主要话题。 随着新功能的加入，Spring变得越来越复杂。无论何时启动新项目，都必须添加新的构建路径或Maven依赖项。简而言之，你需要从头开始做每件事。SpringBoot是一种帮助您避免所有代码配置的解决方案。
+在项目的开发中，有些配置文件在开发、测试或者生产等不同环境中可能是不同的，例如数据库连接、Redis的配置等等。那我们如何在不同环境中自动实现配置的切换呢？Spring给我们提供了profiles机制给我们提供的就是来回切换配置文件的功能
 
-
-### 2、Zuul与Nginx有什么区别？
-
-Zuul是java语言实现的，主要为java服务提供网关服务，尤其在微服务架构中可以更加灵活的对网关进行操作。Nginx是使用C语言实现，性能高于Zuul，但是实现自定义操作需要熟悉lua语言，对程序员要求较高，可以使用Nginx做Zuul集群。
+Spring Profiles 允许用户根据配置文件（dev，test，prod 等）来注册 bean。因此，当应用程序在开发中运行时，只有某些 bean 可以加载，而在 PRODUCTION中，某些其他 bean 可以加载。假设我们的要求是 Swagger 文档仅适用于 QA 环境，并且禁用所有其他文档。这可以使用配置文件来完成。SpringBoot 使得使用配置文件非常简单。
 
 
-### 3、解释不同方式的自动装配 。
+### 2、SpringBoot Starter 的工作原理是什么？
 
-有五种自动装配的方式，可以用来指导Spring容器用自动装配方式来进行依赖注入。
+SpringBoot 在启动的时候会干这几件事情：
 
-**1、** no：默认的方式是不进行自动装配，通过显式设置ref 属性来进行装配。
+**1、** SpringBoot 在启动时会去依赖的 Starter 包中寻找 resources/META-INF/spring.factories 文件，然后根据文件中配置的 Jar 包去扫描项目所依赖的 Jar 包。
 
-**2、** byName：通过参数名 自动装配，Spring容器在配置文件中发现bean的autowire属性被设置成byname，之后容器试图匹配、装配和该bean的属性具有相同名字的bean。
+**2、** 根据 spring.factories 配置加载 AutoConfigure 类
 
-**3、** byType:：通过参数类型自动装配，Spring容器在配置文件中发现bean的autowire属性被设置成byType，之后容器试图匹配、装配和该bean的属性具有相同类型的bean。如果有多个bean符合条件，则抛出错误。
+**3、** 根据 [@Conditional ](/Conditional ) 注解的条件，进行自动配置并将 Bean 注入 Spring Context
 
-**4、** constructor：这个方式类似于byType， 但是要提供给构造器参数，如果没有确定的带参数的构造器参数类型，将会抛出异常。
+总结一下，其实就是 SpringBoot 在启动的时候，按照约定去读取 SpringBoot Starter 的配置信息，再根据配置信息对资源进行初始化，并注入到 Spring 容器中。这样 SpringBoot 启动完毕后，就已经准备好了一切资源，使用过程中直接注入对应 Bean 资源即可。
 
-**5、** autodetect：首先尝试使用constructor来自动装配，如果无法工作，则使用byType方式。
+这只是简单的三连环问答，不知道有多少同学能够完整的回答出来。
 
-
-### 4、22。你能否给出关于休息和微服务的要点？
-
-虽然您可以通过多种方式实现微服务，但REST over HTTP是实现微服务的一种方式。REST还可用于其他应用程序，如Web应用程序，API设计和MVC应用程序，以提供业务数据。
-
-微服务是一种体系结构，其中系统的所有组件都被放入单独的组件中，这些组件可以单独构建，部署和扩展。微服务的某些原则和最佳实践有助于构建弹性应用程序。
-
-简而言之，您可以说REST是构建微服务的媒介。
+其实 SpringBoot 中有很多的技术点可以挖掘，今天给大家整理了十个高频 SpringBoot 面试题，希望可以在后期的面试中帮助到大家。
 
 
-### 5、如果在拦截请求中，我想拦截get方式提交的方法,怎么配置
+### 3、[@Qualifier ](/Qualifier ) 注解有什么用？
+
+当您创建多个相同类型的 bean 并希望仅使用属性装配其中一个 bean 时，您可以使用[@Qualifier ](/Qualifier ) 注解和 [@Autowired ](/Autowired ) 通过指定应该装配哪个确切的 bean 来消除歧义。
+
+例如，这里我们分别有两个类，Employee 和 EmpAccount。在 EmpAccount 中，使用[@Qualifier ](/Qualifier ) 指定了必须装配 id 为 emp1 的 bean。
+
+Employee.java
+
+```
+public class Employee {
+    private String name;
+    @Autowired
+    public void setName(String name) {
+        this.name=name;
+    }
+    public string getName() {
+        return name;
+    }
+}
+```
+
+EmpAccount.java
+
+```
+public class EmpAccount {
+    private Employee emp;
+
+    @Autowired
+    @Qualifier(emp1)
+    public void showName() {
+        System.out.println(“Employee name : ”+emp.getName);
+    }
+}
+```
 
 
+### 4、什么是网关?
 
-可以在@RequestMapping注解里面加上method=RequestMethod.GET。
-
-
-### 6、SpringBoot 2.X 有什么新特性？与 1.X 有什么区别？
-
-**1、** 配置变更
-
-**2、** JDK 版本升级
-
-**3、** 第三方类库升级
-
-**4、** 响应式 Spring 编程支持
-
-**5、** HTTP/2 支持
-
-**6、** 配置属性绑定
-
-**7、** 更多改进与加强…
+网关相当于一个网络服务架构的入口，所有网络请求必须通过网关转发到具体的服务。
 
 
-### 7、什么是 Hystrix 断路器？我们需要它吗？
-
-由于某些原因，employee-consumer 公开服务会引发异常。在这种情况下使用 Hystrix 我们定义了一个回退方法。如果在公开服务中发生异常，则回退方法返回一些默认值
-
-![](https://gitee.com/souyunkutech/souyunku-home/raw/master/images/souyunku-web/2020/5/2/01/44/45_13.png#alt=45%5C_13.png)
-
-中断，并且员工使用者将一起跳过 firtsPage 方法，并直接调用回退方法。 断路器的目的是给第一页方法或第一页方法可能调用的其他方法留出时间，并导致异常恢复。可能发生的情况是，在负载较小的情况下，导致异常的问题有更好的恢复机会 。
-
-![](https://gitee.com/souyunkutech/souyunku-home/raw/master/images/souyunku-web/2020/5/2/01/44/45_14.png#alt=45%5C_14.png)
-
-
-### 8、@Component, @Controller, @Repository, [@Service ](/Service ) 有何区别？
+### 5、@Component, @Controller, @Repository, [@Service ](/Service ) 有何区别？
 
 **1、** @Component： 这将 java 类标记为 bean。 它是任何 Spring 管理组件的通用构造型。 spring 的组件扫描机制现在可以将其拾取并将其拉入应用程序环境中。
 
@@ -86,36 +82,81 @@ Zuul是java语言实现的，主要为java服务提供网关服务，尤其在�
 **4、** @Repository： 这个注解是具有类似用途和功能的 [@Component ](/Component ) 注解的特化。 它为 DAO 提供了额外的好处。 它将 DAO 导入 IoC 容器，并使未经检查的异常有资格转换为 Spring DataAccessException。
 
 
-### 9、Async异步调用方法
+### 6、SpringBoot 支持哪些日志框架？推荐和默认的日志框架是哪个？
 
-在SpringBoot中使用异步调用是很简单的，只需要在方法上使用@Async注解即可实现方法的异步调用。 注意：需要在启动类加入@EnableAsync使异步调用@Async注解生效。
-
-
-### 10、解释WEB 模块。
-
-Spring的WEB模块是构建在application context 模块基础之上，提供一个适合web应用的上下文。这个模块也包括支持多种面向web的任务，如透明地处理多个文件上传请求和程序级请求参数的绑定到你的业务对象。它也有对Jakarta Struts的支持。
+SpringBoot 支持 Java Util Logging, Log4j2, Lockback 作为日志框架，如果你使用 Starters 启动器，SpringBoot 将使用 Logback 作为默认日志框架
 
 
-### 11、如何在 SpringBoot 中添加通用的 JS 代码？
-### 12、SpringBoot 实现热部署有哪几种方式？
-### 13、SpringBoot 中如何解决跨域问题 ?
-### 14、Spring框架中的单例bean是线程安全的吗?
-### 15、访问RESTful微服务的方法是什么？
-### 16、[@RequestMapping ](/RequestMapping ) 注解
-### 17、你如何理解 SpringBoot 配置加载顺序？
-### 18、如何在 SpringBoot中禁用 Actuator端点安全性?
-### 19、第⼀层缓存：
-### 20、什么是OAuth？
-### 21、如何使用SpringBoot实现异常处理?
-### 22、如何使用 SpringBoot 实现分页和排序？
-### 23、不同版本的 Spring Framework 有哪些主要功能？
-### 24、Spring支持的事务管理类型
-### 25、什么是微服务中的反应性扩展？
-### 26、如何使用 SpringBoot 实现全局异常处理？
-### 27、保护 SpringBoot 应用有哪些方法？
-### 28、你如何理解 SpringBoot 配置加载顺序？
-### 29、Eureka怎么实现高可用
-### 30、[@RequestMapping ](/RequestMapping ) 注解
+### 7、Spring Cloud和各子项目版本对应关系
+
+**1、** Edgware.SR6：我理解为最低版本号
+
+**2、** Greenwich.SR2 :我理解为最高版本号
+
+**3、** Greenwich.BUILD-SNAPSHOT（快照）：是一种特殊的版本，指定了某个当前的开发进度的副本。不同于常规的版本，几乎每天都要提交更新的版本，如果每次提交都申明一个版本号那不是版本号都不够用？
+
+| Component | Edgware.SR6 | Greenwich.SR2 | Greenwich.BUILD-SNAPSHOT |
+| --- | --- | --- | --- |
+| spring-cloud-aws | 1.2.4.RELEASE | 2.1.2.RELEASE | 2.1.3.BUILD-SNAPSHOT |
+| spring-cloud-bus | 1.3.4.RELEASE | 2.1.2.RELEASE | 2.1.3.BUILD-SNAPSHOT |
+| spring-cloud-cli | 1.4.1.RELEASE | 2.0.0.RELEASE | 2.0.1.BUILD-SNAPSHOT |
+| spring-cloud-commons | 1.3.6.RELEASE | 2.1.2.RELEASE | 2.1.3.BUILD-SNAPSHOT |
+| spring-cloud-contract | 1.2.7.RELEASE | 2.1.2.RELEASE | 2.1.3.BUILD-SNAPSHOT |
+| spring-cloud-config | 1.4.7.RELEASE | 2.1.3.RELEASE | 2.1.4.BUILD-SNAPSHOT |
+| spring-cloud-netflix | 1.4.7.RELEASE | 2.1.2.RELEASE | 2.1.3.BUILD-SNAPSHOT |
+| spring-cloud-security | 1.2.4.RELEASE | 2.1.3.RELEASE | 2.1.4.BUILD-SNAPSHOT |
+| spring-cloud-cloudfoundry | 1.1.3.RELEASE | 2.1.2.RELEASE | 2.1.3.BUILD-SNAPSHOT |
+| spring-cloud-consul | 1.3.6.RELEASE | 2.1.2.RELEASE | 2.1.3.BUILD-SNAPSHOT |
+| spring-cloud-sleuth | 1.3.6.RELEASE | 2.1.1.RELEASE | 2.1.2.BUILD-SNAPSHOT |
+| spring-cloud-stream | Ditmars.SR5 | Fishtown.SR3 | Fishtown.BUILD-SNAPSHOT |
+| spring-cloud-zookeeper | 1.2.3.RELEASE | 2.1.2.RELEASE | 2.1.3.BUILD-SNAPSHOT |
+| spring-boot | 1.5.21.RELEASE | 2.1.5.RELEASE | 2.1.8.BUILD-SNAPSHOT |
+| spring-cloud-task | 1.2.4.RELEASE | 2.1.2.RELEASE | 2.1.3.BUILD-SNAPSHOT |
+| spring-cloud-vault | 1.1.3.RELEASE | 2.1.2.RELEASE | 2.1.3.BUILD-SNAPSHOT |
+| spring-cloud-gateway | 1.0.3.RELEASE | 2.1.2.RELEASE | 2.1.3.BUILD-SNAPSHOT |
+| spring-cloud-openfeign | 2.1.2.RELEASE | 2.1.3.BUILD-SNAPSHOT |  |
+| spring-cloud-function | 1.0.2.RELEASE | 2.0.2.RELEASE | 2.0.3.BUILD-SNAPSHOT |
+
+
+### 8、什么是Spring Profiles？
+
+Spring Profiles允许用户根据配置文件（dev，test，prod等）来注册bean。因此，当应用程序在开发中运行时，只有某些bean可以加载，而在PRODUCTION中，某些其他bean可以加载。假设我们的要求是Swagger文档仅适用于QA环境，并且禁用所有其他文档。这可以使用配置文件来完成。SpringBoot使得使用配置文件非常简单。
+
+
+### 9、RequestMapping 和 GetMapping 的不同之处在哪里？
+
+RequestMapping 具有类属性的，可以进行 GET,POST,PUT 或者其它的注释中具有的请求方法。GetMapping 是 GET 请求方法中的一个特例。它只是 ResquestMapping 的一个延伸，目的是为了提高清晰度。
+
+
+### 10、微服务限流 http限流：我们使⽤nginx的limitzone来完成：
+
+```
+//这个表示使⽤ip进⾏限流 zone名称为req_one 分配了10m 空间使⽤漏桶算法 每秒钟允许1个请求
+limit_req_zone $binary_remote_addr zone=req_one:10m rate=1r/s; //这边burst表示可以瞬间超过20个请求 由于没有noDelay参数因此需要排队 如果超过这20个那么直接返回503
+limit_req zone=req_three burst=20;
+```
+
+
+### 11、spring-boot-starter-parent 有什么用 ?
+### 12、spring 中有多少种 IOC 容器？
+### 13、微服务的端到端测试意味着什么？
+### 14、ZuulFilter常用有那些方法
+### 15、网关的作用是什么
+### 16、什么是 spring bean？
+### 17、SpringBoot 的核心配置文件有哪几个？它们的区别是什么？
+### 18、什么是 Spring Data？
+### 19、什么是 AOP Aspect 切面
+### 20、自动装配有哪些方式？
+### 21、多个消费者调⽤同⼀接⼝，eruka默认的分配⽅式是什么？
+### 22、如何使用SpringBoot实现异常处理?
+### 23、什么是 Spring Cloud Bus？
+### 24、解释不同方式的自动装配
+### 25、Spring Cloud Config
+### 26、SpringBoot集成mybatis的过程
+### 27、使用Spring通过什么方式访问Hibernate?
+### 28、如何在自定义端口上运行 SpringBoot 应用程序？
+### 29、微服务同时调用多个接口，怎么支持事务的啊？
+### 30、Ribbon和Feign调用服务的区别
 
 
 

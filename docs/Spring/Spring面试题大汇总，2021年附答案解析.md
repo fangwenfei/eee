@@ -6,118 +6,120 @@
 
 
 
-### 1、spring DAO 有什么用？
+### 1、spring-boot-starter-parent有什么用？
 
-Spring DAO 使得 JDBC，Hibernate 或 JDO 这样的数据访问技术更容易以一种统一的方式工作。 这使得用户容易在持久性技术之间切换。 它还允许您在编写代码时，无需考虑捕获每种技术不同的异常。
+我们都知道，新建一个SpringBoot项目，默认都是由parent的，这个parent就是spring-boot-starter-parent，spring-boot-starter-parent主要有以下作用：
 
+**1、** 定义了Java编译版本为1.8
 
-### 2、Spring Cloud 和dubbo区别?
+**2、** 使用UTF-8格式编码
 
-**1、** 服务调用方式：dubbo是RPC springcloud Rest Api
+**3、** 继承自spring-boot-dependencies，这个里边定义了依赖的版本，也正是因为继承了这个依赖，所有我们在写依赖时才不需要写版本号。
 
-**2、** 注册中心：dubbo 是zookeeper springcloud是eureka，也可以是zookeeper
-
-**3、** 服务网关，dubbo本身没有实现，只能通过其他第三方技术整合，springcloud有Zuul路由网关，作为路由服务器，进行消费者的请求分发,springcloud支持断路器，与git完美集成配置文件支持版本控制，事物总线实现配置文件的更新与服务自动装配等等一系列的微服务架构要素。
-
-
-### 3、如何设计一套API接口
-
-考虑到API接口的分类可以将API接口分为开发API接口和内网API接口，内网API接口用于局域网，为内部服务器提供服务。开放API接口用于对外部合作单位提供接口调用，需要遵循Oauth2.0权限认证协议。同时还需要考虑安全性、幂等性等问题。
+**4、** 针对application.propertiess和application.yml的资源过滤，包括通过profile定义的不同环境的配置文件，例如application-dev.properties和application-dev.yml。
 
 
-### 4、Spring Cloud Security
+### 2、SpringBoot、Spring MVC 和 Spring 有什么区别
 
-安全工具包，对Zuul代理中的负载均衡OAuth2客户端及登录认证进行支持。
+**1、** Spring 是一个“引擎”，
 
+**2、** Spring MVC是基于Spring的一个 MVC 框架，
 
-### 5、Bean 工厂和 Application contexts 有什么区别？
-
-Application contexts提供一种方法处理文本消息，一个通常的做法是加载文件资源（比如镜像），它们可以向注册为监听器的bean事件。另外，在容器或容器内的对象上执行的那些不得不由bean工厂以程序化方式处理的操作，可以在Application contexts中以声明的方式处理。Application contexts实现了MessageSource接口，该接口的实现以可插拔的方式提供获取本地化消息的方法。
-
-
-### 6、如何实现动态Zuul网关路由转发
-
-通过path配置拦截请求，通过ServiceId到配置中心获取转发的服务列表，Zuul内部使用Ribbon实现本地负载均衡和转发。
+**3、** SpringBoot是基于 Spring的一套快速开发整合包
 
 
-### 7、如何重新加载SpringBoot上的更改，而无需重新启动服务器？
+### 3、如何在 spring 中启动注解装配？
+
+默认情况下，Spring 容器中未打开注解装配。因此，要使用基于注解装配，我们必须通过配置 `<context：annotation-config/>` 元素在 Spring 配置文件中启用它。
+
+
+### 4、[@RequestMapping ](/RequestMapping ) 注解有什么用？
+
+[@RequestMapping ](/RequestMapping ) 注解用于将特定 HTTP 请求方法映射到将处理相应请求的控制器中的特定类/方法。
+
+**此注解可应用于两个级别：**
+
+类级别： 映射请求的 URL
+
+方法级别： 映射 URL 以及 HTTP 请求方法
+
+
+### 5、如何重新加载SpringBoot上的更改，而无需重新启动服务器？
 
 这可以使用DEV工具来实现。通过这种依赖关系，您可以节省任何更改，嵌入式tomcat将重新启动。
 
 SpringBoot有一个开发工具（DevTools）模块，它有助于提高开发人员的生产力。Java开发人员面临的一个主要挑战是将文件更改自动部署到服务器并自动重启服务器。
 
-开发人员可以重新加载SpringBoot上的更改，而无需重新启动服务器。这将消除每次手动部署更改的需要。SpringBoot在它的第一个版本时没有这个功能。
+开发人员可以重新加载SpringBoot上的更改，而无需重新启动服务器。这将消除每次手动部署更改的需要。SpringBoot在发布它的第一个版本时没有这个功能。
 
 这是开发人员最需要的功能。DevTools模块完全满足开发人员的需求。该模块将在生产环境中被禁用。它还提供H2数据库控制台以更好地测试应用程序。
 
 
-### 8、什么是 spring 的内部 bean？
+### 6、微服务之间是如何独⽴通讯的
 
-只有将 bean 用作另一个 bean 的属性时，才能将 bean 声明为内部 bean。为了定义 bean，Spring 的基于 XML 的配置元数据在 `<property>` 或 `<constructor-arg>` 中提供了 `<bean>` 元素的使用。内部 bean 总是匿名的，它们总是作为原型。
+**1、** Dubbo 使⽤的是 RPC 通信，⼆进制传输，占⽤带宽⼩；
 
-例如，假设我们有一个 Student 类，其中引用了 Person 类。这里我们将只创建一个 Person 类实例并在 Student 中使用它。
+**2、** Spring Cloud 使⽤的是 HTTP RESTFul ⽅式。
 
-Student.java
-
-```
-public class Student {
-    private Person person;
-    //Setters and Getters
-}
-public class Person {
-    private String name;
-    private String address;
-    //Setters and Getters
-}
-```
-
-bean.xml
-
-```
-<bean id=“StudentBean" class="com.edureka.Student">
-    <property name="person">
-        <!--This is inner bean -->
-        <bean class="com.edureka.Person">
-            <property name="name" value=“Scott"></property>
-            <property name="address" value=“Bangalore"></property>
-        </bean>
-    </property>
-</bean>
-```
+![](https://gitee.com/souyunkutech/souyunku-home/raw/master/images/souyunku-web/2020/5/2/01/44/45_2.png#alt=45%5C_2.png)
 
 
-### 9、Spring Cloud Config
+### 7、你如何理解 SpringBoot 中的 Starters？
 
-Config能够管理所有微服务的配置文件
-
-集中配置管理工具，分布式系统中统一的外部配置管理，默认使用Git来存储配置，可以支持客户端配置的刷新及加密、解密操作。
+Starters可以理解为启动器，它包含了一系列可以集成到应用里面的依赖包，你可以一站式集成 Spring 及其他技术，而不需要到处找示例代码和依赖包。如你想使用 Spring JPA 访问数据库，只要加入 spring-boot-starter-data-jpa 启动器依赖就能使用了。
 
 
-### 10、[@Qualifier ](/Qualifier ) 注解有什么用？
+### 8、@ResponseBody注解的作用
 
-当您创建多个相同类型的 bean 并希望仅使用属性装配其中一个 bean 时，您可以使用[@Qualifier ](/Qualifier ) 注解和 [@Autowired ](/Autowired ) 通过指定应该装配哪个确切的 bean 来消除歧义。
+**作用：**
+
+该注解用于将Controller的方法返回的对象，通过适当的HttpMessageConverter转换为指定格式后，写入到Response对象的body数据区。
+
+**使用时机：**
+
+返回的数据不是html标签的页面，而是其他某种格式的数据时（如json、xml等）使用；
 
 
-### 11、@SpringBootApplication注释在内部有什么用处?
-### 12、什么是WebSockets？
-### 13、@Controller注解的作用
-### 14、SpringBoot、Spring MVC 和 Spring 有什么区别？
-### 15、双因素身份验证的凭据类型有哪些？
-### 16、spring-boot-starter-parent有什么用？
-### 17、单片，SOA和微服务架构有什么区别？
-### 18、一个 Spring Bean 定义 包含什么？
-### 19、[@RequestMapping ](/RequestMapping ) 注解有什么用？
-### 20、Spring配置文件
-### 21、Spring Cloud Consul
-### 22、如何覆盖SpringBoot项目的默认属性？
-### 23、怎样在方法里面得到Request,或者Session？
-### 24、保护 SpringBoot 应用有哪些方法？
-### 25、SpringBoot 可以兼容老 Spring 项目吗，如何做？
-### 26、前后端分离，如何维护接口文档 ?
-### 27、如何使用SpringBoot实现异常处理？
-### 28、SpringBoot的自动配置原理是什么
-### 29、Spring、SpringBoot、SpringMVC的区别？
-### 30、什么是Spring Actuator？它有什么优势？
+### 9、使用 Spring 有哪些方式？
+
+**使用 Spring 有以下方式：**
+
+**1、** 作为一个成熟的 Spring Web 应用程序。
+
+**2、** 作为第三方 Web 框架，使用 Spring Frameworks 中间层。
+
+**3、** 用于远程使用。
+
+**4、** 作为企业级 Java Bean，它可以包装现有的 POJO（Plain Old Java Objects）。
+
+
+### 10、SOA和微服务架构之间的主要区别是什么？
+
+SOA和微服务之间的主要区别如下：
+
+![](https://gitee.com/souyunkutech/souyunku-home/raw/master/images/souyunku-web/2019/08/0816/01/img_8.png#alt=img%5C_8.png)
+
+
+### 11、微服务限流 dubbo限流：dubbo提供了多个和请求相关的filter：ActiveLimitFilter ExecuteLimitFilter TPSLimiterFilter
+### 12、什么是通知（Advice）？
+### 13、什么是 Spring IOC 容器？
+### 14、负载均衡的意义是什么?
+### 15、什么是Eureka
+### 16、Spring由哪些模块组成?
+### 17、XMLBeanFactory
+### 18、为什么我们不建议在实际的应用程序中使用 Spring Data Rest?
+### 19、请描述Spring MVC的工作流程？描述一下 DispatcherServlet 的工作流程？
+### 20、解释Spring支持的几种bean的作用域。
+### 21、列举 IoC 的一些好处
+### 22、22。你能否给出关于休息和微服务的要点？
+### 23、PACT在微服务架构中的用途是什么？
+### 24、SpringBoot和springcloud认识
+### 25、怎么设计无状态服务？
+### 26、什么是 Spring Data ?
+### 27、springcloud如何实现服务的注册?
+### 28、SpringBoot 自动配置原理
+### 29、SpringBoot运行项目的几种方式？
+### 30、什么是FreeMarker模板？
 
 
 

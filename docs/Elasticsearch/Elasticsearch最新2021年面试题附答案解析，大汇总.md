@@ -6,195 +6,120 @@
 
 
 
-### 1、能列出 10 个使用 Elasticsearch 作为其搜索引擎或数据库的公司吗？
+### 1、介绍一下你们的个性化搜索方案？
 
-这个问题，铭毅本来想删掉。但仔细一想，至少能看出求职者的视野够不够开阔。
+SEE [基于word2vec和Elasticsearch实现个性化搜索](http://ginobefunny.com/post/personalized_search_implemention_based_word2vec_and_elasticsearch/)
 
-参与过 Elastic中文社区活动或者经常关注社区动态的就知道，公司太多了，列举如下（排名不分先后）：
 
-1、阿里
+### 2、在Elasticsearch中 cat API的功能是什么？
 
-2、腾讯
+cat API 命令提供了Elasticsearch 集群的分析、概述和运行状况，其中包括与别名，分配，索引，节点属性等有关的信息。
 
-3、百度
+这些 cat 命令使用查询字符串作为其参数，并以J SON 文档格式返回结果信息。
 
-4、京东
 
-5、美团
+### 3、elasticsearch 数据的写入过程
 
-6、小米
+注意，客户端是可以在任意节点进行写入数据的，与Kakfa不同。
 
-7、滴滴
+**1、** 客户端选择一个node发送请求过去，这个node就是coordinating node（协调节点）
 
-8、携程
+**2、** coordinating node，对document进行路由得到对应应该存储到哪个shard，将请求转发给对应的node（有primary shard）
 
-**9、** 今日头条
+**3、** 实际的node上的primary shard处理请求，然后将数据同步到replica node
 
-**10、** 贝壳找房
+**4、** coordinating node，如果发现primary node和所有replica node都搞定之后，就返回响应结果给客户端
 
-**11、** 360
+![](https://image-static.segmentfault.com/162/449/16244926-5e5b5631a5371_articlex#alt=3cWXlD.png)
 
-**12、** IBM
 
-**13、** 顺丰快递
+### 4、在Elasticsearch中 按 ID检索文档的语法是什么？
 
-几乎我们能想到的互联网公司都在使用 Elasticsearch。
+```
+GET test_001/_doc/1
+```
 
-关注 TOP 互联网公司的相关技术的动态和技术博客，也是一种非常好的学习方式。
 
+### 5、详细描述一下Elasticsearch搜索的过程。
 
-### 2、Elasticsearch Analyzer 中的字符过滤器如何利用？
+**1、** 搜索被执行成一个两阶段过程，我们称之为 Query Then Fetch；
 
-字符过滤器将原始文本作为字符流接收，并可以通过添加，删除或更改字符来转换字符流。
+**2、** 在初始**查询阶段**时，查询会广播到索引中每一个分片拷贝（主分片或者副本分片）。 每个分片在本地执行搜索并构建一个匹配文档的大小为 from + size 的优先队列。
 
-字符过滤分类如下：
+PS：在搜索的时候是会查询Filesystem Cache的，但是有部分数据还在Memory Buffer，所以搜索是近实时的。
 
-**HTML Strip Character Filter.**
+**3、** 每个分片返回各自优先队列中 **所有文档的 ID 和排序值** 给协调节点，它合并这些值到自己的优先队列中来产生一个全局排序后的结果列表。
 
-用途：删除HTML元素，如**，并解码HTML实体，如＆amp 。**
+**4、** 接下来就是 **取回阶段**，协调节点辨别出哪些文档需要被取回并向相关的分片提交多个 GET 请求。每个分片加载并 _丰富_ 文档，如果有需要的话，接着返回文档给协调节点。一旦所有的文档都被取回了，协调节点返回结果给客户端。
 
-**Mapping Character Filter**
+**5、** 补充：Query Then Fetch的搜索类型在文档相关性打分的时候参考的是本分片的数据，这样在文档数量较少的时候可能不够准确，DFS Query Then Fetch增加了一个预查询的处理，询问Term和Document frequency，这个评分更准确，但是性能会变差。*
 
-用途：替换指定的字符。
+![](https://gitee.com/souyunkutech/souyunku-home/raw/master/images/souyunku-web/2019/08/0820/02/img_2.png#alt=img%5C_2.png)
 
-**Pattern Replace Character Filter**
 
-用途：基于正则表达式替换指定的字符。
+### 6、Elasticsearch 中的节点（比如共 20 个），其中的 10 个选了一个master，另外 10 个选了另一个 master，怎么办？
 
+**1、** 当集群 master 候选数量不小于 3 个时，可以通过设置最少投票通过数量（discovery.zen.minimum_master_nodes）超过所有候选节点一半以上来解决脑裂问题；
 
-### 3、请解释一下 Elasticsearch 中聚合？
+**2、** 当候选数量为两个时，只能修改为唯一的一个 master 候选，其他作为 data节点，避免脑裂问题。
 
-聚合有助于从搜索中使用的查询中收集数据，聚合为各种统计指标，便于统计信息或做其他分析。聚合可帮助回答以下问题：
 
-**1、** 我的网站平均加载时间是多少？
+### 7、在 Elasticsearch 中，是怎么根据一个词找到对应的倒排索引的？
 
-**2、** 根据交易量，谁是我最有价值的客户？
+**SEE：**
 
-**3、** 什么会被视为我网络上的大文件？
+1. Lucene 的索引文件格式(1)
+2. Lucene 的索引文件格式（2）
 
-**4、** 每个产品类别中有多少个产品？
 
-**聚合的分三类：**
+### 8、什么是Elasticsearch Analyzer？
 
-主要查看7.10 的官方文档，早期是4个分类，别大意啊！
+分析器用于文本分析，它可以是内置分析器也可以是自定义分析器。
 
-**分桶 Bucket 聚合**
 
-根据字段值，范围或其他条件将文档分组为桶（也称为箱）。
+### 9、Elasticsearch 支持哪些类型的查询？
 
-**指标 Metric 聚合**
+查询主要分为两种类型：精确匹配、全文检索匹配。
 
-从字段值计算指标（例如总和或平均值）的指标聚合。
+1. 精确匹配，例如 term、exists、term set、 range、prefix、 ids、 wildcard、regexp、 fuzzy等。
+2. 全文检索，例如match、match_phrase、multi_match、match_phrase_prefix、query_string 等
 
-**管道 Pipeline 聚合**
 
-子聚合，从其他聚合（而不是文档或字段）获取输入。
+### 10、详细描述一下 Elasticsearch 搜索的过程？
 
+面试官：想了解 ES 搜索的底层原理，不再只关注业务层面了。
 
-### 4、客户端在和集群连接时，如何选择特定的节点执行请求的？
+解
 
-TransportClient 利用 transport 模块远程连接一个 elasticsearch 集群。它并不加入到集群中，只是简单的获得一个或者多个初始化的 transport 地址，并以 轮询 的方式与这些地址进行通信。
+搜索拆解为“query then fetch” 两个阶段。
 
+query 阶段的目的：定位到位置，但不取。
 
-### 5、ElasticSearch是如何实现Master选举的？
+**步骤拆解如下：**
 
-ElasticSearch的选举是ZenDiscovery模块负责的，主要包含Ping（节点之间通过这个RPC来发现彼此）和Unicast（单播模块包含一个主机列表以控制哪些节点需要ping通）这两部分；
+**1、** 假设一个索引数据有 5 主+1 副本 共 10 分片，一次请求会命中（主或者副本分片中）的一个。
 
-对所有可以成为master的节点（node.master: true）根据nodeId字典排序，每次选举每个节点都把自己所知道节点排一次序，然后选出第一个（第0位）节点，暂且认为它是master节点。
+**2、** 每个分片在本地进行查询，结果返回到本地有序的优先队列中。
 
-如果对某个节点的投票数达到一定的值（可以成为master节点数n/2+1）并且该节点自己也选举自己， 那这个节点就是master。否则重新选举一直到满足上述条件。
+**3、** 第 2）步骤的结果发送到协调节点，协调节点产生一个全局的排序列表。fetch 阶段的目的：取数据。路由节点获取所有文档，返回给客户端。
 
 
-### 6、如何使用 Elasticsearch Tokenizer？
-
-Tokenizer 接收字符流（如果包含了字符过滤，则接收过滤后的字符流；否则，接收原始字符流），将其分词。同时记录分词后的顺序或位置(position)，以及开始值（start_offset）和偏移值(end_offset-start_offset)。
-
-
-### 7、ES在生产集群的部署架构是什么，每个索引有多大的数据量，每个索引有多少分片
-
-**生产环境部署情况**
-
-**1、** es生产集群我们部署了5台机器，每台机器是6核64G的，集群总内存是320G
-
-**2、** 我们es集群的日增量数据大概是2000万条，每天日增量数据大概是500MB，
-
-**3、** 每月增量数据大概是6亿，15G。目前系统已经运行了几个月，现在es集群里数据总量大概是100G左右。
-
-**4、** 目前线上有5个索引（这个结合你们自己业务来，看看自己有哪些数据可以放es的），
-
-**5、** 每个索引的数据量大概是20G，所以这个数据量之内，我们每个索引分配的是8个shard，比默认的5个shard多了3个shard。
-
-
-
-### 8、Elasticsearch 在部署时，对 Linux 的设置有哪些优化方法？
-
-**1、** 64 GB 内存的机器是非常理想的， 但是 32 GB 和 16 GB 机器也是很常见的。少于 8 GB 会适得其反。
-
-**2、** 如果你要在更快的 CPUs 和更多的核心之间选择，选择更多的核心更好。多个内核提供的额外并发远胜过稍微快一点点的时钟频率。
-
-**3、** 如果你负担得起 SSD，它将远远超出任何旋转介质。基于 SSD 的节点，查询和索引性能都有提升。如果你负担得起，SSD 是一个好的选择。
-
-**4、** 即使数据中心们近在咫尺，也要避免集群跨越多个数据中心。绝对要避免集群跨越大的地理距离。
-
-**5、** 请确保运行你应用程序的 JVM 和服务器的 JVM 是完全一样的。在Elasticsearch 的几个地方，使用 Java 的本地序列化。
-
-**6、** 通过设置 gateway.recover_after_nodes、gateway.expected_nodes、gateway.recover_after_time 可以在集群重启的时候避免过多的分片交换，这可能会让数据恢复从数个小时缩短为几秒钟。
-
-**7、** Elasticsearch 默认被配置为使用单播发现，以防止节点无意中加入集群。只有在同一台机器上运行的节点才会自动组成集群。最好使用单播代替组播。
-
-**8、** 不要随意修改垃圾回收器（CMS）和各个线程池的大小。
-
-**9、** 把你的内存的（少于）一半给 Lucene（但不要超过 32 GB！），通过ES_HEAP_SIZE 环境变量设置。
-
-**10、** 内存交换到磁盘对服务器性能来说是致命的。如果内存交换到磁盘上，一个100 微秒的操作可能变成 10 毫秒。再想想那么多 10 微秒的操作时延累加起来。不难看出 swapping 对于性能是多么可怕。
-
-**11、** Lucene 使用了_大量 的_文件。同时，Elasticsearch 在节点和 HTTP 客户端之间进行通信也使用了大量的套接字。所有这一切都需要足够的文件描述符。你应该增加你的文件描述符，设置一个很大的值，如 64,000。
-
-补充：索引阶段性能提升方法.
-
-**1、** 使用批量请求并调整其大小：每次批量数据 5–15 MB 大是个不错的起始点。
-
-**2、存储：**使用 SSD
-
-**3、段和合并：**Elasticsearch 默认值是 20 MB/s，对机械磁盘应该是个不错的设置。如果你用的是 SSD，可以考虑提高到 100–200 MB/s。如果你在做批量导入，完全不在意搜索，你可以彻底关掉合并限流。另外还可以增加index.translog.flush_threshold_size 设置，从默认的 512 MB 到更大一些的值，比如 1 GB，这可以在一次清空触发的时候在事务日志里积累出更大的段。
-
-**4、** 如果你的搜索结果不需要近实时的准确度，考虑把每个索引的index.refresh_interval 改到 30s。
-
-**5、** 如果你在做大批量导入，考虑通过设置 index.number_of_replicas: 0 关闭副本。
-
-
-### 9、Elasticsearch 对于大数据量（上亿量级）的聚合如何实现？
-
-Elasticsearch 提供的首个近似聚合是 cardinality 度量。它提供一个字段的基数，即该字段的 _distinct_ 或者 _unique_ 值的数目。它是基于 HLL 算法的。HLL 会先对我们的输入作哈希运算，然后根据哈希运算的结果中的 bits 做概率估算从而得到
-
-基数。其特点是：可配置的精度，用来控制内存的使用（更精确 ＝ 更多内存）；小的数据集精度是非常高的；我们可以通过配置参数，来设置去重需要的固定内存使用量。无论数千还是数十亿的唯一值，内存使用量只与你配置的精确度相关。
-
-
-### 10、elasticsearch 的 filesystem
-
-es每次走fileSystem cache查询速度是最快的
-
-所以将每个查询的数据50% 容量
-
-= fileSystem cache 容量。
-
-
-### 11、ElasticSearch中的倒排索引是什么？
-### 12、ElasticSearch中的副本是什么？
-### 13、elasticsearch 实际设计
-### 14、elasticsearch 分布式架构原理
-### 15、解释一下 Elasticsearch 的 分片？
-### 16、elasticsearch 冷热分离
-### 17、Elasticsearch 支持哪些类型的查询？
-### 18、详细说明ELK Stack及其内容？
-### 19、Elasticsearch中的 Ingest 节点如何工作？
-### 20、解释一下 Elasticsearch Node？
-### 21、elasticsearch的倒排索引是什么
-### 22、Elasticsearch在部署时，对Linux的设置有哪些优化方法
-### 23、ElasticSearch中的分析器是什么？
-### 24、是否了解字典树？
-### 25、拼写纠错是如何实现的？
-### 26、解释一下 Elasticsearch 集群中的 Type 的概念 ？
+### 11、elasticsearch 分布式架构原理
+### 12、你能告诉我 Elasticsearch 中的数据存储功能吗？
+### 13、解释一下Elasticsearch Cluster？
+### 14、Kibana在Elasticsearch的哪些地方以及如何使用？
+### 15、Master 节点和 候选 Master节点有什么区别？
+### 16、什么是ElasticSearch索引？
+### 17、安装 Elasticsearch 需要依赖什么组件吗？
+### 18、介绍下你们电商搜索的整体技术架构
+### 19、对于GC方面，在使用Elasticsearch时要注意什么？
+### 20、elasticsearch 实际设计
+### 21、你是如何做 ElasticSearch 写入调优的？
+### 22、是否了解字典树？
+### 23、Elasticsearch 对于大数据量（上亿量级）的聚合如何实现？
+### 24、elasticsearch 是如何实现 master 选举的
+### 25、ElasticSearch中的分析器是什么？
+### 26、详细说明ELK Stack及其内容？
 
 
 

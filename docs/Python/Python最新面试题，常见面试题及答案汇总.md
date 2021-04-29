@@ -6,214 +6,159 @@
 
 
 
-### 1、Python中的字典是什么？
-
-字典是C++和Java等编程语言中所没有的东西，它具有键值对。
-
-```
->>> roots={25:5,16:4,9:3,4:2,1:1}
->>> type(roots)
-<class 'dict'>
->>> roots[9]
-```
-
-运行结果为：
-
-```
-3
-```
-
-字典是不可变的，我们也能用一个推导式来创建它。
-
-```
->>> roots={x**2:x for x in range(5,0,-1)}
->>> roots
-```
-
-运行结果：
-
-```
-{25: 5, 16: 4, 9: 3, 4: 2, 1: 1}
-```
-
-
-### 2、通过什么途径学习python
-
-**1、** 通过看官方文档
-
-**2、** 通过哔哩哔哩上的视频教程
-
-**3、** 通过百度查资料
-
-**4、** 通过买python相关方面的书
-
-
-### 3、什么是keepalived
-
-Keepalived是Linux下一个轻量级别的高可用解决方案
-
-
-### 4、如何保证Redis中的数据都是热点数据
-
-**1、** Redis 内存数据集大小上升到一定大小的时候，就会施行数据淘汰策略。Redis 提供 6种数据淘汰策略：
-
-**2、** volatile-lru：从已设置过期时间的数据集（server.db[i].expires）中挑选最近最少使用的数据淘汰
-
-**3、** volatile-ttl：从已设置过期时间的数据集（server.db[i].expires）中挑选将要过期的数据淘汰
-
-**4、** volatile-random：从已设置过期时间的数据集（server.db[i].expires）中任意选择数据淘汰
-
-**5、** allkeys-lru：从数据集（server.db[i].dict）中挑选最近最少使用的数据淘汰
-
-**6、** allkeys-random：从数据集（server.db[i].dict）中任意选择数据淘汰
-
-**7、** no-enviction（驱逐）：禁止驱逐数据
-
-
-### 5、解释一下Python中的赋值运算符
-
-这在Python面试中是个重要的面试问题。
-
-我们将所有的算术运算符和赋值符号放在一起展示：
-
-```
->>> a=7
->>> a+=1
->>> a
-8
- 
->>> a-=1
->>> a
-7
- 
->>> a*=2
->>> a
-14
- 
->>> a/=2
->>> a
-7.0 
- 
->>> a**=2
->>> a
-49
- 
->>> a//=3
->>> a
-16.0
- 
->>> a%=4
->>> a
-0.0
-```
-
-
-### 6、python中进制转换
-
-> 进制转换以十进制为媒介
-
-十六进制前面加上0x，八进制加上0o，二进制前面加上0b
-
-|  | 二进制 | 八进制 | 十进制 | 十六进制 |
-| --- | --- | --- | --- | --- |
-| 二进制 |  | bin(int(x, 8)） | bin(int(x, 10)) | bin(int(x, 16)) |
-| 八进制 | oct(int(x, 2)) |  | oct(int(x, 10)) | oct(int(x, 16)) |
-| 十进制 | int(x, 2) | int(x, 8) |  | int(x, 16) |
-| 十六进制 | hex(int(x, 2)) | hex(int(x, 8)) | hex(int(x, 10)) |  |
-
-
-
-### 7、编写程序，检查序列是否为回文
-
-```
-a = input("Enter The sequence")
-ispalindrome = a == a[::-1]
-
-ispalindrome
->True
-```
-
-
-### 8、什么是正则的贪婪匹配？贪婪模式和非贪婪模式的区别？
-
-[参考文档](https://www.cnblogs.com/ILoke-Yang/p/8060003.html)
-
-贪婪匹配:正则表达式一般趋向于最大长度匹配，也就是所谓的贪婪匹配。
-
-非贪婪匹配：就是匹配到结果就好，就少的匹配字符。
-
-区别：默认是贪婪模式；在量词后面直接加上一个问号？就是非贪婪模式。
-
-
-### 9、解释一下Python中的三元运算子
-
-不像C++，我们在Python中没有?:，但我们有这个：
-
-```
-[on true] if [expression] else [on false]
-```
-
-如果表达式为True，就执行[on true]中的语句。否则，就执行[on false]中的语句。
-
-下面是使用它的方法：
-
-```
->>> a,b=2,3
->>> min=a if a<b else b
->>> min
-```
-
-运行结果：
-
-```
-2
-```
-
-```
->>> print("Hi") if a<b else print("Bye")
-```
-
-运行结果：
-
-```
-Hi
-```
-
-
-### 10、有一个多层嵌套的列表A=[1,2,3,[4,1,['j1',1,[1,2,3,'aa']]]],请写一段代码将A中的元素全部打印出来
+### 1、python中如何使用进程池和线程池
 
 ```python
-A=[1,2,3,[4,1,['j1',1,[1,2,3,'aa']]]]
-def my_print(lis):
-for i in lis:
-if type(i)==list:
-my_print(i)
-else:
-print(i)
-my_print(A)
+from concurrent.futures import ThreadPoolExecutor,ProcessPoolExecutor
+import os,time,random
+from multiprocessing import Pool
+
+def task(n):
+print('%s is runing' %os.getpid())
+time.sleep(random.randint(1,3))
+return n**2
+
+if __name__ == '__main__':
+# 多进程方式一
+pool2=Pool()
+pool2.map(task,range(10))
+
+# 多进程方式二，下面这种多进程和多线程的用法一模一样
+executor=ThreadPoolExecutor(max_workers=3)
+futures=[]
+for i in range(11):
+future=executor.submit(task,i)
+futures.append(future)
+executor.shutdown(True)
+print('+++>')
+for future in futures:
+print(future.result())
 ```
 
 
-### 11、如何实现['1','2','3']变成[1,2,3]
-### 12、Python中的生成器是什么？
-### 13、如何在函数中设置一个全局变量？
-### 14、如何实现字符串的反转？如：name=felix，反转成name=xilef
-### 15、求出以下代码的输出结果
-### 16、解释//、％、* *运算符？
-### 17、实现99乘法表（使用两种方法）
-### 18、py2项目如何迁移成py3
-### 19、query作为sql模板，args为将要传入的参数
-### 20、解释一下Python中的继承？
-### 21、为什么Python执行速度慢，我们如何改进它？
-### 22、什么是域名解析
-### 23、什么是多态？
-### 24、编写程序，查找文本文件中最长的单词
-### 25、简述触发器、函数、视图和存储过程
-### 26、用一行代码实现数值交换
-### 27、什么是arp协议
-### 28、为什么数据很大的时候使用limit offset分页时，越往后翻速度越慢，如何优化？
-### 29、Python的局限性？
-### 30、前后端分离的基本原理
+### 2、简述数据库的读写分离
+
+读写分离就是在主服务器上修改，数据会同步到从服务器，从服务器只能提供读取数据，不能写入，实现备份的同时也实现了数据库性能的优化，以及提升了服务器安全。
+
+
+### 3、ascii、Unicode、utf-8、gbk的区别
+
+**1、** ascii 是最早美国用的标准信息交换码，把所有的字母的大小写，各种符号用 二进制来表示，共有256中，加入些拉丁文等字符，1bytes代表一个字符
+
+**2、** Unicode是为了统一世界各国语言的不用，统一用2个bytes代表一个字符，可以表达2^16=65556个，称为万国语言，特点：速度快，但浪费空间
+
+**3、** utf-8 为了改变Unicode的这种缺点，规定1个英文字符用1个字节表示，1个中文字符用3个字节表示，特点；节省空间，速度慢，用在硬盘数据传输，网络数据传输，相比硬盘和网络速度，体现不出来的
+
+**4、** gbk  是中文的字符编码，用2个字节代表一个字符
+
+
+### 4、pass的使用
+
+通常用来标记一个还未写的代码的位置，pass不做任何事情，一般用来做占位语句，保持程序结构的完整性
+
+
+### 5、把a='aaabbcccdddde'这种形式的字符串，压缩成a3b2c3d4e1这种形式。
+
+```python
+a='aaabbcccdddde'
+aa=''
+for i in sorted(list(set(a)),key=a.index):
+aa=aa+i+str(a.count(i))
+print(aa)
+```
+
+
+### 6、什么是asyncio
+
+asyncio是并发的一种方式，是一个协程相关的库。也叫异步IO
+
+
+### 7、解释Python中的Filter？
+
+过滤器函数，根据某些条件从可迭代对象中筛选值。
+
+```
+# iterable
+lst = [1,2,3,4,5,6,7,8,9,10]
+
+def even(num):
+    if num%2==0:
+        return num
+
+# filter all even numbers
+list(filter(even,lst))
+---------------------------------------------
+[2, 4, 6, 8, 10]
+```
+
+
+### 8、什么是鸭子模型？
+
+鸭子类型（英语：duck typing）是动态类型的一种风格。在这种风格中，一个对象有效的语义，不是由继承自特定的类或实现特定的接口，而是由当前方法和属性的集合决定。
+
+
+### 9、解释Python的内置数据结构？
+
+Python中主要有四种类型的数据结构。
+
+列表：列表是从整数到字符串甚至另一个列表的异构数据项的集合。列表是可变的。列表完成了其他语言中大多数集合数据结构的工作。列表在[ ]方括号中定义。
+
+例如：a = [1,2,3,4]
+
+集合：集合是唯一元素的无序集合。集合运算如联合|，交集&和差异，可以应用于集合。集是不可变的。()用于表示一个集合。
+
+例如：a = {1,2,3,4}
+
+元组：Python元组的工作方式与Python列表完全相同，只是它们是不可变的。()用于定义元组。
+
+例如：a =（1,2,3,4）
+
+字典：字典是键值对的集合。它类似于其他语言中的hash map。在字典里，键是唯一且不可变的对象。
+
+例如：a = {'number'：[1,2,3,4]}
+
+
+### 10、编写一个函数实现十进制转62进制，分别用0-9A-Za-z,表示62位字母
+
+```python
+import string
+print(string.ascii_lowercase) # 小写字母
+print(string.ascii_uppercase) # 大写字母
+print(string.digits) # 0-9
+
+s=string.digits+string.ascii_uppercase+string.ascii_lowercase
+def _10_to_62(num):
+ss=''
+while True:
+ss=s[num%62]+ss
+if num//62==0:
+break
+num=num//62
+return ss
+print(_10_to_62(65))
+```
+
+
+### 11、请列出至少5个PEP8规范
+### 12、什么是负载均衡
+### 13、解释一下Python中的继承
+### 14、什么是域名解析
+### 15、什么是覆盖索引
+### 16、比较：a=[1,2,3]和b=[(1),(2),(3)]以及c=[(1,),(2,),(3,)]的区别
+### 17、char和varchar的区别
+### 18、Python是否有main函数？
+### 19、如何在Python中管理内存？
+### 20、编写一个函数，找出数组中没有重复的值的和
+### 21、请写一个Python逻辑，计算一个文件中的大写字母数量
+### 22、Redis默认多少个db
+### 23、!=和is not运算符的区别？
+### 24、re的match和search的区别
+### 25、python和java、php、c、c#、c++ 等其他语言对比？
+### 26、简述生成器，迭代器，装饰器以及应用场景
+### 27、在python中如何拷贝一个对象，并说明他们之间的区别
+### 28、求下面代码结果
+### 29、解释什么是异步非阻塞
+### 30、什么是正则的贪婪匹配？贪婪模式和非贪婪模式的区别？
 
 
 

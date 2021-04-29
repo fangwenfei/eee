@@ -6,170 +6,119 @@
 
 
 
-### 1、SpringBoot 中如何解决跨域问题 ?
+### 1、SpringBoot 实现热部署有哪几种方式？
 
-跨域可以在前端通过 JSONP 来解决，但是 JSONP 只可以发送 GET 请求，无法发送其他类型的请求，在 RESTful 风格的应用中，就显得非常鸡肋，因此我们推荐在后端通过 （CORS，Cross-origin resource sharing） 来解决跨域问题。这种解决方案并非 SpringBoot 特有的，在传统的 SSM 框架中，就可以通过 CORS 来解决跨域问题，只不过之前我们是在 XML 文件中配置 CORS ，现在可以通过实现WebMvcConfigurer接口然后重写addCorsMappings方法解决跨域问题。
+主要有两种方式：
 
-```
-  @Configuration
-  public class CorsConfig implements WebMvcConfigurer {
+**1、** Spring Loaded
 
-  @Override
-  public void addCorsMappings(CorsRegistry registry) {
-  registry、addMapping("/**")
-  、allowedOrigins("*")
-  、allowCredentials(true)
-  、allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
-  、maxAge(3600);
-  }
+**2、** Spring-boot-devtools
 
-  }
-```
 
+### 2、SpringBoot有哪些优点？
 
-### 2、什么是嵌入式服务器？我们为什么要使用嵌入式服务器呢?
+减少开发，测试时间和努力。
 
-思考一下在你的虚拟机上部署应用程序需要些什么。
+使用JavaConfig有助于避免使用XML。
 
-**第一步：**安装 Java
+避免大量的Maven导入和各种版本冲突。
 
-**第二步：**安装 Web 或者是应用程序的服务器（Tomat/Wbesphere/Weblogic 等等）
+提供意见发展方法。
 
-**第三步：**部署应用程序 war 包
+通过提供默认值快速开始开发。
 
-如果我们想简化这些步骤，应该如何做呢？
+没有单独的Web服务器需要。这意味着你不再需要启动Tomcat，Glassfish或其他任何东西。
 
-让我们来思考如何使服务器成为应用程序的一部分？
+需要更少的配置 因为没有web.xml文件。只需添加用@ Configuration注释的类，然后添加用@Bean注释的方法，Spring将自动加载对象并像以前一样对其进行管理。您甚至可以将@Autowired添加到bean方法中，以使Spring自动装入需要的依赖关系中。基于环境的配置 使用这些属性，您可以将您正在使用的环境传递到应用程序：-Dspring.profiles.active = {enviornment}。在加载主应用程序属性文件后，Spring将在（application{environment} .properties）中加载后续的应用程序属性文件。
 
-你只需要一个安装了 Java 的虚拟机，就可以直接在上面部署应用程序了，
 
-这个想法是嵌入式服务器的起源。
+### 3、SpringBoot 需要独立的容器运行吗？
 
-当我们创建一个可以部署的应用程序的时候，我们将会把服务器（例如，tomcat）嵌入到可部署的服务器中。
+可以不需要，内置了 Tomcat/ Jetty 等容器。
 
-例如，对于一个 SpringBoot 应用程序来说，你可以生成一个包含 Embedded Tomcat 的应用程序 jar。你就可以想运行正常 Java 应用程序一样来运行 web 应用程序了。
 
-嵌入式服务器就是我们的可执行单元包含服务器的二进制文件（例如，tomcat.jar）。
+### 4、@SpringBootApplication注释在内部有什么用处?
 
+作为Spring引导文档，@SpringBootApplication注释等同于同时使用@Configuration、@EnableAutoConfiguration和@ComponentScan及其默认属性。SpringBoot允许开发人员使用单个注释而不是多个注释。但是，众所周知，Spring提供了松散耦合的特性，我们可以根据项目需要为每个注释使用这些特性。
 
-### 3、什么是嵌入式服务器？我们为什么要使用嵌入式服务器呢?
 
-思考一下在你的虚拟机上部署应用程序需要些什么。
+### 5、运行 SpringBoot 有哪几种方式？
 
-第一步：安装 Java
+**1、**  打包用命令或者放到容器中运行
 
-第二部：安装 Web 或者是应用程序的服务器（Tomat/Wbesphere/Weblogic 等等）
+**2、**  用 Maven/ Gradle 插件运行
 
-第三部：部署应用程序 war 包
+**3、**  直接执行 main 方法运行
 
-如果我们想简化这些步骤，应该如何做呢？
 
-让我们来思考如何使服务器成为应用程序的一部分？
+### 6、开启 SpringBoot 特性有哪几种方式？
 
-你只需要一个安装了 Java 的虚拟机，就可以直接在上面部署应用程序了，
+继承spring-boot-starter-parent项目
 
-是不是很爽？
+导入spring-boot-dependencies项目依赖
 
-这个想法是嵌入式服务器的起源。
 
-当我们创建一个可以部署的应用程序的时候，我们将会把服务器（例如，tomcat）嵌入到可部署的服务器中。
+### 7、SpringBoot微服务中如何实现 session 共享 ?
 
-例如，对于一个 SpringBoot 应用程序来说，你可以生成一个包含 Embedded Tomcat 的应用程序 jar。你就可以像运行正常 Java 应用程序一样来运行 web 应用程序了。
+在微服务中，一个完整的项目被拆分成多个不相同的独立的服务，各个服务独立部署在不同的服务器上，各自的 session 被从物理空间上隔离开了，但是经常，我们需要在不同微服务之间共享 session ，常见的方案就是 Spring Session + Redis 来实现 session 共享。将所有微服务的 session 统一保存在 Redis 上，当各个微服务对 session 有相关的读写操作时，都去操作 Redis 上的 session 。这样就实现了 session 共享，Spring Session 基于 Spring 中的代理过滤器实现，使得 session 的同步操作对开发人员而言是透明的，非常简便。
 
-嵌入式服务器就是我们的可执行单元包含服务器的二进制文件（例如，tomcat.jar）。
 
+### 8、SpringBoot 还提供了其它的哪些 Starter Project Options？
 
-### 4、SpringBoot 的核心配置文件有哪几个？它们的区别是什么？
+SpringBoot 也提供了其它的启动器项目包括，包括用于开发特定类型应用程序的典型依赖项。
 
-SpringBoot 的核心配置文件是 application 和 bootstrap 配置文件。
+**1、** spring-boot-starter-web-services - SOAP Web Services；
 
-application 配置文件这个容易理解，主要用于 SpringBoot 项目的自动化配置。
+**2、** spring-boot-starter-web - Web 和 RESTful 应用程序；
 
-bootstrap 配置文件有以下几个应用场景。
+**3、** spring-boot-starter-test - 单元测试和集成测试；
 
-使用 Spring Cloud Config 配置中心时，这时需要在 bootstrap 配置文件中添加连接到配置中心的配置属性来加载外部配置中心的配置信息； 一些固定的不能被覆盖的属性；一些加密/解密的场景
+**4、** spring-boot-starter-jdbc - 传统的 JDBC；
 
+**5、** spring-boot-starter-hateoas - 为服务添加 HATEOAS 功能；
 
-### 5、SpringBoot 中如何实现定时任务 ?
+**6、** spring-boot-starter-security - 使用 SpringSecurity 进行身份验证和授权；
 
-在 SpringBoot 中使用定时任务主要有两种不同的方式，一个就是使用 Spring 中的 [@Scheduled ](/Scheduled ) 注解，另一-个则是使用第三方框架 Quartz。
+**7、** spring-boot-starter-data-jpa - 带有 Hibeernate 的 Spring Data JPA；
 
-使用 Spring 中的 [@Scheduled ](/Scheduled ) 的方式主要通过 [@Scheduled ](/Scheduled ) 注解来实现。
+**8、** spring-boot-starter-data-rest - 使用 Spring Data REST 公布简单的 REST 服务；
 
 
-### 6、如何重新加载SpringBoot上的更改，而无需重新启动服务器？
+### 9、什么是 SpringBoot？
 
-这可以使用DEV工具来实现。通过这种依赖关系，您可以节省任何更改，嵌入式tomcat将重新启动。
+SpringBoot 是 Spring 开源组织下的子项目，是 Spring 组件一站式解决方案，主要是简化了使用 Spring 的难度，简省了繁重的配置，提供了各种启动器，开发者能快速上手。
 
-SpringBoot有一个开发工具（DevTools）模块，它有助于提高开发人员的生产力。Java开发人员面临的一个主要挑战是将文件更改自动部署到服务器并自动重启服务器。
 
-开发人员可以重新加载SpringBoot上的更改，而无需重新启动服务器。这将消除每次手动部署更改的需要。SpringBoot在它的第一个版本时没有这个功能。
+### 10、我们如何监视所有SpringBoot微服务？
 
-这是开发人员最需要的功能。DevTools模块完全满足开发人员的需求。该模块将在生产环境中被禁用。它还提供H2数据库控制台以更好地测试应用程序。
+SpringBoot提供监视器端点以监控各个微服务的度量。这些端点对于获取有关应用程序的信息（如它们是否已启动）以及它们的组件（如数据库等）是否正常运行很有帮助。但是，使用监视器的一个主要缺点或困难是，我们必须单独打开应用程序的知识点以了解其状态或健康状况。想象一下涉及50个应用程序的微服务，管理员将不得不击中所有50个应用程序的执行终端。
 
+为了帮助我们处理这种情况，我们将使用位于
 
-### 7、SpringBoot的核心注解是哪个？它主要由哪几个注解组成的？
+的开源项目。 它建立在SpringBoot Actuator之上，它提供了一个Web UI，使我们能够可视化多个应用程序的度量。
 
-启动类上面的注解是@SpringBootApplication，它也是SpringBoot的核心注解，主要组合包含了以下3个注解：
 
-**1、** @SpringBootConfiguration：组合了@Configuration注解，实现配置文件的功能。
-
-**2、** @EnableAutoConfiguration：打开自动配置的功能，也可以关闭某个自动配置的选项，如关闭数据源自动配置功能：SpringBootApplication(exclude={DataSourceAutoConfiguration.class})
-
-**3、** @ComponentScan：Spring组件扫描
-
-
-### 8、如何在 SpringBoot 启动的时候运行一些特定的代码？
-
-可以实现接口 ApplicationRunner 或者 CommandLineRunner，这两个接口实现方式一样，它们都只提供了一个 run 方法，实现上述接口的类加入IOC容器即可生效。
-
-
-### 9、SpringBoot 配置文件的加载顺序
-
-由jar包外向jar包内进行寻找;
-
-优先加载带profile
-
-jar包外部的application-{profile}.properties或application.yml(带spring.profile配置文件
-
-jar包内部的application-{profile}.properties或application.yml(带spring.profile配置文件
-
-再来加载不带profile
-
-jar包外部的application.properties或application.yml(不带spring.profile配置文件
-
-jar包内部的application.properties或application.yml(不带spring.profile配置文件
-
-
-### 10、如何给静态变量赋值？
-
-SpringBoot无法通过@Value给静态变量赋值
-
-此时需要给当前类加@Component注解，通过set方法设置@Value注解加载set方法上，set方法的参数可以任意命名，不能同属性名，此后当前工具类下的静态方法可直接使用属性值。
-
-
-
-### 11、SpringBoot 打成的 jar 和普通的 jar 有什么区别 ?
-### 12、你能否举一个以 ReadOnly 为事务管理的例子？
-### 13、SpringBoot 支持哪些日志框架？推荐和默认的日志框架是哪个？
+### 11、如何在 SpringBoot 中添加通用的 JS 代码？
+### 12、SpringBoot 支持哪些日志框架？推荐和默认的日志框架是哪个？
+### 13、如何重新加载 SpringBoot上的更改，而无需重新启动服务器？
 ### 14、开启 SpringBoot 特性有哪几种方式？
-### 15、我们如何监视所有 SpringBoot 微服务？
-### 16、RequestMapping 和 GetMapping 的不同之处在哪里？
-### 17、SpringBoot的缺点
-### 18、什么是YAML?
-### 19、如何在SpringBoot中禁用Actuator端点安全性？
-### 20、Springboot 有哪些优点？
-### 21、什么是CSRF攻击？
-### 22、如何使用SpringBoot实现异常处理？
-### 23、我们如何监视所有SpringBoot微服务？
-### 24、@SpringBootApplication注释在内部有什么用处?
-### 25、保护 SpringBoot 应用有哪些方法？
-### 26、为什么要用SpringBoot
-### 27、SpringBoot 2.X 有什么新特性？与 1.X 有什么区别？
-### 28、@RestController和@Controller的区别
-### 29、比较一下 Spring Security 和 Shiro 各自的优缺点 ?
-### 30、什么是 Apache Kafka？
-### 31、微服务同时调用多个接口，怎么支持事务的啊？
+### 15、SpringBoot默认支持的日志框架有哪些？可以进行哪些设置？
+### 16、SpringBoot 可以兼容老 Spring 项目吗，如何做？
+### 17、前后端分离，如何维护接口文档 ?
+### 18、如何在 SpringBoot 中禁用 Actuator 端点安全性？
+### 19、什么是嵌入式服务器？我们为什么要使用嵌入式服务器呢?
+### 20、什么是JavaConfig？
+### 21、Springboot 有哪些优点？
+### 22、SpringBoot 中的 starter 到底是什么 ?
+### 23、spring-boot-starter-parent有什么用？
+### 24、SpringBoot 的核心注解是哪个？它主要由哪几个注解组成的？
+### 25、SpringBoot 配置加载顺序?
+### 26、SpringBoot 配置文件的加载顺序
+### 27、什么是Spring Batch？
+### 28、如何给静态变量赋值？
+### 29、SpringBoot事物的使用
+### 30、SpringBoot集成mybatis的过程
+### 31、什么是 Spring Batch？
 
 
 

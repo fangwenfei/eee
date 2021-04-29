@@ -6,140 +6,169 @@
 
 
 
-### 1、如何使用 Elastic Reporting ？
+### 1、什么是ElasticSearch脑裂？
+
+一个正常es集群中只有一个主节点，主节点负责管理整个集群，集群的所有节点都会选择同一个节点作 为主节点所以无论访问那个节点都可以查看集群的状态信息。而脑裂问题的出现就是因为从节点在选择 主节点上出现分歧导致一个集群出现多个主节点从而使集群分裂，使得集群处于异常状态。
+
+
+### 2、拼写纠错是如何实现的？
+
+**1、拼写纠错是基于编辑距离来实现**；编辑距离是一种标准的方法，它用来表示经过插入、删除和替换操作从一个字符串转换到另外一个字符串的最小操作步数；
+
+**2、编辑距离的计算过程：**比如要计算 batyu 和 beauty 的编辑距离，先创建一个7×8 的表（batyu 长度为 5，coffee 长度为 6，各加 2），接着，在如下位置填入
+
+黑色数字。
+
+**其他格的计算过程是取以下三个值的最小值：**
+
+如果最上方的字符等于最左方的字符，则为左上方的数字。否则为左上方的数字 +1。（对于 3,3 来说为 0）左方数字+1（对于 3,3 格来说为 2）上方数字+1（对于 3,3 格来说为 2）
+
+最终取右下角的值即为编辑距离的值 3。
+
+![70_10.png][70_10.png]
+
+对于拼写纠错，我们考虑构造一个度量空间（Metric Space），该空间内任何关
+
+系满足以下三条基本条件：
+
+> d(x,y) = 0 -- 假如 x 与 y 的距离为 0，则 x=y
+
+d(x,y) = d(y,x) -- x 到 y 的距离等同于 y 到 x 的距离
+
+d(x,y) + d(y,z) >= d(x,z) -- 三角不等式
+
+
+**1、** 根据三角不等式，则满足与 query 距离在 n 范围内的另一个字符转 B，其与 A的距离最大为 d+n，最小为 d-n。
+
+**2、** BK 树的构造就过程如下：每个节点有任意个子节点，每条边有个值表示编辑距离。所有子节点到父节点的边上标注 n 表示编辑距离恰好为 n。比如，我们有棵树父节点是”book”和两个子
+
+**点”cake”和”books”，”book”到”books”的边标号 ：**
+
+**1、** ”book”到”cake”的边上标号.
+
+**2、** 从字典里构造好树后，无论何时你想插入新单词时.计算该单词与根节点的编辑距离，并且查找数值为 d(neweord, root)的边。递归得与各子节点进行比较，直到没有子节点，你就可以创建新的子节点并将新单词保存在那。比如，插入”boo”到刚才上述例子的树中，我们先检查根节点，查找 d(“book”, “boo”) = 1 的边，然后检查标号为1 的边的子节点，得到单词”books”。我们再计算距离 d(“books”, “boo”)=2，则将新单词插在”books”之后，边标号为 2。
+
+**3、** 查询相似词如下：计算单词与根节点的编辑距离 d，然后递归查找每个子节点标号为 d-n 到 d+n（包含）的边。假如被检查的节点与搜索单词的距离 d 小于n，则返回该节点并继续查询。比如输入 cape 且最大容忍距离为 1，则先计算和根的编辑距离 d(“book”,“cape”)=4，然后接着找和根节点之间编辑距离为 3 到5 的，这个就找到了cake 这个节点，计算 d(“cake”, “cape”)=1，满足条件所以返回 cake，然后再找和 cake 节点编辑距离是 0 到 2 的，分别找到 cape 和cart 节点，这样就得到 cape 这个满足条件的结果。
+
+
+
+### 3、logstash 如何与 Elasticsearch 结合使用？
+
+logstash 是ELK Stack附带的开源 ETL 服务器端引擎，该引擎可以收集和处理来自各种来源的数据。
+
+最典型应用包含：同步日志、邮件数据，同步关系型数据库（MySQL、Oracle）数据，同步非关系型数据库（MongoDB）数据，同步实时数据流 Kafka数据、同步高性能缓存 Redis 数据等。
+
+
+### 4、客户端在和集群连接时，是如何选择特定的节点执行请求的？
+
+TransportClient利用transport模块远程连接一个ElasticSearch集群。它并不加入到集群中，只是简单的获得一个或者多个初始化的transport地址，并以轮询的方式与这些地址进行通信。
+
+
+### 5、Elasticsearch中的属性 enabled, index 和 store 的功能是什么？
+
+enabled：false，启用的设置仅可应用于顶级映射定义和 Object 对象字段，导致 Elasticsearch 完全跳过对字段内容的解析。
+
+仍然可以从_source字段中检索JSON，但是无法搜索或以其他任何方式存储JSON。
+
+如果对非全局或者 Object 类型，设置 enable : false 会报错如下：
+
+```
+ "type": "mapper_parsing_exception",
+ "reason": "Mapping definition for [user_id] has unsupported parameters:  [enabled : false]"
+```
+
+index：false, 索引选项控制是否对字段值建立索引。它接受true或false，默认为true。未索引的字段不可查询。
+
+如果非要检索，报错如下：
+
+```
+ "type": "search_phase_execution_exception",
+  "reason": "Cannot search on field [user_id] since it is not indexed."
+```
+
+**store：**
+
+某些特殊场景下，如果你只想检索单个字段或几个字段的值，而不是整个_source的值，则可以使用源过滤来实现；
+
+这个时候， store 就派上用场了。
+
+
+### 6、elasticsearch 冷热分离
+
+类似于MySQL的分表分库
+
+将热数据单独建立一个索引 分配3台机器只保持热机器的索引
+
+另外的机器保持冷数据的索引，但有一个问题，就是事先必须知道哪些是热数据 哪些是冷数据
+
+
+### 7、解释一下 Elasticsearch 的 分片？
+
+当文档数量增加，硬盘容量和处理能力不足时，对客户端请求的响应将延迟。
+
+在这种情况下，将索引数据分成小块的过程称为分片，可改善数据搜索结果的获取。
+
+
+### 8、如何使用 Elastic Reporting ？
 
 收费功能，只是了解，点到为止。
 
 Reporting API有助于将检索结果生成 PD F格式，图像 PNG 格式以及电子表格 CSV 格式的数据，并可根据需要进行共享或保存。
 
 
-### 2、如何监控Elasticsearch集群状态？
+### 9、详细描述一下ElasticSearch更新和删除文档的过程
 
-Marvel 让你可以很简单的通过 Kibana 监控 Elasticsearch。你可以实时查看你的集群健康状态和性能，也可以分析过去的集群、索引和节点指标。
+删除和更新都是写操作，但是ElasticSearch中的文档是不可变的，因此不能被删除或者改动以展示其变更。
 
+磁盘上的每个段都有一个相应的.del文件。当删除请求发送后，文档并没有真的被删除，而是在.del文件中被标记为删除。该文档依然能匹配查询，但是会在结果中被过滤掉。当段合并时，在.del文件中被标记为删除的文档将不会被写入新段。
 
-### 3、什么是ElasticSearch脑裂？
-
-一个正常es集群中只有一个主节点，主节点负责管理整个集群，集群的所有节点都会选择同一个节点作 为主节点所以无论访问那个节点都可以查看集群的状态信息。而脑裂问题的出现就是因为从节点在选择 主节点上出现分歧导致一个集群出现多个主节点从而使集群分裂，使得集群处于异常状态。
-
-
-### 4、介绍一下你们的个性化搜索方案？
-
-SEE [基于word2vec和Elasticsearch实现个性化搜索](http://ginobefunny.com/post/personalized_search_implemention_based_word2vec_and_elasticsearch/)
+在新的文档被创建时，ElasticSearch会为该文档指定一个版本号，当执行更新时，旧版本的文档在.del文件中被标记为删除，新版本的文档被索引到一个新段。旧版本的文档依然能匹配查询，但是会在结果中会被过滤掉。
 
 
-### 5、请解释在 Elasticsearch 集群中添加或创建索引的过程？
+### 10、详细描述一下 Elasticsearch 索引文档的过程。
 
-要添加新索引，应使用创建索引 API 选项。创建索引所需的参数是索引的配置Settings，索引中的字段 Mapping 以及索引别名 Alias。
-
-也可以通过模板 Template 创建索引。
-
-
-### 6、你之前公司的ElasticSearch集群，一个Node一般会分配几个分片？
-
-我们遵循官方建议，一个Node最好不要多于三个shards.
-
-
-### 7、拼写纠错是如何实现的？
-
-**1、** 拼写纠错是基于编辑距离来实现；编辑距离是一种标准的方法，它用来表示经过插入、删除和替换操作从一个字符串转换到另外一个字符串的最小操作步数；
-
-**2、** 编辑距离的计算过程：比如要计算batyu和beauty的编辑距离，先创建一个7×8的表（batyu长度为5，coffee长度为6，各加2），接着，在如下位置填入黑色数字。其他格的计算过程是取以下三个值的最小值：
-
-如果最上方的字符等于最左方的字符，则为左上方的数字。否则为左上方的数字+1。（对于3,3来说为0）
-
-左方数字+1（对于3,3格来说为2）
-
-上方数字+1（对于3,3格来说为2）
-
-最终取右下角的值即为编辑距离的值3。
-
-![](https://gitee.com/souyunkutech/souyunku-home/raw/master/images/souyunku-web/2019/08/0820/02/img_6.png#alt=img%5C_6.png)
-
-对于拼写纠错，我们考虑构造一个度量空间（Metric Space），该空间内任何关系满足以下三条基本条件：
-
-d(x,y) = 0 -- 假如x与y的距离为0，则x=y
-
-d(x,y) = d(y,x)  -- x到y的距离等同于y到x的距离
-
-d(x,y) + d(y,z) >= d(x,z) -- 三角不等式
-
-**1、** 根据三角不等式，则满足与query距离在n范围内的另一个字符转B，其与A的距离最大为d+n，最小为d-n。
-
-**2、** BK树的构造就过程如下：每个节点有任意个子节点，每条边有个值表示编辑距离。所有子节点到父节点的边上标注n表示编辑距离恰好为n。比如，我们有棵树父节点是”book”和两个子节点”cake”和”books”，”book”到”books”的边标号1，”book”到”cake”的边上标号4。从字典里构造好树后，无论何时你想插入新单词时，计算该单词与根节点的编辑距离，并且查找数值为d(neweord, root)的边。递归得与各子节点进行比较，直到没有子节点，你就可以创建新的子节点并将新单词保存在那。比如，插入”boo”到刚才上述例子的树中，我们先检查根节点，查找d(“book”, “boo”) = 1的边，然后检查标号为1的边的子节点，得到单词”books”。我们再计算距离d(“books”, “boo”)=2，则将新单词插在”books”之后，边标号为2。
-
-**3、** 查询相似词如下：计算单词与根节点的编辑距离d，然后递归查找每个子节点标号为d-n到d+n（包含）的边。假如被检查的节点与搜索单词的距离d小于n，则返回该节点并继续查询。比如输入cape且最大容忍距离为1，则先计算和根的编辑距离d(“book”, “cape”)=4，然后接着找和根节点之间编辑距离为3到5的，这个就找到了cake这个节点，计算d(“cake”, “cape”)=1，满足条件所以返回**cake**，然后再找和cake节点编辑距离是0到2的，分别找到cape和cart节点，这样就得到**cape**这个满足条件的结果。
-
-![](https://gitee.com/souyunkutech/souyunku-home/raw/master/images/souyunku-web/2019/08/0820/02/img_7.png#alt=img%5C_7.png)
-
-
-### 8、您能解释一下 Elasticsearch 中的 Explore API 吗？
-
-没有用过，这是 Graph （收费功能）相关的API。
-
-点到为止即可，类似问题实际开发现用现查，类似问题没有什么意义。
-
-[https://www.elastic.co/guide/en/elasticsearch/reference/current/graph-explore-api.html](https://www.elastic.co/guide/en/elasticsearch/reference/current/graph-explore-api.html)
-
-
-### 9、elasticsearch是如何实现master选举的
-
-`面试官`：想了解ES集群的底层原理，不再只关注业务层面了。
-
-**前置前提：**
-
-**1、** 只有候选主节点（master：true）的节点才能成为主节点。
-
-**2、** 最小主节点数（min_master_nodes）的目的是防止脑裂。
-
-这个我看了各种网上分析的版本和源码分析的书籍，云里雾里。
-
-核对了一下代码，核心入口为findMaster，选择主节点成功返回对应Master，否则返回null。选举流程大致描述如下：
-
-第一步：确认候选主节点数达标，elasticsearch.yml设置的值discovery.zen.minimum_master_nodes；
-
-第二步：比较：先判定是否具备master资格，具备候选主节点资格的优先返回；若两节点都为候选主节点，则id小的值会主节点。注意这里的id为string类型。
-
-题外话：获取节点id的方法。
+协调节点默认使用文档 ID 参与计算（也支持通过 routing），以便为路由提供合适的分片。
 
 ```
- 1GET /_cat/nodes?v&h=ip,port,heapPercent,heapMax,id,name
-2ip        port heapPercent heapMax id   name
+shard = hash(document_id) % (num_of_primary_shards)
 ```
 
+**1、** 当分片所在的节点接收到来自协调节点的请求后，会将请求写入到 MemoryBuffer，然后定时（默认是每隔 1 秒）写入到 Filesystem Cache，这个从MomeryBuffer 到 Filesystem Cache 的过程就叫做 refresh；
 
-### 10、详细描述一下Elasticsearch搜索的过程。
+**2、** 当然在某些情况下，存在 Momery Buffer 和 Filesystem Cache 的数据可能会丢失，ES 是通过 translog 的机制来保证数据的可靠性的。其实现机制是接收到请求后，同时也会写入到 translog 中，当 Filesystem cache 中的数据写入到磁盘中时，才会清除掉，这个过程叫做 flush；
 
-**1、** 搜索被执行成一个两阶段过程，我们称之为 Query Then Fetch；
+**3、** 在 flush 过程中，内存中的缓冲将被清除，内容被写入一个新段，段的 fsync将创建一个新的提交点，并将内容刷新到磁盘，旧的 translog 将被删除并开始一个新的 translog。
 
-**2、** 在初始**查询阶段**时，查询会广播到索引中每一个分片拷贝（主分片或者副本分片）。 每个分片在本地执行搜索并构建一个匹配文档的大小为 from + size 的优先队列。
+**4、** flush 触发的时机是定时触发（默认 30 分钟）或者 translog 变得太大（默认为 512M）时；
 
-PS：在搜索的时候是会查询Filesystem Cache的，但是有部分数据还在Memory Buffer，所以搜索是近实时的。
+**补充：关于 Lucene 的 Segement：**
 
-**3、** 每个分片返回各自优先队列中 **所有文档的 ID 和排序值** 给协调节点，它合并这些值到自己的优先队列中来产生一个全局排序后的结果列表。
+**1、** Lucene 索引是由多个段组成，段本身是一个功能齐全的倒排索引。
 
-**4、** 接下来就是 **取回阶段**，协调节点辨别出哪些文档需要被取回并向相关的分片提交多个 GET 请求。每个分片加载并 _丰富_ 文档，如果有需要的话，接着返回文档给协调节点。一旦所有的文档都被取回了，协调节点返回结果给客户端。
+**2、** 段是不可变的，允许 Lucene 将新的文档增量地添加到索引中，而不用从头重建索引。
 
-**5、** 补充：Query Then Fetch的搜索类型在文档相关性打分的时候参考的是本分片的数据，这样在文档数量较少的时候可能不够准确，DFS Query Then Fetch增加了一个预查询的处理，询问Term和Document frequency，这个评分更准确，但是性能会变差。*
+**3、** 对于每一个搜索请求而言，索引中的所有段都会被搜索，并且每个段会消耗CPU 的时钟周、文件句柄和内存。这意味着段的数量越多，搜索性能会越低。
 
-![](https://gitee.com/souyunkutech/souyunku-home/raw/master/images/souyunku-web/2019/08/0820/02/img_2.png#alt=img%5C_2.png)
+**4、** 为了解决这个问题，Elasticsearch 会合并小段到一个较大的段，提交新的合并
+
+段到磁盘，并删除那些旧的小段。
 
 
-### 11、token filter 过滤器 在 Elasticsearch 中如何工作？
-### 12、Elasticsearch 是如何实现 Master 选举的？
-### 13、elasticsearch 读取数据
-### 14、您能否分步介绍如何启动 Elasticsearch 服务器？
-### 15、能列举过你使用的 X-Pack 命令吗?
-### 16、详细描述一下 Elasticsearch 更新和删除文档的过程。
-### 17、介绍下你们电商搜索的整体技术架构。
-### 18、可以列出X-Pack API 吗？
-### 19、lucence内部结构是什么？
-### 20、logstash 如何与 Elasticsearch 结合使用？
-### 21、REST API在 Elasticsearch 方面有哪些优势？
-### 22、Elasticsearch在部署时，对Linux的设置有哪些优化方法？
-### 23、elasticsearch 数据预热
-### 24、在并发情况下，Elasticsearch如果保证读写一致？
-### 25、解释一下 Elasticsearch集群中的 索引的概念 ？
+### 11、详细描述一下 Elasticsearch 搜索的过程。
+### 12、elasticsearch 数据预热
+### 13、elasticsearch了解多少，说说你们公司es的集群架构，索引数据大小，分片有多少，以及一些调优手段 。
+### 14、客户端在和集群连接时，如何选择特定的节点执行请求的？
+### 15、解释一下 Elasticsearch集群中的 索引的概念 ？
+### 16、Elasticsearch在部署时，对Linux的设置有哪些优化方法？
+### 17、elasticsearch 的 filesystem
+### 18、Elasticsearch 对于大数据量（上亿量级）的聚合如何实现？
+### 19、Elasticsearch的 文档是什么？
+### 20、详细描述一下 Elasticsearch 更新和删除文档的过程。
+### 21、您能否分步介绍如何启动 Elasticsearch 服务器？
+### 22、在并发情况下，Elasticsearch如果保证读写一致？
+### 23、Elasticsearch是如何实现Master选举的？
+### 24、请解释一下 Elasticsearch 中聚合？
+### 25、你可以列出 Elasticsearch 各种类型的分析器吗？
 
 
 

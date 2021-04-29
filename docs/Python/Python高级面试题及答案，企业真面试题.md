@@ -6,185 +6,163 @@
 
 
 
-### 1、怎样声明多个变量并赋值？
-
-一共有两种方式：
-
-```
->>> a,b,c=3,4,5 #This assigns 3, 4, and 5 to a, b, and c respectively
->>> a=b=c=3 #This assigns 3 to a, b, and c
-```
-
-
-### 2、Python中的Map Function是什么？
-
-map函数在对可迭代对象的每一项应用特定函数后，会返回map对象。
-
-
-### 3、*arg和**kwargs的作用
-
-用来接收不确定个数的参数，*args通常用来接收不确定个数的非关键字参数，而**kwargs通常用来接收不确定个数的关键字参数
-
-
-### 4、使用async语法实现一个协程
+### 1、有如下链表类，请实现单链表逆置。
 
 ```python
-import asyncio
-import time
+class ListNode:
+def __init__(self,val):
+self.val=val
+self.next=None
 
-now = lambda : time.time()
-
-async def hello():
-print("hello")
-await asyncio.sleep(2)
-return "done"
-
-start = now()
-# 协程对象
-h1 = hello()
-h2 = hello()
-h3 = hello()
-
-# 创建一个事件loop
-loop = asyncio.get_event_loop()
-# 任务（task）对象
-tasks = [
-asyncio.ensure_future(h1),
-asyncio.ensure_future(h2),
-asyncio.ensure_future(h3),
-]
-
-# 将协程加入到事件循环loop
-loop.run_until_complete(asyncio.wait(tasks))
-for task in tasks:
-print(task.result())
-
-print(now()-start)
+class Solution:
+def reverseList(self,pHead):
+if not pHead or not pHead.next:
+return pHead
+last=None
+while pHead:
+tmp=pHead.next
+pHead.next=last
+last=pHead
+pHead=tmp
+return last
 ```
 
 
-### 5、解释*args和**kwargs？
+### 2、写出以下代码的输出结果：
 
-*args，是当我们不确定要传递给函数参数的数量时使用的。
-
-```
-def add（* num）：
-    sum = 0 
-    for val in num：
-        sum = val + sum 
-    print（sum）
-
-
-add（4,5）
-add（7,4,6）
-add（10,34,23）
---------------------- 
-9 
-17 
-57
+```python
+def test():
+try:
+raise ValueError('something wrong')
+except ValueError as e:
+print('error occured')
+return
+finally:
+print('ok')
+test()
 ```
 
-**kwargs，是当我们想将字典作为参数传递给函数时使用的。
+结果(finally无论怎样都会执行)
 
-```
-def intro(**data):
-    print("\nData type of argument:",type(data))
-    for key, value in data.items():
-        print("{} is {}".format(key,value))
+> error occured
+
+ok
 
 
-intro(name="alex",Age=22, Phone=1234567890)
-intro(name="louis",Email="a@gmail.com",Country="Wakanda", Age=25)
---------------------------------------------------------------
-Data type of argument: <class 'dict'>
-name is alex
-Age is 22
-Phone is 1234567890
 
-Data type of argument: <class 'dict'>
-name is louis
-Email is a@gmail.com
-Country is Wakanda
-Age is 25
-```
+### 3、GIL锁对python性能的影响
+
+**1、** 会降低多线程的效率。可以说python就是个单线程的程序。
+
+**2、** 如何避免：
+
+**3、** 用多进程代替多线程
+
+**4、** 使用其他解释器
 
 
-### 6、请列举布尔值位False的常见值
+### 4、解释一下Python中的继承？
 
-0、''、[]、{}、tuple()、None、set()
+继承(inheritance)允许一个类获取另一个类的所有成员和属性。继承提供代码可重用性，可以更轻松地创建和维护应用程序。
+
+被继承的类称为超类，而继承的类称为派生类/子类。
 
 
-### 7、双下划线和单下划线的区别
+### 5、双下划线和单下划线的区别
 
 **1、** "单下划线" 开始的成员变量叫做保护变量，意思是只有类对象和子类对象自己能访问到这些变量；
 
 **2、** "双下划线" 开始的是私有成员，意思是只有类对象自己能访问，连子类对象也不能访问到这个数据。
 
 
-### 8、简述TCP三次握手，四次挥手的流程。
+### 6、MySQL的半同步复制原理
 
-**三次握手**
+半同步复制，介于异步复制和全同步复制之间，主库在执行完客户端提交的事务后不是立刻返回给客户端，而是等待至少一个从库接收到并写到relay log中才返回给客户端。相对于异步复制，半同步复制牺牲了一定的性能，提高了数据的安全性。
 
-**1、** 第一次握手：客户端的应用进程主动打开，并向客户端发出请求报文段。其首部中：SYN=1,seq=x。
+异步复制，MySQL默认的复制是异步的，主库在执行完客户端提交的事务后会立即将结果返给给客户端，并不关心从库是否已经接收并处理。原理最简单，性能最好，但是主从之间数据不一致的概率很大。
 
-**2、** 第二次握手：服务器应用进程被动打开。若同意客户端的请求，则发回确认报文，其首部中：SYN=1,ACK=1,ack=x+1,seq=y。
-
-**3、** 第三次握手：客户端收到确认报文之后，通知上层应用进程连接已建立，并向服务器发出确认报文，其首部：ACK=1,ack=y+1。当服务器收到客户端的确认报文之后，也通知其上层应用进程连接已建立。
-
-**四次挥手**
-
-**1、** 第一次挥手：数据传输结束以后，客户端的应用进程发出连接释放报文段，并停止发送数据，其首部：FIN=1,seq=u。
-
-**2、** 第二次挥手：服务器端收到连接释放报文段之后，发出确认报文，其首部：ack=u+1,seq=v。此时本次连接就进入了半关闭状态，客户端不再向服务器发送数据。而服务器端仍会继续发送。
-
-**3、** 第三次挥手：若服务器已经没有要向客户端发送的数据，其应用进程就通知服务器释放TCP连接。这个阶段服务器所发出的最后一个报文的首部应为：FIN=1,ACK=1,seq=w,ack=u+1。
-
-**4、** 第四次挥手：客户端收到连接释放报文段之后，必须发出确认：ACK=1,seq=u+1,ack=w+1。 再经过2MSL(最长报文端寿命)后，本次TCP连接真正结束，通信双方完成了他们的告别。
+全同步复制，指当主库执行完一个事务，所有的从库都执行了该事务才返回给客户端。因为需要等待所有从库执行完该事务才能返回，所以全同步复制的性能必然会收到严重的影响。
 
 
-### 9、什么是socket？简述基于tcp协议的socket通信流程？
+### 7、简述触发器、函数、视图和存储过程
 
-socket通常也称作"套接字"，用于描述IP地址和端口，是一个通信链的句柄。
+**1、** 触发器：触发器是一个特殊的存储过程，它是MySQL在insert、update、delete的时候自动执行的代码块
 
-**通信流程：**
+**2、** 函数：MySQL中提供了许多内置函数，还可以自定义函数（实现程序员需要sql逻辑处理）
 
-**1、** 服务端创建一个ServerSocket对象,指定端口号,ServerSocket对象等待客户端的连接请求。
+**3、** 视图：视图是由查询结果形成的一张虚拟表，是表通过某种运算得到的一个投影
 
-**2、** 客户端创建一个Socket对象,指定主机地址和端口号,向服务端发出连接请求。
-
-**3、** 服务端接收到客户端的连接请求,建立一条TCP连接,再创建一个Socket对象与客户端的Socket对象进行通信。
-
-**4、** 服务端和客户端分别创建字节输入流和字节输出流,通过字节输入流获得对方发来的数据,通过字节输出流向对方发送数据。
-
-**5、** 当一方决定结束通信时,向对方发送结束信息;另一方接收到结束信息后,双方分别关闭各自的TCP连接。
-
-**6、** ServerSocket对象停止等待客户端的连接请求。
+**4、** 存储过程：把一段代码封装起来，当要执行这一段代码的时候，可以通过调用该存储过程来实现（经过第一次编译后再次调用不需要再次编译，比一个个执行sql语句效率高）
 
 
-### 10、a=range(10),则a[::-3]的值是？
+### 8、什么是lambda函数？
 
-[9,6,3,0] 或者 range(9,-1,-3)
+Lambda函数是不带名称的单行函数，可以具有n个参数，但只能有一个表达式。也称为匿名函数。
+
+```
+a = lambda x, y：x + y 
+print(a(5, 6))
+
+> 11
+```
 
 
-### 11、解释一下Python中的继承
-### 12、列举面向对象中带双下划线的特殊方法
-### 13、IO多路复用的作用？
-### 14、判断dict中有没有某个key。
-### 15、Python有什么特点？
-### 16、解释Python中的Filter？
-### 17、如何使用python删除一个文件或者文件夹？
-### 18、Redis如何实现事务
-### 19、什么是鸭子模型？
-### 20、什么是猴子补丁？
-### 21、如何使用索引来反转Python中的字符串?
-### 22、python解释器种类以及特点
-### 23、MySQL执行计划的作用和使用方法
-### 24、阅读以下代码，写输出结果
-### 25、描述以下字典的items()方法和iteritems()方法有啥不同？
-### 26、解释一下Python中的逻辑运算符
-### 27、Python支持多重继承吗？
-### 28、实例变量和类变量的区别
-### 29、将下面列表中的元素根据位数合并成字典：
+### 9、写代码：如何由tuple1=('a','b','c','d','e')，和tuple2=(1,2,3,4,5)得到res={'a': 1, 'b': 2, 'c': 3, 'd': 4, 'e': 5}
+
+```python
+tuple1=('a','b','c','d','e')
+tuple2=(1,2,3,4,5)
+res=dict(zip(tuple1,tuple2))
+print(res)
+```
+
+
+### 10、解释Python中的join()和split()函数
+
+Join()能让我们将指定字符添加至字符串中。
+
+```
+>>> ','.join('12345')
+```
+
+运行结果：
+
+```
+‘1,2,3,4,5’
+```
+
+Split()能让我们用指定字符分割字符串。
+
+```
+>>> '1,2,3,4,5'.split(',')
+```
+
+运行结果：
+
+```
+[‘1’, ‘2’, ‘3’, ‘4’, ‘5’]
+```
+
+
+### 11、filter、map、reduce的作用。
+### 12、从0-99这100个数中随机取出10个，要求不能重复
+### 13、请编写一个函数将ip地址转换成一个整数。如10.3.9.12转换成00001010 00000011 00001001 00001100，然后转换成整数
+### 14、列举你所了解的所有Python2和Python3的区别
+### 15、python3和python2中int和long的区别
+### 16、Redis是单进程单线程的吗？
+### 17、lambda表达式格式以及应用场景？
+### 18、python的可变类型和不可变类型的区别
+### 19、Python区分大小写吗？
+### 20、MySQL索引种类
+### 21、编写程序，输出给定序列中的所有质数
+### 22、TCP和UDP的区别
+### 23、编写程序，检查数字是否为Armstrong
+### 24、Python有什么特点？
+### 25、Python中的生成器是什么？
+### 26、给定一个非空的字符串，判断它是否可以由它的一个子串重复多次构成。给定的字符串只含有小写英文字母，并且长度不超过10000。例如：'ababab',返回True，'ababa'，返回False
+### 27、一个数如果恰好等于它的因子之和，这个数就称为‘完数’，比如6=1+2+3，编程找出1000以内的所有的完数。
+### 28、什么是Python中的猴子补丁？
+### 29、解释一下Python中的三元运算子
 
 
 

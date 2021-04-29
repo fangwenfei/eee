@@ -6,139 +6,164 @@
 
 
 
-### 1、springcloud核⼼组件及其作⽤，以及springcloud⼯作原理：
+### 1、在Spring框架中如何更有效地使用JDBC?
 
-![](https://gitee.com/souyunkutech/souyunku-home/raw/master/images/souyunku-web/2020/5/2/01/44/45_9.png#alt=45%5C_9.png)
-
-**springcloud由以下⼏个核⼼组件构成：**
-
-**1、** Eureka：各个服务启动时，Eureka Client都会将服务注册到Eureka Server，并且Eureka Client还可以反过来从Eureka Server拉取注册表，从⽽知道其他服务在哪⾥
-
-**2、** Ribbon：服务间发起请求的时候，基于Ribbon做负载均衡，从⼀个服务的多台机器中选择⼀台
-
-**3、** Feign：基于Feign的动态代理机制，根据注解和选择的机器，拼接请求URL地址，发起请求
-
-**4、** Hystrix：发起请求是通过Hystrix的线程池来⾛的，不同的服务⾛不同的线程池，实现了不同服务调⽤的隔离，避免了服务雪崩的问题
-
-**5、** Zuul：如果前端、移动端要调⽤后端系统，统⼀从Zuul⽹关进⼊，由Zuul⽹关转发请求给对应的服务
+使用SpringJDBC 框架，资源管理和错误处理的代价都会被减轻。所以开发者只需写statements 和 queries从数据存取数据，JDBC也可以在Spring框架提供的模板类的帮助下更有效地被使用，这个模板叫JdbcTemplate （例子见这里here）
 
 
-### 2、使用 SpringBoot 开发分布式微服务时，我们面临什么问题
+### 2、spring 提供了哪些配置方式？
 
-**1、** 与分布式系统相关的复杂性-这种开销包括网络问题，延迟开销，带宽问题，安全问题。
+bean 所需的依赖项和服务在 XML 格式的配置文件中指定。 这些配置文件通常包含许多 bean 定义和特定于应用程序的配置选项。 它们通常以 bean 标签开头。
 
-**2、** 服务发现-服务发现工具管理群集中的流程和服务如何查找和互相交谈。它涉及一个服务目录，在该目录中注册服务，然后能够查找并连接到该目录中的服务。
+**例如：**
 
-**3、** 冗余-分布式系统中的冗余问题。
+```
+<bean id="studentbean" class="org.edureka.firstSpring.StudentBean">
+     <property name="name" value="Edureka"></property>
+</bean>
+```
 
-**4、** 负载平衡 --负载平衡改善跨多个计算资源的工作负荷，诸如计算机，计算机集群，网络链路，中央处理单元，或磁盘驱动器的分布。
+**基于注解配置**
 
-**5、** 性能-问题 由于各种运营开销导致的性能问题。
+您可以通过在相关的类，方法或字段声明上使用注解，将 bean 配置为组件类本身，而不是使用 XML 来描述 bean 装配。 默认情况下，Spring 容器中未打开注解装配。 因此，您需要在使用它之前在 Spring 配置文件中启用它。 例如：
 
+context:annotation-config/
 
-### 3、什么是 AOP 代理?
+Spring 的 Java 配置是通过使用[@Bean ](/Bean ) 和 [@Configuration ](/Configuration ) 来实现。
 
-代理是通知目标对象后创建的对象。从客户端的角度看，代理对象和目标对象是一样的。
+[@Bean ](/Bean ) 注解扮演与 元素相同的角色。 [@Configuration ](/Configuration ) 类允许通过简单地调用同一个类中的其他[@Bean ](/Bean ) 方法来定义 bean 间依赖关系。
 
+**例如：**
 
-### 4、微服务有什么特点？
-
-您可以列出微服务的特征，如下所示：
-
-![](https://gitee.com/souyunkutech/souyunku-home/raw/master/images/souyunku-web/2019/08/0816/01/img_9.png#alt=img%5C_9.png)
-
-图7：微服务的特征 – 微服务访谈问题
-
-
-### 5、服务注册和发现是什么意思？Spring Cloud如何实现？
-
-当我们开始一个项目时，我们通常在属性文件中进行所有的配置。随着越来越多的服务开发和部署，添加和修改这些属性变得更加复杂。有些服务可能会下降，而某些位置可能会发生变化。手动更改属性可能会产生问题。Eureka服务注册和发现可以在这种情况下提供帮助。由于所有服务都在Eureka服务器上注册并通过调用Eureka服务器完成查找，因此无需处理服务地点的任何更改和处理。
-
-
-### 6、AOP 有哪些实现方式？
-
-**实现 AOP 的技术，主要分为两大类：**
-
-**静态代理**
-
-指使用 AOP 框架提供的命令进行编译，从而在编译阶段就可生成 AOP 代理类，因此也称为编译时增强；
-
-编译时编织（特殊编译器实现）
-
-类加载时编织（特殊的类加载器实现）。
-
-**动态代理**
-
-在运行时在内存中“临时”生成 AOP 动态代理类，因此也被称为运行时增强。
-
-**JDK 动态代理**
-
-**CGLIB**
+```
+public class StudentConfig {
+    @Bean
+    public StudentBean myStudent() {
+        return new StudentBean();
+    }
+}
+```
 
 
-### 7、如何给Spring 容器提供配置元数据?
+### 3、如何使用 SpringBoot 自动重装我的应用程序？
 
-这里有三种重要的方法给Spring 容器提供配置元数据。
+使用 SpringBoot 开发工具。
 
-**1、** XML配置文件。
+把 SpringBoot 开发工具添加进入你的项目是简单的。
 
-**2、** 基于注解的配置。
+把下面的依赖项添加至你的 SpringBoot Project pom.xml 中
 
-**3、** 基于java的配置。
+重启应用程序，然后就可以了。
 
+同样的，如果你想自动装载页面，有可以看看 FiveReload
 
-### 8、什么是 Spring Cloud Bus？
+```
+http://www.logicbig.com/tutorials/spring-framework/spring-boot/boot-live-reload/.
+```
 
-**1、** Spring Cloud Bus就像一个分布式执行器，用于扩展的SpringBoot应用程序的配置文件，但也可以用作应用程序之间的通信通道。
-
-**2、** Spring Cloud Bus 不能单独完成通信，需要配合MQ支持
-
-**3、** Spring Cloud Bus一般是配合Spring Cloud Config做配置中心的
-
-**4、** Springcloud config实时刷新也必须采用SpringCloud Bus消息总线
+在我测试的时候，发现了 LiveReload 漏洞，如果你测试时也发现了，请一定要告诉我们。
 
 
-### 9、服务网关的作用
+### 4、什么是Spring MVC框架的控制器？
 
-**1、** 简化客户端调用复杂度，统一处理外部请求。
-
-**2、** 数据裁剪以及聚合，根据不同的接口需求，对数据加工后对外。
-
-**3、** 多渠道支持，针对不同的客户端提供不同的网关支持。
-
-**4、** 遗留系统的微服务化改造，可以作为新老系统的中转组件。
-
-**5、** 统一处理调用过程中的安全、权限问题。
+控制器提供一个访问应用程序的行为，此行为通常通过服务接口实现。控制器解析用户输入并将其转换为一个由视图呈现给用户的模型。Spring用一个非常抽象的方式实现了一个控制层，允许用户创建多种用途的控制器。
 
 
-### 10、SpringBoot中的监视器是什么？
+### 5、如何使用SpringBoot实现分页和排序？
 
-Spring boot actuator是spring启动框架中的重要功能之一。Spring boot监视器可帮助您访问生产环境中正在运行的应用程序的当前状态。
+使用SpringBoot实现分页非常简单。使用Spring Data-JPA可以实现将可分页的
 
-有几个指标必须在生产环境中进行检查和监控。即使一些外部应用程序可能正在使用这些服务来向相关人员触发警报消息。监视器模块公开了一组可直接作为HTTP URL访问的REST端点来检查状态。
+传递给存储库方法。
 
 
-### 11、开启 SpringBoot 特性有哪几种方式？
-### 12、Spring Cloud解决了哪些问题？
-### 13、什么是 YAML？
+### 6、什么是bean装配?
+
+装配，或bean 装配是指在Spring 容器中把bean组装到一起，前提是容器需要知道bean的依赖关系，如何通过依赖注入来把它们装配到一起。
+
+
+### 7、如何禁用特定的自动配置类？
+
+若发现任何不愿使用的特定自动配置类，可以使用@EnableAutoConfiguration的排除属性。
+
+//By using "exclude"
+
+@EnableAutoConfiguration(exclude={DataSourceAutoConfiguration.class})
+
+另一方面，如果类别不在类路径上，则可以使用excludeName类注解，并且指定完全限定名。
+
+//By using "excludeName"
+
+@EnableAutoConfiguration(excludeName={Foo.class})
+
+此外，SpringBoot还具有控制排除自动配置类列表的功能，可以通过使用spring.autoconfigure.exclude property来实现。可以将其添加到 propertie应用程序中，并且可以添加逗号分隔的多个类。
+
+//By using property file
+
+spring.autoconfigure.exclude=org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
+
+
+### 8、SpringBoot 提供了哪些核心功能？
+
+**1、** 独立运行 Spring 项目
+
+**2、** 内嵌 Servlet 容器
+
+SpringBoot 可以选择内嵌 Tomcat、Jetty 或者 Undertow，这样我们无须以 war 包形式部署项目。
+
+**3、** 提供 Starter 简化 Maven 配置
+
+例如，当你使用了 spring-boot-starter-web ，会自动加入如下依赖：`spring-boot-starter-web` 的 pom 文件
+
+**4、** 自动配置 Spring Bean
+
+SpringBoot 检测到特定类的存在，就会针对这个应用做一定的配置，进行自动配置 Bean ，这样会极大地减少我们要使用的配置。
+
+**5、** 准生产的应用监控
+
+SpringBoot 提供基于 HTTP、JMX、SSH 对运行时的项目进行监控。
+
+**6、** 无代码生成和 XML 配置
+
+SpringBoot 没有引入任何形式的代码生成，它是使用的 Spring 4.0 的条件 [@Condition ](/Condition ) 注解以实现根据条件进行配置。同时使用了 Maven /Gradle 的依赖传递解析机制来实现 Spring 应用里面的自动配置。
+
+
+### 9、分布式配置中心有那些框架？
+
+Apollo、zookeeper、springcloud config。
+
+
+### 10、什么是 SpringBoot 启动类注解：
+
+@SpringBootConfiguration:SpringBoot的配置类; 标注在某个类上，表示这是一个SpringBoot的配置类; @Configuration:配置类上来标注这个注解;配置类 ----- 配置文件;配置类也是容器中的一个组件;[@Component ](/Component )
+
+@EnableAutoConfiguration:开启自动配置功能;
+
+以前我们需要配置的东西，SpringBoot帮我们自动配置;@EnableAutoConfiguration告诉SpringBoot开启自动配置功能;这样自动配置才能生效;
+
+SpringBoot在启动的时候从类路径下的META-INF/spring.factories中获取EnableAutoConfiguration指定的值，将这些值作为自动配置类导入到容器中，自动配置类就失效，帮我们进行自动配置工作
+
+
+### 11、Spring Cloud 实现服务注册和发现的原理是什么？
+### 12、你对SpringBoot有什么了解？
+### 13、什么是 Aspect 切面
 ### 14、SpringBoot 日志框架：
-### 15、什么是微服务架构中的DRY？
-### 16、JdbcTemplate
-### 17、如何在不使用BasePACKAGE过滤器的情况下排除程序包？
-### 18、您对微服务架构中的语义监控有何了解？
-### 19、网关的作用是什么
-### 20、SpringBoot与SpringCloud 区别
-### 21、什么是服务降级
-### 22、微服务的端到端测试意味着什么？
-### 23、什么是SpringBoot
-### 24、列举 Spring Framework 的优点。
-### 25、Eureka如何 保证AP
-### 26、什么是基于注解的容器配置
-### 27、什么是 Spring 配置文件？
-### 28、DispatcherServlet
-### 29、什么是 Spring IOC 容器？
-### 30、第⼆层缓存：
-### 31、创建一个 SpringBoot Project 的最简单的方法是什么？
+### 15、什么是Apache Kafka？
+### 16、什么是Spring Cloud Gateway?
+### 17、如何在 SpringBoot 中禁用 Actuator 端点安全性？
+### 18、dubbo服务注册与发现原理
+### 19、什么是DispatcherServlet
+### 20、Spring Cloud和SpringBoot版本对应关系
+### 21、架构师在微服务架构中的角色是什么？
+### 22、Spring Cloud和SpringBoot版本对应关系
+### 23、spring 中有多少种 IOC 容器？
+### 24、[@Autowired ](/Autowired ) 注解
+### 25、SpringBoot如何配置log4j？
+### 26、什么是SpringBoot？
+### 27、Spring MVC的异常处理？
+### 28、SpringBoot 实现热部署有哪几种方式？
+### 29、如何在自定义端口上运行SpringBoot应用程序？
+### 30、什么是starter?
+### 31、Spring Cloud Sleuth
 
 
 

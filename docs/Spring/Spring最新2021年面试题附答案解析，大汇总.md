@@ -6,160 +6,131 @@
 
 
 
-### 1、你更倾向用那种事务管理类型？
+### 1、可以通过多少种方式完成依赖注入？
 
-大多数Spring框架的用户选择声明式事务管理，因为它对应用代码的影响最小，因此更符合一个无侵入的轻量级容器的思想。声明式事务管理要优于编程式事务管理，虽然比编程式事务管理（这种方式允许你通过代码控制事务）少了一点灵活性。
+**通常，依赖注入可以通过三种方式完成，即：**
 
+**1、** 构造函数注入
 
-### 2、SpringBoot 打成的 jar 和普通的 jar 有什么区别 ?
+**2、** setter 注入
 
-SpringBoot 项目最终打包成的 jar 是可执行 jar ，这种 jar 可以直接通过 `java -jar xxx、jar` 命令来运行，这种 jar 不可以作为普通的 jar 被其他项目依赖，即使依赖了也无法使用其中的类。
+**3、** 接口注入
 
-SpringBoot 的 jar 无法被其他项目依赖，主要还是他和普通 jar 的结构不同。普通的 jar 包，解压后直接就是包名，包里就是我们的代码，而 SpringBoot 打包成的可执行 jar 解压后，在 `\BOOT-INF\classes` 目录下才是我们的代码，因此无法被直接引用。如果非要引用，可以在 pom、xml 文件中增加配置，将 SpringBoot 项目打包成两个 jar ，一个可执行，一个可引用。
+在 Spring Framework 中，仅使用构造函数和 setter 注入。
 
 
-### 3、SpringBoot常用的starter有哪些？
+### 2、什么是 Spring Framework？
 
-**1、** spring-boot-starter-web 嵌入tomcat和web开发需要servlet与jsp支持
+Spring 是一个开源应用框架，旨在降低应用程序开发的复杂度。它是轻量级、松散耦合的。它具有分层体系结构，允许用户选择组件，同时还为 J2EE 应用程序开发提供了一个有凝聚力的框架。它可以集成其他框架，如 Structs、Hibernate、EJB 等，所以又称为框架的框架。
 
-**2、** spring-boot-starter-data-jpa 数据库支持
 
-**3、** spring-boot-starter-data-Redis Redis数据库支持
+### 3、解释基于注解的切面实现
 
-**4、** spring-boot-starter-data-solr solr支持
+在这种情况下(基于@AspectJ的实现)，涉及到的切面声明的风格与带有java5标注的普通java类一致。
 
-**5、** mybatis-spring-boot-starter 第三方的mybatis集成starter
 
+### 4、谈一下领域驱动设计
 
-### 4、我们如何连接一个像 MySQL 或者Orcale 一样的外部数据库？
+主要关注核心领域逻辑。基于领域的模型检测复杂设计。这涉及与公司层面领域方面的专家定期合作，以解决与领域相关的问题并改进应用程序的模型。在回答这个微服务面试问题时，您还需要提及DDD的核心基础知识。他们是：
 
-让我们以 MySQL 为例来思考这个问题：
+**1、** DDD主要关注领域逻辑和领域本身。
 
-**第一步** - 把 MySQL 连接器的依赖项添加至 pom.xml
+**2、** 复杂的设计完全基于领域的模型。
 
-**第二步** - 从 pom.xml 中移除 H2 的依赖项
+**3、** 为了改进模型的设计并解决任何新出现的问题，DDD不断与公司领域方面的专家合作。
 
-或者至少把它作为测试的范围。
 
-**第三步** - 安装你的 MySQL 数据库
+### 5、什么是WebSockets？
 
-更多的来看看这里 -[https://github.com/in28minutes/jpa-with-hibernate#installing-and-setting-up-MySQL](https://github.com/in28minutes/jpa-with-hibernate#installing-and-setting-up-MySQL)
+WebSocket是一种计算机通信协议，通过单个TCP连接提供全双工通信信道。
 
-**第四步** - 配置你的 MySQL 数据库连接
+![img_2.png][img_0826_04_2.png]
 
-配置 application.properties
+**1、** WebSocket是双向的 -使用WebSocket客户端或服务器可以发起消息发送。
 
-```
-spring.jpa.hibernate.ddl-auto=none spring.datasource.url=jdbc:MySQL://localhost:3306/todo_example
-spring.datasource.username=todouser spring.datasource.password=YOUR_PASSWORD
-```
+**2、** WebSocket是全双工的 -客户端和服务器通信是相互独立的。
 
-**第五步** - 重新启动，你就准备好了！
+**3、** 单个TCP连接 -初始连接使用HTTP，然后将此连接升级到基于套接字的连接。然后这个单一连接用于所有未来的通信
 
-就是这么简单！
+**4、** Light -与http相比，WebSocket消息数据交换要轻得多。
 
 
-### 5、什么是 Spring Data ?
+### 6、什么是 AOP什么是目标对象?
 
-Spring Data 是 Spring 的一个子项目。用于简化数据库访问，支持NoSQL 和 关系数据存储。其主要目标是使数据库的访问变得方便快捷。Spring Data 具有如下特点：
+被一个或者多个切面所通知的对象。它通常是一个代理对象。也指被通知（advised）对象。
 
-**SpringData 项目支持 NoSQL 存储：**
 
-**1、** MongoDB （文档数据库）
+### 7、@RequestMapping注解的作用
 
-**2、** Neo4j（图形数据库）
+RequestMapping是一个用来处理请求地址映射的注解，可用于类或方法上。用于类上，表示类中的所有响应请求的方法都是以该地址作为父路径。
 
-**3、** Redis（键/值存储）
+RequestMapping注解有六个属性，下面我们把她分成三类进行说明（下面有相应示例）。
 
-**4、** Hbase（列族数据库）
+**value， method**
 
+**1、** value： 指定请求的实际地址，指定的地址可以是URI Template 模式（后面将会说明）；
 
-### 6、Spring Framework 有哪些不同的功能？
+**2、** method： 指定请求的method类型， GET、POST、PUT、DELETE等；
 
-**1、** 轻量级 - Spring 在代码量和透明度方面都很轻便。
+**consumes，produces**
 
-**2、** IOC - 控制反转
+**1、** consumes： 指定处理请求的提交内容类型（Content-Type），例如application/json, text/html;
 
-**3、** AOP - 面向切面编程可以将应用业务逻辑和系统服务分离，以实现高内聚。
+**2、** produces: 指定返回的内容类型，仅当request请求头中的(Accept)类型中包含该指定类型才返回；
 
-**4、** 容器 - Spring 负责创建和管理对象（Bean）的生命周期和配置。
+**params，headers**
 
-**5、** MVC - 对 web 应用提供了高度可配置性，其他框架的集成也十分方便。
+**1、** params： 指定request中必须包含某些参数值是，才让该方法处理。
 
-**6、** 事务管理 - 提供了用于事务管理的通用抽象层。Spring 的事务支持也可用于容器较少的环境。
+**2、** headers： 指定request中必须包含某些指定的header值，才能让该方法处理请求。
 
-**7、** JDBC 异常 - Spring 的 JDBC 抽象层提供了一个异常层次结构，简化了错误处理策略。
 
+### 8、我们如何监视所有 SpringBoot 微服务？
 
-### 7、你对SpringBoot有什么了解？
+SpringBoot 提供监视器端点以监控各个微服务的度量。这些端点对于获取有关应用程序的信息（如它们是否已启动）以及它们的组件（如数据库等）是否正常运行很有帮助。但是，使用监视器的一个主要缺点或困难是，我们必须单独打开应用程序的知识点以了解其状态或健康状况。想象一下涉及 50 个应用程序的微服务，管理员将不得不击中所有 50 个应用程序的执行终端。
 
-事实上，随着新功能的增加，弹簧变得越来越复杂。如果必须启动新的spring项目，则必须添加构建路径或添加maven依赖项，配置应用程序服务器，添加spring配置。所以一切都必须从头开始。
 
-SpringBoot是解决这个问题的方法。使用spring boot可以避免所有样板代码和配置。因此，基本上认为自己就好像你正在烘烤蛋糕一样，春天就像制作蛋糕所需的成分一样，弹簧靴就是你手中的完整蛋糕。
+### 9、Spring Cloud OpenFeign
 
-![](https://gitee.com/souyunkutech/souyunku-home/raw/master/images/souyunku-web/2019/08/0816/01/img_12.png#alt=img%5C_12.png)
+基于Ribbon和Hystrix的声明式服务调用组件，可以动态创建基于Spring MVC注解的接口实现用于服务调用，在Spring Cloud 2.0中已经取代Feign成为了一等公民。
 
-图10：  SpringBoot的因素 – 微服务面试问题
+Spring Cloud的版本关系
 
+Spring Cloud是一个由许多子项目组成的综合项目，各子项目有不同的发布节奏。为了管理Spring Cloud与各子项目的版本依赖关系，发布了一个清单，其中包括了某个Spring Cloud版本对应的子项目版本。
 
-### 8、什么是Spring Cloud Zuul（服务网关）
+为了避免Spring Cloud版本号与子项目版本号混淆，Spring Cloud版本采用了名称而非版本号的命名，这些版本的名字采用了伦敦地铁站的名字，根据字母表的顺序来对应版本时间顺序，例如Angel是第一个版本，Brixton是第二个版本。
 
-Zuul是对SpringCloud提供的成熟对的路由方案，他会根据请求的路径不同，网关会定位到指定的微服务，并代理请求到不同的微服务接口，他对外隐蔽了微服务的真正接口地址。
+当Spring Cloud的发布内容积累到临界点或者一个重大BUG被解决后，会发布一个"service releases"版本，简称SRX版本，比如Greenwich.SR2就是Spring Cloud发布的Greenwich版本的第2个SRX版本。目前Spring Cloud的最新版本是Hoxton。
 
-三个重要概念：动态路由表，路由定位，反向代理：
 
-**1、** 动态路由表：Zuul支持Eureka路由，手动配置路由，这俩种都支持自动更新
+### 10、开启 SpringBoot 特性有哪几种方式？
 
-**2、** 路由定位：根据请求路径，Zuul有自己的一套定位服务规则以及路由表达式匹配
+继承spring-boot-starter-parent项目
 
-**3、** 反向代理：客户端请求到路由网关，网关受理之后，在对目标发送请求，拿到响应之后在 给客户端它可以和Eureka,Ribbon,Hystrix等组件配合使用，
-
-**Zuul的应用场景：**
-
-对外暴露，权限校验，服务聚合，日志审计等
-
-
-### 9、比较一下 Spring Security 和 Shiro 各自的优缺点 ?
-
-由于 SpringBoot 官方提供了大量的非常方便的开箱即用的 Starter ，包括 Spring Security 的 Starter ，使得在 SpringBoot 中使用 Spring Security 变得更加容易，甚至只需要添加一个依赖就可以保护所有的接口，所以，如果是 SpringBoot 项目，一般选择 Spring Security 。当然这只是一个建议的组合，单纯从技术上来说，无论怎么组合，都是没有问题的。Shiro 和 Spring Security 相比，主要有如下一些特点：
-
-Spring Security 是一个重量级的安全管理框架；Shiro 则是一个轻量级的安全管理框架
-
-Spring Security 概念复杂，配置繁琐；Shiro 概念简单、配置简单
-
-Spring Security 功能强大；Shiro 功能简单
-
-
-### 10、微服务的缺点：
-
-**1、** 复杂度⾼：服务调⽤要考虑被调⽤⽅故障、过载、消息丢失等各种异常情况，代码逻辑更加复杂；对于微服务间的事务性操作，因为不同的微服务采⽤了不同的数据库，将⽆法利⽤数据库本身的事务机制保证⼀致性，需要引⼊⼆阶段提交等技术。
-
-**2、** 运维复杂：系统由多个独⽴运⾏的微服务构成，需要⼀个设计良好的监控系统对各个微服务的运⾏状态进⾏监控。运维⼈员需要对系统有细致的了解才对够更好的运维系统。
-
-**3、** 通信延迟：微服务之间调⽤会有时间损耗，造成通信延迟。
-
-
-### 11、JPA 和 Hibernate 有哪些区别？
-### 12、SpringBoot有哪些优点？
-### 13、如何使用SpringBoot实现分页和排序？
-### 14、什么是Feign？
-### 15、@PathVariable和@RequestParam的区别
-### 16、如何使用 SpringBoot 部署到不同的服务器？
-### 17、我们如何进行跨功能测试？
-### 18、SpringBoot 的配置文件有哪几种格式？它们有什么区别？
-### 19、Spring Cloud Zookeeper
-### 20、开启SpringBoot特性有哪几种方式？（创建SpringBoot项目的两种方式）
-### 21、描述一下 DispatcherServlet 的工作流程
-### 22、Actuator在SpringBoot中的作用
-### 23、path=”users”, collectionResourceRel=”users” 如何与 Spring Data Rest 一起使用？
-### 24、SpringBoot多数据源事务如何管理
-### 25、Eureka和ZooKeeper都可以提供服务注册与发现的功能,请说说两个的区别
-### 26、Spring框架的事务管理有哪些优点？
-### 27、Spring Framework 有哪些不同的功能？
-### 28、Mock或Stub有什么区别？
-### 29、什么是领域驱动设计？
-### 30、为什么要使用 Spring Cloud 熔断器？
-### 31、您使用了哪些 starter maven 依赖项？
+导入spring-boot-dependencies项目依赖
+
+
+### 11、springcloud和dubbo有哪些区别
+### 12、什么是持续监测？
+### 13、如何在自定义端口上运行 SpringBoot应用程序?
+### 14、Spring Cloud Sleuth
+### 15、Spring MVC常用的注解有哪些？
+### 16、什么是嵌入式服务器？我们为什么要使用嵌入式服务器呢?
+### 17、Spring Cloud Bus
+### 18、Docker的目的是什么？
+### 19、SpringBoot 自动配置原理是什么？
+### 20、什么是客户证书？
+### 21、SpringBoot 的核心注解是哪个？它主要由哪几个注解组成的？
+### 22、什么是基于Java的Spring注解配置? 给一些注解的例子.
+### 23、SpringBoot 配置文件的加载顺序
+### 24、SpringBoot如何实现打包
+### 25、不同版本的 Spring Framework 有哪些主要功能？
+### 26、eureka服务注册与发现原理
+### 27、Spring MVC怎么样设定重定向和转发的？
+### 28、spring boot监听器流程?
+### 29、微服务的缺点：
+### 30、指出在 spring aop 中 concern 和 cross-cutting concern 的不同之处。
+### 31、什么是服务降级
 
 
 

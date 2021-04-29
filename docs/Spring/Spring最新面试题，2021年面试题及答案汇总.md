@@ -6,145 +6,179 @@
 
 
 
-### 1、接⼝限流⽅法？
+### 1、创建一个 SpringBoot Project 的最简单的方法是什么？
 
-**限制 总并发数（⽐如 数据库连接池、线程池）**
+Spring Initializr是启动 SpringBoot Projects 的一个很好的工具。
 
-**1、** 限制 瞬时并发数（如 nginx 的 limit_conn 模块，⽤来限制 瞬时并发连接数）
+**我们需要做一下几步：**
 
-**2、** 限制 时间窗⼝内的平均速率（如 Guava 的 RateLimiter、nginx 的 limit_req模块，限制每秒的平均速率）
+**1、** 登录 Spring Initializr，按照以下方式进行选择：
 
-**3、** 限制 远程接⼝ 调⽤速率
+**2、** 选择 com.in28minutes.SpringBoot 为组
 
-**4、** 限制 MQ 的消费速率
+**3、** 选择 studet-services 为组件
 
-**5、** 可以根据⽹络连接数、⽹络流量、CPU或内存负载等来限流
+**4、** 选择下面的依赖项
+
+Web
+
+Actuator
+
+DevTools
+
+**5、** 点击生 GenerateProject
+
+**6、** 将项目导入 Eclipse。文件 - 导入 - 现有的 Maven 项目
 
 
+### 2、使用 Spring 访问 Hibernate 的方法有哪些？
 
-### 2、设计微服务的最佳实践是什么？
+我们可以通过两种方式使用 Spring 访问 Hibernate：
 
-以下是设计微服务的最佳实践：
+**1、** 使用 Hibernate 模板和回调进行控制反转
 
-![](https://gitee.com/souyunkutech/souyunku-home/raw/master/images/souyunku-web/2019/08/0816/01/img_4.png#alt=img%5C_4.png)
-
-图4：设计微服务的最佳实践 – 微服务访谈问题
+**2、** 扩展 HibernateDAOSupport 并应用 AOP 拦截器节点
 
 
-### 3、如何重新加载 SpringBoot 上的更改，而无需重新启动服务器？SpringBoot项目如何热部署？
+### 3、spring 提供了哪些配置方式？
 
-这可以使用 DEV 工具来实现。通过这种依赖关系，您可以节省任何更改，嵌入式tomcat 将重新启动。SpringBoot 有一个开发工具（DevTools）模块，它有助于提高开发人员的生产力。Java 开发人员面临的一个主要挑战是将文件更改自动部署到服务器并自动重启服务器。开发人员可以重新加载 SpringBoot 上的更改，而无需重新启动服务器。这将消除每次手动部署更改的需要。SpringBoot 在发布它的第一个版本时没有这个功能。这是开发人员最需要的功能。DevTools 模块完全满足开发人员的需求。该模块将在生产环境中被禁用。它还提供 H2 数据库控制台以更好地测试应用程序。
+基于 xml 配置
+
+bean 所需的依赖项和服务在 XML 格式的配置文件中指定。这些配置文件通常包含许多 bean 定义和特定于应用程序的配置选项。它们通常以 bean 标签开头。例如：
 
 ```
-<dependency>
-  <groupId>org、springframework、boot</groupId>
-  <artifactId>spring-boot-devtools</artifactId>
-</dependency>
+<bean id="studentbean" class="org.edureka.firstSpring.StudentBean">
+ <property name="name" value="Edureka"></property>
+</bean>
+```
+
+基于注解配置
+
+您可以通过在相关的类，方法或字段声明上使用注解，将 bean 配置为组件类本身，而不是使用 XML 来描述 bean 装配。默认情况下，Spring 容器中未打开注解装配。因此，您需要在使用它之前在 Spring 配置文件中启用它。例如：
+
+```
+<beans>
+<context:annotation-config/>
+<!-- bean definitions go here -->
+</beans>
+```
+
+基于 Java API 配置
+
+Spring 的 Java 配置是通过使用 [@Bean ](/Bean ) 和 [@Configuration ](/Configuration ) 来实现。
+
+**1、**   [@Bean ](/Bean ) 注解扮演与 `<bean/>` 元素相同的角色。
+
+**2、**   [@Configuration ](/Configuration ) 类允许通过简单地调用同一个类中的其他 [@Bean ](/Bean ) 方法来定义 bean 间依赖关系。
+
+例如：
+
+```
+@Configuration
+public class StudentConfig {
+    @Bean
+    public StudentBean myStudent() {
+        return new StudentBean();
+    }
+}
 ```
 
 
-### 4、SpringBoot 自动配置原理
+### 4、您使用了哪些starter maven依赖项？
 
-**1、** SpringBoot启动的时候加载主配置类，开启了自动配置功能 @EnableAutoConfiguration
+使用了下面的一些依赖项
 
-**2、** @EnableAutoConfiguration 作用:
+```
+spring-boot-starter-activemq
+spring-boot-starter-security
+```
 
-将类路径下 META-INF/spring.factories 里面配置的所有EnableAutoConfiguration的值加入到了容器中;
-
-每一个这样的 xxxAutoConfiguration类都是容器中的一个组件，都加入到容器中;用他们来做自动配置;
-
-**3、** 每一个自动配置类进行自动配置功能;
-
-根据当前不同的条件判断，决定这个配置类是否生效；
-
-**4、** 一但这个配置类生效;这个配置类就会给容器中添加各种组件;这些组件的属性是从对应的properties类中获取 的，这些类里面的每一个属性又是和配置文件绑定的;
-
-**5、** 所有在配置文件中能配置的属性都是在xxxxProperties类中封装者‘;配置文件能配置什么就可以参照某个功 能对应的这个属性类
+这有助于增加更少的依赖关系，并减少版本的冲突。
 
 
-### 5、什么是 spring bean？
+### 5、什么是持续集成（CI）？
 
-**1、** 它们是构成用户应用程序主干的对象。
-
-**2、** Bean 由 Spring IoC 容器管理。
-
-**3、** 它们由 Spring IoC 容器实例化，配置，装配和管理。
-
-**4、** Bean 是基于用户提供给容器的配置元数据创建。
+持续集成（CI）是每次团队成员提交版本控制更改时自动构建和测试代码的过程。这鼓励开发人员通过在每个小任务完成后将更改合并到共享版本控制存储库来共享代码和单元测试。
 
 
-### 6、Spring Initializr 是创建 SpringBoot Projects 的唯一方法吗？
+### 6、保护 SpringBoot 应用有哪些方法？
 
-不是的。
+**1、** 在生产中使用HTTPS
 
-Spring Initiatlizr 让创建 SpringBoot 项目变的很容易，但是，你也可以通过设置一个 maven 项目并添加正确的依赖项来开始一个项目。
+**2、** 使用Snyk检查你的依赖关系
 
-在我们的 Spring 课程中，我们使用两种方法来创建项目。
+**3、** 升级到最新版本
 
-第一种方法是 start.spring.io 。
+**4、** 启用CSRF保护
 
-另外一种方法是在项目的标题为“Basic Web Application”处进行手动设置。
-
-手动设置一个 maven 项目
-
-**这里有几个重要的步骤：**
-
-**1、** 在 Eclipse 中，使用文件 - 新建 Maven 项目来创建一个新项目
-
-**2、** 添加依赖项。
-
-**3、** 添加 maven 插件。
-
-**4、** 添加 SpringBoot 应用程序类。
-
-到这里，准备工作已经做好！
+**5、** 使用内容安全策略防止XSS攻击
 
 
-### 7、什么是Spring Cloud Config?
+### 7、一个Spring的应用看起来象什么？
 
-Spring Cloud Config为分布式系统中的外部配置提供服务器和客户端支持，可以方便的对微服务各个环境下的配置进行集中式管理。Spring Cloud Config分为Config Server和Config Client两部分。Config Server负责读取配置文件，并且暴露Http API接口，Config Client通过调用Config Server的接口来读取配置文件。
+**1、** 一个定义了一些功能的接口。
 
+**2、** 这实现包括属性，它的Setter ， getter 方法和函数等。
 
-### 8、什么是消费者驱动的合同（CDC）？
+**3、** Spring AOP
 
-这基本上是用于开发微服务的模式，以便它们可以被外部系统使用。当我们处理微服务时，有一个特定的提供者构建它，并且有一个或多个使用微服务的消费者。
+**4、** Spring 的XML 配置文件
 
-通常，提供程序在XML文档中指定接口。但在消费者驱动的合同中，每个服务消费者都传达了提供商期望的接口。
-
-
-### 9、Spring MVC的异常处理？
+**5、** 使用以上功能的客户端程序
 
 
+### 8、什么是执行器停机？
 
-可以将异常抛给Spring框架，由Spring框架来处理；我们只需要配置简单的异常处理器，在异常处理器中添视图页面即可。
-
-
-### 10、什么是Spring的MVC框架？
-
-Spring 配备构建Web 应用的全功能MVC框架。Spring可以很便捷地和其他MVC框架集成，如Struts，Spring 的MVC框架用控制反转把业务对象和控制逻辑清晰地隔离。它也允许以声明的方式把请求参数和业务对象绑定。
+关机是允许应用程序正常关机的端点。默认情况下，此功能不启用。你可以在应用程序属性文件中使用management . endpoint . shut down . enabled = true来启用此选项。但是该方法请谨慎使用。
 
 
-### 11、eureka和zookeeper都可以提供服务注册与发现的功能，请说说两个的区别？
-### 12、什么是SpringBoot？
-### 13、什么是依赖注入？
-### 14、如何使用 SpringBoot 自动重装我的应用程序？
-### 15、使用Spring框架的好处是什么？
-### 16、SpringBoot的缺点
-### 17、SpringCloud有几种调用接口方式
-### 18、是否可以在Spring boot中更改嵌入式Tomcat服务器的端口?
-### 19、Spring MVC里面拦截器是怎么写的
-### 20、什么是Spring的内部bean？
-### 21、什么是无所不在的语言？
-### 22、SpringBoot 的核心注解是哪个？它主要由哪几个注解组成的？
-### 23、如何集成SpringBoot和ActiveMQ？
-### 24、spring-boot-starter-parent 有什么用 ?
-### 25、SpringBoot和springcloud认识
-### 26、@RestController和@Controller的区别
-### 27、如何在 SpringBoot 启动的时候运行一些特定的代码？
-### 28、自动装配有哪些局限性 ?
-### 29、Spring Cloud Sleuth
-### 30、微服务之间是如何独⽴通讯的
-### 31、什么是YAML？
+### 9、你可以在Spring中注入一个null 和一个空字符串吗？
+
+可以。
+
+
+### 10、SpringBoot 还提供了其它的哪些 Starter Project Options？
+
+SpringBoot 也提供了其它的启动器项目包括，包括用于开发特定类型应用程序的典型依赖项。
+
+**1、** spring-boot-starter-web-services - SOAP Web Services；
+
+**2、** spring-boot-starter-web - Web 和 RESTful 应用程序；
+
+**3、** spring-boot-starter-test - 单元测试和集成测试；
+
+**4、** spring-boot-starter-jdbc - 传统的 JDBC；
+
+**5、** spring-boot-starter-hateoas - 为服务添加 HATEOAS 功能；
+
+**6、** spring-boot-starter-security - 使用 SpringSecurity 进行身份验证和授权；
+
+**7、** spring-boot-starter-data-jpa - 带有 Hibeernate 的 Spring Data JPA；
+
+**8、** spring-boot-starter-data-rest - 使用 Spring Data REST 公布简单的 REST 服务；
+
+
+### 11、什么是CSRF攻击？
+### 12、怎么样把ModelMap里面的数据放入Session里面？
+### 13、如何不通过任何配置来选择 Hibernate 作为 JPA 的默认实现？
+### 14、AOP 有哪些实现方式？
+### 15、Async异步调用方法
+### 16、解释不同方式的自动装配 。
+### 17、spring JDBC API 中存在哪些类？
+### 18、Spring Cloud OpenFeign
+### 19、什么是 Apache Kafka？
+### 20、Spring Cloud Task
+### 21、SpringBoot 有哪些优点？
+### 22、什么是YAML？
+### 23、一个Spring的应用看起来象什么？
+### 24、SpringBoot常用的starter有哪些？
+### 25、微服务中如何实现 session 共享 ?
+### 26、什么是Spring Cloud Config?
+### 27、SpringBoot 2.X 有什么新特性？与 1.X 有什么区别？
+### 28、Spring Cloud Zookeeper
+### 29、SpringBoot 有哪几种读取配置的方式？
+### 30、什么是自动配置？
+### 31、如何通过HibernateDaoSupport将Spring和Hibernate结合起来？
 
 
 

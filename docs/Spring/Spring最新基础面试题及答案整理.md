@@ -6,123 +6,119 @@
 
 
 
-### 1、如何使用SpringBoot实现分页和排序？
+### 1、使用 Spring 有哪些方式？
 
-使用SpringBoot实现分页非常简单。使用Spring Data-JPA可以实现将可分页的
+**使用 Spring 有以下方式：**
 
-传递给存储库方法。
+**1、** 作为作为一个成熟的 Spring Web 应用程序。
 
+**2、** 作为第三方 Web 框架，使用 Spring Frameworks 中间层。
 
-### 2、在微服务中，如何保护服务?
+**3、** 用于远程使用。
 
-一般使用使用Hystrix框架，实现服务隔离来避免出现服务的雪崩效应，从而达到保护服务的效果。当微服务中，高并发的数据库访问量导致服务线程阻塞，使单个服务宕机，服务的不可用会蔓延到其他服务，引起整体服务灾难性后果，使用服务降级能有效为不同的服务分配资源,一旦服务不可用则返回友好提示，不占用其他服务资源，从而避免单个服务崩溃引发整体服务的不可用.
-
-
-### 3、什么是REST / RESTful以及它的用途是什么？
-
-Representational State Transfer（REST）/ RESTful Web服务是一种帮助计算机系统通过Internet进行通信的架构风格。这使得微服务更容易理解和实现。
-
-微服务可以使用或不使用RESTful API实现，但使用RESTful API构建松散耦合的微服务总是更容易。
+**4、** 作为企业级 Java Bean，它可以包装现有的 POJO（Plain Old Java Objects）。 Bean，它可以包装现有的 POJO（Plain Old Java Objects）。
 
 
-### 4、什么是幂等性?它是如何使用的？
+### 2、Spring支持的事务管理类型
 
-幂等性指的是这样一种场景:您重复执行一项任务，但最终结果保持不变或类似。 幂等性主要用作数据源或远程服务，当它接收一组以上指令时，它只处理一组指令。
+**Spring支持两种类型的事务管理：**
 
+编程式事务管理：这意味你通过编程的方式管理事务，给你带来极大的灵活性，但是难维护。
 
-
-### 5、如何设置服务发现？
-
-有多种方法可以设置服务发现。我将选择我认为效率最高的那个，Netflix的Eureka。这是一个简单的程序，不会对应用程序造成太大影响。此外，它支持多种类型的Web应用程序。 Eureka配置包括两个步骤 - 客户端配置和服务器配置。
-
-使用属性文件可以轻松完成客户端配置。在clas spath中，Eureka搜索一个eureka-client.properties文件。它还搜索由特定于环境的属性文件中的环境引起的覆盖。
-
-对于服务器配置，您必须首先配置客户端。完成后，服务器启动一个客户端，该客户端用于查找其他服务器。。默认情况下，Eureka服务器使用客户端配置来查找对等服务器。
+声明式事务管理：这意味着你可以将业务代码和事务管理分离，你只需用注解和XML配置来管理事务。
 
 
-### 6、SpringBoot 的核心配置文件有哪几个？它们的区别是什么？
+### 3、Spring AOP and AspectJ AOP 有什么区别？
 
-**1、** SpringBoot 的核心配置文件是 application 和 bootstrap 配置文件。
-
-**2、** application 配置文件这个容易了解，主要用于 SpringBoot 项目的自动化配置。
-
-**3、** bootstrap 配置文件有以下几个应用场景。
-
-**4、** 使用 Spring Cloud Config 配置中心时，这时需要在 bootstrap 配置文件中增加连接到配置中心的配置属性来加载外部配置中心的配置信息；
-
-**5、** 少量固定的不能被覆盖的属性；
-
-**6、** 少量加密/解密的场景；
+Spring AOP 基于动态代理方式实现；AspectJ 基于静态代理方式实现。Spring AOP 仅支持方法级别的 PointCut；提供了完全的 AOP 支持，它还支持属性级别的 PointCut。
 
 
-### 7、eureka服务注册与发现原理
+### 4、各服务之间通信，对Restful和Rpc这2种方式如何做选择？
 
-**1、** 每30s发送⼼跳检测重新进⾏租约，如果客户端不能多次更新租约，它将在90s内从服务器注册中⼼移除。
-
-**2、** 注册信息和更新会被复制到其他Eureka 节点，来⾃任何区域的客户端可以查找到注册中⼼信息，每30s发⽣⼀次复制来定位他们的服务，并进⾏远程调⽤。
-
-**3、** 客户端还可以缓存⼀些服务实例信息，所以即使Eureka全挂掉，客户端也是可以定位到服务地址的。
-
-![](https://gitee.com/souyunkutech/souyunku-home/raw/master/images/souyunku-web/2020/5/2/01/44/45_4.png#alt=45%5C_4.png)
+在传统的SOA治理中，使用rpc的居多；Spring Cloud默认使用restful进行服务之间的通讯。rpc通讯效率会比restful要高一些，但是对于大多数公司来讲，这点效率影响甚微。我建议使用restful这种方式，易于在不同语言实现的服务之间通讯。
 
 
-### 8、MVC是什么？MVC设计模式的好处有哪些
+### 5、解释JDBC抽象和DAO模块。
 
-mvc是一种设计模式（设计模式就是日常开发中编写代码的一种好的方法和经验的总结）。模型（model）-视图（view）-控制器（controller），三层架构的设计模式。用于实现前端页面的展现与后端业务数据处理的分离。
-
-**mvc设计模式的好处**
-
-**1、** 分层设计，实现了业务系统各个组件之间的解耦，有利于业务系统的可扩展性，可维护性。
-
-**2、** 有利于系统的并行开发，提升开发效率。
+通过使用JDBC抽象和DAO模块，保证数据库代码的简洁，并能避免数据库资源错误关闭导致的问题，它在各种不同的数据库的错误信息之上，提供了一个统一的异常访问层。它还利用Spring的AOP 模块给Spring应用中的对象提供事务管理服务。
 
 
-### 9、什么是 Spring Data REST?
+### 6、什么是切点（JoinPoint）
 
-Spring Data TEST 可以用来关于 Spring 数据库的 HATEOAS RESTful 资源。
+程序运行中的一些时间点, 例如一个方法的执行, 或者是一个异常的处理.
 
-不需要写太多代码，我们可以关于 Spring 数据库的 RESTful API。
-
-**下面展示的是一些关于 TEST 服务器的例子**
-
-```
-POST:
-URL:http：//localhost：8080/todos
-Use Header:Content-Type:Type:application/json
-Request Content
-```
+在 Spring AOP 中, join point 总是方法的执行点。
 
 
-### 10、如何在SpringBoot中禁用Actuator端点安全性？
+### 7、列举微服务技术栈
 
-默认情况下，所有敏感的HTTP端点都是安全的，只有具有ACTUATOR角色的用户才能访问它们。
+**1、** 服务⽹关Zuul
 
-安全性是使用标准的HttpServletRequest.isUserInRole方法实施的。 我们可以使用management.security.enabled = false 来禁用安全性。只有在执行机构端点在防火墙后访问时，才建议禁用安全性。
+**2、** 服务注册发现Eureka+Ribbon
 
-如何在自定义端口上运行SpringBoot应用程序？ 为了在自定义端口上运行SpringBoot应用程序，您可以在application.properties中指定端口。 server.port = 8090
+**3、** 服务配置中⼼Apollo
+
+**4、** 认证授权中⼼Spring Security OAuth2
+
+**5、** 服务框架SpringBoot
+
+**6、** 数据总线Kafka
+
+**7、** ⽇志监控ELK
+
+**8、** 调⽤链监控CAT
+
+**9、** Metrics监控KairosDB
+
+**10、** 健康检查和告警ZMon
+
+**11、** 限流熔断和流聚合Hystrix/Turbine
 
 
-### 11、SpringBoot Starter 的工作原理是什么？
-### 12、SpringBoot 实现热部署有哪几种方式？
-### 13、谈谈服务雪崩效应
-### 14、什么是Eureka
-### 15、如何在 spring 中启动注解装配？
-### 16、SpringBoot需要独立的容器运行？
-### 17、服务注册和发现是什么意思？Spring Cloud如何实现？
-### 18、一个Spring的应用看起来象什么？
-### 19、什么是 Apache Kafka？
-### 20、什么是客户证书？
-### 21、康威定律是什么？
-### 22、Spring MVC与Struts2区别
-### 23、什么是Semantic监控？
-### 24、什么是 JavaConfig？
-### 25、核心容器（应用上下文) 模块。
-### 26、您对Distributed Transaction有何了解？
-### 27、比较一下 Spring Security 和 Shiro 各自的优缺点 ?
-### 28、什么是微服务架构
-### 29、如何在SpringBoot中禁用Actuator端点安全性？
-### 30、为什么要用SpringBoot
-### 31、SpringBoot 的核心注解是哪个？它主要由哪几个注解组成的？
+### 8、SpringBoot和SpringCloud的区别？
+
+**1、** SpringBoot专注于快速方便的开发单个个体微服务。
+
+**2、** SpringCloud是关注全局的微服务协调整理治理框架，它将SpringBoot开发的一个个单体微服务整合并管理起来，
+
+**3、** 为各个微服务之间提供，配置管理、服务发现、断路器、路由、微代理、事件总线、全局锁、决策竞选、分布式会话等等集成服务
+
+**4、** SpringBoot可以离开SpringCloud独立使用开发项目， 但是SpringCloud离不开SpringBoot ，属于依赖的关系
+
+**5、** SpringBoot专注于快速、方便的开发单个微服务个体，SpringCloud关注全局的服务治理框架。
+
+
+### 9、Spring Cloud Consul
+
+基于Hashicorp Consul的服务治理组件。
+
+
+### 10、DispatcherServlet
+
+Spring的MVC框架是围绕DispatcherServlet来设计的，它用来处理所有的HTTP请求和响应。
+
+
+### 11、Springboot 有哪些优点？
+### 12、SpringBoot支持哪些嵌入式容器？
+### 13、SpringBoot默认支持的日志框架有哪些？可以进行哪些设置？
+### 14、为什么我们需要微服务容器？
+### 15、spring boot扫描流程?
+### 16、Spring Cloud Gateway
+### 17、服务注册和发现是什么意思？Spring Cloud 如何实现？
+### 18、@Component, @Controller, @Repository, [@Service ](/Service ) 有何区别？
+### 19、Spring Cloud Netflix(重点，这些组件用的最多)
+### 20、当 SpringBoot 应用程序作为 Java 应用程序运行时，后台会发生什么？
+### 21、什么是微服务架构
+### 22、什么是消费者驱动的合同（CDC）？
+### 23、使⽤中碰到的坑
+### 24、[@Controller ](/Controller ) 注解
+### 25、SpringBoot读取配置文件的方式
+### 26、什么是 Spring Framework？
+### 27、PACT如何运作？
+### 28、[@Qualifier ](/Qualifier ) 注解有什么用？
+### 29、[@Required ](/Required ) 注解
+### 30、在Spring MVC应用程序中使用WebMvcTest注释有什么用处？
+### 31、什么是 AOP 通知
 
 
 

@@ -6,354 +6,176 @@
 
 
 
-### 1、手动实现缓存方法
+### 1、数据持久化技术(ajax)?简述ajax流程###
+
+**1、** 客户端产生js的事件
+
+**2、** 创建XMLHttpRequest对象
+
+**3、** 对XMLHttpRequest进行配置
+
+**4、** 通过AJAX引擎发送异步请求
+
+**5、** 服务器端接收请求并且处理请求，返回html或者xml内容
+
+**6、** XML调用一个callback()处理响应回来的内容
+
+**7、** 页面局部刷新
+
+
+### 2、split() join()?
+
+前者是切割成数组的形式，
+
+后者是将数组转换成字符串
+
+
+### 3、用过哪些设计模式？
+
+**工厂模式：**
+
+**1、** 工厂模式解决了重复实例化的问题，但还有一个问题,那就是识别问题，因为根本无法
+
+**2、** 主要好处就是可以消除对象间的耦合，通过使用工程方法而不是`new`关键字
+
+**构造函数模式**
+
+**1、** 使用构造函数的方法，即解决了重复实例化的问题，又解决了对象识别的问题，该模式与工厂模式的不同之处在于
+
+**2、** 直接将属性和方法赋值给 `this`对象;
+
+
+### 4、sessionStorage和localstroage与cookie之间有什么关联, cookie最大存放多少字节
+
+**三者共同点：**
+
+都是保存在浏览器端，且同源的。
+
+区别:
+
+**1、** cookie在浏览器和服务器间来回传递。而sessionStorage和localStorage不会自动把数据发给服务器，仅在本地保存
+
+**2、** 存储大小限制也不同，cookie数据不能超过4k，sessionStorage和localStorage 但比cookie大得多，可以达到5M
+
+**3、** 数据有效期不同，sessionStorage：仅在当前浏览器窗口关闭前有效，自然也就不可能持久保持；localStorage：始终有效，窗口或浏览器关闭也一直保存，因此用作持久数据；cookie只在设置的cookie过期时间之前一直有效，即使窗口或浏览器关闭
+
+**4、** 作用域不同，sessionStorage不在不同的浏览器窗口中共享，即使是同一个页面(即数据不共享)；localStorage 在所有同源窗口中都是共享的；cookie也是在所有同源窗口中都是共享的( 即数据共享 )。
+
+
+### 5、Jq中有几种选择器?分别是什么?
+
+层叠选择器、基本过滤选择器、内容过滤选择器、可视化过滤选择器、属性过滤选择器、子元素过滤选择器、表单元素选择器、表单元素过滤选择器
+
+
+### 6、JavaScript有几种类型的值？，你能画一下他们的内存图吗？
+
+**1、** 栈：原始数据类型（`Undefined`，`Null`，`Boolean`，`Numbe`r、`String`）
+
+**2、** 堆：引用数据类型（对象、数组和函数）
+
+**3、** 两种类型的区别是：存储位置不同；
+
+**4、** 原始数据类型直接存储在栈(`stack`)中的简单数据段，占据空间小、大小固定，属于被频繁使用数据，所以放入栈中存储；
+
+**5、** 引用数据类型存储在堆(`heap`)中的对象,占据空间大、大小不固定,如果存储在栈中，将会影响程序运行的性能；引用数据类型在栈中存储了指针，该指针指向堆中该实体的起始地址。当解释器寻找引用值时，会首先检索其
+
+**6、** 在栈中的地址，取得地址后从堆中获得实体
+
+![33_1.png][33_1.png]
+
+
+### 7、什么是对象解构？
+
+**对象析构**是从对象或数组中获取或提取值的一种新的、更简洁的方法。假设有如下的对象：
 
 ```
-function memoize(fn) {
-  const cache = {};
-  return function (param) {
-    if (cache[param]) {
-      console.log('cached');
-      return cache[param];
-    } else {
-      let result = fn(param);
-      cache[param] = result;
-      console.log(`not cached`);
-      return result;
-    }
-  }
-}
-
-const toUpper = (str ="")=> str.toUpperCase();
-
-const toUpperMemoized = memoize(toUpper);
-
-toUpperMemoized("abcdef");
-toUpperMemoized("abcdef");
+const employee = {
+  firstName: "Marko",
+  lastName: "Polo",
+  position: "Software Developer",
+  yearHired: 2017
+};
 ```
 
-这个缓存函数适用于接受一个参数。我们需要改变下，让它接受多个参数。
+从对象获取属性，早期方法是创建一个与对象属性同名的变量。这种方法很麻烦，因为我们要为每个属性创建一个新变量。假设我们有一个大对象，它有很多属性和方法，用这种方法提取属性会很麻烦。
+
+`var firstName = employee.firstName; var lastName = employee.lastName; var position = employee.position; var yearHired = employee.yearHired;`
+
+使用解构方式语法就变得简洁多了：
+
+`{ firstName, lastName, position, yearHired } = employee;`
+
+我们还可以为属性取别名：
+
+`let { firstName: fName, lastName: lName, position, yearHired } = employee;`
+
+当然如果属性值为 `undefined` 时，我们还可以指定默认值：
+
+`let { firstName = "Mark", lastName: lName, position, yearHired } = employee;`
+
+
+### 8、模块化开发怎么做？
+
+立即执行函数,不暴露私有成员
 
 ```
-const slice = Array.prototype.slice;
-function memoize(fn) {
-  const cache = {};
-  return (...args) => {
-    const params = slice.call(args);
-    console.log(params);
-    if (cache[params]) {
-      console.log('cached');
-      return cache[params];
-    } else {
-      let result = fn(...args);
-      cache[params] = result;
-      console.log(`not cached`);
-      return result;
-    }
-  }
-}
-const makeFullName = (fName, lName) => `${fName} ${lName}`;
-const reduceAdd = (numbers, startingValue = 0) => numbers.reduce((total, cur) => total + cur, startingValue);
-
-const memoizedMakeFullName = memoize(makeFullName);
-const memoizedReduceAdd = memoize(reduceAdd);
-
-memoizedMakeFullName("Marko", "Polo");
-memoizedMakeFullName("Marko", "Polo");
-
-memoizedReduceAdd([1, 2, 3, 4, 5], 5);
-memoizedReduceAdd([1, 2, 3, 4, 5], 5);
-```
-
-
-### 2、javascript有哪些方法定义对象
-
-**1、** 对象字面量： `var obj = {};`
-
-**2、** 构造函数： `var obj = new Object();`
-
-**3、** Object.create(): `var obj = Object.create(Object.prototype);`
-
-
-### 3、什么是 `async/await` 及其如何工作？
-
-`async/await`是 JS 中编写异步或非阻塞代码的新方法。它建立在**Promises**之上，让异步代码的可读性和简洁度都更高。
-
-`async/await`是 JS 中编写异步或非阻塞代码的新方法。它建立在`Promises`之上，相对于 Promise 和回调，它的可读性和简洁度都更高。但是，在使用此功能之前，我们必须先学习`Promises`的基础知识，因为正如我之前所说，它是基于`Promise`构建的，这意味着幕后使用仍然是**Promise**。
-
-**使用 Promise**
-
-```
-function callApi() {
-  return fetch("url/to/api/endpoint")
-    .then(resp => resp.json())
-    .then(data => {
-      //do something with "data"
-    }).catch(err => {
-      //do something with "err"
-    });
-}
-```
-
-**使用async/await**
-
-在`async/await`，我们使用 tru/catch 语法来捕获异常。
-
-```
-async function callApi() {
- try {
-   const resp = await fetch("url/to/api/endpoint");
-   const data = await resp.json();
-   //do something with "data"
- } catch (e) {
-   //do something with "err"
- }
-}
-```
-
-**注意**:使用 `async`关键声明函数会隐式返回一个**Promise**。
-
-```
-const giveMeOne = async () => 1;
-giveMeOne()
-  .then((num) => {
-    console.log(num); // logs 1
-  });
-```
-
-**注意:**`await`关键字只能在`async function`中使用。在任何非**async function**的函数中使用`await`关键字都会抛出错误。`await`关键字在执行下一行代码之前等待右侧表达式(可能是一个**Promise**)返回。
-
-```
-const giveMeOne = async () => 1;
-
-function getOne() {
-  try {
-    const num = await giveMeOne();
-    console.log(num);
-  } catch (e) {
-    console.log(e);
-  }
-}
-
-// Uncaught SyntaxError: await is only valid in async function
-
-async function getTwo() {
-  try {
-    const num1 = await giveMeOne(); // 这行会等待右侧表达式执行完成
-    const num2 = await giveMeOne(); 
-    return num1 + num2;
-  } catch (e) {
-    console.log(e);
-  }
-}
-
-await getTwo(); // 2
+var module1 = (function(){
+　　　　var _count = 0;
+　　　　var m1 = function(){
+　　　　　　//...
+　　　　};
+　　　　var m2 = function(){
+　　　　　　//...
+　　　　};
+　　　　return {
+　　　　　　m1 : m1,
+　　　　　　m2 : m2
+　　　　};
+　　})();
 ```
 
 
-### 4、javascript 代码中的"use strict";是什么意思 ? 使用它区别是什么？
-
-`use strict`是一种`ECMAscript 5` 添加的（严格）运行模式,这种模式使得 Javascript 在更严格的条件下运行,使`JS`编码更加规范化的模式,消除`Javascript`语法的一些不合理、不严谨之处，减少一些怪异行为
-
-
-### 5、简述下你理解的面向对象？
-
-万物皆对象，把一个对象抽象成类,具体上就是把一个对象的静态特征和动态特征抽象成属性和方法,也就是把一类事物的算法和数据结构封装在一个类之中,程序就是多个对象和互相之间的通信组成的、
-
-面向对象具有封装性,继承性,多态性。
-
-封装:隐蔽了对象内部不需要暴露的细节,使得内部细节的变动跟外界脱离,只依靠接口进行通信.封装性降低了编程的复杂性、通过继承,使得新建一个类变得容易,一个类从派生类那里获得其非私有的方法和公用属性的繁琐工作交给了编译器、而继承和实现接口和运行时的类型绑定机制 所产生的多态,使得不同的类所产生的对象能够对相同的消息作出不同的反应,极大地提高了代码的通用性、
-
-总之,面向对象的特性提高了大型程序的重用性和可维护性.
-
-
-### 6、一般使用什么版本控制工具?svn如何对文件加锁###
-
-svn加锁目的：为了避免多个人同一时间对同一个文件改动的相互覆盖，版本控制系统就必须有一套冲突处理机制。
-
-svn加锁两种策略：乐观加锁：所有签出的文件都是可读写的，对文件的修改不必获得文件的锁，当你修改完文件签入时，会首先要求你更新本地文件，版本控制系统不会覆盖你的本地修改，而是会让你自己合并冲突后签入。
-
-严格加锁：所有签出的文件都是只读的，任何对文件的修改必须要获得文件的锁，如果其他人没有拥有该文件的锁，那么版本控制系统就会授权给你文件的锁，并将文件设置为可编辑的。
-
-svn两种加锁步骤：乐观加锁：选择你想要获取锁定的文件，然后右键菜单点击TortoiseSVN 选取获取锁定。
-
-严格加锁：在想要采取严格加锁的文件或目录上点击右键，使用TortoiseSVN 属性菜单，点击新建属性，选择需要锁定。
-
-
-### 7、如何添加一个dom对象到body中?innerHTML和innerText区别?
-
-body.appendChild(dom元素)；
-
-innerHTML:从对象的起始位置到终止位置的全部内容,包括Html标签。
-
-innerText:从起始位置到终止位置的内容, 但它去除Html标签
-
-分别简述五个window对象、属性
-
-**成员对象**
-
-**1、** window.event window.document window.history
-
-**2、** window.screen window.navigator window.external
-
-**3、** Window对象的属性如下：
-
-**4、** window //窗户自身
-
-**5、** window.self [//引用本窗户window=window.self](//%E5%BC%95%E7%94%A8%E6%9C%AC%E7%AA%97%E6%88%B7window=window.self)
-
-**6、** window.name //为窗户命名
-
-**7、** window.defaultStatus //设定窗户状态栏信息
-
-**8、** window.location //URL地址,配备布置这个属性可以打开新的页面
-
-
-### 8、jquery和zepto有什么区别?
-
-**1、** 针对移动端程序，Zepto有一些基本的触摸事件可以用来做触摸屏交互（tap事件、swipe事件），Zepto是不支持IE浏览器的，这不是Zepto的开发者Thomas Fucks在跨浏览器问题上犯了迷糊，而是经过了认真考虑后为了降低文件尺寸而做出的决定，就像jQuery的团队在2.0版中不再支持旧版的IE（6 7 8）一样。因为Zepto使用jQuery句法，所以它在文档中建议把jQuery作为IE上的后备库。那样程序仍能在IE中，而其他浏览器则能享受到Zepto在文件大小上的优势，然而它们两个的API不是完全兼容的，所以使用这种方法时一定要小心，并要做充分的测试。
-
-**2、** Dom操作的区别：添加id时jQuery不会生效而Zepto会生效。
-
-**3、** zepto主要用在移动设备上，只支持较新的浏览器，好处是代码量比较小，性能也较好。
-
-jquery主要是兼容性好，可以跑在各种pc，移动上，好处是兼容各种浏览器，缺点是代码量大，同时考虑兼容，性能也不够好。
-
-
-### 9、什么是类？
-
-`类(class)`是在 JS 中编写构造函数的新方法。它是使用构造函数的语法糖，在底层中使用仍然是原型和基于原型的继承。
+### 9、为什么此代码 `obj.someprop.x` 会引发错误?
 
 ```
-//ES5 Version
- function Person(firstName, lastName, age, address){
-    this.firstName = firstName;
-    this.lastName = lastName;
-    this.age = age;
-    this.address = address;
- }
-
- Person.self = function(){
-   return this;
- }
-
- Person.prototype.toString = function(){
-   return "[object Person]";
- }
-
- Person.prototype.getFullName = function (){
-   return this.firstName + " " + this.lastName;
- }  
-
- //ES6 Version
- class Person {
-    constructor(firstName, lastName, age, address){
-        this.lastName = lastName;
-        this.firstName = firstName;
-        this.age = age;
-        this.address = address;
-    }
-
-    static self() {
-       return this;
-    }
-
-    toString(){
-       return "[object Person]";
-    }
-
-    getFullName(){
-       return `${this.firstName} ${this.lastName}`;
-    }
- }
+const obj = {};console.log(obj.someprop.x);
 ```
 
-重写方法并从另一个类继承。
-
-```
-//ES5 Version
-Employee.prototype = Object.create(Person.prototype);
-
-function Employee(firstName, lastName, age, address, jobTitle, yearStarted) {
-  Person.call(this, firstName, lastName, age, address);
-  this.jobTitle = jobTitle;
-  this.yearStarted = yearStarted;
-}
-
-Employee.prototype.describe = function () {
-  return `I am ${this.getFullName()} and I have a position of ${this.jobTitle} and I started at ${this.yearStarted}`;
-}
-
-Employee.prototype.toString = function () {
-  return "[object Employee]";
-}
-
-//ES6 Version
-class Employee extends Person { //Inherits from "Person" class
-  constructor(firstName, lastName, age, address, jobTitle, yearStarted) {
-    super(firstName, lastName, age, address);
-    this.jobTitle = jobTitle;
-    this.yearStarted = yearStarted;
-  }
-
-  describe() {
-    return `I am ${this.getFullName()} and I have a position of ${this.jobTitle} and I started at ${this.yearStarted}`;
-  }
-
-  toString() { // Overriding the "toString" method of "Person"
-    return "[object Employee]";
-  }
-}
-```
-
-**所以我们要怎么知道它在内部使用原型？**
-
-```
-class Something {
-
-}
-
-function AnotherSomething(){
-
-}
-const as = new AnotherSomething();
-const s = new Something();
-
-console.log(typeof Something); // "function"
-console.log(typeof AnotherSomething); // "function"
-console.log(as.toString()); // "[object Object]"
-console.log(as.toString()); // "[object Object]"
-console.log(as.toString === Object.prototype.toString); // true
-console.log(s.toString === Object.prototype.toString); // true
-```
+显然，由于我们尝试访问`someprop`属性中的`x`属性，而 someprop 并没有在对象中，所以值为 `undefined`。记住对象本身不存在的属性，并且其原型的默认值为`undefined`。因为`undefined`没有属性`x`，所以试图访问将会报错。
 
 
-### 10、事件委托？有什么好处?
+### 10、实现异步的方式有哪些？
 
-利用冒泡的原理，把事件加到父级上，触发执行效果
+**1、** 回调函数模式：将需要异步执行的函数作为回调函数执行，其缺点在于处理复杂逻辑异步逻辑时，会造成回调地狱(回调嵌套层数太多，代码结构混乱)；
 
-好处：新添加的元素还会有之前的事件；提高性能。
+**2、** 事件监听模式：采用事件驱动的思想，当某一事件发生时触发执行异步函数，其缺点在于整个代码全部得变为事件驱动模式，难以分辨主流程；
+
+**3、** 发布订阅模式：当异步任务执行完成时发布消息给信号中心，其他任务通过在信号中心中订阅消息来确定自己是否开始执行；
+
+**4、** Promise(ES6)：`Promise`对象共有三种状态`pending`(初始化状态)、`fulfilled`(成功状态)、`rejected`(失败状态)。
+
+**5、** async/await(ES7)：基于`Promise`实现的异步函数； （6）利用生成器实现。
 
 
-### 11、为什么要有同源限制？
-### 12、30.Jq中怎么样编写插件?
-### 13、什么是移动端的300ms延迟？什么是点击穿透？解决方案?
-### 14、自执行函数?用于什么场景？好处?
-### 15、同步异步?
-### 16、怎么理解宏任务，微任务？？？
-### 17、JS是如何实现异步的？
-### 18、Jq中 attr 和 prop 有什么区别###
-### 19、JSON 的了解？**
-### 20、说说严格模式的限制
-### 21、你觉得jQuery源码有哪些写的好的地方
-### 22、Jq绑定事件的几种方式？on bind ?
-### 23、同步和异步的区别?
-### 24、ajax中 get 和 post 有什么区别?
-### 25、强制转换 显式转换 隐式转换?
-### 26、简述下 this 和定义属性和方法的时候有什么区别?Prototype？
-### 27、split() join()?
-### 28、渐进增强和优雅降级
-### 29、event.preventDefault() 和 event.stopPropagation()方法之间有什么区别？
+### 11、回调函数?
+### 12、jquery和zepto有什么区别?
+### 13、介绍js有哪些内置对象？
+### 14、函数表达式和函数声明之间有什么区别？
+### 15、调用函数，可以使用哪些方法？
+### 16、与深拷贝有何区别？如何实现？
+### 17、`Function.prototype.call` 方法的用途是什么？
+### 18、什么是NaN？以及如何检查值是否为NaN？
+### 19、一般使用什么版本控制工具?svn如何对文件加锁###
+### 20、谈谈你对ES6的理解
+### 21、ajax 是什么?
+### 22、什么是模板字符串？
+### 23、事件流?事件捕获？事件冒泡？
+### 24、Gc机制是什么？为什么闭包不会被回收变量和函数？
+### 25、JS是如何实现异步的？
+### 26、为什么函数被称为一等公民？
+### 27、什么是 event.target ？
+### 28、如何在 JS 中创建对象？
+### 29、web开发中会话跟踪的方法有哪些
 
 
 

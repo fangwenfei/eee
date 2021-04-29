@@ -6,24 +6,112 @@
 
 
 
-### 1、Vue模版编译原理知道吗，能简单说一下吗？
+### 1、Store 在 Redux 中的意义是什么？
 
-简单说，Vue的编译过程就是将`template`转化为`render`函数的过程。会经历以下阶段：
-
-**1、** 生成AST树
-
-2、优化
-
-**3、** codegen
-
-首先解析模版，生成`AST语法树`(一种用JavaScript对象的形式来描述整个模板)。 使用大量的正则表达式对模板进行解析，遇到标签、文本的时候都会执行对应的钩子进行相关处理。
-
-Vue的数据是响应式的，但其实模板中并不是所有的数据都是响应式的。有一些数据首次渲染后就不会再变化，对应的DOM也不会变化。那么优化过程就是深度遍历AST树，按照相关条件对树节点进行标记。这些被标记的节点(静态节点)我们就可以`跳过对它们的比对`，对运行时的模板起到很大的优化作用。
-
-编译的最后一步是`将优化后的AST树转换为可执行的代码`。
+Store 是一个 JavaScript 对象，它可以保存程序的状态，并提供一些方法来访问状态、调度操作和注册侦听器。应用程序的整个状态/对象树保存在单一存储中。因此，Redux 非常简单且是可预测的。我们可以将中间件传递到 store 来处理数据，并记录改变存储状态的各种操作。所有操作都通过 reducer 返回一个新状态。
 
 
-### 2、详细解释 React 组件的生命周期方法。
+### 2、如何在 React 中创建表单
+
+React 表单类似于 HTML 表单。但是在 React 中，状态包含在组件的 state 属性中，并且只能通过 `setState()` 更新。因此元素不能直接更新它们的状态，它们的提交是由 JavaScript 函数处理的。此函数可以完全访问用户输入到表单的数据。
+
+```
+handleSubmit(event) {
+    alert('A name was submitted: ' + this.state.value);
+    event.preventDefault();
+}
+
+render() {
+    return (
+        <form onSubmit={this.handleSubmit}>
+            <label>
+                Name:
+                <input type="text" value={this.state.value} onChange={this.handleSubmit} />
+            </label>
+            <input type="submit" value="Submit" />
+        </form>
+    );
+}
+```
+
+
+### 3、区分状态和 props
+| 条件 | State | Props |
+| --- | --- | --- |
+| 1、从父组件中接收初始值 | Yes | Yes |
+| 2、父组件可以改变值 | No | Yes |
+| 3、在组件中设置默认值 | Yes | Yes |
+| 4、在组件的内部变化 | Yes | No |
+| 5、设置子组件的初始值 | Yes | Yes |
+| 6、在子组件的内部更改 | No | Yes |
+
+
+
+### 4、redux的工作流程?
+
+首先，我们看下几个核心概念：
+
+**1、** Store：保存数据的地方，你可以把它看成一个容器，整个应用只能有一个Store。
+
+**2、** State：Store对象包含所有数据，如果想得到某个时点的数据，就要对Store生成快照，这种时点的数据集合，就叫做State。
+
+**3、** Action：State的变化，会导致View的变化。但是，用户接触不到State，只能接触到View。所以，State的变化必须是View导致的。Action就是View发出的通知，表示State应该要发生变化了。
+
+**4、** Action Creator：View要发送多少种消息，就会有多少种Action。如果都手写，会很麻烦，所以我们定义一个函数来生成Action，这个函数就叫Action Creator。
+
+**5、** Reducer：Store收到Action以后，必须给出一个新的State，这样View才会发生变化。这种State的计算过程就叫做Reducer。Reducer是一个函数，它接受Action和当前State作为参数，返回一个新的State。
+
+**6、** dispatch：是View发出Action的唯一方法。
+
+**然后我们过下整个工作流程：**
+
+**1、** 首先，用户（通过View）发出Action，发出方式就用到了dispatch方法。
+
+**2、** 然后，Store自动调用Reducer，并且传入两个参数：当前State和收到的Action，Reducer会返回新的State
+
+**3、** State一旦有变化，Store就会调用监听函数，来更新View。
+
+到这儿为止，一次用户交互流程结束。可以看到，在整个流程中数据都是单向流动的，这种方式保证了流程的清晰。
+
+![](https://gitee.com/souyunkutech/souyunku-home/raw/master/images/souyunku-web/2020/4/30/1939/39/97_11.png#alt=97%5C_11.png)
+
+
+### 5、React 中的箭头函数是什么？怎么用？
+
+箭头函数（=>）是用于编写函数表达式的简短语法。这些函数允许正确绑定组件的上下文，因为在 ES6 中默认下不能使用自动绑定。使用高阶函数时，箭头函数非常有用。
+
+```
+//General way
+render() {
+    return(
+        <MyInput onChange = {this.handleChange.bind(this) } />
+    );
+}
+//With Arrow Function
+render() {
+    return(
+        <MyInput onChange = { (e)=>this.handleOnChange(e) } />
+    );
+}
+```
+
+
+### 6、什么是JSX？
+
+JSX 是J avaScript XML 的简写。是 React 使用的一种文件，它利用 JavaScript 的表现力和类似 HTML 的模板语法。这使得 HTML 文件非常容易理解。此文件能使应用非常可靠，并能够提高其性能。下面是JSX的一个例子：
+
+```
+render(){
+    return(
+        <div>
+            <h1> Hello World from Edureka!!</h1>
+        </div>
+    );
+}
+```
+
+
+### 7、详细解释 React 组件的生命周期方法。
 
 **一些最重要的生命周期方法是：**
 
@@ -42,107 +130,100 @@ Vue的数据是响应式的，但其实模板中并不是所有的数据都是�
 **7、**  _componentWillUnmount_() – 从 DOM 卸载组件后调用。用于清理内存空间。
 
 
-### 3、shouldComponentUpdate 的作用
+### 8、redux中间件
 
-`shouldComponentUpdate` 允许我们手动地判断是否要进行组件更新根据组件的应用场景设置函数的合理返回值能够帮我们避免不必要的更新
+中间件提供第三方插件的模式自定义拦截 `action -> reducer` 的过程。变为 `action` -> `middlewares` -> `reducer`。这种机制可以让我们改变数据流实现如异步`action action` 过滤日志输出异常报告等功能
 
+**1、** `redux-logger`提供日志输出
 
-### 4、React 中 keys的作用是什么
+**2、** `redux-thunk`处理异步操作
 
-`Keys`是 `React` 用于追踪哪些列表中元素被修改、被添加或者被移除的辅助标识
-
-在开发过程中我们需要保证某个元素的 `key` 在其同级元素中具有唯一性。在 `React Diff` 算法中`React` 会借助元素的 `Key` 值来判断该元素是新近创建的还是被移动而来的元素从而减少不必要的元素重渲染。此外React 还需要借助 `Key` 值来判断元素与本地状态的关联关系因此我们绝不可忽视转换函数中 `Key` 的重要性
-
-
-### 5、区分Real DOM和Virtual DOM
-| Real DOM | Virtual DOM |
-| --- | --- |
-| 1、更新缓慢。 | 1、更新更快。 |
-| 2、可以直接更新 HTML。 | 2、无法直接更新 HTML。 |
-| 3、如果元素更新，则创建新DOM。 | 3、如果元素更新，则更新 JSX 。 |
-| 4、DOM操作代价很高。 | 4、DOM 操作非常简单。 |
-| 5、消耗的内存较多。 | 5、很少的内存消耗。 |
+**3、** `redux-promise`处理异步操作 `actionCreator`的返回值是 `promise`
 
 
+### 9、connect原理
 
-### 6、什么是控制组件？
+首先`connect`之所以会成功是因为`Provider`组件在原应用组件上包裹一层使原来整个应用成为`Provider`的子组件接收`Redux`的`store`作为`props`通过`context`对象传递给子孙组件上的`connect`connect做了些什么。它真正连接 `Redux`和 `React`它包在我们的容器组件的外一层它接收上面 `Provider` 提供的 `store` 里面的`state` 和 `dispatch`传给一个构造函数返回一个对象以属性形式传给我们的容器组件
 
-在 HTML 中，表单元素通常维护自己的状态，并根据用户输入进行更新。当用户提交表单时，来自上述元素的值将随表单一起发送。 而 React 的工作方式则不同。包含表单的组件将跟踪其状态中的输入值，并在每次回调函数(例如onChange)触发时重新渲染组件，因为状态被更新。以这种方式由 React 控制其值的输入表单元素称为受控组件。
+`connect`是一个高阶函数首先传入mapStateToProps、mapDispatchToProps然后返回一个生产Component的函数(wrapWithConnect)然后再将真正的Component作为参数传入wrapWithConnect这样就生产出一个经过包裹的Connect组件该组件具有如下特点
 
+通过`props.store`获取祖先`Component`的`store props`包括`stateProps`、`dispatchProps`、`parentProps`,合并在一起得到`nextState`作为`props`传给真正的`Component componentDidMount`时添加事件`this.store.subscribe(this.handleChange)`实现页面交互`shouldComponentUpdate`时判断是否有避免进行渲染提升页面性能并得到nextState componentWillUnmount时移除注册的事件`this.handleChange`
 
-### 7、Redux与Flux有何不同？
-| Flux | Redux |
-| --- | --- |
-| 1、Store 包含状态和更改逻辑 | 1、Store 和更改逻辑是分开的 |
-| 2、有多个 Store | 2、只有一个 Store |
-| 3、所有 Store 都互不影响且是平级的 | 3、带有分层 reducer 的单一 Store |
-| 4、有单一调度器 | 4、没有调度器的概念 |
-| 5、React 组件订阅 store | 5、容器组件是有联系的 |
-| 6、状态是可变的 | 6、状态是不可改变的 |
+由于connect的源码过长我们只看主要逻辑
 
-
-
-### 8、setState: React 中用于修改状态更新视图。它具有以下特点:
-
-异步与同步: setState并不是单纯的异步或同步这其实与调用时的环境相关:
-
-
-### 9、redux与mobx的区别?
-
-**两者对比:**
-
-**1、** redux将数据保存在单一的store中，mobx将数据保存在分散的多个store中
-
-**2、** redux使用plain object保存数据，需要手动处理变化后的操作；mobx适用observable保存数据，数据变化后自动处理响应的操作
-
-**3、** redux使用不可变状态，这意味着状态是只读的，不能直接去修改它，而是应该返回一个新的状态，同时使用纯函数；mobx中的状态是可变的，可以直接对其进行修改
-
-**4、** mobx相对来说比较简单，在其中有很多的抽象，mobx更多的使用面向对象的编程思维；redux会比较复杂，因为其中的函数式编程思想掌握起来不是那么容易，同时需要借助一系列的中间件来处理异步和副作用
-
-**5、** mobx中有更多的抽象和封装，调试会比较困难，同时结果也难以预测；而redux提供能够进行时间回溯的开发工具，同时其纯函数以及更少的抽象，让调试变得更加的容易
-
-**场景辨析:**
-
-基于以上区别,我们可以简单得分析一下两者的不同使用场景.
-
-mobx更适合数据不复杂的应用: mobx难以调试,很多状态无法回溯,面对复杂度高的应用时,往往力不从心.
-
-redux适合有回溯需求的应用: 比如一个画板应用、一个表格应用，很多时候需要撤销、重做等操作，由于redux不可变的特性，天然支持这些操作.
-
-mobx适合短平快的项目: mobx上手简单,样板代码少,可以很大程度上提高开发效率.
-
-当然mobx和redux也并不一定是非此即彼的关系,你也可以在项目中用redux作为全局状态管理,用mobx作为组件局部状态管理器来用.
-
-
-### 10、列出一些应该使用 Refs 的情况。
-
-**以下是应该使用 refs 的情况：**
-
-**1、** 需要管理焦点、选择文本或媒体播放时
-
-**2、** 触发式动画
-
-**3、** 与第三方 DOM 库集成
+```
+export default function connect(mapStateToProps, mapDispatchToProps, mergeProps, options = {}) {
+  return function wrapWithConnect(WrappedComponent) {
+    class Connect extends Component {
+      constructor(props, context) {
+        // 从祖先Component处获得store
+        this.store = props.store || context.store
+        this.stateProps = computeStateProps(this.store, props)
+        this.dispatchProps = computeDispatchProps(this.store, props)
+        this.state = { storeState: null }
+        // 对stateProps、dispatchProps、parentProps进行合并
+        this.updateState()
+      }
+      shouldComponentUpdate(nextProps, nextState) {
+        // 进行判断当数据发生改变时Component重新渲染
+        if (propsChanged 
+        || mapStateProducedChange 
+        || dispatchPropsChanged) {
+          this.updateState(nextProps)
+            return true
+          }
+        }
+        componentDidMount() {
+          // 改变Component的state
+          this.store.subscribe(() = {
+            this.setState({
+              storeState: this.store.getState()
+            })
+          })
+        }
+        render() {
+          // 生成包裹组件Connect
+          return (
+            <WrappedComponent {...this.nextState} />
+          )
+        }
+      }
+      Connect.contextTypes = {
+        store: storeShape
+      }
+      return Connect;
+    }
+  }
+```
 
 
-### 11、React Router与常规路由有何不同？
-### 12、解释 Reducer 的作用。
-### 13、再说一下vue2.x中如何监测数组变化
-### 14、React有哪些优化性能是手段?
-### 15、如何在 React 中创建表单
-### 16、setState到底是异步还是同步?
-### 17、如何更新组件的状态？
-### 18、setState到底是异步还是同步?
-### 19、说一下v-if和v-show的区别
-### 20、你的接口请求一般放在哪个生命周期中？
-### 21、Vue2.x和Vue3.x渲染器的diff算法分别说一下
-### 22、什么是React 路由？
-### 23、React 中的箭头函数是什么？怎么用？
-### 24、列出 React Router 的优点。
-### 25、diff算法?
-### 26、你对 Time Slice的理解?
-### 27、销毁阶段
-### 28、React 中 key 的重要性是什么？
+### 10、setState
+
+在了解`setState`之前我们先来简单了解下 `React` 一个包装结构: `Transaction`:
+
+**事务 (Transaction)**
+
+是 `React` 中的一个调用结构用于包装一个方法结构为: `initialize` - `perform(method)` - `close`。通过事务可以统一管理一个方法的开始与结束处于事务流中表示进程正在执行一些操作
+
+
+### 11、react hooks它带来了那些便利
+### 12、具体实现步骤如下
+### 13、Vue模版编译原理知道吗，能简单说一下吗？
+### 14、那你知道Vue3.x响应式数据原理吗？
+### 15、React中的合成事件是什么？
+### 16、你对 Time Slice的理解?
+### 17、为什么React Router v4中使用 switch 关键字 ？
+### 18、pureComponent和FunctionComponent区别
+### 19、keep-alive了解吗
+### 20、Redux实现原理解析
+### 21、Vue2.x组件通信有哪些方式？
+### 22、MVC框架的主要问题是什么？
+### 23、如何更新组件的状态？
+### 24、setState到底是异步还是同步?
+### 25、解释 Reducer 的作用。
+### 26、React的请求应该放在哪个生命周期中?
+### 27、说说你用react有什么坑点
+### 28、Redux与Flux有何不同？
 
 
 

@@ -6,68 +6,19 @@
 
 
 
-### 1、TEMPORARY tablespace和PERMANENT tablespace 的区别是？
+### 1、举出3种可以收集three advisory statistics
 
-A temporary tablespace 用于临时对象例如排序结构而 permanent tablespaces用来存储那些'真实'的对象(例如表，回滚段等)
-
-
-### 2、比较truncate和delete 命令
-
-两者都可以用来删除表中所有的记录。区别在于：truncate是DDL操作，它移动HWK，不需要rollback segment .而Delete是DML操作, 需要rollback segment 且花费较长时间.
+Buffer Cache Advice, Segment Level Statistics, Timed Statistics
 
 
-### 3、提及11g版本2中Oracle Forms Services中引入的新功能是什么?
-
-在Oracle Forms Services中，包括的功能包括：　　与Oracle Access Manager集成　　计划表格运行预备　　增强的网络统计报告　　支持Unicode列　　guiMode配置参数　　表单指标代理　　支持图像项目和图标按钮中的URL　　Oracle真正的用户体验洞察
-
-
-### 4、说下 Oracle中有哪几种文件？
-
-**1、** 数据文件（一般后缀为.dbf或者.ora）
-
-**2、** 日志文件(后缀名.log)
-
-**3、** 控制文件（后缀名为.c
-
-
-### 5、解释TABLE Function的用途
-
-TABLE Function是通过PL/SQL逻辑返回一组纪录，用于普通的表/视图。他们也用于pipeline和ETL过程。
-
-
-### 6、FACT Table上需要建立何种索引？
-
-位图索引 （bitmap index）
-
-
-### 7、Oracle中function和procedure的区别？
-
-**1、** 可以理解函数是存储过程的一种
-
-**2、** 函数可以没有参数,但是一定需要一个返回值，存储过程可以没有参数,不需要返回值
-
-**3、** 函数return返回值没有返回参数模式，存储过程通过out参数返回值, 如果需要返回多个参数则建议使用存储过程
-
-**4、** 在sql数据操纵语句中只能调用函数而不能调用存储过程
-
-
-### 8、给出两个检查表结构的方法
+### 2、给出两个检查表结构的方法
 
 1.DESCRIBE命令
 
 2.DBMS_METADATA.GET_DDL 包
 
 
-### 9、给出数据库正常启动所经历的几种状态 ?
-
-STARTUP NOMOUNT ?C 数据库实例启动
-
-STARTUP MOUNT - 数据库装载
-
-STARTUP OPEN ?C 数据库打开
-
-
-### 10、简述oracle中 dml、ddl、dcl的使用
+### 3、简述oracle中 dml、ddl、dcl的使用
 
 **1、** Dml 数据操纵语言，如select、update、delete，insert
 
@@ -76,22 +27,75 @@ STARTUP OPEN ?C 数据库打开
 **3、** Dcl 数据控制语言， 如 commit、 rollback、grant、 invoke等
 
 
-### 11、说明如何在指定的块中迭代项目和记录?
-### 12、解释冷备份和热备份的不同点以及各自的优点
-### 13、说下如何使用Oracle的游标？
-### 14、列出Oracle Forms配置文件?
-### 15、给出在STAR SCHEMA中的两种表及它们分别含有的数据
-### 16、解释Oracle表单服务组件包括什么?
-### 17、delete 与Truncate区别？
-### 18、如何重构索引？
-### 19、日志的作用是什么
-### 20、说下，内连接，左连接，右连接的区别
-### 21、解释materialized views的作用
-### 22、哪个VIEW用来检查数据文件的大小？
-### 23、FACT Table上需要建立何种索引？
-### 24、如何增加buffer cache的命中率？
-### 25、oracle中存储过程，游标和函数的区别
-### 26、哪个后台进程刷新materialized views?
+### 4、如何增加buffer cache的命中率?
+
+在数据库较繁忙时，适用buffer cache advisory 工具，查询v$db_cache_advice.如果有必要更改，可以使用 alter system set db_cache_size 命令
+
+
+### 5、索引是用来干什么的？有那些约束建立索引？
+
+**说下你怎么使用索引的？使用索引的好处和坏处？**
+
+**1、** 索引用于对指定字段查询时，提升查询速度。
+
+**2、** 主要有B树索引，位图索引，函数索引。
+
+**3、** 对查询频率比较高的字段做索引，但一张表不要做太多索引。
+
+**4、** 索引能提升查询效率，但它占用存储空间，且在更新数据时也会影响更新效率。
+
+
+### 6、描述什么是 redo logs
+
+Redo Logs 是用于存放数据库数据改动状况的物理和逻辑结构。可以用来修复数据库.
+
+
+### 7、解释什么是Oracle Forms?
+
+Oracle Forms是用于创建与Oracle数据库交互的软件产品。它有一个IDE，包括一个属性表，对象导航器和使用PL/SQL的代码编辑器。
+
+
+### 8、Oracle的游标在存储过程里是放在begin与end的里面还是外面？
+
+Oracle的存储过程跟函数你写没有？项目中用到没有？怎么用的？
+
+**1、** 放在begin与end之间。
+
+**2、** 用作多表连接查询数据返回结果查询。
+
+**3、** 复杂的业务操作，涉及多表的数据操作的事务控制。
+
+**4、** 预防SQL注入。
+
+
+### 9、如何生成explain plan?
+
+运行utlxplan.sql. 建立plan 表
+
+针对特定SQL语句，使用 explain plan set statement_id = 'tst1' into plan_table运行utlxplp.sql 或 utlxpls.sql察看explain plan
+
+
+### 10、提示窗体中触发的顺序是什么?
+
+表单打开时，触发序列　　预成型　　预块　　预录　　前文项　　当新形式的实例　　当新块实例　　当新记录实例　　当新项目实例
+
+
+### 11、给出两个检查表结构的方法
+### 12、说明如何使用相同的LOV 2列?
+### 13、解释冷备份和热备份的不同点以及各自的优点
+### 14、说明你可以将FMX转换或反向回到FMB文件吗?
+### 15、解释什么是死锁，如何解决Oracle中的死锁？
+### 16、描述tablespace和datafile之间的关系
+### 17、说下 Oracle中有哪几种文件？
+### 18、FACT Table上需要建立何种索引？
+### 19、说说Oracle中经常使用到的函数
+### 20、如何增加buffer cache的命中率？
+### 21、你刚刚编译了一个PL/SQL Package但是有错误报道，如何显示出错信息？
+### 22、数据库的三大范式是什么？
+### 23、Oralce怎样存储文件，能够存储哪些文件？
+### 24、简单描述table / segment / extent / block之间的关系？
+### 25、pctused and pctfree 表示什么含义有什么作用？
+### 26、ORA-01555的应对方法？
 
 
 

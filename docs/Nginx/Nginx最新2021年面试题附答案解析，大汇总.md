@@ -6,198 +6,128 @@
 
 
 
-### 1、Nginx配置高可用性怎么配置？
-
-当上游服务器(真实访问服务器)，一旦出现故障或者是没有及时相应的话，应该直接轮训到下一台服务器，保证服务器的高可用
-
-Nginx配置代码：
-
-```
-server {
-    listen 80;
-    server_name www.lijie.com;cc  nginx发送给上游服务器(真实访问的服务器)超时时间
-        proxy_send_timeout 1s;###
-        nginx接受上游服务器(真实访问的服务器)超时时间
-        proxy_read_timeout 1s;
-        index index.html index.htm;
-    }
-}
-```
-
-
-### 2、Nginx 常用命令？
-
-**1、** 启动 `nginx` 。
-
-**2、** 停止 `nginx -s stop` 或 `nginx -s quit` 。
-
-**3、** 重载配置 `./sbin/nginx -s reload(平滑重启)` 或 `service nginx reload` 。
-
-**4、** 重载指定配置文件 `.nginx -c /usr/local/nginx/conf/nginx.conf` 。
-
-**5、** 查看 nginx 版本 `nginx -v` 。
-
-**6、** 检查配置文件是否正确 `nginx -t` 。
-
-**7、** 显示帮助信息 `nginx -h` 。
-
-
-### 3、解释如何在Nginx服务器上添加模块?
-
-在编译过程中，必须选择Nginx模块，因为Nginx不支持模块的运行时间选择。
-
-
-### 4、使用“反向代理服务器”的优点是什么？
-
-反向代理服务器可以隐藏源服务器的存在和特征。它充当互联网云和 Web 服务器之间的中间层。这对于安全方面来说是很好的，特别是当我们使用 Web 托管服务时。
-
-**这里，先不考虑负载均衡。**
-
-**什么是正向代理？**
-
-一个位于客户端和原始服务器(origin server)之间的服务器，为了从原始服务器取得内容，客户端向代理发送一个请求并指定目标(原始服务器)，然后代理向原始服务器转交请求并将获得的内容返回给客户端。
-
-**1、** 客户端才能使用正向代理。
-
-**2、** 正向代理总结就一句话：代理端代理的是客户端。例如说：? 我们使用的翻墙软件，OpenVPN 等等。
-
-**什么是反向代理？**
-
-反向代理（Reverse Proxy）方式，是指以代理服务器来接受 Internet上的连接请求，然后将请求，发给内部网络上的服务器并将从服务器上得到的结果返回给 Internet 上请求连接的客户端，此时代理服务器对外就表现为一个反向代理服务器。
-
-**反向代理总结就一句话：代理端代理的是服务端。**
-
-**请列举 Nginx 和 Apache 之间的不同点？**
-
-**1、** 轻量级，同样起 web 服务，Nginx 比 Apache 占用更少的内存及资源。
-
-**2、** 抗并发，Nginx 处理请求是异步非阻塞的，而 Apache 则是阻塞型的，在高并发下 Nginx 能保持低资源低消耗高性能。
-
-**3、** 最核心的区别在于 Apache 是同步多进程模型，一个连接对应一个进程；Nginx 是异步的，多个连接（万级别）可以对应一个进程。
-
-**4、** Nginx 高度模块化的设计，编写模块相对简单。
-
-**LVS、Nginx、HAproxy 有什么区别？**
-
-**1、** LVS ：是基于四层的转发。
-
-**2、** HAproxy ： 是基于四层和七层的转发，是专业的代理服务器。
-
-**3、** Nginx ：是 WEB 服务器，缓存服务器，又是反向代理服务器，可以做七层的转发。
-
-Nginx 引入 [TCP 插件][TCP]之后，也可以支持四层的转发。
-
-**区别**
-
-LVS 由于是基于四层的转发所以只能做端口的转发，而基于 URL 的、基于目录的这种转发 LVS 就做不了。
-
-**工作选择：**
-
-HAproxy 和 Nginx 由于可以做七层的转发，所以 URL 和目录的转发都可以做，在很大并发量的时候我们就要选择 LVS ，像中小型公司的话并发量没那么大选择 HAproxy 或者 Nginx 足已。
-
-由于 HAproxy 由是专业的代理服务器配置简单，所以中小型企业推荐使用HAproxy 。
-
-**1、** 有些使用，使用 HAproxy 还是 Nginx ，也和公司运维对哪个技术栈的掌控程度。掌控 OK ，选择 Nginx 会更加不错。
-
-**2、** 另外，LVS + Nginx 和 LVS + HAProxy 也是比较常见的选型组合。
-
-**Squid、Varinsh、Nginx 有什么区别？**
-
-三者都实现缓存服务器的作用。所以，本问题所有的视角，都是在作为缓存服务器下来聊。
-
-**1、** Nginx本来是反向代理/web服务器，用了插件可以做做这个副业(缓存服务器)。
-
-**2、** 但是本身不支持特性挺多，只能缓存静态文件。
-
-**3、** 从这些功能上，Varinsh 和 Squid 是专业的 Cache 服务，而Nginx 这些是第三方模块完成。
-
-**4、** Varnish 本身的技术上优势要高于 Squid ，它采用了可视化页面缓存技术。
-
-**5、** 在内存的利用上，Varnis h比 Squid 具有优势，性能要比 Squid 高。
-
-**6、** 还有强大的通过 Varnish 管理端口，可以使用正则表达式快速、批量地清除部分缓存
-
-**7、** Varnish 是内存缓存，速度一流，但是内存缓存也限制了其容量，缓存页面和图片一般是挺好的。
-
-**8、** Squid 的优势在于完整的庞大的 cache 技术资料，和很多的应用生产环境。
-
-**工作选择：**
-
-要做 cache 服务的话，我们肯定是要选择专业的 cache 服务，优先选择Squid 或者 Varnish 。
-
-
-### 5、Nginx静态资源?
-
-静态资源访问，就是存放在nginx的html页面，我们可以自己编写
-
-
-### 6、nginx是如何实现高并发的？
+### 1、nginx是如何实现高并发的？
 
 一个主进程，多个工作进程，每个工作进程可以处理多个请求，每进来一个request，会有一个worker进程去处理。但不是全程的处理，处理到可能发生阻塞的地方，比如向上游（后端）服务器转发request，并等待请求返回。那么，这个处理的worker继续处理其他请求，而一旦上游服务器返回了，就会触发这个事件，worker才会来接手，这个request才会接着往下走。由于web server的工作性质决定了每个request的大部份生命都是在网络传输中，实际上花费在server机器上的时间片不多。这是几个进程就解决高并发的秘密所在。即@skoo所说的webserver刚好属于网络io密集型应用，不算是计算密集型。
 
 
-### 7、请列举Nginx的一些特性？
+### 2、nignx配置
 
-Nginx服务器的特性包括：反向代理/L7负载均衡器 ；嵌入式Perl解释器 ；动态二进制升级；可用于重新编写URL，具有非常好的PCRE支持。
+```
+worker_processes  8;     工作进程个数
+
+worker_connections  65535;  每个工作进程能并发处理（发起）的最大连接数（包含所有连接数）
+
+error_log         /data/logs/nginx/error.log;  错误日志打印地址
+
+access_log      /data/logs/nginx/access.log  进入日志打印地址
+
+log_format  main  'remote_addr"request" ''status upstream_addr "$request_time"'; 进入日志格式
+
+fastcgi_connect_timeout=300; #连接到后端fastcgi超时时间
+
+fastcgi_send_timeout=300; #向fastcgi请求超时时间(这个指定值已经完成两次握手后向fastcgi传送请求的超时时间)
+
+fastcgi_rend_timeout=300; #接收fastcgi应答超时时间，同理也是2次握手后
+
+fastcgi_buffer_size=64k; #读取fastcgi应答第一部分需要多大缓冲区，该值表示使用1个64kb的缓冲区读取应答第一部分(应答头),可以设置为fastcgi_buffers选项缓冲区大小
+
+fastcgi_buffers 4 64k;#指定本地需要多少和多大的缓冲区来缓冲fastcgi应答请求，假设一个php或java脚本所产生页面大小为256kb,那么会为其分配4个64kb的缓冲来缓存
+
+fastcgi_cache TEST;#开启fastcgi缓存并为其指定为TEST名称，降低cpu负载,防止502错误发生
+
+listen       80;                                            监听端口
+
+server_name  rrc.test.jiedaibao.com;       允许域名
+
+root  /data/release/rrc/web;                    项目根目录
+
+index  index.php index.html index.htm;  访问根文件
+```
 
 
-### 8、在Nginx中如何在URL中保留双斜线?
+### 3、请解释 Nginx 如何处理 HTTP 请求。
 
-要在URL中保留双斜线，就必须使用merge_slashes_off；语法:merge_slashes [on/off] ； 默认值: merge_slashes on ；环境: http，server
+Nginx 使用反应器模式。主事件循环等待操作系统发出准备事件的信号，这样数据就可以从套接字读取，在该实例中读取到缓冲区并进行处理。单个线程可以提供数万个并发连接。
 
 
-### 9、url_hash(第三方插件)
+### 4、Nginx静态资源?
 
-必须安装Nginx的hash软件包
+静态资源访问，就是存放在nginx的html页面，我们可以自己编写
 
-按访问url的hash结果来分配请求，使每个url定向到同一个后端服务器，可以进一步提高后端缓存服务器的效率。
+
+### 5、解释`Nginx`是否支持将请求压缩到上游?
+
+您可以使用`Nginx`模块`gunzip`将请求压缩到上游。`gunzip`模块是一个过滤器，它可以对不支持“gzip”编码方法的客户机或服务器使用“内容编码:gzip”来解压缩响应。
+
+解释如何在`Nginx`中获得当前的时间?
+
+要获得Nginx的当前时间，必须使用`SSI`模块、`$date_gmt`和`$date_local`的变量。
+
+`Proxy_set_header` `THE-TIME $date_gmt`;
+
+
+### 6、fair(第三方插件)
+
+必须安装upstream_fair模块。
+
+对比 weight、ip_hash更加智能的负载均衡算法，fair算法可以根据页面大小和加载时间长短智能地进行负载均衡，响应时间短的优先分配。
 
 ```
 upstream backserver {
- server squid1:3128; 
- server squid2:3128; 
- hash $request_uri; 
- hash_method crc32; 
+ server server1; 
+ server server2; 
+ fair; 
 }
 ```
 
-
-### 10、location的语法能说出来吗？
-
-注意：~ 代表自己输入的英文字母
-
-| 匹配符 | 匹配规则 | 优先级 |
-| --- | --- | --- |
-| = | 精确匹配 | 1 |
-| ^~ | 以某个字符串开头 | 2 |
-| ~ | 区分大小写的正则匹配 | 3 |
-| ~ | 不区分大小写的正则匹配 | 4 |
-| !~ | 区分大小写不匹配的正则 | 5 |
-| !~ | 不区分大小写不匹配的正则 | 6 |
-| / | 通用匹配，任何请求都会匹配到 | 7 |
+哪个服务器的响应速度快，就将请求分配到那个服务器上。
 
 
+### 7、解释如何在Nginx中获得当前的时间?
 
-### 11、ngx_http_upstream_module的作用是什么?
-### 12、为什么要做动、静分离？
-### 13、Nginx服务器上的Master和Worker进程分别是什么?
-### 14、为什么 Nginx 不使用多线程？
-### 15、Nginx虚拟主机怎么配置?
-### 16、怎么限制浏览器访问？
-### 17、基于端口的虚拟主机
-### 18、用Nginx服务器解释-s的目的是什么?
-### 19、解释`Nginx`是否支持将请求压缩到上游?
-### 20、Nginx 有哪些负载均衡策略？
-### 21、基于虚拟主机配置域名
-### 22、为什么要做动静分离？
-### 23、Nginx负载均衡的算法怎么实现的?策略有哪些?
-### 24、用`Nginx`服务器解释`-s`的目的是什么?
-### 25、Nginx应用场景？
-### 26、Rewrite全局变量是什么？
-### 27、什么是正向代理和反向代理？
-### 28、解释 Nginx 是否支持将请求压缩到上游?
-### 29、fastcgi 与 cgi 的区别？
-### 30、请解释一下什么是 Nginx?
+要获得Nginx的当前时间，必须使用SSI模块、$$date_gmt和$$date_local的变量。Proxy_set_header THE-TIME $date_gmt;
+
+
+### 8、使用“反向代理服务器”的优点是什么?
+
+反向代理服务器可以隐藏源服务器的存在和特征。它充当互联网云和web服务器之间的中间层。这对于安全方面来说是很好的，特别是当您使用web托管服务时。
+
+
+### 9、请解释什么是`C10K`问题?
+
+`C10K`问题是指无法同时处理大量客户端(10,000)的网络套接字。
+
+
+### 10、解释如何在 Nginx 中获得当前的时间?
+
+要获得 Nginx 的当前时间，必须使用 SSI 模块、$$date_gmt 和$$date_local 的变
+
+量。
+
+Proxy_set_header THE-TIME $date_gmt;
+
+
+### 11、Location正则案例
+### 12、如何通过不同于80的端口开启Nginx?
+### 13、在Nginx中，如何使用未定义的服务器名称来阻止处理请求?
+### 14、Nginx 如何开启压缩？
+### 15、请陈述stub_status和sub_filter指令的作用是什么?
+### 16、请列举 Nginx 的一些特性。
+### 17、如何用Nginx解决前端跨域问题？
+### 18、基于虚拟主机配置域名
+### 19、Nginx配置高可用性怎么配置？
+### 20、用`Nginx`服务器解释`-s`的目的是什么?
+### 21、Nginx 有哪些优点？
+### 22、用 Nginx 服务器解释-s 的目的是什么?
+### 23、Nginx 常用配置？
+### 24、限流怎么做的？
+### 25、location的语法能说出来吗？
+### 26、为什么要做动、静分离？
+### 27、请解释 Nginx 如何处理 HTTP 请求？
+### 28、突发限制访问频率（突发流量）
+### 29、Nginx目录结构有哪些？
+### 30、在 Nginx 中，解释如何在 URL 中保留双斜线?
 
 
 

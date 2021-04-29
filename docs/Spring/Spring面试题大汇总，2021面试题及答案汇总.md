@@ -6,131 +6,157 @@
 
 
 
-### 1、如何集成SpringBoot和ActiveMQ？
+### 1、SpringCloud由什么组成
 
-对于集成SpringBoot和ActiveMQ，我们使用
+这就有很多了，我讲几个开发中最重要的
 
-依赖关系。 它只需要很少的配置，并且不需要样板代码。
+**1、** Spring Cloud Eureka：服务注册与发现
 
+**2、** Spring Cloud Zuul：服务网关
 
-### 2、Spring对DAO的支持
+**3、** Spring Cloud Ribbon：客户端负载均衡
 
-Spring对数据访问对象（DAO）的支持旨在简化它和数据访问技术如JDBC，Hibernate or JDO 结合使用。这使我们可以方便切换持久层。编码时也不用担心会捕获每种技术特有的异常。
+**4、** Spring Cloud Feign：声明性的Web服务客户端
 
+**5、** Spring Cloud Hystrix：断路器
 
-### 3、spring JDBC API 中存在哪些类？
+**6、** Spring Cloud Config：分布式统一配置管理
 
-**1、** JdbcTemplate
-
-**2、** SimpleJdbcTemplate
-
-**3、** NamedParameterJdbcTemplate
-
-**4、** SimpleJdbcInsert
-
-**5、** SimpleJdbcCall
+**7、** 等20几个框架，开源一直在更新
 
 
+### 2、我们如何在测试中消除非决定论？
 
-### 4、注解原理是什么
+非确定性测试（NDT）基本上是不可靠的测试。所以，有时可能会发生它们通过，显然有时它们也可能会失败。当它们失败时，它们会重新运行通过。
 
-注解本质是一个继承了Annotation的特殊接口，其具体实现类是Java运行时生成的动态代理类。我们通过反射获取注解时，返回的是Java运行时生成的动态代理对象。通过代理对象调用自定义注解的方法，会最终调用AnnotationInvocationHandler的invoke方法。该方法会从memberValues这个Map中索引出对应的值。而memberValues的来源是Java常量池。
+从测试中删除非确定性的一些方法如下：
 
+**1、**   隔离
 
-### 5、SpringBoot微服务中如何实现 session 共享 ?
+**2、**   异步
 
-在微服务中，一个完整的项目被拆分成多个不相同的独立的服务，各个服务独立部署在不同的服务器上，各自的 session 被从物理空间上隔离开了，但是经常，我们需要在不同微服务之间共享 session ，常见的方案就是 Spring Session + Redis 来实现 session 共享。将所有微服务的 session 统一保存在 Redis 上，当各个微服务对 session 有相关的读写操作时，都去操作 Redis 上的 session 。这样就实现了 session 共享，Spring Session 基于 Spring 中的代理过滤器实现，使得 session 的同步操作对开发人员而言是透明的，非常简便。
+**3、**   远程服务
 
+**4、**   隔离
 
-### 6、[@Qualifier ](/Qualifier ) 注解
+**5、**   时间
 
-当有多个相同类型的bean却只有一个需要自动装配时，将[@Qualifier ](/Qualifier ) 注解和[@Autowire ](/Autowire ) 注解结合使用以消除这种混淆，指定需要装配的确切的bean。
-
-
-### 7、如何集成 SpringBoot 和 ActiveMQ？
-
-对于集成 SpringBoot 和 ActiveMQ，我们使用依赖关系。它只需要很少的配置，并且不需要样板代码。
+**6、**   资源泄漏
 
 
-### 8、21、在Spring MVC应用程序中使用WebMvcTest注释有什么用处？
+### 3、为什么要选择微服务架构？
 
-![](https://gitee.com/souyunkutech/souyunku-home/raw/master/images/souyunku-web/2019/08/0816/01/img_13.png#alt=img%5C_13.png)
+这是一个非常常见的微服务面试问题，你应该准备好了！微服务架构提供了许多优点。这里有几个：
 
-在测试目标只关注Spring MVC组件的情况下，WebMvcTest注释用于单元测试Spring MVC应用程序。在上面显示的快照中，我们只想启动ToTestController。执行此单元测试时，不会启动所有其他控制器和映射。
+**1、** 微服务可以轻松适应其他框架或技术。
 
+**2、** 单个进程的失败不会影响整个系统。
 
-### 9、SpringBoot有哪些优点？
+**3、** 为大企业和小型团队提供支持。
 
-**1、** 减少开发，测试时间和努力。
-
-**2、** 使用JavaConfig有助于避免使用XML。
-
-**3、** 避免大量的Maven导入和各种版本冲突。
-
-**4、** 提供意见发展方法。
-
-**5、** 通过提供默认值快速开始开发。
-
-**6、** 没有单独的Web服务器需要。这意味着你不再需要启动Tomcat，Glassfish或其他任何东西。
-
-**7、** 需要更少的配置 因为没有web.xml文件。只需添加用@ Configuration注释的类，然后添加用@Bean注释的方法，Spring将自动加载对象并像以前一样对其进行管理。您甚至可以将@Autowired添加到bean方法中，以使Spring自动装入需要的依赖关系中。
-
-**8、** 基于环境的配置 使用这些属性，您可以将您正在使用的环境传递到应用程序：-Dspring.profiles.active = {enviornment}。在加载主应用程序属性文件后，Spring将在（application{environment} .properties）中加载后续的应用程序属性文件。
+**4、** 可以在相对较短的时间内独立部署。
 
 
-### 10、微服务限流 dubbo限流：dubbo提供了多个和请求相关的filter：ActiveLimitFilter ExecuteLimitFilter TPSLimiterFilter
+### 4、我们如何监视所有 SpringBoot 微服务？
 
-**1、** ActiveLimitFilter：
+SpringBoot 提供监视器端点以监控各个微服务的度量。这些端点对于获取有关应用程序的信息（如它们是否已启动）以及它们的组件（如数据库等）是否正常运行很有帮助。但是，使用监视器的一个主要缺点或困难是，我们必须单独打开应用程序的知识点以了解其状态或健康状况。想象一下涉及 50 个应用程序的微服务，管理员将不得不击中所有 50 个应用程序的执行终端。为了帮助我们处理这种情况，我们将使用位于的开源项目。它建立在 SpringBoot Actuator 之上，它提供了一个 Web UI，使我们能够可视化多个应用程序的度量。
 
-```
-@Activate(group = Constants.CONSUMER, value = Constants.ACTIVES_KEY)
-```
 
-**作⽤于客户端，主要作⽤是控制客户端⽅法的并发度；**
+### 5、您使用了哪些 starter maven 依赖项？
 
-当超过了指定的active值之后该请求将等待前⾯的请求完成【何时结束呢？依赖于该⽅法的timeout 如果没有设置timeout的话可能就是多个请求⼀直被阻塞然后等待随机唤醒。
+使用了下面的一些依赖项：
 
-**2、** ExecuteLimitFilter：
+spring-boot-starter-activemq
 
-```
-@Activate(group = Constants.PROVIDER, value = Constants.EXECUTES_KEY)
-```
+spring-boot-starter-security
 
-作⽤于服务端，⼀旦超出指定的数⽬直接报错 其实是指在服务端的并⾏度【需要注意这些都是指的是在单台服务上⽽不是整个服务集群】
+这有助于增加更少的依赖关系，并减少版本的冲突。
 
-**3、** TPSLimiterFilter：
+
+### 6、SpringBoot、Spring MVC 和 Spring 有什么区别？
+
+**1、** SpringSpring最重要的特征是依赖注入。所有 `SpringModules` 不是依赖注入就是 IOC 控制反转。当我们恰当的使用 DI 或者是 IOC 的时候，我们可以开发松耦合应用。松耦合应用的单元测试可以很容易的进行。
+
+**2、** Spring MVC提供了一种分离式的方法来开发 Web 应用。通过运用像 `DispatcherServelet`，`MoudlAndView` 和 `ViewResolver` 等一些简单的概念，开发 Web 应用将会变的非常简单。
+
+**3、** Spring 和 SpringMVC 的问题在于需要配置大量的参数。
+
+**4、** SpringBoot 通过一个自动配置和启动的项来目解决这个问题。为了更快的构建产品就绪应用程序，SpringBoot 提供了一些非功能性特征。
+
+
+### 7、SpringBoot中的监视器是什么？
+
+Spring boot actuator是spring启动框架中的重要功能之一。Spring boot监视器可帮助您访问生产环境中正在运行的应用程序的当前状态。有几个指标必须在生产环境中进行检查和监控。即使一些外部应用程序可能正在使用这些服务来向相关人员触发警报消息。监视器模块公开了一组可直接作为HTTP URL访问的REST端点来检查状态。
+
+
+### 8、项目中前后端分离部署，所以需要解决跨域的问题。
+
+我们使用cookie存放用户登录的信息，在spring拦截器进行权限控制，当权限不符合时，直接返回给用户固定的json结果。
+
+当用户登录以后，正常使用；当用户退出登录状态时或者token过期时，由于拦截器和跨域的顺序有问题，出现了跨域的现象。
+
+我们知道一个http请求，先走filter，到达servlet后才进行拦截器的处理，如果我们把cors放在filter里，就可以优先于权限拦截器执行。
 
 ```
-@Activate(group = Constants.PROVIDER, value = Constants.TPS_LIMIT_RATE_KEY)
+@Configuration
+public class CorsConfig {
+
+    @Bean
+    public CorsFilter corsFilter() {
+        CorsConfiguration corsConfiguration = new CorsConfiguration();
+        corsConfiguration.addAllowedOrigin("*");
+        corsConfiguration.addAllowedHeader("*");
+        corsConfiguration.addAllowedMethod("*");
+        corsConfiguration.setAllowCredentials(true);
+        UrlBasedCorsConfigurationSource urlBasedCorsConfigurationSource = new UrlBasedCorsConfigurationSource();
+        urlBasedCorsConfigurationSource.registerCorsConfiguration("/**", corsConfiguration);
+        return new CorsFilter(urlBasedCorsConfigurationSource);
+    }
+
+}
 ```
 
-**1、** 作⽤于服务端，控制⼀段时间内的请求数；
 
-**2、** 默认情况下取得tps.interval字段表示请求间隔 如果⽆法找到则使⽤60s 根据tps字段表示允许调⽤次数。
+### 9、为什么要使用 Spring Cloud 熔断器？
 
-**3、** 使⽤AtomicInteger表示允许调⽤的次数 每次调⽤减少1次当结果⼩于0之后返回不允许调⽤
+当一个服务调用另一个服务，由于网络原因或者自身原因出现问题时 ，调用者就会等待被调者的响应，当更多的服务请求到这些资源时，导致更多的请求等待，这样就会发生连锁效应，断路器就是解决这一问题的。
+
+**断路器的状态有以下几种：**
+
+**1、** 完全打开：一定时间内，达到一定的次数无法调用，并且多次检测没有恢复的迹象，断路器完全打开，那么下次的请求不会请求到该服务。
+
+**2、** 半开：短时间内有恢复迹象，断路器会将部分请求发送给服务，当能正常调用时，断路器关闭。
+
+**3、** 关闭：服务一直处于正常状态，能正常调用，断路器关闭。
 
 
-### 11、SpringBoot 有哪几种读取配置的方式？
-### 12、什么是Eureka的自我保护模式，
-### 13、什么是Hystrix?
-### 14、有哪些类型的通知（Advice）？
-### 15、ZuulFilter常用有那些方法
-### 16、微服务有哪些特点？
-### 17、为什么在微服务中需要Reports报告和Dashboards仪表板？
-### 18、Ribbon和Feign调用服务的区别
-### 19、是否可以在SpringBoot中覆盖或替换嵌入式Tomcat？
-### 20、负载平衡的意义什么？
-### 21、什么是 JavaConfig？
-### 22、spring boot扫描流程?
-### 23、我们如何监视所有SpringBoot微服务？
-### 24、eureka缓存机制：
-### 25、熔断的原理，以及如何恢复？
-### 26、Ribbon底层实现原理
-### 27、我们如何在测试中消除非决定论？
-### 28、什么是 Spring Batch?
-### 29、解释Spring支持的几种bean的作用域。
-### 30、spring 提供了哪些配置方式？
+### 10、REST 和RPC对比
+
+**1、** RPC主要的缺陷是服务提供方和调用方式之间的依赖太强，需要对每一个微服务进行接口的定义，并通过持续继承发布，严格版本控制才不会出现冲突。
+
+**2、** REST是轻量级的接口，服务的提供和调用不存在代码之间的耦合，只需要一个约定进行规范。
+
+
+### 11、eureka和zookeeper都可以提供服务注册与发现的功能，请说说两个的区别？
+### 12、RequestMapping 和 GetMapping 的不同之处在哪里？
+### 13、你更倾向用那种事务管理类型？
+### 14、比较一下 Spring Security 和 Shiro 各自的优缺点 ?
+### 15、如何在不使用BasePACKAGE过滤器的情况下排除程序包？
+### 16、什么是Spring Batch？
+### 17、Spring、SpringBoot、SpringMVC的区别？
+### 18、如果在拦截请求中，我想拦截get方式提交的方法,怎么配置
+### 19、什么是 Hystrix？
+### 20、如何在 spring 中启动注解装配？
+### 21、Spring框架的事务管理有哪些优点？
+### 22、什么是 Spring IOC 容器？
+### 23、什么是微服务中的反应性扩展？
+### 24、可以在SpringBoot application中禁用默认的Web服务器吗？
+### 25、什么是Spring Cloud Bus?
+### 26、网关与过滤器有什么区别
+### 27、如何设计一套API接口
+### 28、如何覆盖SpringBoot项目的默认属性？
+### 29、SpringBoot需要独立的容器运行？
+### 30、JPA 和 Hibernate 有哪些区别？JPA 可以支持动态 SQL 吗？
 
 
 

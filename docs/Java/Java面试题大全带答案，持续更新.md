@@ -6,367 +6,148 @@
 
 
 
-### 1、MyBatis中使用#和$书写占位符有什么区别？
+### 1、notify()和notifyAll()有什么区别？
 
-#将传入的数据都当成一个字符串，会对传入的数据自动加上引号；$$将传入的数据直接显示生成在SQL中。注意：使用$$占位符可能会导致SQL注射攻击，能用#的地方就不要使用$$，写order by子句的时候应该用$$而不是#。、
+当一个线程进入wait之后，就必须等其他线程notify/notifyall,使用notifyall,可以唤醒所有处于wait状态的线程，使其重新进入锁的争夺队列中，而notify只能唤醒一个。
 
-
-### 2、解释什么是Tomcat Valve?
-
-Tomcat Valve——Tomcat 4引入的新技术，它允许您将Java类的实例链接到一个特定的Catalina容器。
+如果没把握，建议notifyAll，防止notigy因为信号丢失而造成程序异常。
 
 
-### 3、String和StringBuffer、StringBuilder的区别是什么？String为什么是不可变的？
+### 2、java 中的 Math.round(-1.5) 等于多少？
 
-**可变性**
-
-String类中使用字符数组保存字符串，private final char value[]，所以string对象是不可变的。StringBuilder与StringBuffer都继承自AbstractStringBuilder类，在AbstractStringBuilder中也是使用字符数组保存字符串，char[]value，这两种对象都是可变的。
-
-**线程安全性**
-
-String中的对象是不可变的，也就可以理解为常量，线程安全。AbstractStringBuilder是StringBuilder与StringBuffer的公共父类，定义了一些字符串的基本操作，如expandCapacity、append、insert、indexOf等公共方法。StringBuffer对方法加了同步锁或者对调用的方法加了同步锁，所以是线程安全的。StringBuilder并没有对方法进行加同步锁，所以是非线程安全的。
-
-**性能**
-
-每次对String 类型进行改变的时候，都会生成一个新的String对象，然后将指针指向新的String 对象。StringBuffer每次都会对StringBuffer对象本身进行操作，而不是生成新的对象并改变对象引用。相同情况下使用StirngBuilder 相比使用StringBuffer 仅能获得10%~15% 左右的性能提升，但却要冒多线程不安全的风险。 **对于三者使用的总结：** 如果要操作少量的数据用 = String 单线程操作字符串缓冲区 下操作大量数据 = StringBuilder 多线程操作字符串缓冲区 下操作大量数据 = StringBuffer
+等于 -1，因为在数轴上取值时，中间值（0.5）向右取整，所以正 0.5 是往上取整，负 0.5 是直接舍弃。
 
 
-### 4、说说G1垃圾收集器的工作原理
+### 3、如何在两个线程间共享数据？
 
-优点：指定最大停顿时间、分Region的内存布局、按收益动态确定回收集
+在两个线程间共享变量即可实现共享。
 
-**1、** G1开创的基于Region的堆内存布局是它能够实现这个目标的关键。虽然G1也仍是遵循分代收集理论设计的，但其堆内存的布局与其他收集器有非常明显的差异：G1不再坚持固定大小以及固定数量的分代区域划分，而是把连续的Java堆划分为多个大小相等的独立区域（Region），每一个Region都可以根据需要，扮演新生代的Eden空间、Survivor空间，或者老年代空间。收集器能够对扮演不同角色的Region采用不同的策略去处理，这样无论是新创建的对象还是已经存活了一段时间、熬过多次收集的旧对象都能获取很好的收集效果。
-
-**2、** 虽然G1仍然保留新生代和老年代的概念，但新生代和老年代不再是固定的了，它们都是一系列区域（不需要连续）的动态集合。G1收集器之所以能建立可预测的停顿时间模型，是因为它将Region作为单次回收的最小单元，即每次收集到的内存空间都是Region大小的整数倍，这样可以有计划地避免在整个Java堆中进行全区域的垃圾收集。更具体的处理思路是让G1收集器去跟踪各个Region里面的垃圾堆积的“价值”大小，价值即回收所获得的空间大小以及回收所需时间的经验值，然后在后台维护一个优先级列表，每次根据用户设定允许的收集停顿时间（使用参数-XX：MaxGCPauseMillis指定，默认值是200毫秒），优先处理回收价值收益最大的那些Region，这也就是“Garbage First”名字的由来。这种使用Region划分内存空间，以及具有优先级的区域回收方式，保证了G1收集器在有限的时间内获取尽可能高的收集效率。
-
-**3、** G1收集器的运作过程大致可划分为以下四个步骤：·初始标记 （Initial Marking）：仅仅只是标记一下GC Roots能直接关联到的对象，并且修改TAMS指针的值，让下一阶段用户线程并发运行时，能正确地在可用的Region中分配新对象。这个阶段需要停顿线程，但耗时很短，而且是借用进行Minor GC的时候同步完成的，所以G1收集器在这个阶段实际并没有额外的停顿。·并发标记 （Concurrent Marking）：从GC Root开始对堆中对象进行可达性分析，递归扫描整个堆里的对象图，找出要回收的对象，这阶段耗时较长，但可与用户程序并发执行。当对象图扫描完成以后，还要重新处理SATB记录下的在并发时有引用变动的对象。·最终标记 （Final Marking）：对用户线程做另一个短暂的暂停，用于处理并发阶段结束后仍遗留下来的最后那少量的SATB记录。·筛选回收 （Live Data Counting and Evacuation）：负责更新Region的统计数据，对各个Region的回收价值和成本进行排序，根据用户所期望的停顿时间来制定回收计划，可以自由选择任意多个Region构成回收集，然后把决定回收的那一部分Region的存活对象复制到空的Region中，再清理掉整个旧Region的全部空间。这里的操作涉及存活对象的移动，是必须暂停用户线程，由多条收集器线程并行完成的。从上述阶段的描述可以看出，G1收集器除了并发标记外，其余阶段也是要完全暂停用户线程的 。
+一般来说，共享变量要求变量本身是线程安全的，然后在线程内使用的时候，如果有对共享变量的复合操作，那么也得保证复合操作的线程安全性。
 
 
-### 5、用代码演示三种代理
+### 4、volatile关键字的原理是什么？干什么用的？
 
-- 静态代理
+使用了volatile关键字的变量，每当变量的值有变动的时候，都会将更改立即同步到主内存中；而如果某个线程想要使用这个变量，就先要从主存中刷新到工作内存，这样就确保了变量的可见性。
 
-**什么是静态代理**
-
-由程序员创建或工具生成代理类的源码，再编译代理类。所谓静态也就是在程序运行前就已经存在代理类的字节码文件，代理类和委托类的关系在运行前就确定了。
-
-- 代码演示
-
-我有一段这样的代码：（如何能在不修改UserDao接口类的情况下开事务和关闭事务呢）
+一般使用一个volatile修饰的bool变量，来控制线程的运行状态。
 
 ```
-package com.lijie;
-
-//接口类
-public class UserDao{
-    public void save() {
-        System.out.println("保存数据方法");
-    }
-}
-```
-
-```
-package com.lijie;
-
-//运行测试类
-public  class Test{
-    public static void main(String[] args) {
-        UserDao userDao = new UserDao();
-        userDao.save();
-    }
-}
-```
-
-**修改代码，添加代理类**
-
-```
-package com.lijie;
-
-//代理类
-public class UserDaoProxy extends UserDao {
-    private UserDao userDao;
-
-    public UserDaoProxy(UserDao userDao) {
-        this.userDao = userDao;
-    }
-
-    public void save() {
-        System.out.println("开启事物...");
-        userDao.save();
-        System.out.println("关闭事物...");
-    }
-
-}
-```
-
-```
-//添加完静态代理的测试类
-public class Test{
-    public static void main(String[] args) {
-        UserDao userDao = new UserDao();
-        UserDaoProxy userDaoProxy = new UserDaoProxy(userDao);
-        userDaoProxy.save();
-    }
-}
-```
-
-**缺点：**
-
-每个需要代理的对象都需要自己重复编写代理，很不舒服，
-
-**优点：**
-
-但是可以面相实际对象或者是接口的方式实现代理
-
-- 动态代理
-
-**什么是动态代理**
-
-动态代理也叫做，JDK代理、接口代理。
-
-动态代理的对象，是利用JDK的API，动态的在内存中构建代理对象（是根据被代理的接口来动态生成代理类的class文件，并加载运行的过程），这就叫动态代理
-
-- 代码演示
-
-```
-package com.lijie;
-
-//接口
-public interface UserDao {
-    void save();
-}
-```
-
-```
-package com.lijie;
-
-//接口实现类
-public class UserDaoImpl implements UserDao {
-    public void save() {
-        System.out.println("保存数据方法");
-    }
-}
-```
-
-下面是代理类，可重复使用，不像静态代理那样要自己重复编写代理
-
-```
-package com.lijie;
-
-import java.lang.reflect.InvocationHandler;
-import java.lang.reflect.Method;
-
-// 每次生成动态代理类对象时,实现了InvocationHandler接口的调用处理器对象
-public class InvocationHandlerImpl implements InvocationHandler {
-
-    // 这其实业务实现类对象，用来调用具体的业务方法
-    private Object target;
-
-    // 通过构造函数传入目标对象
-    public InvocationHandlerImpl(Object target) {
-        this.target = target;
-    }
-
-    //动态代理实际运行的代理方法
-    public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
-        System.out.println("调用开始处理");
-        //下面invoke()方法是以反射的方式来创建对象，第一个参数是要创建的对象，第二个是构成方法的参数，由第二个参数来决定创建对象使用哪个构造方法
-        Object result = method.invoke(target, args);
-        System.out.println("调用结束处理");
-        return result;
-    }
-}
-```
-
-利用动态代理使用代理方法
-
-```
-package com.lijie;
-
-import java.lang.reflect.Proxy;
-
-public class Test {
-    public static void main(String[] args) {
-        // 被代理对象
-        UserDao userDaoImpl = new UserDaoImpl();
-        InvocationHandlerImpl invocationHandlerImpl = new InvocationHandlerImpl(userDaoImpl);
-
-        //类加载器
-        ClassLoader loader = userDaoImpl.getClass().getClassLoader();
-        Class<?>[] interfaces = userDaoImpl.getClass().getInterfaces();
-
-        // 主要装载器、一组接口及调用处理动态代理实例
-        UserDao newProxyInstance = (UserDao) Proxy.newProxyInstance(loader, interfaces, invocationHandlerImpl);
-        newProxyInstance.save();
-    }
-}
-```
-
-**缺点：**
-
-必须是面向接口，目标业务类必须实现接口
-
-**优点：**
-
-不用关心代理类，只需要在运行阶段才指定代理哪一个对象
-
-- CGLIB动态代理
-
-**CGLIB动态代理原理：**
-
-利用asm开源包，对代理对象类的class文件加载进来，通过修改其字节码生成子类来处理。
-
-**什么是CGLIB动态代理**
-
-CGLIB动态代理和jdk代理一样，使用反射完成代理，不同的是他可以直接代理类（jdk动态代理不行，他必须目标业务类必须实现接口），CGLIB动态代理底层使用字节码技术，CGLIB动态代理不能对 final类进行继承。（CGLIB动态代理需要导入jar包）
-
-- 代码演示
-
-```
-package com.lijie;
-
-//接口
-public interface UserDao {
-    void save();
-}
-```
-
-```
-package com.lijie;
-
-//接口实现类
-public class UserDaoImpl implements UserDao {
-    public void save() {
-        System.out.println("保存数据方法");
-    }
-}
-```
-
-```
-package com.lijie;
-
-import org.springframework.cglib.proxy.Enhancer;
-import org.springframework.cglib.proxy.MethodInterceptor;
-import org.springframework.cglib.proxy.MethodProxy;
-import java.lang.reflect.Method;
-
-//代理主要类
-public class CglibProxy implements MethodInterceptor {
-    private Object targetObject;
-    // 这里的目标类型为Object，则可以接受任意一种参数作为被代理类，实现了动态代理
-    public Object getInstance(Object target) {
-        // 设置需要创建子类的类
-        this.targetObject = target;
-        Enhancer enhancer = new Enhancer();
-        enhancer.setSuperclass(target.getClass());
-        enhancer.setCallback(this);
-        return enhancer.create();
-    }
-
-    //代理实际方法
-    public Object intercept(Object obj, Method method, Object[] args, MethodProxy proxy) throws Throwable {
-        System.out.println("开启事物");
-        Object result = proxy.invoke(targetObject, args);
-        System.out.println("关闭事物");
-        // 返回代理对象
-        return result;
-    }
-}
-```
-
-```
-package com.lijie;
-
-//测试CGLIB动态代理
-public class Test {
-    public static void main(String[] args) {
-        CglibProxy cglibProxy = new CglibProxy();
-        UserDao userDao = (UserDao) cglibProxy.getInstance(new UserDaoImpl());
-        userDao.save();
-    }
-}
+volatile boolean stop = false;
+ 
+ void stop(){
+  this.stop = true;
+ }
+ void start(){
+  new Thread(()->{
+   while (!stop){
+    //sth
+   }
+  }).start();
+ }
 ```
 
 
-### 6、什么情况会造成元空间溢出？
+### 5、synchronized 和 ReentrantLock 区别是什么？
 
-元空间（Metaspace）默认是没有上限的，不加限制比较危险。当应用中的Java类过多，比如Spring等一些使用动态代理的框架生成了很多类，如果占用空间超出了`我们的设定值`，就会发生元空间溢出。
+**1、** synchronized 是和 if、else、for、while 一样的关键字，ReentrantLock 是类，这是二者的本质区别。既然 ReentrantLock 是类，那么它就提供了比synchronized 更多更灵活的特性，可以被继承、可以有方法、可以有各种各样的类变量
 
-所以，默认风险大，但如果你不给足它空间，它也会溢出。
+**2、** synchronized 早期的实现比较低效，对比 ReentrantLock，大多数场景性能都相差较大，但是在 Java 6 中对 synchronized 进行了非常多的改进。
 
+**相同点：两者都是可重入锁**
 
-### 7、Swing 是线程安全的？
+两者都是可重入锁。“可重入锁”概念是：自己可以再次获取自己的内部锁。比如一个线程获得了某个对象的锁，此时这个对象锁还没有释放，当其再次想要获取这个对象的锁的时候还是可以获取的，如果不可锁重入的话，就会造成死锁。同一个线程每次获取锁，锁的计数器都自增1，所以要等到锁的计数器下降为0时才能释放锁。
 
-不是，Swing 不是线程安全的。你不能通过任何线程来更新 Swing 组件，如 JTable、JList 或 JPanel，事实上，它们只能通过 GUI 或 AWT 线程来更新。这就是为什么 Swing 提供 invokeAndWait() 和 invokeLater() 方法来获取其他线程的 GUI 更新请求。这些方法将更新请求放入 AWT 的线程队列中，可以一直等待，也可以通过异步更新直接返回结果。你也可以在参考答案中查看和学习到更详细的内容。
+**主要区别如下：**
 
+**1、** ReentrantLock 使用起来比较灵活，但是必须有释放锁的配合动作；
 
-### 8、String str=”aa”,String s=”bb”,String aa=aa+s;一种创建了几个对象？
+**2、** ReentrantLock 必须手动获取与释放锁，而 synchronized 不需要手动释放和开启锁；
 
-一共有两个引用，三个对象。因为”aa”与”bb”都是常量，常量的值不能改变，当执行字符串拼接时候，会创建一个新的常量是” aabbb”,有将其存到常量池中。
+**3、** ReentrantLock 只适用于代码块锁，而 synchronized 可以修饰类、方法、变量等。
 
+**4、** 二者的锁机制其实也是不一样的。ReentrantLock 底层调用的是 Unsafe 的park 方法加锁，synchronized 操作的应该是对象头中 mark word
 
-### 9、单例优缺点
+**5、** Java中每一个对象都可以作为锁，这是synchronized实现同步的基础：
 
-**优点：**
+**1、** 普通同步方法，锁是当前实例对象
 
-**1、** 在单例模式中，活动的单例只有一个实例，对单例类的所有实例化得到的都是相同的一个实例。这样就防止其它对象对自己的实例化，确保所有的对象都访问一个实例
+**2、** 静态同步方法，锁是当前类的class对象
 
-**2、** 单例模式具有一定的伸缩性，类自己来控制实例化进程，类就在改变实例化进程上有相应的伸缩性。
-
-**3、** 提供了对唯一实例的受控访问。
-
-**4、** 由于在系统内存中只存在一个对象，因此可以节约系统资源，当需要频繁创建和销毁的对象时单例模式无疑可以提高系统的性能。
-
-**5、** 允许可变数目的实例。
-
-**6、** 避免对共享资源的多重占用。
-
-**缺点：**
-
-**1、** 不适用于变化的对象，如果同一类型的对象总是要在不同的用例场景发生变化，单例就会引起数据的错误，不能保存彼此的状态。
-
-**2、** 由于单利模式中没有抽象层，因此单例类的扩展有很大的困难。
-
-**3、** 单例类的职责过重，在一定程度上违背了“单一职责原则”。
-
-**4、** 滥用单例将带来一些负面问题，如为了节省资源将数据库连接池对象设计为的单例类，可能会导致共享连接池对象的程序过多而出现连接池溢出；如果实例化的对象长时间不被利用，系统会认为是垃圾而被回收，这将导致对象状态的丢失。
+**3、** 同步方法块，锁是括号里面的对象
 
 
-### 10、为什么 wait(), notify()和 notifyAll()必须在同步方法或者同步块中被调用？
-
-当一个线程需要调用对象的 wait()方法的时候，这个线程必须拥有该对象的锁，接着它就会释放这个对象锁并进入等待状态直到其他线程调用这个对象上的 notify()方法。同样的，当一个线程需要调用对象的 notify()方法时，它会释放这个对象的锁，以便其他在等待的线程就可以得到这个对象锁。由于所有的这些方法都需要线程持有对象的锁，这样就只能通过同步来实现，所以他们只能在同步方法或者同步块中被调用。
+### 6、阐述静态变量和实例变量的区别。
 
 
-### 11、React最新的生命周期是怎样的?
-### 12、实际开发中应用场景哪里用到了模板方法
-### 13、CopyOnWriteArrayList 的设计思想?
-### 14、用Java的套接字编程实现一个多线程的回显（echo）服务器。
-### 15、JRE、JDK、JVM 及 JIT 之间有什么不同？
-### 16、如何判断对象可以被回收
-### 17、JVM 如何确定垃圾对象？
-### 18、jspservlet中通信作用域有那些？
-### 19、代理模式应用场景
-### 20、请你谈谈对OOM的认识
-### 21、什么时候会触发FullGC
-### 22、什么是阻塞队列？阻塞队列的实现原理是什么？如何使用阻塞队列来实现生产者-消费者模型？
-### 23、接口是什么？为什么要使用接口而不是直接使用具体类？
-### 24、Java 中如何格式化一个日期？如格式化为 ddMMyyyy 的形式？
-### 25、什么是线程死锁
-### 26、React的请求应该放在哪个生命周期中?
-### 27、怎样将GB2312编码的字符串转换为ISO-8859-1编码的字符串？
-### 28、字符串常量存放在哪个区域？
-### 29、HashMap为什么不直接使用hashCode()处理后的哈希值直接作为table的下标？
-### 30、java中有几种方法可以实现一个线程？
-### 31、Collection和Collections的区别？
-### 32、java 中的 Math.round(-1.5) 等于多少？
-### 33、3*0.1 == 0.3 将会返回什么？true 还是 false？
-### 34、说说ZGC垃圾收集器的工作原理
-### 35、JVM 监控与分析工具你用过哪些？介绍一下。
-### 36、java 面向对象编程三大特性------封装、继承、多态
-### 37、描述一下什么情况下，对象会从年轻代进入老年代
-### 38、直接内存是什么？
-### 39、什么是类加载器，类加载器有哪些？
-### 40、死锁与活锁的区别，死锁与饥饿的区别？
+
+静态变量是被static修饰符修饰的变量，也称为类变量，它属于类，不属于类的任何一个对象，一个类不管创建多少个对象，静态变量在内存中有且仅有一个拷贝；实例变量必须依存于某一实例，需要先创建对象然后通过对象才能访问到它。静态变量可以实现让多个对象共享内存。
+
+> 补充：在Java开发中，上下文类和工具类中通常会有大量的静态成员。
+
+
+
+### 7、Java 中，编写多线程程序的时候你会遵循哪些最佳实践？
+
+这是我在写Java 并发程序的时候遵循的一些最佳实践：
+
+**1、** 给线程命名，这样可以帮助调试。
+
+**2、** 最小化同步的范围，而不是将整个方法同步，只对关键部分做同步。
+
+**3、** 如果可以，更偏向于使用 volatile 而不是 synchronized。
+
+**4、** 使用更高层次的并发工具，而不是使用 wait() 和 notify() 来实现线程间通信，如 BlockingQueue，CountDownLatch 及 Semeaphore。
+
+**5、** 优先使用并发集合，而不是对集合进行同步。并发集合提供更好的可扩展性。
+
+
+### 8、Java 中 LinkedHashMap 和 PriorityQueue 的区别是什么？
+
+PriorityQueue 保证最高或者最低优先级的的元素总是在队列头部，但是 LinkedHashMap 维持的顺序是元素插入的顺序。当遍历一个 PriorityQueue 时，没有任何顺序保证，但是 LinkedHashMap 课保证遍历顺序是元素插入的顺序。
+
+
+### 9、Java 中，Maven 和 ANT 有什么区别？
+
+虽然两者都是构建工具，都用于创建 Java 应用，但是 Maven 做的事情更多，在基于“约定优于配置”的概念下，提供标准的Java 项目结构，同时能为应用自动管理依赖（应用中所依赖的 JAR 文件），Maven 与 ANT 工具更多的不同之处请参见。
+
+**1、** 这就是所有的面试题，如此之多，是不是？我可以保证，如果你能回答列表中的所有问题，你就可以很轻松的应付任何核心 Java 或者高级 Java 面试。虽然，这里没有涵盖 Servlet、JSP、JSF、JPA，JMS，EJB 及其它 Java EE 技术，也没有包含主流的框架如 Spring MVC，Struts 2.0，Hibernate，也没有包含 SOAP 和 RESTful web service，但是这份列表对做 Java 开发的、准备应聘 Java web 开发职位的人还是同样有用的，因为所有的 Java 面试，开始的问题都是 Java 基础和 JDK API 相关的。如果你认为我这里有任何应该在这份列表中而被我遗漏了的 Java 流行的问题，你可以自由的给我建议。我的目的是从最近的面试中创建一份最新的、最优的 Java 面试问题列表。
+
+
+### 10、32 位 JVM 和 64 位 JVM 的最大堆内存分别是多数？
+
+理论上说上 32 位的 JVM 堆内存可以到达 2^32，即 4GB，但实际上会比这个小很多。不同操作系统之间不同，如 Windows 系统大约 1.5GB，Solaris 大约3GB。64 位 JVM 允许指定最大的堆内存，理论上可以达到 2^64，这是一个非常大的数字，实际上你可以指定堆内存大小到 100GB。甚至有的 JVM，如 Azul，堆内存到 1000G 都是可能的。
+
+
+### 11、简述Hibernate常见优化策略。
+### 12、Java 中能创建 volatile 数组吗？
+### 13、接口和抽象类的区别是什么？
+### 14、请解释StackOverflowError和OutOfMemeryError的区别？
+### 15、Java 程序是怎样运行的？
+### 16、列出 5 个应该遵循的 JDBC 最佳实践
+### 17、如何创建守护线程？
+### 18、Java Concurrency API中的Lock接口(Lock interface)是什么？对比同步它有什么优势？
+### 19、synchronized和ReentrantLock的区别
+### 20、Java中你怎样唤醒一个阻塞的线程？
+### 21、使用集合框架的好处
+### 22、你知道哪些GC类型？
+### 23、线上常用的 JVM 参数有哪些？
+### 24、说一下 synchronized 底层实现原理？
+### 25、Collection 和 Collections 有什么区别？
+### 26、如何实现对象克隆？
+### 27、Session与cookie的区别？
+### 28、动态改变构造
+### 29、适配器模式和代理模式之前有什么不同？
+### 30、Lock 接口和synchronized 对比同步它有什么优势？
+### 31、synchronized 和 Lock 有什么区别？
+### 32、CopyOnWriteArrayList可以用于什么应用场景？
+### 33、原型模式的使用方式
+### 34、生产上如何配置垃圾收集器的？
+### 35、对于JDK自带的监控和性能分析工具用过哪些？
+### 36、生产环境服务器变慢，如何诊断处理？
+### 37、JVM 数据运行区，哪些会造成 OOM 的情况？
+### 38、java中是值传递引用传递？
+### 39、final、finalize()、finally，作用
+### 40、遇到过堆外内存溢出吗？
 
 
 

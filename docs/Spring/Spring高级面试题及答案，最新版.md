@@ -6,131 +6,122 @@
 
 
 
-### 1、什么是CSRF攻击？
+### 1、spring 支持集中 bean scope？
 
-CSRF代表跨站请求伪造。这是一种攻击，迫使最终用户在当前通过身份验证的Web应用程序上执行不需要的操作。CSRF攻击专门针对状态改变请求，而不是数据窃取，因为攻击者无法查看对伪造请求的响应。
+**Spring bean 支持 5 种 scope：**
 
+**1、** Singleton - 每个 Spring IoC 容器仅有一个单实例。
 
-### 2、SpringBoot自动配置的原理
+**2、** Prototype - 每次请求都会产生一个新的实例。
 
-在spring程序main方法中 添加@SpringBootApplication或者@EnableAutoConfiguration
+**3、** Request - 每一次 HTTP 请求都会产生一个新的实例，并且该 bean 仅在当前 HTTP 请求内有效。
 
-会自动去maven中读取每个starter中的spring.factories文件 该文件里配置了所有需要被创建spring容器中的bean
+**4、** Session - 每一次 HTTP 请求都会产生一个新的 bean，同时该 bean 仅在当前 HTTP session 内有效。
 
+**5、** Global-session - 类似于标准的 HTTP Session 作用域，不过它仅仅在基于 portlet 的 web 应用中才有意义。 Portlet 规范定义了全局 Session 的概念，它被所有构成某个 portlet web 应用的各种不同的 portlet 所共享。 在 global session 作用域中定义的 bean 被限定于全局 portlet Session 的生命周期范围内。 如果你在 web 中使用 global session 作用域来标识 bean，那么 web 会自动当成 session 类型来使用。
 
-### 3、SpringBoot 中如何实现定时任务 ?
-
-定时任务也是一个常见的需求，SpringBoot 中对于定时任务的支持主要还是来自 Spring 框架。
-
-在 SpringBoot 中使用定时任务主要有两种不同的方式，一个就是使用 Spring 中的 [@Scheduled ](/Scheduled ) 注解，另一个则是使用第三方框架 Quartz。
-
-使用 Spring 中的 [@Scheduled ](/Scheduled ) 的方式主要通过 [@Scheduled ](/Scheduled ) 注解来实现。
-
-使用 Quartz ，则按照 Quartz 的方式，定义 Job 和 Trigger 即可。
+**6、** 仅当用户使用支持 Web 的 ApplicationContext 时，最后三个才可用。
 
 
+### 2、SpringBoot 配置加载顺序?
 
-### 4、SpringCloud的优缺点
-
-**优点：**
-
-**1、** 耦合度比较低。不会影响其他模块的开发。
-
-**2、** 减轻团队的成本，可以并行开发，不用关注其他人怎么开发，先关注自己的开发。
-
-**3、** 配置比较简单，基本用注解就能实现，不用使用过多的配置文件。
-
-**4、** 微服务跨平台的，可以用任何一种语言开发。
-
-**5、** 每个微服务可以有自己的独立的数据库也有用公共的数据库。
-
-**6、** 直接写后端的代码，不用关注前端怎么开发，直接写自己的后端代码即可，然后暴露接口，通过组件进行服务通信。
-
-**缺点：**
-
-1、部署比较麻烦，给运维工程师带来一定的麻烦。
-
-2、针对数据的管理比麻烦，因为微服务可以每个微服务使用一个数据库。
-
-3、系统集成测试比较麻烦
-
-4、性能的监控比较麻烦。【最好开发一个大屏监控系统】
-
-总的来说优点大过于缺点，目前看来Spring Cloud是一套非常完善的分布式框架，目前很多企业开始用微服务、Spring Cloud的优势是显而易见的。因此对于想研究微服务架构的同学来说，学习Spring Cloud是一个不错的选择。
+**1、** properties文件 2、YAML文件 3、系统环境变量 4、命令行参数
 
 
-### 5、Spring MVC 框架有什么用？
+### 3、为什么需要学习Spring Cloud
 
-Spring Web MVC 框架提供 模型-视图-控制器 架构和随时可用的组件，用于开发灵活且松散耦合的 Web 应用程序。MVC 模式有助于分离应用程序的不同方面，如输入逻辑，业务逻辑和 UI 逻辑，同时在所有这些元素之间提供松散耦合。
+**1、** 首先springcloud基于spingboot的优雅简洁，可还记得我们被无数xml支配的恐惧？可还记得springmvc，mybatis错综复杂的配置，有了spingboot，这些东西都不需要了，spingboot好处不再赘诉，springcloud就基于SpringBoot把市场上优秀的服务框架组合起来，通过SpringBoot风格进行再封装屏蔽掉了复杂的配置和实现原理
 
+**2、** 什么叫做开箱即用？即使是当年的黄金搭档dubbo+zookeeper下载配置起来也是颇费心神的！而springcloud完成这些只需要一个jar的依赖就可以了！
 
-### 6、使用 SpringBoot 启动连接到内存数据库 H2 的 JPA 应用程序需要哪些依赖项？
-
-在 SpringBoot 项目中，当你确保下面的依赖项都在类路里面的时候，你可以加载 H2 控制台。
-
-web 启动器
-
-h2
-
-jpa 数据启动器
-
-**其它的依赖项在下面：**
-
-需要注意的一些地方：
-
-一个内部数据内存只在应用程序执行期间存在。这是学习框架的有效方式。
-
-这不是你希望的真是世界应用程序的方式。
-
-在问题“如何连接一个外部数据库？”中，我们解释了如何连接一个你所选择的数据库。
+**3、** springcloud大多数子模块都是直击痛点，像zuul解决的跨域，fegin解决的负载均衡，hystrix的熔断机制等等等等
 
 
-### 7、微服务同时调用多个接口，怎么支持事务的啊？
+### 4、自动装配有什么局限？
 
-支持分布式事务，可以使用SpringBoot集成 Aatomikos来解决，但是我一般不建议这样使用，因为使用分布式事务会增加请求的响应时间，影响系统的TPS。一般在实际工作中，会利用消息的补偿机制来处理分布式的事务。
+**1、** 覆盖的可能性 - 您始终可以使用 和 设置指定依赖项，这将覆盖自动装配。
+
+**2、** 基本元数据类型 - 简单属性（如原数据类型，字符串和类）无法自动装配。
+
+**3、** 令人困惑的性质 - 总是喜欢使用明确的装配，因为自动装配不太精确。
+
+###你用过哪些重要的 Spring 注解
+
+**1、** [@Controller ](/Controller ) - 用于 Spring MVC 项目中的控制器类。
+
+**2、** [@Service ](/Service ) - 用于服务类。
+
+**3、** [@RequestMapping ](/RequestMapping ) - 用于在控制器处理程序方法中配置 URI 映射。
+
+**4、** [@ResponseBody ](/ResponseBody ) - 用于发送 Object 作为响应，通常用于发送 XML 或 JSON 数据作为响应。
+
+**5、** [@PathVariable ](/PathVariable ) - 用于将动态值从 URI 映射到处理程序方法参数。
+
+**6、** [@Autowired ](/Autowired ) - 用于在 spring bean 中自动装配依赖项。
+
+**7、** [@Qualifier ](/Qualifier ) - 使用 [@Autowired ](/Autowired ) 注解，以避免在存在多个 bean 类型实例时出现混淆。
+
+**8、** [@Scope ](/Scope ) - 用于配置 spring bean 的范围。
+
+**9、** @Configuration，[@ComponentScan ](/ComponentScan ) 和 [@Bean ](/Bean ) - 用于基于 java 的配置。
+
+**10、** @Aspect，@Before，@After，@Around，[@Pointcut ](/Pointcut ) - 用于切面编程（AOP）
 
 
-### 8、SpringBoot 中的 starter 到底是什么 ?
+### 5、Bean 工厂和 Application contexts 有什么区别？
 
-首先，这个 Starter 并非什么新的技术点，基本上还是基于 Spring 已有功能来实现的。首先它提供了一个自动化配置类，一般命名为 `XXXAutoConfiguration` ，在这个配置类中通过条件注解来决定一个配置是否生效（条件注解就是 Spring 中原本就有的），然后它还会提供一系列的默认配置，也允许开发者根据实际情况自定义相关配置，然后通过类型安全的属性(spring、factories)注入将这些配置属性注入进来，新注入的属性会代替掉默认属性。正因为如此，很多第三方框架，我们只需要引入依赖就可以直接使用了。当然，开发者也可以自定义 Starter
-
-
-### 9、SpringBoot 需要独立的容器运行吗？
-
-可以不需要，内置了 Tomcat/ Jetty 等容器。
+Application contexts提供一种方法处理文本消息，一个通常的做法是加载文件资源（比如镜像），它们可以向注册为监听器的bean事件。另外，在容器或容器内的对象上执行的那些不得不由bean工厂以程序化方式处理的操作，可以在Application contexts中以声明的方式处理。Application contexts实现了MessageSource接口，该接口的实现以可插拔的方式提供获取本地化消息的方法。
 
 
-### 10、Spring MVC怎么样设定重定向和转发的？
+### 6、什么是 Spring Profiles？
 
-**转发：**
-
-在返回值前面加"forward:"，譬如"forward:user.do?name=method4"
-
-**重定向：**
-
-在返回值前面加"redirect:"，譬如"redirect:[www.baidu.com](http://www.baidu.com)"
+Spring Profiles 允许用户根据配置文件（dev，test，prod 等）来注册 bean。因此，当应用程序在开发中运行时，只有某些 bean 可以加载，而在 PRODUCTION中，某些其他 bean 可以加载。假设我们的要求是 Swagger 文档仅适用于 QA 环境，并且禁用所有其他文档。这可以使用配置文件来完成。SpringBoot 使得使用配置文件非常简单。
 
 
-### 11、Spring 应用程序有哪些不同组件？
-### 12、bootstrap.yml和application.yml有什么区别?
-### 13、dubbo服务注册与发现原理
-### 14、JPA 和 Hibernate 有哪些区别？JPA 可以支持动态 SQL 吗？
-### 15、如何实现SpringBoot应用程序的安全性？
-### 16、Spring MVC的优点
-### 17、什么是切点（JoinPoint）
-### 18、SpringBoot 的核心配置文件有哪几个？它们的区别是什么？
-### 19、哪些是重要的bean生命周期方法？你能重载它们吗？
-### 20、如何在自定义端口上运行 SpringBoot 应用程序？
-### 21、SpringBoot 支持哪些日志框架？推荐和默认的日志框架是哪个？
-### 22、Ribbon和Feign的区别？
-### 23、创建一个 SpringBoot Project 的最简单的方法是什么？
-### 24、如何理解 Spring 中的代理？
-### 25、介绍一下 WebApplicationContext
-### 26、如何解决POST请求中文乱码问题，GET的又如何处理呢？
-### 27、什么是JavaConfig？
-### 28、SpringCloud由什么组成
-### 29、有几种不同类型的自动代理？
-### 30、怎么样把ModelMap里面的数据放入Session里面？
+### 7、Ribbon底层实现原理
+
+Ribbon使用discoveryClient从注册中心读取目标服务信息，对同一接口请求进行计数，使用%取余算法获取目标服务集群索引，返回获取到的目标服务信息。
+
+
+### 8、怎样在方法里面得到Request,或者Session？
+
+
+
+直接在方法的形参中声明request,Spring MVC就自动把request对象传入。
+
+
+### 9、path=”users”, collectionResourceRel=”users” 如何与 Spring Data Rest 一起使用？
+
+path- 这个资源要导出的路径段。
+
+collectionResourceRel- 生成指向集合资源的链接时使用的 rel 值。在生成 HATEOAS 链接时使用。
+
+
+### 10、Nginx与Ribbon的区别
+
+Nginx是反向代理同时可以实现负载均衡，nginx拦截客户端请求采用负载均衡策略根据upstream配置进行转发，相当于请求通过nginx服务器进行转发。Ribbon是客户端负载均衡，从注册中心读取目标服务器信息，然后客户端采用轮询策略对服务直接访问，全程在客户端操作。
+
+
+### 11、什么是Spring Cloud Bus？我们需要它吗？
+### 12、使用Spring Cloud有什么优势？
+### 13、如何在 SpringBoot 中添加通用的 JS 代码？
+### 14、什么是 Aspect？
+### 15、为什么我们需要 spring-boot-maven-plugin?
+### 16、SpringBoot微服务中如何实现 session 共享 ?
+### 17、SpringBoot的自动配置原理是什么
+### 18、微服务之间是如何独立通讯的?
+### 19、什么是Netflix Feign？它的优点是什么？
+### 20、接⼝限流⽅法？
+### 21、康威定律是什么？
+### 22、运行 SpringBoot 有哪几种方式？
+### 23、@Controller注解的作用
+### 24、Spring Cloud Stream
+### 25、bootstrap.yml和application.yml有什么区别?
+### 26、什么是feigin？它的优点是什么？
+### 27、SpringBoot 有哪几种读取配置的方式？
+### 28、你怎样定义类的作用域?
+### 29、SpringBoot 最大的优势是什么呢？
+### 30、什么是 AOP 连接点
 
 
 

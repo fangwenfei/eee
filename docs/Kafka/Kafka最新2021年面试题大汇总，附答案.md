@@ -6,120 +6,86 @@
 
 
 
-### 1、解释如何调整Kafka以获得最佳性能。
+### 1、Kafka的哪些场景中使用了零拷贝（Zero Copy）？
 
-因此，调优Apache Kafka的方法是调优它的几个组件：1.调整Kafka生产者2.Kafka代理调优3.调整Kafka消费者
+**1、** 其实这道题对于SRE来讲，有点超纲了，不过既然Zero Copy是Kafka高性能的保证，我们需要了解它。
+
+**2、** Zero Copy是特别容易被问到的高阶题目。在Kafka中，体现Zero Copy使用场景的地方有两处：基于mmap的索引和日志文件读写所用的TransportLayer。
+
+**3、** 先说第一个。索引都是基于MappedByteBuffer的，也就是让用户态和内核态共享内核态的数据缓冲区，此时，数据不需要复制到用户态空间。不过，mmap虽然避免了不必要的拷贝，但不一定就能保证很高的性能。在不同的操作系统下，mmap的创建和销毁成本可能是不一样的。很高的创建和销毁开销会抵消Zero Copy带来的性能优势。由于这种不确定性，在Kafka中，只有索引应用了mmap，最核心的日志并未使用mmap机制。
+
+**4、** 再说第二个。TransportLayer是Kafka传输层的接口。它的某个实现类使用了FileChannel的transferTo方法。该方法底层使用sendfile实现了Zero Copy。对Kafka而言，如果I/O通道使用普通的PLAINTEXT，那么，Kafka就可以利用Zero Copy特性，直接将页缓存中的数据发送到网卡的Buffer中，避免中间的多次拷贝。相反，如果I/O通道启用了SSL，那么，Kafka便无法利用Zero Copy特性了。
 
 
-### 2、Java Consumer为什么采用单线程来获取消息？
+### 2、什么是Kafka中的地域复制？
+
+对于我们的集群，Kafka MirrorMaker提供地理复制。基本上，消息是通过MirrorMaker跨多个数据中心或云区域复制的。因此，它可以在主动/被动场景中用于备份和恢复；也可以将数据放在离用户更近的位置，或者支持数据位置要求。
+
+
+### 3、Kafka Producer 写数据，ACK 为 0，1，-1 时分别代表什么？
+
+1（默认） 数据发送到Kafka后，经过leader成功接收消息的的确认，就算是发送成功了。在这种情况下，如果leader宕机了，则会丢失数据。
+
+0 生产者将数据发送出去就不管了，不去等待任何返回。这种情况下数据传输效率最高，但是数据可靠性确是最低的。
+
+-1 producer需要等待ISR中的所有follower都确认接收到数据后才算一次发送完成，可靠性最高。
+
+
+### 4、副本和 ISR 扮演什么角色？
+
+基本上，复制日志的节点列表就是副本。特别是对于特定的分区。但是，无论他们是否扮演leader的角色，他们都是如此。此外，ISR指的是同步副本。在定义ISR时，它是一组与leader同步的消息副本。
+
+
+### 5、Java Consumer为什么采用单线程来获取消息？
 
 **1、** 在回答之前，如果先把这句话说出来，一定会加分：Java Consumer是双线程的设计。一个线程是用户主线程，负责获取消息；另一个线程是心跳线程，负责向Kafka汇报消费者存活情况。将心跳单独放入专属的线程，能够有效地规避因消息处理速度慢而被视为下线的“假死”情况。
 
 **2、** 单线程获取消息的设计能够避免阻塞式的消息获取方式。单线程轮询方式容易实现异步非阻塞式，这样便于将消费者扩展成支持实时流处理的操作算子。因为很多实时流处理操作算子都不能是阻塞式的。另外一个可能的好处是，可以简化代码的开发。多线程交互的代码是非常容易出错的。
 
 
-### 3、生产者中，什么情况下会发生 QueueFullException？
+### 6、Kafka 的消费者如何消费数据
 
-每当Kafka生产者试图以代理的身份在当时无法处理的速度发送消息时，通常都会发生QueueFullException。但是，为了协作处理增加的负载，用户需要添加足够的代理，因为生产者不会阻止。
+消费者每次消费数据的时候，消费者都会记录消费的物理偏移量（offset）的位置
 
-
-### 4、副本长时间不在ISR中，这意味着什么？
-
-意味着 follower 不能像 leader 收集数据那样快速地获取数据。
+等到下次消费时，他会接着上次位置继续消费
 
 
-### 5、Kafka一次reblance大概要多久
+### 7、Kafka中的 ISR、AR 又代表什么？ISR 的伸缩又指什么？
 
-1个Topic，10个partition，3个consumer 测试结果 经过几轮测试发现每次rebalance所消耗的时间大概在 80ms~100ms平均耗时在87ms左右。
+**ISR**：In-Sync Replicas 副本同步队列；ISR是由leader维护，follower从leader同步数据有一些延迟（包括延迟时间replica.lag.time.max.ms和延迟条数replica.lag.max.messages两个维度, 版本0.10.x中只支持replica.lag.time.max.ms这个维度），任意一个超过阈值都会把follower剔除出ISR, 存入OSR（Outof-Sync Replicas）列表，新加入的follower也会先存放在OSR中。AR=ISR+OSR。
 
-
-### 6、什么是消费者组？
-
-**1、** 消费者组是Kafka独有的概念，如果面试官问这个，就说明他对此是有一定了解的。
-
-**2、** 胡大给的标准答案是：官网上的介绍言简意赅，即消费者组是Kafka提供的可扩展且具有容错性的消费者机制。
-
-**3、** 但实际上，消费者组（Consumer Group）其实包含两个概念，作为队列，消费者组允许你分割数据处理到一组进程集合上（即一个消费者组中可以包含多个消费者进程，他们共同消费该topic的数据），这有助于你的消费能力的动态调整；作为-订阅模型（publish-subscribe），Kafka允许你将同一份消息广播到多个消费者组里，以此来丰富多种数据使用场景。
-
-**4、** 需要注意的是：在消费者组中，多个实例共同订阅若干个主题，实现共同消费。同一个组下的每个实例都配置有相同的组ID，被分配不同的订阅分区。当某个实例挂掉的时候，其他实例会自动地承担起它负责消费的分区。因此，消费者组在一定程度上也保证了消费者程序的高可用性。
-
-注意：消费者组的题目，能够帮你在某种程度上掌控下面的面试方向。
-
-**1、** 如果你擅长位移值原理（Offset），就不妨再提一下消费者组的位移提交机制；
-
-**2、** 如果你擅长Kafka Broker，可以提一下消费者组与Broker之间的交互；
-
-**3、** 如果你擅长与消费者组完全不相关的Producer，那么就可以这么说：“消费者组要消费的数据完全来自于Producer端生产的消息，我对Producer还是比较熟悉的。”
-
-总之，你总得对consumer group相关的方向有一定理解，然后才能像面试官表名你对某一块很理解。
+**AR**：Assigned Replicas 所有副本；
 
 
-### 7、简述Follower副本消息同步的完整流程
+### 8、Kafka中的 Broker 是干什么的？
 
-**1、** 首先，Follower发送FETCH请求给Leader。
-
-**2、** 接着，Leader会读取底层日志文件中的消息数据，再更新它内存中的Follower副本的LEO值，更新为FETCH请求中的fetchOffset值。
-
-**3、** 最后，尝试更新分区高水位值。Follower接收到FETCH响应之后，会把消息写入到底层日志，接着更新LEO和HW值。
-
-**4、** Leader和Follower的HW值更新时机是不同的，Follower的HW更新永远落后于Leader的HW。这种时间上的错配是造成各种不一致的原因。
-
-**5、** 因此，对于消费者而言，消费到的消息永远是所有副本中最小的那个HW。
+broker 是消息的代理，Producers往Brokers里面的指定Topic中写消息，Consumers从Brokers里面拉取指定Topic的消息，然后进行业务处理，broker在中间起到一个代理保存消息的中转站。
 
 
-### 8、Kafka什么情况下会rebalance
+### 9、3.它还可以在记录进入时对其进行处理。Apache Kafka对于新手的面试
+### 10、什么情况下一个 Broker 会从ISR中踢出去?
 
-rebalance 的触发条件有五个。
-
-条件1：有新的consumer加入
-
-条件2：旧的consumer挂了
-
-条件3：coordinator挂了，集群选举出新的coordinator
-
-条件4：topic的partition新加
-
-条件5：consumer调用unsubscrible()，取消topic的订阅
-
-rebalance 发生时，Group 下所有 consumer 实例都会协调在一起共同参与，Kafka 能够保证尽量达到最公平的分配。但是 Rebalance 过程对 consumer group 会造成比较严重的影响。在 Rebalance 的过程中 consumer group 下的所有消费者实例都会停止工作，等待 Rebalance 过程完成。
+leader 会维护一个与其基本保持同步的 Replica 列表，该列表称为 ISR(in-sync Replica)，每个 Partition 都会有一个 ISR，而且是由 leader 动态维护 ，如果一个 follower 比一个 leader 落后太多，或者超过一定时间未发起数据复制请求，则 leader 将其重 ISR 中移除 。
 
 
-### 9、Rebalance有什么影响
-
-Rebalance本身是Kafka集群的一个保护设定，用于剔除掉无法消费或者过慢的消费者，然后由于我们的数据量较大，同时后续消费后的数据写入需要走网络IO，很有可能存在依赖的第三方服务存在慢的情况而导致我们超时。Rebalance对我们数据的影响主要有以下几点：
-
-数据重复消费: 消费过的数据由于提交offset任务也会失败，在partition被分配给其他消费者的时候，会造成重复消费，数据重复且增加集群压力
-
-Rebalance扩散到整个ConsumerGroup的所有消费者，因为一个消费者的退出，导致整个Group进行了Rebalance，并在一个比较慢的时间内达到稳定状态，影响面较大
-
-频繁的Rebalance反而降低了消息的消费速度，大部分时间都在重复消费和Rebalance
-
-数据不能及时消费，会累积lag，在Kafka的TTL之后会丢弃数据 上面的影响对于我们系统来说，都是致命的。
-
-
-### 10、消费者提交消费位移时提交的是当前消费到的最新消息的offset还是offset+1?
-
-offset+1
-
-
-### 11、副本和ISR扮演什么角色？
-### 12、：24, 22
-### 13、Kafka 创建 Topic 时如何将分区放置到不同的 Broker 中
-### 14、什么情况下一个 Broker 会从ISR中踢出去?
-### 15、没有ZooKeeper可以使用Kafka吗？
-### 16、：11,13,14,16,17,18,19Apache Kafka对于有经验的人的面试
-### 17、数据传输的事务定义有哪三种？
-### 18、解释多租户是什么？
-### 19、解释流API的作用？
-### 20、Kafka提供的保证是什么？
-### 21、：35, 36, 37
-### 22、producer 是否直接将数据发送到 broker 的 leader(主节点)？
-### 23、Kafka可以接收的消息最大为多少？
-### 24、监控Kafka的框架都有哪些？
-### 25、consumer是推还是拉？
-### 26、讲一讲Kafka的ack的三种机制
-### 27、生产者和消费者的命令行是什么？
-### 28、Kafka能手动删除消息吗？
+### 11、Kafka和Flume之间的主要区别是什么？
+### 12、解释如何调整Kafka以获得最佳性能。
+### 13、解释Kafka Producer API的作用。
+### 14、为什么Kafka的复制至关重要？
+### 15、：46, 48
+### 16、Kafka提供的保证是什么？
+### 17、Zookeeper对于Kafka的作用是什么？
+### 18、如何调优Kafka？
+### 19、解释术语“主题复制因子”。
+### 20、Kafka 中 Consumer Group 是什么概念？
+### 21、如何设置Kafka能接收的最大消息的大小？
+### 22、Kafka能手动删除消息吗？
+### 23、consumer是推还是拉？
+### 24、Kafka 新建的分区会在哪个目录下创建
+### 25、比较传统队列系统与Apache Kafka
+### 26、Rebalance有什么影响
+### 27、消费者故障，出现活锁问题如何解决？
+### 28、阐述下 Kafka 中的领导者副本（Leader Replica）和追随者副本（Follower Replica）的区别
 
 
 

@@ -6,182 +6,120 @@
 
 
 
-### 1、说说CMS垃圾收集器的工作原理
+### 1、我们能创建一个包含可变对象的不可变对象吗？
 
-Concurrent mark sweep(CMS)收集器是一种年老代垃圾收集器，其最主要目标是获取最短垃圾回收停顿时间， 和其他年老代使用标记-整理算法不同，它使用多线程的标记-清除算法。最短的垃圾收集停顿时间可以为交互比较高的程序提高用户体验。CMS 工作机制相比其他的垃圾收集器来说更复杂
-
-**整个过程分为以下 4 个阶段：**
-
-**1、** 初始标记 只是标记一下 GC Roots 能直接关联的对象，速度很快，仍然需要暂停所有的工作线程。
-
-**2、** 并发标记 进行 GC Roots 跟踪的过程，和用户线程一起工作，不需要暂停工作线程。
-
-**3、** 重新标记 为了修正在并发标记期间，因用户程序继续运行而导致标记产生变动的那一部分对象的标记记录，仍然需要暂停所有的工作线程。
-
-**4、** 并发清除 清除 GC Roots 不可达对象，和用户线程一起工作，不需要暂停工作线程。由于耗时最长的并发标记和并发清除过程中，垃圾收集线程可以和用户线程一起并发工作， 所以总体上来看CMS 收集器的内存回收和用户线程是一起并发地执行。
+是的，我们是可以创建一个包含可变对象的不可变对象的，你只需要谨慎一点，不要共享可变对象的引用就可以了，如果需要变化时，就返回原对象的一个拷贝。最常见的例子就是对象中包含一个日期对象的引用。
 
 
-### 2、Java 中的同步集合与并发集合有什么区别？
+### 2、解释 Java 堆空间及 GC？
 
-同步集合与并发集合都为多线程和并发提供了合适的线程安全的集合，不过并发集合的可扩展性更高。在 Java1.5 之前程序员们只有同步集合来用且在多线程并发的时候会导致争用，阻碍了系统的扩展性。Java5 介绍了并发集合像ConcurrentHashMap，不仅提供线程安全还用锁分离和内部分区等现代技术提高了可扩展性。
-
-
-### 3、什么是并发容器的实现？
-
-何为同步容器：可以简单地理解为通过 synchronized 来实现同步的容器，如果有多个线程调用同步容器的方法，它们将会串行执行。比如 Vector，Hashtable，以及 Collections.synchronizedSet，synchronizedList 等方法返回的容器。可以通过查看 Vector，Hashtable 等这些同步容器的实现代码，可以看到这些容器实现线程安全的方式就是将它们的状态封装起来，并在需要同步的方法上加上关键字 synchronized。
-
-并发容器使用了与同步容器完全不同的加锁策略来提供更高的并发性和伸缩性，例如在 ConcurrentHashMap 中采用了一种粒度更细的加锁机制，可以称为分段锁，在这种锁机制下，允许任意数量的读线程并发地访问 map，并且执行读操作的线程和写操作的线程也可以并发的访问 map，同时允许一定数量的写操作线程并发地修改 map，所以它可以在并发环境下实现更高的吞吐量。
+当通过 Java 命令启动 Java 进程的时候，会为它分配内存。内存的一部分用于创建堆空间，当程序中创建对象的时候，就从对空间中分配内存。GC 是 JVM 内部的一个进程，回收无效对象的内存用于将来的分配。
 
 
-### 4、如何自定义线程线程池?
+### 3、解释什么是Tomcat Valve?
 
-先看ThreadPoolExecutor（线程池）这个类的构造参数
-
-![](https://gitee.com/souyunkutech/souyunku-home/raw/master/images/souyunku-web/2020/5/2/045/42/87_8.png#alt=87%5C_8.png)构造参数参数介绍：
-
-```
-corePoolSize 核心线程数量
-maximumPoolSize 最大线程数量
-keepAliveTime 线程保持时间，N个时间单位
-unit 时间单位（比如秒，分）
-workQueue 阻塞队列
-threadFactory 线程工厂
-handler 线程池拒绝策略
-```
-
-- 代码示例：
-
-```
-package com.lijie;
-import java.util.concurrent.ArrayBlockingQueue;
-import java.util.concurrent.ThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
-public class Test001 {
-    public static void main(String[] args) {
-        //创建线程池
-        ThreadPoolExecutor executor = new ThreadPoolExecutor(1, 2, 60L, TimeUnit.SECONDS, new ArrayBlockingQueue < > (3));
-        for (int i = 1; i <= 6; i++) {
-            TaskThred t1 = new TaskThred("任务" + i);
-            //executor.execute(t1);是执行线程方法
-            executor.execute(t1);
-        }
-        //executor.shutdown()不再接受新的任务，并且等待之前提交的任务都执行完再关闭，阻塞队列中的任务不会再执行。
-        executor.shutdown();
-    }
-}
-class TaskThred implements Runnable {
-    private String taskName;
-    public TaskThred(String taskName) {
-        this.taskName = taskName;
-    }
-    public void run() {
-        System.out.println(Thread.currentThread().getName() + taskName);
-    }
-}
-```
+Tomcat Valve——Tomcat 4引入的新技术，它允许您将Java类的实例链接到一个特定的Catalina容器。
 
 
-### 5、创建一个对象用什么运算符？对象实体与对象引用有何不同？
+### 4、描述一下 JVM 加载 class 文件的原理机制
 
-new运算符，new创建对象实例（对象实例在堆内存中），对象引用指向对象实例（对象引用存放在栈内存中）。一个对象引用可以指向0个或1个对象（一根绳子可以不系气球，也可以系一个气球）;一个对象可以有n个引用指向它（可以用n条绳子系住一个气球）
+**1、** JVM 中类的装载是由类加载器（ClassLoader）和它的子类来实现的，Java 中各类加载器是一个重要的 Java 运行时系统组件，它负责在运行时查找和装入类文件中的类。
 
+**2、** 由于 Java 的跨平台性，经过编译的 Java 源程序并不是一个可执行程序，而是一个或多个类文件。当 Java 程序需要使用某个类时，JVM 会确保这个类已经被加载、连接（验证、准备和解析）和初始化。类的加载是指把类的.class 文件中的数据读入到内存中，通常是创建一个字节数组读入.class 文件，然后产生与所加载类对应的 Class 对象。
 
-### 6、Java中有几种数据类型
+**3、** 加载完成后，Class 对象还不完整，所以此时的类还不可用。当类被加载后就进入连接阶段，这一阶段包括验证、准备（为静态变量分配内存并设置默认的初始值）和解析（将符号引用替换为直接引用）三个步骤。最后 JVM 对类进行初始化，包括：1)如果类存在直接的父类并且这个类还没有被初始化，那么就先初始化父类；2)如果类中存在初始化语句，就依次执行这些初始化语句。
 
-**1、** 整形：byte,short,int,long
+**4、** 类的加载是由类加载器完成的，类加载器包括：根加载器（BootStrap）、扩展加载器（Extension）、系统加载器（System）和用户自定义类加载器（java.lang.ClassLoader 的子类）。
 
-**2、** 浮点型：float,double
+**5、** 从 Java 2（JDK 1.2）开始，类加载过程采取了父亲委托机制（PDM）。PDM 更好的保证了 Java 平台的安全性，在该机制中，JVM 自带的Bootstrap 是根加载器，其他的加载器都有且仅有一个父类加载器。类的加载首先请求父类加载器加载，父类加载器无能为力时才由其子类加载器自行加载。JVM 不会向 Java 程序提供对 Bootstrap 的引用。下面是关于几个类
 
-**3、** 字符型：char
+**加载器的说明：**
 
-**4、** 布尔型：boolean
+**1、** Bootstrap：一般用本地代码实现，负责加载 JVM 基础核心类库（rt.jar）；
 
+**2、** Extension：从 java.ext.dirs 系统属性所指定的目录中加载类库，它的父加载器是 Bootstrap；
 
-### 7、MinorGC、MajorGC、FullGC 什么时候发生？
+**3、** System：又叫应用类加载器，其父类是 Extension。它是应用最广泛的类加载器。它从环境变量 classpath 或者系统属性
 
-**1、** MinorGC 在年轻代空间不足的时候发生
-
-**2、** MajorGC 指的是老年代的 GC，出现 MajorGC 一般经常伴有 MinorGC
-
-**3、** FullGC 老年代无法再分配内存；元空间不足；显示调用 System.gc；像 CMS 一类的垃圾回收器，在 MinorGC 出现 promotion failure 时也会发生 FullGC
+java.class.path 所指定的目录中记载类，是用户自定义加载器的默认父加载器。
 
 
-### 8、如何将字符串反转？
+### 5、Java中的继承是单继承还是多继承
 
-使用 StringBuilder 或者 stringBuffer 的 reverse() 方法。
-
-示例代码：
-
-```
-// StringBuffer reverse
-StringBuffer stringBuffer = new StringBuffer();
-stringBuffer.append("abcdefg");
-System.out.println(stringBuffer.reverse()); // gfedcba
-// StringBuilder reverse
-StringBuilder stringBuilder = new StringBuilder();
-stringBuilder.append("abcdefg");
-System.out.println(stringBuilder.reverse()); // gfedcba
-```
+Java中既有单继承，又有多继承。对于java类来说只能有一个父类，对于接口来说可以同时继承多个接口
 
 
-### 9、ArrayList与LinkedList有什么区别？
+### 6、双亲委派
 
-**1、** ArrayList与LinkedList都实现了List接口。
+当一个类收到了类加载请求，他首先不会尝试自己去加载这个类，而是把这个请求委派给父类去完成，每一个层次类加载器都是如此，因此所有的加载请求都应该传送到启动类加载其中，只有当父类加载器反馈自己无法完成这个请求的时候（在它的加载路径下没有找到所需加载的Class）， 子类加载器才会尝试自己去加载。
 
-**2、** ArrayList是线性表，底层是使用数组实现的，它在尾端插入和访问数据时效率较高，
-
-**3、** Linked是双向链表，他在中间插入或者头部插入时效率较高，在访问数据时效率较低
+采用双亲委派的一个好处是比如加载位于 rt.jar 包中的类 java.lang.Object，不管是哪个加载器加载这个类，最终都是委托给顶层的启动类加载器进行加载，这样就保证了使用不同的类加载器最终得到的都是同样一个 Object 对象
 
 
-### 10、synchronized 和 volatile 的区别是什么？
+### 7、你说你做过JVM参数调优和参数配置，请问如何查看JVM系统默认值
 
-**1、** synchronized 表示只有一个线程可以获取作用对象的锁，执行代码，阻塞其他线程。
-
-**2、** volatile 表示变量在 CPU 的寄存器中是不确定的，必须从主存中读取。保证多线程环境下变量的可见性；禁止指令重排序。
-
-**区别**
-
-**1、** volatile 是变量修饰符；synchronized 可以修饰类、方法、变量。
-
-**2、** volatile 仅能实现变量的修改可见性，不能保证原子性；而 synchronized 则可以保证变量的修改可见性和原子性。
-
-**3、** volatile 不会造成线程的阻塞；synchronized 可能会造成线程的阻塞。
-
-**4、** volatile标记的变量不会被编译器优化；synchronized标记的变量可以被编译器优化。
-
-**5、** volatile关键字是线程同步的轻量级实现，所以volatile性能肯定比synchronized关键字要好。但是volatile关键字只能用于变量而synchronized关键字可以修饰方法以及代码块。synchronized关键字在JavaSE1.6之后进行了主要包括为了减少获得锁和释放锁带来的性能消耗而引入的偏向锁和轻量级锁以及其它各种优化之后执行效率有了显著提升，实际开发中使用 synchronized 关键字的场景还是更多一些。
+使用-XX:+PrintFlagsFinal参数可以看到参数的默认值。这个默认值还和垃圾回收器有关，比如UseAdaptiveSizePolicy。
 
 
-### 11、新生代与复制算法
-### 12、对象在哪块内存分配？
-### 13、虚拟DOM实现原理?
-### 14、Java 中怎么获取一份线程 dump 文件？
-### 15、用 Java 写一个线程安全的单例模式（Singleton）？
-### 16、代理的分类
-### 17、什么是并发容器的实现？
-### 18、什么是上下文切换?
-### 19、你对线程优先级的理解是什么？
-### 20、重载和重写的区别
-### 21、怎么看死锁的线程？
-### 22、什么是隐式转换，什么是显式转换
-### 23、线程的 run()和 start()有什么区别？
-### 24、虚拟DOM的优劣如何?
-### 25、什么是线程组，为什么在 Java 中不推荐使用？
-### 26、事务的使用场景在什么地方？
-### 27、多线程应用场景
-### 28、Java中ConcurrentHashMap的并发度是什么？
-### 29、GC 垃圾收集器
-### 30、请说明select * from tab的输出结果是什么?
-### 31、你能保证 GC 执行吗？
-### 32、标记整理算法(Mark-Compact)
-### 33、为什么我们调用start()方法时会执行run()方法，为什么我们不能直接调用run()方法？
-### 34、CMS都有哪些问题？
-### 35、Java线程池中submit() 和 execute()方法有什么区别？
-### 36、什么是 CAS
-### 37、Java是否需要开发人员回收内存垃圾吗？
-### 38、工作中常用的 JVM 配置参数有哪些？
-### 39、描述一下 JVM 加载 class 文件的原理机制
-### 40、列举一些你知道的打破双亲委派机制的例子。为什么要打破？
+### 8、什么是线程调度器(Thread Scheduler)和时间分片(Time Slicing)？
+
+线程调度器是一个操作系统服务，它负责为Runnable状态的线程分配CPU时间。一旦我们创建一个线程并启动它，它的执行便依赖于线程调度器的实现。时间分片是指将可用的CPU时间分配给可用的Runnable线程的过程。分配CPU时间可以基于线程优先级或者线程等待的时间。线程调度并不受到Java虚拟机控制，所以由应用程序来控制它是更好的选择（也就是说不要让你的程序依赖于线程的优先级）。
+
+
+### 9、计算机网络有几层？
+
+**1、** 应用层
+
+**2、** 表示层
+
+**3、** 会话层
+
+**4、** 传输层
+
+**5、** 网络层
+
+**6、** 数据链路层
+
+**7、** 物理层
+
+**8、** （物理层是最底层，应用层是最高层）
+
+
+### 10、Java应用程序与小程序之间有那些差别？
+
+简单说应用程序是从主线程启动(也就是main()方法)。applet小程序没有main方法，主要是嵌在浏览器页面上运行(调用init()线程或者run()来启动)，嵌入浏览器这点跟flash的小游戏类似。
+
+
+### 11、创建线程的三种方式的对比？
+### 12、什么是模板方法
+### 13、生产环境 CPU 占用过高，你如何解决？
+### 14、Minor Gc和Full GC 有什么不同呢？
+### 15、Error和Exception有什么区别？
+### 16、Array与ArrayList有什么不一样？
+### 17、final 在 java 中有什么作用？
+### 18、什么是游标？
+### 19、程序计数器为什么是私有的?
+### 20、Java 中，throw 和 throws 有什么区别
+### 21、我能在不进行强制转换的情况下将一个 double 值赋值给 long 类型的变量吗？
+### 22、为什么我们调用start()方法时会执行run()方法，为什么我们不能直接调用run()方法？
+### 23、Iterator 怎么使用？有什么特点？
+### 24、Java 中会存在内存泄漏?简述一下
+### 25、指出下面程序的运行结果
+### 26、什么是JDK？什么是JRE?
+### 27、有哪些类加载器？
+### 28、Java 中怎么获取一份线程 dump 文件？
+### 29、什么是分布式垃圾回收（DGC）？它是如何工作的？
+### 30、Java 中，嵌套公共静态类与顶级类有什么不同？
+### 31、HashSet与HashMap的区别
+### 32、JVM 年轻代到年老代的晋升过程的判断条件是什么呢？
+### 33、如果父类只有有参构造方法，那么子类必须要重写父类的构造方法吗？
+### 34、Java 中怎样将 bytes 转换为 long 类型？
+### 35、62、volatile 变量和 atomic 变量有什么不同？
+### 36、int 和 Integer 哪个会占用更多的内存？
+### 37、SWAP会影响性能么？
+### 38、CopyOnWriteArrayList 的使用场景?
+### 39、什么是线程调度器(Thread Scheduler)和时间分片(Time Slicing )？
+### 40、构造方法能不能重写？能不能重载？
 
 
 

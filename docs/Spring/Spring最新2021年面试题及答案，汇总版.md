@@ -6,128 +6,85 @@
 
 
 
-### 1、什么是Netflix Feign？它的优点是什么？
+### 1、什么是 SpringBoot？
 
-Feign是受到Retrofit，JAXRS-2.0和WebSocket启发的java客户端联编程序。Feign的第一个目标是将约束分母的复杂性统一到http apis，而不考虑其稳定性。在employee-consumer的例子中，我们使用了employee-producer使用REST模板公开的REST服务。
-
-**但是我们必须编写大量代码才能执行以下步骤**
-
-使用功能区进行负载平衡。
-
-获取服务实例，然后获取基本URL。
-
-利用REST模板来使用服务。前面的代码如下
-
-```
-@Controller
-public class ConsumerControllerClient {
-@Autowired
-private LoadBalancerClient loadBalancer;
-
-public void getEmployee() throws RestClientException, IOException {
-
-    ServiceInstance serviceInstance=loadBalancer.choose("employee-producer");
-
-    System.out.println(serviceInstance.getUri());
-
-    String baseUrl=serviceInstance.getUri().toString();
-
-    baseUrl=baseUrl+"/employee";
-
-    RestTemplate restTemplate = new RestTemplate();
-    ResponseEntity<String> response=null;
-    try{
-    response=restTemplate.exchange(baseUrl,
-            HttpMethod.GET, getHeaders(),String.class);
-    }catch (Exception ex)
-    {
-        System.out.println(ex);
-    }
-    System.out.println(response.getBody());
-}
-```
-
-之前的代码，有像NullPointer这样的例外的机会，并不是最优的。我们将看到如何使用Netflix Feign使呼叫变得更加轻松和清洁。如果Netflix Ribbon依赖关系也在类路径中，那么Feign默认也会负责负载平衡。
+SpringBoot 是 Spring 开源组织下的子项目，是 Spring 组件一站式解决方案，主要是简化了使用 Spring 的难度，简省了繁重的配置，提供了各种启动器，使开发者能快速上手。
 
 
-### 2、为什么需要学习Spring Cloud
-
-**1、** 首先springcloud基于spingboot的优雅简洁，可还记得我们被无数xml支配的恐惧？可还记得springmvc，mybatis错综复杂的配置，有了spingboot，这些东西都不需要了，spingboot好处不再赘诉，springcloud就基于SpringBoot把市场上优秀的服务框架组合起来，通过SpringBoot风格进行再封装屏蔽掉了复杂的配置和实现原理
-
-**2、** 什么叫做开箱即用？即使是当年的黄金搭档dubbo+zookeeper下载配置起来也是颇费心神的！而springcloud完成这些只需要一个jar的依赖就可以了！
-
-**3、** springcloud大多数子模块都是直击痛点，像zuul解决的跨域，fegin解决的负载均衡，hystrix的熔断机制等等等等
-
-
-### 3、如果想在拦截的方法里面得到从前台传入的参数,怎么得到？
+### 2、Spring MVC中函数的返回值是什么？
 
 
 
-直接在形参里面声明这个参数就可以,但必须名字和传过来的参数一样。
+返回值可以有很多类型,有String, ModelAndView。ModelAndView类把视图和数据都合并的一起的，但一般用String比较好。
 
 
-### 4、什么是有界上下文？
+### 3、WebApplicationContext
 
-有界上下文是域驱动设计的核心模式。DDD战略设计部门的重点是处理大型模型和团队。DDD通过将大型模型划分为不同的有界上下文并明确其相互关系来处理大型模型。
-
-
-### 5、SpringBoot 有哪几种读取配置的方式？
-
-SpringBoot 可以通过 @PropertySource,@Value,@Environment, @ConfigurationPropertie注解来绑定变量
+WebApplicationContext 继承了ApplicationContext 并增加了一些WEB应用必备的特有功能，它不同于一般的ApplicationContext ，因为它能处理主题，并找到被关联的servlet。
 
 
-### 6、为什么我们需要微服务容器？
+### 4、什么是 Spring 配置文件？
 
-要管理基于微服务的应用程序，容器是最简单的选择。它帮助用户单独部署和开发。您还可以使用Docker将微服务封装到容器的镜像中。没有任何额外的依赖或工作，微服务可以使用这些元素。
-
-
-### 7、你所知道微服务的技术栈有哪些？列举一二
-
-![](https://gitee.com/souyunkutech/souyunku-home/raw/master/images/souyunku-web/2020/5/2/010/39/49_2.png#alt=49%5C_2.png)
+Spring 配置文件是 XML 文件。该文件主要包含类信息。它描述了这些类是如何配置以及相互引入的。但是，XML 配置文件冗长且更加干净。如果没有正确规划和编写，那么在大项目中管理变得非常困难。
 
 
-### 8、运行 SpringBoot 有哪几种方式？
+### 5、Eureka怎么实现高可用
 
-**1、** 打包用命令或者者放到容器中运行
-
-**2、** 用 Maven/ Gradle 插件运行
-
-**3、** 直接执行 main 方法运行
+集群吧，注册多台Eureka，然后把SpringCloud服务互相注册，客户端从Eureka获取信息时，按照Eureka的顺序来访问。
 
 
-### 9、我们如何监视所有 SpringBoot 微服务？
+### 6、JdbcTemplate
 
-SpringBoot 提供监视器端点以监控各个微服务的度量。这些端点对于获取有关应用程序的信息（如它们是否已启动）以及它们的组件（如数据库等）是否正常运行很有帮助。但是，使用监视器的一个主要缺点或困难是，我们必须单独打开应用程序的知识点以了解其状态或健康状况。想象一下涉及 50 个应用程序的微服务，管理员将不得不击中所有 50 个应用程序的执行终端。为了帮助我们处理这种情况，我们将使用位于的开源项目。它建立在 SpringBoot Actuator 之上，它提供了一个 Web UI，使我们能够可视化多个应用程序的度量。
-
-
-### 10、spring 中有多少种 IOC 容器？
-
-BeanFactory - BeanFactory 就像一个包含 bean 集合的工厂类。 它会在客户端要求时实例化 bean。
-
-ApplicationContext - ApplicationContext 接口扩展了 BeanFactory 接口。 它在 BeanFactory 基础上提供了一些额外的功能。
+JdbcTemplate 类提供了很多便利的方法解决诸如把数据库数据转变成基本数据类型或对象，执行写好的或可调用的数据库操作语句，提供自定义的数据错误处理。
 
 
-### 11、在Spring MVC应用程序中使用WebMvcTest注释有什么用处？
-### 12、你可以在Spring中注入一个null 和一个空字符串吗？
-### 13、如何配置SpringBoot应用程序日志记录？
-### 14、SpringBoot 还提供了其它的哪些 Starter Project Options？
-### 15、为什么需要域驱动设计（DDD）？
-### 16、什么是 JavaConfig？
-### 17、Spring Cloud Netflix
-### 18、Spring Cloud OpenFeign
-### 19、什么是自动配置？
-### 20、我们可以用微服务创建状态机吗？
-### 21、SpringBoot 支持哪些日志框架？推荐和默认的日志框架是哪个？
-### 22、什么是嵌入式服务器？我们为什么要使用嵌入式服务器呢?
-### 23、负载均衡的意义是什么?
-### 24、SpringBoot 2、X 有什么新特性？与 1、X 有什么区别？
-### 25、[@Autowired ](/Autowired ) 注解有什么用？
-### 26、什么是耦合和凝聚力？
-### 27、SpringBoot 的核心注解是哪个？它主要由哪几个注解组成的？
-### 28、您使用了哪些 starter maven 依赖项？
-### 29、什么是 WebSockets？
-### 30、运行 SpringBoot 有哪几种方式？
-### 31、谈谈服务降级、熔断、服务隔离
+### 7、运行 SpringBoot 有哪几种方式？
+
+**1、**  打包用命令或者放到容器中运行
+
+**2、**  用 Maven/ Gradle 插件运行
+
+**3、**  直接执行 main 方法运行
+
+
+### 8、什么是Oauth？
+
+开放授权协议，这允许通过在HTTP服务上启用客户端应用程序（例如第三方提供商Facebook，GitHub等）来访问资源所有者的资源。因此，您可以在不使用其凭据的情况下与另一个站点共享存储在一个站点上的资源。
+
+OAuth允许像Facebook这样的第三方使用最终用户的帐户信息，同时保证其安全（不使用或暴露用户的密码）。它更像是代表用户的中介，同时为服务器提供访问所需信息的令牌。
+
+
+### 9、spring boot 核心配置文件是什么？bootstrap.properties 和 application.properties 有何区别 ?
+
+单纯做 SpringBoot 开发，可能不太容易遇到 bootstrap.properties 配置文件，但是在结合 Spring Cloud 时，这个配置就会经常遇到了，特别是在需要加载一些远程配置文件的时侯。
+
+
+### 10、SpringBoot多数据源拆分的思路
+
+先在properties配置文件中配置两个数据源，创建分包mapper，使用@ConfigurationProperties读取properties中的配置，使用@MapperScan注册到对应的mapper包中
+
+
+### 11、什么是Spring MVC？简单介绍下你对Spring MVC的理解？
+### 12、Eureka和ZooKeeper都可以提供服务注册与发现的功能,请说说两个的区别
+### 13、Spring Initializr 是创建 SpringBoot Projects 的唯一方法吗？
+### 14、如何在SpringBoot中禁用Actuator端点安全性？
+### 15、Eureka和ZooKeeper都可以提供服务注册与发现的功能,请说说两个的区别
+### 16、SpringBoot 实现热部署有哪几种方式？
+### 17、如何集成SpringBoot和ActiveMQ？
+### 18、SpringBoot 有哪几种读取配置的方式？
+### 19、SpringBoot 是否可以使用 XML 配置 ?
+### 20、列举 Spring Framework 的优点。
+### 21、SpringCloud主要项目
+### 22、什么是Swagger？你用SpringBoot实现了它吗？
+### 23、Spring Cloud Zookeeper
+### 24、我们如何监视所有SpringBoot微服务？
+### 25、我们如何监视所有 SpringBoot 微服务？
+### 26、什么是SpringBoot
+### 27、负载平衡的意义什么？
+### 28、服务雪崩？
+### 29、SpringBoot 中如何实现定时任务 ?
+### 30、什么是bean的自动装配？
+### 31、Spring Cloud Bus
 
 
 

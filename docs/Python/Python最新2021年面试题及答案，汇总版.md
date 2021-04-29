@@ -6,89 +6,84 @@
 
 
 
-### 1、生成器与函数的区别？
+### 1、MySQL执行计划的作用和使用方法
 
-生成器和函数的主要区别在于函数 return a value，生成器 yield a value同时标记或记忆point of the yield 以便于在下次调用时从标记点恢复执行。 yield 使函数转换成生成器，而生成器反过来又返回迭代器。
+**1、** 作用：用来进行查询分析，比如整个查询涉及多少防，使用哪些索引，运行时间等
+
+**2、** 使用方法：使用explain关键字，如explain select xxx from xxx;
+
+
+### 2、使用with语句的好处是什么
+
+**1、** 使用with后不管with中的代码出现什么错误，都会进行对当前对象进行清理工作。例如file的file.close()方法，无论with中出现任何错误，都会执行file.close（）方法
+
+**2、** 只有支持上下文管理器的对象才能使用with，即在对象内实现了两个方法：**enter**()和**exit**()
+
+
+### 3、当退出Python时，是否释放全部内存？
+
+答案是No。循环引用其它对象或引用自全局命名空间的对象的模块，在Python退出时并非完全释放。
+
+另外，也不会释放C库保留的内存部分。
+
+
+### 4、怎样声明多个变量并赋值？
+
+一共有两种方式：
+
+```
+>>> a,b,c=3,4,5 #This assigns 3, 4, and 5 to a, b, and c respectively
+>>> a=b=c=3 #This assigns 3 to a, b, and c
+```
+
+
+### 5、写出如下代码的输出结果
 
 ```python
-# 简单实现生成器
-def dec():
-n=0
-for i in range(10):
-yield n
-n+=i
+def decorator_a(func):
+print('Get in decorator_a')
+def inner_a(*args, **kwargs):
+print('Get in inner_a')
+return func(*args, **kwargs)
+return inner_a
 
-for i in dec():
-print(i)
+def decorator_b(func):
+print('Get in decorator_b')
+def inner_b(*args, **kwargs):
+print('Get in inner_b')
+return func(*args, **kwargs)
+return inner_b
+
+@decorator_b #f=decorator_b(f)
+@decorator_a #f=decorator_a(f)
+def f(x):
+print('Get in f')
+return x 2
+f(1)
 ```
 
+答案
 
-### 2、使用两个队列实现一个栈
+> Get in decorator_a
 
-```python
-class Stack(object):
-def __init__(self):
-self.queueA=[]
-self.queueB=[]
-def push(self,node):
-self.queueA.append(node)
-def pop(self):
-if len(self.queueA)==0:
-return None
-while len(self.queueA)!=1:
-self.queueB.append(self.queueA.pop(0))
-self.queueA,self.queueB=self.queueB,self.queueA
-return self.queueB.pop()
+Get in decorator_b
 
-st=Stack()
-print(st.pop())
-st.push(1)
-print(st.pop())
-st.push(1)
-st.push(1)
-st.push(1)
-print(st.pop())
-print(st.pop())
-print(st.pop())
-```
+Get in inner_b
 
-注意上面两个栈的实现方法，第一种的效率高，队列的这种方法效率低
+Get in inner_a
+
+Get in f
 
 
-### 3、如何以就地操作方式打乱一个列表的元素？
+解释
 
-为了达到这个目的，我们从random模块中导入shuffle()函数。
-
-```
->>> from random import shuffle
->>> shuffle(mylist)
->>> mylist
-```
-
-运行结果：
-
-```
-[3, 4, 8, 0, 5, 7, 6, 2, 1]
-```
+> 当我们对f传入参数1进行调用时，inner_b被调用了，他会先打印Get in inner_b,然后在inner_b内部调用了inner_a,所以会再打印Get in inner_a,然后再inner_a内部调用原来的f,并且将结果作为最终的返回总结：装饰器函数在被装饰函数定义好后立即执行从下往上执行函数调用时从上到下执行
 
 
-### 4、什么是Python？为什么它会如此流行？
 
-Python是一种解释的、高级的、通用的编程语言。
+### 6、threading.local的作用
 
-Python的设计理念是通过使用必要的空格与空行，增强代码的可读性。
-
-它之所以受欢迎，就是因为它具有简单易用的语法。
-
-
-### 5、Redis默认多少个db
-
-默认有16个数据库
-
-
-### 6、xrange和range的区别
-
-xrange和range用法相同，但是xrange是一个生成器，range结果是一个列表。xrange做循环的时候性能比range好。
+为每个线程创建一个独立的空间，使得线程对自己的空间中的数据进行操作(数据隔离)。
 
 
 ### 7、二叉树是非线性结构，栈和队列以及线性表都是线性结构，对吗？
@@ -96,65 +91,64 @@ xrange和range用法相同，但是xrange是一个生成器，range结果是一�
 对的
 
 
-### 8、使用python将数据库的student表中的数据写入db.txt
+### 8、MySQL的建表语句
 
-```python
-import pyMySQL
-connect=pyMySQL.Connect(
-host='',
-port=,
-user='',
-passwd='',
-db='',
-charset='',
-)
-
-cursor=connect.cursor()
-sql='select from student'
-cursor.execute(sql)
-students=cursor.fetchall()
-
-with open('db.txt','w') as f:
-for student in students:
-f.write(student)
-
-cursor.close()
-connect.close()
+```mysql
+#创建表，例子
+#所谓的建表就是声明列的过程,所以要首先分析列
+create table member(
+                       id int unsigned auto_increment primary key,
+                       username varchar(20) not null default '',
+                       gender char(1) not null default '',
+                       weight tinyint unsigned not null default 0,
+                       birth date not null default '0000-00-00',
+                       salary decimal(8,2) not null default 0.00,
+                       lastlogin int unsigned not null default 0
+)engine myisam charset utf8;
 ```
 
 
-### 9、super的作用
+### 9、一行代码实现删除列表中的所有的重复的值
 
-当子类中的方法与父类中的方法重名时，子类中的方法会覆盖父类中的方法，那么，如果我们想实现同时调用父类和子类中的同名方法，就需要使用到super()这个函数，用法为super().函数名()
-
-
-### 10、在Python中如何实现多线程？
-
-一个线程就是一个轻量级进程，多线程能让我们一次执行多个线程。我们都知道，Python是多线程语言，其内置有多线程工具包。
-
-Python中的GIL（全局解释器锁）确保一次执行单个线程。一个线程保存GIL并在将其传递给下个线程之前执行一些操作，这会让我们产生并行运行的错觉。但实际上，只是线程在CPU上轮流运行。当然，所有的传递会增加程序执行的内存压力。
+```python
+lis=[1,1,2,1,22,5]
+lis=list(set(lis))
+```
 
 
-### 11、实现一个装饰器，限制该函数被调用的频率，如10秒一次
-### 12、Redis是单进程单线程的吗？
-### 13、什么是防火墙？防火墙的作用是什么？
-### 14、写出邮箱的正则表达式
-### 15、python的可变类型和不可变类型的区别
-### 16、类的加载和实例化过程
-### 17、进程之间如何进行通信？
-### 18、简述数据库分库分表
-### 19、什么时GIL锁
-### 20、编写一个函数实现十进制转62进制，分别用0-9A-Za-z,表示62位字母
-### 21、Python中的pass语句是什么？
-### 22、什么是LVS
-### 23、Python中的单引号和双引号有什么区别？
-### 24、filter、map、reduce的作用。
-### 25、如何在Python中管理内存？
-### 26、有一个列表lis=['This','is','a','Man','B','!']，对它进行大小写无关的排序
-### 27、TCP和UDP的区别
-### 28、Redis中sentinel的作用
-### 29、yield from 和 yield 的区别
-### 30、解释Python中map()函数？
+### 10、列举创建索引但是无法命中索引的情况
+
+**1、** 如果条件中有or，即使其中有条件带索引也不会使用(这也是为什么尽量少用or的原因）
+
+**2、** 对于多列索引，不是使用的第一部分(第一个)，则不会使用索引
+
+**3、** like查询是以%开头
+
+**4、** 如果列类型是字符串，那一定要在条件中将数据使用引号引用起来,否则不使用索引
+
+**5、** 如果MySQL估计使用全表扫描要比使用索引快,则不使用索引
+
+
+### 11、使用async语法实现一个协程
+### 12、python是如何进行内存管理的？python的程序会内存泄漏吗？说说有没有什么方面阻止或者检测内存泄漏？
+### 13、解释一下Python中的身份运算符
+### 14、简述jsonp及其原理
+### 15、守护线程，守护进程是什么
+### 16、发生粘包现象如何处理？
+### 17、使用两个队列实现一个栈
+### 18、如何保证Redis中的数据都是热点数据
+### 19、python的垃圾回收机制
+### 20、Python中append，insert和extend的区别?
+### 21、怎么移除一个字符串中的前导空格？
+### 22、select、poll、epoll模型的区别
+### 23、什么是断言(assert)?应用场景？
+### 24、什么是cdn
+### 25、文件操作时，xreadlines和readlines的区别
+### 26、什么是socket？简述基于tcp协议的socket通信流程？
+### 27、==和is的区别是？
+### 28、实例方法、静态方法和类方法的区别
+### 29、Python支持多重继承吗？
+### 30、列表中保留顺序和不保留顺序去重
 
 
 

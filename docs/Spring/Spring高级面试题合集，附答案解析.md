@@ -6,114 +6,116 @@
 
 
 
-### 1、什么是 Spring Profiles？
+### 1、哪些是重要的bean生命周期方法？你能重载它们吗？
 
-在项目的开发中，有些配置文件在开发、测试或者生产等不同环境中可能是不同的，例如数据库连接、Redis的配置等等。那我们如何在不同环境中自动实现配置的切换呢？Spring给我们提供了profiles机制给我们提供的就是来回切换配置文件的功能
+有两个重要的bean 生命周期方法，第一个是setup ， 它是在容器加载bean的时候被调用。第二个方法是 teardown 它是在容器卸载类的时候被调用。
 
-Spring Profiles 允许用户根据配置文件（dev，test，prod 等）来注册 bean。因此，当应用程序在开发中运行时，只有某些 bean 可以加载，而在 PRODUCTION中，某些其他 bean 可以加载。假设我们的要求是 Swagger 文档仅适用于 QA 环境，并且禁用所有其他文档。这可以使用配置文件来完成。SpringBoot 使得使用配置文件非常简单。
-
-
-### 2、SpringBoot支持哪些嵌入式容器？
-
-无论何时创建Java应用程序，都可以通过两种方法进行部署： 使用外部的应用程序容器。 将容器嵌入jar文件中。 SpringBoot包含Jetty，Tomcat和Undertow服务器，所有服务器都是嵌入式的。 Jetty - 用于大量项目，Eclipse Jetty可以嵌入到框架，应用程序服务器，工具和集群中。 Tomcat - Apache Tomcat是一个开源JavaServer Pages实现，可以很好地与嵌入式系统配合使用。 Undertow - 一个灵活而突出的Web服务器，它使用小型单一处理程序来开发Web服务器。
+The bean 标签有两个重要的属性（init-method和destroy-method）。用它们你可以自己定制初始化和注销方法。它们也有相应的注解（@PostConstruct和@PreDestroy）。
 
 
-### 3、什么是 SpringBoot？
+### 2、如何集成 SpringBoot 和 ActiveMQ？
 
-SpringBoot 是 Spring 开源组织下的子项目，是 Spring 组件一站式解决方案，主要是简化了使用 Spring 的难度，简省了繁重的配置，提供了各种启动器，开发者能快速上手。
-
-
-### 4、列举 IoC 的一些好处。
-
-**IoC 的一些好处是：**
-
-**1、** 它将最小化应用程序中的代码量。
-
-**2、** 它将使您的应用程序易于测试，因为它不需要单元测试用例中的任何单例或 JNDI 查找机制。
-
-**3、** 它以最小的影响和最少的侵入机制促进松耦合。
-
-**4、** 它支持即时的实例化和延迟加载服务。
+对于集成 SpringBoot 和 ActiveMQ，我们使用依赖关系。它只需要很少的配置，并且不需要样板代码。
 
 
-### 5、微服务限流 http限流：我们使⽤nginx的limitzone来完成：
+### 3、SpringCloud的优缺点
 
-```
-//这个表示使⽤ip进⾏限流 zone名称为req_one 分配了10m 空间使⽤漏桶算法 每秒钟允许1个请求
-limit_req_zone $binary_remote_addr zone=req_one:10m rate=1r/s; //这边burst表示可以瞬间超过20个请求 由于没有noDelay参数因此需要排队 如果超过这20个那么直接返回503
-limit_req zone=req_three burst=20;
-```
+**优点：**
 
+**1、** 耦合度比较低。不会影响其他模块的开发。
 
-### 6、SpringCloud 和 Dubbo 有哪些区别?
+**2、** 减轻团队的成本，可以并行开发，不用关注其他人怎么开发，先关注自己的开发。
 
-首先，他们都是分布式管理框架。
+**3、** 配置比较简单，基本用注解就能实现，不用使用过多的配置文件。
 
-dubbo 是二进制传输，占用带宽会少一点。SpringCloud是http 传输，带宽会多一点，同时使用http协议一般会使用JSON报文，消耗会更大。
+**4、** 微服务跨平台的，可以用任何一种语言开发。
 
-dubbo 开发难度较大，所依赖的 jar 包有很多问题大型工程无法解决。SpringCloud 对第三方的继承可以一键式生成，天然集成。
+**5、** 每个微服务可以有自己的独立的数据库也有用公共的数据库。
 
-SpringCloud 接口协议约定比较松散，需要强有力的行政措施来限制接口无序升级。
+**6、** 直接写后端的代码，不用关注前端怎么开发，直接写自己的后端代码即可，然后暴露接口，通过组件进行服务通信。
 
-最大的区别:
+**缺点：**
 
+1、部署比较麻烦，给运维工程师带来一定的麻烦。
 
-### 7、spring 支持集中 bean scope？
+2、针对数据的管理比麻烦，因为微服务可以每个微服务使用一个数据库。
 
-Spring bean 支持 5 种 scope：
+3、系统集成测试比较麻烦
 
-**Singleton**
+4、性能的监控比较麻烦。【最好开发一个大屏监控系统】
 
-**1、** 每个 Spring IoC 容器仅有一个单实例。Prototype
-
-**2、** 每次请求都会产生一个新的实例。Request
-
-**3、** 每一次 HTTP 请求都会产生一个新的实例，并且该 bean 仅在当前 HTTP 请求内有效。Session
-
-**4、** 每一次 HTTP 请求都会产生一个新的 bean，同时该 bean 仅在当前 HTTP session 内有效。Global-session
-
-**5、** 类似于标准的 HTTP Session 作用域，不过它仅仅在基于 portlet 的 web 应用中才有意义。Portlet 规范定义了全局 Session 的概念，它被所有构成某个 portlet web 应用的各种不同的 portlet 所共享。在 global session 作用域中定义的 bean 被限定于全局 portlet Session 的生命周期范围内。如果你在 web 中使用 global session 作用域来标识 bean，那么 web 会自动当成 session 类型来使用。
-
-仅当用户使用支持 Web 的 ApplicationContext 时，最后三个才可用。
+总的来说优点大过于缺点，目前看来Spring Cloud是一套非常完善的分布式框架，目前很多企业开始用微服务、Spring Cloud的优势是显而易见的。因此对于想研究微服务架构的同学来说，学习Spring Cloud是一个不错的选择。
 
 
-### 8、SpringBoot支持什么前端模板，
+### 4、为什么我们需要 spring-boot-maven-plugin?
 
-thymeleaf，freemarker，jsp，官方不推荐JSP会有限制
+spring-boot-maven-plugin 提供了一些像 jar 一样打包或者运行应用程序的命令。
 
+spring-boot:run 运行你的 SpringBooty 应用程序。
 
-### 9、什么是YAML?
+spring-boot：repackage 重新打包你的 jar 包或者是 war 包使其可执行
 
-YAML是一种人类可读的数据序列化语言。它通常用于`配置文件`。 与属性文件相比，如果我们想要在配置文件中添加复杂的属性，YAML文件就更加结构化，而且更少混淆。可以看出YAML具有`分层配置数据`。
+spring-boot：start 和 spring-boot：stop 管理 SpringBoot 应用程序的生命周期（也可以说是为了集成测试）。
 
-
-### 10、指出在 spring aop 中 concern 和 cross-cutting concern 的不同之处。
-
-concern 是我们想要在应用程序的特定模块中定义的行为。它可以定义为我们想要实现的功能。
-
-cross-cutting concern 是一个适用于整个应用的行为，这会影响整个应用程序。例如，日志记录，安全性和数据传输是应用程序几乎每个模块都需要关注的问题，因此它们是跨领域的问题。
+spring-boot:build-info 生成执行器可以使用的构造信息。
 
 
-### 11、Spring Cloud和SpringBoot版本对应关系
-### 12、springcloud和dubbo有哪些区别
-### 13、SpringBoot性能如何优化
-### 14、Spring Cloud Consul
-### 15、SpringBoot 支持哪些日志框架？推荐和默认的日志框架是哪个？
-### 16、怎样开启注解装配？
-### 17、如何实现 SpringBoot 应用程序的安全性？
-### 18、spring bean 容器的生命周期是什么样的？
-### 19、Spring支持的事务管理类型
-### 20、解释基于XML Schema方式的切面实现。
-### 21、什么是DispatcherServlet
-### 22、SpringBoot 2.X 有什么新特性？与 1.X 有什么区别？
-### 23、什么是JavaConfig？
-### 24、什么是 Spring Data？
-### 25、保护 SpringBoot 应用有哪些方法？
-### 26、可以通过多少种方式完成依赖注入？
-### 27、自动装配有哪些方式？
-### 28、Eureka和ZooKeeper都可以提供服务注册与发现的功能,请说说两个的区别
-### 29、如何给Spring 容器提供配置元数据?
-### 30、SpringBoot自动配置的原理是什么？
+### 5、Zookeeper如何 保证CP
+
+当向注册中⼼查询服务列表时，我们可以容忍注册中⼼返回的是⼏分钟以前的注册信息，但不能接受服务直接down掉不可⽤。也就是说，服务注册功能对可⽤性的要求要⾼于⼀致性。但是zk会出现这样⼀种情况，当master节点因为⽹络故障与其他节点失去联系时，剩余节点会重新进⾏leader选举。问题在于，选举leader的时间太⻓，30 ~ 120s, 且选举期间整个zk集群都是不可⽤的，这就导致在选举期间注册服务瘫痪。在云部署的环境下，因⽹络问题使得zk集群失去master节点是较⼤概率会发⽣的事，虽然服务能够最终恢复，但是漫⻓的选举时间导致的注册⻓期不可⽤是不能容忍的。
+
+
+### 6、缓存机制：
+
+设置了⼀个每30秒执⾏⼀次的定时任务，定时去服务端获取注册信息。获取之后，存⼊本地内存。
+
+
+### 7、SpringBoot多数据源事务如何管理
+
+第一种方式是在service层的@TransactionManager中使用transactionManager指定DataSourceConfig中配置的事务
+
+第二种是使用jta-atomikos实现分布式事务管理
+
+
+### 8、spring cloud 断路器的作用是什么？
+
+在分布式架构中，断路器模式的作用也是类似的，当某个服务单元发生故障（类似用电器发生短路）之后，通过断路器的故障监控（类似熔断保险丝），向调用方返回一个错误响应，而不是长时间的等待。这样就不会使得线程因调用故障服务被长时间占用不释放，避免了故障在分布式系统中的蔓延。
+
+
+### 9、什么是微服务
+
+**1、** 微服务是⼀种架构⻛格，也是⼀种服务；
+
+**2、** 微服务的颗粒⽐较⼩，⼀个⼤型复杂软件应⽤由多个微服务组成，⽐如Netflix⽬前由500多的微服务组成；
+
+**3、** 它采⽤UNIX设计的哲学，每种服务只做⼀件事，是⼀种松耦合的能够被独⽴开发和部署的⽆状态化服务（独⽴扩展、升级和可替换）。
+
+
+### 10、一个 Spring Bean 定义 包含什么？
+
+一个Spring Bean 的定义包含容器必知的所有配置元数据，包括如何创建一个bean，它的生命周期详情及它的依赖。
+
+
+### 11、SpringBoot自动配置的原理是什么？
+### 12、spring DAO 有什么用？
+### 13、什么是OAuth？
+### 14、什么是Feign？
+### 15、Spring Cloud Config
+### 16、区分 BeanFactory 和 ApplicationContext。
+### 17、SpringData 项目所支持的关系数据存储技术：
+### 18、什么是 AOP 代理?
+### 19、SpringBoot 如何设置支持跨域请求？
+### 20、核心容器（应用上下文) 模块。
+### 21、Spring Cloud的版本关系
+### 22、我们如何进行跨功能测试？
+### 23、微服务的优点
+### 24、什么是YAML?
+### 25、谈谈服务降级、熔断、服务隔离
+### 26、SpringBoot的核心注解是哪个？它主要由哪几个注解组成的？
+### 27、如何在 SpringBoot 启动的时候运行一些特定的代码？
+### 28、什么是REST / RESTful以及它的用途是什么？
+### 29、如何在 SpringBoot中禁用 Actuator端点安全性?
+### 30、什么是 spring 装配
 
 
 

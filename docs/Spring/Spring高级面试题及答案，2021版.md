@@ -6,121 +6,147 @@
 
 
 
-### 1、SpringBoot多数据源拆分的思路
+### 1、什么是基于注解的容器配置
 
-先在properties配置文件中配置两个数据源，创建分包mapper，使用@ConfigurationProperties读取properties中的配置，使用@MapperScan注册到对应的mapper包中
+不使用 XML 来描述 bean 装配，开发人员通过在相关的类，方法或字段声明上使用注解将配置移动到组件类本身。它可以作为 XML 设置的替代方案。例如：
 
+Spring 的 Java 配置是通过使用 [@Bean ](/Bean ) 和 [@Configuration ](/Configuration ) 来实现。
 
-### 2、您对微服务有何了解？
+[@Bean ](/Bean ) 注解扮演与  元素相同的角色。 [@Configuration ](/Configuration ) 类允许通过简单地调用同一个类中的其他 [@Bean ](/Bean ) 方法来定义 bean 间依赖关系。
 
-微服务，又称微服务架构，是一种架构风格，它将应用程序构建为以业务领域为模型的小型自治服务集合 。
+例如：
 
-通俗地说，你必须看到蜜蜂如何通过对齐六角形蜡细胞来构建它们的蜂窝状物。他们最初从使用各种材料的小部分开始，并继续从中构建一个大型蜂箱。这些细胞形成图案，产生坚固的结构，将蜂窝的特定部分固定在一起。这里，每个细胞独立于另一个细胞，但它也与其他细胞相关。这意味着对一个细胞的损害不会损害其他细胞，因此，蜜蜂可以在不影响完整蜂箱的情况下重建这些细胞。
-
-![](https://gitee.com/souyunkutech/souyunku-home/raw/master/images/souyunku-web/2019/08/0816/01/img_1.png#alt=img%5C_1.png)
-
-图1：微服务的蜂窝表示 – 微服务访谈问题
-
-请参考上图。这里，每个六边形形状代表单独的服务组件。与蜜蜂的工作类似，每个敏捷团队都使用可用的框架和所选的技术堆栈构建单独的服务组件。就像在蜂箱中一样，每个服务组件形成一个强大的微服务架构，以提供更好的可扩展性。此外，敏捷团队可以单独处理每个服务组件的问题，而对整个应用程序没有影响或影响最小。
-
-
-### 3、Ribbon是什么？
-
-**1、** Ribbon是Netflix发布的开源项目，主要功能是提供客户端的软件负载均衡算法
-
-**2、** Ribbon客户端组件提供一系列完善的配置项，如连接超时，重试等。简单的说，就是在配置文件中列出后面所有的机器，Ribbon会自动的帮助你基于某种规则（如简单轮询，随即连接等）去连接这些机器。我们也很容易使用Ribbon实现自定义的负载均衡算法。（有点类似Nginx）
+```
+@Configuration
+public class StudentConfig {
+    @Bean
+    public StudentBean myStudent() {
+        return new StudentBean();
+    }
+}
+```
 
 
-### 4、SpringBoot读取配置文件的方式
+### 2、SpingMvc中的控制器的注解一般用哪个,有没有别的注解可以替代？
 
-SpringBoot默认读取配置文件为application.properties或者是application.yml
+****
 
-
-### 5、Spring Cloud OpenFeign
-
-基于Ribbon和Hystrix的声明式服务调用组件，可以动态创建基于Spring MVC注解的接口实现用于服务调用，在Spring Cloud 2.0中已经取代Feign成为了一等公民。
-
-Spring Cloud的版本关系
-
-Spring Cloud是一个由许多子项目组成的综合项目，各子项目有不同的发布节奏。为了管理Spring Cloud与各子项目的版本依赖关系，发布了一个清单，其中包括了某个Spring Cloud版本对应的子项目版本。
-
-为了避免Spring Cloud版本号与子项目版本号混淆，Spring Cloud版本采用了名称而非版本号的命名，这些版本的名字采用了伦敦地铁站的名字，根据字母表的顺序来对应版本时间顺序，例如Angel是第一个版本，Brixton是第二个版本。
-
-当Spring Cloud的发布内容积累到临界点或者一个重大BUG被解决后，会发布一个"service releases"版本，简称SRX版本，比如Greenwich.SR2就是Spring Cloud发布的Greenwich版本的第2个SRX版本。目前Spring Cloud的最新版本是Hoxton。
+一般用@Controller注解,也可以使用@RestController,@RestController注解相当于[@ResponseBody ](/ResponseBody ) ＋ @Controller,表示是表现层,除此之外，一般不用别的注解代替。
 
 
-### 6、什么是基于注解的容器配置?
+### 3、eureka和zookeeper都可以提供服务注册与发现的功能，请说说两个的区别？
 
-相对于XML文件，注解型的配置依赖于通过字节码元数据装配组件，而非尖括号的声明。
+zookeeper 是CP原则，强一致性和分区容错性。
 
-开发者通过在相应的类，方法或属性上使用注解的方式，直接组件类中进行配置，而不是使用xml表述bean的装配关系。
+eureka 是AP 原则 可用性和分区容错性。
 
+zookeeper当主节点故障时，zk会在剩余节点重新选择主节点，耗时过长，虽然最终能够恢复，但是选取主节点期间会导致服务不可用，这是不能容忍的。
 
-### 7、spring JDBC API 中存在哪些类？
-
-**1、** JdbcTemplate
-
-**2、** SimpleJdbcTemplate
-
-**3、** NamedParameterJdbcTemplate
-
-**4、** SimpleJdbcInsert
-
-**5、** SimpleJdbcCall
+eureka各个节点是平等的，一个节点挂掉，其他节点仍会正常保证服务。
 
 
-### 8、什么是Spring IOC 容器？
+### 4、微服务架构有哪些优势？
 
-Spring IOC 负责创建对象，管理对象（通过依赖注入（DI），装配对象，配置对象，并且管理这些对象的整个生命周期。
+![](https://gitee.com/souyunkutech/souyunku-home/raw/master/images/souyunku-web/2019/08/0816/01/img_2.png#alt=img%5C_2.png)
 
+图2：微服务的 优点 – 微服务访谈问题
 
-### 9、SpringBoot 的自动配置是如何实现的？
+独立开发 – 所有微服务都可以根据各自的功能轻松开发
 
-SpringBoot 项目的启动注解是：@SpringBootApplication，其实它就是由下面三个注解组成的：
+独立部署 – 基于其服务，可以在任何应用程序中单独部署它们
 
-**1、** [@Configuration ](/Configuration )
+故障隔离 – 即使应用程序的一项服务不起作用，系统仍可继续运行
 
-**2、** [@ComponentScan ](/ComponentScan )
+混合技术堆栈 – 可以使用不同的语言和技术来构建同一应用程序的不同服务
 
-**3、** @EnableAutoConfiguration
-
-其中 @EnableAutoConfiguration 是实现自动配置的入口，该注解又通过 [@Import ](/Import ) 注解导入了AutoConfigurationImportSelector，在该类中加载 META-INF/spring.factories 的配置信息。然后筛选出以 EnableAutoConfiguration 为 key 的数据，加载到 IOC 容器中，实现自动配置功能！
-
-
-### 10、什么是 Aspect？
-
-`aspect` 由 `pointcount` 和 `advice` 组成, 它既包含了横切逻辑的定义, 也包括了连接点的定义、Spring AOP 就是负责实施切面的框架, 它将切面所定义的横切逻辑编织到切面所指定的连接点中、AOP 的工作重心在于如何将增强编织目标对象的连接点上, 这里包含两个工作:
-
-**1、** 如何通过 pointcut 和 advice 定位到特定的 joinpoint 上
-
-**2、** 如何在 advice 中编写切面代码.
-
-![](https://gitee.com/souyunkutech/souyunku-home/raw/master/images/souyunku-web/2019/08/0816/02/img_5.png#alt=img%5C_5.png)
-
-可以简单地认为, 使用 [@Aspect ](/Aspect ) 注解的类就是切面.
+粒度缩放 – 单个组件可根据需要进行缩放，无需将所有组件缩放在一起
 
 
-### 11、你如何理解 SpringBoot 中的 Starters？
-### 12、SpringBoot 配置加载顺序?
-### 13、为什么我们不建议在实际的应用程序中使用 Spring Data Rest?
-### 14、自动装配有什么局限？
-### 15、如何集成SpringBoot和ActiveMQ？
-### 16、spring cloud 断路器的作用是什么？
-### 17、各服务之间通信，对Restful和Rpc这2种方式如何做选择？
-### 18、使⽤中碰到的坑
-### 19、springcloud如何实现服务的注册?
-### 20、什么是Hystrix？它如何实现容错？
-### 21、Spring Cloud Zookeeper
-### 22、谈一下领域驱动设计
-### 23、Spring MVC的主要组件？
-### 24、spring boot 核心配置文件是什么？bootstrap、properties 和 application、properties 有何区别 ?
-### 25、如何使用SpringBoot实现分页和排序？
-### 26、SpringBoot 自动配置原理是什么？
-### 27、什么是spring?
-### 28、spring boot 核心的两个配置文件：
-### 29、如何重新加载 SpringBoot 上的更改，而无需重新启动服务器？SpringBoot项目如何热部署？
-### 30、网关与过滤器有什么区别
-### 31、Docker的目的是什么？
+### 5、您对Distributed Transaction有何了解？
+
+分布式事务是指单个事件导致两个或多个不能以原子方式提交的单独数据源的突变的任何情况。在微服务的世界中，它变得更加复杂，因为每个服务都是一个工作单元，并且大多数时候多个服务必须协同工作才能使业务成功。
+
+
+### 6、什么是断路器
+
+当一个服务调用另一个服务由于网络原因或自身原因出现问题，调用者就会等待被调用者的响应 当更多的服务请求到这些资源导致更多的请求等待，发生连锁效应（雪崩效应）
+
+**断路器有三种状态**
+
+**1、** 打开状态：一段时间内 达到一定的次数无法调用 并且多次监测没有恢复的迹象 断路器完全打开 那么下次请求就不会请求到该服务
+
+**2、** 半开状态：短时间内 有恢复迹象 断路器会将部分请求发给该服务，正常调用时 断路器关闭
+
+**3、** 关闭状态：当服务一直处于正常状态 能正常调用
+
+
+### 7、什么是JavaConfig？
+
+Spring JavaConfig是Spring社区的产品，它提供了配置Spring IoC容器的纯Java方法。因此它有助于避免使用XML配置。使用JavaConfig的优点在于：
+
+面向对象的配置。由于配置被定义为JavaConfig中的类，因此用户可以充分利用Java中的面向对象功能。一个配置类可以继承另一个，重写它的@Bean方法等。
+
+减少或消除XML配置。基于依赖注入原则的外化配置的好处已被证明。但是，许多开发人员不希望在XML和Java之间来回切换。
+
+JavaConfig为开发人员提供了一种纯Java方法来配置与XML配置概念相似的Spring容器。
+
+从技术角度来讲，只使用JavaConfig配置类来配置容器是可行的，但实际上很多人认为将JavaConfig与XML混合匹配是理想的。
+
+类型安全和重构友好。JavaConfig提供了一种类型安全的方法来配置Spring容器。由于Java 5.0对泛型的支持，现在可以按类型而不是按名称检索bean，不需要任何强制转换或基于字符串的查找
+
+
+### 8、SpringBoot有哪些优点？
+
+**1、** 快速创建独立运行的spring项目与主流框架集成
+
+**2、** 使用嵌入式的servlet容器，应用无需打包成war包
+
+**3、** starters自动依赖与版本控制
+
+**4、** 大量的自动配置，简化开发，也可修改默认值
+
+**5、** 准生产环境的运行应用监控
+
+**6、** 与云计算的天然集成
+
+
+### 9、Spring Cloud 和dubbo区别?
+
+**1、** 服务调用方式：dubbo是RPC springcloud Rest Api
+
+**2、** 注册中心：dubbo 是zookeeper springcloud是eureka，也可以是zookeeper
+
+**3、** 服务网关，dubbo本身没有实现，只能通过其他第三方技术整合，springcloud有Zuul路由网关，作为路由服务器，进行消费者的请求分发,springcloud支持断路器，与git完美集成配置文件支持版本控制，事物总线实现配置文件的更新与服务自动装配等等一系列的微服务架构要素。
+
+
+### 10、SpringBoot 打成的 jar 和普通的 jar 有什么区别 ?
+
+SpringBoot 项目最终打包成的 jar 是可执行 jar ，这种 jar 可以直接通过 `java -jar xxx、jar` 命令来运行，这种 jar 不可以作为普通的 jar 被其他项目依赖，即使依赖了也无法使用其中的类。
+
+SpringBoot 的 jar 无法被其他项目依赖，主要还是他和普通 jar 的结构不同。普通的 jar 包，解压后直接就是包名，包里就是我们的代码，而 SpringBoot 打包成的可执行 jar 解压后，在 `\BOOT-INF\classes` 目录下才是我们的代码，因此无法被直接引用。如果非要引用，可以在 pom、xml 文件中增加配置，将 SpringBoot 项目打包成两个 jar ，一个可执行，一个可引用。
+
+
+### 11、如何设置服务发现？
+### 12、微服务架构如何运作？
+### 13、Mock或Stub有什么区别？
+### 14、如何启用/禁用执行器？
+### 15、你如何理解 SpringBoot 配置加载顺序？
+### 16、SpringBoot 的核心注解是哪个？它主要由哪几个注解组成的？
+### 17、如何集成SpringBoot和ActiveMQ？
+### 18、什么是端到端微服务测试？
+### 19、SpringBoot性能如何优化
+### 20、什么是嵌入式服务器？我们为什么要使用嵌入式服务器呢?
+### 21、什么是有界上下文？
+### 22、Bean 工厂和 Application contexts 有什么区别？
+### 23、什么是微服务架构中的DRY？
+### 24、Ribbon和Feign的区别？
+### 25、@RestController和@Controller的区别
+### 26、SpringBoot 中的监视器是什么？
+### 27、[@Qualifier ](/Qualifier ) 注解
+### 28、链路跟踪Sleuth
+### 29、Spring MVC的控制器是不是单例模式,如果是,有什么问题,怎么解决？
+### 30、如何在SpringBoot应用程序中实现Spring安全性？
+### 31、MVC是什么？MVC设计模式的好处有哪些
 
 
 

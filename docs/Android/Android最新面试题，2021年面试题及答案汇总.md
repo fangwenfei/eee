@@ -6,95 +6,7 @@
 
 
 
-### 1、Android中activity，context，application有什么不同。
-
-Content与application都继承与contextWrapper，contextWrapper继承于Context类。
-
-Context：表示当前上下文对象，保存的是上下文中的参数和变量，它可以让更加方便访问到一些资源。
-
-Context通常与activity的生命周期是一样的，application表示整个应用程序的对象。
-
-对于一些生命周期较长的，不要使用context，可以使用application。
-
-在activity中，尽量使用静态内部类，不要使用内部类。内部里作为外部类的成员存在，不是独立于activity，如果内存中还有内存继续引用到context，activity如果被销毁，context还不会结束。
-
-
-### 2、系统上安装了多种浏览器，能否指定某浏览器访问指定页面？请说明原由。
-
-通过直接发送Uri把参数带过去，或者通过manifest里的intentfilter里的data属性
-
-
-### 3、事件分发中的 onTouch 和 onTouchEvent 有什么区别，又该如何使用？
-
-这两个方法都是在 View 的 dispatchTouchEvent 中调用的，onTouch 优先于 onTouchEvent执行。如果在 onTouch 方法中通过返回 true 将事件消费掉，onTouchEvent 将不会再执行。
-
-另外需要注意的是，onTouch 能够得到执行需要两个前提条件，第一 mOnTouchListener 的值不能为空，第二当前点击的控件必须是 enable 的。因此如果你有一个控件是非 enable 的，那么给它注册 onTouch 事件将永远得不到执行。对于这一类控件，如果我们想要监听它的 touch 事件，就必须通过在该控件中重写 onTouchEvent 方法来实现。
-
-
-### 4、Fragment 的 replace 和 add 方法的区别
-
-Fragment 本身并没有 replace 和 add 方法，FragmentManager才有replace和add方法。我们经常使用的一个架构就是通过RadioGroup切换Fragment，每个 Fragment 就是一个功能模块。
-
-Fragment 的容器一个 FrameLayout，add 的时候是把所有的 Fragment 一层一层的叠加到了。FrameLayout 上了，而 replace 的话首先将该容器中的其他 Fragment 去除掉然后将当前Fragment添加到容器中。
-
-一个 Fragment 容器中只能添加一个 Fragment 种类，如果多次添加则会报异常，导致程序终止，而 replace 则无所谓，随便切换。因为通过 add 的方法添加的 Fragment，每个 Fragment 只能添加一次，因此如果要想达到切换效果需要通过 Fragment 的的 hide 和 show 方法结合者使用。将要显示的 show 出来，将其他 hide起来。这个过程 Fragment 的生命周期没有变化。
-
-通过 replace 切换 Fragment，每次都会执行上一个 Fragment 的 onDestroyView，新 Fragment的 onCreateView、onStart、onResume 方法。基于以上不同的特点我们在使用的使用一定要结合着生命周期操作我们的视图和数据。
-
-
-### 5、子线程中能不能 new handler？为什么？
-
-不能,如果在子线程中直接 new Handler()会抛出异常 java.lang.RuntimeException: Can'tcreate handler inside thread that has not called
-
-在没有调用 Looper.prepare()的时候不能创建 Handler,因为在创建 Handler 的源码中做了如下操作
-
-Handler 的构造方法中
-
-
-### 6、什么是aar?aar是jar有什么区别?
-
-“aar”包是 Android 的类库项目的二进制发行包。
-
-文件扩展名是.aar，maven 项目类型应该也是aar，但文件本身是带有以下各项的 zip 文件：
-
-**1、** /AndroidManifest.xml (mandatory)
-
-**2、** /classes.jar (mandatory)
-
-**3、** /res/ (mandatory)
-
-**4、** /R.txt (mandatory)
-
-**5、** /assets/ (optional)
-
-**6、** /libs/*.jar (optional)
-
-**7、** /jni//*.so (optional)
-
-**8、** /proguard.txt (optional)
-
-**9、** /lint.jar (optional)
-
-这些条目是直接位于 zip 文件根目录的。 其中R.txt 文件是aapt带参数–output-text-symbols的输出结果。
-
-jar打包不能包含资源文件，比如一些drawable文件、xml资源文件之类的,aar可以。
-
-
-### 7、java中如何引用本地语言
-
-可以用JNI（java native interface  java 本地接口）接口 。
-
-
-### 8、ContentProvider与sqlite有什么不一样的？
-
-```
-ContentProvider会对外隐藏内部实现，只需要关注访问contentProvider的uri即可，contentProvider应用在应用间共享。
-Sqlite操作本应用程序的数据库。
-ContentProiver可以对本地文件进行增删改查操作
-```
-
-
-### 9、如何保存activity的状态？
+### 1、如何保存activity的状态？
 
 默认情况下activity的状态系统会自动保存，有些时候需要我们手动调用保存。
 
@@ -107,44 +19,170 @@ ContentProiver可以对本地文件进行增删改查操作
 Activity被销毁后，重新启动时，在onCreate方法中，接受保存的bundle参数，并将之前的数据取出。
 
 
-### 10、内存泄露如何查看和解决
+### 2、activity的启动模式有哪些？是什么含义
 
-概念：有些对象只有有限的生命周期，当他们的任务完成之后，它们将被垃圾回收，如果在对象的生命周期本该结束的时候，这个对象还被一系列的引用，着就会导致内存泄露。
+在android里，有4种activity的启动模式，分别为：
 
-解决方法：使用开源框架LeakCanary检测针对性解决
+**1、** “standard” (默认)
 
-**常见的内存泄露有：**
+**2、** “singleTop”
 
-**1、** 单例造成的内存泄露，例如单例中的Context生命周期大于本身Context生命周期
+**3、** “singleTask”
 
-**2、** 线程使用Hander造成的内存卸扣，当activity已经结束，线程依然在运行更新UI
+**4、** “singleInstance”
 
-**3、** 非静态类使用静态变量导致无法回收释放造成泄露
+它们主要有如下不同
 
-**4、** WebView网页过多造成内存泄露
+**1、** 如何决定所属task
 
-**5、** 资源未关闭造成泄露，例如数据库使用完之后关闭连接
+“standard”和”singleTop”的activity的目标task，和收到的Intent的发送者在同一个task内，除非intent包括参数FLAG_ACTIVITY_NEW_TASK
+
+如果提供了FLAG_ACTIVITY_NEW_TASK参数，会启动到别的task里。
+
+“singleTask”和”singleInstance”总是把activity作为一个task的根元素，他们不会被启动到一个其他task里
+
+**2、** 是否允许多个实例
+
+“standard”和”singleTop”可以被实例化多次，并且存在于不同的task中，且一个task可以包括一个activity的多个实例；
+
+“singleTask”和”singleInstance”则限制只生成一个实例，并且是task的根元素。 singleTop要求如果创建intent的时候栈顶已经有要创建的Activity的实例，则将intent发送给该实例，而不发送给新的实例
+
+**3、** 是否允许其它activity存在于本task内
+
+“singleInstance”独占一个task，其它activity不能存在那个task里；如果它启动了一个新的activity，不管新的activity的launch mode 如何，新的activity都将会到别的task里运行（如同加了FLAG_ACTIVITY_NEW_TASK参数）。
+
+而另外三种模式，则可以和其它activity共存
+
+**4、** 是否每次都生成新实
+
+“standard”对于没一个启动Intent都会生成一个activity的新实例；
+
+“singleTop”的activity如果在task的栈顶的话，则不生成新的该activity的实例，直接使用栈顶的实例，否则，生成该activity的实例。
+
+比如现在task栈元素为A-B-C-D（D在栈顶），这时候给D发一个启动intent，如果D是 “standard”的，则生成D的一个新实例，栈变为A－B－C－D－D
+
+如果D是singleTop的话，则不会生产D的新实例，栈状态仍为A-B-C-D
+
+如果这时候给B发Intent的话，不管B的launchmode是”standard” 还是 “singleTop” ，都会生成B的新实例，栈状态变为A-B-C-D-B
+
+“singleInstance”是其所在栈的唯一activity，它会每次都被重用
+
+“singleTask”如果在栈顶，则接受intent，否则，该intent会被丢弃，但是该task仍会回到前台
+
+当已经存在的activity实例处理新的intent时候，会调用onNewIntent()方法 如果收到intent生成一个activity实例，那么用户可以通过back键回到上一个状态；如果是已经存在的一个activity来处理这个intent的话，用户不能通过按back键返回到这之前的状态
 
 
-### 11、如何提升Service进程优先级
-### 12、如何退出Activity？如何安全退出已调用多个Activity的Application？
-### 13、Android系统的架构
-### 14、怎样对 android 进行优化？
-### 15、Android 中如何捕获未捕获的异常
-### 16、推送到达率如何提高
-### 17、View和SurfaceView的区别
-### 18、NDK
-### 19、自定义view的基本流程
-### 20、View
-### 21、SurfaceView
-### 22、什么是ANR 如何避免它？
-### 23、Fragment的生命周期
-### 24、在 service 的生命周期方法 onstartConmand()可不可以执行网络操作？如何在 service 中执行网络操作？
-### 25、wait和 sleep 的区别
-### 26、如果有个100M大的文件，需要上传至服务器中，而服务器form表单最大只能上传2M，可以用什么方法。
-### 27、一条最长的短信息约占多少byte?
-### 28、activity在屏幕旋转时的生命周期
-### 29、Android 中的动画有哪几类，它们的特点和区别是什么
+### 3、android:gravity与android:layout_gravity的区别
+
+gravity：表示组件内元素的对齐方式
+
+layout_gravity：相对于父类容器，该视图组件的对齐方式
+
+
+### 4、IntentService有何优点?
+
+Acitivity的进程，当处理Intent的时候，会产生一个对应的Service； Android的进程处理器现在会尽可能的不kill掉你；非常容易使用
+
+
+### 5、activity，service，intent之间的关系
+
+这三个都是android应用频率非常的组件。Activity与service是四大核心组件。Activity用来加载布局，显示窗口界面，service运行后台，没有界面显示，intent是activity与service的通信使者。
+
+
+### 6、AsyncTask
+
+AsyncTask的三个泛型参数说明
+
+**1、** 第一个参数：传入doInBackground()方法的参数类型
+
+**2、** 第二个参数：传入onProgressUpdate()方法的参数类型
+
+**3、** 第三个参数：传入onPostExecute()方法的参数类型，也是doInBackground()方法返回的类型
+
+运行在主线程的方法:
+
+```
+onPostExecute（）
+onPreExecute()
+onProgressUpdate(Progress...)
+```
+
+运行在子线程的方法：
+
+```
+doInBackground（）
+```
+
+控制AsyncTask停止的方法：
+
+```
+cancel(boolean mayInterruptIfRunning)
+```
+
+AsyncTask的执行分为四个步骤
+
+**1、** 继承AsyncTask。
+
+**2、** 实现AsyncTask中定义的下面一个或几个方法onPreExecute()、doInBackground(Params...)、onProgressUpdate(Progress...)、onPostExecute(Result)。
+
+**3、** 调用execute方法必须在UI thread中调用。
+
+**4、** 该task只能被执行一次，否则多次调用时将会出现异常，取消任务可调用cancel。
+
+
+### 7、AsyncTask使用在哪些场景？它的缺陷是什么？如何解决？
+
+AsyncTask 运用的场景就是我们需要进行一些耗时的操作，耗时操作完成后更新主线程，或者在操作过程中对主线程的UI进行更新。
+
+缺陷：AsyncTask中维护着一个长度为128的线程池，同时可以执行5个工作线程，还有一个缓冲队列，当线程池中已有128个线程，缓冲队列已满时，如果 此时向线程提交任务，将会抛出RejectedExecutionException。
+
+解决：由一个控制线程来处理AsyncTask的调用判断线程池是否满了，如果满了则线程睡眠否则请求AsyncTask继续处理。
+
+
+### 8、子线程中能不能 new handler？为什么？
+
+不能,如果在子线程中直接 new Handler()会抛出异常 java.lang.RuntimeException: Can'tcreate handler inside thread that has not called
+
+在没有调用 Looper.prepare()的时候不能创建 Handler,因为在创建 Handler 的源码中做了如下操作
+
+Handler 的构造方法中
+
+
+### 9、你一般在开发项目中都使用什么设计模式？如何来重构，优化你的代码？
+
+较为常用的就是单例设计模式，工厂设计模式以及观察者设计模式,
+
+一般需要保证对象在内存中的唯一性时就是用单例模式,例如对数据库操作的 SqliteOpenHelper 的对象。
+
+工厂模式主要是为创建对象提供过渡接口，以便将创建对象的具体过程屏蔽隔离起来，达到提高灵活性的目的。
+
+观察者模式定义对象间的一种一对多的依赖关系，当一个对象的状态发生改变时，所有依赖于它的对象都得到通知并被自动更新
+
+
+### 10、SurfaceView
+
+基于view视图进行拓展的视图类，更适合2D游戏的开发，是view的子类，类似使用双缓机制，在新的线程中更新画面所以刷新界面速度比view快
+
+
+### 11、请描述一下 Intent 和 IntentFilter
+### 12、Fragment 的 replace 和 add 方法的区别
+### 13、如何启用Service，如何停用Service。
+### 14、子线程发消息到主线程进行更新 UI，除了 handler 和 AsyncTask，还有什么？
+### 15、什么是IntentService？有何优点？
+### 16、wait和 sleep 的区别
+### 17、如果有个100M大的文件，需要上传至服务器中，而服务器form表单最大只能上传2M，可以用什么方法。
+### 18、Android中4大组件
+### 19、都使用过哪些自定义控件
+### 20、android的数据存储
+### 21、说说 ContentProvider、ContentResolver、ContentObserver 之间的关系
+### 22、Android中的ANR
+### 23、Fragment与activity如何传值和交互？
+### 24、Adapter是什么？你所接触过的adapter有那些？
+### 25、sim卡的EF 文件有何作用
+### 26、如何切换 fragement,不重新实例化
+### 27、ListView优化
+### 28、跨进程通信的几种方式
+### 29、Service 和 Activity 在同一个线程吗
 
 
 

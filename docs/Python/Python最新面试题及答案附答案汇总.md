@@ -6,196 +6,192 @@
 
 
 
-### 1、解释re模块的split()、sub()、subn()方法？
+### 1、b、B、kB、MB、GB的关系
 
-split()：只要模式匹配，此方法就会拆分字符串。
+**1、** 1B=8b
 
-sub()：此方法用于将字符串中的某些模式替换为其他字符串或序列。
+**2、** 1kB=1024B
 
-subn()：和sub()很相似，不同之处在于它返回一个元组，将总替换计数和新字符串作为输出。
+**3、** 1MB=1024kB
 
-```
-import re
-string = "There are two ball in the basket 101"
+**4、** 1GB=1024MB
 
 
-re.split("\W+",string)
----------------------------------------
-['There', 'are', 'two', 'ball', 'in', 'the', 'basket', '101']
+### 2、什么是猴子补丁？
 
-re.sub("[^A-Za-z]"," ",string)
-----------------------------------------
-'There are two ball in the basket'
-
-re.subn("[^A-Za-z]"," ",string)
------------------------------------------
-('There are two ball in the basket', 10)
-```
-
-
-### 2、简述left join和right join的区别
-
-**1、** 左连接和右连接很相似，只是左右表位置的不同罢了。
-
-**2、** left join(左连接) 返回包括左表中的所有记录和右表中连接字段相等的记录
-
-**3、** right join(右连接) 返回包括右表中的所有记录和左表中连接字段相等的记录
-
-
-### 3、解释一下Python中的身份运算符
-
-这也是一个在Python面试中常问的问题。
-
-通过身份运算符‘is’和‘is not’，我们可以确认两个值是否相同。
+在运行期间动态修改一个类或模块。
 
 ```
->>> 10 is '10'
-False
- 
->>> True is not False
-True
-```
-
-
-### 4、位和字节的关系
-
-8位=一字节
-
-
-### 5、把a='aaabbcccdddde'这种形式的字符串，压缩成a3b2c3d4e1这种形式。
-
-```python
-a='aaabbcccdddde'
-aa=''
-for i in sorted(list(set(a)),key=a.index):
-aa=aa+i+str(a.count(i))
-print(aa)
-```
-
-
-### 6、一行代码实现删除列表中的所有的重复的值
-
-```python
-lis=[1,1,2,1,22,5]
-lis=list(set(lis))
-```
-
-
-### 7、Python中append，insert和extend的区别?
-
-append：在列表末尾添加新元素。
-
-insert：在列表的特定位置添加元素。
-
-extend：通过添加新列表来扩展列表。
-
-```
-numbers = [1,2,3,4,5]
-numbers.append(6)
-print(numbers)
->[1,2,3,4,5,6]
-
-## insert(position,value)
-numbers.insert(2,7)  
-print(numbers)
->[1,2,7,4,5,6]
-
-numbers.extend([7,8,9])
-print(numbers)
->[1,2,7,4,5,6,7,8,9]
-
-numbers.append([4,5])
->[1,2,7,4,5,6,7,8,9,[4,5]]
-```
-
-
-### 8、元组的解封装是什么？
-
-首先我们来看解封装：
-
-```
->>> mytuple=3,4,5
->>> mytuple
-(3, 4, 5)
-```
-
-这将 3，4，5 封装到元组 mytuple 中。
-
-现在我们将这些值解封装到变量 x，y，z 中：
-
-```
->>> x,y,z=mytuple
->>> x+y+z
-```
-
-得到结果12.
-
-
-### 9、比较：a=[1,2,3]和b=[(1),(2),(3)]以及c=[(1,),(2,),(3,)]的区别
-
-a和b的结果相同，列表里面的值相同，类型也相同
-
-c中的列表里面的值是元组类型的
-
-
-### 10、解释Python中的help()和dir()函数
-
-Help()函数是一个内置函数，用于查看函数或模块用途的详细说明：
-
-```
->>> import copy
->>> help(copy.copy)
+>>> class A:
+    def func(self):
+        print("Hi")
+>>> def monkey(self):
+print "Hi, monkey"
+>>> m.A.func = monkey
+>>> a = m.A()
+>>> a.func()
 ```
 
 运行结果为：
 
 ```
-Help on function copy in module copy:
-
- 
- 
-copy(x)
- 
-Shallow copy operation on arbitrary Python objects.
- 
-See the module’s __doc__ string for more info.
-```
-
-Dir()函数也是Python内置函数，dir() 函数不带参数时，返回当前范围内的变量、方法和定义的类型列表；带参数时，返回参数的属性、方法列表。
-
-以下实例展示了 dir 的使用方法：
-
-```
->>> dir(copy.copy)
-```
-
-运行结果为：
-
-```
-[‘__annotations__’, ‘__call__’, ‘__class__’, ‘__closure__’, ‘__code__’, ‘__defaults__’, ‘__delattr__’, ‘__dict__’, ‘__dir__’, ‘__doc__’, ‘__eq__’, ‘__format__’, ‘__ge__’, ‘__get__’, ‘__getattribute__’, ‘__globals__’, ‘__gt__’, ‘__hash__’, ‘__init__’, ‘__init_subclass__’, ‘__kwdefaults__’, ‘__le__’, ‘__lt__’, ‘__module__’, ‘__name__’, ‘__ne__’, ‘__new__’, ‘__qualname__’, ‘__reduce__’, ‘__reduce_ex__’, ‘__repr__’, ‘__setattr__’, ‘__sizeof__’, ‘__str__’, ‘__subclasshook__’]
+Hi, Monkey
 ```
 
 
-### 11、lambda表达式格式以及应用场景？
-### 12、如何更改列表的数据类型？
-### 13、22、iterables和iterators之间的区别？
-### 14、将列表alist=[{'name':'a','age':25},{'name':'b','age':30},{'name':'c','age':20}]，按照age的值从大到小排列。
-### 15、守护线程，守护进程是什么
-### 16、写个函数接收一个文件夹名称作为参数，显示文件夹中文件的路径，以及其中包含的文件夹中文件的如今
-### 17、_init_在Python中有什么用？
-### 18、isinstance和type的作用
-### 19、用尽量简洁的方法将二维数组合并成一维数组
-### 20、什么是Python中的猴子补丁？
-### 21、Python是否有main函数？
-### 22、介绍一下try except的用法和作用？
-### 23、如何高效的找到Redis中所有以felix开头的key
-### 24、什么是索引合并
-### 25、路由器和交换机的区别
-### 26、列表中保留顺序和不保留顺序去重
-### 27、python的垃圾回收机制
-### 28、ascii、Unicode、utf-8、gbk的区别
-### 29、给定一个非空的字符串，判断它是否可以由它的一个子串重复多次构成。给定的字符串只含有小写英文字母，并且长度不超过10000。例如：'ababab',返回True，'ababa'，返回False
-### 30、了解过Hbase，DB2，SQLServer，Access吗
+### 3、简述python的深浅拷贝
+
+**1、** 浅拷贝只是对另外一个变量的内存地址的拷贝，这两个变量指向同一个内存地址的变量值。
+
+**2、** 浅拷贝的特点：
+
+**3、** 共用一个值
+
+**4、** 这两个变量的内存地址一样
+
+**5、** 对其中一个变量的值改变，另外一个变量的值也会改变
+
+**6、** 深拷贝是一个变量对另外一个变量的值拷贝
+
+**7、** 深拷贝的特点：
+
+**8、** 两个变量的内存地址不同
+
+**9、** 两个变量各有自己的值，且互不影响
+
+**10、** 对其任意一个变量的值的改变不会影响另外一个
+
+**11、** 如果是不可变类型，则深浅拷贝只拷贝引用，如果是可变类型，浅拷贝只拷贝第一层引用，深拷贝无论多少层引用都拷贝
+
+
+### 4、Python中的闭包是什么？
+
+当一个嵌套函数在其外部区域引用了一个值时，该嵌套函数就是一个闭包。其意义就是会记录这个值。
+
+```
+>>> def A(x):
+    def B():
+        print(x)
+    return B
+>>> A(7)()
+```
+
+结果：
+
+```
+7
+```
+
+更多关于闭包的知识，请参看这里：
+
+[戳这里](https://data-flair.training/blogs/python-closure/)
+
+
+### 5、a = dict(zip(('a','b','c','d','e'),(1,2,3,4,5))) 请问a是什么？
+
+**{'a': 1, 'b': 2, 'c': 3, 'd': 4, 'e': 5}**
+
+
+### 6、数据库的导入与导出命令
+
+**1、** 导出(MySQLdump)
+
+**2、** 导出数据和表结构
+
+**3、** MySQLdump -uroot -p dbname > dbname .sql
+
+**4、** 只导出表结构
+
+**5、** MySQLdump -uroot -p -d dbname > dbname .sql
+
+6、导入
+
+**7、** MySQL -u用户名 -p密码 数据库名 < 数据库名.sql
+
+
+### 7、简述进程，线程，协程的区别以及应用场景？
+
+**区别：**
+
+**1、** 线程是资源分配的单位
+
+**2、** 线程是操作系统调度的单位
+
+**3、** 进程切换需要的资源很大，效率很低
+
+**4、** 线程切换需要的资源一般，效率一般(在不考虑GIL的情况下
+
+**5、** 协程切换任务资源很小，效率高
+
+**6、** 多进程，多线程根据cpu核数不一样可能是并行的，但是协程是在一个线程中，所以是并发。)
+
+**应用场景**
+
+**1、** 协程：当程序中存在大量不需要cpu的操作时，适用协程
+
+**2、** 计算密集型，用进程。IO密集型，用线程。
+
+
+### 8、22、iterables和iterators之间的区别？
+
+iterable：可迭代是一个对象，可以对其进行迭代。在可迭代的情况下，整个数据一次存储在内存中。
+
+iterators：迭代器是用来在对象上迭代的对象。它只在被调用时被初始化或存储在内存中。迭代器使用next从对象中取出元素。
+
+```
+# List is an iterable
+lst = [1,2,3,4,5]
+for i in lst:
+    print(i)
+
+# iterator
+lst1 = iter(lst)
+next(lst1)
+>1
+next(lst1)
+>2
+for i in lst1:
+    print(i)
+>3,4,5
+```
+
+
+### 9、如何查找一个字符串中特定的字符？find和index的差异？
+
+使用find和index方法查找
+
+**1、** find()方法：查找子字符串，若找到返回从0开始的下标值，若找不到返回-1
+
+**2、** index()方法：python 的index方法是在字符串里查找子串第一次出现的位置，类似字符串的find方法，不过比find方法更好的是，如果查找不到子串，会抛出异常，而不是返回-1
+
+
+### 10、JavaScript(或者jQuery)如何选择一个id为main的容器
+
+**1、** jquery：$('#id')
+
+**2、** JavaScript：document.getElementById("id"))
+
+
+### 11、一个大小为100G的文件etl_log.txt，要读取文件的内容，写出具体过程代码
+### 12、1，2，3，4，5能组成多少个互不相同且不重复的三位数？
+### 13、python解释器种类以及特点
+### 14、元组的解封装是什么？
+### 15、解决哈希冲突的算法有哪几种？分别有什么特点？
+### 16、query作为sql模板，args为将要传入的参数
+### 17、axios的作用
+### 18、现有mydict和变量onekey，请写出从mydict中取出onekey的值的方法
+### 19、如何实现字符串的反转？如：name=felix，反转成name=xilef
+### 20、Redis和Memcached的区别
+### 21、什么是Python？为什么它会如此流行？
+### 22、如何判断一个值是方法还是函数？
+### 23、以下代码输出什么？
+### 24、Python中使用的zip函数是什么？
+### 25、编写程序，计算文件中单词的出现频率
+### 26、实现99乘法表（使用两种方法）
+### 27、什么是局域网和广域网
+### 28、简述OSI七层协议
+### 29、用尽量简洁的方法将二维数组合并成一维数组
+### 30、解释Python中map()函数？
 
 
 

@@ -6,112 +6,169 @@
 
 
 
-### 1、Zookeeper如何 保证CP
+### 1、康威定律是什么？
 
-当向注册中⼼查询服务列表时，我们可以容忍注册中⼼返回的是⼏分钟以前的注册信息，但不能接受服务直接down掉不可⽤。也就是说，服务注册功能对可⽤性的要求要⾼于⼀致性。但是zk会出现这样⼀种情况，当master节点因为⽹络故障与其他节点失去联系时，剩余节点会重新进⾏leader选举。问题在于，选举leader的时间太⻓，30 ~ 120s, 且选举期间整个zk集群都是不可⽤的，这就导致在选举期间注册服务瘫痪。在云部署的环境下，因⽹络问题使得zk集群失去master节点是较⼤概率会发⽣的事，虽然服务能够最终恢复，但是漫⻓的选举时间导致的注册⻓期不可⽤是不能容忍的。
+“任何设计系统的组织（广泛定义）都将产生一种设计，其结构是组织通信结构的副本。” –  Mel Conway
 
+![](https://gitee.com/souyunkutech/souyunku-home/raw/master/images/souyunku-web/2019/08/0816/01/img_16.png#alt=img%5C_16.png)
 
-### 2、运行 SpringBoot 有哪几种方式？
+图13：  Conway定律的表示 – 微服务访谈问题
 
-**1、**  打包用命令或者放到容器中运行
-
-**2、**  用 Maven/ Gradle 插件运行
-
-**3、**  直接执行 main 方法运行
+该法律基本上试图传达这样一个事实：为了使软件模块起作用，整个团队应该进行良好的沟通。因此，系统的结构反映了产生它的组织的社会边界。
 
 
-### 3、如何启用/禁用执行器？
+### 2、什么是无所不在的语言？
 
-启用/禁用致动器很容易；最简单的方法是使特性能够将依赖项(Maven/Gradle)添加到spring-boot-starter-actuator，即启动器。如果不想启用致动器，那么就不要添加依赖项。
+如果您必须定义泛在语言（UL），那么它是特定域的开发人员和用户使用的通用语言，通过该语言可以轻松解释域。
 
-Maven依赖项：
+无处不在的语言必须非常清晰，以便它将所有团队成员放在同一页面上，并以机器可以理解的方式进行翻译。
+
+
+### 3、JPA 和 Hibernate 有哪些区别？
+
+简而言之
+
+JPA 是一个规范或者接口
+
+Hibernate 是 JPA 的一个实现
+
+当我们使用 JPA 的时候，我们使用 javax.persistence 包中的注释和接口时，不需要使用 hibernate 的导入包。
+
+我们建议使用 JPA 注释，因为哦我们没有将其绑定到 Hibernate 作为实现。后来（我知道 - 小于百分之一的几率），我们可以使用另一种 JPA 实现。
+
+
+### 4、什么是 SpringBoot Stater ？
+
+启动器是一套方便的依赖没描述符，它可以放在自己的程序中。你可以一站式的获取你所需要的 Spring 和相关技术，而不需要依赖描述符的通过示例代码搜索和复制黏贴的负载。
+
+例如，如果你想使用 Sping 和 JPA 访问数据库，只需要你的项目包含 spring-boot-starter-data-jpa 依赖项，你就可以完美进行。
+
+
+### 5、Spring Framework 中有多少个模块，它们分别是什么？
+
+![](https://gitee.com/souyunkutech/souyunku-home/raw/master/images/souyunku-web/2019/08/0816/02/img_1.png#alt=img%5C_1.png)
+
+**Spring 核心容器 – 该层基本上是 Spring Framework 的核心。它包含以下模块：**
+
+**1、** Spring Core
+
+**2、** Spring Bean
+
+**3、** SpEL (Spring Expression Language)
+
+**4、** Spring Context
+
+**数据访问/集成 – 该层提供与数据库交互的支持。它包含以下模块：**
+
+**1、** JDBC (Java DataBase Connectivity)
+
+**2、** ORM (Object Relational Mapping)
+
+**3、** OXM (Object XML Mappers)
+
+**4、** JMS (Java Messaging Service)
+
+**5、** Transaction
+
+**Web – 该层提供了创建 Web 应用程序的支持。它包含以下模块：**
+
+**1、** Web
+
+**2、** Web – Servlet
+
+**3、** Web – Socket
+
+**4、** Web – Portlet
+
+**AOP**
+
+该层支持面向切面编程
+
+**Instrumentation**
+
+该层为类检测和类加载器实现提供支持。
+
+**Test**
+
+该层为使用 JUnit 和 TestNG 进行测试提供支持。
+
+**几个杂项模块:**
+
+Messaging – 该模块为 STOMP 提供支持。它还支持注解编程模型，该模型用于从 WebSocket 客户端路由和处理 STOMP 消息。
+
+Aspects – 该模块为与 AspectJ 的集成提供支持。
+
+
+### 6、如何使用 SpringBoot 生成一个 WAR 文件？
+
+推荐阅读:
+
+[https://spring.io/guides/gs/convert-jar-to-war/](https://spring.io/guides/gs/convert-jar-to-war/)
+
+下面有 spring 说明文档直接的链接地址：
 
 ```
-<dependencies>
-    <dependency>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-actuator</artifactId>
-    </dependency>
-</dependencies>
+https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#build-tool-plugins-maven-packaging
 ```
 
 
-### 4、什么是 Spring 配置文件？
-
-Spring 配置文件是 XML 文件。该文件主要包含类信息。它描述了这些类是如何配置以及相互引入的。但是，XML 配置文件冗长且更加干净。如果没有正确规划和编写，那么在大项目中管理变得非常困难。
+### 7、如果想在拦截的方法里面得到从前台传入的参数,怎么得到？
 
 
-### 5、什么是 AOP什么是引入?
 
-引入允许我们在已存在的类中增加新的方法和属性。
-
-
-### 6、你怎样定义类的作用域?
-
-当定义一个 在Spring里，我们还能给这个bean声明一个作用域。它可以通过bean 定义中的scope属性来定义。如，当Spring要在需要的时候每次生产一个新的bean实例，bean的scope属性被指定为prototype。另一方面，一个bean每次使用的时候必须返回同一个实例，这个bean的scope 属性 必须设为 singleton。
+直接在形参里面声明这个参数就可以,但必须名字和传过来的参数一样。
 
 
-### 7、Spring Cloud Security
+### 8、保护 SpringBoot 应用有哪些方法？
 
-安全工具包，他可以对
+**1、**  在生产中使用HTTPS
 
-**1、** 对Zuul代理中的负载均衡从前端到后端服务中获取SSO令牌
+**2、**  使用Snyk检查你的依赖关系
 
-**2、** 资源服务器之间的中继令牌
+**3、**  升级到最新版本
 
-**3、** 使Feign客户端表现得像`OAuth2RestTemplate`（获取令牌等）的拦截器
+**4、**  启用CSRF保护
 
-**4、** 在Zuul代理中配置下游身份验证
-
-Spring Cloud Security提供了一组原语，用于构建安全的应用程序和服务，而且操作简便。可以在外部（或集中）进行大量配置的声明性模型有助于实现大型协作的远程组件系统，通常具有中央身份管理服务。它也非常易于在Cloud Foundry等服务平台中使用。在SpringBoot和Spring Security OAuth2的基础上，可以快速创建实现常见模式的系统，如单点登录，令牌中继和令牌交换。
+**5、**  使用内容安全策略防止XSS攻击
 
 
-### 8、什么是Spring Cloud Bus?
+### 9、SpringBoot 常用的 Starter 有哪些？
 
-spring cloud bus 将分布式的节点用轻量的消息代理连接起来，它可以用于广播配置文件的更改或者服务直接的通讯，也可用于监控。
+**1、** spring-boot-starter-web ：提供 Spring MVC + 内嵌的 Tomcat 。
 
-如果修改了配置文件，发送一次请求，所有的客户端便会重新读取配置文件。
+**2、** spring-boot-starter-data-jpa ：提供 Spring JPA + Hibernate 。
 
-**使用:**
+**3、** spring-boot-starter-data-Redis ：提供 Redis 。
 
-**1、** 添加依赖
-
-**2、** 配置rabbimq
+**4、** mybatis-spring-boot-starter ：提供 MyBatis 。
 
 
-### 9、RequestMapping 和 GetMapping 的不同之处在哪里？
+### 10、Spring对DAO的支持
 
-RequestMapping 具有类属性的，可以进行 GET,POST,PUT 或者其它的注释中具有的请求方法。
-
-GetMapping 是 GET 请求方法中的一个特例。它只是 ResquestMapping 的一个延伸，目的是为了提高清晰度。
+Spring对数据访问对象（DAO）的支持旨在简化它和数据访问技术如JDBC，Hibernate or JDO 结合使用。这使我们可以方便切换持久层。编码时也不用担心会捕获每种技术特有的异常。
 
 
-### 10、如何在自定义端口上运行 SpringBoot应用程序?
-
-在 `application.properties`中指定端口`serverport=8090`。
-
-
-### 11、Spring Cloud Gateway
-### 12、Spring Framework 中有多少个模块，它们分别是什么？
-### 13、什么是不同类型的微服务测试？
-### 14、什么是SpringBoot？
-### 15、什么是Spring Profiles？
-### 16、SpringBoot有哪些优点？
-### 17、当 SpringBoot 应用程序作为 Java 应用程序运行时，后台会发生什么？
-### 18、[@Autowired ](/Autowired ) 注解
-### 19、什么是Apache Kafka？
-### 20、什么是Netflix Feign？它的优点是什么？
-### 21、如何重新加载SpringBoot上的更改，而无需重新启动服务器？
-### 22、开启 SpringBoot 特性有哪几种方式？
-### 23、spring boot监听器流程?
-### 24、什么是Swagger？你用SpringBoot实现了它吗？
-### 25、什么是 Swagger？你用 SpringBoot 实现了它吗？
-### 26、Bean 工厂和 Application contexts 有什么区别？
-### 27、如何使用 SpringBoot 实现异常处理？
-### 28、RequestMapping 和 GetMapping 的不同之处在哪里？
-### 29、哪种依赖注入方式你建议使用，构造器注入，还是 Setter方法注入？
-### 30、分布式配置中心有那些框架？
-### 31、SpringBoot 的配置文件有哪几种格式？它们有什么区别？
+### 11、负载平衡的意义什么？
+### 12、SpringCloud Config 可以实现实时刷新吗？
+### 13、什么是编织（Weaving）？
+### 14、如何重新加载SpringBoot上的更改，而无需重新启动服务器？
+### 15、如何使用 SpringBoot 实现分页和排序？
+### 16、什么是依赖注入？
+### 17、描述一下 DispatcherServlet 的工作流程
+### 18、什么是 AOP 引入?
+### 19、自动装配有哪些局限性 ?
+### 20、什么是客户证书？
+### 21、既然Nginx可以实现网关？为什么还需要使用Zuul框架
+### 22、设计微服务的最佳实践是什么？
+### 23、SpringBoot 的核心注解是哪个？它主要由哪几个注解组成的？
+### 24、服务降级底层是如何实现的？
+### 25、shiro和oauth还有cas他们之间的关系是什么？问下您公司权限是如何设计，还有就是这几个概念的区别。
+### 26、什么是领域驱动设计？
+### 27、什么是Spring引导的执行器？
+### 28、什么是JavaConfig？
+### 29、什么是 WebSockets？
+### 30、解释WEB 模块。
+### 31、如何实现SpringBoot应用程序的安全性？
 
 
 

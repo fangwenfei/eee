@@ -6,121 +6,83 @@
 
 
 
-### 1、如何转换init.ora到spfile?
+### 1、如何重构索引？
+
+ALTER INDEX <index_name> REBUILD;
+
+
+### 2、解释$$ORACLE_HOME和$$ORACLE_BASE的区别？
+
+ORACLE_BASE是oracle的根目录，ORACLE_HOME是oracle产品的目录
+
+
+### 3、解释GLOBAL_NAMES设为TRUE的用途？
+
+GLOBAL_NAMES指明联接数据库的方式。如果这个参数设置为TRUE,在建立数据库链接时就必须用相同的名字连结远程数据库
+
+
+### 4、提及11g版本2中Oracle Forms Services中引入的新功能是什么?
+
+在Oracle Forms Services中，包括的功能包括：　　与Oracle Access Manager集成　　计划表格运行预备　　增强的网络统计报告　　支持Unicode列　　guiMode配置参数　　表单指标代理　　支持图像项目和图标按钮中的URL　　Oracle真正的用户体验洞察
+
+
+### 5、如何转换init.ora到spfile?
 
 使用create spfile from pfile 命令.
 
 
-### 2、创建数据库时自动建立的tablespace名称？
+### 6、如何增加buffer cache的命中率？
 
-SYSTEM tablespace.
+在数据库较繁忙时，适用buffer cache advisory 工具，查询v$db_cache_advice . 如果有必要更改，可以使用 alter system set
 
-
-### 3、解释什么是死锁，如何解决Oracle中的死锁？
-
-简言之就是存在加了锁而没有解锁，可能是使用锁没有提交或者回滚事务，如果是表级锁则不能操作表，客户端处于等在状态，如果是行级锁则不能操作锁定行
-
-**解决办法：**
-
-**1、** 查找出被锁的表
-
-**1、** select b.owner,b.object_name,a.session_id,a.locked_mode
-
-**2、** from v$locked_object a,dba_objects b
-
-**3、** where b.object_id = a.object_id;
-
-**1、** select b.username,b.sid,b.serial#,logon_time
-
-**2、** from v$$locked_object a,v$$session b
-
-**3、** where a.session_id = b.sid order by b.logon_time;
-
-**2、** 杀进程中的会话
-
-alter system kill session "sid,serial#";
+db_cache_size 命令
 
 
-### 4、给出数据库正常启动所经历的几种状态 ?
+### 7、Oracle跟SQL Server 2005的区别？
 
-STARTUP NOMOUNT – 数据库实例启动
+**宏观上：**
 
-STARTUP MOUNT - 数据库装载
+**1、** 最大的区别在于平台，oracle可以运行在不同的平台上，sql server只能运行在windows平台上，由于windows平台的稳定性和安全性影响了sql server的稳定性和安全性
 
-STARTUP OPEN – 数据库打开
+**2、** oracle使用的脚本语言为PL-SQL，而sql server使用的脚本为T-SQL
 
+**微观上：**
 
-### 5、使用索引的理由
-
-快速访问表中的data block
-
-
-### 6、本地管理表空间和字典管理表空间的特点，ASSM有什么特点？
-
-本地管理表空间(LocallyManaged Tablespace简称LMT)，8i以后出现的一种新的表空间的管理模式，通过位图来管理表空间的空间使用。字典管理表空间(Dictionary-ManagedTablespace简称DMT)8i以前包括以后都还可以使用的一种表空间管理模式，通过数据字典管理表空间的空间使用。动段空间管理（ASSM)，它首次出现在Oracle920里有了ASSM，链接列表freelist被位图所取代，它是一个二进制的数组，能够迅速有效地管理存储扩展和剩余区块(free block)，因此能够改善分段存储本质，ASSM表空间上创建的段还有另外一个称呼叫Bitmap ManagedSegments(BMB 段)
+**1、** 从数据类型,数据库的结构等等回答
 
 
-### 7、回滚段的作用是什么
+### 8、你必须利用备份恢复数据库，但是你没有控制文件，该如何解决问题呢？
 
-事务回滚：当事务修改表中数据的时候，该数据修改前的值(即前影像)会存放在回滚段中，当用户回滚事务(ROLLBACK)时，ORACLE将会利用回滚段中的数据前影像来将修改的数据恢复到原来的值。
-
-事务恢复：当事务正在处理的时候，例程失败，回滚段的信息保存在undo表空间中，ORACLE将在下次打开数据库时利用回滚来恢复未提交的数据。
-
-**1、** 读一致性：当一个会话正在修改数据时，其他的会话将看不到该会话未提交的修改。
-
-**2、** 当一个语句正在执行时，该语句将看不到从该语句开始执行后的未提交的修改(语句级读一致性)。
-
-**3、** 当ORACLE执行Select语句时，ORACLE依照当前的系统改变号(SYSTEM CHANGE NUMBER-SCN)。
-
-**4、** 来保证任何前于当前SCN的未提交的改变不被该语句处理。可以想象：当一个长时间的查询正在执行时。
-
-**5、** 若其他会话改变了该查询要查询的某个数据块，ORACLE将利用回滚段的数据前影像来构造一个读一致性视图。
+重建控制文件，用带backup control file 子句的recover 命令恢复数据库。
 
 
-### 8、给出两个检查表结构的方法
+### 9、如何变动数据文件的大小？
 
-**1、** DESCRIBE命令
-
-**2、**  DBMS_METADATA.GET_DDL 包
+ALTER DATABASE DATAFILE <datafile_name> RESIZE <new_size>;
 
 
-### 9、简单描述table / segment / extent / block之间的关系？
+### 10、给出两种相关约束?
 
-table创建时,默认创建了一个data segment，每个datasegment含有min extents指定的extents数，每个extent据据表空间的存储参数分配一定数量的blocks
-
-
-### 10、说下 怎样创建一个视图,视图的好处, 视图可以控制权限吗?
-
-create view 视图名 as select 列名 [别名]  …  from 表 [unio [all] select … ] ]
-
-好处：
-
-**1、** 可以简单的将视图理解为sql查询语句，视图最大的好处是不占系统空间
-
-**2、** 一些安全性很高的系统，不会公布系统的表结构，可能会使用视图将一些敏感信息过虑或者重命名后公布结构
-
-**3、** 简化查询
-
-**4、** 视图可以控制权限的，在使用的时候需要将视图的使用权限grant给用户
+主键和外键
 
 
-### 11、给出两种相关约束?
-### 12、如何建立一个备份控制文件?
-### 13、MySQL数据库与Oracle 数据库有什么区别？
-### 14、如何加密PL/SQL程序？
-### 15、如何在tablespace里增加数据文件？
-### 16、Audit trace 存放在哪个oracle目录结构中?
-### 17、解释冷备份和热备份的不同点以及各自的优点
-### 18、ORA-01555的应对方法？
-### 19、解释归档和非归档模式之间的不同和它们各自的优缺点
-### 20、Oracle的游标在存储过程里是放在begin与end的里面还是外面？
-### 21、在千万级的数据库查询中，如何提高效率？
-### 22、比较truncate和delete 命令
-### 23、truncate和delete区别：
-### 24、如何建立一个备份控制文件？
-### 25、如何变动数据文件的大小？
-### 26、怎样创建一个一个索引,索引使用的原则,有什么优点和缺点
-### 27、如何判断数据库的时区？
+### 11、说下 oracle 中 dml、ddl、dcl 的使用有哪些
+### 12、给出在STAR SCHEMA中的两种表及它们分别含有的数据
+### 13、说下 Oracle的导入导出有几种方式，有何区别？
+### 14、哪个column可以用来区别V$$视图和GV$$视图?
+### 15、如何生成explain plan?
+### 16、给出数据库正常启动所经历的几种状态 ?
+### 17、日志的作用是什么
+### 18、比较truncate和delete 命令
+### 19、在千万级的数据库查询中，如何提高效率？
+### 20、怎样创建一个一个索引,索引使用的原则,有什么优点和缺点
+### 21、创建用户时，需要赋予新用户什么权限才能使它联上数据库。
+### 22、如何加密PL/SQL程序？
+### 23、Oracle的导入导出有几种方式，有何区别？
+### 24、给出两个检查表结构的方法
+### 25、如何使用Oracle的游标？
+### 26、哪个VIEW用来判断tablespace的剩余空间
+### 27、说下，内连接，左连接，右连接的区别
 
 
 

@@ -6,129 +6,147 @@
 
 
 
-### 1、简述Mybatis的Xml映射文件和Mybatis内部数据结构之间的映射关系？
+### 1、Hibernate 和 MyBatis 的区别
 
-Mybatis将所有Xml配置信息都封装到All-In-One重量级对象Configuration内部。在Xml映射文件中，`<parameterMap>`标签会被解析为ParameterMap对象，其每个子元素会被解析为ParameterMapping对象。`<resultMap>`标签会被解析为ResultMap对象，其每个子元素会被解析为ResultMapping对象。每一个`<select>`、`<insert>`、`<update>`、`<delete>`标签均会被解析为MappedStatement对象，标签内的sql会被解析为BoundSql对象。
+**相同点**
 
+都是对jdbc的封装，都是持久层的框架，都用于dao层的开发。
 
-### 2、什么是 MyBatis 的接口绑定,有什么好处？
+**不同点**
 
-接口映射就是在 MyBatis 中任意定义接口,然后把接口里面的方法和 SQL 语句绑定,我们
+映射关系
 
-直接调用接口方法就可以,这样比起原来了 SqlSession 提供的方法我们可以有更加灵活的选
+MyBatis 是一个半自动映射的框架，配置Java对象与sql语句执行结果的对应关系，多表关联关系配置简单
 
-择和设置.
+Hibernate 是一个全表映射的框架，配置Java对象与数据库表的对应关系，多表关联关系配置复杂
 
+**SQL优化和移植性**
 
-### 3、JDBC编程有哪些不足之处，Mybatis是如何解决这些问题的？
+Hibernate 对SQL语句封装，提供了日志、缓存、级联（级联比 MyBatis 强大）等特性，此外还提供 HQL（Hibernate Query Language）操作数据库，数据库无关性支持好，但会多消耗性能。如果项目需要支持多种数据库，代码开发量少，但SQL语句优化困难。
 
-**1、** 数据库连接的创建、释放频繁造成系统资源浪费从而影响了性能，如果使用数据库连接池就可以解决这个问题。当然JDBC同样能够使用数据源。
-
-**2、** 在SQLMapConfig.xml中配置数据连接池，使用数据库连接池管理数据库连接。
-
-**3、** SQL语句在写代码中不容易维护，事件需求中SQL变化的可能性很大，SQL变动需要改变JAVA代码。解决：将SQL语句配置在mapper.xml文件中与java代码分离。
-
-**4、** 向SQL语句传递参数麻烦，因为SQL语句的where条件不一定，可能多，也可能少，占位符需要和参数一一对应。解决：Mybatis自动将java对象映射到sql语句。
-
-**5、** 对结果集解析麻烦，sql变化导致解析代码变化，且解析前需要遍历，如果能将数据库记录封装成pojo对象解析比较方便。解决：Mbatis自动将SQL执行结果映射到java对象。
+MyBatis 需要手动编写 SQL，支持动态 SQL、处理列表、动态生成表名、支持存储过程。开发工作量相对大些。直接使用SQL语句操作数据库，不支持数据库无关性，但sql语句优化容易。
 
 
-### 4、MyBatis实现一对一有几种方式?具体怎么操作的？
+### 2、Mapper 编写有几种方式 ？
 
-有联合查询和嵌套查询,联合查询是几个表联合查询,只查询一次, 通过在resultMap里面配置association节点配置一对一的类就可以完成；
+**1、** 接口实现类集成`SQLSessionDaoSupport`** 此方法需要编写`mapper`接口，`mapper`接口的实现类,`mapper.xml`文件。
 
-嵌套查询是先查一个表，根据这个表里面的结果的 外键id，去再另外一个表里面查询数据,也是通过association配置，但另外一个表的查询通过select属性配置。
+**2、** 使用`org.mybatis.spring.mapper.MapperFactoryBean`** 此方法需要在`SqlMapConfig.xml`中配置`mapper.xml`的位置，还需定义`mapper`接口。
 
-
-### 5、SQLMapConfig.xml中配置有哪些内容？
-
-properties（属性） settings（配置） typeAliases（类型别名） typeHandlers（类型处理器） objectFactory（对象工厂） plugins（插件） environments（环境集合属性对象） environment（环境子属性对象） transactionManager（事务管理） dataSource（数据源） mappers（映射器）
+**3、** 使用`mapper`扫描器** 需要编写`mapper.xml`文件，需要`mapper`接口，配置`mapper`扫描器，使用扫描器从`spring`容器中获取`mapper`的实现对象。
 
 
-### 6、MyBatis 的好处是什么？
+### 3、Mybatis的一级缓存和二级缓存？
 
-**1、** MyBatis 把 sql 语句从 Java 源程序中独立出来，放在单独的 XML 文件中编写，给程序的
+**1、** 一级缓存 Mybatis的一级缓存是指SQLSession，一级缓存的作用域是SQlSession, Mabits默认开启一级缓存。 在同一个SqlSession中，执行相同的SQL查询时；第一次会去查询数据库，并写在缓存中，第二次会直接从缓存中取。 当执行SQL时候两次查询中间发生了增删改的操作，则SQLSession的缓存会被清空。 每次查询会先去缓存中找，如果找不到，再去数据库查询，然后把结果写到缓存中。 Mybatis的内部缓存使用一个HashMap，key为hashcode+statementId+sql语句。Value为查询出来的结果集映射成的java对象。 SqlSession执行insert、update、delete等操作commit后会清空该SQLSession缓存。
 
-维护带来了很大便利。
-
-**2、** MyBatis 封装了底层 JDBC API 的调用细节，并能自动将结果集转换成 Java Bean 对象，
-
-大大简化了 Java 数据库编程的重复工作。
-
-**3、** 因为 MyBatis 需要程序员自己去编写 sql 语句，程序员可以结合数据库自身的特点灵活
-
-控制 sql 语句，因此能够实现比 Hibernate 等全自动 orm 框架更高的查询效率，能够完成复
-
-杂查询。
+**2、** 二级缓存 二级缓存是mapper级别的，Mybatis默认是没有开启二级缓存的。 第一次调用mapper下的SQL去查询用户的信息，查询到的信息会存放代该mapper对应的二级缓存区域。 第二次调用namespace下的mapper映射文件中，相同的sql去查询用户信息，会去对应的二级缓存内取结果。 如果调用相同namespace下的mapepr映射文件中增删改sql，并执行了commit操作，此时会情况该
 
 
-### 7、Mybatis 比 IBatis 比较大的几个改进是什么？
+### 4、JDBC编程有哪些不足之处，MyBatis是如何解决的？
 
-**1、** 有接口绑定,包括注解绑定 sql 和 xml 绑定 Sql
+**1、** 数据库链接创建、释放频繁造成系统资源浪费从而影响系统性能，如果使用数据库连接池可解决此问题。
 
-**2、** 动态 sql 由原来的节点配置变成 OGNL 表达式 3、 在一对一,一对多的时候引进了
+**解决：在mybatis-config.xml中配置数据链接池，使用连接池管理数据库连接。**
 
-association,在一对多的时候引入了 collection 节点,不过都是在 resultMap 里面配置
+**2、** Sql语句写在代码中造成代码不易维护，实际应用sql变化的可能较大，sql变动需要改变java代码。-
 
+**解决：将Sql语句配置在XXXXmapper.xml文件中与java代码分离。**
 
-### 8、Mybais 常用注解 ？
+**3、** 向sql语句传参数麻烦，因为sql语句的where条件不一定，可能多也可能少，占位符需要和参数一一对应。
 
-[@Insert ](/Insert ) ： 插入sql , 和xml insert sql语法完全一样
+**解决： Mybatis自动将java对象映射至sql语句。**
 
-[@Select ](/Select ) ： 查询sql, 和xml select sql语法完全一样
+**4、** 对结果集解析麻烦，sql变化导致解析代码变化，且解析前需要遍历，如果能将数据库记录封装成pojo对象解析比较方便。
 
-[@Update ](/Update ) ： 更新sql, 和xml update sql语法完全一样
-
-[@Delete ](/Delete ) ： 删除sql, 和xml delete sql语法完全一样
-
-[@Param ](/Param ) ： 入参
-
-[@Results ](/Results ) ：结果集合
-
-[@Result ](/Result ) ： 结果
+**解决：Mybatis自动将sql执行结果映射至java对象。**
 
 
-### 9、如何获取自动生成的(主)键值?
+### 5、通常一个 Xml 映射文件，都会写一个 Dao 接口与之对应, Dao 的工作原理，是否可以重
 
-insert 方法总是返回一个int值 ，这个值代表的是插入的行数。
+载？
 
-如果采用自增长策略，自动生成的键值在 insert 方法执行完后可以被设置到传入的参数对象中。
+不能重载，因为通过 Dao 寻找 Xml 对应的 sql 的时候全限名+方法名的保存和寻找策
 
-**示例：**
+略。接口工作原理为 jdk 动态代理原理，运行时会为 dao 生成 proxy，代理对象会拦截接口
 
-```xml
-<insert id=”insertname” usegeneratedkeys=”true” keyproperty=”id”>
-        insert into names (name) values (#{name})
-        </insert>
-        name name = new name();
-        name.setname(“fred”);
-
-        int rows = mapper.insertname(name);
-        // 完成后,id已经被设置到对象中
-        system.out.println(“rows inserted = ” + rows);
-        system.out.println(“generated key value = ” + name.getid());
-```
+方法，去执行对应的 sql 返回数据。
 
 
-### 10、什么是DBMS
+### 6、MyBatis的功能架构是怎样的
 
-DBMS：数据库管理系统(database management system)是一种操纵和管理数据库的大型软件，用于建立、使用和维护数zd据库，简称dbms。它对数据库进行统一的管理和控制，以保证数据库的安全性和完整性。用户通过dbms访问数据库中的数据，数据库管理员也通过dbms进行数据库的维护工作。它可使多个应用程序和用户用不同的方法在同时版或不同时刻去建立，修改和询问数据库。DBMS提供数据定义语言[DDL](https://www.baidu.com/s?wd=DDL&tn=SE_PcZhidaonwhc_ngpagmjz&rsv_dl=gh_pc_zhidao)（Data Definition Language）与数据操作语言[DML](https://www.baidu.com/s?wd=DML&tn=SE_PcZhidaonwhc_ngpagmjz&rsv_dl=gh_pc_zhidao)（Data Manipulation Language），供用户定义数据库的模式结构与权限约束，实现对数据的追加权、删除等操作。
+![](https://gitee.com/souyunkutech/souyunku-home/raw/master/images/souyunku-web/2020/5/2/041/14/55_2.png#alt=55%5C_2.png)
+
+**我们把Mybatis的功能架构分为三层：**
+
+**1、** API接口层：提供给外部使用的接口API，开发人员通过这些本地API来操纵数据库。接口层一接收到调用请求就会调用数据处理层来完成具体的数据处理。
+
+**2、** 数据处理层：负责具体的SQL查找、SQL解析、SQL执行和执行结果映射处理等。它主要的目的是根据调用的请求完成一次数据库操作。
+
+**3、** 基础支撑层：负责最基础的功能支撑，包括连接管理、事务管理、配置加载和缓存处理，这些都是共用的东西，将他们抽取出来作为最基础的组件。为上层的数据处理层提供最基础的支撑。
 
 
-### 11、Mybatis动态sql是做什么的？都有哪些动态sql？
-### 12、Mybatis 是否可以映射 Enum 枚举类？
-### 13、Xml映射文件中，除了常见的select|insert|updae|delete标签之外，还有哪些标签？
-### 14、Mybatis 是如何进行分页的？分页插件的原理是什么？
-### 15、如何执行批量插入?
-### 16、MyBatis框架的缺点有什么？
-### 17、Mybaits的优点：
-### 18、MyBatis编程步骤是什么样的？
-### 19、为什么需要预编译
-### 20、传统JDBC开发存在什么问题？
-### 21、Mybatis 中如何执行批处理？
-### 22、Mybatis优缺点
-### 23、为什么说Mybatis是半自动ORM映射工具？它与全自动的区别在哪里？
-### 24、Mybatis的映射文件 ？
+### 7、简述Mybatis的插件运行原理，以及如何编写一个插件。
+
+Mybatis仅可以编写针对ParameterHandler、ResultSetHandler、StatementHandler、Executor这4种接口的插件，Mybatis使用JDK的动态代理，为需要拦截的接口生成代理对象以实现接口方法拦截功能，每当执行这4种接口对象的方法时，就会进入拦截方法，具体就是InvocationHandler的invoke()方法，当然，只会拦截那些你指定需要拦截的方法。
+
+编写插件：实现Mybatis的Interceptor接口并复写intercept()方法，然后在给插件编写注解，指定要拦截哪一个接口的哪些方法即可，记住，别忘了在配置文件中配置你编写的插件。
+
+
+
+### 8、Mybatis 是如何进行分页的？分页插件的原理是什么？
+
+**1、** Mybatis 使用 RowBounds 对象进行分页，也可以直接编写 sql 实现分页，也可以使用Mybatis 的分页插件。
+
+**2、** 分页插件的原理：实现 Mybatis 提供的接口，实现自定义插件，在插件的拦截方法内拦
+
+截待执行的 sql，然后重写 sql。
+
+举例：select _ from student，拦截 sql 后重写为：select t._ from （select * from student、t
+
+limit 0，10
+
+
+### 9、Xml 映射文件中，除了常见的 select|insert|updae|delete 标签之外，还有哪些标签？
+
+还有很多其他的标签，、、、、
+
+，加上动态 sql 的 9 个标签，
+
+trim|where|set|foreach|if|choose|when|otherwise|bind 等，其中为 sql 片段标签，通
+
+过标签引入 sql 片段，为不支持自增的主键生成策略标签。
+
+**1、** 通过在查询的 sql 语句中定义字段名的别名。
+
+**2、** 通过来映射字段名和实体类属性名的一一对应的关系。
+
+
+### 10、#{}和${}的区别是什么？
+
+`#{}`是预编译处理，${}是字符串替换。
+
+Mybatis在处理#{}时，会将sql中的#{}替换为?号，调用PreparedStatement的set方法来赋值；
+
+Mybatis在处理$${}时，就是把$${}替换成变量的值。
+
+使用#{}可以有效的防止SQL注入，提高系统安全性。
+
+
+### 11、使用Mybatis的mapper接口调用时候有哪些要求？
+### 12、#{}和${}的区别是什么？
+### 13、什么是MyBatis的接口绑定？有哪些实现方式？
+### 14、MyBatis与hibernate有哪些不同？
+### 15、SQLMapConfig.xml中配置有哪些内容？
+### 16、什么是DBMS
+### 17、讲下 MyBatis 的缓存
+### 18、IBatis 和 MyBatis 在核心处理类分别叫什么？
+### 19、Mybaits的优点有什么？
+### 20、MyBatis与Hibernate有哪些不同？
+### 21、模糊查询 like 语句该怎么写
+### 22、MyBatis 实现一对一有几种方式?具体怎么操作的？
+### 23、Mybatis 分页查询？
+### 24、Xml映射文件中，除了常见的select|insert|updae|delete标签之外，还有哪些标签？
 
 
 

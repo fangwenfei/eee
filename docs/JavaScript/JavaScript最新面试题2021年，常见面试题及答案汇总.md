@@ -6,177 +6,7 @@
 
 
 
-### 1、说说你对promise的了解
-
-依照 `Promise/A+` 的定义，`Promise` 有四种状态：
-
-**1、** `pending:` 初始状态, 非 `fulfilled` 或 `rejected.`
-
-**2、** `fulfilled:` 成功的操作.
-
-**3、** `rejected:` 失败的操作.
-
-**4、** `settled: Promise`已被`fulfilled`或`rejected`，且不是`pending`
-
-另外， `fulfilled`与 `rejected`一起合称 `settled`
-
-`Promise` 对象用来进行延迟(`deferred`) 和异步(`asynchronous`) 计算
-
-**Promise 的构造函数**
-
-构造一个 `Promise`，最基本的用法如下：
-
-```
-var promise = new Promise(function(resolve, reject) {
-
-        if (...) {  // succeed
-
-            resolve(result);
-
-        } else {   // fails
-
-            reject(Error(errMessage));
-
-        }
-    });
-```
-
-`Promise` 实例拥有 `then` 方法（具有 `then` 方法的对象，通常被称为`thenable`）。它的使用方法如下：
-
-```
-promise.then(onFulfilled, onRejected)
-```
-
-接收两个函数作为参数，一个在 `fulfilled` 的时候被调用，一个在`rejected`的时候被调用，接收参数就是 `future`，`onFulfilled` 对应`resolve`, `onRejected`对应 `reject`
-
-
-### 2、Ajax原理
-
-**1、** `Ajax`的原理简单来说是在用户和服务器之间加了—个中间层(`AJAX`引擎)，通过`XmlHttpRequest`对象来向服务器发异步请求，从服务器获得数据，然后用`javascrip`t来操作`DOM`而更新页面。使用户操作与服务器响应异步化。这其中最关键的一步就是从服务器获得请求数据
-
-**2、** `Ajax`的过程只涉及`JavaScript`、`XMLHttpRequest`和`DOM`。`XMLHttpRequest`是`aja`x的核心机制
-
-```
- // 1、创建连接
-    var xhr = null;
-    xhr = new XMLHttpRequest()
-    // 2、连接服务器
-    xhr.open('get', url, true)
-    // 3、发送请求
-    xhr.send(null);
-    // 4、接受请求
-    xhr.onreadystatechange = function(){
-        if(xhr.readyState == 4){
-            if(xhr.status == 200){
-                success(xhr.responseText);
-            } else { // fail
-                fail && fail(xhr.status);
-            }
-        }
-    }
-```
-
-
-### 3、jsonp原理？ 缺点?
-
-工作原理：使用script标签实现跨域访问，可在url中指定回调函数，获取JSON数据并在指定的回调函数中执行jquery实现jsop。
-
-缺点：只支持GET方式的jsonp实现，是一种脚本注入行为存在一定的安全隐患。如果返回的数据格式有问题或者返回失败了，并不会报错。
-
-
-### 4、Promise 是什么？
-
-**Promise** 是异步编程的一种解决方案：从语法上讲，`promise`是一个对象，从它可以获取异步操作的消息；从本意上讲，它是承诺，承诺它过一段时间会给你一个结果。`promise`有三种状态：`pending(等待态)`，`fulfiled(成功态)`，`rejected(失败态)`；状态一旦改变，就不会再变。创造`promise`实例后，它会立即执行。
-
-```
-fs.readFile('somefile.txt', function (e, data) {
-  if (e) {
-    console.log(e);
-  }
-  console.log(data);
-});
-```
-
-如果我们在回调内部有另一个异步操作，则此方法存在问题。我们将有一个混乱且不可读的代码。此代码称为 **『回调地狱』**。
-
-```
-// 回调地狱
-fs.readFile('somefile.txt', function (e, data) {
-  //your code here
-  fs.readdir('directory', function (e, files) {
-    //your code here
-    fs.mkdir('directory', function (e) {
-      //your code here
-    })
-  })
-})
-```
-
-如果我们在这段代码中使用`promise`，它将更易于阅读、理解和维护。
-
-`promReadFile('file/path') .then(data => { return promReaddir('directory'); }) .then(data => { return promMkdir('directory'); }) .catch(e => { console.log(e); })`
-
-`promise`有三种不同的状态：
-
-**1、** pending：初始状态，完成或失败状态的前一个状态
-
-**2、** fulfilled：操作成功完成
-
-**3、** rejected：操作失败
-
-`pending` 状态的 `Promise` 对象会触发 `fulfilled/rejected` 状态，在其状态处理方法中可以传入参数/失败信息。当操作成功完成时，**Promise** 对象的 `then` 方法就会被调用；否则就会触发 `catch`。如：
-
-```
-const myFirstPromise = new Promise((resolve, reject) => {
-  setTimeout(function(){
-      resolve("成功!"); 
-  }, 250);
-});
-
-myFirstPromise.then((data) => {
-  console.log("Yay! " + data);
-}).catch((e) => {...});
-```
-
-
-### 5、|| 运算符能做什么
-
-`||`也叫或`逻辑或`，在其操作数中找到第一个真值表达式并返回它。这也使用了短路来防止不必要的工作。在支持 ES6 默认函数参数之前，它用于初始化函数中的默认参数值。
-
-```
-console.log(null || 1 || undefined); // 1
-
-function logName(name) {
-  var n = name || "Mark";
-  console.log(n);
-}
-
-logName(); // "Mark"
-```
-
-
-### 6、模块化开发怎么做？
-
-立即执行函数,不暴露私有成员
-
-```
-var module1 = (function(){
-　　　　var _count = 0;
-　　　　var m1 = function(){
-　　　　　　//...
-　　　　};
-　　　　var m2 = function(){
-　　　　　　//...
-　　　　};
-　　　　return {
-　　　　　　m1 : m1,
-　　　　　　m2 : m2
-　　　　};
-　　})();
-```
-
-
-### 7、XML和JSON的区别？
+### 1、XML和JSON的区别？
 
 **数据体积方面**
 
@@ -195,64 +25,140 @@ var module1 = (function(){
 `JSON`的速度要远远快于`XML`
 
 
-### 8、$$('div+.ab')和$$('.ab+div') 哪个效率高？
+### 2、什么是预编译语音|预编译处理器?
 
-$('div+.ab')效率高
+Sass是一种CSS预处理器语言，通过编程方式生成CSS代码。因为可编程，所以操控灵活性自由度高，方便实现一些直接编写CSS代码较困难的代码。
 
+同时，因为Sass是生成CSS的语言，所以写出来的Sass文件是不能直接用的，必须经过编译器编译成CSS文件才能使用。
 
-### 9、Jq中如何将一个jq对象转化为dom对象？
-
-**方法一：**
-
-jQuery对象是一个数据对象，可以通过[index]的方法，来得到相应的DOM对象。
-
-如：var $$v =$$("#v") ; //jQuery对象
-
-var v=$v[0]; //DOM对象
-
-alert(v.checked) //检测这个checkbox是否被选中
-
-**方法二：**
-
-jQuery本身提供，通过.get(index)方法，得到相应的DOM对象
-
-如：var $$v=$$("#v"); //jQuery对象
-
-var v=$v.get(0); //DOM对象
-
-alert(v.checked) //检测这个checkbox是否被选中
+CSS 预处理器是一种语言用来为 CSS 增加一些编程的的特性，无需考虑浏览器的兼容性问题，例如你可以在 CSS 中使用变量、简单的程序逻辑、函数等等在编程语言中的一些基本技巧，可以让你的 CSS 更见简洁，适应性更强，代码更直观等诸多好处。最常用的css预处理器有sass、less css、stylus。
 
 
-### 10、对象的 prototype(原型) 是什么？
+### 3、那些操作会造成内存泄漏？
 
-简单地说，原型就是对象的蓝图。如果它存在当前对象中，则将其用作属性和方法的回退。它是在对象之间共享属性和功能的方法，这也是JavaScript实现继承的核心。
+**1、** 内存泄漏指任何对象在您不再拥有或需要它之后仍然存在
 
-`const o = {}; console.log(o.toString()); // logs [object Object]`
+**2、** `setTimeout` 的第一个参数使用字符串而非函数的话，会引发内存泄漏
 
-即使`o`对象中不存在`o.toString`方法，它也不会引发错误，而是返回字符串`[object Object]`。当对象中不存在属性时，它将查看其原型，如果仍然不存在，则将其查找到原型的原型，依此类推，直到在原型链中找到具有相同属性的属性为止。原型链的末尾是`Object.prototype`。
-
-`console.log(o.toString === Object.prototype.toString); // logs true`
+**3、** 闭包、控制台日志、循环（在两个对象彼此引用且彼此保留时，就会产生一个循环）
 
 
-### 11、如何知道是否在元素中使用了`event.preventDefault()`方法？
-### 12、什么是NaN？以及如何检查值是否为NaN？
-### 13、有哪些数据类型？
-### 14、!! 运算符能做什么？
-### 15、什么是高阶函数？
-### 16、判断数据类型的方法有哪些？
-### 17、请解释什么是事件代理
-### 18、eval是做什么的？
-### 19、介绍js的基本数据类型
-### 20、几种基本数据类型?复杂数据类型?值类型和引用数据类型?堆栈数据结构
-### 21、使用 + 或一元加运算符是将字符串转换为数字的最快方法吗？
-### 22、Function.prototype.bind 的用途是什么？
-### 23、Jq中get和eq有什么区别？
-### 24、异步加载JS的方式有哪些？
-### 25、实现继承的方法有哪些？？？
-### 26、手动实现`Array.prototype.reduce`方法
-### 27、如何确保ajax或连接不走缓存路径
-### 28、一个页面从输入 URL 到页面加载显示完成，这个过程中都发生了什么？（流程说的越详细越好）
-### 29、DOM事件模型和事件流？
+### 4、$$.map和$$.each有什么区别###
+
+map()方法主要用来遍历操作数组和对象，会返回一个新的数组。$.map()方法适用于将数组或对象每个项目新阵列映射到一个新数组的函数；
+
+each()主要用于遍历jquery对象，返回的是原来的数组，并不会新创建一个数组。
+
+
+### 5、渐进增强和优雅降级
+
+**1、** 渐进增强 ：针对低版本浏览器进行构建页面，保证最基本的功能，然后再针对高级浏览器进行效果、交互等改进和追加功能达到更好的用户体验。
+
+**2、** 优雅降级 ：一开始就构建完整的功能，然后再针对低版本浏览器进行兼容
+
+
+### 6、call和apply 有什么好处？
+
+用call和apply:实现更好的继承和扩展，更安全。
+
+
+### 7、ajax中 get 和 post 有什么区别?
+
+get和post都是数据提交的方式。
+
+get的数据是通过网址问号后边拼接的字符串进行传递的。post是通过一个HTTP包体进行传递数据的。
+
+get的传输量是有限制的，post是没有限制的。
+
+get的安全性可能没有post高，所以我们一般用get来获取数据，post一般用来修改数据。
+
+
+### 8、常见web安全及防护原理
+
+**`sql`注入原理**
+
+就是通过把`SQL`命令插入到`Web`表单递交或输入域名或页面请求的查询字符串，最终达到欺骗服务器执行恶意的SQL命令
+
+**总的来说有以下几点**
+
+永远不要信任用户的输入，要对用户的输入进行校验，可以通过正则表达式，或限制长度，对单引号和双`"-"`进行转换等
+
+**1、** 永远不要使用动态拼装SQL，可以使用参数化的`SQL`或者直接使用存储过程进行数据查询存取
+
+**2、** 永远不要使用管理员权限的数据库连接，为每个应用使用单独的权限有限的数据库连接
+
+**3、** 不要把机密信息明文存放，请加密或者`hash`掉密码和敏感的信息
+
+**XSS原理及防范**
+
+`Xss(cross-site scripting)`攻击指的是攻击者往`Web`页面里插入恶意`html`标签或者`javascript`代码。
+
+**比如：**
+
+攻击者在论坛中放一个看似安全的链接，骗取用户点击后，窃取`cookie`中的用户私密信息；或者攻击者在论坛中加一个恶意表单，当用户提交表单的时候，却把信息传送到攻击者的服务器中，而不是用户原本以为的信任站点
+
+**XSS防范方法**
+
+首先代码里对用户输入的地方和变量都需要仔细检查长度和对`”<”,”>”,”;”,”’”`等字符做过滤；其次任何内容写到页面之前都必须加以encode，避免不小心把`html tag` 弄出来。这一个层面做好，至少可以堵住超过一半的XSS 攻击
+
+**XSS与CSRF有什么区别吗？**
+
+**1、** `XSS`是获取信息，不需要提前知道其他用户页面的代码和数据包。`CSRF`是代替用户完成指定的动作，需要知道其他用户页面的代码和数据包。要完成一次`CSRF`攻击，受害者必须依次完成两个步骤
+
+**2、** 登录受信任网站`A`，并在本地生成`Cookie`
+
+**3、** 在不登出`A`的情况下，访问危险网站`B`
+
+**CSRF的防御**
+
+服务端的`CSRF`方式方法很多样，但总的思想都是一致的，就是在客户端页面增加伪随机数
+
+通过验证码的方法
+
+
+### 9、说几条写JavaScript的基本规范？
+
+**1、** 不要在同一行声明多个变量
+
+**2、** 请使用`===/!==`来比较`true/false`或者数值
+
+**3、** 使用对象字面量替代`new Array`这种形式
+
+**4、** 不要使用全局函数
+
+**5、** `Switch`语句必须带有`default`分支
+
+**6、** `If`语句必须使用大括号
+
+**7、** `for-in`循环中的变量 应该使用`var`关键字明确限定作用域，从而避免作用域污
+
+
+### 10、为什么要有同源限制？
+
+**1、** 同源策略指的是：协议，域名，端口相同，同源策略是一种安全协议
+
+**2、** 举例说明：比如一个黑客程序，他利用`Iframe`把真正的银行登录页面嵌到他的页面上，当你使用真实的用户名，密码登录时，他的页面就可以通过`Javascript`读取到你的表单中`input`中的内容，这样用户名，密码就轻松到手了。
+
+
+### 11、EventLoop事件循环是什么？
+### 12、通过new创建一个对象的时候，函数内部有哪些改变###
+### 13、如何在不使用`%`模运算符的情况下检查一个数字是否是偶数？
+### 14、什么是构造函数？与普通函数有什么区别?
+### 15、谈谈你对AMD、CMD的理解
+### 16、Jq中get和eq有什么区别？
+### 17、JavaScript 中的虚值是什么？
+### 18、展开(spread )运算符和 剩余(Rest) 运算符有什么区别？
+### 19、什么是事件冒泡？
+### 20、有哪些方法可以处理 JS 中的异步代码？
+### 21、压缩合并目的？http请求的优化方式？
+### 22、简述一下你理解的面向对象？
+### 23、如何合并两个数组？数组删除一个元素?
+### 24、什么是提升？
+### 25、对象的 prototype(原型) 是什么？
+### 26、AJAX 是什么？
+### 27、你觉得jQuery源码有哪些写的好的地方
+### 28、jQuery与jQuery UI 有啥区别？
+### 29、说出几个http协议状态码?
 
 
 

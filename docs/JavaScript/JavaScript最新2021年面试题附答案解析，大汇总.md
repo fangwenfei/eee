@@ -6,249 +6,365 @@
 
 
 
-### 1、Gc机制是什么？为什么闭包不会被回收变量和函数？
+### 1、|| 运算符能做什么
 
-**1、** Gc垃圾回收机制;
-
-**2、** 外部变量没释放，所以指向的大函数内的小函数也释放不了
-
-
-### 2、null，undefined 的区别？
-
-**1、** `undefined` 表示不存在这个值。
-
-**2、** `undefined` :是一个表示"无"的原始值或者说表示"缺少值"，就是此处应该有一个值，但是还没有定义。当尝试读取时会返回 `undefined`
-
-**3、** 例如变量被声明了，但没有赋值时，就等于`undefined`
-
-**4、** `null` 表示一个对象被定义了，值为“空值”
-
-**5、** `null` : 是一个对象(空对象, 没有任何属性和方法)
-
-**6、** 例如作为函数的参数，表示该函数的参数不是对象；
-
-**7、** 在验证`null`时，一定要使用　`===` ，因为 `==`无法分别`null` 和　`undefined`
-
-
-### 3、什么是提升？
-
-**提升**是用来描述变量和函数移动到其(全局或函数)作用域顶部的术语。
-
-为了理解提升，需要来了解一下**执行上下文**。**执行上下文**是当前正在执行的**“代码环境”**。执行上下文有两个阶段:`编译`和`执行`。
-
-**编译**-在此阶段，JS 引荐获取所有**函数声明**并将其**提升**到其作用域的顶部，以便我们稍后可以引用它们并获取所有变量声明（使用`var`关键字进行声明），还会为它们提供默认值：`undefined`。
-
-**执行**——在这个阶段中，它将值赋给之前提升的变量，并执行或调用函数(对象中的方法)。
-
-**注意:** 只有使用`var`声明的变量，或者函数声明才会被提升，相反，函数表达式或箭头函数，`let`和`const`声明的变量，这些都不会被提升。
-
-假设在全局使用域，有如下的代码：
+`||`也叫或`逻辑或`，在其操作数中找到第一个真值表达式并返回它。这也使用了短路来防止不必要的工作。在支持 ES6 默认函数参数之前，它用于初始化函数中的默认参数值。
 
 ```
-console.log(y);
-y = 1;
-console.log(y);
-console.log(greet("Mark"));
+console.log(null || 1 || undefined); // 1
 
-function greet(name){
-  return 'Hello ' + name + '!';
+function logName(name) {
+  var n = name || "Mark";
+  console.log(n);
 }
 
-var y;
+logName(); // "Mark"
 ```
 
-上面分别打印：`undefined`,`1`, `Hello Mark!`。
 
-上面代码在编译阶段其实是这样的：
+### 2、ajax的缺点
+
+**1、** ajax不支持浏览器back按钮。
+
+**2、** 安全问题 AJAX暴露了与服务器交互的细节。
+
+**3、** 对搜索引擎的支持比较弱。
+
+**4、** 破坏了程序的异常机制。
+
+**5、** 不容易调试
+
+
+
+### 3、如何判断值是否为数组？
+
+我们可以使用`Array.isArray`方法来检查值是否为**数组**。当传递给它的参数是数组时，它返回`true`，否则返回`false`。
 
 ```
-function greet(name) {
-  return 'Hello ' + name + '!';
+console.log(Array.isArray(5));  // false
+console.log(Array.isArray("")); // false
+console.log(Array.isArray()); // false
+console.log(Array.isArray(null)); // false
+console.log(Array.isArray({ length: 5 })); // false
+
+console.log(Array.isArray([])); // true
+```
+
+如果环境不支持此方法，则可以使用`polyfill`实现。
+
+`function isArray(value){ return Object.prototype.toString.call(value) === "[object Array]" }`
+
+当然还可以使用传统的方法：
+
+`let a = [] if (a instanceof Array) { console.log('是数组') } else { console.log('非数组') }`
+
+
+### 4、`var`,`let`和`const`的区别是什么？
+
+**`var`声明的变量会挂载在`window`上，而`let`和`const`声明的变量不会：**
+
+```
+var a = 100;
+console.log(a,window.a);    // 100 100
+
+let b = 10;
+console.log(b,window.b);    // 10 undefined
+
+const c = 1;
+console.log(c,window.c);    // 1 undefined
+```
+
+**`var`声明变量存在变量提升，`let`和`const`不存在变量提升:**
+
+`console.log(a); // undefined  ===>  a已声明还没赋值，默认得到undefined值
+
+var a = 100;
+
+console.log(b); // 报错：b is not defined  ===> 找不到b这个变量
+
+let b = 10;
+
+console.log(c); // 报错：c is not defined  ===> 找不到c这个变量
+
+const c = 10;
+
+`
+
+**`let`和`const`声明形成块作用域**
+
+```
+if(1){
+  var a = 100;
+  let b = 10;
 }
 
-var y; // 默认值 undefined
+console.log(a); // 100
+console.log(b)  // 报错：b is not defined  ===> 找不到b这个变量
 
-// 等待“编译”阶段完成，然后开始“执行”阶段
+-------------------------------------------------------------
 
+if(1){
+  var a = 100;
+  const c = 1;
+}
+console.log(a); // 100
+console.log(c)  // 报错：c is not defined  ===> 找不到c这个变量
+```
+
+**同一作用域下`let`和`const`不能声明同名变量，而`var`可以**
+
+```
+var a = 100;
+console.log(a); // 100
+
+var a = 10;
+console.log(a); // 10
+-------------------------------------
+let a = 100;
+let a = 10;
+    //  控制台报错：Identifier 'a' has already been declared  ===> 标识符a已经被声明了。
+```
+
+**暂存死区**
+
+```
+var a = 100;
+
+if(1){
+    a = 10;
+    //在当前块作用域中存在a使用let/const声明的情况下，给a赋值10时，只会在当前作用域找变量a，
+    // 而这时，还未到声明时候，所以控制台Error:a is not defined
+    let a = 1;
+}
+```
+
+**const**
+
+```
 /*
-console.log(y);
-y = 1;
-console.log(y);
-console.log(greet("Mark"));
-*/
+*   1、一旦声明必须赋值,不能使用null占位。
+*
+*   2、声明后不能再修改
+*
+*   3、如果声明的是复合类型数据，可以修改其属性
+*
+* */
+
+const a = 100; 
+
+const list = [];
+list[0] = 10;
+console.log(list);  // [10]
+
+const obj = {a:100};
+obj.name = 'apple';
+obj.a = 10000;
+console.log(obj);  // {a:10000,name:'apple'}
 ```
 
-编译阶段完成后，它将启动执行阶段调用方法，并将值分配给变量。
+
+### 5、在jq中 mouseover mouseenter mouseout mouseleave 和 hover有什么关联?
+
+mouseenter与mouseover：
+
+不论鼠标指针穿过被选中元素或其子元素，都会触发mouseover事件。
+
+只有在鼠标指针穿过被选元素时，才会触发mouseentr事件。
+
+mouseout与mouseleave：
+
+不论鼠标离开被选元素还是任何子元素，都会触发mouseout事件。
+
+只有在鼠标指针离开被选元素时，才会触发mouseleave事件。
+
+hover:
+
+hover是一个符合方法，相当于mouseenter+mouseleave。
+
+
+### 6、**
+
+**1、** 执行代码之前会先读取函数声明，意味着可以把函数申明放在调用它的语句后面。
+
+**2、** 只要函数在代码中进行了声明，无论它在哪个位置上进行声明， js引擎都会将它的声明放在范围作用域的顶部；
+
+**变量or函数声明：**
+
+**1、** 函数声明会覆盖变量声明，但不会覆盖变量赋值。
+
+**2、** 同一个名称标识a，即有变量声明var a，又有函数声明function a() {}，不管二者声明的顺序，函数声明会覆盖变量声明，也就是说，此时a的值是声明的函数function a() {}。注意：如果在变量声明的同时初始化a，或是之后对a进行赋值，此时a的值变量的值。eg: var a; var c = 1; a = 1; function a() { return true; } console.log(a);
+
+
+### 7、如何解决跨域问题?
+
+`jsonp`、 `iframe`、`window.name`、`window.postMessage`、服务器上设置代理页面
+
+
+### 8、同步和异步的区别?
+
+**1、** 同步：浏览器访问服务器请求，用户看得到页面刷新，重新发请求,等请求完，页面刷新，新内容出现，用户看到新内容,进行下一步操作
+
+**2、** 异步：浏览器访问服务器请求，用户正常操作，浏览器后端进行请求。等请求完，页面不刷新，新内容也会出现，用户看到新内容
+
+
+### 9、什么是 ES6 模块？
+
+**模块**使我们能够将代码基础分割成多个文件，以获得更高的可维护性，并且避免将所有代码放在一个大文件中。在 ES6 支持模块之前，有两个流行的模块。
+
+-
+**CommonJS-Node.js**
+
+-
+AMD（异步模块定义）-**浏览器**
+
+
+基本上，使用模块的方式很简单，`import`用于从另一个文件中获取功能或几个功能或值，同时`export`用于从文件中公开功能或几个功能或值。
+
+**导出**
+
+使用 ES5 (CommonJS)
 
 ```
-function greet(name) {
-  return 'Hello ' + name + '!';
+// 使用 ES5 CommonJS - helpers.js
+exports.isNull = function (val) {
+  return val === null;
 }
 
-var y;
-
-//start "execution" phase
-
-console.log(y);
-y = 1;
-console.log(y);
-console.log(greet("Mark"));
-```
-
-
-### 4、bootstrap好处？
-
-自适应和响应式布局，12栅格系统，统一的界面风格和css样式有利于团队开发。编写灵活、稳定、高质量的 HTML 和 CSS 代码的规范。
-
-
-### 5、$$.map和$$.each有什么区别###
-
-map()方法主要用来遍历操作数组和对象，会返回一个新的数组。$.map()方法适用于将数组或对象每个项目新阵列映射到一个新数组的函数；
-
-each()主要用于遍历jquery对象，返回的是原来的数组，并不会新创建一个数组。
-
-
-### 6、js延迟加载的方式有哪些？
-
-`defer`和`async`、动态创建`DOM`方式（用得最多）、按需异步载入`js`
-
-
-### 7、介绍js有哪些内置对象？
-
-**1、** `Object` 是 `JavaScript` 中所有对象的父对象
-
-**2、** 数据封装类对象：`Object`、`Array`、`Boolean`、`Number` 和 `String`
-
-**3、** 其他对象：`Function`、`Arguments`、`Math`、`Date`、`RegExp`、`Error`
-
-
-### 8、如何检查值是否虚值？
-
-使用 `Boolean` 函数或者 `!!` 运算符。
-
-
-### 9、什么是模板字符串？
-
-模板字符串是在 JS 中创建字符串的一种新方法。我们可以通过使用反引号使模板字符串化。
-
-```
-//ES5 Version
-var greet = 'Hi I\'m Mark';
-
-//ES6 Version
-let greet = `Hi I'm Mark`;
-```
-
-在 ES5 中我们需要使用一些转义字符来达到多行的效果，在模板字符串不需要这么麻烦：
-
-```
-//ES5 Version
-var lastWords = '\n'
-  + '   I  \n'
-  + '   Am  \n'
-  + 'Iron Man \n';
-
-//ES6 Version
-let lastWords = `
-    I
-    Am
-  Iron Man   
-`;
-```
-
-在ES5版本中，我们需要添加`\n`以在字符串中添加新行。在模板字符串中，我们不需要这样做。
-
-```
-//ES5 Version
-function greet(name) {
-  return 'Hello ' + name + '!';
+exports.isUndefined = function (val) {
+  return val === undefined;
 }
 
-//ES6 Version
-function greet(name) {
-  return `Hello ${name} !`;
+exports.isNullOrUndefined = function (val) {
+  return exports.isNull(val) || exports.isUndefined(val);
 }
 ```
 
-在 ES5 版本中，如果需要在字符串中添加表达式或值，则需要使用`+`运算符。在模板字符串s中，我们可以使用`${expr}`嵌入一个表达式，这使其比 ES5 版本更整洁。
-
-
-### 10、编写一个 getElementsByClassName 封装函数?
+使用 ES6 模块
 
 ```
-<body  
-<input type="submit" id = "sub" class="ss confirm btn" value="提交"/  
-<scriptwindow.onload = function(){ 
-//方法一         
-    var Opt = document.getElementById('sub');
-    var getClass = function(className,tagName){
-        if(document.getElementsByTagName){
-            var Inp = document.getElementsByTagName(tagName);
-            for(var i=0; i<Inp.length; i++){
-                if((new RegExp('(\\s|^)' +className +'(\\s|$)')).test(Inp[i].className)){
-                      return Inp[i];
-                    }
-                }
-            }else if(document.getElementsByClassName){
-                return document.getElementsByClassName(className);
-        }
-    }                 
-//方法二
-    var aa = getClass("confirm", "input");
-        function getClass(className, targetName){
-            var ele = [];
-            var all = document.getElementsByTagName(targetName || "*");
-            for(var i=0; i<all.length; i++){
-                if(all[i].className.match(new RegExp('(\\s|^)'+confirm+'(\\s|$)'))){    
-                    ele[ele.length] = all[i];
-                }
-            }
-            return ele;
-        }
-//方法三
-    function getObjsByClass(tagName, className){
-           if(document.getElementsByClassName){
-               alert("document.getElementsByClassName");
-               return document.getElementsByClassName(className);
-           }else{
-               var el = [];
-               var _el = document.getElementsByTagName(tagName);
-               for(var i=0; i<_el.length; i++){
-                   if(_el[i].className.indexOf(className) -1){
-                       alert(_el[i]);
-                       el[_el.length] = _el[i];
-                   }
-               }
-               alert(el);
-               return el;
-           }
-       }
-   }
- </script>
-</body>
+使用 ES6 Modules - helpers.js
+export function isNull(val){
+  return val === null;
+}
+
+export function isUndefined(val) {
+  return val === undefined;
+}
+
+export function isNullOrUndefined(val) {
+  return isNull(val) || isUndefined(val);
+}
 ```
 
+在另一个文件中导入函数
 
-### 11、手动实现`Array.prototype.filter`方法
-### 12、`Function.prototype.call` 方法的用途是什么？
-### 13、什么是 event.currentTarget？？
-### 14、如何改变this指针的指向？
-### 15、什么是作用域和作用域链？
-### 16、为什么函数被称为一等公民？
-### 17、什么是预编译语音|预编译处理器?
-### 18、this是什么 在不同场景中分别代表什么###
-### 19、**
-### 20、window.onload ==? DOMContentLoaded ?
-### 21、undefined 和 null 有什么区别？
-### 22、什么是构造函数？与普通函数有什么区别?
-### 23、什么是作用域？
-### 24、数组的排序方法（sort）？排序？汉字排序？
-### 25、声明函数作用提升?声明变量和声明函数的提升有什么区别
-### 26、异步编程？
-### 27、readystate 0~4
-### 28、Jq中有几种选择器?分别是什么?
-### 29、什么是事件冒泡？
-### 30、为什么此代码 `obj.someprop.x` 会引发错误?
+```
+// 使用 ES5 (CommonJS) - index.js
+const helpers = require('./helpers.js'); // helpers is an object
+const isNull = helpers.isNull;
+const isUndefined = helpers.isUndefined;
+const isNullOrUndefined = helpers.isNullOrUndefined;
+
+// or if your environment supports Destructuring
+const { isNull, isUndefined, isNullOrUndefined } = require('./helpers.js');
+-------------------------------------------------------
+
+// ES6 Modules - index.js
+import * as helpers from './helpers.js'; // helpers is an object
+
+// or 
+
+import { isNull, isUndefined, isNullOrUndefined as isValid } from './helpers.js';
+
+// using "as" for renaming named exports
+```
+
+**在文件中导出单个功能或默认导出**
+
+使用 ES5 (CommonJS)
+
+```
+// 使用 ES5 (CommonJS) - index.js
+class Helpers {
+  static isNull(val) {
+    return val === null;
+  }
+
+  static isUndefined(val) {
+    return val === undefined;
+  }
+
+  static isNullOrUndefined(val) {
+    return this.isNull(val) || this.isUndefined(val);
+  }
+}
+
+module.exports = Helpers;
+```
+
+使用ES6 Modules
+
+```
+// 使用 ES6 Modules - helpers.js
+class Helpers {
+  static isNull(val) {
+    return val === null;
+  }
+
+  static isUndefined(val) {
+    return val === undefined;
+  }
+
+  static isNullOrUndefined(val) {
+    return this.isNull(val) || this.isUndefined(val);
+  }
+}
+
+export default Helpers
+```
+
+从另一个文件导入单个功能
+
+使用ES5 (CommonJS)
+
+`// 使用 ES5 (CommonJS) - index.js const Helpers = require('./helpers.js'); console.log(Helpers.isNull(null));`
+
+使用 ES6 Modules
+
+`import Helpers from '.helpers.js' console.log(Helpers.isNull(null));`
+
+
+### 10、怎么理解宏任务，微任务？？？
+
+**1、** 宏任务有：`script(整体代码)`、`setTimeout`、`setInterval`、`I/O`、页面渲染；
+
+**2、** 微任务有：`Promise.then`、`Object.observe`、`MutationObserver`。
+
+**3、** 执行顺序大致如下：
+
+**4、** 主线程任务——>宏任务——>微任务——>微任务里的宏任务——>.......——>直到任务全部完成
+
+
+### 11、那些操作会造成内存泄漏？
+### 12、什么是AJAX？如何实现？
+### 13、commonjs?requirejs?AMD|CMD|UMD?
+### 14、什么是闭包？
+### 15、开发时如何对项目进行管理?gulp?
+### 16、事件委托？有什么好处?
+### 17、什么是`Set`对象，它是如何工作的？
+### 18、什么是高阶函数？
+### 19、js的几种继承方式？
+### 20、readystate 0~4
+### 21、声明函数作用提升?声明变量和声明函数的提升有什么区别
+### 22、你对数据校验是怎么样处理的？jquery.validate？
+### 23、html和xhtml有什么区别?
+### 24、节点类型?判断当前节点类型?
+### 25、new 关键字有什么作用？
+### 26、undefined 和 null 有什么区别？
+### 27、JavaScript 中 `this` 值是什么？
+### 28、手动实现`Array.prototype.filter`方法
+### 29、为什么在 JS 中比较两个相似的对象时返回 false？
+### 30、promise###
 
 
 

@@ -6,12 +6,53 @@
 
 
 
-### 1、比较truncate和delete 命令
+### 1、给出数据库正常启动所经历的几种状态 ?
 
-两者都可以用来删除表中所有的记录。区别在于：truncate是DDL操作，它移动HWK，不需要 rollback segment .而Delete是DML操作, 需要rollback segment 且花费较长时间.
+STARTUP NOMOUNT – 数据库实例启动
+
+STARTUP MOUNT - 数据库装载
+
+STARTUP OPEN – 数据库打开
 
 
-### 2、使用存储过程访问数据库比直接用SQL语句访问有何优点？
+### 2、FACT Table上需要建立何种索引?
+
+位图索引 (bitmap index)
+
+
+### 3、TEMPORARY tablespace和PERMANENT tablespace 的区别是？
+
+A temporary tablespace 用于临时对象例如排序结构而 permanent tablespaces用来存储那些'真实'的对象(例如表，回滚段等)
+
+
+### 4、解释materialized views的作用
+
+Materialized views 用于减少那些汇总，集合和分组的信息的集合数量。它们通常适合于数据仓库和DSS系统。
+
+
+### 5、说下 怎样创建一个视图,视图的好处, 视图可以控制权限吗?
+
+create view 视图名 as select 列名 [别名]  …  from 表 [unio [all] select … ] ]
+
+好处：
+
+**1、** 可以简单的将视图理解为sql查询语句，视图最大的好处是不占系统空间
+
+**2、** 一些安全性很高的系统，不会公布系统的表结构，可能会使用视图将一些敏感信息过虑或者重命名后公布结构
+
+**3、** 简化查询
+
+**4、** 视图可以控制权限的，在使用的时候需要将视图的使用权限grant给用户
+
+
+### 6、存储过程的操作 当它抛出异常的时候 你是如何解决的用了什么技术
+
+**1、** 中止当前语句执行，转到exception语句块执行。
+
+**2、** 在异常处理时，捕获相应异常，并执行对应解决方案语句。
+
+
+### 7、使用存储过程访问数据库比直接用SQL语句访问有何优点？
 
 **1、** 存储过程是预编译过的，执行时不须编译，执行速度更快。
 
@@ -20,71 +61,44 @@
 **3、** 实现代码复用。
 
 
-### 3、举出3种可以收集three advisory statistics
+### 8、MySQL数据库与Oracle 数据库有什么区别？
 
-Buffer Cache Advice, Segment Level Statistics, Timed Statistics
+**1、** 应用方面，MySQL 是中小型应用的数据库。一般用于个人和中小型企业。Oracle 属于大型数据库，一般用于具有相当规模的企业应用。
 
+**2、** 自动增长的数据类型方面： MySQL有自动增长的数据类型。Oracle 没有自动增长的数据类型。需要建立一个自增序列。
 
-### 4、提到一个项目的“验证LOV”属性?提到lov和list项目有什么区别?
+**3、** group by 用法： MySQL 中group by 在SELECT 语句中可以随意使用，但在ORACLE 中如果查询语句中有组函数，那么其他列必须是组函数处理过的或者是group by子句中的列，否则会报错。
 
-当验证的LOV设置为True时，Oracle Forms将文本项的当前值与LOV中显示的第一列中的值进行比较。LOV是列表项的属性。列表项只能有一列，而lov可以有一个或多个列。
-
-
-### 5、说明你可以将FMX转换或反向回到FMB文件吗?
-
-不，不可能将FMX转换或反向回到FMB文件，以确保它们不会丢失。
+**4、** 引导方面： MySQL中可以用单引号、双引号包起字符串，Oracle 中只可以用单引号包起字符串
 
 
-### 6、提示窗体中触发的顺序是什么?
+### 9、可以从表单执行动态SQL吗?
 
-表单打开时，触发序列　　预成型　　预块　　预录　　前文项　　当新形式的实例　　当新块实例　　当新记录实例　　当新项目实例
-
-
-### 7、如何生成explain plan?
-
-运行utlxplan.sql. 建立plan 表
-
-针对特定SQL语句，使用 explain plan set statement_id = 'tst1' into plan_table
-
-运行utlxplp.sql 或 utlxpls.sql察看explain plan
+是的，可以通过使用内置的FORMS_DDL或通过从表单调用DBNS_SQL数据库包从表单执行动态SQL。
 
 
-### 8、用于网络连接的2个文件？
+### 10、解释TABLE Function的用途
 
-TNSNAMES.ORA and SQLNET.ORA
-
-
-### 9、数据库的三大范式是什么？
-
-**1、** 第一范式：原子件，要求每一列的值不能再拆分了。
-
-**2、** 第二范式： 一张表只描述一个实体（若列中有冗余数据，则不满足）
-
-**3、** 第三范式： 所有列与主键值直接相关。
+TABLE Function是通过PL/SQL逻辑返回一组纪录，用于普通的表/视图。他们也用于pipeline和ETL过程。
 
 
-### 10、如何判断谁往表里增加了一条纪录？
-
-auditing
-
-
-### 11、你必须利用备份恢复数据库，但是你没有控制文件，该如何解决问题呢?
-### 12、如何转换init.ora到spfile?
-### 13、pctused and pctfree 表示什么含义有什么作用？
-### 14、解释data block , extent 和 segment的区别（这里建议用英文术语）
-### 15、解释$$ORACLE\_HOME和$$ORACLE_BASE的区别?
-### 16、解释data block , extent 和 segment的区别（这里建议用英文术语）
-### 17、什么是绑定变量?
-### 18、解释什么是Oracle Forms?
-### 19、Oracle 分区在什么情况下使用
-### 20、如何进行强制LOG SWITCH?
-### 21、如何生成explain plan?
-### 22、ORA-01555的应对方法?
-### 23、oracle的锁又几种,定义分别是什么;
-### 24、存储过程 、函数 、游标 在项目中怎么用的：
-### 25、怎样查看数据库引擎的报错
-### 26、解释CALL_FORM，NEW_FORM和OPEN_FORM之间有什么区别?
-### 27、解释什么是Partitioning（分区）以及它的优点。
+### 11、用于网络连接的2个文件？
+### 12、delete 与Truncate区别？
+### 13、如何启动SESSION级别的TRACE
+### 14、解释 冷备份 和 热备份 的不同点，以及各自的优点？
+### 15、说一下，什么是Oracle分区
+### 16、Audit trace 存放在哪个oracle目录结构中?
+### 17、解释$$ORACLE_HOME和$$ORACLE_BASE的区别？
+### 18、如何转换init.ora到spfile?
+### 19、存储过程 、函数 、游标 在项目中怎么用的：
+### 20、哪个column可以用来区别V$$视图和GV$$视图?
+### 21、回滚段的作用是什么
+### 22、说明如何在指定的块中迭代项目和记录?
+### 23、说一下，Oracle的分区有几种
+### 24、提到一个项目的“验证LOV”属性?提到lov和list项目有什么区别?
+### 25、SGA主要有那些部分，主要作用是什么?
+### 26、哪个VIEW用来检查数据文件的大小？
+### 27、怎样查看数据库引擎的报错
 
 
 

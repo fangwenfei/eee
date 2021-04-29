@@ -6,31 +6,7 @@
 
 
 
-### 1、什么是Spring MVC？简单介绍下你对Spring MVC的理解？
-
-Spring MVC是一个基于Java的实现了MVC设计模式的请求驱动类型的轻量级Web框架，通过把模型-视图-控制器分离，将web层进行职责解耦，把复杂的web应用分成逻辑清晰的几部分，简化开发，减少出错，方便组内开发人员之间的配合。
-
-
-### 2、什么是 Aspect 切面
-
-AOP核心就是切面，它将多个类的通用行为封装成可重用的模块，该模块含有一组API提供横切功能。比如，一个日志模块可以被称作日志的AOP切面。根据需求的不同，一个应用程序可以有若干切面。在Spring AOP中，切面通过带有@Aspect注解的类实现。
-
-
-### 3、使用Spring通过什么方式访问Hibernate?
-
-**在Spring中有两种方式访问Hibernate：**
-
-控制反转 Hibernate Template和 Callback。
-
-继承 HibernateDAOSupport提供一个AOP 拦截器。
-
-
-### 4、SpringBoot 是否可以使用 XML 配置 ?
-
-SpringBoot 推荐使用 Java 配置而非 XML 配置，但是 SpringBoot 中也可以使用 XML 配置，通过 [@ImportResource ](/ImportResource ) 注解可以引入一个 XML 配置。
-
-
-### 5、SpringBoot 的核心注解是哪个？它主要由哪几个注解组成的？
+### 1、SpringBoot 的核心注解是哪个？它主要由哪几个注解组成的？
 
 启动类上面的注解是@SpringBootApplication，它也是 SpringBoot 的核心注解，主要组合包含了以下 3 个注解：
 
@@ -41,104 +17,114 @@ SpringBoot 推荐使用 Java 配置而非 XML 配置，但是 SpringBoot 中也�
 @ComponentScan：Spring组件扫描。
 
 
-### 6、微服务的优点
+### 2、什么是Spring Cloud？
 
-**单⼀职责：**
-
-每个微服务仅负责⾃⼰业务领域的功能；
-
-**⾃治：**
-
-⼀个微服务就是⼀个独⽴的实体，它可以独⽴部署、升级，服务与服务之间通过REST等形式的标准接⼝进⾏通信，并且⼀个微服务实例可以被替换成另⼀种实现，⽽对其它的微服务不产⽣影响。
-
-**逻辑清晰：**
-
-微服务单⼀职责特性使微服务看起来逻辑清晰，易于维护。
-
-**简化部署：**
-
-单系统中修改⼀处需要部署整个系统，⽽微服务中修改⼀处可单独部署⼀个服务
-
-**可扩展：**
-
-应对系统业务增⻓的⽅法通常采⽤横向（Scale out）或纵向（Scale up）的⽅向进⾏扩展。分布式系统中通常要采⽤Scale out的⽅式进⾏扩展。
-
-**灵活组合：**
-
-**技术异构：**
-
-不同的服务之间，可以根据⾃⼰的业务特点选择不通的技术架构，如数据库等。
+Spring cloud流应用程序启动器是基于SpringBoot的Spring集成应用程序，提供与外部系统的集成。Spring cloud Task，一个生命周期短暂的微服务框架，用于快速构建执行有限数据处理的应用程序。
 
 
-### 7、SpringBoot中的监视器是什么?
+### 3、您对微服务架构中的语义监控有何了解？
 
-`Spring boot actuatorspring`是启动框架中的重要功能之一。 Spring boot监视器可访问生产环境中正在运行的应用程序的当前状态。有几个指标必须在生产环境中进行检查和监控。即使一些外部应用程序可能正在使用这些服务来向相关人员触发警报消息。监视器模块公开了一组可直接作为 `http url rest`访问的REST端点来检查状态。
-
-
-### 8、微服务测试的主要障碍是什么？
-
-说到缺点，这里是另一个微服务面试问题，将围绕测试微服务时面临的挑战。
-
-**1、** 在开始编写集成测试的测试用例之前，测试人员应该全面了解对所有入站和出站过程。
-
-**2、** 当独立的团队正在开发不同的功能时，协作可能会被证明是一项非常困难的任务。很难找到空闲时间窗口来执行完整的回归测试。
-
-**3、** 随着微服务数量的增加，系统的复杂性也随之增加。
-
-**4、** 在从单片架构过渡期间，测试人员必须确保组件之间的内部通信没有中断。
+语义监控，也称为 综合监控， 将自动化测试与监控应用程序相结合，以检测业务失败因素。
 
 
-### 9、spring bean 容器的生命周期是什么样的？
+### 4、什么是 Spring Data REST?
 
-spring bean 容器的生命周期流程如下：
+Spring Data TEST 可以用来关于 Spring 数据库的 HATEOAS RESTful 资源。
 
-**1、** Spring 容器根据配置中的 bean 定义中实例化 bean。
+不需要写太多代码，我们可以关于 Spring 数据库的 RESTful API。
 
-**2、** Spring 使用依赖注入填充所有属性，如 bean 中所定义的配置。
+**下面展示的是一些关于 TEST 服务器的例子**
 
-**3、** 如果 bean 实现 BeanNameAware 接口，则工厂通过传递 bean 的 ID 来调用 setBeanName()。
-
-**4、** 如果 bean 实现 BeanFactoryAware 接口，工厂通过传递自身的实例来调用 setBeanFactory()。
-
-**5、** 如果存在与 bean 关联的任何 BeanPostProcessors，则调用 preProcessBeforeInitialization() 方法。
-
-**6、** 如果为 bean 指定了 init 方法（ `<bean>` 的 init-method 属性），那么将调用它。
-
-**7、** 最后，如果存在与 bean 关联的任何 BeanPostProcessors，则将调用 postProcessAfterInitialization() 方法。
-
-**8、** 如果 bean 实现 DisposableBean 接口，当 spring 容器关闭时，会调用 destory()。
-
-**9、** 如果为 bean 指定了 destroy 方法（ `<bean>` 的 destroy-method 属性），那么将调用它。
-
-![](https://gitee.com/souyunkutech/souyunku-home/raw/master/images/souyunku-web/2019/08/0816/02/img_3.png#alt=img%5C_3.png)
+```
+POST:
+URL:http：//localhost：8080/todos
+Use Header:Content-Type:Type:application/json
+Request Content
+```
 
 
-### 10、SpringBoot的启动器有哪几种?
+### 5、比较一下 Spring Security 和 Shiro 各自的优缺点 ?
 
-基本启动器有4种：比如spring-boot-starter、spring-boot-starter-web、spring-boot-starter-aop
+由于 SpringBoot 官方提供了大量的非常方便的开箱即用的 Starter ，包括 Spring Security 的 Starter ，使得在 SpringBoot 中使用 Spring Security 变得更加容易，甚至只需要添加一个依赖就可以保护所有的接口，所以，如果是 SpringBoot 项目，一般选择 Spring Security 。当然这只是一个建议的组合，单纯从技术上来说，无论怎么组合，都是没有问题的。Shiro 和 Spring Security 相比
+
+**主要有如下一些特点：**
+
+**1、** Spring Security 是一个重量级的安全管理框架；Shiro 则是一个轻量级的安全管理框架
+
+**2、** Spring Security 概念复杂，配置繁琐；Shiro 概念简单、配置简单
+
+**3、** Spring Security 功能强大；Shiro 功能简单
 
 
-### 11、什么是代理?
-### 12、WebApplicationContext
-### 13、什么是 AOP 通知
-### 14、微服务架构有哪些优势？
-### 15、SpringBoot 配置文件的加载顺序
-### 16、什么是耦合？
-### 17、解释对象/关系映射集成模块。
-### 18、什么是 Spring Framework？
-### 19、解释不同方式的自动装配
-### 20、spring 支持集中 bean scope？
-### 21、合同测试你懂什么？
-### 22、如何重新加载SpringBoot上的更改，而无需重新启动服务器？
-### 23、如何在 SpringBoot 中禁用 Actuator 端点安全性？
-### 24、您使用了哪些starter maven依赖项？
-### 25、什么是 SpringBoot 启动类注解：
-### 26、什么是服务熔断
-### 27、多个消费者调⽤同⼀接⼝，eruka默认的分配⽅式是什么？
-### 28、SpringBoot、Spring MVC 和 Spring 有什么区别
-### 29、[@Qualifier ](/Qualifier ) 注解有什么用？
-### 30、SpringBoot 2.X 有什么新特性？与 1.X 有什么区别？
-### 31、SpringBoot如何配置log4j？
+### 6、自动装配有什么局限？
+
+覆盖的可能性 - 您始终可以使用 `<constructor-arg>` 和 `<property>` 设置指定依赖项，这将覆盖自动装配。基本元数据类型 - 简单属性（如原数据类型，字符串和类）无法自动装配。令人困惑的性质 - 总是喜欢使用明确的装配，因为自动装配不太精确。
+
+
+### 7、如何重新加载SpringBoot上的更改，而无需重新启动服务器？
+
+这可以使用DEV工具来实现。通过这种依赖关系，您可以节省任何更改，嵌入式tomcat将重新启动。SpringBoot有一个开发工具（DevTools）模块，它有助于提高开发人员的生产力。Java开发人员面临的一个主要挑战是将文件更改自动部署到服务器并自动重启服务器。开发人员可以重新加载SpringBoot上的更改，而无需重新启动服务器。这将消除每次手动部署更改的需要。SpringBoot在发布它的第一个版本时没有这个功能。这是开发人员最需要的功能。DevTools模块完全满足开发人员的需求。该模块将在生产环境中被禁用。它还提供H2数据库控制台以更好地测试应用程序。
+
+```
+<dependency>
+<groupId>org.springframework.boot</groupId>
+<artifactId>spring-boot-devtools</artifactId>
+<optional>true</optional>
+```
+
+
+### 8、SpringBoot 的核心配置文件有哪几个？它们的区别是什么？
+
+SpringBoot 的核心配置文件是 application 和 bootstrap 配置文件。
+
+application 配置文件这个容易理解，主要用于 SpringBoot 项目的自动化配置。
+
+bootstrap 配置文件有以下几个应用场景。
+
+使用 Spring Cloud Config 配置中心时，这时需要在 bootstrap 配置文件中添加连接到配置中心的配置属性来加载外部配置中心的配置信息；
+
+一些固定的不能被覆盖的属性；
+
+一些加密/解密的场景；
+
+
+### 9、SpringBoot 怎么用好自动配置，精髓:
+
+**1、** SpringBoot启动会加载大量的自动配置类
+
+**2、** 我们看我们需要的功能有没有SpringBoot默认写好的自动配置类;
+
+**3、** 我们再来看这个自动配置类中到底配置了哪些组件;(只要我们要用的组件有，我们就不需要再来配置了
+
+**4、** 给容器中自动配置类添加组件的时候，会从properties类中获取某些属性。我们就可以在配置文件中指定这 些属性的值;
+
+
+### 10、SpringBoot 可以兼容老 Spring 项目吗，如何做？
+
+可以兼容，使用 [@ImportResource ](/ImportResource ) 注解导入老 Spring 项目配置文件。
+
+
+### 11、我们可以用微服务创建状态机吗？
+### 12、什么是 AOP 目标对象?
+### 13、你所知道微服务的技术栈有哪些？列举一二
+### 14、Spring支持的ORM
+### 15、什么是YAML？
+### 16、SpringBoot有哪些优点？
+### 17、哪些是重要的bean生命周期方法？ 你能重载它们吗？
+### 18、有哪些类型的通知（Advice）？
+### 19、什么是 AOP？
+### 20、过渡到微服务时的常见错误
+### 21、谈谈服务雪崩效应
+### 22、什么是Spring的依赖注入？
+### 23、SpringBoot的启动器有哪几种?
+### 24、如何实现 SpringBoot应用程序的安全性?
+### 25、开启SpringBoot特性有哪几种方式？（创建SpringBoot项目的两种方式）
+### 26、spring-boot-starter-parent 有什么用 ?
+### 27、什么是Spring Cloud？
+### 28、SpringBoot 支持哪些日志框架？推荐和默认的日志框架是哪个？
+### 29、是否可以在Spring boot中更改嵌入式Tomcat服务器的端口?
+### 30、如何理解 Spring 中的代理？
+### 31、什么是服务熔断
 
 
 
