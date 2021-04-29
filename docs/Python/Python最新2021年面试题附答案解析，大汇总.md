@@ -6,214 +6,81 @@
 
 
 
-### 1、求以下代码的输出结果
+### 1、曾经使用过哪些前端框架
 
-```python
-collapse=True
-processFunc=collapse and (lambda s:' '.join(s.split())) or (lambda s:s)
-print(processFunc('i\tam\ntest\tproject!'))
-
-collapse=False
-processFunc=collapse and (lambda s:' '.join(s.split())) or (lambda s:s)
-print(processFunc('i\tam\ntest\tproject!'))
-```
-
-答案：
-
-> i am test project!
-
-i       am
-
-test    project!
+react，vue，bootstrap，elementUI，Echarts
 
 
+### 2、什么是封装？
 
-### 2、解释一下Python中的//，%和 ** 运算符
+封装(Encapsulation)意味着将数据和成员函数包装在一起成为一个单元。
 
-//运算符执行地板除法（向下取整除），它会返回整除结果的整数部分。
+它还实现了数据隐藏的概念。
 
-```
->>> 7//2
-3
-```
 
-这里整除后会返回3.5。
+### 3、什么是codis
 
-同样地，**执行取幂运算。a**b会返回a的b次方。
+Codis 是一个分布式 Redis 解决方案, 对于上层的应用来说, 连接到 Codis Proxy 和连接原生的 Redis Server 没有明显的区别 (有一些命令不支持), 上层应用可以像使用单机的 Redis 一样使用, Codis 底层会处理请求的转发, 不停机的数据迁移等工作, 所有后边的一切事情, 对于前面的客户端来说是透明的, 可以简单的认为后边连接的是一个内存无限大的 Redis 服务，当然，前段时间Redis官方的3.0出了稳定版，3.0支持集群功能，codis的实现原理和3.0的集群功能差不多。
+
+
+### 4、为什么基于tcp协议的通信比基于udp协议的通信更可靠
+
+TCP是面向连接的传输协议，每次都需要建立一个可以相互信任的连接，中间有个三次握手过程。而UDP是面向无连接的传输协议，不需要建立安全的连接，
+
+
+### 5、解释Python中reduce函数的用法？
+
+reduce()函数接受一个函数和一个序列，并在计算后返回数值。
 
 ```
->>> 2**10
-1024
-```
+from functools import reduce
 
-最后，%执行取模运算，返回除法的余数。
+a = lambda x,y:x+y
+print(reduce(a,[1,2,3,4]))
 
-```
->>> 13%7
-6
->>> 3.5%1.5
-0.5
+> 10
 ```
 
 
-### 3、如何判断一个对象是否可调用？哪些对象是可调用对象？如何定义一个类，使其对象本身就是可调用对象？
+### 6、如果Redis中的某个列表中的数据量非常大，如何实现循环显示每一个值？
 
-**1、** 使用callable函数判断。
-
-**2、** 可调用对象有7类：
-
-**3、** 用户自定义函数
-
-**4、** 内置函数
-
-**5、** 内置方法
-
-**6、** 方法(定义在类中的函数)
-
-7、类
-
-**8、** 类实例(如果类中定义了**call**方法，那么这个类的实例就是可调用对象)
-
-**9、** 生成器函数
-
-在类中定义**call**方法，实例对象加()是即调用**call**的方法
+使用生成器一个一个取
 
 
-### 4、什么是粘包？出现粘包的原因？
+### 7、什么是覆盖索引
 
-**1、** 粘包：多个数据包被连续存储于连续的缓存中，在对数据包进行读取时由于无法确定发生方的发送边界，而采用某一估测值大小来进行数据读出，若双方的size不一致时就会使指发送方发送的若干包数据到接收方接收时粘成一包，从接收缓冲区看，后一包数据的头紧接着前一包数据的尾。
+**覆盖索引又可以称为索引覆盖。**
 
-**2、** 出现粘包现象的原因是多方面的，它既可能由发送方造成，也可能由接收方造成。
+**1、** 解释一： 就是select的数据列只用从索引中就能够取得，不必从数据表中读取，换句话说查询列要被所使用的索引覆盖。
 
-**3、** 发送方引起的粘包是由TCP协议本身造成的，TCP为提高传输效率，发送方往往要收集到足够多的数据后才发送一包数据。若连续几次发送的数据都很少，通常TCP会根据优化算法把这些数据合成一包后一次发送出去，这样接收方就收到了粘包数据。
+**2、** 解释二： 索引是高效找到行的一个方法，当能通过检索索引就可以读取想要的数据，那就不需要再到数据表中读取行了。如果一个索引包含了（或覆盖了）满足查询语句中字段与条件的数据就叫做覆盖索引。
 
-**4、** 接收方引起的粘包是由于接收方用户进程不及时接收数据，从而导致粘包现象。这是因为接收方先把收到的数据放在系统接收缓冲区，用户进程从该缓冲区取数据，若下一包数据到达时前一包数据尚未被用户进程取走，则下一包数据放到系统接收缓冲区时就接到前一包数据之后，而用户进程根据预先设定的缓冲区大小从系统接收缓冲区取数据，这样就一次取到了多包数据。
-
-
-### 5、索引再什么情况下遵循最左前缀的规则？
-
-在多字段进行索引的时候，会遵循以上原则
+**3、** 解释三： 是非聚集组合索引的一种形式，它包括在查询里的Select、Join和Where子句用到的所有列（即建立索引的字段正好是覆盖查询语句[select子句]与查询条件[Where子句]中所涉及的字段，也即，索引包含了查询正在查找的所有数据）。
 
 
-### 6、实现一个单例模式。(尽可能多的方法)
-
-```python
-# 方法一：使用__new__()
-import threading
-class Singleton(object):
-_instance_lock = threading.Lock()
-def __init__(self):
-pass
-
-def __new__(cls, *args, **kwargs):
-if not hasattr(Singleton, "_instance"):
-with Singleton._instance_lock:
-    if not hasattr(Singleton, "_instance"):
-        Singleton._instance = object.__new__(cls)
-return Singleton._instance
-
-obj1 = Singleton()
-obj2 = Singleton()
-print(obj1 is obj2)
-
-# 方法二：使用元类来创建
-import threading
-
-class SingletonType(type):
-_instance_lock = threading.Lock()
-def __call__(cls, *args, **kwargs):
-if not hasattr(cls, "_instance"):
-with SingletonType._instance_lock:
-    if not hasattr(cls, "_instance"):
-        cls._instance = super().__call__(*args, **kwargs)
-return cls._instance
-
-class Singleton(metaclass=SingletonType):
-def __init__(self):
-pass
-
-obj1 = Singleton()
-obj2 = Singleton()
-print(obj1 is obj2)
-```
-
-
-### 7、什么是轮询和长轮询
-
-轮询是在特定的的时间间隔（如每1秒），由浏览器对服务器发出HTTP request，然后由服务器返回最新的数据给客户端的浏览器。这种传统的HTTP request 的模式带来很明显的缺点 – 浏览器需要不断的向服务器发出请求，然而HTTP request 的header是非常长的，里面包含的有用数据可能只是一个很小的值，这样会占用很多的带宽。
-
-```javascript
-var xhr = new XMLHttpRequest();
-setInterval(function() {
-    xhr.open('GET', '/user');
-    xhr.onreadystatechange = function() {};
-    xhr.send();
-}, 1000)
-```
-
-长轮询是ajax实现:在发送ajax后,服务器端会阻塞请求直到有数据传递或超时才返回。 客户端JavaScript响应处理函数会在处理完服务器返回的信息后，再次发出请求，重新建立连接。
-
-```javascript
-function ajax() {
-    var xhr = new XMLHttpRequest();
-    xhr.open('GET', '/user');
-    xhr.onreadystatechange = function() {
-        ajax();
-    };
-    xhr.send();
-}
-```
-
-
-### 8、了解过Hbase，DB2，SQLServer，Access吗
-
-**1、** Hbase：HBase是一个分布式的、面向列的开源数据库
-
-**2、** DB2：一套关系型数据库管理系统，
-
-**3、** SQLServer：SQL Server是由Microsoft开发和推广的关系数据库管理系统
-
-**4、** Sccess：Access是由微软发布的关系数据库管理系统。
-
-
-### 9、路由器和交换机的区别
-
-交换机是一种用于电信号转发的网络设备。路由器是链接因特网中各局域网和广域网的设备。
-
-区别
-
-**1、** 交换机工作在第二层，数据链路层，路由器工作在第三层，网络层。
-
-**2、** 路由器提供防火墙服务。
-
-**3、** 传统交换机只能风格冲突域，不能分割广播域，二路由器可以分割广播域。
-
-
-### 10、python的底层网络交互模块有哪些
-
-socket，urllib，requests，pycurl
-
-
-### 11、logging模块的作用以及应用场景
-### 12、json序列化时可以处理的数据类型有哪些？如何定制支持datetime类型？序列化时，遇到中文转成unicode，如何保持中文形式？
-### 13、解释Python中的help()和dir()函数
-### 14、实现一个装饰器，通过一次调用，使函数重复执行5次
-### 15、什么是闭包
-### 16、前后端分离的基本原理
-### 17、什么是switch语句。如何在Python中创建switch语句？
-### 18、讲讲Python中的位运算符
-### 19、对字典d={'a':30,'g':17,'b':25,'c':18,'d':50,'e':36,'f':57,'h':25}按照value字段进行排序
-### 20、什么是keepalived
-### 21、编写程序，检查序列是否为回文
-### 22、什么是gevent
-### 23、py2项目如何迁移成py3
-### 24、DNS域名解析过程
-### 25、列举常见的关系型数据库和非关系型数据库。
-### 26、vuex的作用
-### 27、Python代码是如何执行的？
-### 28、类的加载和实例化过程
-### 29、深拷贝和浅拷贝之间的区别是什么？
-### 30、css如何隐藏一个元素
+### 8、traceroute使用哪种网络协议
+### 9、使用with语句的好处是什么
+### 10、1<(22)和1<22的结果分别是什么？
+### 11、Redis是单进程单线程的吗？
+### 12、求出以下代码的输出结果
+### 13、Python中的Map Function是什么？
+### 14、数据库锁的作用
+### 15、什么是asyncio
+### 16、什么是防火墙？防火墙的作用是什么？
+### 17、什么是粘包？出现粘包的原因？
+### 18、如何打乱一个排好序的列表
+### 19、列举字符串、列表、元组、字典每个常用的5个方法
+### 20、简述进程，线程，协程的区别以及应用场景？
+### 21、MySQL慢日志
+### 22、解释一下Python中的成员运算符
+### 23、a=range(10),则a[::-3]的值是？
+### 24、数据库的导入与导出命令
+### 25、了解过Hbase，DB2，SQLServer，Access吗
+### 26、有两个字符串列表a和b，每个字符串是由逗号隔开的一些字符
+### 27、mro是什么？
+### 28、简述生成器，迭代器，装饰器以及应用场景
+### 29、解释Python的内置数据结构？
+### 30、关于Python程序的运行方面，有什么手段能提升性能？
 
 
 

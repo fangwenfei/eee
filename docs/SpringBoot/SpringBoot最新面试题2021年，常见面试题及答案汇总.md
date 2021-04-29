@@ -6,119 +6,114 @@
 
 
 
-### 1、SpringBoot 实现热部署有哪几种方式？
+### 1、什么是 Spring Profiles？
 
-主要有两种方式：
-
-**1、** Spring Loaded
-
-**2、** Spring-boot-devtools
+Spring Profiles 允许用户根据配置文件（dev，test，prod 等）来注册 bean。因此，当应用程序在开发中运行时，只有某些 bean 可以加载，而在 PRODUCTION中，某些其他 bean 可以加载。假设我们的要求是 Swagger 文档仅适用于 QA 环境，并且禁用所有其他文档。这可以使用配置文件来完成。SpringBoot 使得使用配置文件非常简单。
 
 
-### 2、SpringBoot有哪些优点？
+### 2、SpringData 项目所支持的关系数据存储技术：
 
-减少开发，测试时间和努力。
+**1、** JDBC
 
-使用JavaConfig有助于避免使用XML。
+**2、** JPA
 
-避免大量的Maven导入和各种版本冲突。
-
-提供意见发展方法。
-
-通过提供默认值快速开始开发。
-
-没有单独的Web服务器需要。这意味着你不再需要启动Tomcat，Glassfish或其他任何东西。
-
-需要更少的配置 因为没有web.xml文件。只需添加用@ Configuration注释的类，然后添加用@Bean注释的方法，Spring将自动加载对象并像以前一样对其进行管理。您甚至可以将@Autowired添加到bean方法中，以使Spring自动装入需要的依赖关系中。基于环境的配置 使用这些属性，您可以将您正在使用的环境传递到应用程序：-Dspring.profiles.active = {enviornment}。在加载主应用程序属性文件后，Spring将在（application{environment} .properties）中加载后续的应用程序属性文件。
+Spring Data Jpa 致力于减少数据访问层 (DAO) 的开发量. 开发者唯一要做的，就是声明持久层的接口，其他都交给 Spring Data JPA 来帮你完成！Spring Data JPA 通过规范方法的名字，根据符合规范的名字来确定方法需要实现什么样的逻辑。
 
 
-### 3、SpringBoot 需要独立的容器运行吗？
+### 3、SpringBoot常用的starter有哪些？
 
-可以不需要，内置了 Tomcat/ Jetty 等容器。
+**1、** spring-boot-starter-web 嵌入tomcat和web开发需要servlet与jsp支持
 
+**2、** spring-boot-starter-data-jpa 数据库支持
 
-### 4、@SpringBootApplication注释在内部有什么用处?
+**3、** spring-boot-starter-data-Redis Redis数据库支持
 
-作为Spring引导文档，@SpringBootApplication注释等同于同时使用@Configuration、@EnableAutoConfiguration和@ComponentScan及其默认属性。SpringBoot允许开发人员使用单个注释而不是多个注释。但是，众所周知，Spring提供了松散耦合的特性，我们可以根据项目需要为每个注释使用这些特性。
+**4、** spring-boot-starter-data-solr solr支持
 
-
-### 5、运行 SpringBoot 有哪几种方式？
-
-**1、**  打包用命令或者放到容器中运行
-
-**2、**  用 Maven/ Gradle 插件运行
-
-**3、**  直接执行 main 方法运行
+**5、** mybatis-spring-boot-starter 第三方的mybatis集成starter
 
 
-### 6、开启 SpringBoot 特性有哪几种方式？
+### 4、SpringBoot 中如何解决跨域问题 ?
 
-继承spring-boot-starter-parent项目
+跨域可以在前端通过 JSONP 来解决，但是 JSONP 只可以发送 GET 请求，无法发送其他类型的请求，在 RESTful 风格的应用中，就显得非常鸡肋，因此我们推荐在后端通过 （CORS，Cross-origin resource sharing） 来解决跨域问题。这种解决方案并非 SpringBoot 特有的，在传统的 SSM 框架中，就可以通过 CORS 来解决跨域问题，只不过之前我们是在 XML 文件中配置 CORS ，现在可以通过实现WebMvcConfigurer接口然后重写addCorsMappings方法解决跨域问题。
 
-导入spring-boot-dependencies项目依赖
+[@Configuration ](/Configuration )
 
+public class CorsConfig implements WebMvcConfigurer {
 
-### 7、SpringBoot微服务中如何实现 session 共享 ?
+```
+@Override
+public void addCorsMappings(CorsRegistry registry) {
+    registry.addMapping("/**")
+            .allowedOrigins("*")
+            .allowCredentials(true)
+            .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
+            .maxAge(3600);
+}
+```
 
-在微服务中，一个完整的项目被拆分成多个不相同的独立的服务，各个服务独立部署在不同的服务器上，各自的 session 被从物理空间上隔离开了，但是经常，我们需要在不同微服务之间共享 session ，常见的方案就是 Spring Session + Redis 来实现 session 共享。将所有微服务的 session 统一保存在 Redis 上，当各个微服务对 session 有相关的读写操作时，都去操作 Redis 上的 session 。这样就实现了 session 共享，Spring Session 基于 Spring 中的代理过滤器实现，使得 session 的同步操作对开发人员而言是透明的，非常简便。
-
-
-### 8、SpringBoot 还提供了其它的哪些 Starter Project Options？
-
-SpringBoot 也提供了其它的启动器项目包括，包括用于开发特定类型应用程序的典型依赖项。
-
-**1、** spring-boot-starter-web-services - SOAP Web Services；
-
-**2、** spring-boot-starter-web - Web 和 RESTful 应用程序；
-
-**3、** spring-boot-starter-test - 单元测试和集成测试；
-
-**4、** spring-boot-starter-jdbc - 传统的 JDBC；
-
-**5、** spring-boot-starter-hateoas - 为服务添加 HATEOAS 功能；
-
-**6、** spring-boot-starter-security - 使用 SpringSecurity 进行身份验证和授权；
-
-**7、** spring-boot-starter-data-jpa - 带有 Hibeernate 的 Spring Data JPA；
-
-**8、** spring-boot-starter-data-rest - 使用 Spring Data REST 公布简单的 REST 服务；
+}
 
 
-### 9、什么是 SpringBoot？
+### 5、什么是嵌入式服务器？我们为什么要使用嵌入式服务器呢?
 
-SpringBoot 是 Spring 开源组织下的子项目，是 Spring 组件一站式解决方案，主要是简化了使用 Spring 的难度，简省了繁重的配置，提供了各种启动器，开发者能快速上手。
+思考一下在你的虚拟机上部署应用程序需要些什么。
+
+**第一步：**安装 Java
+
+**第二步：**安装 Web 或者是应用程序的服务器（Tomat/Wbesphere/Weblogic 等等）
+
+**第三步：**部署应用程序 war 包
+
+如果我们想简化这些步骤，应该如何做呢？
+
+让我们来思考如何使服务器成为应用程序的一部分？
+
+你只需要一个安装了 Java 的虚拟机，就可以直接在上面部署应用程序了，
+
+这个想法是嵌入式服务器的起源。
+
+当我们创建一个可以部署的应用程序的时候，我们将会把服务器（例如，tomcat）嵌入到可部署的服务器中。
+
+例如，对于一个 SpringBoot 应用程序来说，你可以生成一个包含 Embedded Tomcat 的应用程序 jar。你就可以想运行正常 Java 应用程序一样来运行 web 应用程序了。
+
+嵌入式服务器就是我们的可执行单元包含服务器的二进制文件（例如，tomcat.jar）。
 
 
-### 10、我们如何监视所有SpringBoot微服务？
+### 6、什么是YAML?
 
-SpringBoot提供监视器端点以监控各个微服务的度量。这些端点对于获取有关应用程序的信息（如它们是否已启动）以及它们的组件（如数据库等）是否正常运行很有帮助。但是，使用监视器的一个主要缺点或困难是，我们必须单独打开应用程序的知识点以了解其状态或健康状况。想象一下涉及50个应用程序的微服务，管理员将不得不击中所有50个应用程序的执行终端。
-
-为了帮助我们处理这种情况，我们将使用位于
-
-的开源项目。 它建立在SpringBoot Actuator之上，它提供了一个Web UI，使我们能够可视化多个应用程序的度量。
+YAML是一种人类可读的数据序列化语言。它通常用于`配置文件`。 与属性文件相比，如果我们想要在配置文件中添加复杂的属性，YAML文件就更加结构化，而且更少混淆。可以看出YAML具有`分层配置数据`。
 
 
-### 11、如何在 SpringBoot 中添加通用的 JS 代码？
-### 12、SpringBoot 支持哪些日志框架？推荐和默认的日志框架是哪个？
-### 13、如何重新加载 SpringBoot上的更改，而无需重新启动服务器？
-### 14、开启 SpringBoot 特性有哪几种方式？
-### 15、SpringBoot默认支持的日志框架有哪些？可以进行哪些设置？
-### 16、SpringBoot 可以兼容老 Spring 项目吗，如何做？
-### 17、前后端分离，如何维护接口文档 ?
-### 18、如何在 SpringBoot 中禁用 Actuator 端点安全性？
-### 19、什么是嵌入式服务器？我们为什么要使用嵌入式服务器呢?
-### 20、什么是JavaConfig？
-### 21、Springboot 有哪些优点？
-### 22、SpringBoot 中的 starter 到底是什么 ?
-### 23、spring-boot-starter-parent有什么用？
-### 24、SpringBoot 的核心注解是哪个？它主要由哪几个注解组成的？
-### 25、SpringBoot 配置加载顺序?
-### 26、SpringBoot 配置文件的加载顺序
-### 27、什么是Spring Batch？
-### 28、如何给静态变量赋值？
-### 29、SpringBoot事物的使用
-### 30、SpringBoot集成mybatis的过程
-### 31、什么是 Spring Batch？
+### 7、SpringBoot 中的 starter 到底是什么 ?
+
+首先，这个 Starter 并非什么新的技术点，基本上还是基于 Spring 已有功能来实现的。首先它提供了一个自动化配置类，一般命名为 `XXXAutoConfiguration` ，在这个配置类中通过条件注解来决定一个配置是否生效（条件注解就是 Spring 中原本就有的），然后它还会提供一系列的默认配置，也允许开发者根据实际情况自定义相关配置，然后通过类型安全的属性(spring、factories)注入将这些配置属性注入进来，新注入的属性会代替掉默认属性。正因为如此，很多第三方框架，我们只需要引入依赖就可以直接使用了。当然，开发者也可以自定义 Starter
+
+
+### 8、使用 SpringBoot 启动连接到内存数据库 H2 的 JPA 应用程序需要哪些依赖项？
+### 9、各服务之间通信，对Restful和Rpc这2种方式如何做选择？
+### 10、SpringBoot 中如何实现定时任务 ?
+### 11、如何使用 SpringBoot 生成一个 WAR 文件？
+### 12、spring boot 核心的两个配置文件：
+### 13、微服务同时调用多个接口，怎么支持事务的啊？
+### 14、微服务中如何实现 session 共享 ?
+### 15、SpringBoot 如何设置支持跨域请求？
+### 16、SpringBoot 2、X 有什么新特性？与 1、X 有什么区别？
+### 17、什么是CSRF攻击？
+### 18、如何在 SpringBoot 启动的时候运行一些特定的代码？
+### 19、SpringBoot读取配置文件的方式
+### 20、SpringBoot 的核心配置文件有哪几个？它们的区别是什么？
+### 21、如何重新加载SpringBoot上的更改，而无需重新启动服务器？
+### 22、什么是JavaConfig？
+### 23、创建一个 SpringBoot Project 的最简单的方法是什么？
+### 24、SpringBoot 有哪几种读取配置的方式？
+### 25、SpringBoot 是否可以使用 XML 配置 ?
+### 26、spring boot初始化环境变量流程?
+### 27、JPA 和 Hibernate 有哪些区别？
+### 28、SpringBoot 配置加载顺序?
+### 29、什么是嵌入式服务器？我们为什么要使用嵌入式服务器呢?
+### 30、Springboot 有哪些优点？
+### 31、什么是Spring Batch？
 
 
 

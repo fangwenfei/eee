@@ -6,124 +6,163 @@
 
 
 
-### 1、SpringBoot中的监视器是什么？
+### 1、Spring MVC的主要组件？
 
-Spring boot actuator是spring启动框架中的重要功能之一。Spring boot监视器可帮助您访问生产环境中正在运行的应用程序的当前状态。
+**1、** 前端控制器 DispatcherServlet（不需要程序员开发）
 
-有几个指标必须在生产环境中进行检查和监控。即使一些外部应用程序可能正在使用这些服务来向相关人员触发警报消息。监视器模块公开了一组可直接作为HTTP URL访问的REST端点来检查状态。
+**作用：**
+
+接收请求、响应结果，相当于转发器，有了DispatcherServlet 就减少了其它组件之间的耦合度。
+
+**2、** 处理器映射器HandlerMapping（不需要程序员开发）
+
+**作用：**
+
+根据请求的URL来查找Handler
+
+**3、** 处理器适配器HandlerAdapter
+
+**注意：**
+
+在编写Handler的时候要按照HandlerAdapter要求的规则去编写，这样适配器HandlerAdapter才可以正确的去执行Handler。
+
+**4、** 处理器Handler（需要程序员开发）
+
+**5、** 视图解析器 ViewResolver（不需要程序员开发）
+
+**作用：**
+
+进行视图的解析，根据视图逻辑名解析成真正的视图（view）
+
+**6、** 视图View（需要程序员开发jsp）
+
+View是一个接口， 它的实现类支持不同的视图类型（jsp，freemarker，pdf等等）
 
 
-### 2、SpringBoot与SpringCloud 区别
+### 2、spring JDBC API 中存在哪些类？
 
-SpringBoot是快速开发的Spring框架，SpringCloud是完整的微服务框架，SpringCloud依赖于SpringBoot。
+**1、** JdbcTemplate
 
+**2、** SimpleJdbcTemplate
 
-### 3、列举 Spring DAO 抛出的异常。
+**3、** NamedParameterJdbcTemplate
 
-![](https://gitee.com/souyunkutech/souyunku-home/raw/master/images/souyunku-web/2019/08/0816/02/img_4.png#alt=img%5C_4.png)
+**4、** SimpleJdbcInsert
 
-
-### 4、如何实现 SpringBoot 应用程序的安全性？
-
-为了实现 SpringBoot 的安全性，我们使用 spring-boot-starter-security 依赖项，并且必须添加安全配置。它只需要很少的代码。配置类将必须扩展WebSecurityConfigurerAdapter 并覆盖其方法。
+**5、** SimpleJdbcCall
 
 
-### 5、SpringBoot 支持哪些日志框架？推荐和默认的日志框架是哪个？
 
-SpringBoot 支持 Java Util Logging, Log4j2, Lockback 作为日志框架，如果你使用 Starters 启动器，SpringBoot 将使用 Logback 作为默认日志框架，但是不管是那种日志框架他都支持将配置文件输出到控制台或者文件中。
+### 3、在使用微服务架构时，您面临哪些挑战？
+
+开发一些较小的微服务听起来很容易，但开发它们时经常遇到的挑战如下。
+
+自动化组件：难以自动化，因为有许多较小的组件。因此，对于每个组件，我们必须遵循Build，Deploy和Monitor的各个阶段。
+
+易感性：将大量组件维护在一起变得难以部署，维护，监控和识别问题。它需要在所有组件周围具有很好的感知能力。
+
+配置管理：有时在各种环境中维护组件的配置变得困难。
+
+调试：很难找到错误的每一项服务。维护集中式日志记录和仪表板以调试问题至关重要。
 
 
-### 6、如何解决POST请求中文乱码问题，GET的又如何处理呢？
+### 4、什么是凝聚力？
 
-**解决post请求乱码问题：**
+模块内部元素所属的程度被认为是凝聚力。
 
-在web.xml中配置一个CharacterEncodingFilter过滤器，设置成utf-8；
+
+### 5、[@Qualifier ](/Qualifier ) 注解有什么用？
+
+当您创建多个相同类型的 bean 并希望仅使用属性装配其中一个 bean 时，您可以使用[@Qualifier ](/Qualifier ) 注解和 [@Autowired ](/Autowired ) 通过指定应该装配哪个确切的 bean 来消除歧义。
+
+例如，这里我们分别有两个类，Employee 和 EmpAccount。在 EmpAccount 中，使用[@Qualifier ](/Qualifier ) 指定了必须装配 id 为 emp1 的 bean。
+
+Employee.java
 
 ```
-<filter>
-    <filter-name>CharacterEncodingFilter</filter-name>
-    <filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
-    <init-param>
-        <param-name>encoding</param-name>
-        <param-value>utf-8</param-value>
-    </init-param>
-</filter>
-<filter-mapping>
-    <filter-name>CharacterEncodingFilter</filter-name>
-    <url-pattern>/*</url-pattern>
-</filter-mapping>
+public class Employee {
+    private String name;
+    @Autowired
+    public void setName(String name) {
+        this.name=name;
+    }
+    public string getName() {
+        return name;
+    }
+}
 ```
 
-**get请求中文参数出现乱码解决方法有两个：**
-
-修改tomcat配置文件添加编码与工程编码一致，如下：
+EmpAccount.java
 
 ```
-<ConnectorURIEncoding="utf-8" connectionTimeout="20000" port="8080" protocol="HTTP/1.1" redirectPort="8443"/>
+public class EmpAccount {
+    private Employee emp;
+
+    @Autowired
+    @Qualifier(emp1)
+    public void showName() {
+        System.out.println(“Employee name : ”+emp.getName);
+    }
+}
 ```
 
-**另外一种方法对参数进行重新编码：**
 
-String userName = new String(request.getParamter(“userName”).getBytes(“ISO8859-1”),“utf-8”)
+### 6、什么是 Hystrix？
 
-ISO8859-1是tomcat默认编码，需要将tomcat编码后的内容按utf-8编码。
+在分布式系统，我们一定会依赖各种服务，那么这些个服务一定会出现失败的情况，就会导致雪崩，Hystrix就是这样的一个工具，防雪崩利器，它具有服务降级，服务熔断，服务隔离，监控等一些防止雪崩的技术。
 
+**Hystrix有四种防雪崩方式:**
 
-### 7、[@RequestMapping ](/RequestMapping ) 注解
+**1、** 服务降级：接口调用失败就调用本地的方法返回一个空
 
-该注解是用来映射一个URL到一个类或一个特定的方处理法上。
+**2、** 服务熔断：接口调用失败就会进入调用接口提前定义好的一个熔断的方法，返回错误信息
 
+**3、** 服务隔离：隔离服务之间相互影响
 
-### 8、您对微服务有何了解？
-
-微服务，又称微服务架构，是一种架构风格，它将应用程序构建为以业务领域为模型的小型自治服务集合 。
-
-通俗地说，你必须看到蜜蜂如何通过对齐六角形蜡细胞来构建它们的蜂窝状物。他们最初从使用各种材料的小部分开始，并继续从中构建一个大型蜂箱。这些细胞形成图案，产生坚固的结构，将蜂窝的特定部分固定在一起。这里，每个细胞独立于另一个细胞，但它也与其他细胞相关。这意味着对一个细胞的损害不会损害其他细胞，因此，蜜蜂可以在不影响完整蜂箱的情况下重建这些细胞。
-
-![](https://gitee.com/souyunkutech/souyunku-home/raw/master/images/souyunku-web/2019/08/0816/01/img_1.png#alt=img%5C_1.png)
-
-图1：微服务的蜂窝表示 – 微服务访谈问题
-
-请参考上图。这里，每个六边形形状代表单独的服务组件。与蜜蜂的工作类似，每个敏捷团队都使用可用的框架和所选的技术堆栈构建单独的服务组件。就像在蜂箱中一样，每个服务组件形成一个强大的微服务架构，以提供更好的可扩展性。此外，敏捷团队可以单独处理每个服务组件的问题，而对整个应用程序没有影响或影响最小。
+**4、** 服务监控：在服务发生调用时,会将每秒请求数、成功请求数等运行指标记录下来。
 
 
-### 9、Spring Cloud Security
+### 7、什么是 AOP 通知
 
-安全工具包，对Zuul代理中的负载均衡OAuth2客户端及登录认证进行支持。
+通知是个在方法执行前或执行后要做的动作，实际上是程序执行时要通过SpringAOP框架触发的代码段。
+
+Spring切面可以应用五种类型的通知：
+
+**1、** before：前置通知，在一个方法执行前被调用。
+
+**2、** after: 在方法执行之后调用的通知，无论方法执行是否成功。
+
+**3、** after-returning: 仅当方法成功完成后执行的通知。
+
+**4、** after-throwing: 在方法抛出异常退出时执行的通知。
+
+**5、** around: 在方法执行之前和之后调用的通知。
 
 
-### 10、YAML 配置的优势在哪里 ?
-
-YAML 现在可以算是非常流行的一种配置文件格式了，无论是前端还是后端，都可以见到 YAML 配置。那么 YAML 配置和传统的 properties 配置相比到底有哪些优势呢？
-
-配置有序，在一些特殊的场景下，配置有序很关键
-
-简洁明了，他还支持数组，数组中的元素可以是基本数据类型也可以是对象
-
-相比 properties 配置文件，YAML 还有一个缺点，就是不支持 [@PropertySource ](/PropertySource ) 注解导入自定义的 YAML 配置。
-
-
-### 11、在微服务中，如何保护服务?
-### 12、使用Spring框架的好处是什么？
-### 13、为什么人们会犹豫使用微服务？
-### 14、Spring Cloud抛弃了Dubbo 的RPC通信，采用的是基于HTTP的REST方式。
-### 15、@SpringBootApplication注释在内部有什么用处?
-### 16、什么是Netflix Feign？它的优点是什么？
-### 17、什么是Idempotence以及它在哪里使用？
-### 18、什么是JavaConfig？
-### 19、eureka缓存机制：
-### 20、开启 SpringBoot 特性有哪几种方式？
-### 21、分布式配置中心的作用？
-### 22、如何重新加载 SpringBoot 上的更改，而无需重新启动服务器？SpringBoot项目如何热部署？
-### 23、如何在SpringBoot中禁用Actuator端点安全性？
-### 24、什么是 Spring 配置文件？
-### 25、运行 SpringBoot 有哪几种方式？
-### 26、ApplicationContext通常的实现是什么?
-### 27、什么是不同类型的微服务测试？
-### 28、SpringBoot 中如何解决跨域问题 ?
-### 29、访问RESTful微服务的方法是什么？
-### 30、使用 SpringBoot 开发分布式微服务时，我们面临什么问题
-### 31、什么是 CSRF 攻击？
+### 8、SpringBoot 的核心配置文件有哪几个？它们的区别是什么？
+### 9、使⽤中碰到的坑
+### 10、SpringBoot 支持哪些日志框架？推荐和默认的日志框架是哪个？
+### 11、指出在 spring aop 中 concern 和 cross-cutting concern 的不同之处。
+### 12、DiscoveryClient的作用
+### 13、SpringBoot自动配置的原理是什么？
+### 14、什么是 AOP 引入?
+### 15、Spring框架中的单例bean是线程安全的吗?
+### 16、SpringBoot 中的 starter 到底是什么 ?
+### 17、SpringData 项目所支持的关系数据存储技术：
+### 18、Spring Framework 有哪些不同的功能？
+### 19、dubbo服务注册与发现原理
+### 20、什么是依赖注入？
+### 21、SpringBoot的缺点
+### 22、RequestMapping 和 GetMapping 的不同之处在哪里？
+### 23、什么是SpringBoot
+### 24、如何禁用特定的自动配置类？
+### 25、ApplicationContext通常的实现是什么?
+### 26、SpringBoot运行项目的几种方式？
+### 27、spring cloud 和dubbo区别?
+### 28、您对Mike Cohn的测试金字塔了解多少？
+### 29、什么是 AOP 通知
+### 30、SpringBoot 如何设置支持跨域请求？
+### 31、eureka和zookeeper都可以提供服务注册与发现的功能，请说说两个的区别？
 
 
 

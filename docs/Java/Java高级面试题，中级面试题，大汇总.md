@@ -6,184 +6,92 @@
 
 
 
-### 1、如何通过反射获取和设置对象私有字段的值？
+### 1、使用JDBC操作数据库时，如何提升读取数据的性能？如何提升更新数据的性能？
 
 
 
-可以通过类对象的getDeclaredField()方法字段（Field）对象，然后再通过字段对象的setAccessible(true)将其设置为可以访问，接下来就可以通过get/set方法来获取/设置字段的值了。下面的代码实现了一个反射的工具类，其中的两个静态方法分别用于获取和设置私有字段的值，字段可以是基本类型也可以是对象类型且支持多级对象操作，例如ReflectionUtil.get(dog, “owner.car.engine.id”);可以获得dog对象的主人的汽车的引擎的ID号。
-
-```
-import java.lang.reflect.Constructor;
-import java.lang.reflect.Field;
-import java.lang.reflect.Modifier;
-import java.util.ArrayList;
-import java.util.List;
-
-/
- * 反射工具类
- * @author 骆昊
- *
- */
-public class ReflectionUtil {
-
-    private ReflectionUtil() {
-        throw new AssertionError();
-    }
-
-    /
-     * 通过反射取对象指定字段(属性)的值
-     * @param target 目标对象
-     * @param fieldName 字段的名字
-     * @throws 如果取不到对象指定字段的值则抛出异常
-     * @return 字段的值
-     */
-    public static Object getValue(Object target, String fieldName) {
-        Class<?> clazz = target.getClass();
-        String[] fs = fieldName.split("\\.");
-
-        try {
-            for(int i = 0; i < fs.length - 1; i++) {
-                Field f = clazz.getDeclaredField(fs[i]);
-                f.setAccessible(true);
-                target = f.get(target);
-                clazz = target.getClass();
-            }
-
-            Field f = clazz.getDeclaredField(fs[fs.length - 1]);
-            f.setAccessible(true);
-            return f.get(target);
-        }
-        catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    /
-     * 通过反射给对象的指定字段赋值
-     * @param target 目标对象
-     * @param fieldName 字段的名称
-     * @param value 值
-     */
-    public static void setValue(Object target, String fieldName, Object value) {
-        Class<?> clazz = target.getClass();
-        String[] fs = fieldName.split("\\.");
-        try {
-            for(int i = 0; i < fs.length - 1; i++) {
-                Field f = clazz.getDeclaredField(fs[i]);
-                f.setAccessible(true);
-                Object val = f.get(target);
-                if(val == null) {
-                    Constructor<?> c = f.getType().getDeclaredConstructor();
-                    c.setAccessible(true);
-                    val = c.newInstance();
-                    f.set(target, val);
-                }
-                target = val;
-                clazz = target.getClass();
-            }
-
-            Field f = clazz.getDeclaredField(fs[fs.length - 1]);
-            f.setAccessible(true);
-            f.set(target, value);
-        }
-        catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-}
-```
+要提升读取数据的性能，可以指定通过结果集（ResultSet）对象的setFetchSize()方法指定每次抓取的记录数（典型的空间换时间策略）；要提升更新数据的性能可以使用PreparedStatement语句构建批处理，将若干SQL语句置于一个批处理中执行。
 
 
-### 2、Java 堆的结构是什么样子的？什么是堆中的永久代（Perm Gen space）
+### 2、Java中notify 和 notifyAll有什么区别？
 
-JVM 的堆是运行时数据区，所有类的实例和数组都是在堆上分配内存。它在 JVM 启动的时候被创建。对象所占的堆内存是由自动内存管理系统也就是垃圾收集器回收。
-
-堆内存是由存活和死亡的对象组成的。存活的对象是应用可以访问的，不会被垃圾回收。死亡的对象是应用不可访问尚且还没有被垃圾收集器回收掉的对象。一直到垃圾收集器把这些 对象回收掉之前，他们会一直占据堆内存空间。
+notify() 方法不能唤醒某个具体的线程，所以只有一个线程在等待的时候它才有用武之地。而notifyAll()唤醒所有线程并允许他们争夺锁确保了至少有一个线程能继续运行。
 
 
-### 3、栈溢出的原因？
+### 3、什么是 Callable 和 Future?
 
-由于 HotSpot 不区分虚拟机和本地方法栈，设置本地方法栈大小的参数没有意义，栈容量只能由 `-Xss` 参数来设定，存在两种异常：
+Callable 接口类似于 Runnable，从名字就可以看出来了，但是 Runnable 不会返回结果，并且无法抛出返回结果的异常，而 Callable 功能更强大一些，被线程执行后，可以返回值，这个返回值可以被 Future 拿到，也就是说，Future 可以拿到异步执行任务的返回值。
 
-**StackOverflowError：** 如果线程请求的栈深度大于虚拟机所允许的深度，将抛出 StackOverflowError，例如一个递归方法不断调用自己。该异常有明确错误堆栈可供分析，容易定位到问题所在。
-
-**OutOfMemoryError：** 如果 JVM 栈可以动态扩展，当扩展无法申请到足够内存时会抛出 OutOfMemoryError。HotSpot 不支持虚拟机栈扩展，所以除非在创建线程申请内存时就因无法获得足够内存而出现 OOM，否则在线程运行时是不会因为扩展而导致溢出的。
+Future 接口表示异步任务，是一个可能还没有完成的异步任务的结果。所以说 Callable用于产生结果，Future 用于获取结果。
 
 
-### 4、实例化数组后，能不能改变数组长度呢？
+### 4、列出 5 个应该遵循的 JDBC 最佳实践
 
-不能，数组一旦实例化，它的长度就是固定的
+有很多的最佳实践，你可以根据你的喜好来例举。下面是一些更通用的原则：
 
+**1、** 使用批量的操作来插入和更新数据
 
-### 5、poll() 方法和 remove() 方法的区别？
+**2、** 使用 PreparedStatement 来避免 SQL 异常，并提高性能。
 
-poll() 和 remove() 都是从队列中取出一个元素，但是 poll() 在获取元素失败的时候会返回空，但是 remove() 失败的时候会抛出异常。
+**3、** 使用数据库连接池
 
-
-### 6、接口和抽象类有什么区别？
-
-实现：抽象类的子类使用 extends 来继承；接口必须使用 implements 来实现接口。 构造函数：抽象类可以有构造函数；接口不能有。 main 方法：抽象类可以有 main 方法，并且我们能运行它；接口不能有 main 方法。 实现数量：类可以实现很多个接口；但是只能继承一个抽象类。 访问修饰符：接口中的方法默认使用 public 修饰；抽象类中的方法可以是任意访问修饰符。
+**4、** 通过列名来获取结果集，不要使用列的下标来获取。
 
 
-### 7、我们可以在 hashcode() 中使用随机数字吗？
+### 5、什么是竞争条件？你怎样发现和解决竞争？
 
-答案
-
-[http://javarevisited.blogspot.sg/2011/10/override-hashcode-in-java-example.html](http://javarevisited.blogspot.sg/2011/10/override-hashcode-in-java-example.html)
-
-不行，因为对象的 hashcode 值必须是相同的。参见答案获取更多关于 Java 中重写 hashCode() 方法的知识。
+当多个进程都企图对共享数据进行某种处理，而最后的结果又取决于进程运行的顺序时，则我们认为这发生了竞争条件（race condition）。
 
 
-### 8、3*0.1 == 0.3 将会返回什么？true 还是 false？
+### 6、乐观锁和悲观锁的理解及如何实现，有哪些实现方式？
 
-false，因为有些浮点数不能完全精确的表示出来。
+**悲观锁：**
 
+总是假设最坏的情况，每次去拿数据的时候都认为别人会修改，所以每次在拿数据的时候都会上锁，这样别人想拿这个数据就会阻塞直到它拿到锁。传统的关系型数据库里边就用到了很多这种锁机制，比如行锁，表锁等，读锁，写锁等，都是在做操作之前先上锁。再比如 Java 里面的同步原语 synchronized 关键字的实现也是悲观锁。
 
-### 9、在多线程环境下，SimpleDateFormat 是线程安全的吗？
+**乐观锁：**
 
-不是，非常不幸，DateFormat 的所有实现，包括 SimpleDateFormat 都不是线程安全的，因此你不应该在多线程序中使用，除非是在对外线程安全的环境中使用，如 将 SimpleDateFormat 限制在 ThreadLocal 中。如果你不这么做，在解析或者格式化日期的时候，可能会获取到一个不正确的结果。因此，从日期、时间处理的所有实践来说，我强力推荐 joda-time 库。
-
-
-### 10、Jsp指令有那些？
-
-Include
-
-Taglib
-
-Page
+顾名思义，就是很乐观，每次去拿数据的时候都认为别人不会修改，所以不会上锁，但是在更新的时候会判断一下在此期间别人有没有去更新这个数据，可以使用版本号等机制。乐观锁适用于多读的应用类型，这样可以提高吞吐量，像数据库提供的类似于 write_condition 机制，其实都是提供的乐观锁。在 Java中 java.util.concurrent.atomic 包下面的原子变量类就是使用了乐观锁的一种实现方式 CAS 实现的。
 
 
-### 11、假如生产环境CPU占用过高，请谈谈你的分析思路和定位。
-### 12、举例说明同步和异步。
-### 13、FutureTask是什么
-### 14、为什么wait(), notify()和notifyAll ()必须在同步方法或者同步块中被调用？
-### 15、什么是建造者模式
-### 16、环境变量Path和ClassPath的作用是什么？如何设置这两个环境变量？
-### 17、如何边遍历边移除 Collection 中的元素？
-### 18、类加载器双亲委派模型机制？
-### 19、ZGC收集器中的染色指针有什么用？
-### 20、什么是单例
-### 21、Java 中怎么打印数组？
-### 22、构造方法能不能显式调用？
-### 23、React最新的生命周期是怎样的?
-### 24、Parallel Old 收集器（多线程标记整理算法）
-### 25、解释内存中的栈(stack)、堆(heap)和方法区(method area)的用法。
-### 26、什么是阻塞队列？阻塞队列的实现原理是什么？如何使用阻塞队列来实现生产者-消费者模型？
-### 27、HashMap的扩容操作是怎么实现的？
-### 28、常见的计算机网络协议有那些？
-### 29、List，Set，Map三者的区别？
-### 30、volatile 变量和 atomic 变量有什么不同？
-### 31、什么是事务？事务有那些特点？
-### 32、堆
-### 33、对象分配规则
-### 34、什么时候用断言（assert）？
-### 35、CMS都有哪些问题？
-### 36、Thow与thorws区别
-### 37、介绍一下类文件结构吧！
-### 38、你对 Time Slice的理解?
-### 39、48、List、Set、Map 和 Queue 之间的区别(答案)
-### 40、对象都是优先分配在年轻代上的吗？
+### 7、那针对浮点型数据运算出现的误差的问题，你怎么解决？
+
+使用Bigdecimal类进行浮点型数据的运算
+
+
+### 8、Java中ConcurrentHashMap的并发度是什么？
+### 9、Java中有几种类型的流？
+### 10、谈谈你知道的垃圾回收算法
+### 11、如何使session失效
+### 12、什么是线程同步和线程互斥，有哪几种实现方式？
+### 13、Java内存模型
+### 14、什么是Callable和Future?
+### 15、redux与mobx的区别?
+### 16、谈谈你知道的垃圾收集器
+### 17、在多线程环境下，SimpleDateFormat 是线程安全的吗？
+### 18、在Java中CycliBarriar和CountdownLatch有什么区别？
+### 19、形参与实参
+### 20、如何停止一个正在运行的线程？
+### 21、讲讲什么情况下会出现内存溢出，内存泄漏？
+### 22、抽象类可以使用final修饰吗？
+### 23、说出至少 5 点在 Java 中使用线程的最佳实践。
+### 24、什么是Executors框架？
+### 25、Java 中 interrupted 和 isInterrupted 方法的区别？
+### 26、Java 中怎样将 bytes 转换为 long 类型？
+### 27、引用计数法
+### 28、假如生产环境CPU占用过高，请谈谈你的分析思路和定位。
+### 29、数组有没有length()方法？String有没有length()方法？
+### 30、抽象类必须要有抽象方法吗
+### 31、监听器有哪些作用和用法？
+### 32、运行时常量池的作用是什么?
+### 33、永久代
+### 34、什么是并发容器的实现？
+### 35、怎么利用 JUnit 来测试一个方法的异常？
+### 36、CMS 收集器（多线程标记清除算法）
+### 37、运行时异常与受检异常有何异同？
+### 38、运行时常量池溢出的原因？
+### 39、如何理解Hibernate的延迟加载机制？在实际应用中，延迟加载与Session关闭的矛盾是如何处理的？
+### 40、谈谈双亲委派模型
 
 
 

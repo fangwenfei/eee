@@ -6,7 +6,42 @@
 
 
 
-### 1、什么是MongoDB
+### 1、MongoDB支持哪些数据类型
+
+1. String
+2. Integer
+3. Double
+4. Boolean
+5. Object
+6. Object ID
+7. Arrays
+8. Min/Max Keys
+9. Datetime
+10. Code
+11. Regular Expression等
+
+
+### 2、数据在什么时候才会扩展到多个分片（shard）里？
+
+mongodb分片是基于区域的，所以一个集合的所有对象都放置在同一个块中，只有当存在多余一个块的时候，才会有多个分片获取数据的选项
+
+
+### 3、提及插入文档的命令语法是什么？
+
+用于插入文档的命令语法是database.collection.insert（文档）。
+
+
+### 4、MySQL与mongodb本质之间最基本的差别是什么
+
+差别在多方面  例如 数据的表示，查询 关系 事务 模式的设计和定义 速度和性能
+
+
+### 5、分片(sharding)和复制(replication)是怎样工作的?
+
+每一个分片(shard)是一个分区数据的逻辑集合.分片可能由单一服务器或者集群组成,我们推荐为每一个分片(shard)使用集群.
+
+
+### 6、什么是MongoDB
 
 MongoDB是一个文档数据库，提供好的性能，领先的非关系型数据库。采用BSON存储文档数据。
 
@@ -15,75 +50,37 @@ BSON（）是一种类json的一种二进制形式的存储格式，简称Binary
 相对于json多了date类型和二进制数组。
 
 
-### 2、用什么方法可以格式化输出结果
+### 7、monogodb 中的分片什么意思
 
-db.collectionName.find().pretty()
+分片是将数据水平切分到不同的物理节点。当应用数据越来越大的时候，数据量也会越来越大。当数据量增长
 
+时，单台机器有可能无法存储数据或可接受的读取写入吞吐量。利用分片技术可以添加更多的机器来应对数据量增加
 
-### 3、什么是聚合
-
-聚合操作能够处理数据记录并返回计算结果。聚合操作能将多个文档中的值组合起来，对成组数据执行各种操作，返回单一的结果。它相当于 SQL 中的 count(*) 组合 group by。对于 MongoDB 中的聚合操作，应该使用`aggregate()`方法。
-
-db.COLLECTION_NAME.aggregate(AGGREGATE_OPERATION)
+以及读写操作的要求。
 
 
-### 4、你怎么比较MongoDB、CouchDB及CouchBase?
-
-不知道
-
-
-### 5、MongoDB相似的产品有哪些？
-
-Cassandra，CouchDB，Redis，Riak，Hbase
-
-
-
-### 6、如果用户移除对象的属性,该属性是否从存储层中删除?
-
-是的,用户移除属性然后对象会重新保存(re-save()).
-
-
-### 7、复制在MongoDB中如何工作？
-
-在多台服务器之间，同步数据的过程称为复制。它通过不同数据库服务器上的多个数据副本提供冗余并提高数据可用性。复制有助于防止数据库丢失单个服务器。
-
-
-### 8、启用备份故障恢复需要多久?
-
-从备份数据库声明主数据库宕机到选出一个备份数据库作为新的主数据库将花费10到30秒时间.这期间在主数据库上的操作将会失败–包括写入和强一致性读取(strong consistent read)操作.然而,你还能在第二数据库上执行最终一致性查询(eventually consistent query)(在slaveok模式下),即使在这段时间里.
-
-
-### 9、如何执行事务/加锁?
-
-mongodb没有使用传统的锁或者复杂的带回滚的事务,因为它设计的宗旨是轻量,快速以及可预计的高性能.可以把它类比成MySQL mylsam的自动提交模式.通过精简对事务的支持,性能得到了提升,特别是在一个可能会穿过多个服务器的系统里.
-
-
-### 10、在MongoDB中创建集合并将其删除的语法是什么？
-
-**1、** 在MongoDB中创建集合的语法是db.createCollection（name，options）
-
-**2、** 在MongoDB中删除收集的语法是db.collection.drop（）
-
-
-### 11、mongodb的结构介绍
-### 12、为什么要在MongoDB中使用分析器
-### 13、为什么要在MongoDB中用"Regular Expression"数据类型
-### 14、在MongoDB中创建模式时，需要考虑哪些要点？
-### 15、MongoDB中的命名空间是什么意思?
-### 16、更新操作立刻fsync到磁盘?
-### 17、为什么要在MongoDB中用"Code"数据类型
-### 18、31如何理解MongoDB中的GridFS机制，MongoDB为何使用GridFS来存储文件？
-### 19、数据在什么时候才会扩展到多个分片（shard）里？
-### 20、在哪些场景使用MongoDB
-### 21、名字空间（namespace）是什么？
-### 22、如何使用"AND"或"OR"条件循环查询集合中的文档
-### 23、允许空值null吗?
-### 24、MySQL与mongodb本质之间最基本的差别是什么
-### 25、MongoDB的优势有哪些
-### 26、当更新一个正在被迁移的块（Chunk）上的文档时会发生什么？
-### 27、MongoDB中的分片是什么？
-### 28、提及插入文档的命令语法是什么？
-### 29、什么是master或primary?
+### 8、解释什么是副本集？
+### 9、MongoDB的优势有哪些
+### 10、启用备份故障恢复需要多久?
+### 11、提到在MongoDB中使用索引的基本语法是什么？
+### 12、要进行安全备份，可以使用MongoDB中的功能是什么？
+### 13、MongoDB中的分片是什么？
+### 14、MongoDB在A:{B,C}上建立索引，查询A:{B,C}和A:{C,B}都会使用索引吗？
+### 15、可以把movechunk目录里的旧文件删除吗?
+### 16、.MongoDB支持主键外键关系吗
+### 17、更新操作立刻fsync到磁盘？
+### 18、MongoDB相似的产品有哪些？
+### 19、如果块移动操作(movechunk)失败了,我需要手动清除部分转移的文档吗?
+### 20、为什么MongoDB的数据文件很大？
+### 21、我应该启动一个集群分片(sharded)还是一个非集群分片的 mongodb 环境?
+### 22、ObjectID"有哪些部分组成
+### 23、解释一下您可以将旧文件移动到moveChunk目录中吗？
+### 24、用什么方法可以格式化输出结果
+### 25、更新操作立刻fsync到磁盘?
+### 26、分片（sharding）和复制（replication）是怎样工作的？
+### 27、什么是NoSQL数据库？NoSQL和RDBMS有什么区别？在哪些情况下使用和不使用NoSQL数据库？
+### 28、什么是master或primary?
+### 29、getLastError的作用
 
 
 

@@ -6,128 +6,111 @@
 
 
 
-### 1、nginx是如何实现高并发的？
+### 1、请陈述stub_status和sub_filter指令的作用是什么?
 
-一个主进程，多个工作进程，每个工作进程可以处理多个请求，每进来一个request，会有一个worker进程去处理。但不是全程的处理，处理到可能发生阻塞的地方，比如向上游（后端）服务器转发request，并等待请求返回。那么，这个处理的worker继续处理其他请求，而一旦上游服务器返回了，就会触发这个事件，worker才会来接手，这个request才会接着往下走。由于web server的工作性质决定了每个request的大部份生命都是在网络传输中，实际上花费在server机器上的时间片不多。这是几个进程就解决高并发的秘密所在。即@skoo所说的webserver刚好属于网络io密集型应用，不算是计算密集型。
-
-
-### 2、nignx配置
-
-```
-worker_processes  8;     工作进程个数
-
-worker_connections  65535;  每个工作进程能并发处理（发起）的最大连接数（包含所有连接数）
-
-error_log         /data/logs/nginx/error.log;  错误日志打印地址
-
-access_log      /data/logs/nginx/access.log  进入日志打印地址
-
-log_format  main  'remote_addr"request" ''status upstream_addr "$request_time"'; 进入日志格式
-
-fastcgi_connect_timeout=300; #连接到后端fastcgi超时时间
-
-fastcgi_send_timeout=300; #向fastcgi请求超时时间(这个指定值已经完成两次握手后向fastcgi传送请求的超时时间)
-
-fastcgi_rend_timeout=300; #接收fastcgi应答超时时间，同理也是2次握手后
-
-fastcgi_buffer_size=64k; #读取fastcgi应答第一部分需要多大缓冲区，该值表示使用1个64kb的缓冲区读取应答第一部分(应答头),可以设置为fastcgi_buffers选项缓冲区大小
-
-fastcgi_buffers 4 64k;#指定本地需要多少和多大的缓冲区来缓冲fastcgi应答请求，假设一个php或java脚本所产生页面大小为256kb,那么会为其分配4个64kb的缓冲来缓存
-
-fastcgi_cache TEST;#开启fastcgi缓存并为其指定为TEST名称，降低cpu负载,防止502错误发生
-
-listen       80;                                            监听端口
-
-server_name  rrc.test.jiedaibao.com;       允许域名
-
-root  /data/release/rrc/web;                    项目根目录
-
-index  index.php index.html index.htm;  访问根文件
-```
+（1）Stub_status指令：该指令用于了解Nginx当前状态的当前状态，如当前的活动连接，接受和处理当前读/写/等待连接的总数 ；（2）Sub_filter指令：它用于搜索和替换响应中的内容，并快速修复陈旧的数据
 
 
-### 3、请解释 Nginx 如何处理 HTTP 请求。
+### 2、location的作用是什么？
 
-Nginx 使用反应器模式。主事件循环等待操作系统发出准备事件的信号，这样数据就可以从套接字读取，在该实例中读取到缓冲区并进行处理。单个线程可以提供数万个并发连接。
-
-
-### 4、Nginx静态资源?
-
-静态资源访问，就是存放在nginx的html页面，我们可以自己编写
+location指令的作用是根据用户请求的URI来执行不同的应用，也就是根据用户请求的网站URL进行匹配，匹配成功即进行相关的操作。
 
 
-### 5、解释`Nginx`是否支持将请求压缩到上游?
+### 3、Location正则案例
 
-您可以使用`Nginx`模块`gunzip`将请求压缩到上游。`gunzip`模块是一个过滤器，它可以对不支持“gzip”编码方法的客户机或服务器使用“内容编码:gzip”来解压缩响应。
-
-解释如何在`Nginx`中获得当前的时间?
-
-要获得Nginx的当前时间，必须使用`SSI`模块、`$date_gmt`和`$date_local`的变量。
-
-`Proxy_set_header` `THE-TIME $date_gmt`;
-
-
-### 6、fair(第三方插件)
-
-必须安装upstream_fair模块。
-
-对比 weight、ip_hash更加智能的负载均衡算法，fair算法可以根据页面大小和加载时间长短智能地进行负载均衡，响应时间短的优先分配。
+**示例：**
 
 ```
-upstream backserver {
- server server1; 
- server server2; 
- fair; 
+#优先级
+
+精确匹配，根路径
+location = / {
+   return 400;
+}
+
+#优先级2,以某个字符串开头,以av开头的，优先匹配这里，区分大小写
+location ^~ /av {
+    root / data / av / ;
+}
+
+#优先级
+3，区分大小写的正则匹配，匹配 / media * * * * * 路径location~ / media {
+    alias / data / static / ;
+}
+
+#优先级
+4，不区分大小写的正则匹配，所有的 * * * * .jpg | gif | png都走这里
+location~ * .*\.(jpg | gif | png | js | css) $ {
+    root / data / av / ;
+}
+
+#优先
+7，通用匹配
+location / {
+    return 403;
 }
 ```
 
-哪个服务器的响应速度快，就将请求分配到那个服务器上。
+
+### 4、在 Nginx 中，解释如何在 URL 中保留双斜线?
+
+要在 URL 中保留双斜线，就必须使用 merge_slashes_off;
+
+语法:merge_slashes [on/off]
+
+默认值: merge_slashes on
+
+环境: http，server
 
 
-### 7、解释如何在Nginx中获得当前的时间?
+### 5、请解释 Nginx 如何处理 HTTP 请求？
 
-要获得Nginx的当前时间，必须使用SSI模块、$$date_gmt和$$date_local的变量。Proxy_set_header THE-TIME $date_gmt;
+**1、** 首先，Nginx 在启动时，会解析配置文件，得到需要监听的端口与 IP 地址，然后在 Nginx 的 Master 进程里面先初始化好这个监控的Socket(创建 S ocket，设置 addr、reuse 等选项，绑定到指定的 ip 地址端口，再 listen 监听)。
 
+**2、** 然后，再 fork(一个现有进程可以调用 fork 函数创建一个新进程。由 fork 创建的新进程被称为子进程 )出多个子进程出来。
 
-### 8、使用“反向代理服务器”的优点是什么?
+**3、** 之后，子进程会竞争 accept 新的连接。此时，客户端就可以向 nginx 发起连接了。当客户端与nginx进行三次握手，与 nginx 建立好一个连接后。此时，某一个子进程会 accept 成功，得到这个建立好的连接的 Socket ，然后创建 nginx 对连接的封装，即 ngx_connection_t 结构体。
 
-反向代理服务器可以隐藏源服务器的存在和特征。它充当互联网云和web服务器之间的中间层。这对于安全方面来说是很好的，特别是当您使用web托管服务时。
-
-
-### 9、请解释什么是`C10K`问题?
-
-`C10K`问题是指无法同时处理大量客户端(10,000)的网络套接字。
+**4、** 接着，设置读写事件处理函数，并添加读写事件来与客户端进行数据的交换。
 
 
-### 10、解释如何在 Nginx 中获得当前的时间?
+### 6、ngx_http_upstream_module的作用是什么?
 
-要获得 Nginx 的当前时间，必须使用 SSI 模块、$$date_gmt 和$$date_local 的变
-
-量。
-
-Proxy_set_header THE-TIME $date_gmt;
+ngx_http_upstream_module用于定义可通过fastcgi传递、proxy传递、uwsgi传递、Memcached传递和scgi传递指令来引用的服务器组。
 
 
-### 11、Location正则案例
-### 12、如何通过不同于80的端口开启Nginx?
-### 13、在Nginx中，如何使用未定义的服务器名称来阻止处理请求?
-### 14、Nginx 如何开启压缩？
-### 15、请陈述stub_status和sub_filter指令的作用是什么?
-### 16、请列举 Nginx 的一些特性。
-### 17、如何用Nginx解决前端跨域问题？
-### 18、基于虚拟主机配置域名
-### 19、Nginx配置高可用性怎么配置？
-### 20、用`Nginx`服务器解释`-s`的目的是什么?
-### 21、Nginx 有哪些优点？
-### 22、用 Nginx 服务器解释-s 的目的是什么?
-### 23、Nginx 常用配置？
-### 24、限流怎么做的？
-### 25、location的语法能说出来吗？
-### 26、为什么要做动、静分离？
-### 27、请解释 Nginx 如何处理 HTTP 请求？
-### 28、突发限制访问频率（突发流量）
-### 29、Nginx目录结构有哪些？
-### 30、在 Nginx 中，解释如何在 URL 中保留双斜线?
+### 7、Nginx虚拟主机怎么配置?
+
+**1、** 基于域名的虚拟主机，通过域名来区分虚拟主机——应用：外部网站
+
+**2、** 基于端口的虚拟主机，通过端口来区分虚拟主机——应用：公司内部网站，外部网站的管理后台
+
+**3、** 基于ip的虚拟主机。
+
+
+### 8、解释`Nginx`是否支持将请求压缩到上游?
+### 9、列举Nginx服务器的最佳用途。
+### 10、请陈述 stub_status 和 sub_filter 指令的作用是什么?
+### 11、使用“反向代理服务器”的优点是什么?
+### 12、使用“反向代理服务器的优点是什么?
+### 13、Nginx 有哪些优点？
+### 14、请解释是否有可能将 Nginx 的错误替换为 502 错误、503?
+### 15、Nginx的优缺点？
+### 16、突发限制访问频率（突发流量）
+### 17、轮询(默认)
+### 18、用Nginx服务器解释-s的目的是什么?
+### 19、请解释一下什么是 Nginx?
+### 20、fair(第三方插件)
+### 21、请解释 Nginx 服务器上的 Master 和 Worker 进程分别是什么?
+### 22、请解释 ngx_http_upstream_module 的作用是什么?
+### 23、请列举 Nginx 服务器的最佳用途。Nginx 服务器的最佳用法是在网络上部署动态 HTTP 内容，使用 SCGI、WSGI 应
+### 24、请解释你如何通过不同于 80 的端口开启 Nginx?
+### 25、权重 weight
+### 26、Nginx怎么做的动静分离？
+### 27、解释 Nginx 是否支持将请求压缩到上游?
+### 28、location的语法能说出来吗？
+### 29、怎么限制浏览器访问？
+### 30、用 Nginx 服务器解释-s 的目的是什么?
 
 
 

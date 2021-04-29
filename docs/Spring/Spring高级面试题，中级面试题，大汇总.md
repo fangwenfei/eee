@@ -6,103 +6,116 @@
 
 
 
-### 1、eureka的缺点：
+### 1、如何在自定义端口上运行 SpringBoot应用程序?
 
-某个服务不可⽤时，各个Eureka Client不能及时的知道，需要1~3个⼼跳周期才能感知，但是，由于基于Netflix的服务调⽤端都会使⽤Hystrix来容错和降级，当服务调⽤不可⽤时Hystrix也能及时感知到，通过熔断机制来降级服务调⽤，因此弥补了基于客户端服务发现的时效性的缺点。
+在 `application.properties`中指定端口`serverport=8090`。
 
 
-### 2、介绍一下 WebApplicationContext
+### 2、如何给Spring 容器提供配置元数据?
+
+这里有三种重要的方法给Spring 容器提供配置元数据。
+
+XML配置文件。
+
+基于注解的配置。
+
+基于java的配置。
+
+
+### 3、什么是金丝雀释放？
+
+Canary Releasing是一种降低在生产中引入新软件版本的风险的技术。这是通过将变更缓慢地推广到一小部分用户，然后将其发布到整个基础架构，即将其提供给每个人来完成的。
+
+
+### 4、什么是Netflix Feign？它的优点是什么？
+
+Feign是受到Retrofit，JAXRS-2.0和WebSocket启发的java客户端联编程序。Feign的第一个目标是将约束分母的复杂性统一到http apis，而不考虑其稳定性。在employee-consumer的例子中，我们使用了employee-producer使用REST模板公开的REST服务。
+
+但是我们必须编写大量代码才能执行以下步骤
+
+**1、** 使用功能区进行负载平衡。
+
+**2、** 获取服务实例，然后获取基本URL。
+
+**3、** 利用REST模板来使用服务。 前面的代码如下
+
+```
+@Controller
+public class ConsumerControllerClient {
+
+@Autowired
+private LoadBalancerClient loadBalancer;
+
+public void getEmployee() throws RestClientException, IOException {
+
+    ServiceInstance serviceInstance=loadBalancer.choose("employee-producer");
+
+    System.out.println(serviceInstance.getUri());
+
+    String baseUrl=serviceInstance.getUri().toString();
+
+    baseUrl=baseUrl+"/employee";
+
+    RestTemplate restTemplate = new RestTemplate();
+    ResponseEntity<String> response=null;
+    try{
+    response=restTemplate.exchange(baseUrl,
+            HttpMethod.GET, getHeaders(),String.class);
+    }catch (Exception ex)
+    {
+        System.out.println(ex);
+    }
+    System.out.println(response.getBody());
+```
+
+之前的代码，有像NullPointer这样的例外的机会，并不是最优的。我们将看到如何使用Netflix Feign使呼叫变得更加轻松和清洁。如果Netflix Ribbon依赖关系也在类路径中，那么Feign默认也会负责负载平衡。
+
+
+### 5、WebApplicationContext
 
 WebApplicationContext 继承了ApplicationContext 并增加了一些WEB应用必备的特有功能，它不同于一般的ApplicationContext ，因为它能处理主题，并找到被关联的servlet。
 
 
+### 6、解释对象/关系映射集成模块。
+
+Spring 通过提供ORM模块，支持我们在直接JDBC之上使用一个对象/关系映射映射(ORM)工具，Spring 支持集成主流的ORM框架，如Hiberate,JDO和 iBATIS SQL Maps。Spring的事务管理同样支持以上所有ORM框架及JDBC。
 
 
-### 3、@PathVariable和@RequestParam的区别
+### 7、谈一下领域驱动设计
 
-请求路径上有个id的变量值，可以通过@PathVariable来获取 [@RequestMapping(value ](/RequestMapping(value ) = “/page/{id}”, method = RequestMethod.GET)
+主要关注核心领域逻辑。基于领域的模型检测复杂设计。这涉及与公司层面领域方面的专家定期合作，以解决与领域相关的问题并改进应用程序的模型。在回答这个微服务面试问题时，您还需要提及DDD的核心基础知识。他们是：
 
-@RequestParam用来获得静态的URL请求入参 spring注解时action里用到。
+**1、** DDD主要关注领域逻辑和领域本身。
 
+**2、** 复杂的设计完全基于领域的模型。
 
-### 4、微服务之间如何独立通讯的?
-
-同步通信：dobbo通过 RPC 远程过程调用、springcloud通过 REST 接口json调用 等。
-
-异步：消息队列，如：RabbitMq、ActiveM、Kafka 等。
+**3、** 为了改进模型的设计并解决任何新出现的问题，DDD不断与公司领域方面的专家合作。
 
 
-### 5、[@Required ](/Required ) 注解有什么用？
-
-[@Required ](/Required ) 应用于 bean 属性 setter 方法。 此注解仅指示必须在配置时使用 bean 定义中的显式属性值或使用自动装配填充受影响的 bean 属性。 如果尚未填充受影响的 bean 属性，则容器将抛出 BeanInitializationException。
-
-
-### 6、SpringCloud有几种调用接口方式
-
-**1、** Feign
-
-**2、** RestTemplate
-
-
-### 7、什么是Spring beans?
-
-Spring beans 是那些形成Spring应用的主干的java对象。它们被Spring IOC容器初始化，装配，和管理。这些beans通过容器中配置的元数据创建。比如，以XML文件中 的形式定义。
-
-Spring 框架定义的beans都是单件beans。在bean tag中有个属性”singleton”，如果它被赋为TRUE，bean 就是单件，否则就是一个 prototype bean。默认是TRUE，所以所有在Spring框架中的beans 缺省都是单件。
-
-
-### 8、可以通过多少种方式完成依赖注入？
-
-通常，依赖注入可以通过三种方式完成，即：
-
-**1、** 构造函数注入
-
-**2、** setter 注入
-
-**3、** 接口注入
-
-在 Spring Framework 中，仅使用构造函数和 setter 注入。
-
-
-### 9、在 Spring中如何注入一个java集合？
-
-Spring提供以下几种集合的配置元素：
-
-**1、** 类型用于注入一列值，允许有相同的值。
-
-**2、**  类型用于注入一组值，不允许有相同的值。
-
-**3、**  类型用于注入一组键值对，键和值都可以为任意类型。
-
-**4、** 类型用于注入一组键值对，键和值都只能为String类型。
-
-
-### 10、如何重新加载 SpringBoot上的更改，而无需重新启动服务器？
-
-使用DEV工具来实现。 通过这种依赖关系，可以节省任何更改，嵌入式 tomcat将重新启动。 使用SpringBoot有一个开发工具`Dev Tools`模块，可以重新加载 SpringBoot上的更改，而无需重新启动服务器。消除每次手动部署更改的需要。 SpringBoot在发布它的第一个版本时没有这个功能。该模块将在生产环境中被禁用。它还提供H2数据库控制台以更好地测试应用程序。
-
-
-### 11、第⼆层缓存：
-### 12、Spring框架中的单例bean是线程安全的吗?
-### 13、Actuator在SpringBoot中的作用
-### 14、[@Autowired ](/Autowired ) 注解有什么用？
-### 15、什么是耦合？
-### 16、SpringBoot 中的 starter 到底是什么 ?
-### 17、BeanFactory – BeanFactory 实现举例。
-### 18、运行 SpringBoot 有哪几种方式？
-### 19、什么是Spring IOC 容器？
-### 20、SpringBoot 需要独立的容器运行吗？
-### 21、SpringBoot 有哪几种读取配置的方式？
-### 22、什么是 FreeMarker 模板？
-### 23、怎样开启注解装配？
-### 24、什么是 spring 的内部 bean？
-### 25、SpringBoot 2.X 有什么新特性？与 1.X 有什么区别？
-### 26、SpringBoot 2.X 有什么新特性？与 1.X 有什么区别？
-### 27、什么是基于注解的容器配置?
-### 28、什么是 AOP切点
-### 29、什么是 Swagger？你用 SpringBoot 实现了它吗？
-### 30、springcloud核⼼组件及其作⽤，以及springcloud⼯作原理：
-### 31、IOC的优点是什么？
+### 8、什么是JavaConfig？
+### 9、什么是 AOP Aspect 切面
+### 10、SpringBoot 中如何实现定时任务 ?
+### 11、什么是Spring的MVC框架？
+### 12、Spring Cloud Config
+### 13、微服务的端到端测试意味着什么？
+### 14、为什么要使用 Spring Cloud 熔断器？
+### 15、什么是 spring bean？
+### 16、SpringBoot 2.X 有什么新特性？与 1.X 有什么区别？
+### 17、@ResponseBody注解的作用
+### 18、Spring Cloud Consul
+### 19、Spring Cloud Gateway
+### 20、为什么要选择微服务架构？
+### 21、SpringBoot的配置文件有哪几种格式？区别是什么？
+### 22、什么是JavaConfig？
+### 23、[@Autowired ](/Autowired ) 注解有什么用？
+### 24、区分 BeanFactory 和 ApplicationContext。
+### 25、22。你能否给出关于休息和微服务的要点？
+### 26、如何设置服务发现？
+### 27、SpringBoot 常用的 Starter 有哪些？
+### 28、什么是执行器停机？
+### 29、如何在自定义端口上运行 SpringBoot 应用程序？
+### 30、Container在微服务中的用途是什么？
+### 31、什么是Spring Cloud Gateway?
 
 
 

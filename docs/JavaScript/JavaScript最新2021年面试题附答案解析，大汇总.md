@@ -6,365 +6,238 @@
 
 
 
-### 1、|| 运算符能做什么
+### 1、什么是跨域？怎么解决跨域问题？
 
-`||`也叫或`逻辑或`，在其操作数中找到第一个真值表达式并返回它。这也使用了短路来防止不必要的工作。在支持 ES6 默认函数参数之前，它用于初始化函数中的默认参数值。
+跨域问题实际是由同源策略衍生出的一个问题，当传输协议、域名、端口任一部分不一致时，便会产生跨域问题，从而拒绝请求，但`<img src=XXX> <link href=XXX><script src=XXX>`;天然允许跨域加载资源。解决方案有：
+
+**JSONP**
+
+**1、** 原理：利用`<script>`;标签没有跨域限制的漏洞，使得网页可以得到从其他来源动态产生的JSON数据（前提是服务器支持）。
+
+**2、** 优点：实现简单，兼容性好。
+
+**3、** 缺点：仅支持get方法，容易受到XSS攻击。
+
+**CORS**
+
+**1、** 原理：服务器端设`置Access-Control-Allow-Origin`以开启CORS。该属性表示哪些域名可以访问资源，如设置通配符则表示所有网站均可访问。
+
+**2、** 实现实例（express)：
 
 ```
-console.log(null || 1 || undefined); // 1
+//app.js中设置
+var app = express();
+//CORS跨域-------------------------------------------------------------------------------------
+// CORS：设置允许跨域中间件
+var allowCrossDomain = function(req, res, next) {
+    // 设置允许跨域访问的 URL(* 表示允许任意 URL 访问)
+    res.header("Access-Control-Allow-Origin", "*");
+    // 设置允许跨域访问的请求头
+    res.header("Access-Control-Allow-Headers", "X-Requested-With,Origin,Content-Type,Accept,Authorization");
+    // 设置允许跨域访问的请求类型
+    res.header("Access-Control-Allow-Methods", "PUT,POST,GET,DELETE,OPTIONS");
+    // 设置允许服务器接收 cookie
+    res.header('Access-Control-Allow-Credentials', 'true');
+    next();
+};
+app.use(allowCrossDomain);
+//------------------------------------------------------------------------------------
+```
 
-function logName(name) {
-  var n = name || "Mark";
-  console.log(n);
+**Node中间件代理**
+
+原理：同源策略仅是浏览器需要遵循的策略，故搭建中间件服务器转发请求与响应，达到跨域目的。
+
+```
+/* server1.js 代理服务器(http://localhost:3000)*/
+const http = require('http')
+// 第一步：接受客户端请求
+const server = http.createServer((request, response) = > {
+    // 代理服务器，直接和浏览器直接交互，需要设置CORS 的首部字段
+    response.writeHead(200, {
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Methods': '*',
+        'Access-Control-Allow-Headers': 'Content-Type'
+    })
+    // 第二步：将请求转发给服务器
+    const proxyRequest = http.request({
+        host: '127.0.0.1',
+        port: 4000,
+        url: '/',
+        method: request.method,
+        headers: request.headers
+    }, serverResponse = > {
+        // 第三步：收到服务器的响应
+        var body = ''
+        serverResponse.on('data', chunk = > {
+            body += chunk
+        })
+        serverResponse.on('end', () = > {
+            console.log('The data is ' + body)
+            // 第四步：将响应结果转发给浏览器
+            response.end(body)
+        })
+    }).end()
+})
+server.listen(3000, () = > {
+    console.log('中间件服务器地址： http://localhost:3000')
+})
+// server2.js(http://localhost:4000)
+const http = require("http");
+const data = {
+    title: "fontend",
+    password: "123456"
+};
+const server = http.createServer((request, response) = > {
+    if (request.url === "/") {
+        response.end(JSON.stringify(data));
+    }
+});
+server.listen(4000, () = > {
+    console.log("The server is running at http://localhost:4000");
+});
+```
+
+**nginx反向代理**
+
+**1、** 原理：类似Node中间件服务器，通过nginx代理服务器实现。
+
+**2、** 实现方法：下载安装nginx，修改配置。
+
+
+### 2、有哪些数据类型？
+
+根据 JavaScript 中的变量类型传递方式，分为基本数据类型和引用数据类型两大类七种。
+
+基本数据类型包括Undefined、Null、Boolean、Number、String、Symbol (ES6新增)六种。 引用数据类型只有Object一种，主要包括对象、数组和函数。
+
+**判断数据类型采用`typeof`操作符，有两种语法：**
+
+```
+typeof 123;//语法一
+
+const FG = 123;
+typeof FG;//语法二
+
+typeof(null) //返回 object;
+null == undefined //返回true，因为undefined派生自null;
+null === undefined //返回false。
+```
+
+
+### 3、函数fn1 函数fn2 函数fn3，如果想在三个函数都执行完成后执行某一个事件应该如何实现?
+
+```
+//1、设置事件监听。
+//2、回调函数：
+function fn1(){
+       console.log("执行fn1");
+       fn2();
 }
-
-logName(); // "Mark"
-```
-
-
-### 2、ajax的缺点
-
-**1、** ajax不支持浏览器back按钮。
-
-**2、** 安全问题 AJAX暴露了与服务器交互的细节。
-
-**3、** 对搜索引擎的支持比较弱。
-
-**4、** 破坏了程序的异常机制。
-
-**5、** 不容易调试
-
-
-
-### 3、如何判断值是否为数组？
-
-我们可以使用`Array.isArray`方法来检查值是否为**数组**。当传递给它的参数是数组时，它返回`true`，否则返回`false`。
-
-```
-console.log(Array.isArray(5));  // false
-console.log(Array.isArray("")); // false
-console.log(Array.isArray()); // false
-console.log(Array.isArray(null)); // false
-console.log(Array.isArray({ length: 5 })); // false
-
-console.log(Array.isArray([])); // true
-```
-
-如果环境不支持此方法，则可以使用`polyfill`实现。
-
-`function isArray(value){ return Object.prototype.toString.call(value) === "[object Array]" }`
-
-当然还可以使用传统的方法：
-
-`let a = [] if (a instanceof Array) { console.log('是数组') } else { console.log('非数组') }`
-
-
-### 4、`var`,`let`和`const`的区别是什么？
-
-**`var`声明的变量会挂载在`window`上，而`let`和`const`声明的变量不会：**
-
-```
-var a = 100;
-console.log(a,window.a);    // 100 100
-
-let b = 10;
-console.log(b,window.b);    // 10 undefined
-
-const c = 1;
-console.log(c,window.c);    // 1 undefined
-```
-
-**`var`声明变量存在变量提升，`let`和`const`不存在变量提升:**
-
-`console.log(a); // undefined  ===>  a已声明还没赋值，默认得到undefined值
-
-var a = 100;
-
-console.log(b); // 报错：b is not defined  ===> 找不到b这个变量
-
-let b = 10;
-
-console.log(c); // 报错：c is not defined  ===> 找不到c这个变量
-
-const c = 10;
-
-`
-
-**`let`和`const`声明形成块作用域**
-
-```
-if(1){
-  var a = 100;
-  let b = 10;
+function fn2(){
+       console.log("执行fn2");
+       fn3();
 }
-
-console.log(a); // 100
-console.log(b)  // 报错：b is not defined  ===> 找不到b这个变量
-
--------------------------------------------------------------
-
-if(1){
-  var a = 100;
-  const c = 1;
+function fn3(){
+       console.log("执行fn3");
+       mou();
 }
-console.log(a); // 100
-console.log(c)  // 报错：c is not defined  ===> 找不到c这个变量
-```
-
-**同一作用域下`let`和`const`不能声明同名变量，而`var`可以**
-
-```
-var a = 100;
-console.log(a); // 100
-
-var a = 10;
-console.log(a); // 10
--------------------------------------
-let a = 100;
-let a = 10;
-    //  控制台报错：Identifier 'a' has already been declared  ===> 标识符a已经被声明了。
-```
-
-**暂存死区**
-
-```
-var a = 100;
-
-if(1){
-    a = 10;
-    //在当前块作用域中存在a使用let/const声明的情况下，给a赋值10时，只会在当前作用域找变量a，
-    // 而这时，还未到声明时候，所以控制台Error:a is not defined
-    let a = 1;
+function mou(){
+       console.log("执行某个函数");
 }
-```
-
-**const**
-
-```
-/*
-*   1、一旦声明必须赋值,不能使用null占位。
-*
-*   2、声明后不能再修改
-*
-*   3、如果声明的是复合类型数据，可以修改其属性
-*
-* */
-
-const a = 100; 
-
-const list = [];
-list[0] = 10;
-console.log(list);  // [10]
-
-const obj = {a:100};
-obj.name = 'apple';
-obj.a = 10000;
-console.log(obj);  // {a:10000,name:'apple'}
+fn1();
 ```
 
 
-### 5、在jq中 mouseover mouseenter mouseout mouseleave 和 hover有什么关联?
+### 4、如何理解同步和异步？
 
-mouseenter与mouseover：
+同步：按照代码书写顺序一一执行处理指令的一种模式，上一段代码执行完才能执行下一段代码。
 
-不论鼠标指针穿过被选中元素或其子元素，都会触发mouseover事件。
+异步：可以理解为一种并行处理的方式，不必等待一个程序执行完，可以执行其它的任务。
 
-只有在鼠标指针穿过被选元素时，才会触发mouseentr事件。
+JS之所以需要异步的原因在于JS是单线程运行的。常用的异步场景有：定时器、ajax请求、事件绑定。
 
-mouseout与mouseleave：
 
-不论鼠标离开被选元素还是任何子元素，都会触发mouseout事件。
+### 5、'use strict' 是干嘛用的？
 
-只有在鼠标指针离开被选元素时，才会触发mouseleave事件。
+`"use strict"` 是 **ES5** 特性，它使我们的代码在函数或整个脚本中处于**严格模式**。**严格模式**帮助我们在代码的早期避免 bug，并为其添加限制。
 
-hover:
+**严格模式**的一些限制：
 
-hover是一个符合方法，相当于mouseenter+mouseleave。
+**1、** 变量必须声明后再使用
 
+**2、** 函数的参数不能有同名属性，否则报错
 
-### 6、**
+**3、** 不能使用`with`语句
 
-**1、** 执行代码之前会先读取函数声明，意味着可以把函数申明放在调用它的语句后面。
+**4、** 不能对只读属性赋值，否则报错
 
-**2、** 只要函数在代码中进行了声明，无论它在哪个位置上进行声明， js引擎都会将它的声明放在范围作用域的顶部；
+**5、** 不能使用前缀 0 表示八进制数，否则报错
 
-**变量or函数声明：**
+**6、** 不能删除不可删除的属性，否则报错
 
-**1、** 函数声明会覆盖变量声明，但不会覆盖变量赋值。
+**7、** 不能删除变量`delete prop`，会报错，只能删除属性`delete global[prop]`
 
-**2、** 同一个名称标识a，即有变量声明var a，又有函数声明function a() {}，不管二者声明的顺序，函数声明会覆盖变量声明，也就是说，此时a的值是声明的函数function a() {}。注意：如果在变量声明的同时初始化a，或是之后对a进行赋值，此时a的值变量的值。eg: var a; var c = 1; a = 1; function a() { return true; } console.log(a);
+**8、** `eval`不能在它的外层作用域引入变量
 
+**9、** `eval`和`arguments`不能被重新赋值
 
-### 7、如何解决跨域问题?
+**10、** `arguments`不会自动反映函数参数的变化
 
-`jsonp`、 `iframe`、`window.name`、`window.postMessage`、服务器上设置代理页面
+**11、** 不能使用`arguments.callee`
 
+**12、** 不能使用`arguments.caller`
 
-### 8、同步和异步的区别?
+**13、** 禁止`this`指向全局对象
 
-**1、** 同步：浏览器访问服务器请求，用户看得到页面刷新，重新发请求,等请求完，页面刷新，新内容出现，用户看到新内容,进行下一步操作
+**14、** 不能使用`fn.caller`和`fn.arguments`获取函数调用的堆栈
 
-**2、** 异步：浏览器访问服务器请求，用户正常操作，浏览器后端进行请求。等请求完，页面不刷新，新内容也会出现，用户看到新内容
+**15、** 增加了保留字（比如`protected`、`static`和`interface`）
 
+设立”严格模式”的目的，主要有以下几个：
 
-### 9、什么是 ES6 模块？
+**1、** 消除Javascript语法的一些不合理、不严谨之处，减少一些怪异行为;
 
-**模块**使我们能够将代码基础分割成多个文件，以获得更高的可维护性，并且避免将所有代码放在一个大文件中。在 ES6 支持模块之前，有两个流行的模块。
+**2、** 消除代码运行的一些不安全之处，保证代码运行的安全；
 
--
-**CommonJS-Node.js**
+**3、** 提高编译器效率，增加运行速度；
 
--
-AMD（异步模块定义）-**浏览器**
+**4、** 为未来新版本的Javascript做好铺垫。
 
 
-基本上，使用模块的方式很简单，`import`用于从另一个文件中获取功能或几个功能或值，同时`export`用于从文件中公开功能或几个功能或值。
+### 6、如何检查值是否虚值？
 
-**导出**
+使用 `Boolean` 函数或者 `!!` 运算符。
 
-使用 ES5 (CommonJS)
 
-```
-// 使用 ES5 CommonJS - helpers.js
-exports.isNull = function (val) {
-  return val === null;
-}
+### 7、同步和异步的区别?
 
-exports.isUndefined = function (val) {
-  return val === undefined;
-}
+javascript同步表示sync，指：代码依次执行 javascript异步表示async，指：代码执行不按顺序，‘跳过’执行，待其他某些代码执行完后再来执行，成为异步。
 
-exports.isNullOrUndefined = function (val) {
-  return exports.isNull(val) || exports.isUndefined(val);
-}
-```
 
-使用 ES6 模块
-
-```
-使用 ES6 Modules - helpers.js
-export function isNull(val){
-  return val === null;
-}
-
-export function isUndefined(val) {
-  return val === undefined;
-}
-
-export function isNullOrUndefined(val) {
-  return isNull(val) || isUndefined(val);
-}
-```
-
-在另一个文件中导入函数
-
-```
-// 使用 ES5 (CommonJS) - index.js
-const helpers = require('./helpers.js'); // helpers is an object
-const isNull = helpers.isNull;
-const isUndefined = helpers.isUndefined;
-const isNullOrUndefined = helpers.isNullOrUndefined;
-
-// or if your environment supports Destructuring
-const { isNull, isUndefined, isNullOrUndefined } = require('./helpers.js');
--------------------------------------------------------
-
-// ES6 Modules - index.js
-import * as helpers from './helpers.js'; // helpers is an object
-
-// or 
-
-import { isNull, isUndefined, isNullOrUndefined as isValid } from './helpers.js';
-
-// using "as" for renaming named exports
-```
-
-**在文件中导出单个功能或默认导出**
-
-使用 ES5 (CommonJS)
-
-```
-// 使用 ES5 (CommonJS) - index.js
-class Helpers {
-  static isNull(val) {
-    return val === null;
-  }
-
-  static isUndefined(val) {
-    return val === undefined;
-  }
-
-  static isNullOrUndefined(val) {
-    return this.isNull(val) || this.isUndefined(val);
-  }
-}
-
-module.exports = Helpers;
-```
-
-使用ES6 Modules
-
-```
-// 使用 ES6 Modules - helpers.js
-class Helpers {
-  static isNull(val) {
-    return val === null;
-  }
-
-  static isUndefined(val) {
-    return val === undefined;
-  }
-
-  static isNullOrUndefined(val) {
-    return this.isNull(val) || this.isUndefined(val);
-  }
-}
-
-export default Helpers
-```
-
-从另一个文件导入单个功能
-
-使用ES5 (CommonJS)
-
-`// 使用 ES5 (CommonJS) - index.js const Helpers = require('./helpers.js'); console.log(Helpers.isNull(null));`
-
-使用 ES6 Modules
-
-`import Helpers from '.helpers.js' console.log(Helpers.isNull(null));`
-
-
-### 10、怎么理解宏任务，微任务？？？
-
-**1、** 宏任务有：`script(整体代码)`、`setTimeout`、`setInterval`、`I/O`、页面渲染；
-
-**2、** 微任务有：`Promise.then`、`Object.observe`、`MutationObserver`。
-
-**3、** 执行顺序大致如下：
-
-**4、** 主线程任务——>宏任务——>微任务——>微任务里的宏任务——>.......——>直到任务全部完成
-
-
-### 11、那些操作会造成内存泄漏？
-### 12、什么是AJAX？如何实现？
-### 13、commonjs?requirejs?AMD|CMD|UMD?
-### 14、什么是闭包？
-### 15、开发时如何对项目进行管理?gulp?
-### 16、事件委托？有什么好处?
-### 17、什么是`Set`对象，它是如何工作的？
-### 18、什么是高阶函数？
-### 19、js的几种继承方式？
-### 20、readystate 0~4
-### 21、声明函数作用提升?声明变量和声明函数的提升有什么区别
-### 22、你对数据校验是怎么样处理的？jquery.validate？
-### 23、html和xhtml有什么区别?
-### 24、节点类型?判断当前节点类型?
-### 25、new 关键字有什么作用？
-### 26、undefined 和 null 有什么区别？
-### 27、JavaScript 中 `this` 值是什么？
-### 28、手动实现`Array.prototype.filter`方法
-### 29、为什么在 JS 中比较两个相似的对象时返回 false？
-### 30、promise###
+### 8、Node的应用场景
+### 9、javascript有哪些方法定义对象
+### 10、js延迟加载的方式有哪些？
+### 11、什么是NaN？以及如何检查值是否为NaN？
+### 12、ajax的缺点
+### 13、this指向的各种情况都有什么？
+### 14、["1", "2", "3"].map(parseInt) 答案是多少？
+### 15、如何确保ajax或连接不走缓存路径
+### 16、在jq中 mouseover mouseenter mouseout mouseleave 和 hover有什么关联?
+### 17、disabled readyonly?
+### 18、展开(spread )运算符和 剩余(Rest) 运算符有什么区别？
+### 19、编写一个 getElementsByClassName 封装函数?
+### 20、基本数据类型和引用数据类型有什么区别？
+### 21、闭包
+### 22、如何在不使用`%`模运算符的情况下检查一个数字是否是偶数？
+### 23、sass和less有什么区别?
+### 24、简述下工作流程###
+### 25、什么是执行上下文和执行栈？
+### 26、|| 运算符能做什么
+### 27、一般使用什么版本控制工具?svn如何对文件加锁###
+### 28、为什么函数被称为一等公民？
+### 29、Jq中get和eq有什么区别？
+### 30、说说你对promise的了解
 
 
 

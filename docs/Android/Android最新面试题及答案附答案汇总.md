@@ -6,116 +6,73 @@
 
 
 
-### 1、简述TCP，UDP，Socket
+### 1、dagger2
 
-TCP是经过3次握手，4次挥手完成一串数据的传送
-
-UDP是无连接的，知道IP地址和端口号，向其发送数据即可，不管数据是否发送成功
-
-Socket是一种不同计算机，实时连接，比如说传送文件，即时通讯
+Dagger2是一个主要用于依赖注入的框架，减少初始化对象操作，降低耦合度
 
 
-### 2、ListView 中图片错位的问题是如何产生的
+### 2、如何将打开res aw目录中的数据库文件?
 
-图片错位问题的本质源于我们的 listview 使用了缓存 convertView， 假设一种场景， 一个 listview一屏显示九个 item，那么在拉出第十个 item 的时候，事实上该 item 是重复使用了第一个 item，也就是说在第一个 item 从网络中下载图片并最终要显示的时候，其实该 item 已经不在当前显示区域内了，此时显示的后果将可能在第十个 item 上输出图像，这就导致了图片错位的问题。所以解决办法就是可见则显示，不可见则不显示。
+解在Android中不能直接打开res aw目录中的数据库文件，而需要在程序第一次启动时将该文件复制到手机内存或SD卡的某个目录中，然后再打开该数据库文件。
+
+复制的基本方法是使用getResources().openRawResource方法获得res aw目录中资源的 InputStream对象，然后将该InputStream对象中的数据写入其他的目录中相应文件中。在Android SDK中可以使用SQLiteDatabase.openOrCreateDatabase方法来打开任意目录中的SQLite数据库文件。
 
 
-### 3、android 中有哪几种解析xml的类？官方推荐哪种？以及它们的原理和区别。
+### 3、SQLite支持事务吗? 添加删除如何提高性能?
+
+在sqlite插入数据的时候默认一条语句就是一个事务，有多少条数据就有多少次磁盘操作 比如5000条记录也就是要5000次读写磁盘操作。
+
+添加事务处理，把多条记录的插入或者删除作为一个事务
+
+
+### 4、android 中有哪几种解析xml的类？官方推荐哪种？以及它们的原理和区别。
 
 XML解析主要有三种方式，SAX、DOM、PULL。常规在PC上开发我们使用Dom相对轻松些，但一些性能敏感的数据库或手机上还是主要采用SAX方式，SAX读取是单向的，优点:不占内存空间、解析属性方便，但缺点就是对于套嵌多个分支来说处理不是很方便。而DOM方式会把整个XML文件加载到内存中去，这里Android开发网提醒大家该方法在查找方面可以和XPath很好的结合如果数据量不是很大推荐使用，而PULL常常用在J2ME对于节点处理比较好，类似SAX方式，同样很节省内存，在J2ME中我们经常使用的KXML库来解析。
 
 
-### 4、android中的动画有哪几类，它们的特点和区别是什么
+### 5、Android数字签名
 
-两种，一种是Tween动画、还有一种是Frame动画。Tween动画，这种实现方式可以使视图组件移动、放大、缩小以及产生透明度的变化;另一种Frame动画，传统的动画方法，通过顺序的播放排列好的图片来实现，类似电影。
+**1、** 所有的应用程序都必须有数字证书，Android系统不会安装一个没有数字证书的应用程序
 
+**2、** Android程序包使用的数字证书可以是自签名的，不需要一个权威的数字证书机构签名认证
 
-### 5、Intent 传递数据时，可以传递哪些类型数据？
+**3、** 如果要正式发布一个Android ，必须使用一个合适的私钥生成的数字证书来给程序签名。
 
-```
-基本数据类型以及对应的数组类型
-可以传递bundle类型，但是bundle类型的数据需要实现Serializable或者parcelable接口
-```
+**4、** 数字证书都是有有效期的，Android只是在应用程序安装的时候才会检查证书的有效期。如果程序已经安装在系统中，即使证书过期也不会影响程序的正常功能。
 
 
-### 6、Android 中如何捕获未捕获的异常
+### 6、如何将SQLite数据库(dictionary.db文件)与apk文件一起发布
 
-**UncaughtExceptionHandler**
-
-**1、** 自 定 义 一 个 Application ， 比 如 叫 MyApplication 继 承 Application 实 现UncaughtExceptionHandler。
-
-**2、** 覆写 UncaughtExceptionHandler 的 onCreate 和 uncaughtException 方法。 注意：上面的代码只是简单的将异常打印出来。在 onCreate 方法中我们给 Thread 类设置默认异常处理 handler，如果这句代码不执行则一切都是白搭。在 uncaughtException 方法中我们必须新开辟个线程进行我们异常的收集工作，然后将系统给杀死。
-
-**3、** 在 AndroidManifest 中配置该 Application：<application android:name="com.example.uncatchexception.MyApplication"
-
-Bug 收集工具 Crashlytics
-
-Crashlytics 是专门为移动应用开发者提供的保存和分析应用崩溃的工具。国内主要使用的是友盟做数据统计。
-
-**Crashlytics 的好处：**
-
-**1、** Crashlytics 不会漏掉任何应用崩溃信息。
-
-**2、** Crashlytics 可以象 Bug 管理工具那样，管理这些崩溃日志。
-
-**3、** Crashlytics 可以每天和每周将崩溃信息汇总发到你的邮箱，所有信息一目了然。
+把这个文件放在/res/raw目录下即可。res\raw目录中的文件不会被压缩，这样可以直接提取该目录中的文件，会生成资源id。
 
 
-### 7、如何将打开res aw目录中的数据库文件?
+### 7、嵌入式操作系统内存管理有哪几种， 各有何特性
 
-**1、** 在Android中不能直接打开res aw目录中的数据库文件，而需要在程序第一次启动时将该文件复制到手机内存或SD卡的某个目录中，然后再打开该数据库文件。
-
-**2、** 复制的基本方法是使用getResources().openRawResource方法获得res aw目录中资源的 InputStream对象，然后将该InputStream对象中的数据写入其他的目录中相应文件中。
-
-**3、** 在Android SDK中可以使用SQLiteDatabase.openOrCreateDatabase方法来打开任意目录中的SQLite数据库文件。
+页式，段式，段页，用到了MMU,虚拟空间等技术
 
 
-### 8、activity的生命周期
-
-![92_1.png][92_1.png]
-
-Activity生命周期方法主要有onCreate()、onStart()、onResume()、onPause()、onStop()、onDestroy()和onRestart()等7个方法。
-
-**1、** 启动一个A Activity，分别执行onCreate()、onStart()、onResume()方法。
-
-**2、** 从A Activity打开B Activity分别执行A onPause()、B onCreate()、B onStart()、B onResume()、A onStop()方法。
-
-**3、** 关闭B Activity，分别执行B onPause()、A onRestart()、A onStart()、A onResume()、B onStop()、B onDestroy()方法。
-
-**4、** 横竖屏切换A Activity，清单文件中不设置android:configChanges属性时，先销毁onPause()、onStop()、onDestroy()再重新创建onCreate()、onStart()、onResume()方法，设置orientation|screenSize（一定要同时出现）属性值时，不走生命周期方法，只会执行onConfigurationChanged()方法。
-
-**5、** Activity之间的切换可以看出onPause()、onStop()这两个方法比较特殊，切换的时候onPause()方法不要加入太多耗时操作否则会影响体验。
-
-
-### 9、一条最长的短信息约占多少byte?
-
-中文70(包括标点)，英文160，160个字节。
-
-
-### 10、SQLite支持事务吗?添加删除如何提高性能?
-
-SQLite作为轻量级的数据库，比MySQL还小，但支持SQL语句查询，提高性能可以考虑通过原始经过优化的SQL查询语句方式处理
-
-
-### 11、Activity的状态有几种？
-### 12、说下 Activity 跟 跟 window ， view 之间的关系？
-### 13、ListView 可以显示多种类型的条目吗
-### 14、View的绘制原理
+### 8、Service 是否在 main thread 中执行, service 里面是否能执行耗时的操作?
+### 9、SharedPreference跨进程使用会怎么样？如何保证跨进程使用安全？
+### 10、请介绍下Android中常用的五种布局。
+### 11、什么是 AIDL？如何使用？
+### 12、AIDL 的全称是什么?如何工作?能处理哪些类型的数据？
+### 13、Android中任务栈的分配
+### 14、推送到达率如何提高
 ### 15、activity之间传递参数，除了intent，广播接收器，contentProvider之外，还有那些方法？
-### 16、NDK
-### 17、如何对 Android 应用进行性能分析
-### 18、Android中touch事件的传递机制是怎样的?
-### 19、请解释下 Android 程序运行时权限与文件系统权限的区别？
-### 20、谈谈你对 Bitmap 的理解, 什么时候应该手动调用 bitmap.recycle()
-### 21、什么是 AIDL？如何使用？
-### 22、android系统的优势和不足
-### 23、谈谈Android的IPC（进程间通信）机制
-### 24、Service 里面可以弹吐司么
-### 25、推送到达率如何提高
-### 26、Android 线程间通信有哪几种方式（重要）
-### 27、即时通讯是是怎么做的?
-### 28、RecyclerView和ListView的区别
-### 29、为什么Android引入广播机制?
+### 16、Android i18n
+### 17、recyclerView嵌套卡顿解决如何解决
+### 18、如何退出Activity？如何安全退出已调用多个Activity的Application？
+### 19、9.进程和线程的区别
+### 20、Android dvm的进程和Linux的进程, 应用程序的进程是否为同一个概念
+### 21、了解IntentServices吗?
+### 22、Fragment 如何实现类似 Activity 栈的压栈和出栈效果的？
+### 23、Service和Thread的区别？
+### 24、Service 和 Activity 在同一个线程吗
+### 25、ContentProvider与sqlite有什么不一样的？
+### 26、Android 中如何捕获未捕获的异常
+### 27、系统上安装了多种浏览器，能否指定某浏览器访问指定页面？请说明原由。
+### 28、NDK是什么
+### 29、Fragment 的 replace 和 add 方法的区别
 
 
 

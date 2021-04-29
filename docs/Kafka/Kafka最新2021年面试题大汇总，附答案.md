@@ -6,86 +6,98 @@
 
 
 
-### 1、Kafka的哪些场景中使用了零拷贝（Zero Copy）？
+### 1、消费者如何不自动提交偏移量，由应用提交？
 
-**1、** 其实这道题对于SRE来讲，有点超纲了，不过既然Zero Copy是Kafka高性能的保证，我们需要了解它。
+将auto.commit.offset设为false，然后在处理一批消息后commitSync() 或者异步提交commitAsync()
 
-**2、** Zero Copy是特别容易被问到的高阶题目。在Kafka中，体现Zero Copy使用场景的地方有两处：基于mmap的索引和日志文件读写所用的TransportLayer。
+即：
 
-**3、** 先说第一个。索引都是基于MappedByteBuffer的，也就是让用户态和内核态共享内核态的数据缓冲区，此时，数据不需要复制到用户态空间。不过，mmap虽然避免了不必要的拷贝，但不一定就能保证很高的性能。在不同的操作系统下，mmap的创建和销毁成本可能是不一样的。很高的创建和销毁开销会抵消Zero Copy带来的性能优势。由于这种不确定性，在Kafka中，只有索引应用了mmap，最核心的日志并未使用mmap机制。
-
-**4、** 再说第二个。TransportLayer是Kafka传输层的接口。它的某个实现类使用了FileChannel的transferTo方法。该方法底层使用sendfile实现了Zero Copy。对Kafka而言，如果I/O通道使用普通的PLAINTEXT，那么，Kafka就可以利用Zero Copy特性，直接将页缓存中的数据发送到网卡的Buffer中，避免中间的多次拷贝。相反，如果I/O通道启用了SSL，那么，Kafka便无法利用Zero Copy特性了。
-
-
-### 2、什么是Kafka中的地域复制？
-
-对于我们的集群，Kafka MirrorMaker提供地理复制。基本上，消息是通过MirrorMaker跨多个数据中心或云区域复制的。因此，它可以在主动/被动场景中用于备份和恢复；也可以将数据放在离用户更近的位置，或者支持数据位置要求。
-
-
-### 3、Kafka Producer 写数据，ACK 为 0，1，-1 时分别代表什么？
-
-1（默认） 数据发送到Kafka后，经过leader成功接收消息的的确认，就算是发送成功了。在这种情况下，如果leader宕机了，则会丢失数据。
-
-0 生产者将数据发送出去就不管了，不去等待任何返回。这种情况下数据传输效率最高，但是数据可靠性确是最低的。
-
--1 producer需要等待ISR中的所有follower都确认接收到数据后才算一次发送完成，可靠性最高。
+```
+ConsumerRecords<> records = consumer.poll();
+for (ConsumerRecord<> record : records){
+。。。
+tyr{
+consumer.commitSync()
+}
+。。。
+}
+```
 
 
-### 4、副本和 ISR 扮演什么角色？
+### 2、Kafka Producer API的作用是什么？
 
-基本上，复制日志的节点列表就是副本。特别是对于特定的分区。但是，无论他们是否扮演leader的角色，他们都是如此。此外，ISR指的是同步副本。在定义ISR时，它是一组与leader同步的消息副本。
-
-
-### 5、Java Consumer为什么采用单线程来获取消息？
-
-**1、** 在回答之前，如果先把这句话说出来，一定会加分：Java Consumer是双线程的设计。一个线程是用户主线程，负责获取消息；另一个线程是心跳线程，负责向Kafka汇报消费者存活情况。将心跳单独放入专属的线程，能够有效地规避因消息处理速度慢而被视为下线的“假死”情况。
-
-**2、** 单线程获取消息的设计能够避免阻塞式的消息获取方式。单线程轮询方式容易实现异步非阻塞式，这样便于将消费者扩展成支持实时流处理的操作算子。因为很多实时流处理操作算子都不能是阻塞式的。另外一个可能的好处是，可以简化代码的开发。多线程交互的代码是非常容易出错的。
+允许应用程序将记录流到一个或多个Kafka主题的API就是我们所说的Producer API。
 
 
-### 6、Kafka 的消费者如何消费数据
+### 3、：46, 48
 
-消费者每次消费数据的时候，消费者都会记录消费的物理偏移量（offset）的位置
+### 4、Kafka可以接收的消息最大为多少？
 
-等到下次消费时，他会接着上次位置继续消费
-
-
-### 7、Kafka中的 ISR、AR 又代表什么？ISR 的伸缩又指什么？
-
-**ISR**：In-Sync Replicas 副本同步队列；ISR是由leader维护，follower从leader同步数据有一些延迟（包括延迟时间replica.lag.time.max.ms和延迟条数replica.lag.max.messages两个维度, 版本0.10.x中只支持replica.lag.time.max.ms这个维度），任意一个超过阈值都会把follower剔除出ISR, 存入OSR（Outof-Sync Replicas）列表，新加入的follower也会先存放在OSR中。AR=ISR+OSR。
-
-**AR**：Assigned Replicas 所有副本；
+Kafka可以接收的最大消息大小约为1000000字节。
 
 
-### 8、Kafka中的 Broker 是干什么的？
+### 5、Kafka 中的消息是否会丢失和重复消费？
 
-broker 是消息的代理，Producers往Brokers里面的指定Topic中写消息，Consumers从Brokers里面拉取指定Topic的消息，然后进行业务处理，broker在中间起到一个代理保存消息的中转站。
+要确定Kafka的消息是否丢失或重复，从两个方面分析入手：消息发送和消息消费。
+
+消息发送 Kafka消息发送有两种方式：**同步**（sync）和**异步**（async），默认是同步方式，可通过producer.type属性进行配置。Kafka通过配置request.required.acks属性来确认消息的生产：
+
+综上所述，有6种消息生产的情况，下面分情况来分析消息丢失的场景：
+
+acks=0；不和Kafka集群进行消息接收确认，则当网络异常、缓冲区满了等情况时，消息可能丢失；
+
+acks=1；同步模式下，只有Leader确认接收成功后但挂掉了，副本没有同步，数据可能丢失；
+
+0 表示不进行消息接收是否成功的确认；
+
+1 表示当Leader接收成功时确认；
+
+-1 表示Leader和Follower都接收成功时确认；
+
+消息消费 Kafka消息消费有两个consumer接口，Low-level API和High-level API：
+
+Low-level API：消费者自己维护offset等值，可以实现对Kafka的完全控制；
+
+High-level API：封装了对parition和offset的管理，使用简单；如果使用高级接口High-level API，可能存在一个问题就是当消息消费者从集群中把消息取出来、并提交了新的消息offset值后，还没来得及消费就挂掉了，那么下次再消费时之前没消费成功的消息就“诡异”的消失了；
+
+**解决办法：**
+
+针对消息丢失： **同步模式下**，确认机制设置为-1，即让消息写入Leader和Follower之后再确认消息发送成功； **异步模式下**，为防止缓冲区满，可以在配置文件设置不限制阻塞超时时间，当缓冲区满时让生产者一直处于阻塞状态；
+
+针对消息重复：将消息的唯一标识保存到外部介质中，每次消费时判断是否处理过即可。
 
 
-### 9、3.它还可以在记录进入时对其进行处理。Apache Kafka对于新手的面试
-### 10、什么情况下一个 Broker 会从ISR中踢出去?
+### 6、Leader总是-1，怎么破？
 
-leader 会维护一个与其基本保持同步的 Replica 列表，该列表称为 ISR(in-sync Replica)，每个 Partition 都会有一个 ISR，而且是由 leader 动态维护 ，如果一个 follower 比一个 leader 落后太多，或者超过一定时间未发起数据复制请求，则 leader 将其重 ISR 中移除 。
+**1、** 对于有经验的SRE来讲，早期的Kafka版本应该多多少少都遇到过该种情况，通常情况下就是Controller不工作了，导致无法分配leader，那既然知道问题后，解决方案也就很简单了。重启Controller节点上的Kafka进程，让其他节点重新注册Controller角色，但是如上面ZooKeeper的作用，你要知道为什么Controller可以自动注册。
+
+**2、** 当然了，当你知道controller的注册机制后，你也可以说：删除ZooKeeper节点/controller，触发Controller重选举。Controller重选举能够为所有主题分区重刷分区状态，可以有效解决因不一致导致的 Leader 不可用问题。但是，需要注意的是，直接操作ZooKeeper是一件风险很大的操作，就好比在Linux中执行了rm -rf /xxx一样，如果在/和xxx之间不小心多了几个空格，那”恭喜你”，今年白干了。
 
 
-### 11、Kafka和Flume之间的主要区别是什么？
-### 12、解释如何调整Kafka以获得最佳性能。
-### 13、解释Kafka Producer API的作用。
-### 14、为什么Kafka的复制至关重要？
-### 15、：46, 48
-### 16、Kafka提供的保证是什么？
-### 17、Zookeeper对于Kafka的作用是什么？
-### 18、如何调优Kafka？
-### 19、解释术语“主题复制因子”。
-### 20、Kafka 中 Consumer Group 是什么概念？
-### 21、如何设置Kafka能接收的最大消息的大小？
-### 22、Kafka能手动删除消息吗？
-### 23、consumer是推还是拉？
-### 24、Kafka 新建的分区会在哪个目录下创建
-### 25、比较传统队列系统与Apache Kafka
-### 26、Rebalance有什么影响
-### 27、消费者故障，出现活锁问题如何解决？
-### 28、阐述下 Kafka 中的领导者副本（Leader Replica）和追随者副本（Follower Replica）的区别
+### 7、：24, 22
+
+
+### 8、Rebalance有什么影响
+### 9、Kafka Unclean 配置代表什么？会对 spark streaming 消费有什么影响？
+### 10、如果副本长时间不在ISR中，这意味着什么？
+### 11、数据传输的事务定义有哪三种？
+### 12、Kafka 的 ack 机制
+### 13、什么是生产者？
+### 14、Kafka 与传统MQ消息系统之间有三个关键区别
+### 15、Java Consumer为什么采用单线程来获取消息？
+### 16、Kafka 的设计时什么样的呢？
+### 17、Kafa consumer 是否可以消费指定分区消息？
+### 18、Kafka和Flume之间的主要区别是什么？
+### 19、：21, 23, 25, 26, 27, 28, 29, 30Apache Kafka对于有经验的人的面试
+### 20、Kafka能手动删除消息吗？
+### 21、Kafka的message格式是什么？
+### 22、消息队列的作用
+### 23、副本和 ISR 扮演什么角色？
+### 24、流API的作用是什么？
+### 25、解释术语“Log Anatomy”
+### 26、没有zookeeper可以使用Kafka吗？
+### 27、为什么要使用Apache Kafka集群？
+### 28、在生产者中，何时发生QueueFullException？
 
 
 

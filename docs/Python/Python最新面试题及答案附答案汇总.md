@@ -6,192 +6,140 @@
 
 
 
-### 1、b、B、kB、MB、GB的关系
+### 1、写出邮箱的正则表达式
 
-**1、** 1B=8b
+```python
+import re
+pp=re.compile('[a-zA-Z0-9_-]+@[0-9A-Za-z]+(\.[0-9a-zA-Z]+)+')
+if pp.match('1403179190@qq.com'):
+print('ok')
+```
 
-**2、** 1kB=1024B
 
-**3、** 1MB=1024kB
+### 2、解释Python中的help()和dir()函数
 
-**4、** 1GB=1024MB
-
-
-### 2、什么是猴子补丁？
-
-在运行期间动态修改一个类或模块。
+Help()函数是一个内置函数，用于查看函数或模块用途的详细说明：
 
 ```
->>> class A:
-    def func(self):
-        print("Hi")
->>> def monkey(self):
-print "Hi, monkey"
->>> m.A.func = monkey
->>> a = m.A()
->>> a.func()
+>>> import copy
+>>> help(copy.copy)
 ```
 
 运行结果为：
 
 ```
-Hi, Monkey
+Help on function copy in module copy:
+
+ 
+ 
+copy(x)
+ 
+Shallow copy operation on arbitrary Python objects.
+ 
+See the module’s __doc__ string for more info.
+```
+
+Dir()函数也是Python内置函数，dir() 函数不带参数时，返回当前范围内的变量、方法和定义的类型列表；带参数时，返回参数的属性、方法列表。
+
+以下实例展示了 dir 的使用方法：
+
+```
+>>> dir(copy.copy)
+```
+
+运行结果为：
+
+```
+[‘__annotations__’, ‘__call__’, ‘__class__’, ‘__closure__’, ‘__code__’, ‘__defaults__’, ‘__delattr__’, ‘__dict__’, ‘__dir__’, ‘__doc__’, ‘__eq__’, ‘__format__’, ‘__ge__’, ‘__get__’, ‘__getattribute__’, ‘__globals__’, ‘__gt__’, ‘__hash__’, ‘__init__’, ‘__init_subclass__’, ‘__kwdefaults__’, ‘__le__’, ‘__lt__’, ‘__module__’, ‘__name__’, ‘__ne__’, ‘__new__’, ‘__qualname__’, ‘__reduce__’, ‘__reduce_ex__’, ‘__repr__’, ‘__setattr__’, ‘__sizeof__’, ‘__str__’, ‘__subclasshook__’]
 ```
 
 
-### 3、简述python的深浅拷贝
+### 3、Redis中watch的作用
 
-**1、** 浅拷贝只是对另外一个变量的内存地址的拷贝，这两个变量指向同一个内存地址的变量值。
+**1、** watch 用于在进行事务操作的最后一步也就是在执行exec 之前对某个key进行监视
 
-**2、** 浅拷贝的特点：
+**2、** 如果这个被监视的key被改动，那么事务就被取消，否则事务正常执行.
 
-**3、** 共用一个值
-
-**4、** 这两个变量的内存地址一样
-
-**5、** 对其中一个变量的值改变，另外一个变量的值也会改变
-
-**6、** 深拷贝是一个变量对另外一个变量的值拷贝
-
-**7、** 深拷贝的特点：
-
-**8、** 两个变量的内存地址不同
-
-**9、** 两个变量各有自己的值，且互不影响
-
-**10、** 对其任意一个变量的值的改变不会影响另外一个
-
-**11、** 如果是不可变类型，则深浅拷贝只拷贝引用，如果是可变类型，浅拷贝只拷贝第一层引用，深拷贝无论多少层引用都拷贝
+**3、** 一般在MULTI 命令前就用watch命令对某个key进行监控.如果想让key取消被监控，可以用unwatch命令
 
 
-### 4、Python中的闭包是什么？
+### 4、列举常见的关系型数据库和非关系型数据库。
 
-当一个嵌套函数在其外部区域引用了一个值时，该嵌套函数就是一个闭包。其意义就是会记录这个值。
+**1、** 关系型数据库：Oracle、DB2、Microsoft SQL Server、Microsoft Access、MySQL
 
-```
->>> def A(x):
-    def B():
-        print(x)
-    return B
->>> A(7)()
+**2、** 非关系型数据库：mongodb，Redis，elasticsearch，NoSql
+
+
+### 5、什么是轮询和长轮询
+
+轮询是在特定的的时间间隔（如每1秒），由浏览器对服务器发出HTTP request，然后由服务器返回最新的数据给客户端的浏览器。这种传统的HTTP request 的模式带来很明显的缺点 – 浏览器需要不断的向服务器发出请求，然而HTTP request 的header是非常长的，里面包含的有用数据可能只是一个很小的值，这样会占用很多的带宽。
+
+```javascript
+var xhr = new XMLHttpRequest();
+setInterval(function() {
+    xhr.open('GET', '/user');
+    xhr.onreadystatechange = function() {};
+    xhr.send();
+}, 1000)
 ```
 
-结果：
+长轮询是ajax实现:在发送ajax后,服务器端会阻塞请求直到有数据传递或超时才返回。 客户端JavaScript响应处理函数会在处理完服务器返回的信息后，再次发出请求，重新建立连接。
 
-```
-7
-```
-
-更多关于闭包的知识，请参看这里：
-
-[戳这里](https://data-flair.training/blogs/python-closure/)
-
-
-### 5、a = dict(zip(('a','b','c','d','e'),(1,2,3,4,5))) 请问a是什么？
-
-**{'a': 1, 'b': 2, 'c': 3, 'd': 4, 'e': 5}**
-
-
-### 6、数据库的导入与导出命令
-
-**1、** 导出(MySQLdump)
-
-**2、** 导出数据和表结构
-
-**3、** MySQLdump -uroot -p dbname > dbname .sql
-
-**4、** 只导出表结构
-
-**5、** MySQLdump -uroot -p -d dbname > dbname .sql
-
-6、导入
-
-**7、** MySQL -u用户名 -p密码 数据库名 < 数据库名.sql
-
-
-### 7、简述进程，线程，协程的区别以及应用场景？
-
-**区别：**
-
-**1、** 线程是资源分配的单位
-
-**2、** 线程是操作系统调度的单位
-
-**3、** 进程切换需要的资源很大，效率很低
-
-**4、** 线程切换需要的资源一般，效率一般(在不考虑GIL的情况下
-
-**5、** 协程切换任务资源很小，效率高
-
-**6、** 多进程，多线程根据cpu核数不一样可能是并行的，但是协程是在一个线程中，所以是并发。)
-
-**应用场景**
-
-**1、** 协程：当程序中存在大量不需要cpu的操作时，适用协程
-
-**2、** 计算密集型，用进程。IO密集型，用线程。
-
-
-### 8、22、iterables和iterators之间的区别？
-
-iterable：可迭代是一个对象，可以对其进行迭代。在可迭代的情况下，整个数据一次存储在内存中。
-
-iterators：迭代器是用来在对象上迭代的对象。它只在被调用时被初始化或存储在内存中。迭代器使用next从对象中取出元素。
-
-```
-# List is an iterable
-lst = [1,2,3,4,5]
-for i in lst:
-    print(i)
-
-# iterator
-lst1 = iter(lst)
-next(lst1)
->1
-next(lst1)
->2
-for i in lst1:
-    print(i)
->3,4,5
+```javascript
+function ajax() {
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', '/user');
+    xhr.onreadystatechange = function() {
+        ajax();
+    };
+    xhr.send();
+}
 ```
 
 
-### 9、如何查找一个字符串中特定的字符？find和index的差异？
+### 6、什么是gevent
 
-使用find和index方法查找
-
-**1、** find()方法：查找子字符串，若找到返回从0开始的下标值，若找不到返回-1
-
-**2、** index()方法：python 的index方法是在字符串里查找子串第一次出现的位置，类似字符串的find方法，不过比find方法更好的是，如果查找不到子串，会抛出异常，而不是返回-1
+gevent是一个pythn网络框架，它为各种并发和网络相关的任务提供了整洁的API
 
 
-### 10、JavaScript(或者jQuery)如何选择一个id为main的容器
+### 7、进程之间如何进行通信？
 
-**1、** jquery：$('#id')
+**1、** 共享内存
 
-**2、** JavaScript：document.getElementById("id"))
+通过mmap模块实现
+
+2、信号
+
+**3、** 通过Queue队列
+
+**4、** 通过Pipe管道
+
+**5、** 通过socket
 
 
-### 11、一个大小为100G的文件etl_log.txt，要读取文件的内容，写出具体过程代码
-### 12、1，2，3，4，5能组成多少个互不相同且不重复的三位数？
-### 13、python解释器种类以及特点
-### 14、元组的解封装是什么？
-### 15、解决哈希冲突的算法有哪几种？分别有什么特点？
-### 16、query作为sql模板，args为将要传入的参数
-### 17、axios的作用
-### 18、现有mydict和变量onekey，请写出从mydict中取出onekey的值的方法
-### 19、如何实现字符串的反转？如：name=felix，反转成name=xilef
-### 20、Redis和Memcached的区别
-### 21、什么是Python？为什么它会如此流行？
-### 22、如何判断一个值是方法还是函数？
-### 23、以下代码输出什么？
-### 24、Python中使用的zip函数是什么？
-### 25、编写程序，计算文件中单词的出现频率
-### 26、实现99乘法表（使用两种方法）
-### 27、什么是局域网和广域网
-### 28、简述OSI七层协议
-### 29、用尽量简洁的方法将二维数组合并成一维数组
-### 30、解释Python中map()函数？
+### 8、输入一个字符串，输出该字符串的字符的所有组合。如输入'abc',输出a,b,c,ab,ac,bc,abc.
+### 9、MySQL常见的函数
+### 10、break、continue、pass是什么？
+### 11、如何保证api调用时数据的安全性
+### 12、你了解哪些数据库优化方案
+### 13、什么是C/S和B/S架构
+### 14、re的match和search的区别
+### 15、Python中的标识符长度能有多长？
+### 16、or 和 and
+### 17、解释一下Python中的继承？
+### 18、求下面代码结果
+### 19、简述线程死锁是怎么造成的。如何避免？
+### 20、_init_在Python中有什么用？
+### 21、判断dict中有没有某个key。
+### 22、三元运算编写格式
+### 23、是否使用过functools中的函数？他的作用是什么？
+### 24、什么是pickling和unpickling？
+### 25、解释一下Python中的关系运算符
+### 26、vue中的路由拦截器的作用
+### 27、Python中注释代码的方法有哪些？
+### 28、1，2，3，4，5能组成多少个互不相同且不重复的三位数？
+### 29、threading.local的作用
+### 30、TCP和UDP的区别
 
 
 

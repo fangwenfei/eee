@@ -6,116 +6,89 @@
 
 
 
-### 1、哪些是重要的bean生命周期方法？你能重载它们吗？
+### 1、SpringBoot 的核心注解是哪个？它主要由哪几个注解组成的？
 
-有两个重要的bean 生命周期方法，第一个是setup ， 它是在容器加载bean的时候被调用。第二个方法是 teardown 它是在容器卸载类的时候被调用。
+启动类上面的注解是@SpringBootApplication，它也是 SpringBoot 的核心注解，主要组合包含了以下 3 个注解：
 
-The bean 标签有两个重要的属性（init-method和destroy-method）。用它们你可以自己定制初始化和注销方法。它们也有相应的注解（@PostConstruct和@PreDestroy）。
+@SpringBootConfiguration：组合了 [@Configuration ](/Configuration ) 注解，实现配置文件的功能。
 
+@EnableAutoConfiguration：打开自动配置的功能，也可以关闭某个自动配置的选项，如关闭数据源自动配置功能：
 
-### 2、如何集成 SpringBoot 和 ActiveMQ？
+[@SpringBootApplication(exclude ](/SpringBootApplication(exclude ) = { DataSourceAutoConfiguration.class })。
 
-对于集成 SpringBoot 和 ActiveMQ，我们使用依赖关系。它只需要很少的配置，并且不需要样板代码。
-
-
-### 3、SpringCloud的优缺点
-
-**优点：**
-
-**1、** 耦合度比较低。不会影响其他模块的开发。
-
-**2、** 减轻团队的成本，可以并行开发，不用关注其他人怎么开发，先关注自己的开发。
-
-**3、** 配置比较简单，基本用注解就能实现，不用使用过多的配置文件。
-
-**4、** 微服务跨平台的，可以用任何一种语言开发。
-
-**5、** 每个微服务可以有自己的独立的数据库也有用公共的数据库。
-
-**6、** 直接写后端的代码，不用关注前端怎么开发，直接写自己的后端代码即可，然后暴露接口，通过组件进行服务通信。
-
-**缺点：**
-
-1、部署比较麻烦，给运维工程师带来一定的麻烦。
-
-2、针对数据的管理比麻烦，因为微服务可以每个微服务使用一个数据库。
-
-3、系统集成测试比较麻烦
-
-4、性能的监控比较麻烦。【最好开发一个大屏监控系统】
-
-总的来说优点大过于缺点，目前看来Spring Cloud是一套非常完善的分布式框架，目前很多企业开始用微服务、Spring Cloud的优势是显而易见的。因此对于想研究微服务架构的同学来说，学习Spring Cloud是一个不错的选择。
+@ComponentScan：Spring组件扫描。
 
 
-### 4、为什么我们需要 spring-boot-maven-plugin?
+### 2、服务注册和发现是什么意思？Spring Cloud如何实现？
 
-spring-boot-maven-plugin 提供了一些像 jar 一样打包或者运行应用程序的命令。
-
-spring-boot:run 运行你的 SpringBooty 应用程序。
-
-spring-boot：repackage 重新打包你的 jar 包或者是 war 包使其可执行
-
-spring-boot：start 和 spring-boot：stop 管理 SpringBoot 应用程序的生命周期（也可以说是为了集成测试）。
-
-spring-boot:build-info 生成执行器可以使用的构造信息。
+当我们开始一个项目时，我们通常在属性文件中进行所有的配置。随着越来越多的服务开发和部署，添加和修改这些属性变得更加复杂。有些服务可能会下降，而某些位置可能会发生变化。手动更改属性可能会产生问题。Eureka服务注册和发现可以在这种情况下提供帮助。由于所有服务都在Eureka服务器上注册并通过调用Eureka服务器完成查找，因此无需处理服务地点的任何更改和处理。
 
 
-### 5、Zookeeper如何 保证CP
+### 3、SpringBoot 的核心注解是哪个？它主要由哪几个注解组成的？
 
-当向注册中⼼查询服务列表时，我们可以容忍注册中⼼返回的是⼏分钟以前的注册信息，但不能接受服务直接down掉不可⽤。也就是说，服务注册功能对可⽤性的要求要⾼于⼀致性。但是zk会出现这样⼀种情况，当master节点因为⽹络故障与其他节点失去联系时，剩余节点会重新进⾏leader选举。问题在于，选举leader的时间太⻓，30 ~ 120s, 且选举期间整个zk集群都是不可⽤的，这就导致在选举期间注册服务瘫痪。在云部署的环境下，因⽹络问题使得zk集群失去master节点是较⼤概率会发⽣的事，虽然服务能够最终恢复，但是漫⻓的选举时间导致的注册⻓期不可⽤是不能容忍的。
+启动类上面的注解是@SpringBootApplication，它也是 SpringBoot 的核心注解，主要组合包含了以下 3 个注解：
 
+@SpringBootConfiguration：组合了 [@Configuration ](/Configuration ) 注解，实现配置文件的功能。
 
-### 6、缓存机制：
+[@EnableAutoConfiguration：打开自动配置的功能，也可以关闭某个自动配置的选项，如关闭数据源自动配置功能：@SpringBootApplication(exclude ](/EnableAutoConfiguration：打开自动配置的功能，也可以关闭某个自动配置的选项，如关闭数据源自动配置功能：@SpringBootApplication(exclude ) = { DataSourceAutoConfiguration.class })。
 
-设置了⼀个每30秒执⾏⼀次的定时任务，定时去服务端获取注册信息。获取之后，存⼊本地内存。
-
-
-### 7、SpringBoot多数据源事务如何管理
-
-第一种方式是在service层的@TransactionManager中使用transactionManager指定DataSourceConfig中配置的事务
-
-第二种是使用jta-atomikos实现分布式事务管理
+@ComponentScan：Spring组件扫描。
 
 
-### 8、spring cloud 断路器的作用是什么？
+### 4、Spring Cloud Task
 
-在分布式架构中，断路器模式的作用也是类似的，当某个服务单元发生故障（类似用电器发生短路）之后，通过断路器的故障监控（类似熔断保险丝），向调用方返回一个错误响应，而不是长时间的等待。这样就不会使得线程因调用故障服务被长时间占用不释放，避免了故障在分布式系统中的蔓延。
-
-
-### 9、什么是微服务
-
-**1、** 微服务是⼀种架构⻛格，也是⼀种服务；
-
-**2、** 微服务的颗粒⽐较⼩，⼀个⼤型复杂软件应⽤由多个微服务组成，⽐如Netflix⽬前由500多的微服务组成；
-
-**3、** 它采⽤UNIX设计的哲学，每种服务只做⼀件事，是⼀种松耦合的能够被独⽴开发和部署的⽆状态化服务（独⽴扩展、升级和可替换）。
+Spring Cloud Task的目标是为SpringBoot应用程序提供创建短运行期微服务的功能。在Spring Cloud Task中，我们可以灵活地动态运行任何任务，按需分配资源并在任务完成后检索结果。Tasks是Spring Cloud Data Flow中的一个基础项目，允许用户将几乎任何SpringBoot应用程序作为一个短期任务执行。
 
 
-### 10、一个 Spring Bean 定义 包含什么？
+### 5、Spring Cloud 是什么
 
-一个Spring Bean 的定义包含容器必知的所有配置元数据，包括如何创建一个bean，它的生命周期详情及它的依赖。
+**1、** Spring Cloud是一系列框架的有序集合。它利用SpringBoot的开发便利性巧妙地简化了分布式系统基础设施的开发，如服务发现注册、配置中心、智能路由、消息总线、负载均衡、断路器、数据监控等，都可以用SpringBoot的开发风格做到一键启动和部署。
+
+**2、** Spring Cloud并没有重复制造轮子，它只是将各家公司开发的比较成熟、经得起实际考验的服务框架组合起来，通过SpringBoot风格进行再封装屏蔽掉了复杂的配置和实现原理，最终给开发者留出了一套简单易懂、易部署和易维护的分布式系统开发工具包。
 
 
-### 11、SpringBoot自动配置的原理是什么？
-### 12、spring DAO 有什么用？
-### 13、什么是OAuth？
-### 14、什么是Feign？
-### 15、Spring Cloud Config
-### 16、区分 BeanFactory 和 ApplicationContext。
-### 17、SpringData 项目所支持的关系数据存储技术：
-### 18、什么是 AOP 代理?
-### 19、SpringBoot 如何设置支持跨域请求？
-### 20、核心容器（应用上下文) 模块。
-### 21、Spring Cloud的版本关系
-### 22、我们如何进行跨功能测试？
-### 23、微服务的优点
-### 24、什么是YAML?
-### 25、谈谈服务降级、熔断、服务隔离
-### 26、SpringBoot的核心注解是哪个？它主要由哪几个注解组成的？
-### 27、如何在 SpringBoot 启动的时候运行一些特定的代码？
-### 28、什么是REST / RESTful以及它的用途是什么？
-### 29、如何在 SpringBoot中禁用 Actuator端点安全性?
-### 30、什么是 spring 装配
+### 6、什么是Oauth？
+
+开放授权协议，这允许通过在HTTP服务上启用客户端应用程序（例如第三方提供商Facebook，GitHub等）来访问资源所有者的资源。因此，您可以在不使用其凭据的情况下与另一个站点共享存储在一个站点上的资源。
+
+OAuth允许像Facebook这样的第三方使用最终用户的帐户信息，同时保证其安全（不使用或暴露用户的密码）。它更像是代表用户的中介，同时为服务器提供访问所需信息的令牌。
+
+
+### 7、如何重新加载 SpringBoot 上的更改，而无需重新启动服务器？SpringBoot项目如何热部署？
+
+这可以使用 DEV 工具来实现。通过这种依赖关系，您可以节省任何更改，嵌入式tomcat 将重新启动。SpringBoot 有一个开发工具（DevTools）模块，它有助于提高开发人员的生产力。Java 开发人员面临的一个主要挑战是将文件更改自动部署到服务器并自动重启服务器。开发人员可以重新加载 SpringBoot 上的更改，而无需重新启动服务器。这将消除每次手动部署更改的需要。SpringBoot 在发布它的第一个版本时没有这个功能。这是开发人员最需要的功能。DevTools 模块完全满足开发人员的需求。该模块将在生产环境中被禁用。它还提供 H2 数据库控制台以更好地测试应用程序。
+
+```
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-devtools</artifactId>
+</dependency>
+```
+
+
+### 8、Spring Cloud Zookeeper
+### 9、Spring由哪些模块组成?
+### 10、[@RequestMapping ](/RequestMapping ) 注解
+### 11、第⼀层缓存：
+### 12、SpringCloud 和 Dubbo 有哪些区别?
+### 13、Eureka和ZooKeeper都可以提供服务注册与发现的功能,请说说两个的区别
+### 14、什么是无所不在的语言？
+### 15、我们如何监视所有SpringBoot微服务？
+### 16、如何启用/禁用执行器？
+### 17、spring boot监听器流程?
+### 18、列举微服务技术栈
+### 19、如何在 spring 中启动注解装配？
+### 20、Spring Cloud Bus
+### 21、什么是 AOP？
+### 22、什么是SpringBoot ？
+### 23、SpringBoot 打成的 jar 和普通的 jar 有什么区别 ?
+### 24、@Controller注解的作用
+### 25、接⼝限流⽅法？
+### 26、[@Required ](/Required ) 注解有什么用？
+### 27、什么是 JavaConfig？
+### 28、Spring Cloud Consul
+### 29、如何使用 SpringBoot 实现分页和排序？
+### 30、SpringBoot如何实现打包
 
 
 

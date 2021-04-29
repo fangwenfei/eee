@@ -6,112 +6,136 @@
 
 
 
-### 1、sim卡的EF文件是什么？有何作用
+### 1、请描述一下 Intent 和 IntentFilter
 
-sim卡的文件系统有自己规范，主要是为了和手机通讯，sim本 身可以有自己的操作系统，EF就是作存储并和手机通讯用的
-
-
-### 2、在 service 的生命周期方法 onstartConmand()可不可以执行网络操作？如何在 service 中执行网络操作？
-
-可以的，就在onstartConmand方法内执行。
+```
+Intent是组件的通讯使者，可以在组件间传递消息和数据。
+IntentFilter是intent的筛选器，可以对intent的action，data，catgory，uri这些属性进行筛选，确定符合的目标组件。
+```
 
 
-### 3、说说 LruCache 底层原理
+### 2、启动一个程序，可以主界面点击图标进入，也可以从一个程序中跳转过去，二者有什么区别？
 
-LruCache 使用一个 LinkedHashMap 简单的实现内存的缓存，没有软引用，都是强引用。
+通过主界面进入，就是设置默认启动的activity。在manifest.xml文件的activity标签中，写以下代码
 
-如果添加的数据大于设置的最大值，就删除最先缓存的数据来调整内存。maxSize 是通过构造方法初始化的值，他表示这个缓存能缓存的最大值是多少。
+```
+<intent- filter>
+<intent android:name=“android.intent.action.MAIN”>
+<intent android:name=”android:intent.category.LAUNCHER”>
+</intent-filter>
+```
 
-size 在添加和移除缓存都被更新值， 他通过 safeSizeOf 这个方法更新值。 safeSizeOf 默认返回 1，但一般我们会根据 maxSize 重写这个方法，比如认为 maxSize 代表是 KB 的话，那么就以 KB 为单位返回该项所占的内存大小。
+从另一个组件跳转到目标activity，需要通过intent进行跳转。具体
 
-除异常外，首先会判断 size 是否超过 maxSize，如果超过了就取出最先插入的缓存，如果不为空就删掉，并把 size 减去该项所占的大小。这个操作将一直循环下去，直到 size 比 maxSize 小或者缓存为空。
-
-
-### 4、Service和Thread的区别？
-
-servie是系统的组件，它由系统进程托管（servicemanager）；它们之间的通信类似于client和server，是一种轻量级的ipc通信，这种通信的载体是binder，它是在linux层交换信息的一种ipc。而thread是由本应用程序托管。1)、Thread：Thread 是程序执行的最小单元，它是分配CPU的基本单位。可以用 Thread 来执行一些异步的操作。
-
-2)、Service：Service 是android的一种机制，当它运行的时候如果是Local Service，那么对应的 Service 是运行在主进程的 main 线程上的。如：onCreate，onStart 这些函数在被系统调用的时候都是在主进程的 main 线程上运行的。如果是Remote Service，那么对应的 Service 则是运行在独立进程的 main 线程上。
-
-既然这样，那么我们为什么要用 Service 呢？其实这跟 android 的系统机制有关，我们先拿 Thread 来说。Thread 的运行是独立于 Activity 的，也就是说当一个 Activity 被 finish 之后，如果你没有主动停止 Thread 或者 Thread 里的 run 方法没有执行完毕的话，Thread 也会一直执行。因此这里会出现一个问题：当 Activity 被 finish 之后，你不再持有该 Thread 的引用。另一方面，你没有办法在不同的 Activity 中对同一 Thread 进行控制。
-
-举个例子：如果你的 Thread 需要不停地隔一段时间就要连接服务器做某种同步的话，该 Thread 需要在 Activity 没有start的时候也在运行。这个时候当你 start 一个 Activity 就没有办法在该 Activity 里面控制之前创建的 Thread。因此你便需要创建并启动一个 Service ，在 Service 里面创建、运行并控制该 Thread，这样便解决了该问题（因为任何 Activity 都可以控制同一 Service，而系统也只会创建一个对应 Service 的实例）。
-
-因此你可以把 Service 想象成一种消息服务，而你可以在任何有 Context 的地方调用 Context.startService、Context.stopService、Context.bindService，Context.unbindService，来控制它，你也可以在 Service 里注册 BroadcastReceiver，在其他地方通过发送 broadcast 来控制它，当然这些都是 Thread 做不到的。
+```
+Intent intent=new Intent(this,activity.class),startActivity(intent)
+```
 
 
-### 5、activity在屏幕旋转时的生命周期
+### 3、Serializable 和 Parcelable 的区别？
 
-不设置Activity的android:configChanges时，切屏会重新调用各个生命周期，切横屏时会执行一次，切竖屏时会执行两次；设置Activity的android:configChanges="orientation"时，切屏还是会重新调用各个生命周期，切横、竖屏时只会执行一次；设置Activity的android:configChanges="orientation|keyboardHidden"时，切屏不会重新调用各个生命周期，只会执行onConfigurationChanged方法
+如果存储在内存中，推荐使用parcelable，使用serialiable在序列化的时候会产生大量的临时变量，会引起频繁的GC
 
+如果存储在硬盘上，推荐使用Serializable，虽然serializable效率较低
 
-### 6、Android 判断SD卡是否存在
+Serializable的实现：只需要实现Serializable接口，就会自动生成一个序列化id
 
-首先要在AndroidManifest.xml中增加SD卡访问权限
-
-
-### 7、如何将SQLite数据库(dictionary.db文件)与apk文件一起发布
-
-解可以将dictionary.db文件复制到Eclipse Android工程中的res aw目录中。所有在res aw目录中的文件不会被压缩，这样可以直接提取该目录中的文件。可以将dictionary.db文件复制到res aw目录中
+Parcelable的实现：需要实现Parcelable接口，还需要Parcelable.CREATER变量
 
 
-### 8、Fragment中add与replace的区别？
+### 4、广播注册
 
-add不会重新初始化fragment,replace每次都会；
+首先写一个类要继承BroadCastReceiver
 
-添加相同的fragment时，replace不会有任何变化，add会报IllegalStateException 异常；
+第一种：在清单文件中声明，添加
 
-replace 先 remove 掉相同 id 的所有 fragment，然后在add 当前的这个 fragment，而 add 是覆盖前一个fragment。所以如果使用 add 一般会伴随 hide()和show()，避免布局重叠；
+```
+<receive android:name=".BroadCastReceiverDemo">
+<intent-filter>
+<action android:name="android.provider.Telephony.SMS_RECEIVED">
+</intent-filter>
+</receiver>
+```
 
-使用 add，如果应用放在后台，或以其他方式被系统销毁，再打开时，hide()中引用的 fragment 会销毁，所以依然会出现布局重叠 bug，可以使用 replace 或使用 add时，添加一个 tag 参数；
+第二种：使用代码进行注册如：
 
+```
+IntentFilter filter = new IntentFilter("android.provider.Telephony.SMS_RECEIVED");
+BroadCastReceiverDemo receiver = new BroadCastReceiver();
+registerReceiver(receiver, filter);
+```
 
-### 9、描述一下android的系统架构
+两种注册类型的区别是：
 
-android系统架构分从下往上为linux 内核层、运行库、应用程序框架层、和应用程序层。
+a.第一种是常驻型广播，也就是说当应用程序关闭后，如果有信息广播来，程序也会被系统调用自动运行。
 
-linuxkernel：负责硬件的驱动程序、网络、电源、系统安全以及内存管理等功能。
-
-libraries和 android runtime：libraries：即c/c++函数库部分，大多数都是开放源代码的函数库，例如webkit（引擎），该函数库负责 android网页浏览器的运行，例如标准的c函数库libc、openssl、sqlite等，当然也包括支持游戏开发2dsgl和 3dopengles，在多媒体方面有mediaframework框架来支持各种影音和图形文件的播放与显示，例如mpeg4、h.264、mp3、 aac、amr、jpg和png等众多的多媒体文件格式。android的runtime负责解释和执行生成的dalvik格式的字节码。
-
-applicationframework（应用软件架构），java应用程序开发人员主要是使用该层封装好的api进行快速开发。
-
-applications:该层是java的应用程序层，android内置的googlemaps、e-mail、即时通信工具、浏览器、mp3播放器等处于该层，java开发人员开发的程序也处于该层，而且和内置的应用程序具有平等的位置，可以调用内置的应用程序，也可以替换内置的应用程序。
-
-上面的四个层次，下层为上层服务，上层需要下层的支持，调用下层的服务，这种严格分层的方式带来的极大的稳定性、灵活性和可扩展性，使得不同层的开发人员可以按照规范专心特定层的开发。
-
-android应用程序使用框架的api并在框架下运行，这就带来了程序开发的高度一致性，另一方面也告诉我们，要想写出优质高效的程序就必须对整个 applicationframework进行非常深入的理解。精通applicationframework，你就可以真正的理解android的设计和运行机制，也就更能够驾驭整个应用层的开发。
-
-
-### 10、ListView 如何实现分页加载
-
-设置 ListView 的滚动监听器：setOnScrollListener(new OnScrollListener{….})在监听器中有两个方法： 滚动状态发生变化的方法(onScrollStateChanged)和 listView 被滚动时调用的方法(onScroll)
-
-在滚动状态发生改变的方法中，有三种状态：手指按下移动的状态： SCROLL_STATE_TOUCH_SCROLL:触摸滑动，惯性滚动（滑翔（flgin）状态）： SCROLL_STATE_FLING: 滑翔，静止状态： SCROLL_STATE_IDLE: // 静止，对不同的状态进行处理：
-
-分批加载数据，只关心静止状态：关心最后一个可见的条目，如果最后一个可见条目就是数据适配器（集合）里的最后一个，此时可加载更多的数据。在每次加载的时候，计算出滚动的数量，当滚动的数量大于等于总数量的时候，可以提示用户无更多数据了。
+b.第二种不是常驻广播，也就是说广播跟随程序的生命周期。
 
 
-### 11、DDMS和TraceView的区别?
-### 12、如何修改 Activity 进入和退出动画
-### 13、说下Activity 的四种启动模式、应用场景 ？
-### 14、如何在 ScrollView 中如何嵌入 ListView
-### 15、定位项目中，如何选取定位方案，如何平衡耗电与实时位置的精度？
-### 16、Hander原理
-### 17、View和SurfaceView的区别
-### 18、什么是ANR 如何避免它？
-### 19、activity，fragment传值问题
-### 20、Fragment 在你们项目中的使用
-### 21、ListView的优化方案
-### 22、说说mvc模式的原理，它在android中的运用,android的官方建议应用程序的开发采用mvc模式。何谓mvc？
-### 23、如果后台的Activity由于某原因被系统回收了，如何在被系统回收之前保存当前状态？
-### 24、如何将打开res aw目录中的数据库文件?
-### 25、AIDL 的全称是什么?如何工作?能处理哪些类型的数据？
-### 26、Android root机制
-### 27、嵌入式操作系统内存管理有哪几种， 各有何特性
-### 28、Android中的长度单位详解
-### 29、Service生命周期
-### 30、Android中任务栈的分配
+### 5、View和SurfaceView的区别
+
+View基于主线程刷新UI，SurfaceView子线程又可以刷新UI
+
+
+### 6、Fragment 在你们项目中的使用
+
+Fragment 是 android3.0 以后引入的的概念，做局部内容更新更方便，原来为了到达这一点要把多个布局放到一个 activity 里面，现在可以用多 Fragment 来代替，只有在需要的时候才加载Fragment，提高性能。
+
+**Fragment 的好处：**
+
+**1、** Fragment 可以使你能够将 activity 分离成多个可重用的组件，每个都有它自己的生命周期和UI。
+
+**2、** Fragment 可以轻松得创建动态灵活的 UI 设计，可以适应于不同的屏幕尺寸。从手机到平板电脑。
+
+**3、** Fragment 是一个独立的模块,紧紧地与 activity 绑定在一起。可以运行中动态地移除、加入、交换等。
+
+**4、** Fragment 提供一个新的方式让你在不同的安卓设备上统一你的 UI。
+
+**5、** Fragment 解决 Activity 间的切换不流畅，轻量切换。
+
+**6、** Fragment 替代 TabActivity 做导航，性能更好。
+
+**7、** Fragment 在 4.2.版本中新增嵌套 fragment 使用方法，能够生成更好的界面效果。
+
+
+### 7、为什么Android引入广播机制?
+
+**1、** 从MVC的角度考虑(应用程序内) 其实回答这个问题的时候还可以这样问，android为什么要有那4大组件，现在的移动开发模型基本上也是照搬的web那一套MVC架构，只不过是改了点嫁妆而已。
+
+**2、** android的四大组件本质上就是为了实现移动或者说嵌入式设备上的MVC架构
+
+**3、** 它们之间有时候是一种相互依存的关系，有时候又是一种补充关系，引入广播机制可以方便几大组件的信息和数据交互。
+
+**4、** 程序间互通消息(例如在自己的应用程序内监听系统来电)
+
+**5、** 效率上(参考UDP的广播协议在局域网的方便性)
+
+**6、** 设计模式上(反转控制的一种应用，类似监听者模式)
+
+
+### 8、请解释下 Android 程序运行时权限与文件系统权限的区别？
+### 9、子线程发消息到主线程进行更新 UI，除了 handler 和 AsyncTask，还有什么？
+### 10、Android与服务器交互的方式中的对称加密和非对称加密是什么?
+### 11、说说 ContentProvider、ContentResolver、ContentObserver 之间的关系
+### 12、如果有个100M大的文件，需要上传至服务器中，而服务器form表单最大只能上传2M，可以用什么方法。
+### 13、ListView 中图片错位的问题是如何产生的
+### 14、横竖屏切换的Activity 生命周期变化？
+### 15、Android中的ANR
+### 16、说说 LruCache 底层原理
+### 17、SQLite支持事务吗?添加删除如何提高性能?
+### 18、Android中touch事件的传递机制是怎样的?
+### 19、AsyncTask使用在哪些场景？它的缺陷是什么？如何解决？
+### 20、Android 线程间通信有哪几种方式（重要）
+### 21、View
+### 22、如何对 Android 应用进行性能分析
+### 23、ListView优化
+### 24、android中的动画有哪几类，它们的特点和区别是什么
+### 25、什么是 IntentService？有何优点？
+### 26、activity，service，intent之间的关系
+### 27、DDMS和TraceView的区别?
+### 28、如果后台的Activity由于某原因被系统回收了，如何在被系统回收之前保存当前状态？
+### 29、Service 里面可以弹吐司么
+### 30、如何修改 Activity 进入和退出动画
 
 
 

@@ -6,157 +6,117 @@
 
 
 
-### 1、什么是 Spring Profiles？
+### 1、如何实现 SpringBoot 应用程序的安全性？
 
-在项目的开发中，有些配置文件在开发、测试或者生产等不同环境中可能是不同的，例如数据库连接、Redis的配置等等。那我们如何在不同环境中自动实现配置的切换呢？Spring给我们提供了profiles机制给我们提供的就是来回切换配置文件的功能
-
-Spring Profiles 允许用户根据配置文件（dev，test，prod 等）来注册 bean。因此，当应用程序在开发中运行时，只有某些 bean 可以加载，而在 PRODUCTION中，某些其他 bean 可以加载。假设我们的要求是 Swagger 文档仅适用于 QA 环境，并且禁用所有其他文档。这可以使用配置文件来完成。SpringBoot 使得使用配置文件非常简单。
+为了实现 SpringBoot 的安全性，我们使用 spring-boot-starter-security 依赖项，并且必须添加安全配置。它只需要很少的代码。配置类将必须扩展WebSecurityConfigurerAdapter 并覆盖其方法。
 
 
-### 2、SpringBoot Starter 的工作原理是什么？
+### 2、一个Spring的应用看起来象什么？
 
-SpringBoot 在启动的时候会干这几件事情：
+**1、** 一个定义了一些功能的接口。
 
-**1、** SpringBoot 在启动时会去依赖的 Starter 包中寻找 resources/META-INF/spring.factories 文件，然后根据文件中配置的 Jar 包去扫描项目所依赖的 Jar 包。
+**2、** 这实现包括属性，它的Setter ， getter 方法和函数等。
 
-**2、** 根据 spring.factories 配置加载 AutoConfigure 类
+**3、** Spring AOP
 
-**3、** 根据 [@Conditional ](/Conditional ) 注解的条件，进行自动配置并将 Bean 注入 Spring Context
+**4、** Spring 的XML 配置文件
 
-总结一下，其实就是 SpringBoot 在启动的时候，按照约定去读取 SpringBoot Starter 的配置信息，再根据配置信息对资源进行初始化，并注入到 Spring 容器中。这样 SpringBoot 启动完毕后，就已经准备好了一切资源，使用过程中直接注入对应 Bean 资源即可。
-
-这只是简单的三连环问答，不知道有多少同学能够完整的回答出来。
-
-其实 SpringBoot 中有很多的技术点可以挖掘，今天给大家整理了十个高频 SpringBoot 面试题，希望可以在后期的面试中帮助到大家。
+**5、** 使用以上功能的客户端程序
 
 
-### 3、[@Qualifier ](/Qualifier ) 注解有什么用？
+### 3、我们如何连接一个像 MySQL 或者Orcale 一样的外部数据库？
 
-当您创建多个相同类型的 bean 并希望仅使用属性装配其中一个 bean 时，您可以使用[@Qualifier ](/Qualifier ) 注解和 [@Autowired ](/Autowired ) 通过指定应该装配哪个确切的 bean 来消除歧义。
+让我们以 MySQL 为例来思考这个问题：
 
-例如，这里我们分别有两个类，Employee 和 EmpAccount。在 EmpAccount 中，使用[@Qualifier ](/Qualifier ) 指定了必须装配 id 为 emp1 的 bean。
+**第一步** - 把 MySQL 连接器的依赖项添加至 pom.xml
 
-Employee.java
+**第二步** - 从 pom.xml 中移除 H2 的依赖项
 
-```
-public class Employee {
-    private String name;
-    @Autowired
-    public void setName(String name) {
-        this.name=name;
-    }
-    public string getName() {
-        return name;
-    }
-}
-```
+或者至少把它作为测试的范围。
 
-EmpAccount.java
+**第三步** - 安装你的 MySQL 数据库
+
+更多的来看看这里 -[https://github.com/in28minutes/jpa-with-hibernate#installing-and-setting-up-MySQL](https://github.com/in28minutes/jpa-with-hibernate#installing-and-setting-up-MySQL)
+
+**第四步** - 配置你的 MySQL 数据库连接
+
+配置 application.properties
 
 ```
-public class EmpAccount {
-    private Employee emp;
-
-    @Autowired
-    @Qualifier(emp1)
-    public void showName() {
-        System.out.println(“Employee name : ”+emp.getName);
-    }
-}
+spring.jpa.hibernate.ddl-auto=none spring.datasource.url=jdbc:MySQL://localhost:3306/todo_example
+spring.datasource.username=todouser spring.datasource.password=YOUR_PASSWORD
 ```
 
+**第五步** - 重新启动，你就准备好了！
 
-### 4、什么是网关?
-
-网关相当于一个网络服务架构的入口，所有网络请求必须通过网关转发到具体的服务。
-
-
-### 5、@Component, @Controller, @Repository, [@Service ](/Service ) 有何区别？
-
-**1、** @Component： 这将 java 类标记为 bean。 它是任何 Spring 管理组件的通用构造型。 spring 的组件扫描机制现在可以将其拾取并将其拉入应用程序环境中。
-
-**2、** @Controller： 这将一个类标记为 Spring Web MVC 控制器。 标有它的 Bean 会自动导入到 IoC 容器中。
-
-**3、** @Service： 此注解是组件注解的特化。 它不会对 [@Component ](/Component ) 注解提供任何其他行为。 您可以在服务层类中使用 [@Service ](/Service ) 而不是 @Component，因为它以更好的方式指定了意图。
-
-**4、** @Repository： 这个注解是具有类似用途和功能的 [@Component ](/Component ) 注解的特化。 它为 DAO 提供了额外的好处。 它将 DAO 导入 IoC 容器，并使未经检查的异常有资格转换为 Spring DataAccessException。
+就是这么简单！
 
 
-### 6、SpringBoot 支持哪些日志框架？推荐和默认的日志框架是哪个？
+### 4、列举 IoC 的一些好处。
 
-SpringBoot 支持 Java Util Logging, Log4j2, Lockback 作为日志框架，如果你使用 Starters 启动器，SpringBoot 将使用 Logback 作为默认日志框架
+**IoC 的一些好处是：**
 
+**1、** 它将最小化应用程序中的代码量。
 
-### 7、Spring Cloud和各子项目版本对应关系
+**2、** 它将使您的应用程序易于测试，因为它不需要单元测试用例中的任何单例或 JNDI 查找机制。
 
-**1、** Edgware.SR6：我理解为最低版本号
+**3、** 它以最小的影响和最少的侵入机制促进松耦合。
 
-**2、** Greenwich.SR2 :我理解为最高版本号
-
-**3、** Greenwich.BUILD-SNAPSHOT（快照）：是一种特殊的版本，指定了某个当前的开发进度的副本。不同于常规的版本，几乎每天都要提交更新的版本，如果每次提交都申明一个版本号那不是版本号都不够用？
-
-| Component | Edgware.SR6 | Greenwich.SR2 | Greenwich.BUILD-SNAPSHOT |
-| --- | --- | --- | --- |
-| spring-cloud-aws | 1.2.4.RELEASE | 2.1.2.RELEASE | 2.1.3.BUILD-SNAPSHOT |
-| spring-cloud-bus | 1.3.4.RELEASE | 2.1.2.RELEASE | 2.1.3.BUILD-SNAPSHOT |
-| spring-cloud-cli | 1.4.1.RELEASE | 2.0.0.RELEASE | 2.0.1.BUILD-SNAPSHOT |
-| spring-cloud-commons | 1.3.6.RELEASE | 2.1.2.RELEASE | 2.1.3.BUILD-SNAPSHOT |
-| spring-cloud-contract | 1.2.7.RELEASE | 2.1.2.RELEASE | 2.1.3.BUILD-SNAPSHOT |
-| spring-cloud-config | 1.4.7.RELEASE | 2.1.3.RELEASE | 2.1.4.BUILD-SNAPSHOT |
-| spring-cloud-netflix | 1.4.7.RELEASE | 2.1.2.RELEASE | 2.1.3.BUILD-SNAPSHOT |
-| spring-cloud-security | 1.2.4.RELEASE | 2.1.3.RELEASE | 2.1.4.BUILD-SNAPSHOT |
-| spring-cloud-cloudfoundry | 1.1.3.RELEASE | 2.1.2.RELEASE | 2.1.3.BUILD-SNAPSHOT |
-| spring-cloud-consul | 1.3.6.RELEASE | 2.1.2.RELEASE | 2.1.3.BUILD-SNAPSHOT |
-| spring-cloud-sleuth | 1.3.6.RELEASE | 2.1.1.RELEASE | 2.1.2.BUILD-SNAPSHOT |
-| spring-cloud-stream | Ditmars.SR5 | Fishtown.SR3 | Fishtown.BUILD-SNAPSHOT |
-| spring-cloud-zookeeper | 1.2.3.RELEASE | 2.1.2.RELEASE | 2.1.3.BUILD-SNAPSHOT |
-| spring-boot | 1.5.21.RELEASE | 2.1.5.RELEASE | 2.1.8.BUILD-SNAPSHOT |
-| spring-cloud-task | 1.2.4.RELEASE | 2.1.2.RELEASE | 2.1.3.BUILD-SNAPSHOT |
-| spring-cloud-vault | 1.1.3.RELEASE | 2.1.2.RELEASE | 2.1.3.BUILD-SNAPSHOT |
-| spring-cloud-gateway | 1.0.3.RELEASE | 2.1.2.RELEASE | 2.1.3.BUILD-SNAPSHOT |
-| spring-cloud-openfeign | 2.1.2.RELEASE | 2.1.3.BUILD-SNAPSHOT |  |
-| spring-cloud-function | 1.0.2.RELEASE | 2.0.2.RELEASE | 2.0.3.BUILD-SNAPSHOT |
+**4、** 它支持即时的实例化和延迟加载服务。
 
 
-### 8、什么是Spring Profiles？
+### 5、SpringCloud主要项目
 
-Spring Profiles允许用户根据配置文件（dev，test，prod等）来注册bean。因此，当应用程序在开发中运行时，只有某些bean可以加载，而在PRODUCTION中，某些其他bean可以加载。假设我们的要求是Swagger文档仅适用于QA环境，并且禁用所有其他文档。这可以使用配置文件来完成。SpringBoot使得使用配置文件非常简单。
-
-
-### 9、RequestMapping 和 GetMapping 的不同之处在哪里？
-
-RequestMapping 具有类属性的，可以进行 GET,POST,PUT 或者其它的注释中具有的请求方法。GetMapping 是 GET 请求方法中的一个特例。它只是 ResquestMapping 的一个延伸，目的是为了提高清晰度。
+Spring Cloud的子项目，大致可分成两类，一类是对现有成熟框架"SpringBoot化"的封装和抽象，也是数量最多的项目；第二类是开发了一部分分布式系统的基础设施的实现，如Spring Cloud Stream扮演的就是Kafka, ActiveMQ这样的角色。
 
 
-### 10、微服务限流 http限流：我们使⽤nginx的limitzone来完成：
+### 6、我们如何在测试中消除非决定论？
 
-```
-//这个表示使⽤ip进⾏限流 zone名称为req_one 分配了10m 空间使⽤漏桶算法 每秒钟允许1个请求
-limit_req_zone $binary_remote_addr zone=req_one:10m rate=1r/s; //这边burst表示可以瞬间超过20个请求 由于没有noDelay参数因此需要排队 如果超过这20个那么直接返回503
-limit_req zone=req_three burst=20;
-```
+非确定性测试（NDT）基本上是不可靠的测试。所以，有时可能会发生它们通过，显然有时它们也可能会失败。当它们失败时，它们会重新运行通过。
+
+从测试中删除非确定性的一些方法如下：
+
+**1、**   隔离
+
+**2、**   异步
+
+**3、**   远程服务
+
+**4、**   隔离
+
+**5、**   时间
+
+**6、**   资源泄漏
 
 
-### 11、spring-boot-starter-parent 有什么用 ?
-### 12、spring 中有多少种 IOC 容器？
-### 13、微服务的端到端测试意味着什么？
-### 14、ZuulFilter常用有那些方法
-### 15、网关的作用是什么
-### 16、什么是 spring bean？
-### 17、SpringBoot 的核心配置文件有哪几个？它们的区别是什么？
-### 18、什么是 Spring Data？
-### 19、什么是 AOP Aspect 切面
-### 20、自动装配有哪些方式？
-### 21、多个消费者调⽤同⼀接⼝，eruka默认的分配⽅式是什么？
-### 22、如何使用SpringBoot实现异常处理?
-### 23、什么是 Spring Cloud Bus？
-### 24、解释不同方式的自动装配
-### 25、Spring Cloud Config
-### 26、SpringBoot集成mybatis的过程
-### 27、使用Spring通过什么方式访问Hibernate?
-### 28、如何在自定义端口上运行 SpringBoot 应用程序？
-### 29、微服务同时调用多个接口，怎么支持事务的啊？
-### 30、Ribbon和Feign调用服务的区别
+### 7、既然Nginx可以实现网关？为什么还需要使用Zuul框架
+
+Zuul是SpringCloud集成的网关，使用Java语言编写，可以对SpringCloud架构提供更灵活的服务。
+
+
+### 8、Spring IoC 的实现机制。
+### 9、[@Autowired ](/Autowired ) 注解有什么用？
+### 10、什么是YAML?
+### 11、什么是Spring Cloud？
+### 12、服务雪崩？
+### 13、如何重新加载SpringBoot上的更改，而无需重新启动服务器？
+### 14、如何在不使用BasePACKAGE过滤器的情况下排除程序包？
+### 15、如何在 SpringBoot 启动的时候运行一些特定的代码？
+### 16、SpringBoot中的监视器是什么?
+### 17、哪些是重要的bean生命周期方法？你能重载它们吗？
+### 18、如何实现 SpringBoot应用程序的安全性?
+### 19、什么是REST / RESTful以及它的用途是什么？
+### 20、spring boot 核心的两个配置文件：
+### 21、SpringBoot 的核心注解是哪个？它主要由哪几个注解组成的？
+### 22、什么是 Spring Data ?
+### 23、什么是客户证书？
+### 24、开启SpringBoot特性有哪几种方式？（创建SpringBoot项目的两种方式）
+### 25、如何不通过任何配置来选择 Hibernate 作为 JPA 的默认实现？
+### 26、spring-boot-starter-parent有什么用？
+### 27、什么是Spring Profiles？
+### 28、什么是有界上下文？
+### 29、什么是 YAML？
+### 30、为什么我们需要 spring-boot-maven-plugin?
 
 
 

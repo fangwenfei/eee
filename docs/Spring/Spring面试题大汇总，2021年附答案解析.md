@@ -6,120 +6,89 @@
 
 
 
-### 1、spring-boot-starter-parent有什么用？
+### 1、可以通过多少种方式完成依赖注入？
 
-我们都知道，新建一个SpringBoot项目，默认都是由parent的，这个parent就是spring-boot-starter-parent，spring-boot-starter-parent主要有以下作用：
+通常，依赖注入可以通过三种方式完成，即：
 
-**1、** 定义了Java编译版本为1.8
+**1、** 构造函数注入
 
-**2、** 使用UTF-8格式编码
+**2、** setter 注入
 
-**3、** 继承自spring-boot-dependencies，这个里边定义了依赖的版本，也正是因为继承了这个依赖，所有我们在写依赖时才不需要写版本号。
+**3、** 接口注入
 
-**4、** 针对application.propertiess和application.yml的资源过滤，包括通过profile定义的不同环境的配置文件，例如application-dev.properties和application-dev.yml。
-
-
-### 2、SpringBoot、Spring MVC 和 Spring 有什么区别
-
-**1、** Spring 是一个“引擎”，
-
-**2、** Spring MVC是基于Spring的一个 MVC 框架，
-
-**3、** SpringBoot是基于 Spring的一套快速开发整合包
+在 Spring Framework 中，仅使用构造函数和 setter 注入。
 
 
-### 3、如何在 spring 中启动注解装配？
+### 2、如何集成SpringBoot和ActiveMQ？
 
-默认情况下，Spring 容器中未打开注解装配。因此，要使用基于注解装配，我们必须通过配置 `<context：annotation-config/>` 元素在 Spring 配置文件中启用它。
+对于集成SpringBoot和ActiveMQ，我们使用
 
-
-### 4、[@RequestMapping ](/RequestMapping ) 注解有什么用？
-
-[@RequestMapping ](/RequestMapping ) 注解用于将特定 HTTP 请求方法映射到将处理相应请求的控制器中的特定类/方法。
-
-**此注解可应用于两个级别：**
-
-类级别： 映射请求的 URL
-
-方法级别： 映射 URL 以及 HTTP 请求方法
+依赖关系。 它只需要很少的配置，并且不需要样板代码。
 
 
-### 5、如何重新加载SpringBoot上的更改，而无需重新启动服务器？
+### 3、[@Controller ](/Controller ) 注解
 
-这可以使用DEV工具来实现。通过这种依赖关系，您可以节省任何更改，嵌入式tomcat将重新启动。
-
-SpringBoot有一个开发工具（DevTools）模块，它有助于提高开发人员的生产力。Java开发人员面临的一个主要挑战是将文件更改自动部署到服务器并自动重启服务器。
-
-开发人员可以重新加载SpringBoot上的更改，而无需重新启动服务器。这将消除每次手动部署更改的需要。SpringBoot在发布它的第一个版本时没有这个功能。
-
-这是开发人员最需要的功能。DevTools模块完全满足开发人员的需求。该模块将在生产环境中被禁用。它还提供H2数据库控制台以更好地测试应用程序。
+该注解表明该类扮演控制器的角色，Spring不需要你继承任何其他控制器基类或引用Servlet API。
 
 
-### 6、微服务之间是如何独⽴通讯的
+### 4、什么是 Spring Batch?
 
-**1、** Dubbo 使⽤的是 RPC 通信，⼆进制传输，占⽤带宽⼩；
-
-**2、** Spring Cloud 使⽤的是 HTTP RESTFul ⽅式。
-
-![](https://gitee.com/souyunkutech/souyunku-home/raw/master/images/souyunku-web/2020/5/2/01/44/45_2.png#alt=45%5C_2.png)
+`SpringBoot Batch`提供可重用的函数，这些函数在处理大量记录时非常重要；包括日志/跟踪，事务管理，作业处理统计信息，作业重新启动，跳过和资源管理。它还提供了更先进的技术服务和功能，通过优化和分区技术，可以实现极高批量和高性能批处理作业。简单以及复杂的大批量批处理作业可以高度可扩展的方式利用框架处理重要大量的信息。
 
 
-### 7、你如何理解 SpringBoot 中的 Starters？
 
-Starters可以理解为启动器，它包含了一系列可以集成到应用里面的依赖包，你可以一站式集成 Spring 及其他技术，而不需要到处找示例代码和依赖包。如你想使用 Spring JPA 访问数据库，只要加入 spring-boot-starter-data-jpa 启动器依赖就能使用了。
+### 5、在Spring框架中如何更有效地使用JDBC?
 
-
-### 8、@ResponseBody注解的作用
-
-**作用：**
-
-该注解用于将Controller的方法返回的对象，通过适当的HttpMessageConverter转换为指定格式后，写入到Response对象的body数据区。
-
-**使用时机：**
-
-返回的数据不是html标签的页面，而是其他某种格式的数据时（如json、xml等）使用；
+使用SpringJDBC 框架，资源管理和错误处理的代价都会被减轻。所以开发者只需写statements 和 queries从数据存取数据，JDBC也可以在Spring框架提供的模板类的帮助下更有效地被使用，这个模板叫JdbcTemplate （例子见这里here）
 
 
-### 9、使用 Spring 有哪些方式？
+### 6、是否可以在SpringBoot中覆盖或替换嵌入式Tomcat？
 
-**使用 Spring 有以下方式：**
-
-**1、** 作为一个成熟的 Spring Web 应用程序。
-
-**2、** 作为第三方 Web 框架，使用 Spring Frameworks 中间层。
-
-**3、** 用于远程使用。
-
-**4、** 作为企业级 Java Bean，它可以包装现有的 POJO（Plain Old Java Objects）。
+是的，可以使用starter依赖项将嵌入式Tomcat替换为任何其他服务器。可以根据需要使用SpringBootStarter Jetty或SpringBootStarter作为每个项目的依赖项。
 
 
-### 10、SOA和微服务架构之间的主要区别是什么？
+### 7、SpringBoot 的配置文件有哪几种格式？它们有什么区别？
 
-SOA和微服务之间的主要区别如下：
+.properties 和 .yml，它们的区别主要是书写格式不同。
 
-![](https://gitee.com/souyunkutech/souyunku-home/raw/master/images/souyunku-web/2019/08/0816/01/img_8.png#alt=img%5C_8.png)
+**properties**
+
+```
+app.user.name = javastack
+```
+
+**yml**
+
+```
+app:
+  user:
+    name: javastack
+```
 
 
-### 11、微服务限流 dubbo限流：dubbo提供了多个和请求相关的filter：ActiveLimitFilter ExecuteLimitFilter TPSLimiterFilter
-### 12、什么是通知（Advice）？
-### 13、什么是 Spring IOC 容器？
-### 14、负载均衡的意义是什么?
-### 15、什么是Eureka
-### 16、Spring由哪些模块组成?
-### 17、XMLBeanFactory
-### 18、为什么我们不建议在实际的应用程序中使用 Spring Data Rest?
-### 19、请描述Spring MVC的工作流程？描述一下 DispatcherServlet 的工作流程？
-### 20、解释Spring支持的几种bean的作用域。
-### 21、列举 IoC 的一些好处
-### 22、22。你能否给出关于休息和微服务的要点？
-### 23、PACT在微服务架构中的用途是什么？
-### 24、SpringBoot和springcloud认识
-### 25、怎么设计无状态服务？
-### 26、什么是 Spring Data ?
-### 27、springcloud如何实现服务的注册?
-### 28、SpringBoot 自动配置原理
-### 29、SpringBoot运行项目的几种方式？
-### 30、什么是FreeMarker模板？
+### 8、Spring Framework 中有多少个模块，它们分别是什么？
+### 9、你如何理解 SpringBoot 配置加载顺序？
+### 10、IOC的优点是什么？
+### 11、Spring配置文件
+### 12、微服务的缺点：
+### 13、Spring Cloud Netflix
+### 14、创建一个 SpringBoot Project 的最简单的方法是什么？
+### 15、开启 SpringBoot 特性有哪几种方式？
+### 16、解释不同方式的自动装配
+### 17、微服务架构有哪些优势？
+### 18、在Spring AOP 中，关注点和横切关注的区别是什么？
+### 19、REST 和RPC对比
+### 20、为什么在微服务中需要Reports报告和Dashboards仪表板？
+### 21、SpringBoot有哪些优点？
+### 22、你能否举一个以 ReadOnly 为事务管理的例子？
+### 23、SpringCloud有几种调用接口方式
+### 24、什么是Spring Cloud Config?
+### 25、介绍一下 WebApplicationContext
+### 26、多个消费者调⽤同⼀接⼝，eruka默认的分配⽅式是什么？
+### 27、BeanFactory – BeanFactory 实现举例。
+### 28、Ribbon是什么？
+### 29、比较一下 Spring Security 和 Shiro 各自的优缺点 ?
+### 30、Eureka如何 保证AP
 
 
 

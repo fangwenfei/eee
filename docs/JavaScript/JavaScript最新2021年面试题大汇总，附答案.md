@@ -6,122 +6,117 @@
 
 
 
-### 1、异步加载的方式有哪些？
+### 1、ECMAScript 是什么？
 
-(1) defer，只支持IE
+ECMAScript 是编写脚本语言的标准，这意味着JavaScript遵循ECMAScript标准中的规范变化，因为它是JavaScript的蓝图。
 
-(2) async：true
+ECMAScript 和 Javascript，本质上都跟一门语言有关，一个是语言本身的名字，一个是语言的约束条件 只不过发明JavaScript的那个人（Netscape公司），把东西交给了ECMA（European Computer Manufacturers Association），这个人规定一下他的标准，因为当时有java语言了，又想强调这个东西是让ECMA这个人定的规则，所以就这样一个神奇的东西诞生了，这个东西的名称就叫做ECMAScript。
 
-(3) 创建script，插入到DOM中，加载完毕后callBack
+javaScript = ECMAScript + DOM + BOM（自认为是一种广义的JavaScript）
 
+ECMAScript说什么JavaScript就得做什么！
 
-### 2、!! 运算符能做什么？
+JavaScript（狭义的JavaScript）做什么都要问问ECMAScript我能不能这样干！如果不能我就错了！能我就是对的！
 
-`!!`运算符可以将右侧的值强制转换为布尔值，这也是将值转换为布尔值的一种简单方法。
+——突然感觉JavaScript好没有尊严，为啥要搞个人出来约束自己，
 
-```
-console.log(!!null); // false
-console.log(!!undefined); // false
-console.log(!!''); // false
-console.log(!!0); // false
-console.log(!!NaN); // false
-console.log(!!' '); // true
-console.log(!!{}); // true
-console.log(!![]); // true
-console.log(!!1); // true
-console.log(!![].length); // false
-```
+那个人被创造出来也好委屈，自己被创造出来完全是因为要约束JavaScript。
 
 
-### 3、什么是原型、原型链？
+### 2、什么是回调函数？
 
-原型：JS声明构造函数(用来实例化对象的函数)时，会在内存中创建一个对应的对象，这个对象就是原函数的原型。构造函数默认有一个prototype属性，`prototype`的值指向函数的原型。同时原型中也有一个`constructor`属性，`constructor`的值指向原函数。
+**回调函数**是一段可执行的代码段，它作为一个参数传递给其他的代码，其作用是在需要的时候方便调用这段（回调函数）代码。
 
-通过构造函数实例化出来的对象，并不具有`prototype`属性，其默认有一个`__proto__`属性，`__proto__`的值指向构造函数的原型对象。在原型对象上添加或修改的属性，在所有实例化出的对象上都可共享。
-
-![](https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/49bad3cc378b4232a4b768bfe0ea67d7~tplv-k3u1fbpfcp-zoom-1.image#alt=%E5%9C%A8%E8%BF%99%E9%87%8C%E6%8F%92%E5%85%A5%E5%9B%BE%E7%89%87%E6%8F%8F%E8%BF%B0)
-
-当在实例化的对象中访问一个属性时，首先会在该对象内部寻找，如找不到，则会向其`__proto__`指向的原型中寻找，如仍找不到，则继续向原型中`__proto__`指向的上级原型中寻找，直至找到或`Object.prototype`为止，这种链状过程即为原型链。
-
-
-### 4、平时工作中怎么样进行数据交互?如果后台没有提供数据怎么样进行开发?
-
-**mock数据与后台返回的格式不同意怎么办?**
-
-由后台编写接口文档、提供数据接口实、前台通过ajax访问实现数据交互；
-
-在没有数据的情况下寻找后台提供静态数据或者自己定义mock数据；
-
-返回数据不统一时编写映射文件 对数据进行映射。
-
-
-### 5、Function.prototype.bind 的用途是什么？
-
-`bind()` 方法创建一个新的函数，在 `bind()` 被调用时，这个新函数的 `this` 被指定为 `bind()` 的第一个参数，而其余参数将作为新函数的参数，供调用时使用。
+在JavaScript中函数也是对象的一种，同样对象可以作为参数传递给函数，因此函数也可以作为参数传递给另外一个函数，这个作为参数的函数就是回调函数。
 
 ```
-import React from 'react';
-class MyComponent extends React.Component {
-   constructor(props){
-      super(props); 
-      this.state = {
-         value : ""
-      }  
-      this.handleChange = this.handleChange.bind(this); 
-      // 将 “handleChange” 方法绑定到 “MyComponent” 组件
-   }
+const btnAdd = document.getElementById('btnAdd');
 
-   handleChange(e){
-     //do something amazing here
-   }
+btnAdd.addEventListener('click', function clickCallback(e) {
+    // do something useless
+});
+```
 
-   render(){
-    return (
-      <>
-        <input type={this.props.type}
-                value={this.state.value}
-             onChange={this.handleChange}                      
-          />
-      </>
-    )
-   }
+在本例中，我们等待`id`为`btnAdd`的元素中的`click`事件，如果它被单击，则执行`clickCallback`函数。回调函数向某些数据或事件添加一些功能。
+
+数组中的`reduce`、`filter`和`map`方法需要一个回调作为参数。回调的一个很好的类比是，当你打电话给某人，如果他们不接，你留下一条消息，你期待他们回调。调用某人或留下消息的行为是事件或数据，回调是你希望稍后发生的操作。
+
+
+### 3、如何检查对象中是否存在某个属性？
+
+检查对象中是否存在属性有三种方法。
+
+第一种使用 `in` 操作符号：
+
+```
+const o = { 
+  "prop" : "bwahahah",
+  "prop2" : "hweasa"
+};
+
+console.log("prop" in o); // true
+console.log("prop1" in o); // false
+```
+
+第二种使用 `hasOwnProperty` 方法，`hasOwnProperty()` 方法会返回一个布尔值，指示对象自身属性中是否具有指定的属性（也就是，是否有指定的键）。
+
+```
+console.log(o.hasOwnProperty("prop2")); // true
+console.log(o.hasOwnProperty("prop1")); // false
+```
+
+第三种使用括号符号`obj["prop"]`。如果属性存在，它将返回该属性的值，否则将返回`undefined`。
+
+`console.log(o["prop"]); // "bwahahah" console.log(o["prop1"]); // undefined`
+
+
+### 4、什么是模板字符串？
+
+模板字符串是在 JS 中创建字符串的一种新方法。我们可以通过使用反引号使模板字符串化。
+
+```
+//ES5 Version
+var greet = 'Hi I\'m Mark';
+
+//ES6 Version
+let greet = `Hi I'm Mark`;
+```
+
+在 ES5 中我们需要使用一些转义字符来达到多行的效果，在模板字符串不需要这么麻烦：
+
+```
+//ES5 Version
+var lastWords = '\n'
+  + '   I  \n'
+  + '   Am  \n'
+  + 'Iron Man \n';
+
+//ES6 Version
+let lastWords = `
+    I
+    Am
+  Iron Man   
+`;
+```
+
+在ES5版本中，我们需要添加`\n`以在字符串中添加新行。在模板字符串中，我们不需要这样做。
+
+```
+//ES5 Version
+function greet(name) {
+  return 'Hello ' + name + '!';
+}
+
+//ES6 Version
+function greet(name) {
+  return `Hello ${name} !`;
 }
 ```
 
-
-### 6、说说严格模式的限制
-
-**1、** 变量必须声明后再使用
-
-**2、** 函数的参数不能有同名属性，否则报错
-
-**3、** 不能使用`with`语句
-
-**4、** 禁止`this`指向全局对象
+在 ES5 版本中，如果需要在字符串中添加表达式或值，则需要使用`+`运算符。在模板字符串s中，我们可以使用`${expr}`嵌入一个表达式，这使其比 ES5 版本更整洁。
 
 
-### 7、new操作符具体干了什么呢?
-
-**1、** 创建一个空对象，并且 `this` 变量引用该对象，同时还继承了该函数的原型
-
-**2、** 属性和方法被加入到 `this` 引用的对象中
-
-**3、** 新创建的对象由 `this` 所引用，并且最后隐式的返回 `this`
-
-
-### 8、`require`/`import`之间的区别？
-
-**1、** `require`是CommonJS语法，`import`是ES6语法；
-
-**2、** `require`只在后端服务器支持，`import`在高版本浏览器及Node中都可以支持；
-
-**3、** `require`引入的是原始导出值的复制，`import`则是导出值的引用；
-
-**4、** `require`时运行时动态加载，`import`是静态编译；
-
-**5、** `require`调用时默认不是严格模式，`import`则默认调用严格模式.
-
-### 9、Function.prototype.apply 和 Function.prototype.call 之间有什么区别？
+### 5、Function.prototype.apply 和 Function.prototype.call 之间有什么区别？
 
 `apply()`方法可以在使用一个指定的 `this` 值和一个参数数组（或类数组对象）的前提下调用某个函数或方法。`call()`方法类似于`apply()`，不同之处仅仅是`call()`接受的参数是参数列表。
 
@@ -147,30 +142,58 @@ reduceAdd.call(obj2, 1, 2, 3, 4, 5); // 15
 ```
 
 
-### 10、简述下工作流程###
+### 6、说几条写JavaScript的基本规范？
 
-我在之前的公司工作流程大概是这样的：公司定稿会结束以后，会进行简单的技术研讨，然后我们前端会进行先期的技术准备。前端切图人员会进行psd设计稿切图，并且将css文件进行整合。我们主要编写JS部分，其中包括搭建前端框架（大项目），编写js业务和数据持久化操作，我们也会编写js插件并且进行封装方便使用，还有就是编写JS前端组建和JS测试单元，最后将完成的JS部分与切图人员提供的HTML页面进行整合。最后对完成的页面进行功能测试、页面兼容、产品还原。然后对产品进行封存，提交测试。如果出现BUG会返回给我们开发人员进行修改，再提交测试，最后测试成功，进行版本封存。等到程序全部上线的时候进行线上测试。
+**1、** 不要在同一行声明多个变量
+
+**2、** 请使用`===/!==`来比较`true/false`或者数值
+
+**3、** 使用对象字面量替代`new Array`这种形式
+
+**4、** 不要使用全局函数
+
+**5、** `Switch`语句必须带有`default`分支
+
+**6、** `If`语句必须使用大括号
+
+**7、** `for-in`循环中的变量 应该使用`var`关键字明确限定作用域，从而避免作用域污
 
 
-### 11、window.onload ==? DOMContentLoaded ?
-### 12、javascript创建对象的几种方式？
-### 13、什么是闭包? 堆栈溢出有什么区别？ 内存泄漏? 那些操作会造成内存泄漏？怎么样防止内存泄漏？
-### 14、实现继承的方法有哪些？？？
-### 15、几种基本数据类型?复杂数据类型?值类型和引用数据类型?堆栈数据结构
-### 16、隐式和显式转换有什么区别）？
-### 17、什么是箭头函数？
-### 18、除了jsonp 还有什么跨域方式###
-### 19、$$('div+.ab')和$$('.ab+div') 哪个效率高？
-### 20、什么是跨域？怎么解决跨域问题？
-### 21、什么是作用域？
-### 22、jsonp原理？ 缺点?
-### 23、如何使用storage 对js文件进行缓存
-### 24、如何检查对象中是否存在某个属性？
-### 25、谈谈This对象的理解
-### 26、this是什么 在不同场景中分别代表什么###
-### 27、DOM 是什么？
-### 28、javascript 代码中的"use strict";是什么意思 ? 使用它区别是什么？
-### 29、谁是c的构造函数?
+### 7、Jq绑定事件的几种方式？on bind ?
+
+**1、** jQuery中提供了四种事件监听方式，分别是bind、live、delegate、on，对应的解除监听的函数分别是unbind、die、undelegate、off
+
+**2、** Bind( )是使用频率较高的一种，作用就是在选择到的元素上绑定特定事件类型的监听函数;
+
+**3、** Live( )可以对后生成的元素也可以绑定相应的事件,处理机制就是把事件绑定在DOM树的根节点上，而不是直接绑定在某个元素上;
+
+**4、** Delegate( )采用了事件委托的概念，不是直接为子元素绑定事件，而是为其父元素（或祖先元素也可）绑定事件，当在div内任意元素上点击时，事件会一层层从event target向上冒泡，直至到达你为其绑定事件的元素；
+
+**5、** on( )方法可以绑定动态添加到页面元素的事件，on()方法绑定事件可以提升效率；
+
+
+### 8、26.移动端上什么是点击穿透?
+### 9、如何解决跨域问题?
+### 10、开发时如何对项目进行管理?gulp?
+### 11、什么是 event.currentTarget？？
+### 12、ajax 是什么?
+### 13、为什么此代码 `obj.someprop.x` 会引发错误?
+### 14、节点类型?判断当前节点类型?
+### 15、jQuery与jQuery UI 有啥区别？
+### 16、压缩合并目的？http请求的优化方式？
+### 17、JS是如何实现异步的？
+### 18、你有哪些性能优化的方法？
+### 19、null，undefined 的区别？
+### 20、那些操作会造成内存泄漏？
+### 21、说说严格模式的限制
+### 22、什么是构造函数？与普通函数有什么区别?
+### 23、怎么理解宏任务，微任务？？？
+### 24、如何在一行中计算多个表达式的值？
+### 25、说出几个http协议状态码?
+### 26、EventLoop事件循环是什么？
+### 27、什么是预编译语音|预编译处理器?
+### 28、调用函数，可以使用哪些方法？
+### 29、什么是作用域？
 
 
 

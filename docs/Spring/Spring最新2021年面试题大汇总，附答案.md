@@ -6,125 +6,114 @@
 
 
 
-### 1、SpringBoot 的核心注解是哪个？它主要由哪几个注解组成的？
+### 1、eureka服务注册与发现原理
 
-启动类上面的注解是@SpringBootApplication，它也是 SpringBoot 的核心注解，主要组合包含了以下 3 个注解：
+**1、** 每30s发送⼼跳检测重新进⾏租约，如果客户端不能多次更新租约，它将在90s内从服务器注册中⼼移除。
 
-@SpringBootConfiguration：组合了 [@Configuration ](/Configuration ) 注解，实现配置文件的功能。
+**2、** 注册信息和更新会被复制到其他Eureka 节点，来⾃任何区域的客户端可以查找到注册中⼼信息，每30s发⽣⼀次复制来定位他们的服务，并进⾏远程调⽤。
 
-@EnableAutoConfiguration：打开自动配置的功能，也可以关闭某个自动配置的选项，如关闭数据源自动配置功能： [@SpringBootApplication(exclude ](/SpringBootApplication(exclude ) = { DataSourceAutoConfiguration.class })。
+**3、** 客户端还可以缓存⼀些服务实例信息，所以即使Eureka全挂掉，客户端也是可以定位到服务地址的。
 
-@ComponentScan：Spring组件扫描。
-
-
-### 2、什么是Spring Cloud？
-
-Spring cloud流应用程序启动器是基于SpringBoot的Spring集成应用程序，提供与外部系统的集成。Spring cloud Task，一个生命周期短暂的微服务框架，用于快速构建执行有限数据处理的应用程序。
+![](https://gitee.com/souyunkutech/souyunku-home/raw/master/images/souyunku-web/2020/5/2/01/44/45_4.png#alt=45%5C_4.png)
 
 
-### 3、您对微服务架构中的语义监控有何了解？
+### 2、RequestMapping 和 GetMapping 的不同之处在哪里？
 
-语义监控，也称为 综合监控， 将自动化测试与监控应用程序相结合，以检测业务失败因素。
+RequestMapping 具有类属性的，可以进行 GET,POST,PUT 或者其它的注释中具有的请求方法。
+
+GetMapping 是 GET 请求方法中的一个特例。它只是 ResquestMapping 的一个延伸，目的是为了提高清晰度。
 
 
-### 4、什么是 Spring Data REST?
+### 3、spring 提供了哪些配置方式？
 
-Spring Data TEST 可以用来关于 Spring 数据库的 HATEOAS RESTful 资源。
+基于 xml 配置
 
-不需要写太多代码，我们可以关于 Spring 数据库的 RESTful API。
-
-**下面展示的是一些关于 TEST 服务器的例子**
+bean 所需的依赖项和服务在 XML 格式的配置文件中指定。这些配置文件通常包含许多 bean 定义和特定于应用程序的配置选项。它们通常以 bean 标签开头。例如：
 
 ```
-POST:
-URL:http：//localhost：8080/todos
-Use Header:Content-Type:Type:application/json
-Request Content
+<bean id="studentbean" class="org.edureka.firstSpring.StudentBean">
+ <property name="name" value="Edureka"></property>
+</bean>
 ```
 
+基于注解配置
 
-### 5、比较一下 Spring Security 和 Shiro 各自的优缺点 ?
-
-由于 SpringBoot 官方提供了大量的非常方便的开箱即用的 Starter ，包括 Spring Security 的 Starter ，使得在 SpringBoot 中使用 Spring Security 变得更加容易，甚至只需要添加一个依赖就可以保护所有的接口，所以，如果是 SpringBoot 项目，一般选择 Spring Security 。当然这只是一个建议的组合，单纯从技术上来说，无论怎么组合，都是没有问题的。Shiro 和 Spring Security 相比
-
-**主要有如下一些特点：**
-
-**1、** Spring Security 是一个重量级的安全管理框架；Shiro 则是一个轻量级的安全管理框架
-
-**2、** Spring Security 概念复杂，配置繁琐；Shiro 概念简单、配置简单
-
-**3、** Spring Security 功能强大；Shiro 功能简单
-
-
-### 6、自动装配有什么局限？
-
-覆盖的可能性 - 您始终可以使用 `<constructor-arg>` 和 `<property>` 设置指定依赖项，这将覆盖自动装配。基本元数据类型 - 简单属性（如原数据类型，字符串和类）无法自动装配。令人困惑的性质 - 总是喜欢使用明确的装配，因为自动装配不太精确。
-
-
-### 7、如何重新加载SpringBoot上的更改，而无需重新启动服务器？
-
-这可以使用DEV工具来实现。通过这种依赖关系，您可以节省任何更改，嵌入式tomcat将重新启动。SpringBoot有一个开发工具（DevTools）模块，它有助于提高开发人员的生产力。Java开发人员面临的一个主要挑战是将文件更改自动部署到服务器并自动重启服务器。开发人员可以重新加载SpringBoot上的更改，而无需重新启动服务器。这将消除每次手动部署更改的需要。SpringBoot在发布它的第一个版本时没有这个功能。这是开发人员最需要的功能。DevTools模块完全满足开发人员的需求。该模块将在生产环境中被禁用。它还提供H2数据库控制台以更好地测试应用程序。
+您可以通过在相关的类，方法或字段声明上使用注解，将 bean 配置为组件类本身，而不是使用 XML 来描述 bean 装配。默认情况下，Spring 容器中未打开注解装配。因此，您需要在使用它之前在 Spring 配置文件中启用它。例如：
 
 ```
-<dependency>
-<groupId>org.springframework.boot</groupId>
-<artifactId>spring-boot-devtools</artifactId>
-<optional>true</optional>
+<beans>
+<context:annotation-config/>
+<!-- bean definitions go here -->
+</beans>
+```
+
+基于 Java API 配置
+
+Spring 的 Java 配置是通过使用 [@Bean ](/Bean ) 和 [@Configuration ](/Configuration ) 来实现。
+
+**1、**   [@Bean ](/Bean ) 注解扮演与 `<bean/>` 元素相同的角色。
+
+**2、**   [@Configuration ](/Configuration ) 类允许通过简单地调用同一个类中的其他 [@Bean ](/Bean ) 方法来定义 bean 间依赖关系。
+
+例如：
+
+```
+@Configuration
+public class StudentConfig {
+    @Bean
+    public StudentBean myStudent() {
+        return new StudentBean();
+    }
+}
 ```
 
 
-### 8、SpringBoot 的核心配置文件有哪几个？它们的区别是什么？
+### 4、SpringCloud Config 可以实现实时刷新吗？
 
-SpringBoot 的核心配置文件是 application 和 bootstrap 配置文件。
-
-application 配置文件这个容易理解，主要用于 SpringBoot 项目的自动化配置。
-
-bootstrap 配置文件有以下几个应用场景。
-
-使用 Spring Cloud Config 配置中心时，这时需要在 bootstrap 配置文件中添加连接到配置中心的配置属性来加载外部配置中心的配置信息；
-
-一些固定的不能被覆盖的属性；
-
-一些加密/解密的场景；
+springcloud config实时刷新采用SpringCloud Bus消息总线。
 
 
-### 9、SpringBoot 怎么用好自动配置，精髓:
-
-**1、** SpringBoot启动会加载大量的自动配置类
-
-**2、** 我们看我们需要的功能有没有SpringBoot默认写好的自动配置类;
-
-**3、** 我们再来看这个自动配置类中到底配置了哪些组件;(只要我们要用的组件有，我们就不需要再来配置了
-
-**4、** 给容器中自动配置类添加组件的时候，会从properties类中获取某些属性。我们就可以在配置文件中指定这 些属性的值;
+### 5、怎么样把ModelMap里面的数据放入Session里面？
 
 
-### 10、SpringBoot 可以兼容老 Spring 项目吗，如何做？
 
-可以兼容，使用 [@ImportResource ](/ImportResource ) 注解导入老 Spring 项目配置文件。
+可以在类上面加上@SessionAttributes注解,里面包含的字符串就是要放入session里面的key。
 
 
-### 11、我们可以用微服务创建状态机吗？
-### 12、什么是 AOP 目标对象?
-### 13、你所知道微服务的技术栈有哪些？列举一二
-### 14、Spring支持的ORM
-### 15、什么是YAML？
-### 16、SpringBoot有哪些优点？
-### 17、哪些是重要的bean生命周期方法？ 你能重载它们吗？
-### 18、有哪些类型的通知（Advice）？
-### 19、什么是 AOP？
-### 20、过渡到微服务时的常见错误
-### 21、谈谈服务雪崩效应
-### 22、什么是Spring的依赖注入？
-### 23、SpringBoot的启动器有哪几种?
-### 24、如何实现 SpringBoot应用程序的安全性?
-### 25、开启SpringBoot特性有哪几种方式？（创建SpringBoot项目的两种方式）
-### 26、spring-boot-starter-parent 有什么用 ?
-### 27、什么是Spring Cloud？
-### 28、SpringBoot 支持哪些日志框架？推荐和默认的日志框架是哪个？
-### 29、是否可以在Spring boot中更改嵌入式Tomcat服务器的端口?
-### 30、如何理解 Spring 中的代理？
-### 31、什么是服务熔断
+### 6、分布式配置中心有那些框架？
+
+Apollo、zookeeper、springcloud config。
+
+
+### 7、怎样开启注解装配？
+
+注解装配在默认情况下是不开启的，为了使用注解装配，我们必须在Spring配置文件中配置 [context:annotation-config/]()元素。
+
+
+### 8、SpringBoot的启动器有哪几种?
+### 9、微服务之间是如何独⽴通讯的
+### 10、SpringBoot 的配置文件有哪几种格式？它们有什么区别？
+### 11、如何使用SpringBoot实现异常处理？
+### 12、缓存机制：
+### 13、你对SpringBoot有什么了解？
+### 14、什么是Swagger？你用SpringBoot实现了它吗？
+### 15、微服务限流 dubbo限流：dubbo提供了多个和请求相关的filter：ActiveLimitFilter ExecuteLimitFilter TPSLimiterFilter
+### 16、什么是Spring MVC？简单介绍下你对Spring MVC的理解？
+### 17、SpringCloud的优缺点
+### 18、什么是Spring Cloud Zuul（服务网关）
+### 19、SpingMvc中的控制器的注解一般用哪个,有没有别的注解可以替代？
+### 20、SpringBoot、Spring MVC 和 Spring 有什么区别？
+### 21、保护 SpringBoot 应用有哪些方法？
+### 22、SpringBoot、Spring MVC 和 Spring 有什么区别？
+### 23、什么是自动配置？
+### 24、什么是断路器
+### 25、如何配置SpringBoot应用程序日志记录？
+### 26、列举 spring 支持的事务管理类型
+### 27、如果在拦截请求中，我想拦截get方式提交的方法,怎么配置
+### 28、什么是Spring MVC框架的控制器？
+### 29、可以在SpringBoot application中禁用默认的Web服务器吗？
+### 30、Springboot 有哪些优点？
+### 31、SpringBoot性能如何优化
 
 
 

@@ -6,119 +6,79 @@
 
 
 
-### 1、使用 Spring 有哪些方式？
+### 1、什么是FreeMarker模板？
 
-**使用 Spring 有以下方式：**
-
-**1、** 作为作为一个成熟的 Spring Web 应用程序。
-
-**2、** 作为第三方 Web 框架，使用 Spring Frameworks 中间层。
-
-**3、** 用于远程使用。
-
-**4、** 作为企业级 Java Bean，它可以包装现有的 POJO（Plain Old Java Objects）。 Bean，它可以包装现有的 POJO（Plain Old Java Objects）。
+FreeMarker是一个基于Java的模板引擎，最初专注于使用MVC软件架构进行动态网页生成。使用Freemarker的主要优点是表示层和业务层的完全分离。程序员可以处理应用程序代码，而设计人员可以处理html页面设计。最后使用freemarker可以将这些结合起来，给出最终的输出页面。
 
 
-### 2、Spring支持的事务管理类型
+### 2、什么是微服务架构
 
-**Spring支持两种类型的事务管理：**
-
-编程式事务管理：这意味你通过编程的方式管理事务，给你带来极大的灵活性，但是难维护。
-
-声明式事务管理：这意味着你可以将业务代码和事务管理分离，你只需用注解和XML配置来管理事务。
+微服务架构就是将单体的应用程序分成多个应用程序，这多个应用程序就成为微服务，每个微服务运行在自己的进程中，并使用轻量级的机制通信。这些服务围绕业务能力来划分，并通过自动化部署机制来独立部署。这些服务可以使用不同的编程语言，不同数据库，以保证最低限度的集中式管理。
 
 
-### 3、Spring AOP and AspectJ AOP 有什么区别？
+### 3、SpringBoot支持哪些嵌入式容器？
 
-Spring AOP 基于动态代理方式实现；AspectJ 基于静态代理方式实现。Spring AOP 仅支持方法级别的 PointCut；提供了完全的 AOP 支持，它还支持属性级别的 PointCut。
-
-
-### 4、各服务之间通信，对Restful和Rpc这2种方式如何做选择？
-
-在传统的SOA治理中，使用rpc的居多；Spring Cloud默认使用restful进行服务之间的通讯。rpc通讯效率会比restful要高一些，但是对于大多数公司来讲，这点效率影响甚微。我建议使用restful这种方式，易于在不同语言实现的服务之间通讯。
+无论何时创建Java应用程序，都可以通过两种方法进行部署： 使用外部的应用程序容器。 将容器嵌入jar文件中。 SpringBoot包含Jetty，Tomcat和Undertow服务器，所有服务器都是嵌入式的。 Jetty - 用于大量项目，Eclipse Jetty可以嵌入到框架，应用程序服务器，工具和集群中。 Tomcat - Apache Tomcat是一个开源JavaServer Pages实现，可以很好地与嵌入式系统配合使用。 Undertow - 一个灵活而突出的Web服务器，它使用小型单一处理程序来开发Web服务器。
 
 
-### 5、解释JDBC抽象和DAO模块。
+### 4、Spring 应用程序有哪些不同组件？
 
-通过使用JDBC抽象和DAO模块，保证数据库代码的简洁，并能避免数据库资源错误关闭导致的问题，它在各种不同的数据库的错误信息之上，提供了一个统一的异常访问层。它还利用Spring的AOP 模块给Spring应用中的对象提供事务管理服务。
+**Spring 应用一般有以下组件：**
 
+**1、** 接口 - 定义功能。
 
-### 6、什么是切点（JoinPoint）
+**2、** Bean 类 - 它包含属性，setter 和 getter 方法，函数等。
 
-程序运行中的一些时间点, 例如一个方法的执行, 或者是一个异常的处理.
+**3、** Spring 面向切面编程（AOP） - 提供面向切面编程的功能。
 
-在 Spring AOP 中, join point 总是方法的执行点。
+**4、** Bean 配置文件 - 包含类的信息以及如何配置它们。
 
-
-### 7、列举微服务技术栈
-
-**1、** 服务⽹关Zuul
-
-**2、** 服务注册发现Eureka+Ribbon
-
-**3、** 服务配置中⼼Apollo
-
-**4、** 认证授权中⼼Spring Security OAuth2
-
-**5、** 服务框架SpringBoot
-
-**6、** 数据总线Kafka
-
-**7、** ⽇志监控ELK
-
-**8、** 调⽤链监控CAT
-
-**9、** Metrics监控KairosDB
-
-**10、** 健康检查和告警ZMon
-
-**11、** 限流熔断和流聚合Hystrix/Turbine
+**5、** 用户程序 - 它使用接口。
 
 
-### 8、SpringBoot和SpringCloud的区别？
-
-**1、** SpringBoot专注于快速方便的开发单个个体微服务。
-
-**2、** SpringCloud是关注全局的微服务协调整理治理框架，它将SpringBoot开发的一个个单体微服务整合并管理起来，
-
-**3、** 为各个微服务之间提供，配置管理、服务发现、断路器、路由、微代理、事件总线、全局锁、决策竞选、分布式会话等等集成服务
-
-**4、** SpringBoot可以离开SpringCloud独立使用开发项目， 但是SpringCloud离不开SpringBoot ，属于依赖的关系
-
-**5、** SpringBoot专注于快速、方便的开发单个微服务个体，SpringCloud关注全局的服务治理框架。
+### 5、如果想在拦截的方法里面得到从前台传入的参数,怎么得到？
 
 
-### 9、Spring Cloud Consul
 
-基于Hashicorp Consul的服务治理组件。
-
-
-### 10、DispatcherServlet
-
-Spring的MVC框架是围绕DispatcherServlet来设计的，它用来处理所有的HTTP请求和响应。
+直接在形参里面声明这个参数就可以,但必须名字和传过来的参数一样。
 
 
-### 11、Springboot 有哪些优点？
-### 12、SpringBoot支持哪些嵌入式容器？
-### 13、SpringBoot默认支持的日志框架有哪些？可以进行哪些设置？
-### 14、为什么我们需要微服务容器？
-### 15、spring boot扫描流程?
-### 16、Spring Cloud Gateway
-### 17、服务注册和发现是什么意思？Spring Cloud 如何实现？
-### 18、@Component, @Controller, @Repository, [@Service ](/Service ) 有何区别？
-### 19、Spring Cloud Netflix(重点，这些组件用的最多)
-### 20、当 SpringBoot 应用程序作为 Java 应用程序运行时，后台会发生什么？
-### 21、什么是微服务架构
-### 22、什么是消费者驱动的合同（CDC）？
-### 23、使⽤中碰到的坑
-### 24、[@Controller ](/Controller ) 注解
-### 25、SpringBoot读取配置文件的方式
-### 26、什么是 Spring Framework？
-### 27、PACT如何运作？
-### 28、[@Qualifier ](/Qualifier ) 注解有什么用？
-### 29、[@Required ](/Required ) 注解
-### 30、在Spring MVC应用程序中使用WebMvcTest注释有什么用处？
-### 31、什么是 AOP 通知
+### 6、Spring Cloud Bus
+
+用于传播集群状态变化的消息总线，使用轻量级消息代理链接分布式系统中的节点，可以用来动态刷新集群中的服务配置。
+
+
+### 7、@RestController和@Controller的区别
+
+共同点：①都是加在类级别上的     ②都可以处理http请求
+
+区   别：@RestController是@Controller和@ResponseBody的结合体
+
+
+### 8、什么是双因素身份验证？
+### 9、介绍一下 WebApplicationContext
+### 10、Spring Cloud解决了哪些问题？
+### 11、什么是编织（Weaving）？
+### 12、什么是CSRF攻击？
+### 13、什么是嵌入式服务器？我们为什么要使用嵌入式服务器呢?
+### 14、比较一下 Spring Security 和 Shiro 各自的优缺点 ?
+### 15、解释基于XML Schema方式的切面实现。
+### 16、服务雪崩效应产生的原因
+### 17、我们如何监视所有 SpringBoot 微服务？
+### 18、SpringBoot默认支持的日志框架有哪些？可以进行哪些设置？
+### 19、有几种不同类型的自动代理？
+### 20、双因素身份验证的凭据类型有哪些？
+### 21、SpringBoot 支持哪些日志框架？推荐和默认的日志框架是哪个？
+### 22、如何重新加载 SpringBoot 上的更改，而无需重新启动服务器？SpringBoot项目如何热部署？
+### 23、SpringBoot微服务中如何实现 session 共享 ?
+### 24、SpringBoot 是否可以使用 XML 配置 ?
+### 25、过渡到微服务时的常见错误
+### 26、@PathVariable和@RequestParam的区别
+### 27、什么是Spring Actuator？它有什么优势？
+### 28、解释Spring框架中bean的生命周期。
+### 29、spring 支持哪些 ORM 框架
+### 30、服务降级底层是如何实现的？
+### 31、什么是微服务架构中的DRY？
 
 
 

@@ -6,85 +6,87 @@
 
 
 
-### 1、什么是 SpringBoot？
+### 1、服务网关的作用
 
-SpringBoot 是 Spring 开源组织下的子项目，是 Spring 组件一站式解决方案，主要是简化了使用 Spring 的难度，简省了繁重的配置，提供了各种启动器，使开发者能快速上手。
+**1、** 简化客户端调用复杂度，统一处理外部请求。
 
+**2、** 数据裁剪以及聚合，根据不同的接口需求，对数据加工后对外。
 
-### 2、Spring MVC中函数的返回值是什么？
+**3、** 多渠道支持，针对不同的客户端提供不同的网关支持。
 
+**4、** 遗留系统的微服务化改造，可以作为新老系统的中转组件。
 
-
-返回值可以有很多类型,有String, ModelAndView。ModelAndView类把视图和数据都合并的一起的，但一般用String比较好。
-
-
-### 3、WebApplicationContext
-
-WebApplicationContext 继承了ApplicationContext 并增加了一些WEB应用必备的特有功能，它不同于一般的ApplicationContext ，因为它能处理主题，并找到被关联的servlet。
+**5、** 统一处理调用过程中的安全、权限问题。
 
 
-### 4、什么是 Spring 配置文件？
+### 2、如何在 SpringBoot 启动的时候运行一些特定的代码？
 
-Spring 配置文件是 XML 文件。该文件主要包含类信息。它描述了这些类是如何配置以及相互引入的。但是，XML 配置文件冗长且更加干净。如果没有正确规划和编写，那么在大项目中管理变得非常困难。
-
-
-### 5、Eureka怎么实现高可用
-
-集群吧，注册多台Eureka，然后把SpringCloud服务互相注册，客户端从Eureka获取信息时，按照Eureka的顺序来访问。
+可以实现接口 ApplicationRunner 或者 CommandLineRunner，这两个接口实现方式一样，它们都只提供了一个 run 方法，实现上述接口的类加入IOC容器即可生效。
 
 
-### 6、JdbcTemplate
+### 3、什么是 AOP 连接点
 
-JdbcTemplate 类提供了很多便利的方法解决诸如把数据库数据转变成基本数据类型或对象，执行写好的或可调用的数据库操作语句，提供自定义的数据错误处理。
-
-
-### 7、运行 SpringBoot 有哪几种方式？
-
-**1、**  打包用命令或者放到容器中运行
-
-**2、**  用 Maven/ Gradle 插件运行
-
-**3、**  直接执行 main 方法运行
+连接点代表一个应用程序的某个位置，在这个位置我们可以插入一个AOP切面，它实际上是个应用程序执行Spring AOP的位置。
 
 
-### 8、什么是Oauth？
+### 4、Spring MVC怎么和AJAX相互调用的？
 
-开放授权协议，这允许通过在HTTP服务上启用客户端应用程序（例如第三方提供商Facebook，GitHub等）来访问资源所有者的资源。因此，您可以在不使用其凭据的情况下与另一个站点共享存储在一个站点上的资源。
+通过Jackson框架就可以把Java里面的对象直接转化成Js可以识别的Json对象。具体步骤如下 ：
 
-OAuth允许像Facebook这样的第三方使用最终用户的帐户信息，同时保证其安全（不使用或暴露用户的密码）。它更像是代表用户的中介，同时为服务器提供访问所需信息的令牌。
+**1、** 加入Jackson.jar
 
+**2、** 在配置文件中配置json的映射
 
-### 9、spring boot 核心配置文件是什么？bootstrap.properties 和 application.properties 有何区别 ?
-
-单纯做 SpringBoot 开发，可能不太容易遇到 bootstrap.properties 配置文件，但是在结合 Spring Cloud 时，这个配置就会经常遇到了，特别是在需要加载一些远程配置文件的时侯。
-
-
-### 10、SpringBoot多数据源拆分的思路
-
-先在properties配置文件中配置两个数据源，创建分包mapper，使用@ConfigurationProperties读取properties中的配置，使用@MapperScan注册到对应的mapper包中
+**3、** 在接受Ajax方法里面可以直接返回Object,List等,但方法前面要加上@ResponseBody注解。
 
 
-### 11、什么是Spring MVC？简单介绍下你对Spring MVC的理解？
-### 12、Eureka和ZooKeeper都可以提供服务注册与发现的功能,请说说两个的区别
-### 13、Spring Initializr 是创建 SpringBoot Projects 的唯一方法吗？
-### 14、如何在SpringBoot中禁用Actuator端点安全性？
-### 15、Eureka和ZooKeeper都可以提供服务注册与发现的功能,请说说两个的区别
-### 16、SpringBoot 实现热部署有哪几种方式？
-### 17、如何集成SpringBoot和ActiveMQ？
-### 18、SpringBoot 有哪几种读取配置的方式？
-### 19、SpringBoot 是否可以使用 XML 配置 ?
-### 20、列举 Spring Framework 的优点。
-### 21、SpringCloud主要项目
-### 22、什么是Swagger？你用SpringBoot实现了它吗？
-### 23、Spring Cloud Zookeeper
-### 24、我们如何监视所有SpringBoot微服务？
-### 25、我们如何监视所有 SpringBoot 微服务？
-### 26、什么是SpringBoot
-### 27、负载平衡的意义什么？
-### 28、服务雪崩？
-### 29、SpringBoot 中如何实现定时任务 ?
-### 30、什么是bean的自动装配？
-### 31、Spring Cloud Bus
+### 5、访问RESTful微服务的方法是什么？
+
+另一个经常被问到的微服务面试问题是如何访问RESTful微服务？你可以通过两种方法做到这一点：
+
+**1、** 使用负载平衡的REST模板。
+
+**2、** 使用多个微服务。
+
+
+### 6、Spring Cloud Sleuth
+
+在微服务中，通常根据业务模块分服务，项目中前端发起一个请求，后端可能跨几个服务调用才能完成这个请求（如下图）。如果系统越来越庞大，服务之间的调用与被调用关系就会变得很复杂，假如一个请求中需要跨几个服务调用，其中一个服务由于网络延迟等原因挂掉了，那么这时候我们需要分析具体哪一个服务出问题了就会显得很困难。Spring Cloud Sleuth服务链路跟踪功能就可以帮助我们快速的发现错误根源以及监控分析每条请求链路上的性能等等。 ![](https://gitee.com/souyunkutech/souyunku-home/raw/master/images/souyunku-web/2020/5/2/023/45/68_1.png#alt=68%5C_1.png)
+
+
+### 7、shiro和oauth还有cas他们之间的关系是什么？问下您公司权限是如何设计，还有就是这几个概念的区别。
+
+cas和oauth是一个解决单点登录的组件，shiro主要是负责权限安全方面的工作，所以功能点不一致。但往往需要单点登陆和权限控制一起来使用，所以就有 cas+shiro或者oauth+shiro这样的组合。
+
+token一般是客户端登录后服务端生成的令牌，每次访问服务端会进行校验，一般保存到内存即可，也可以放到其他介质；Redis可以做Session共享，如果前端web服务器有几台负载，但是需要保持用户登录的状态，这场景使用比较常见。
+
+我们公司使用oauth+shiro这样的方式来做后台权限的管理，oauth负责多后台统一登录认证，shiro负责给登录用户赋予不同的访问权限。
+
+
+### 8、SpringBoot 有哪些优点？
+### 9、如何实现动态Zuul网关路由转发
+### 10、SpringCloud由什么组成
+### 11、使用Spring框架的好处是什么？
+### 12、SpringBoot 配置加载顺序?
+### 13、解释AOP
+### 14、什么是bean的自动装配？
+### 15、SpringBoot 实现热部署有哪几种方式？
+### 16、什么是 Aspect 切面
+### 17、当 SpringBoot 应用程序作为 Java 应用程序运行时，后台会发生什么？
+### 18、什么是 JavaConfig？
+### 19、你可以在Spring中注入一个null 和一个空字符串吗？
+### 20、YAML 配置的优势在哪里 ?
+### 21、什么是 JavaConfig？
+### 22、分布式配置中心的作用？
+### 23、如何解决POST请求中文乱码问题，GET的又如何处理呢？
+### 24、Web，RESTful API在微服务中的作用是什么？
+### 25、什么是SpringBoot？
+### 26、Spring MVC中函数的返回值是什么？
+### 27、什么是 Spring Profiles？
+### 28、什么是Spring Cloud？
+### 29、有哪些类型的通知（Advice）？
+### 30、设计微服务的最佳实践是什么？
+### 31、为什么我们不建议在实际的应用程序中使用 Spring Data Rest?
 
 
 

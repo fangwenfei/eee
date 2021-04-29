@@ -6,182 +6,92 @@
 
 
 
-### 1、Android系统的架构
+### 1、简述TCP，UDP，Socket
 
-**1、** Android系统架构之应用程序
+TCP是经过3次握手，4次挥手完成一串数据的传送
 
-Android会同一系列核心应用程序包一起发布，该应用程序包包括email客户端，SMS短消息程序，日历，地图，浏览器，联系人管理程序等。所有的应用程序都是使用JAVA语言编写的。
+UDP是无连接的，知道IP地址和端口号，向其发送数据即可，不管数据是否发送成功
 
-**2、** Android系统架构之应用程序框架
+Socket是一种不同计算机，实时连接，比如说传送文件，即时通讯
 
-开发人员可以完全访问核心应用程序所使用的API框架（android.jar）。该应用程序的架构设计简化了组件的重用;任何一个应用程序都可以发布它的功能块并且任何其它的应用程序都可以使用其所发布的功能块。
 
-**3、** Android系统架构之系统运行库
+### 2、如何在 ScrollView 中如何嵌入 ListView
 
-Android 包含一些C/C++库，这些库能被Android系统中不同的组件使用。它们通过 Android 应用程序框架为开发者提供服务。
+通常情况下我们不会在 ScrollView 中嵌套 ListView。
 
-**4、** Android系统架构之Linux 内核
+在 ScrollView 添加一个 ListView 会导致 listview 控件显示不全，通常只会显示一条，这是因为两个控件的滚动事件冲突导致。所以需要通过 listview 中的 item 数量去计算 listview 的显示高度，从而使其完整展示。
 
-Android 的核心系统服务依赖于 Linux 2.6 内核，如安全性，内存管理，进程管理， 网络协议栈和驱动模型。 Linux 内核也同时作为硬件和软件栈之间的抽象层。
+现阶段最好的处理的方式是： 自定义 ListView，重载 onMeasure()方法，设置全部显示。
 
 
-### 2、GLSurfaceView
+### 3、子线程中能不能 new handler？为什么？
 
-基于SurfaceView视图再次进行拓展的视图类，专用于3D游戏开发的视图，是surfaceView的子类，openGL专用
+不能,如果在子线程中直接 new Handler()会抛出异常 java.lang.RuntimeException: Can'tcreate handler inside thread that has not called
 
+在没有调用 Looper.prepare()的时候不能创建 Handler,因为在创建 Handler 的源码中做了如下操作
 
-### 3、谈谈你在工作中是怎样解决一个 bug
+Handler 的构造方法中
 
-**1、** 异常附近多打印 log 信息；
 
-**2、** 分析 log 日志，实在不行的话进行断点调试；
+### 4、Framework 工作方式及原理，Activity 是如何生成一个 view 的，机制是什么？
 
-**3、** 调试不出结果，上 Stack Overflow 贴上异常信息，请教大牛
+所有的框架都是基于反射 和 配置文件（manifest）的。
 
-**4、** 再多看看代码，或者从源代码中查找相关信息
+**普通的情况:**
 
-**5、** 实在不行就 GG 了，找师傅来解决！
+Activity 创建一个 view 是通过 ondraw 画出来的, 画这个 view 之前呢,还会调用 onmeasure方法来计算显示的大小.
 
+**特殊情况：**
 
-### 4、简要解释一下activity、 intent 、intent filter、service、Broadcase、BroadcaseReceiver
+Surfaceview 是直接操作硬件的，因为 或者视频播放对帧数有要求，onDraw 效率太低，不够使，Surfaceview 直接把数据写到显存。
 
-一个activity呈现了一个用户可以操作的可视化用户界面；一个service不包含可见的用户界面，而是在后台运行，可以与一个activity绑定，通过绑定暴露出来接口并与其进行通信；一个broadcast receiver是一个接收广播消息并做出回应的component，broadcast receiver没有界面；一个intent是一个Intent对象，它保存了消息的内容。对于activity和service来说，它指定了请求的操作名称和待操作数据的URI，Intent对象可以显式的指定一个目标component。如果这样的话，android会找到这个component(基于manifest文件中的声明)并激活它。但如果一个目标不是显式指定的，android必须找到响应intent的最佳component。它是通过将Intent对象和目标的intent filter相比较来完成这一工作的；一个component的intent filter告诉android该component能处理的intent。intent filter也是在manifest文件中声明的。
 
+### 5、ListView 如何实现分页加载
 
-### 5、ListView 如何提高其效率？
+设置 ListView 的滚动监听器：setOnScrollListener(new OnScrollListener{….})在监听器中有两个方法： 滚动状态发生变化的方法(onScrollStateChanged)和 listView 被滚动时调用的方法(onScroll)
 
-当 convertView 为空时，用 setTag()方法为每个 View 绑定一个存放控件的 ViewHolder 对象。当convertView 不为空， 重复利用已经创建的 view 的时候， 使用 getTag()方法获取绑定的 ViewHolder对象，这样就避免了 findViewById 对控件的层层查询，而是快速定位到控件。 复用 ConvertView，使用历史的 view，提升效率 200%
+在滚动状态发生改变的方法中，有三种状态：手指按下移动的状态： SCROLL_STATE_TOUCH_SCROLL:触摸滑动，惯性滚动（滑翔（flgin）状态）： SCROLL_STATE_FLING: 滑翔，静止状态： SCROLL_STATE_IDLE: // 静止，对不同的状态进行处理：
 
-自定义静态类 ViewHolder，减少 findViewById 的次数。提升效率 50%
+分批加载数据，只关心静止状态：关心最后一个可见的条目，如果最后一个可见条目就是数据适配器（集合）里的最后一个，此时可加载更多的数据。在每次加载的时候，计算出滚动的数量，当滚动的数量大于等于总数量的时候，可以提示用户无更多数据了。
 
-异步加载数据，分页加载数据。
 
-使用 WeakRefrence 引用 ImageView 对象
+### 6、如何将打开res aw目录中的数据库文件?
 
+**1、** 在Android中不能直接打开res aw目录中的数据库文件，而需要在程序第一次启动时将该文件复制到手机内存或SD卡的某个目录中，然后再打开该数据库文件。
 
-### 6、了解IntentServices吗?
+**2、** 复制的基本方法是使用getResources().openRawResource方法获得res aw目录中资源的 InputStream对象，然后将该InputStream对象中的数据写入其他的目录中相应文件中。
 
-**1、** IntentService是Service的子类，是一个异步的，会自动停止的服务，很好解决了传统的Service中处理完耗时操作忘记停止并销毁Service的问题
+**3、** 在Android SDK中可以使用SQLiteDatabase.openOrCreateDatabase方法来打开任意目录中的SQLite数据库文件。
 
-**2、** 生成一个默认的且与线程相互独立的工作线程执行所有发送到onStartCommand()方法的Intent,可以在onHandleIntent()中处理.
 
-**3、** 串行队列,每次只运行一个任务,不存在线程安全问题,所有任务执行完后自动停止服务,不需要自己手动调用stopSelf()来停止.
+### 7、谈谈Android的IPC（进程间通信）机制
 
+IPC是内部进程通信的简称， 是共享"命名管道"的资源。Android中的IPC机制是为了让Activity和Service之间可以随时的进行交互，故在Android中该机制，只适用于Activity和Service之间的通信，类似于远程方法调用，类似于C/S模式的访问。通过定义AIDL接口文件来定义IPC接口。Servier端实现IPC接口，Client端调用IPC接口本地代理。
 
-### 7、andorid 应用第二次登录实现自动登录
 
-前置条件是所有用户相关接口都走 https，非用户相关列表类数据走 http。
-
-**步骤**
-
-**1、** 第一次登陆 getUserInfo 里带有一个长效 token，该长效 token 用来判断用户是否登陆和换取短 token
-
-**2、** 把长效 token 保存到 SharedPreferences
-
-**3、** 接口请求用长效 token 换取短token，短 token 服务端可以根据你的接口最后一次请求作为标示，超时时间为一天。
-
-**4、** 所有接口都用短效 token
-
-**5、** 如果返回短效 token 失效，执行第3步，再直接当前接口
-
-**6、** 如果长效 token 失效（用户换设备或超过一月），提示用户登录。
-
-
-### 8、什么是aar?aar是jar有什么区别?
-
-“aar”包是 Android 的类库项目的二进制发行包。
-
-文件扩展名是.aar，maven 项目类型应该也是aar，但文件本身是带有以下各项的 zip 文件：
-
-**1、** /AndroidManifest.xml (mandatory)
-
-**2、** /classes.jar (mandatory)
-
-**3、** /res/ (mandatory)
-
-**4、** /R.txt (mandatory)
-
-**5、** /assets/ (optional)
-
-**6、** /libs/*.jar (optional)
-
-**7、** /jni//*.so (optional)
-
-**8、** /proguard.txt (optional)
-
-**9、** /lint.jar (optional)
-
-这些条目是直接位于 zip 文件根目录的。 其中R.txt 文件是aapt带参数–output-text-symbols的输出结果。
-
-jar打包不能包含资源文件，比如一些drawable文件、xml资源文件之类的,aar可以。
-
-
-### 9、NDK是什么
-
-NDK是一些列工具的集合，NDK提供了一系列的工具，帮助开发者迅速的开发C/C++的动态库，并能自动将so和java 应用打成apk包。
-
-NDK集成了交叉编译器，并提供了相应的mk文件和隔离cpu、平台等的差异，开发人员只需简单的修改mk文件就可以创建出so
-
-
-
-### 10、补间动画
-
-补间动画又可以分为四种形式，分别是 alpha（淡入淡出），translate（位移），scale（缩放大小），rotate（旋转）。
-
-补间动画的实现，一般会采用xml 文件的形式；代码会更容易书写和阅读，同时也更容易复用。Interpolator 主要作用是可以控制动画的变化速率 ，就是动画进行的快慢节奏。pivot 决定了当前动画执行的参考位置
-
-```
-<?xml version="1.0" encoding="utf-8"?>
-<set xmlns:android="http://schemas.android.com/apk/res/android"
-    android:interpolator="@[package:]anim/interpolator_resource"
-    android:shareInterpolator=["true" | "false"] >
-    <alpha
-        android:fromAlpha="float"
-        android:toAlpha="float" />
-    <scale
-        android:fromXScale="float"
-        android:toXScale="float"
-        android:fromYScale="float"
-        android:toYScale="float"
-        android:pivotX="float"
-        android:pivotY="float" />
-    <translate
-        android:fromXDelta="float"
-        android:toXDelta="float"
-        android:fromYDelta="float"
-        android:toYDelta="float" />
-    <rotate
-        android:fromDegrees="float"
-        android:toDegrees="float"
-        android:pivotX="float"
-        android:pivotY="float" />
-    <set>
-        ...
-    </set>
-</set>
-```
-
-
-### 11、怎样对 android 进行优化？
-### 12、如何将SQLite数据库(dictionary.db文件)与apk文件一起发布
-### 13、自定义view的基本流程
-### 14、Android 应用中验证码登陆都有哪些实现方案
-### 15、dagger2
-### 16、请介绍下Android中常用的五种布局。
-### 17、注册广播的几种方法?
-### 18、Android 引入广播机制的用意
-### 19、Framework 工作方式及原理，Activity 是如何生成一个 view 的，机制是什么？
-### 20、SQLite支持事务吗? 添加删除如何提高性能?
-### 21、事件分发中的 onTouch 和 onTouchEvent 有什么区别，又该如何使用？
-### 22、描述下Handler 机制
-### 23、系统上安装了多种浏览器，能否指定某浏览器访问指定页面？请说明原由。
-### 24、什么是 IntentService？有何优点？
-### 25、Manifest.xml文件中主要包括哪些信息？
-### 26、广播接受者的生命周期？
-### 27、音视频相关类
-### 28、Service 是否在 main thread 中执行, service 里面是否能执行耗时的操作?
-### 29、如何提升Service进程优先级
-### 30、请介绍下 AsyncTask 的内部实现和适用的场景
+### 8、IntentService有何优点?
+### 9、View的绘制原理
+### 10、自定义view的基本流程
+### 11、音视频相关类
+### 12、如何保存activity的状态？
+### 13、说下Activity 的四种启动模式、应用场景 ？
+### 14、跟activity和Task 有关的 Intent启动方式有哪些？其含义？
+### 15、Android中4大组件
+### 16、什么是aar?aar是jar有什么区别?
+### 17、如何切换 fragement,不重新实例化
+### 18、GLSurfaceView
+### 19、Fragment中add与replace的区别？
+### 20、描述一下android的系统架构
+### 21、如果Listview中的数据源发生改变，如何更新listview中的数据
+### 22、即时通讯是是怎么做的?
+### 23、View的分发机制，滑动冲突
+### 24、属性动画
+### 25、一条最长的短信息约占多少byte?
+### 26、内存溢出和内存泄漏有什么区别？何时会产生内存泄漏？
+### 27、补间动画
+### 28、Android中，帧动画
+### 29、AsyncTask
+### 30、如何启用Service，如何停用Service。
 
 
 

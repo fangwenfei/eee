@@ -6,140 +6,7 @@
 
 
 
-### 1、react性能优化方案
-
-**1、** 重写 `shouldComponentUpdate`来避免不必要的 `dom`操作
-
-**2、** 使用 `production` 版本的 `react.js`
-
-**3、** 使用 `key`来帮助 `React`识别列表中所有子组件的最小变化
-
-
-### 2、React组件通信如何实现？
-
-父组件向子组件通讯: 父组件可以向子组件通过传 props 的方式，向子组件进行通讯
-
-子组件向父组件通讯: props+回调的方式,父组件向子组件传递props进行通讯，此props为作用域为父组件自身的函数，子组件调用该函数，将子组件想要传递的信息，作为参数，传递到父组件的作用域中
-
-兄弟组件通信: 找到这两个兄弟节点共同的父节点,结合上面两种方式由父节点转发信息进行通信
-
-跨层级通信:`Context`设计目的是为了共享那些对于一个组件树而言是“全局”的数据，例如当前认证的用户、主题或首选语言,对于跨越多层的全局数据通过`Context`通信再适合不过
-
-发布订阅模式: 发布者发布事件，订阅者监听事件并做出反应,我们可以通过引入event模块进行通信 全局状态管理工具: 借助Redux或者Mobx等全局状态管理工具进行通信,这种工具会维护一个全局状态中心Store,并根据不同的事件产生新的状态
-
-
-### 3、React Router与常规路由有何不同？
-| 主题 | 常规路由 | React 路由 |
-| --- | --- | --- |
-| 参与的页面 | 每个视图对应一个新文件 | 只涉及单个HTML页面 |
-| URL 更改 | HTTP 请求被发送到服务器并且接收相应的 HTML 页面 | 仅更改历史记录属性 |
-| 体验 | 用户实际在每个视图的不同页面切换 | 用户认为自己正在不同的页面间切换 |
-
-
-### 4、Redux设计理念
-
-`Redux`是将整个应用状态存储到一个地方上称为`store`,里面保存着一个状态树`store` `tree`,组件可以派发(`dispatch`)行为(`action`)给`store`,而不是直接通知其他组件组件内部通过订阅`store`中的状态`state`来刷新自己的视图
-
-![80_2.png][80_2.png]
-
-image
-
-
-### 5、React Portal 有哪些使用场景
-
-在以前 `react` 中所有的组件都会位于 `#app` 下而使用 `Portals` 提供了一种脱离 `#app` 的组件因此 `Portals` 适合脱离文档流(`out of flow`) 的组件特别是 `position: absolute` 与 `position: fixed`的组件。比如模态框通知警告`goTop` 等。
-
-以下是官方一个模态框的示例可以在以下地址中测试效果
-
-```
-<html>
-  <body>
-    <div id="app"></div>
-    <div id="modal"></div>
-    <div id="gotop"></div>
-    <div id="alert"></div>
-  </body>
-</html>
-```
-
-```
-const modalRoot = document.getElementById('modal');
-
-class Modal extends React.Component {
-  constructor(props) {
-    super(props);
-    this.el = document.createElement('div');
-  }
-
-  componentDidMount() {
-    modalRoot.appendChild(this.el);
-  }
-
-  componentWillUnmount() {
-    modalRoot.removeChild(this.el);
-  }
-
-  render() {
-    return ReactDOM.createPortal(
-      this.props.children,
-      this.el,
-    );
-  }
-}
-```
-
-`React Hooks`当中的`useEffect`是如何区分生命周期钩子的
-
-`useEffect`可以看成是`componentDidMountcomponentDidUpdate`和`componentWillUnmount`三者的结合。`useEffect(callback, [source])`接收两个参数调用方式如下
-
-```
- useEffect(() => {
-   console.log('mounted');
-   
-   return () => {
-       console.log('willUnmount');
-   }
- }, [source]);
-```
-
-生命周期函数的调用主要是通过第二个参数[source]来进行控制有如下几种情况
-
-**1、** [source]参数不传时则每次都会优先调用上次保存的函数中返回的那个函数然后再调用外部那个函数
-
-**2、** [source]参数传[]时则外部的函数只会在初始化时调用一次返回的那个函数也只会最终在组件卸载时调用一次
-
-**3、** [source]参数有值时则只会监听到数组中的值发生变化后才优先调用返回的那个函数再调用外部的函数。
-
-
-### 6、setState到底是异步还是同步?
-
-先给出答案: 有时表现出异步,有时表现出同步
-
-**1、** `setState`只在合成事件和钩子函数中是“异步”的，在原生事件和`setTimeout` 中都是同步的
-
-**2、** `setState` 的“异步”并不是说内部由异步代码实现，其实本身执行的过程和代码都是同步的，只是合成事件和钩子函数的调用顺序在更新之前，导致在合成事件和钩子函数中没法立马拿到更新后的值，形成了所谓的“异步”，当然可以通过第二个参数 `setState(partialState, callback)` 中的`callback`拿到更新后的结果
-
-**3、** `setState` 的批量更新优化也是建立在“异步”（合成事件、钩子函数）之上的，在原生事件和setTimeout 中不会批量更新，在“异步”中如果对同一个值进行多次`setState`，`setState`的批量更新策略会对其进行覆盖，取最后一次的执行，如果是同时`setState`多个不同的值，在更新时会对其进行合并批量更新
-
-
-### 7、你对 Time Slice的理解?
-
-**时间分片**
-
-**1、** React 在渲染render的时候不会阻塞现在的线程
-
-**2、** 如果你的设备足够快你会感觉渲染是同步的
-
-**3、** 如果你设备非常慢你会感觉还算是灵敏的
-
-**4、** 虽然是异步渲染但是你将会看到完整的渲染而不是一个组件一行行的渲染出来
-
-**5、** 同样书写组件的方式
-
-**6、** 也就是说这是React背后在做的事情对于我们开发者来说是透明的具体是什么样的效果呢
-
-
-### 8、react-redux是如何工作的?
+### 1、react-redux是如何工作的?
 
 **1、** Provider: Provider的作用是从最外部封装了整个应用，并向connect模块传递store
 
@@ -154,52 +21,120 @@ class Modal extends React.Component {
 ![](https://gitee.com/souyunkutech/souyunku-home/raw/master/images/souyunku-web/2020/4/30/1939/39/97_12.png#alt=97%5C_12.png)
 
 
-### 9、你能用HOC做什么？
+### 2、列出 React Router 的优点。
 
-**HOC可用于许多任务，例如：**
+**几个优点是：**
 
-**1、** 代码重用，逻辑和引导抽象
+**1、**  就像 React 基于组件一样，在 React Router v4 中，API 是 _'All About Components'_。可以将 Router 可视化为单个根组件（`<BrowserRouter>`），其中我们将特定的子路由（`<route>`）包起来。
 
-**2、** 渲染劫持
+**2、**  无需手动设置历史值：在 React Router v4 中，我们要做的就是将路由包装在 `<BrowserRouter>` 组件中。
 
-**3、** 状态抽象和控制
-
-**4、** Props 控制
+**3、**  包是分开的：共有三个包，分别用于 Web、Native 和 Core。这使我们应用更加紧凑。基于类似的编码风格很容易进行切换。
 
 
-### 10、React的请求应该放在哪个生命周期中?
+### 3、如何将两个或多个组件嵌入到一个组件中？
 
-React的异步请求到底应该放在哪个生命周期里,有人认为在`componentWillMount`中可以提前进行异步请求,避免白屏,其实这个观点是有问题的.
+可以通过以下方式将组件嵌入到一个组件中：
 
-由于JavaScript中异步事件的性质，当您启动API调用时，浏览器会在此期间返回执行其他工作。当React渲染一个组件时，它不会等待componentWillMount它完成任何事情 - React继续前进并继续render,没有办法“暂停”渲染以等待数据到达。
+```
+class MyComponent extends React.Component{
+    render(){
+        return(
+            <div>
+                <h1>Hello</h1>
+                <Header/>
+            </div>
+        );
+    }
+}
+class Header extends React.Component{
+    render(){
+        return
+            <h1>Header Component</h1>
+   };
+}
+ReactDOM.render(
+    <MyComponent/>, document.getElementById('content')
+);
+```
 
-而且在`componentWillMount`请求会有一系列潜在的问题,首先,在服务器渲染时,如果在 componentWillMount 里获取数据，fetch data会执行两次，一次在服务端一次在客户端，这造成了多余的请求,其次,在React 16进行React Fiber重写后,`componentWillMount`可能在一次渲染中多次调用.
 
-目前官方推荐的异步请求是在`componentDidmount`中进行.
+### 4、react和vue的区别
 
-如果有特殊需求需要提前请求,也可以在特殊情况下在`constructor`中请求:
+**相同点**
 
-> react 17之后`componentWillMount`会被废弃,仅仅保留`UNSAFE_componentWillMount`
+**1、** 数据驱动页面提供响应式的试图组件
+
+**2、** 都有 `virtual DOM`,组件化的开发通过 `props`参数进行父子之间组件传递数据都实现了 `webComponents`规范
+
+**3、** 数据流动单向都支持服务器的渲染SSR
+
+**4、** 都有支持 `native`的方法 `react`有 `React native vue`有 `wexx`
+
+**不同点**
+
+**1、** 数据绑定 `Vue`实现了双向的数据绑定 `react`数据流动是单向的
+
+**2、** 数据渲染大规模的数据渲染 `react`更快
+
+**3、** 使用场景 `React`配合 `Redux`架构适合大规模多人协作复杂项目Vue适合小快的项目
+
+**4、** 开发风格 `react`推荐做法 `jsx` + `inline style`把 `html`和 `css`都写在 `js`了
+
+**5、** `vue`是采用 `webpack` + `vue-loader`单文件组件格式 `html`, `js`, `css`同一个文件
+
+
+### 5、React有哪些优化性能是手段?
+
+性能优化的手段很多时候是通用的详情见前端性能优化加载篇
+
+
+### 6、diff算法?
+
+把树形结构按照层级分解，只比较同级元素。
+
+给列表结构的每个单元添加唯一的key属性，方便比较。
+
+React 只会匹配相同 class 的 component（这里面的class指的是组件的名字）
+
+合并操作，调用 component 的 setState 方法的时候, React 将其标记为 dirty.到每一个事件循环结束, React 检查所有标记 dirty 的 component 重新绘制
+
+选择性子树渲染。开发人员可以重写shouldComponentUpdate提高diff的性能。
 
 
 
-### 11、为什么要用redux
-### 12、什么是React 路由？
-### 13、React有哪些优化性能是手段?
-### 14、简单说一下Vue2.x响应式数据原理
-### 15、什么是React？
-### 16、hash路由和history路由实现原理说一下
-### 17、diff算法?
-### 18、再说一下vue2.x中如何监测数组变化
-### 19、React实现的移动应用中如果出现卡顿有哪些可以考虑的优化方案
-### 20、如何模块化 React 中的代码？
-### 21、简述flux 思想
-### 22、解释一下 Flux
-### 23、React 中 refs 的作用是什么
-### 24、redux的工作流程?
-### 25、什么是高阶组件(HOC)
-### 26、Vue事件绑定原理说一下
-### 27、React组件通信如何实现?
+### 7、React与Angular有何不同？
+| 主题 | React | Angular |
+| --- | --- | --- |
+| _1、体系结构_ | 只有 MVC 中的 View | 完整的 MVC |
+| _2、渲染_ | 可以在服务器端渲染 | 客户端渲染 |
+| _3、DOM_ | 使用 virtual DOM | 使用 real DOM |
+| _4、数据绑定_ | 单向数据绑定 | 双向数据绑定 |
+| _5、调试_ | 编译时调试 | 运行时调试 |
+| _6、作者_ | Facebook | Google |
+
+
+
+### 8、如何更新组件的状态？
+### 9、React中的合成事件是什么？
+### 10、你对 Time Slice的理解?
+### 11、react性能优化方案
+### 12、你对受控组件和非受控组件了解多少？
+### 13、虚拟DOM的优劣如何?
+### 14、redux的工作流程?
+### 15、redux与mobx的区别?
+### 16、diff算法?
+### 17、SSR了解吗？
+### 18、nextTick知道吗，实现原理是什么？
+### 19、React中的事件是什么？
+### 20、MVC框架的主要问题是什么？
+### 21、Redux与Flux有何不同？
+### 22、什么是控制组件？
+### 23、你对 React 的 refs 有什么了解？
+### 24、React 中的箭头函数是什么？怎么用？
+### 25、React组件生命周期的阶段是什么？
+### 26、React有什么特点？
+### 27、shouldComponentUpdate 的作用
 
 
 

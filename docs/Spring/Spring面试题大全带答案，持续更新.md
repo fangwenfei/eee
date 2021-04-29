@@ -6,33 +6,33 @@
 
 
 
-### 1、为什么要用SpringBoot
+### 1、SpringBoot集成mybatis的过程
 
-快速开发，快速整合，配置简化、内嵌服务容器
+添加mybatis的starter maven依赖
+
+```
+<dependency>
+    <groupId>org.mybatis.spring.boot</groupId>
+    <artifactId>mybatis-spring-boot-starter</artifactId>
+    <version>1.3.2</version>
+</dependency>
+```
+
+在mybatis的接口中 添加@Mapper注解
+
+在application.yml配置数据源信息
 
 
-### 2、SpringBoot 的核心注解是哪个？它主要由哪几个注解组成的？
+### 2、SpringBoot 有哪几种读取配置的方式？
 
-启动类上面的注解是@SpringBootApplication，它也是 SpringBoot 的核心注解，主要组合包含了以下 3 个注解：
-
-@SpringBootConfiguration：组合了 [@Configuration ](/Configuration ) 注解，实现配置文件的功能。
-
-@EnableAutoConfiguration：打开自动配置的功能，也可以关闭某个自动配置的选项，如关闭数据源自动配置功能：
-
-[@SpringBootApplication(exclude ](/SpringBootApplication(exclude ) = { DataSourceAutoConfiguration.class })。
-
-@ComponentScan：Spring组件扫描。
+SpringBoot 可以通过 @PropertySource,@Value,@Environment, @ConfigurationPropertie注解来绑定变量
 
 
-### 3、什么是不同类型的双因素身份认证？
+### 3、path=”users”, collectionResourceRel=”users” 如何与 Spring Data Rest 一起使用？
 
-执行双因素身份验证需要三种类型的凭据：
+path- 这个资源要导出的路径段。
 
-**1、** 一件你知道的事情——比如密码、密码或屏幕锁定模式。
-
-**2、** 您拥有的物理凭证，如OTP、电话或ATM卡，换句话说，您在外部或第三方设备中拥有的任何类型的凭证。
-
-**3、** 您的物理身份–如语音认证或生物特征安全，如指纹或眼睛扫描仪。
+collectionResourceRel- 生成指向集合资源的链接时使用的 rel 值。在生成 HATEOAS 链接时使用。
 
 
 ### 4、如何使用 SpringBoot 部署到不同的服务器？
@@ -50,82 +50,56 @@
 **第二步：**取决于你的服务器。
 
 
-### 5、解释对象/关系映射集成模块。
+### 5、什么是Eureka
 
-Spring 通过提供ORM模块，支持我们在直接JDBC之上使用一个对象/关系映射映射(ORM)工具，Spring 支持集成主流的ORM框架，如Hiberate,JDO和 iBATIS SQL Maps。Spring的事务管理同样支持以上所有ORM框架及JDBC。
-
-
-### 6、如何给Spring 容器提供配置元数据?
-
-这里有三种重要的方法给Spring 容器提供配置元数据。
-
-**1、** XML配置文件。
-
-**2、** 基于注解的配置。
-
-**3、** 基于java的配置。
+Eureka作为SpringCloud的服务注册功能服务器，他是服务注册中心，系统中的其他服务使用Eureka的客户端将其连接到Eureka Service中，并且保持心跳，这样工作人员可以通过Eureka Service来监控各个微服务是否运行正常。
 
 
-### 7、使用Spring通过什么方式访问Hibernate?
+### 6、什么是YAML？
 
-**在Spring中有两种方式访问Hibernate：**
+YAML是一种人类可读的数据序列化语言。它通常用于配置文件。
 
-控制反转 Hibernate Template和 Callback。
-
-继承 HibernateDAOSupport提供一个AOP 拦截器。
+与属性文件相比，如果我们想要在配置文件中添加复杂的属性，YAML文件就更加结构化，而且更少混淆。可以看出YAML具有分层配置数据。
 
 
-### 8、服务网关的作用
+### 7、SpringBoot 的核心配置文件有哪几个？它们的区别是什么？
 
-**1、** 简化客户端调用复杂度，统一处理外部请求。
+SpringBoot 的核心配置文件是 application 和 bootstrap 配置文件。
 
-**2、** 数据裁剪以及聚合，根据不同的接口需求，对数据加工后对外。
+application 配置文件这个容易理解，主要用于 SpringBoot 项目的自动化配置。
 
-**3、** 多渠道支持，针对不同的客户端提供不同的网关支持。
+bootstrap 配置文件有以下几个应用场景。
 
-**4、** 遗留系统的微服务化改造，可以作为新老系统的中转组件。
+使用 Spring Cloud Config 配置中心时，这时需要在 bootstrap 配置文件中添加连接到配置中心的配置属性来加载外部配置中心的配置信息；
 
-**5、** 统一处理调用过程中的安全、权限问题。
+一些固定的不能被覆盖的属性；
 
-
-### 9、如何使用SpringBoot实现分页和排序？
-
-使用SpringBoot实现分页非常简单。使用Spring Data-JPA可以实现将可分页的
-
-org.springframework.data.domain.Pageable
-
-传递给存储库方法。
+一些加密/解密的场景；
 
 
-### 10、Spring Cache 三种常用的缓存注解和意义？
-
-**1、** [@Cacheable ](/Cacheable ) ，用来声明方法是可缓存，将结果存储到缓存中以便后续使用相同参数调用时不需执行实际的方法，直接从缓存中取值。
-
-**2、** @CachePut，使用 [@CachePut ](/CachePut ) 标注的方法在执行前，不会去检查缓存中是否存在之前执行过的结果，而是每次都会执行该方法，并将执行结果以键值对的形式存入指定的缓存中。
-
-**3、** @CacheEvict，是用来标注在需要清除缓存元素的方法或类上的，当标记在一个类上时表示其中所有的方法的执行都会触发缓存的清除操作。
-
-
-### 11、如何给静态变量赋值？
-### 12、如何使用 SpringBoot 实现异常处理？
-### 13、微服务测试的主要障碍是什么？
-### 14、SpringBoot 中的 starter 到底是什么 ?
-### 15、什么是Hystrix？它如何实现容错？
-### 16、什么是 AOP什么是引入?
-### 17、什么是双因素身份验证？
-### 18、SpringBoot的配置文件有哪几种格式？区别是什么？
-### 19、YAML 配置的优势在哪里 ?
-### 20、Spring Cloud 是什么
-### 21、SpringBoot事物的使用
-### 22、SpringBoot自动配置的原理
-### 23、如果前台有很多个参数传入,并且这些参数都是一个对象的,那么怎么样快速得到这个对象？
-### 24、SpringCloud 和 Dubbo 有哪些区别?
-### 25、什么是 AOP 切点
-### 26、SpringBoot 实现热部署有哪几种方式？
-### 27、什么是 JavaConfig？
-### 28、SpringBoot中的监视器是什么?
-### 29、前后端分离，如何维护接口文档 ?
-### 30、Web，RESTful API在微服务中的作用是什么？
+### 8、什么是基于Java的Spring注解配置? 给一些注解的例子.
+### 9、什么是代理?
+### 10、SpringBoot的自动配置原理是什么
+### 11、什么是YAML？
+### 12、链路跟踪Sleuth
+### 13、可以通过多少种方式完成依赖注入？
+### 14、您使用了哪些 starter maven 依赖项？
+### 15、哪种依赖注入方式你建议使用，构造器注入，还是 Setter方法注入？
+### 16、架构师在微服务架构中的角色是什么？
+### 17、为什么需要学习Spring Cloud
+### 18、SpringBoot 中如何解决跨域问题 ?
+### 19、SpringBoot 的核心注解是哪个？它主要由哪几个注解组成的？
+### 20、spring 支持集中 bean scope？
+### 21、Ribbon和Feign的区别？
+### 22、自动装配有哪些局限性 ?
+### 23、SpringBoot 支持哪些日志框架？推荐和默认的日志框架是哪个？
+### 24、Bean 工厂和 Application contexts 有什么区别？
+### 25、Spring MVC的优点
+### 26、微服务之间如何独立通讯的?
+### 27、@RequestMapping注解的作用
+### 28、解释AOP模块
+### 29、如何集成 SpringBoot 和 ActiveMQ？
+### 30、eureka和zookeeper都可以提供服务注册与发现的功能，请说说两个的区别？
 
 
 

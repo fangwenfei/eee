@@ -6,123 +6,81 @@
 
 
 
-### 1、Kafa consumer 是否可以消费指定分区消息？
+### 1、Kafka中的 zookeeper 起到什么作用？可以不用zookeeper吗？
 
-Kafa consumer 消费消息时，向 broker 发出"fetch"请求去消费特定分区的消息，consumer
+zookeeper 是一个分布式的协调组件，早期版本的Kafka用zk做meta信息存储，consumer的消费状态，group 的管理以及 offset 的值。考虑到 zookeeper 本身的一些因素以及整个架构较大概率存在单点问题，新版本中逐渐弱化了 zookeeper 的作用。新的 consumer 使用了 Kafka 内部的 group coordination 协议，也减少了对 zookeeper 的依赖，
 
-指定消息在日志中的偏移量（offset），就可以消费从这个位置开始的消息，customer 拥有
-
-了 offset 的控制权，可以向后回滚去重新消费之前的消息，这是很有意义的
+但是 broker 依然依赖于 zookeeper，zookeeper 在Kafka中还用来选举 controller 和检测 broker 是否存活等等。
 
 
-### 2、为什么Kafka的复制至关重要？
+### 2、Kafka 创建 Topic 时如何将分区放置到不同的 Broker 中
 
-由于复制，我们可以确保发布的消息不会丢失，并且可以在发生任何机器错误、程序错误或频繁的软件升级时使用。
+副本因子不能大于 Broker 的个数；
 
+**1、** 第一个分区（编号为 0）的第一个副本放置位置是随机从 brokerList 选择的；
 
-### 3、没有zookeeper可以使用Kafka吗？
+**2、** 其他分区的第一个副本放置位置相对于第 0 个分区依次往后移。也就是如果我们有 5 个
 
-绕过Zookeeper并直接连接到Kafka服务器是不可以的，所以答案是否定的。如果以某种方式，使ZooKeeper关闭，则无法为任何客户端请求提供服务。
+**3、** Broker，5 个分区，假设第一个分区放在第四个 Broker 上，那么第二个分区将会放在第五
 
+**4、** 个 Broker 上；第三个分区将会放在第一个 Broker 上；第四个分区将会放在第二个
 
-### 4、说明Kafka的一个最佳特征。
+**5、** Broker 上，依次类推；
 
-Kafka的最佳特性是“各种各样的用例”。这意味着Kafka能够管理各种各样的用例，这些用例对于数据湖来说非常常见。例如日志聚合、Web活动跟踪等。
+**6、** 剩余的副本相对于第一个副本放置位置其实是由 nextReplicaShift 决定的，而这个数也是
 
-
-### 5、Kafka 存储在硬盘上的消息格式是什么？
-
-消息由一个固定长度的头部和可变长度的字节数组组成。头部包含了一个版本号和 CRC32
-
-校验码。
-
-**1、** 消息长度: 4 bytes (value: 1+4+n)
-
-**2、** 版本号: 1 byte
-
-**3、** CRC 校验码: 4 bytes
-
-**4、** 具体的消息: n bytes
+**7、** 随机产生的
 
 
-### 6、在Kafka中，ZooKeeper的作用是什么？
+### 3、消费者提交消费位移时提交的是当前消费到的最新消息的offset还是offset+1?
 
-**1、** 这道题，也是我经常会问候选人的题，因为任何分布式系统中虽然都通过一些列的算法去除了传统的关系型数据存储，但是毕竟还是有些数据要存储的，同时分布式系统的特性往往是需要有一些中间人角色来统筹集群。比如我们在整个微服务框架中的Dubbo，它也是需要依赖一些注册中心或配置中心类的中间件的，以及云原生的Kubernetes使用etcd作为整个集群的枢纽。
-
-**2、** 标准答案：目前，Kafka使用ZooKeeper存放集群元数据、成员管理、Controller选举，以及其他一些管理类任务。之后，等KIP-500提案完成后，Kafka将完全不再依赖于ZooKeeper。
-
-**1、** “存放元数据”是指主题分区的所有数据都保存在 ZooKeeper 中，且以它保存的数据为权威，其他 “人” 都要与它保持对齐。
-
-**2、** “成员管理” 是指 Broker 节点的注册、注销以及属性变更，等等。
-
-**3、** “Controller 选举” 是指选举集群 Controller，而其他管理类任务包括但不限于主题删除、参数配置等。
-
-KIP-500 思想，是使用社区自研的基于Raft的共识算法，替代ZooKeeper，实现Controller自选举。
+offset+1
 
 
+### 4、Kafka的优点有那些？
 
-### 7、能简单说一下rebalance过程吗？
-
-主要的流程如下：
-
-发送GCR请求寻找Coordinator：这个过程主要会向集群中负载最小的broker发起请求，等待成功返回后，那么该Broker将作为Coordinator，尝试连接该Coordinator
-
-发送JGR请求加入该组：当成功找到Coordinator后，那么就要发起加入group的请求，表示该consumer是该组的成员，Coordinator会接收到该请求，会给集群分配一个Leader（通常是第一个），让其负责partition的分配
-
-发送SGR请求：JGR请求成功后，如果发现当前Consumer是leader，那么会进行partition的分配，并发起SGR请求将分配结果发送给Coordinator;如果不是leader，那么也会发起SGR请求，不过分配结果为空
+1. 高吞吐量：我们在Kafka中不需要任何大型硬件，因为它能够处理高速和大容量数据。此外，它还可以支持每秒数千条消息的消息吞吐量。
+2. 低延迟：Kafka可以轻松处理这些消息，具有毫秒级的极低延迟，这是大多数新用例所要求的。
+3. 容错：Kafka能够抵抗集群中的节点/机器故障。
+4. 耐久性：由于Kafka支持消息复制，因此消息永远不会丢失。这是耐久性背后的原因之一。
+5. 可扩展性：Kafka可以扩展，而不需要通过添加额外的节点而在运行中造成任何停机。
 
 
-### 8、：41, 42, 43, 44, 45, 47, 49Apache Kafka对于有经验的人的面试
-### 9、partition 的数据如何保存到硬盘
+### 5、Java在Apache Kafka中的重要性是什么？
 
-topic 中的多个 partition 以文件夹的形式保存到 broker，每个分区序号从 0 递增，
-
-且消息有序
-
-Partition 文件下有多个 segment（xxx.index，xxx.log）
-
-segment 文件里的 大小和配置文件大小一致可以根据要求修改 默认为 1g
-
-如果大小大于 1g 时，会滚动一个新的 segment 并且以上一个 segment 最后一条消息的偏移
-
-量命名
+为了满足Kafka标准的高处理速率需求，我们可以使用java语言。此外，对于Kafka的消费者客户，Java也提供了良好的社区支持。所以，我们可以说在Java中实现Kafka是一个正确的选择。
 
 
-### 10、消费者如何不自动提交偏移量，由应用提交？
+### 6、消费者API的作用是什么？
 
-将auto.commit.offset设为false，然后在处理一批消息后commitSync() 或者异步提交commitAsync()
-
-即：
-
-```
-ConsumerRecords<> records = consumer.poll();
-for (ConsumerRecord<> record : records){
-。。。
-tyr{
-consumer.commitSync()
-}
-。。。
-}
-```
+允许应用程序订阅一个或多个主题并处理生成给它们的记录流的API，我们称之为消费者API。
 
 
-### 11、简述Follower副本消息同步的完整流程
-### 12、Kafka中有哪几个组件?
-### 13、你能用Kafka做什么？
-### 14、为什么要使用 Kafka？为什么要使用消息队列？
-### 15、Kafka的高可用机制是什么？
-### 16、如何控制消费的位置
-### 17、解释偏移的作用。
-### 18、Controller发生网络分区（Network Partitioning）时，Kafka会怎么样？
-### 19、Kafka 的设计时什么样的呢？
-### 20、LEO、LSO、AR、ISR、HW都表示什么含义？
-### 21、为什么要使用Apache Kafka集群？
-### 22、：21, 23, 25, 26, 27, 28, 29, 30Apache Kafka对于有经验的人的面试
-### 23、解释下Kafka中位移（offset）的作用
-### 24、Kafka的优点有那些？
-### 25、解释Apache Kafka用例？
-### 26、系统工具有哪些类型？
-### 27、Kafka可以接收的消息最大为多少？
+### 7、如何获取topic主题的列表
+
+bin/Kafka-topics.sh --list --zookeeper localhost:2181
+
+
+### 8、在Kafka中，ZooKeeper的作用是什么？
+### 9、在Kafka集群中保留期的目的是什么？
+### 10、比较RabbitMQ与Apache Kafka
+### 11、Kafka 中是怎么体现消息顺序性的？
+### 12、什么是消费者或用户？
+### 13、Apache Kafka是分布式流处理平台吗？如果是，你能用它做什么？
+### 14、Kafka中有哪几个组件?
+### 15、讲讲Kafka维护消费状态跟踪的方法
+### 16、分区Leader选举策略有几种？
+### 17、没有ZooKeeper可以使用Kafka吗？
+### 18、副本长时间不在ISR中，这意味着什么？
+### 19、Kafka一次reblance大概要多久
+### 20、如何设置Kafka能接收的最大消息的大小？
+### 21、Kafka中有哪几个组件?
+### 22、比较传统队列系统与Apache Kafka
+### 23、解释Apache Kafka用例？
+### 24、consumer是推还是拉？
+### 25、Kafka中的 ISR、AR 又代表什么？ISR 的伸缩又指什么？
+### 26、生产者中，什么情况下会发生 QueueFullException？
+### 27、LEO、LSO、AR、ISR、HW都表示什么含义？
 
 
 

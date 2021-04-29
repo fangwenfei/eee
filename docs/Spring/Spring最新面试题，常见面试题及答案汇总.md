@@ -6,134 +6,93 @@
 
 
 
-### 1、什么是 JavaConfig？
+### 1、使用 SpringBoot 启动连接到内存数据库 H2 的 JPA 应用程序需要哪些依赖项？
 
-Spring JavaConfig 是 Spring 社区的产品，Spring 3、0引入了他，它提供了配置 Spring IOC 容器的纯Java 方法。因此它有助于避免使用 XML 配置。使用 JavaConfig 的优点在于：
+在 SpringBoot 项目中，当你确保下面的依赖项都在类路里面的时候，你可以加载 H2 控制台。
 
-面向对象的配置。由于配置被定义为 JavaConfig 中的类，因此用户可以充分利用 Java 中的面向对象功能。一个配置类可以继承另一个，重写它的[@Bean ](/Bean ) 方法等。
+web 启动器
 
-减少或消除 XML 配置。基于依赖注入原则的外化配置的好处已被证明。但是，许多开发人员不希望在 XML 和 Java 之间来回切换。JavaConfig 为开发人员提供了一种纯 Java 方法来配置与 XML 配置概念相似的 Spring 容器。从技术角度来讲，只使用 JavaConfig 配置类来配置容器是可行的，但实际上很多人认为将JavaConfig 与 XML 混合匹配是理想的。
+h2
 
-类型安全和重构友好。JavaConfig 提供了一种类型安全的方法来配置 Spring容器。由于 Java 5、0 对泛型的支持，现在可以按类型而不是按名称检索 bean，不需要任何强制转换或基于字符串的查找。
+jpa 数据启动器
 
-**常用的Java config：**
+**其它的依赖项在下面：**
 
-@Configuration：在类上打上写下此注解，表示这个类是配置类
+需要注意的一些地方：
 
-@ComponentScan：在配置类上添加 [@ComponentScan ](/ComponentScan ) 注解。该注解默认会扫描该类所在的包下所有的配置类，相当于之前的 <context:component-scan >。
+一个内部数据内存只在应用程序执行期间存在。这是学习框架的有效方式。
 
-@Bean：bean的注入：相当于以前的< bean id="objectMapper" class="org、codehaus、jackson、map、ObjectMapper" />
+这不是你希望的真是世界应用程序的方式。
 
-@EnableWebMvc：相当于xml的<mvc:annotation-driven >
-
-@ImportResource： 相当于xml的 < import resource="applicationContext-cache、xml">
+在问题“如何连接一个外部数据库？”中，我们解释了如何连接一个你所选择的数据库。
 
 
-### 2、Spring Framework 有哪些不同的功能？
-
-**1、** 轻量级 - Spring 在代码量和透明度方面都很轻便。
-
-**2、** IOC - 控制反转
-
-**3、** AOP - 面向切面编程可以将应用业务逻辑和系统服务分离，以实现高内聚。
-
-**4、** 容器 - Spring 负责创建和管理对象（Bean）的生命周期和配置。
-
-**5、** MVC - 对 web 应用提供了高度可配置性，其他框架的集成也十分方便。
-
-**6、** 事务管理 - 提供了用于事务管理的通用抽象层。Spring 的事务支持也可用于容器较少的环境。
-
-**7、** JDBC 异常 - Spring 的 JDBC 抽象层提供了一个异常层次结构，简化了错误处理策略。
-
-
-### 3、双因素身份验证的凭据类型有哪些？
-
-这三种凭证是：
-
-![](https://gitee.com/souyunkutech/souyunku-home/raw/master/images/souyunku-web/2019/08/0816/01/img_15.png#alt=img%5C_15.png)
-
-图12： 双因素认证的证书类型 – 微服务面试问题
-
-
-### 4、Spring MVC用什么对象从后台向前台传递数据的？
+### 2、怎样在方法里面得到Request,或者Session？
 
 
 
-通过ModelMap对象,可以在这个对象里面调用put方法,把对象加到里面,前台就可以通过el表达式拿到。
+直接在方法的形参中声明request,Spring MVC就自动把request对象传入。
 
 
-### 5、什么是 Spring Batch?
+### 3、运行 SpringBoot 有哪几种方式？
 
-`SpringBoot Batch`提供可重用的函数，这些函数在处理大量记录时非常重要；包括日志/跟踪，事务管理，作业处理统计信息，作业重新启动，跳过和资源管理。它还提供了更先进的技术服务和功能，通过优化和分区技术，可以实现极高批量和高性能批处理作业。简单以及复杂的大批量批处理作业可以高度可扩展的方式利用框架处理重要大量的信息。
+打包用命令或者放到容器中运行
 
+用 Maven/ Gradle 插件运行
 
-
-### 6、列举 IoC 的一些好处。
-
-**IoC 的一些好处是：**
-
-**1、** 它将最小化应用程序中的代码量。
-
-**2、** 它将使您的应用程序易于测试，因为它不需要单元测试用例中的任何单例或 JNDI 查找机制。
-
-**3、** 它以最小的影响和最少的侵入机制促进松耦合。
-
-**4、** 它支持即时的实例化和延迟加载服务。
+直接执行 main 方法运行
 
 
-### 7、列举 Spring Framework 的优点。
+### 4、什么是客户证书？
 
-由于 Spring Frameworks 的分层架构，用户可以自由选择自己需要的组件。Spring Framework 支持 POJO(Plain Old Java Object) 编程，从而具备持续集成和可测试性。由于依赖注入和控制反转，JDBC 得以简化。它是开源免费的。
-
-
-### 8、什么是SpringBoot？
-
-Spring boot是微服务面试问题的主要话题。 随着新功能的加入，Spring变得越来越复杂。无论何时启动新项目，都必须添加新的构建路径或Maven依赖项。简而言之，你需要从头开始做每件事。SpringBoot是一种帮助您避免所有代码配置的解决方案。
+客户端系统用于向远程服务器发出经过身份验证的请求的一种数字证书称为客户端证书。客户端证书在许多相互认证设计中起着非常重要的作用，为请求者的身份提供了强有力的保证。
 
 
-### 9、什么是 AOP 通知
+### 5、Spring Cloud 和dubbo区别?
 
-通知是个在方法执行前或执行后要做的动作，实际上是程序执行时要通过SpringAOP框架触发的代码段。
+**1、** 服务调用方式：dubbo是RPC springcloud Rest Api
 
-Spring切面可以应用五种类型的通知：
+**2、** 注册中心：dubbo 是zookeeper springcloud是eureka，也可以是zookeeper
 
-**1、** before：前置通知，在一个方法执行前被调用。
-
-**2、** after: 在方法执行之后调用的通知，无论方法执行是否成功。
-
-**3、** after-returning: 仅当方法成功完成后执行的通知。
-
-**4、** after-throwing: 在方法抛出异常退出时执行的通知。
-
-**5、** around: 在方法执行之前和之后调用的通知。
+**3、** 服务网关，dubbo本身没有实现，只能通过其他第三方技术整合，springcloud有Zuul路由网关，作为路由服务器，进行消费者的请求分发,springcloud支持断路器，与git完美集成配置文件支持版本控制，事物总线实现配置文件的更新与服务自动装配等等一系列的微服务架构要素。
 
 
-### 10、第⼀层缓存：
+### 6、eureka的缺点：
 
-readOnlyCacheMap，本质上是ConcurrentHashMap：这是⼀个JVM的CurrentHashMap只读缓存，这个主要是为了供客户端获取注册信息时使⽤，其缓存更新，依赖于定时器的更新，通过和readWriteCacheMap 的值做对⽐，如果数据不⼀致，则以readWriteCacheMap 的数据为准。readOnlyCacheMap 缓存更新的定时器时间间隔，默认为30秒
+某个服务不可⽤时，各个Eureka Client不能及时的知道，需要1~3个⼼跳周期才能感知，但是，由于基于Netflix的服务调⽤端都会使⽤Hystrix来容错和降级，当服务调⽤不可⽤时Hystrix也能及时感知到，通过熔断机制来降级服务调⽤，因此弥补了基于客户端服务发现的时效性的缺点。
 
-#
-### 11、如何集成SpringBoot和ActiveMQ？
-### 12、SpringBoot 的自动配置是如何实现的？
-### 13、SpringBoot 打成的 jar 和普通的 jar 有什么区别 ?
-### 14、SpringBoot 的配置文件有哪几种格式？它们有什么区别？
-### 15、你能否举一个以 ReadOnly 为事务管理的例子？
-### 16、什么是Spring的MVC框架？
-### 17、运行 SpringBoot 有哪几种方式？
-### 18、如何使用SpringBoot实现分页和排序？
-### 19、什么是 JavaConfig？
-### 20、SpringBoot 的配置文件有哪几种格式？它们有什么区别？
-### 21、解释AOP
-### 22、[@RequestMapping ](/RequestMapping ) 注解
-### 23、微服务架构的优缺点是什么？
-### 24、服务注册和发现是什么意思？Spring Cloud如何实现？
-### 25、什么是织入。什么是织入应用的不同点？
-### 26、SpringBoot 自动配置原理是什么？
-### 27、spring cloud 和dubbo区别?
-### 28、保护 SpringBoot 应用有哪些方法？
-### 29、如何给Spring 容器提供配置元数据?
-### 30、您对Mike Cohn的测试金字塔了解多少？
-### 31、DiscoveryClient的作用
+
+### 7、[@RequestMapping ](/RequestMapping ) 注解有什么用？
+
+[@RequestMapping ](/RequestMapping ) 注解用于将特定 HTTP 请求方法映射到将处理相应请求的控制器中的特定类/方法。此注释可应用于两个级别：
+
+类级别：映射请求的 URL方法级别：映射 URL 以及 HTTP 请求方法
+
+
+### 8、spring 中有多少种 IOC 容器？
+### 9、spring bean 容器的生命周期是什么样的？
+### 10、如何集成SpringBoot和ActiveMQ？
+### 11、使用Spring框架的好处是什么？
+### 12、什么是Spring Cloud？
+### 13、SpringBoot和springcloud认识
+### 14、Spring MVC 框架有什么用？
+### 15、Eureka怎么实现高可用
+### 16、微服务设计的基础是什么？
+### 17、微服务有什么特点？
+### 18、Ribbon和Feign调用服务的区别
+### 19、SpringBoot有哪些优点？
+### 20、Spring MVC里面拦截器是怎么写的
+### 21、spring 提供了哪些配置方式？
+### 22、[@Autowired ](/Autowired ) 注解
+### 23、什么是SpringBoot？
+### 24、SpringBoot 实现热部署有哪几种方式？
+### 25、微服务的优点
+### 26、SpringBoot 配置文件的加载顺序
+### 27、列举 IoC 的一些好处
+### 28、什么是 Swagger？你用 SpringBoot 实现了它吗？
+### 29、Spring Cloud Security
+### 30、如何设计一套API接口
+### 31、spring boot初始化环境变量流程?
 
 
 

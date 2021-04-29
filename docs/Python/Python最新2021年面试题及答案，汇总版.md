@@ -6,149 +6,141 @@
 
 
 
-### 1、MySQL执行计划的作用和使用方法
-
-**1、** 作用：用来进行查询分析，比如整个查询涉及多少防，使用哪些索引，运行时间等
-
-**2、** 使用方法：使用explain关键字，如explain select xxx from xxx;
-
-
-### 2、使用with语句的好处是什么
-
-**1、** 使用with后不管with中的代码出现什么错误，都会进行对当前对象进行清理工作。例如file的file.close()方法，无论with中出现任何错误，都会执行file.close（）方法
-
-**2、** 只有支持上下文管理器的对象才能使用with，即在对象内实现了两个方法：**enter**()和**exit**()
-
-
-### 3、当退出Python时，是否释放全部内存？
+### 1、当退出Python时，是否释放全部内存？
 
 答案是No。循环引用其它对象或引用自全局命名空间的对象的模块，在Python退出时并非完全释放。
 
 另外，也不会释放C库保留的内存部分。
 
 
-### 4、怎样声明多个变量并赋值？
+### 2、Python区分大小写吗？
 
-一共有两种方式：
+如果能区分像myname和Myname这样的标识符，那么它就是区分大小写的。也就是说它很在乎大写和小写。我们可以用Python试一试：
 
 ```
->>> a,b,c=3,4,5 #This assigns 3, 4, and 5 to a, b, and c respectively
->>> a=b=c=3 #This assigns 3 to a, b, and c
+>>> myname='Ayushi'
+>>> Myname
+Traceback (most recent call last):
+File "<pyshell#3>", line 1, in <module>
 ```
 
+运行结果：
 
-### 5、写出如下代码的输出结果
+```
+Myname
 
-```python
-def decorator_a(func):
-print('Get in decorator_a')
-def inner_a(*args, **kwargs):
-print('Get in inner_a')
-return func(*args, **kwargs)
-return inner_a
-
-def decorator_b(func):
-print('Get in decorator_b')
-def inner_b(*args, **kwargs):
-print('Get in inner_b')
-return func(*args, **kwargs)
-return inner_b
-
-@decorator_b #f=decorator_b(f)
-@decorator_a #f=decorator_a(f)
-def f(x):
-print('Get in f')
-return x 2
-f(1)
+NameError: name ‘Myname’ is not defined
 ```
 
-答案
-
-> Get in decorator_a
-
-Get in decorator_b
-
-Get in inner_b
-
-Get in inner_a
-
-Get in f
+可以看到，这里出现了NameError，所以Python是区分大小写的。
 
 
-解释
+### 3、解释什么是异步非阻塞
 
-> 当我们对f传入参数1进行调用时，inner_b被调用了，他会先打印Get in inner_b,然后在inner_b内部调用了inner_a,所以会再打印Get in inner_a,然后再inner_a内部调用原来的f,并且将结果作为最终的返回总结：装饰器函数在被装饰函数定义好后立即执行从下往上执行函数调用时从上到下执行
+**1、** 同步和异步：
 
+**2、** 同步：就是在发出一个功能调用时，在没有得到结果之前，该调用就不返回。
 
+**3、** 异步：当一个异步过程调用发出后，调用者不会立刻得到结果。实际处理这个调用的部件是在调用发出后，通过状态、通知来通知调用者，或通过回调函数处理这个调用。
 
-### 6、threading.local的作用
+**4、** 阻塞和非阻塞
 
-为每个线程创建一个独立的空间，使得线程对自己的空间中的数据进行操作(数据隔离)。
+**5、** 阻塞：阻塞调用是指调用结果返回之前，当前线程会被挂起。函数只有在得到结果之后才会返回。
 
+**6、** 非阻塞：指在不能立刻得到结果之前，该函数不会阻塞当前线程，而会立刻返回。
 
-### 7、二叉树是非线性结构，栈和队列以及线性表都是线性结构，对吗？
+**7、** 阻塞，非阻塞：进程/线程要访问的数据是否就绪，进程/线程是否需要等待；
 
-对的
-
-
-### 8、MySQL的建表语句
-
-```mysql
-#创建表，例子
-#所谓的建表就是声明列的过程,所以要首先分析列
-create table member(
-                       id int unsigned auto_increment primary key,
-                       username varchar(20) not null default '',
-                       gender char(1) not null default '',
-                       weight tinyint unsigned not null default 0,
-                       birth date not null default '0000-00-00',
-                       salary decimal(8,2) not null default 0.00,
-                       lastlogin int unsigned not null default 0
-)engine myisam charset utf8;
-```
+**8、** 同步，异步：访问数据的方式，同步需要主动读写数据，在读写数据的过程中还是会阻塞；异步只需要I/O操作完成的通知，并不主动读写数据，由操作系统内核完成数据的读写。
 
 
-### 9、一行代码实现删除列表中的所有的重复的值
+### 4、python解释器种类以及特点
 
-```python
-lis=[1,1,2,1,22,5]
-lis=list(set(lis))
-```
+**1、** CPython
+
+**2、** c语言开发的 使用最广的解释器
+
+**3、** IPython
+
+**4、** 基于cpython之上的一个交互式计时器 交互方式增强 功能和cpython一样
+
+**5、** PyPy
+
+**6、** 目标是执行效率 采用JIT技术 对python代码进行动态编译，提高执行效率
+
+**7、** JPython
+
+**8、** 运行在Java上的解释器 直接把python代码编译成Java字节码执行
+
+**9、** IronPython
+
+**10、** 运行在微软 .NET 平台上的解释器，把python编译成、NET 的字节码
 
 
-### 10、列举创建索引但是无法命中索引的情况
+### 5、如何在Python中管理内存？
 
-**1、** 如果条件中有or，即使其中有条件带索引也不会使用(这也是为什么尽量少用or的原因）
+Python内存由Python的私有headspace管理。
 
-**2、** 对于多列索引，不是使用的第一部分(第一个)，则不会使用索引
+所有的Python对象和数据结构都位于一个私有堆中。私用堆的分配由Python内存管理器负责。
 
-**3、** like查询是以%开头
-
-**4、** 如果列类型是字符串，那一定要在条件中将数据使用引号引用起来,否则不使用索引
-
-**5、** 如果MySQL估计使用全表扫描要比使用索引快,则不使用索引
+Python还内置了一个的垃圾收集器，可以回收未使用的内存并释放内存，使其可用于headspace。
 
 
-### 11、使用async语法实现一个协程
-### 12、python是如何进行内存管理的？python的程序会内存泄漏吗？说说有没有什么方面阻止或者检测内存泄漏？
-### 13、解释一下Python中的身份运算符
-### 14、简述jsonp及其原理
-### 15、守护线程，守护进程是什么
-### 16、发生粘包现象如何处理？
-### 17、使用两个队列实现一个栈
-### 18、如何保证Redis中的数据都是热点数据
-### 19、python的垃圾回收机制
-### 20、Python中append，insert和extend的区别?
-### 21、怎么移除一个字符串中的前导空格？
-### 22、select、poll、epoll模型的区别
-### 23、什么是断言(assert)?应用场景？
-### 24、什么是cdn
-### 25、文件操作时，xreadlines和readlines的区别
-### 26、什么是socket？简述基于tcp协议的socket通信流程？
-### 27、==和is的区别是？
-### 28、实例方法、静态方法和类方法的区别
-### 29、Python支持多重继承吗？
-### 30、列表中保留顺序和不保留顺序去重
+### 6、守护线程，守护进程是什么
+
+主进程创建守护进程
+
+**1、** 守护进程会在主进程代码运行结束的情况下，立即挂掉。
+
+**2、** 守护进程本身就是一个子进程。
+
+**3、** 主进程在其代码结束后就已经算运行完毕了（守护进程在此时就被回收）,然后主进程会一直等非守护的子进程都运行完毕后回收子进程的资源(否则会产生僵尸进程)，才会结束，
+
+守护线程
+
+**1、** 守护线程会在"该进程内所有非守护线程全部都运行完毕后,守护线程才会挂掉"。并不是主线程运行完毕后守护线程挂掉。这一点是和守护进程的区别之处！
+
+**2、** 守护线程守护的是：当前进程内所有的子线程！
+
+**3、** 主线程在其他非守护线程运行完毕后才算运行完毕（守护线程在此时就被回收）。因为主线程的结束意味着进程的结束，进程整体的资源都将被回收，而进程必须保证非守护线程都运行完毕后才能结束。
+
+
+### 7、什么是arp协议
+
+**1、** ARP全称“Address Resolution Protocol”，地址解析协议。
+
+**2、** 实现局域网内通过IP地址获取主机的MAC地址。
+
+**3、** MAC地址48位主机的物理地址，局域网内唯一。
+
+**4、** ARP协议类似DNS服务，但不需要配置服务。
+
+**5、** ARP协议是三层协议。
+
+
+### 8、简述事务及其特性
+### 9、Python中OOPS是什么？
+### 10、python和java、php、c、c#、c++ 等其他语言对比？
+### 11、为什么数据很大的时候使用limit offset分页时，越往后翻速度越慢，如何优化？
+### 12、python中进制转换
+### 13、请解释使用*args和**kwargs的含义
+### 14、编写程序，打印斐波那契数列的前十项
+### 15、从0-99这100个数中随机取出10个，要求不能重复
+### 16、什么是断言(assert)?应用场景？
+### 17、简述python的深浅拷贝
+### 18、举例说明Python中的range函数?
+### 19、将列表按照下列规则排序：
+### 20、什么是局域网和广域网
+### 21、简述OSI七层协议
+### 22、输入某年某月某日，判断这是这一年的第几天？
+### 23、请列举布尔值位False的常见值
+### 24、==和is的区别是？
+### 25、为什么Python执行速度慢，我们如何改进它？
+### 26、列举面向对象中带双下划线的特殊方法
+### 27、如何以就地操作方式打乱一个列表的元素？
+### 28、阅读以下代码，写输出结果
+### 29、MySQL的增删改查
+### 30、python代码如何获取命令行参数
 
 
 

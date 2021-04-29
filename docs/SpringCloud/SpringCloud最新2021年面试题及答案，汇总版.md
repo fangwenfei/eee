@@ -6,102 +6,74 @@
 
 
 
-### 1、Actuator在SpringBoot中的作用
+### 1、Spring Cloud Bus
+
+用于传播集群状态变化的消息总线，使用轻量级消息代理链接分布式系统中的节点，可以用来动态刷新集群中的服务配置信息。
+
+简单来说就是修改了配置文件，发送一次请求，所有客户端便会重新读取配置文件。
+
+需要利用中间插件MQ
+
+
+### 2、什么是Hystrix断路器？我们需要它吗？
+
+由于某些原因，employee-consumer公开服务会引发异常。在这种情况下使用Hystrix我们定义了一个回退方法。如果在公开服务中发生异常，则回退方法返回一些默认值。
+
+![](https://gitee.com/souyunkutech/souyunku-home/raw/master/images/souyunku-web/2019/08/0814/02/img_4.png#alt=img%5C_4.png)
+
+如果firstPage method() 中的异常继续发生，则Hystrix电路将中断，并且员工使用者将一起跳过firtsPage方法，并直接调用回退方法。 断路器的目的是给第一页方法或第一页方法可能调用的其他方法留出时间，并导致异常恢复。可能发生的情况是，在负载较小的情况下，导致异常的问题有更好的恢复机会 。
+
+![](https://gitee.com/souyunkutech/souyunku-home/raw/master/images/souyunku-web/2019/08/0814/02/img_5.png#alt=img%5C_5.png)
+
+
+### 3、Actuator在SpringBoot中的作用
 
 它是最重要的功能之一，可帮助您访问在生产环境中运行的应用程序的当前状态。有多个指标可用于检查当前状态。它们还为RESTful Web服务提供端点，可以简单地用于检查不同的度量标准。
 
 
-### 2、过渡到微服务时的常见错误
+### 4、什么是Spring Cloud？
 
-不仅在开发上，而且在方面流程也经常发生错误。一些常见错误是：
-
-**1、** 通常开发人员无法概述当前的挑战。
-
-**2、** 重写已经存在的程序。
-
-**3、** 职责、时间线和界限没有明确定义。
-
-**4、** 未能从一开始就实施和确定自动化的范围。
+spring cloud 是一系列框架的有序集合。它利用 spring boot 的开发便利性巧妙地简化了分布式系统基础设施的开发，如服务发现注册、配置中心、消息总线、负载均衡、断路器、数据监控等，都可以用 spring boot 的开发风格做到一键启动和部署。
 
 
-### 3、如何配置SpringBoot应用程序日志记录？
+### 5、什么是Spring Cloud？
 
-SpringBoot附带了对Log4J2，Java Util Logging和Logback的支持。它通常预先配置为控制台输出。可以通过仅在application.properties文件中指定logging.level来配置它们。
-
-```
-logging.level.spring.framework=Debug
-```
+根据Spring Cloud的官方网站，Spring Cloud为开发人员提供了快速构建分布式系统中一些常见模式的工具（例如配置管理，服务发现，断路器，智能路由，领导选举，分布式会话，集群状态）。
 
 
-### 4、eureka的缺点：
+### 6、在微服务中，如何保护服务?
 
-某个服务不可⽤时，各个Eureka Client不能及时的知道，需要1~3个⼼跳周期才能感知，但是，由于基于Netflix的服务调⽤端都会使⽤Hystrix来容错和降级，当服务调⽤不可⽤时Hystrix也能及时感知到，通过熔断机制来降级服务调⽤，因此弥补了基于客户端服务发现的时效性的缺点。
-
-
-### 5、Ribbon是什么？
-
-**1、** Ribbon是Netflix发布的开源项目，主要功能是提供客户端的软件负载均衡算法
-
-**2、** Ribbon客户端组件提供一系列完善的配置项，如连接超时，重试等。简单的说，就是在配置文件中列出后面所有的机器，Ribbon会自动的帮助你基于某种规则（如简单轮询，随即连接等）去连接这些机器。我们也很容易使用Ribbon实现自定义的负载均衡算法。（有点类似Nginx）
+一般使用使用Hystrix框架，实现服务隔离来避免出现服务的雪崩效应，从而达到保护服务的效果。当微服务中，高并发的数据库访问量导致服务线程阻塞，使单个服务宕机，服务的不可用会蔓延到其他服务，引起整体服务灾难性后果，使用服务降级能有效为不同的服务分配资源,一旦服务不可用则返回友好提示，不占用其他服务资源，从而避免单个服务崩溃引发整体服务的不可用.
 
 
-### 6、springcloud核⼼组件及其作⽤，以及springcloud⼯作原理：
+### 7、Spring Cloud Config
 
-![](https://gitee.com/souyunkutech/souyunku-home/raw/master/images/souyunku-web/2020/5/2/01/44/45_9.png#alt=45%5C_9.png)
-
-**springcloud由以下⼏个核⼼组件构成：**
-
-**1、** Eureka：各个服务启动时，Eureka Client都会将服务注册到Eureka Server，并且Eureka Client还可以反过来从Eureka Server拉取注册表，从⽽知道其他服务在哪⾥
-
-**2、** Ribbon：服务间发起请求的时候，基于Ribbon做负载均衡，从⼀个服务的多台机器中选择⼀台
-
-**3、** Feign：基于Feign的动态代理机制，根据注解和选择的机器，拼接请求URL地址，发起请求
-
-**4、** Hystrix：发起请求是通过Hystrix的线程池来⾛的，不同的服务⾛不同的线程池，实现了不同服务调⽤的隔离，避免了服务雪崩的问题
-
-**5、** Zuul：如果前端、移动端要调⽤后端系统，统⼀从Zuul⽹关进⼊，由Zuul⽹关转发请求给对应的服务
+集中配置管理工具，分布式系统中统一的外部配置管理，默认使用Git来存储配置，可以支持客户端配置的刷新及加密、解密操作。
 
 
-### 7、您对Distributed Transaction有何了解？
-
-分布式事务是指单个事件导致两个或多个不能以原子方式提交的单独数据源的突变的任何情况。在微服务的世界中，它变得更加复杂，因为每个服务都是一个工作单元，并且大多数时候多个服务必须协同工作才能使业务成功。
-
-
-### 8、SpringCloud Config 可以实现实时刷新吗？
-
-springcloud config实时刷新采用SpringCloud Bus消息总线。
-
-
-### 9、什么是Eureka的自我保护模式，
-
-默认情况下，如果Eureka Service在一定时间内没有接收到某个微服务的心跳，Eureka Service会进入自我保护模式，在该模式下Eureka Service会保护服务注册表中的信息，不在删除注册表中的数据，当网络故障恢复后，Eureka Servic 节点会自动退出自我保护模式
-
-
-### 10、Web，RESTful API在微服务中的作用是什么？
-
-微服务架构基于一个概念，其中所有服务应该能够彼此交互以构建业务功能。因此，要实现这一点，每个微服务必须具有接口。这使得Web API成为微服务的一个非常重要的推动者。RESTful API基于Web的开放网络原则，为构建微服务架构的各个组件之间的接口提供了最合理的模型。
-
-
-### 11、Spring Cloud Gateway
-### 12、服务降级底层是如何实现的？
-### 13、使用Spring Cloud有什么优势？
-### 14、什么是Idempotence以及它在哪里使用？
-### 15、什么是客户证书？
-### 16、网关与过滤器有什么区别
-### 17、如何覆盖SpringBoot项目的默认属性？
-### 18、您将如何在微服务上执行安全测试？
-### 19、什么是Spring Cloud Config?
-### 20、SOA和微服务架构之间的主要区别是什么？
-### 21、Ribbon和Feign的区别？
-### 22、什么是幂等性?它是如何使用的？
-### 23、Spring Cloud OpenFeign
-### 24、服务注册和发现是什么意思？Spring Cloud 如何实现？
-### 25、访问RESTful微服务的方法是什么？
-### 26、什么是Semantic监控？
-### 27、什么是不同类型的微服务测试？
-### 28、微服务设计的基础是什么？
-### 29、ZuulFilter常用有那些方法
-### 30、微服务之间是如何独立通讯的
+### 8、Spring Cloud和各子项目版本对应关系
+### 9、eureka的缺点：
+### 10、Container在微服务中的用途是什么？
+### 11、在使用微服务架构时，您面临哪些挑战？
+### 12、什么是Oauth？
+### 13、什么是Spring Cloud Bus？我们需要它吗？
+### 14、Spring Cloud Zookeeper
+### 15、什么是Semantic监控？
+### 16、什么是耦合？
+### 17、什么是Spring Cloud Zuul（服务网关）
+### 18、分布式配置中心有那些框架？
+### 19、Spring Cloud和SpringBoot版本对应关系
+### 20、什么是SpringBoot？
+### 21、什么是Netflix Feign？它的优点是什么？
+### 22、为什么需要学习Spring Cloud
+### 23、Spring Cloud Stream
+### 24、SpringCloud Config 可以实现实时刷新吗？
+### 25、你对SpringBoot有什么了解？
+### 26、如何实现动态Zuul网关路由转发
+### 27、什么是消费者驱动的合同（CDC）？
+### 28、多个消费者调⽤同⼀接⼝，eruka默认的分配⽅式是什么？
+### 29、什么是持续集成（CI）？
+### 30、为什么在微服务中需要Reports报告和Dashboards仪表板？
 
 
 

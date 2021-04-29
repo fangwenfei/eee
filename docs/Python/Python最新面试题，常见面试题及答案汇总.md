@@ -6,159 +6,111 @@
 
 
 
-### 1、python中如何使用进程池和线程池
+### 1、什么是c3算法？
 
-```python
-from concurrent.futures import ThreadPoolExecutor,ProcessPoolExecutor
-import os,time,random
-from multiprocessing import Pool
+c3算法是python新式类中用来产生mro顺序的一套算法。即多继承的查找规则。
 
-def task(n):
-print('%s is runing' %os.getpid())
-time.sleep(random.randint(1,3))
-return n**2
 
-if __name__ == '__main__':
-# 多进程方式一
-pool2=Pool()
-pool2.map(task,range(10))
+### 2、!=和is not运算符的区别？
 
-# 多进程方式二，下面这种多进程和多线程的用法一模一样
-executor=ThreadPoolExecutor(max_workers=3)
-futures=[]
-for i in range(11):
-future=executor.submit(task,i)
-futures.append(future)
-executor.shutdown(True)
-print('+++>')
-for future in futures:
-print(future.result())
+!=如果两个变量或对象的值不相等，则返回true。
+
+is not是用来检查两个对象是否属于同一内存对象。
+
+```
+lst1 = [1,2,3,4]
+lst2 = [1,2,3,4]
+
+lst1 != lst2
+>False
+
+lst1 is not lst2
+>True
 ```
 
 
-### 2、简述数据库的读写分离
+### 3、query作为sql模板，args为将要传入的参数
 
-读写分离就是在主服务器上修改，数据会同步到从服务器，从服务器只能提供读取数据，不能写入，实现备份的同时也实现了数据库性能的优化，以及提升了服务器安全。
-
-
-### 3、ascii、Unicode、utf-8、gbk的区别
-
-**1、** ascii 是最早美国用的标准信息交换码，把所有的字母的大小写，各种符号用 二进制来表示，共有256中，加入些拉丁文等字符，1bytes代表一个字符
-
-**2、** Unicode是为了统一世界各国语言的不用，统一用2个bytes代表一个字符，可以表达2^16=65556个，称为万国语言，特点：速度快，但浪费空间
-
-**3、** utf-8 为了改变Unicode的这种缺点，规定1个英文字符用1个字节表示，1个中文字符用3个字节表示，特点；节省空间，速度慢，用在硬盘数据传输，网络数据传输，相比硬盘和网络速度，体现不出来的
-
-**4、** gbk  是中文的字符编码，用2个字节代表一个字符
+execute(query, args=None)
 
 
-### 4、pass的使用
+### 4、isinstance和type的作用
+
+**1、** 两者都用来判断对象的类型
+
+**2、** 对于一个类的之类对象的类型判断，type就不行了，而isinstance可以。
+
+```pyyhon
+class A(object):
+pass
+class B(A):
+pass
+
+ba=B()
+ab=A()
+print(type(ba)==A) # False
+print(type(ab)==A) # True
+print(isinstance(ab,A)) # True
+print(isinstance(ba,A)) # True
+```
+
+
+### 5、简述Redis的有几种持久化策略以及比较？
+
+**1、** RDB 持久化可以在指定的时间间隔内生成数据集的时间点快照。
+
+**2、** AOF 持久化记录服务器执行的所有写操作命令，并在服务器启动时，通过重新执行这些命令来还原数据集。 AOF 文件中的命令全部以 Redis 协议的格式来保存，新命令会被追加到文件的末尾。 Redis 还可以在后台对 AOF 文件进行重写(rewrite)，使得 AOF 文件的体积不会超出保存数据集状态所需的实际大小。
+
+**区别：**
+
+**1、** RDB持久化是指在指定的时间间隔内将内存中的数据集快照写入磁盘，实际操作过程是fork一个子进程，先将数据集写入临时文件，写入成功后，再替换之前的文件，用二进制压缩存储。
+
+**2、** AOF持久化以日志的形式记录服务器所处理的每一个写、删除操作，查询操作不会记录，以文本的方式记录，可以打开文件看到详细的操作记录。
+
+
+### 6、列举Redis支持的过期策略
+
+**定时删除**
+
+在设置key的过期时间的同时，为该key创建一个定时器，让定时器在key的过期时间来临时，对key进行删除
+
+**惰性删除**
+
+key过期的时候不删除，每次从数据库获取key的时候去检查是否过期，若过期，则删除，返回null。
+
+**定期删除**
+
+每隔一段时间执行一次删除(在Redis.conf配置文件设置hz，1s刷新的频率)过期key操作
+
+
+### 7、pass的使用
 
 通常用来标记一个还未写的代码的位置，pass不做任何事情，一般用来做占位语句，保持程序结构的完整性
 
 
-### 5、把a='aaabbcccdddde'这种形式的字符串，压缩成a3b2c3d4e1这种形式。
-
-```python
-a='aaabbcccdddde'
-aa=''
-for i in sorted(list(set(a)),key=a.index):
-aa=aa+i+str(a.count(i))
-print(aa)
-```
-
-
-### 6、什么是asyncio
-
-asyncio是并发的一种方式，是一个协程相关的库。也叫异步IO
-
-
-### 7、解释Python中的Filter？
-
-过滤器函数，根据某些条件从可迭代对象中筛选值。
-
-```
-# iterable
-lst = [1,2,3,4,5,6,7,8,9,10]
-
-def even(num):
-    if num%2==0:
-        return num
-
-# filter all even numbers
-list(filter(even,lst))
----------------------------------------------
-[2, 4, 6, 8, 10]
-```
-
-
-### 8、什么是鸭子模型？
-
-鸭子类型（英语：duck typing）是动态类型的一种风格。在这种风格中，一个对象有效的语义，不是由继承自特定的类或实现特定的接口，而是由当前方法和属性的集合决定。
-
-
-### 9、解释Python的内置数据结构？
-
-Python中主要有四种类型的数据结构。
-
-列表：列表是从整数到字符串甚至另一个列表的异构数据项的集合。列表是可变的。列表完成了其他语言中大多数集合数据结构的工作。列表在[ ]方括号中定义。
-
-例如：a = [1,2,3,4]
-
-集合：集合是唯一元素的无序集合。集合运算如联合|，交集&和差异，可以应用于集合。集是不可变的。()用于表示一个集合。
-
-例如：a = {1,2,3,4}
-
-元组：Python元组的工作方式与Python列表完全相同，只是它们是不可变的。()用于定义元组。
-
-例如：a =（1,2,3,4）
-
-字典：字典是键值对的集合。它类似于其他语言中的hash map。在字典里，键是唯一且不可变的对象。
-
-例如：a = {'number'：[1,2,3,4]}
-
-
-### 10、编写一个函数实现十进制转62进制，分别用0-9A-Za-z,表示62位字母
-
-```python
-import string
-print(string.ascii_lowercase) # 小写字母
-print(string.ascii_uppercase) # 大写字母
-print(string.digits) # 0-9
-
-s=string.digits+string.ascii_uppercase+string.ascii_lowercase
-def _10_to_62(num):
-ss=''
-while True:
-ss=s[num%62]+ss
-if num//62==0:
-break
-num=num//62
-return ss
-print(_10_to_62(65))
-```
-
-
-### 11、请列出至少5个PEP8规范
-### 12、什么是负载均衡
-### 13、解释一下Python中的继承
-### 14、什么是域名解析
-### 15、什么是覆盖索引
-### 16、比较：a=[1,2,3]和b=[(1),(2),(3)]以及c=[(1,),(2,),(3,)]的区别
-### 17、char和varchar的区别
-### 18、Python是否有main函数？
-### 19、如何在Python中管理内存？
-### 20、编写一个函数，找出数组中没有重复的值的和
-### 21、请写一个Python逻辑，计算一个文件中的大写字母数量
-### 22、Redis默认多少个db
-### 23、!=和is not运算符的区别？
-### 24、re的match和search的区别
-### 25、python和java、php、c、c#、c++ 等其他语言对比？
-### 26、简述生成器，迭代器，装饰器以及应用场景
-### 27、在python中如何拷贝一个对象，并说明他们之间的区别
-### 28、求下面代码结果
-### 29、解释什么是异步非阻塞
-### 30、什么是正则的贪婪匹配？贪婪模式和非贪婪模式的区别？
+### 8、什么是Twemproxy
+### 9、什么是负索引？
+### 10、用一行代码实现数值交换
+### 11、如何更改列表的数据类型？
+### 12、编写一个函数实现十进制转62进制，分别用0-9A-Za-z,表示62位字母
+### 13、在Python中如何实现多线程？
+### 14、给定一个非空的字符串，判断它是否可以由它的一个子串重复多次构成。给定的字符串只含有小写英文字母，并且长度不超过10000。例如：'ababab',返回True，'ababa'，返回False
+### 15、Redis如何实现主从复制？以及数据同步机制？
+### 16、什么是并发和并行
+### 17、比较：a=[1,2,3]和b=[(1),(2),(3)]以及c=[(1,),(2,),(3,)]的区别
+### 18、写代码：如何由tuple1=('a','b','c','d','e')，和tuple2=(1,2,3,4,5)得到res={'a': 1, 'b': 2, 'c': 3, 'd': 4, 'e': 5}
+### 19、IO多路复用的作用？
+### 20、如果已经建立了TCP连接，但是客户端突然出现故障了怎么办
+### 21、描述以下字典的items()方法和iteritems()方法有啥不同？
+### 22、如何在函数中设置一个全局变量？
+### 23、请列举你所知道的python代码检测工具以及他们之间的区别
+### 24、Python中使用的zip函数是什么？
+### 25、什么是正则的贪婪匹配？贪婪模式和非贪婪模式的区别？
+### 26、python中enumerate的意思是什么？
+### 27、在Python中有多少种运算符？解释一下算数运算符。
+### 28、logging模块的作用以及应用场景
+### 29、介绍一下try except的用法和作用？
+### 30、Python的局限性？
 
 
 

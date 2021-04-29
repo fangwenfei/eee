@@ -6,120 +6,235 @@
 
 
 
-### 1、我们能创建一个包含可变对象的不可变对象吗？
+### 1、Spring中自动装配的方式有哪些？
 
-是的，我们是可以创建一个包含可变对象的不可变对象的，你只需要谨慎一点，不要共享可变对象的引用就可以了，如果需要变化时，就返回原对象的一个拷贝。最常见的例子就是对象中包含一个日期对象的引用。
+**1、** no：不进行自动装配，手动设置Bean的依赖关系。
 
+**2、** byName：根据Bean的名字进行自动装配。
 
-### 2、解释 Java 堆空间及 GC？
+**3、** byType：根据Bean的类型进行自动装配。
 
-当通过 Java 命令启动 Java 进程的时候，会为它分配内存。内存的一部分用于创建堆空间，当程序中创建对象的时候，就从对空间中分配内存。GC 是 JVM 内部的一个进程，回收无效对象的内存用于将来的分配。
+**4、** constructor：类似于byType，不过是应用于构造器的参数，如果正好有一个Bean与构造器的参数类型相同则可以自动装配，否则会导致错误。
 
-
-### 3、解释什么是Tomcat Valve?
-
-Tomcat Valve——Tomcat 4引入的新技术，它允许您将Java类的实例链接到一个特定的Catalina容器。
+**5、** autodetect：如果有默认的构造器，则通过constructor的方式进行自动装配，否则使用byType的方式进行自动装配。
 
 
-### 4、描述一下 JVM 加载 class 文件的原理机制
+### 2、HTTP的状态码
 
-**1、** JVM 中类的装载是由类加载器（ClassLoader）和它的子类来实现的，Java 中各类加载器是一个重要的 Java 运行时系统组件，它负责在运行时查找和装入类文件中的类。
+**1、** 200：请求成功
 
-**2、** 由于 Java 的跨平台性，经过编译的 Java 源程序并不是一个可执行程序，而是一个或多个类文件。当 Java 程序需要使用某个类时，JVM 会确保这个类已经被加载、连接（验证、准备和解析）和初始化。类的加载是指把类的.class 文件中的数据读入到内存中，通常是创建一个字节数组读入.class 文件，然后产生与所加载类对应的 Class 对象。
+**2、** 400：不是正确的请求，大多情况下表示参数错误
 
-**3、** 加载完成后，Class 对象还不完整，所以此时的类还不可用。当类被加载后就进入连接阶段，这一阶段包括验证、准备（为静态变量分配内存并设置默认的初始值）和解析（将符号引用替换为直接引用）三个步骤。最后 JVM 对类进行初始化，包括：1)如果类存在直接的父类并且这个类还没有被初始化，那么就先初始化父类；2)如果类中存在初始化语句，就依次执行这些初始化语句。
+**3、** 404：找不到请求资源
 
-**4、** 类的加载是由类加载器完成的，类加载器包括：根加载器（BootStrap）、扩展加载器（Extension）、系统加载器（System）和用户自定义类加载器（java.lang.ClassLoader 的子类）。
+**4、** 500：服务器内部错误
 
-**5、** 从 Java 2（JDK 1.2）开始，类加载过程采取了父亲委托机制（PDM）。PDM 更好的保证了 Java 平台的安全性，在该机制中，JVM 自带的Bootstrap 是根加载器，其他的加载器都有且仅有一个父类加载器。类的加载首先请求父类加载器加载，父类加载器无能为力时才由其子类加载器自行加载。JVM 不会向 Java 程序提供对 Bootstrap 的引用。下面是关于几个类
+**5、** 403：服务器拒绝
 
-**加载器的说明：**
+**6、** 405：请求的method不支持
 
-**1、** Bootstrap：一般用本地代码实现，负责加载 JVM 基础核心类库（rt.jar）；
-
-**2、** Extension：从 java.ext.dirs 系统属性所指定的目录中加载类库，它的父加载器是 Bootstrap；
-
-**3、** System：又叫应用类加载器，其父类是 Extension。它是应用最广泛的类加载器。它从环境变量 classpath 或者系统属性
-
-java.class.path 所指定的目录中记载类，是用户自定义加载器的默认父加载器。
+**7、** 504：服务器临时不可用
 
 
-### 5、Java中的继承是单继承还是多继承
+### 3、JVM垃圾回收机制，何时触发MinorGC等操作
 
-Java中既有单继承，又有多继承。对于java类来说只能有一个父类，对于接口来说可以同时继承多个接口
-
-
-### 6、双亲委派
-
-当一个类收到了类加载请求，他首先不会尝试自己去加载这个类，而是把这个请求委派给父类去完成，每一个层次类加载器都是如此，因此所有的加载请求都应该传送到启动类加载其中，只有当父类加载器反馈自己无法完成这个请求的时候（在它的加载路径下没有找到所需加载的Class）， 子类加载器才会尝试自己去加载。
-
-采用双亲委派的一个好处是比如加载位于 rt.jar 包中的类 java.lang.Object，不管是哪个加载器加载这个类，最终都是委托给顶层的启动类加载器进行加载，这样就保证了使用不同的类加载器最终得到的都是同样一个 Object 对象
+当young gen中的eden区分配满的时候触发MinorGC(新生代的空间不够放的时候).
 
 
-### 7、你说你做过JVM参数调优和参数配置，请问如何查看JVM系统默认值
+### 4、react-redux是如何工作的?
 
-使用-XX:+PrintFlagsFinal参数可以看到参数的默认值。这个默认值还和垃圾回收器有关，比如UseAdaptiveSizePolicy。
+**1、** Provider: Provider的作用是从最外部封装了整个应用，并向connect模块传递store
 
+**2、** connect: 负责连接React和Redux
 
-### 8、什么是线程调度器(Thread Scheduler)和时间分片(Time Slicing)？
+**3、** 获取state: connect通过context获取Provider中的store，通过store.getState()获取整个store tree 上所有state
 
-线程调度器是一个操作系统服务，它负责为Runnable状态的线程分配CPU时间。一旦我们创建一个线程并启动它，它的执行便依赖于线程调度器的实现。时间分片是指将可用的CPU时间分配给可用的Runnable线程的过程。分配CPU时间可以基于线程优先级或者线程等待的时间。线程调度并不受到Java虚拟机控制，所以由应用程序来控制它是更好的选择（也就是说不要让你的程序依赖于线程的优先级）。
+**4、** 包装原组件: 将state和action通过props的方式传入到原组件内部wrapWithConnect返回一个ReactComponent对象Connect，Connect重新render外部传入的原组件WrappedComponent，并把connect中传入的mapStateToProps, mapDispatchToProps与组件上原有的props合并后，通过属性的方式传给WrappedComponent
 
+**5、** 监听store tree变化: connect缓存了store tree中state的状态,通过当前state状态和变更前state状态进行比较,从而确定是否调用`this.setState()`方法触发Connect及其子组件的重新渲染
 
-### 9、计算机网络有几层？
-
-**1、** 应用层
-
-**2、** 表示层
-
-**3、** 会话层
-
-**4、** 传输层
-
-**5、** 网络层
-
-**6、** 数据链路层
-
-**7、** 物理层
-
-**8、** （物理层是最底层，应用层是最高层）
+![](https://gitee.com/souyunkutech/souyunku-home/raw/master/images/souyunku-web/2020/4/30/1939/39/97_12.png#alt=97%5C_12.png)
 
 
-### 10、Java应用程序与小程序之间有那些差别？
+### 5、== 和 equals 的区别是什么？
 
-简单说应用程序是从主线程启动(也就是main()方法)。applet小程序没有main方法，主要是嵌在浏览器页面上运行(调用init()线程或者run()来启动)，嵌入浏览器这点跟flash的小游戏类似。
+== 解读
+
+对于基本类型和引用类型 == 的作用效果是不同的，如下所示：
+
+基本类型：比较的是值是否相同； 引用类型：比较的是引用是否相同； 代码示例：
+
+```
+String x = "string";
+String y = "string";
+String z = new String("string");
+System.out.println(x==y); // true
+System.out.println(x==z); // false
+System.out.println(x.equals(y)); // true
+System.out.println(x.equals(z)); // true
+```
+
+代码解读：因为 x 和 y 指向的是同一个引用，所以 == 也是 true，而 new String()方法则重写开辟了内存空间，所以 == 结果为 false，而 equals 比较的一直是值，所以结果都为 true。
+
+equals 解读
+
+equals 本质上就是 ==，只不过 String 和 Integer 等重写了 equals 方法，把它变成了值比较。看下面的代码就明白了。
+
+首先来看默认情况下 equals 比较一个有相同值的对象，代码如下：
+
+```
+class Cat {
+    public Cat(String name) {
+        this.name = name;
+    }
+ 
+    private String name;
+ 
+    public String getName() {
+        return name;
+    }
+ 
+    public void setName(String name) {
+        this.name = name;
+    }
+}
+ 
+Cat c1 = new Cat("提莫");
+Cat c2 = new Cat("提莫");
+System.out.println(c1.equals(c2)); // false
+```
+
+输出结果出乎我们的意料，竟然是 false？这是怎么回事，看了 equals 源码就知道了，源码如下：
+
+```
+public boolean equals(Object obj) {
+    return (this == obj);
+}
+```
+
+原来 equals 本质上就是 ==。
+
+那问题来了，两个相同值的 String 对象，为什么返回的是 true？代码如下：
+
+```
+String s1 = new String("阿莫");
+String s2 = new String("阿莫");
+System.out.println(s1.equals(s2)); // true
+```
+
+同样的，当我们进入 String 的 equals 方法，找到了答案，代码如下：
+
+```
+public boolean equals(Object anObject) {
+    if (this == anObject) {
+    return true;
+    }
+    if (anObject instanceof String) {
+        String anotherString = (String)anObject;
+        int n = value.length;
+        if (n == anotherString.value.length) {
+            char v1[] = value;
+            char v2[] = anotherString.value;
+            int i = 0;
+            while (n-- != 0) {
+                if (v1[i] != v2[i])
+                    return false;
+                i++;
+            }
+            return true;
+        }
+    }
+    return false;
+}
+```
+
+原来是 String 重写了 Object 的 equals 方法，把引用比较改成了值比较。
+
+总结：== 对于基本类型来说是值比较，对于引用类型来说是比较的是引用；而 equals 默认情况下是引用比较，只是很多类重新了 equals 方法，比如 String、Integer 等把它变成了值比较，所以一般情况下 equals 比较的是值是否相等。
 
 
-### 11、创建线程的三种方式的对比？
-### 12、什么是模板方法
-### 13、生产环境 CPU 占用过高，你如何解决？
-### 14、Minor Gc和Full GC 有什么不同呢？
-### 15、Error和Exception有什么区别？
-### 16、Array与ArrayList有什么不一样？
-### 17、final 在 java 中有什么作用？
-### 18、什么是游标？
-### 19、程序计数器为什么是私有的?
-### 20、Java 中，throw 和 throws 有什么区别
-### 21、我能在不进行强制转换的情况下将一个 double 值赋值给 long 类型的变量吗？
-### 22、为什么我们调用start()方法时会执行run()方法，为什么我们不能直接调用run()方法？
-### 23、Iterator 怎么使用？有什么特点？
-### 24、Java 中会存在内存泄漏?简述一下
-### 25、指出下面程序的运行结果
-### 26、什么是JDK？什么是JRE?
-### 27、有哪些类加载器？
-### 28、Java 中怎么获取一份线程 dump 文件？
-### 29、什么是分布式垃圾回收（DGC）？它是如何工作的？
-### 30、Java 中，嵌套公共静态类与顶级类有什么不同？
-### 31、HashSet与HashMap的区别
-### 32、JVM 年轻代到年老代的晋升过程的判断条件是什么呢？
-### 33、如果父类只有有参构造方法，那么子类必须要重写父类的构造方法吗？
-### 34、Java 中怎样将 bytes 转换为 long 类型？
-### 35、62、volatile 变量和 atomic 变量有什么不同？
-### 36、int 和 Integer 哪个会占用更多的内存？
-### 37、SWAP会影响性能么？
-### 38、CopyOnWriteArrayList 的使用场景?
-### 39、什么是线程调度器(Thread Scheduler)和时间分片(Time Slicing )？
-### 40、构造方法能不能重写？能不能重载？
+### 6、CyclicBarrier和CountDownLatch的区别
+
+**1、** CountDownLatch简单的说就是一个线程等待，直到他所等待的其他线程都执行完成并且调用countDown()方法发出通知后，当前线程才可以继续执行。
+
+**2、** cyclicBarrier是所有线程都进行等待，直到所有线程都准备好进入await()方法之后，所有线程同时开始执行！
+
+**3、** CountDownLatch的计数器只能使用一次。而CyclicBarrier的计数器可以使用reset() 方法重置。所以CyclicBarrier能处理更为复杂的业务场景，比如如果计算发生错误，可以重置计数器，并让线程们重新执行一次。
+
+**4、** CyclicBarrier还提供其他有用的方法，比如getNumberWaiting方法可以获得CyclicBarrier阻塞的线程数量。isBroken方法用来知道阻塞的线程是否被中断。如果被中断返回true，否则返回false。
+
+
+### 7、String和StringBuilder、StringBuffer的区别？
+
+
+
+Java平台提供了两种类型的字符串：String和StringBuffer/StringBuilder，它们可以储存和操作字符串。其中String是只读字符串，也就意味着String引用的字符串内容是不能被改变的。而StringBuffer/StringBuilder类表示的字符串对象可以直接进行修改。StringBuilder是Java 5中引入的，它和StringBuffer的方法完全相同，区别在于它是在单线程环境下使用的，因为它的所有方面都没有被synchronized修饰，因此它的效率也比StringBuffer要高。
+
+**面试题1**
+
+什么情况下用+运算符进行字符串连接比调用StringBuffer/StringBuilder对象的append方法连接字符串性能更好？
+
+**面试题2**
+
+请说出下面程序的输出。
+
+```
+class StringEqualTest {
+
+    public static void main(String[] args) {
+        String s1 = "Programming";
+        String s2 = new String("Programming");
+        String s3 = "Program";
+        String s4 = "ming";
+        String s5 = "Program" + "ming";
+        String s6 = s3 + s4;
+        System.out.println(s1 == s2);
+        System.out.println(s1 == s5);
+        System.out.println(s1 == s6);
+        System.out.println(s1 == s6.intern());
+        System.out.println(s2 == s2.intern());
+    }
+}
+```
+
+**补充：**
+
+解答上面的面试题需要清除两点：1、String对象的intern方法会得到字符串对象在常量池中对应的版本的引用（如果常量池中有一个字符串与String对象的equals结果是true），如果常量池中没有对应的字符串，则该字符串将被添加到常量池中，然后返回常量池中字符串的引用；2、字符串的+操作其本质是创建了StringBuilder对象进行append操作，然后将拼接后的StringBuilder对象用toString方法处理成String对象，这一点可以用javap -c StringEqualTest.class命令获得class文件对应的JVM字节码指令就可以看出来。
+
+
+### 8、JAVA弱引用
+### 9、用最有效率的方法计算2乘以8？
+### 10、什么是原子操作？在Java Concurrency API中有哪些原子类(atomic classes)？
+### 11、可达性分析
+### 12、什么是方法重载？
+### 13、什么是方法内联？
+### 14、同步方法和同步块，哪个是更好的选择？
+### 15、我们能创建一个包含可变对象的不可变对象吗？
+### 16、JVM的永久代中会发生垃圾回收么
+### 17、如何选择单例创建方式
+### 18、你知道有哪些开源框架？
+### 19、UML中有哪些常用的图？
+### 20、什么是 Busy spin？我们为什么要使用它？
+### 21、String str=”aaa”,与String str=new String(“aaa”)一样吗？
+### 22、为什么选择使用框架而不是原生?
+### 23、请说明NAT协议的目的是什么?
+### 24、什么是重写？什么是重载？
+### 25、ConcurrentHashMap的并发度是什么
+### 26、Tcp协议的特点
+### 27、多线程场景下如何使用 ArrayList？
+### 28、简单描述一下（分代）垃圾回收的过程
+### 29、说说G1垃圾收集器的工作原理
+### 30、JVM内存模型
+### 31、Java 如何实现多线程之间的通讯和协作？
+### 32、说一下垃圾分代收集的过程
+### 33、Java中异常分为哪两种？
+### 34、同步方法和同步块，哪个是更好的选择?
+### 35、ThreadLocal是什么？有什么用？
+### 36、双亲委派模型是什么？
+### 37、如何通过反射调用对象的方法？
+### 38、什么是线程池？ 为什么要使用它？
+### 39、try{}里有一个return语句，那么紧跟在这个try后的finally{}里的代码会不会被执行，什么时候被执行，在return前还是后?
+### 40、说出几点 Java 中使用 Collections 的最佳实践
 
 
 

@@ -6,169 +6,117 @@
 
 
 
-### 1、康威定律是什么？
+### 1、如何在 SpringBoot中禁用 Actuator端点安全性?
 
-“任何设计系统的组织（广泛定义）都将产生一种设计，其结构是组织通信结构的副本。” –  Mel Conway
+默认情况下，所有敏感的HTTP端点都是安全的，只有具有 `http ACTUATOR`角色的用户才能访问它们。安全性是使用标准的 `httpservletrequest. isuserinrole..isusernrole`方法实施的。可以使用 `management. security. enabled= false`来禁用安全性。只有在执行机构端点在防火墙后访问时，才建议禁用安全性。
 
-![](https://gitee.com/souyunkutech/souyunku-home/raw/master/images/souyunku-web/2019/08/0816/01/img_16.png#alt=img%5C_16.png)
 
-图13：  Conway定律的表示 – 微服务访谈问题
+### 2、Spring由哪些模块组成?
 
-该法律基本上试图传达这样一个事实：为了使软件模块起作用，整个团队应该进行良好的沟通。因此，系统的结构反映了产生它的组织的社会边界。
+以下是Spring 框架的基本模块：
 
+**1、** Core module
 
-### 2、什么是无所不在的语言？
+**2、** Bean module
 
-如果您必须定义泛在语言（UL），那么它是特定域的开发人员和用户使用的通用语言，通过该语言可以轻松解释域。
+**3、** Context module
 
-无处不在的语言必须非常清晰，以便它将所有团队成员放在同一页面上，并以机器可以理解的方式进行翻译。
+**4、** Expression Language module
 
+**5、** JDBC module
 
-### 3、JPA 和 Hibernate 有哪些区别？
+**6、** ORM module
 
-简而言之
+**7、** OXM module
 
-JPA 是一个规范或者接口
+**8、** Java Messaging Service(JMS) module
 
-Hibernate 是 JPA 的一个实现
+**9、** Transaction module
 
-当我们使用 JPA 的时候，我们使用 javax.persistence 包中的注释和接口时，不需要使用 hibernate 的导入包。
+**10、** Web module
 
-我们建议使用 JPA 注释，因为哦我们没有将其绑定到 Hibernate 作为实现。后来（我知道 - 小于百分之一的几率），我们可以使用另一种 JPA 实现。
+**11、** Web-Servlet module
 
+**12、** Web-Struts module
 
-### 4、什么是 SpringBoot Stater ？
+**13、** Web-Portlet module
 
-启动器是一套方便的依赖没描述符，它可以放在自己的程序中。你可以一站式的获取你所需要的 Spring 和相关技术，而不需要依赖描述符的通过示例代码搜索和复制黏贴的负载。
 
-例如，如果你想使用 Sping 和 JPA 访问数据库，只需要你的项目包含 spring-boot-starter-data-jpa 依赖项，你就可以完美进行。
+### 3、什么是WebSockets？
 
+WebSocket是一种计算机通信协议，通过单个TCP连接提供全双工通信信道。
 
-### 5、Spring Framework 中有多少个模块，它们分别是什么？
+![img_2.png][img_0826_04_2.png]
 
-![](https://gitee.com/souyunkutech/souyunku-home/raw/master/images/souyunku-web/2019/08/0816/02/img_1.png#alt=img%5C_1.png)
+**1、** WebSocket是双向的 -使用WebSocket客户端或服务器可以发起消息发送。
 
-**Spring 核心容器 – 该层基本上是 Spring Framework 的核心。它包含以下模块：**
+**2、** WebSocket是全双工的 -客户端和服务器通信是相互独立的。
 
-**1、** Spring Core
+**3、** 单个TCP连接 -初始连接使用HTTP，然后将此连接升级到基于套接字的连接。然后这个单一连接用于所有未来的通信
 
-**2、** Spring Bean
+**4、** Light -与http相比，WebSocket消息数据交换要轻得多。
 
-**3、** SpEL (Spring Expression Language)
 
-**4、** Spring Context
+### 4、SpringBoot Starter的工作原理
 
-**数据访问/集成 – 该层提供与数据库交互的支持。它包含以下模块：**
+`我个人理解SpringBoot就是由各种Starter组合起来的，我们自己也可以开发Starter`
 
-**1、** JDBC (Java DataBase Connectivity)
+在sprinBoot启动时由@SpringBootApplication注解会自动去maven中读取每个starter中的spring、factories文件,该文件里配置了所有需要被创建spring容器中的bean，并且进行自动配置把bean注入SpringContext中 //（SpringContext是Spring的配置文件）
 
-**2、** ORM (Object Relational Mapping)
 
-**3、** OXM (Object XML Mappers)
+### 5、spring boot 核心配置文件是什么？bootstrap、properties 和 application、properties 有何区别 ?
 
-**4、** JMS (Java Messaging Service)
+单纯做 SpringBoot 开发，可能不太容易遇到 bootstrap、properties 配置文件，但是在结合 Spring Cloud 时，这个配置就会经常遇到了，特别是在需要加载一些远程配置文件的时侯。
 
-**5、** Transaction
+spring boot 核心的两个配置文件：
 
-**Web – 该层提供了创建 Web 应用程序的支持。它包含以下模块：**
+bootstrap (、 yml 或者 、 properties)：boostrap 由父 ApplicationContext 加载的，比 applicaton 优先加载，配置在应用程序上下文的引导阶段生效。一般来说我们在 Spring Cloud 配置就会使用这个文件。且 boostrap 里面的属性不能被覆盖；
 
-**1、** Web
+application (、 yml 或者 、 properties)： 由ApplicatonContext 加载，用于 spring boot 项目的自动化配置。
 
-**2、** Web – Servlet
 
-**3、** Web – Socket
+### 6、负载均衡的意义是什么?
 
-**4、** Web – Portlet
+在计算中，负载均衡可以改善跨计算机，计算机集群，网络链接，中央处理单元或磁盘驱动器等多种计算资源的工作负载分布。负载均衡旨在优化资源使用，最大吞吐量，最小响应时间并避免任何单一资源的过载。使用多个组件进行负载均衡而不是单个组件可能会通过冗余来提高可靠性和可用性。负载平衡通常涉及专用软件或硬件，例如多层交换机或域名系统服务进程。
 
-**AOP**
 
-该层支持面向切面编程
+### 7、什么是Spring Cloud Bus?
 
-**Instrumentation**
+spring cloud bus 将分布式的节点用轻量的消息代理连接起来，它可以用于广播配置文件的更改或者服务直接的通讯，也可用于监控。
 
-该层为类检测和类加载器实现提供支持。
+如果修改了配置文件，发送一次请求，所有的客户端便会重新读取配置文件。
 
-**Test**
+**使用:**
 
-该层为使用 JUnit 和 TestNG 进行测试提供支持。
+**1、** 添加依赖
 
-**几个杂项模块:**
+**2、** 配置rabbimq
 
-Messaging – 该模块为 STOMP 提供支持。它还支持注解编程模型，该模型用于从 WebSocket 客户端路由和处理 STOMP 消息。
 
-Aspects – 该模块为与 AspectJ 的集成提供支持。
-
-
-### 6、如何使用 SpringBoot 生成一个 WAR 文件？
-
-推荐阅读:
-
-[https://spring.io/guides/gs/convert-jar-to-war/](https://spring.io/guides/gs/convert-jar-to-war/)
-
-下面有 spring 说明文档直接的链接地址：
-
-```
-https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#build-tool-plugins-maven-packaging
-```
-
-
-### 7、如果想在拦截的方法里面得到从前台传入的参数,怎么得到？
-
-
-
-直接在形参里面声明这个参数就可以,但必须名字和传过来的参数一样。
-
-
-### 8、保护 SpringBoot 应用有哪些方法？
-
-**1、**  在生产中使用HTTPS
-
-**2、**  使用Snyk检查你的依赖关系
-
-**3、**  升级到最新版本
-
-**4、**  启用CSRF保护
-
-**5、**  使用内容安全策略防止XSS攻击
-
-
-### 9、SpringBoot 常用的 Starter 有哪些？
-
-**1、** spring-boot-starter-web ：提供 Spring MVC + 内嵌的 Tomcat 。
-
-**2、** spring-boot-starter-data-jpa ：提供 Spring JPA + Hibernate 。
-
-**3、** spring-boot-starter-data-Redis ：提供 Redis 。
-
-**4、** mybatis-spring-boot-starter ：提供 MyBatis 。
-
-
-### 10、Spring对DAO的支持
-
-Spring对数据访问对象（DAO）的支持旨在简化它和数据访问技术如JDBC，Hibernate or JDO 结合使用。这使我们可以方便切换持久层。编码时也不用担心会捕获每种技术特有的异常。
-
-
-### 11、负载平衡的意义什么？
-### 12、SpringCloud Config 可以实现实时刷新吗？
-### 13、什么是编织（Weaving）？
-### 14、如何重新加载SpringBoot上的更改，而无需重新启动服务器？
-### 15、如何使用 SpringBoot 实现分页和排序？
-### 16、什么是依赖注入？
-### 17、描述一下 DispatcherServlet 的工作流程
-### 18、什么是 AOP 引入?
-### 19、自动装配有哪些局限性 ?
-### 20、什么是客户证书？
-### 21、既然Nginx可以实现网关？为什么还需要使用Zuul框架
-### 22、设计微服务的最佳实践是什么？
-### 23、SpringBoot 的核心注解是哪个？它主要由哪几个注解组成的？
-### 24、服务降级底层是如何实现的？
-### 25、shiro和oauth还有cas他们之间的关系是什么？问下您公司权限是如何设计，还有就是这几个概念的区别。
-### 26、什么是领域驱动设计？
-### 27、什么是Spring引导的执行器？
-### 28、什么是JavaConfig？
-### 29、什么是 WebSockets？
-### 30、解释WEB 模块。
-### 31、如何实现SpringBoot应用程序的安全性？
+### 8、Spring Cloud OpenFeign
+### 9、微服务测试的主要障碍是什么？
+### 10、为什么需要域驱动设计（DDD）？
+### 11、什么是服务熔断
+### 12、什么是 FreeMarker 模板？
+### 13、列举 Spring DAO 抛出的异常。
+### 14、SpringBoot、Spring MVC 和 Spring 有什么区别
+### 15、SpringBoot事物的使用
+### 16、Spring MVC的异常处理？
+### 17、Spring支持的ORM
+### 18、SpringBoot中的监视器是什么？
+### 19、SpringBoot有哪些优点？
+### 20、spring JDBC API 中存在哪些类？
+### 21、SpringBoot 2、X 有什么新特性？与 1、X 有什么区别？
+### 22、Spring Cloud OpenFeign
+### 23、Spring MVC与Struts2区别
+### 24、SpringBoot与SpringCloud 区别
+### 25、SpringBoot多数据源拆分的思路
+### 26、微服务之间是如何独立通讯的
+### 27、Bean 工厂和 Application contexts 有什么区别？
+### 28、Spring Cloud Stream
+### 29、谈谈服务雪崩效应
+### 30、什么是基于注解的容器配置?
+### 31、SpringBoot如何配置log4j？
 
 
 

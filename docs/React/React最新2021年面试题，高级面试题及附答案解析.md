@@ -6,224 +6,299 @@
 
 
 
-### 1、Store 在 Redux 中的意义是什么？
+### 1、说一下Vue的生命周期
 
-Store 是一个 JavaScript 对象，它可以保存程序的状态，并提供一些方法来访问状态、调度操作和注册侦听器。应用程序的整个状态/对象树保存在单一存储中。因此，Redux 非常简单且是可预测的。我们可以将中间件传递到 store 来处理数据，并记录改变存储状态的各种操作。所有操作都通过 reducer 返回一个新状态。
+`beforeCreate`是new Vue()之后触发的第一个钩子，在当前阶段data、methods、computed以及watch上的数据和方法都不能被访问。
 
+`created`在实例创建完成后发生，当前阶段已经完成了数据观测，也就是可以使用数据，更改数据，在这里更改数据不会触发updated函数。可以做一些初始数据的获取，在当前阶段无法与Dom进行交互，如果非要想，可以通过vm.$nextTick来访问Dom。
 
-### 2、如何在 React 中创建表单
+`beforeMount`发生在挂载之前，在这之前template模板已导入渲染函数编译。而当前阶段虚拟Dom已经创建完成，即将开始渲染。在此时也可以对数据进行更改，不会触发updated。
 
-React 表单类似于 HTML 表单。但是在 React 中，状态包含在组件的 state 属性中，并且只能通过 `setState()` 更新。因此元素不能直接更新它们的状态，它们的提交是由 JavaScript 函数处理的。此函数可以完全访问用户输入到表单的数据。
+`mounted`在挂载完成后发生，在当前阶段，真实的Dom挂载完毕，数据完成双向绑定，可以访问到Dom节点，使用$refs属性对Dom进行操作。
 
-```
-handleSubmit(event) {
-    alert('A name was submitted: ' + this.state.value);
-    event.preventDefault();
-}
+`beforeUpdate`发生在更新之前，也就是响应式数据发生更新，虚拟dom重新渲染之前被触发，你可以在当前阶段进行更改数据，不会造成重渲染。
 
-render() {
-    return (
-        <form onSubmit={this.handleSubmit}>
-            <label>
-                Name:
-                <input type="text" value={this.state.value} onChange={this.handleSubmit} />
-            </label>
-            <input type="submit" value="Submit" />
-        </form>
-    );
-}
-```
+`updated`发生在更新完成之后，当前阶段组件Dom已完成更新。要注意的是避免在此期间更改数据，因为这可能会导致无限循环的更新。
+
+`beforeDestroy`发生在实例销毁之前，在当前阶段实例完全可以被使用，我们可以在这时进行善后收尾工作，比如清除计时器。
+
+`destroyed`发生在实例销毁之后，这个时候只剩下了dom空壳。组件已被拆解，数据绑定被卸除，监听被移出，子实例也统统被销毁。
 
 
-### 3、区分状态和 props
-| 条件 | State | Props |
-| --- | --- | --- |
-| 1、从父组件中接收初始值 | Yes | Yes |
-| 2、父组件可以改变值 | No | Yes |
-| 3、在组件中设置默认值 | Yes | Yes |
-| 4、在组件的内部变化 | Yes | No |
-| 5、设置子组件的初始值 | Yes | Yes |
-| 6、在子组件的内部更改 | No | Yes |
+### 2、react hooks它带来了那些便利
 
+**1、** 代码逻辑聚合逻辑复用
 
+**2、** `HOC`嵌套地狱
 
-### 4、redux的工作流程?
+**3、** 代替 `class`
 
-首先，我们看下几个核心概念：
+**4、** `React` 中通常使用 类定义 或者 函数定义 创建组件:
 
-**1、** Store：保存数据的地方，你可以把它看成一个容器，整个应用只能有一个Store。
+在类定义中我们可以使用到许多 `React` 特性例如 `state`、 各种组件生命周期钩子等但是在函数定义中我们却无能为力因此 `React 16.8` 版本推出了一个新功能 (`React Hooks`)通过它可以更好的在函数定义组件中使用 `React` 特性。
 
-**2、** State：Store对象包含所有数据，如果想得到某个时点的数据，就要对Store生成快照，这种时点的数据集合，就叫做State。
+**好处:**
 
-**3、** Action：State的变化，会导致View的变化。但是，用户接触不到State，只能接触到View。所以，State的变化必须是View导致的。Action就是View发出的通知，表示State应该要发生变化了。
+**1、** 跨组件复用: 其实 `render` `props` / `HOC` 也是为了复用相比于它们Hooks 作为官方的底层 `API`最为轻量而且改造成本小不会影响原来的* 组件层次结构和传说中的嵌套地狱
 
-**4、** Action Creator：View要发送多少种消息，就会有多少种Action。如果都手写，会很麻烦，所以我们定义一个函数来生成Action，这个函数就叫Action Creator。
+**2、** 类定义更为复杂
 
-**5、** Reducer：Store收到Action以后，必须给出一个新的State，这样View才会发生变化。这种State的计算过程就叫做Reducer。Reducer是一个函数，它接受Action和当前State作为参数，返回一个新的State。
+**3、** 不同的生命周期会使逻辑变得分散且混乱不易维护和管理
 
-**6、** dispatch：是View发出Action的唯一方法。
+**4、** 时刻需要关注 `this`的指向问题
 
-**然后我们过下整个工作流程：**
+**5、** 代码复用代价高高阶组件的使用经常会使整个组件树变得臃肿
 
-**1、** 首先，用户（通过View）发出Action，发出方式就用到了dispatch方法。
+**6、** 状态与UI隔离: 正是由于 `Hooks` 的特性状态逻辑会变成更小的粒度并且极容易被抽象成一个自定义 `Hooks`组件中的状态和 `UI` 变得更为清晰和隔离。
 
-**2、** 然后，Store自动调用Reducer，并且传入两个参数：当前State和收到的Action，Reducer会返回新的State
+注意:
 
-**3、** State一旦有变化，Store就会调用监听函数，来更新View。
+避免在 循环/条件判断/嵌套函数 中调用 `hooks`保证调用顺序的稳定只有 函数定义组件 和 `hooks` 可以调用 `hooks`避免在 类组件 或者 普通函数 中调用不能在`useEffect`中使用`useStateReact` 会报错提示类组件不会被替换或废弃不需要强制改造类组件两种方式能并存重要钩子
 
-到这儿为止，一次用户交互流程结束。可以看到，在整个流程中数据都是单向流动的，这种方式保证了流程的清晰。
-
-![](https://gitee.com/souyunkutech/souyunku-home/raw/master/images/souyunku-web/2020/4/30/1939/39/97_11.png#alt=97%5C_11.png)
-
-
-### 5、React 中的箭头函数是什么？怎么用？
-
-箭头函数（=>）是用于编写函数表达式的简短语法。这些函数允许正确绑定组件的上下文，因为在 ES6 中默认下不能使用自动绑定。使用高阶函数时，箭头函数非常有用。
+状态钩子 (`useState`): 用于定义组件的`State`其到类定义中`this.state`的功能
 
 ```
-//General way
-render() {
-    return(
-        <MyInput onChange = {this.handleChange.bind(this) } />
-    );
+// useState 只接受一个参数: 初始状态
+// 返回的是组件名和更改该组件对应的函数
+const [flag, setFlag] = useState(true);
+// 修改状态
+setFlag(false)
+ 
+// 上面的代码映射到类定义中:
+this.state = {
+ flag: true 
 }
-//With Arrow Function
-render() {
-    return(
-        <MyInput onChange = { (e)=>this.handleOnChange(e) } />
-    );
+const flag = this.state.flag
+const setFlag = (bool) => {
+    this.setState({
+        flag: bool,
+    })
 }
 ```
 
 
-### 6、什么是JSX？
+### 3、解释 React 中 render() 的目的。
 
-JSX 是J avaScript XML 的简写。是 React 使用的一种文件，它利用 JavaScript 的表现力和类似 HTML 的模板语法。这使得 HTML 文件非常容易理解。此文件能使应用非常可靠，并能够提高其性能。下面是JSX的一个例子：
+每个React组件强制要求必须有一个 render()。它返回一个 React 元素，是原生 DOM 组件的表示。如果需要渲染多个 HTML 元素，则必须将它们组合在一个封闭标记内，例如 `<form>`、`<group>`、`<div>` 等。此函数必须保持纯净，即必须每次调用时都返回相同的结果。
+
+
+### 4、redux异步中间件之间的优劣?
+
+**redux-thunk优点:**
+
+**1、** 体积小: redux-thunk的实现方式很简单,只有不到20行代码
+
+**2、** 使用简单: redux-thunk没有引入像redux-saga或者redux-observable额外的范式,上手简单
+
+**redux-thunk缺陷:**
+
+**1、** 样板代码过多: 与redux本身一样,通常一个请求需要大量的代码,而且很多都是重复性质的
+
+**2、** 耦合严重: 异步操作与redux的action偶合在一起,不方便管理
+
+**3、** 功能孱弱: 有一些实际开发中常用的功能需要自己进行封装
+
+**redux-saga优点:**
+
+**1、** 异步解耦: 异步操作被被转移到单独 saga.js 中，不再是掺杂在 action.js 或 component.js 中
+
+**2、** action摆脱thunk function: dispatch 的参数依然是一个纯粹的 action (FSA)，而不是充满 “黑魔法” thunk function
+
+**3、** 异常处理: 受益于 generator function 的 saga 实现，代码异常/请求失败 都可以直接通过 try/catch 语法直接捕获处理
+
+**4、** 功能强大: redux-saga提供了大量的Saga 辅助函数和Effect 创建器供开发者使用,开发者无须封装或者简单封装即可使用
+
+**5、** 灵活: redux-saga可以将多个Saga可以串行/并行组合起来,形成一个非常实用的异步flow
+
+**6、** 易测试，提供了各种case的测试方案，包括mock task，分支覆盖等等
+
+**redux-saga缺陷:**
+
+**1、** 额外的学习成本: redux-saga不仅在使用难以理解的 generator function,而且有数十个API,学习成本远超redux-thunk,最重要的是你的额外学习成本是只服务于这个库的,与redux-observable不同,redux-observable虽然也有额外学习成本但是背后是rxjs和一整套思想
+
+**2、** 体积庞大: 体积略大,代码近2000行，min版25KB左右
+
+**3、** 功能过剩: 实际上并发控制等功能很难用到,但是我们依然需要引入这些代码
+
+**4、** ts支持不友好: yield无法返回TS类型
+
+**redux-observable优点:**
+
+**1、** 功能最强: 由于背靠rxjs这个强大的响应式编程的库,借助rxjs的操作符,你可以几乎做任何你能想到的异步处理
+
+**2、** 背靠rxjs: 由于有rxjs的加持,如果你已经学习了rxjs,redux-observable的学习成本并不高,而且随着rxjs的升级redux-observable也会变得更强大
+
+**redux-observable缺陷:**
+
+学习成本奇高: 如果你不会rxjs,则需要额外学习两个复杂的库
+
+社区一般: redux-observable的下载量只有redux-saga的1/5,社区也不够活跃,在复杂异步流中间件这个层面redux-saga仍处于领导地位
+
+
+
+### 5、你能用HOC做什么？
+
+**HOC可用于许多任务，例如：**
+
+**1、** 代码重用，逻辑和引导抽象
+
+**2、** 渲染劫持
+
+**3、** 状态抽象和控制
+
+**4、** Props 控制
+
+
+### 6、再说一下虚拟Dom以及key属性的作用
+
+由于在浏览器中操作DOM是很昂贵的。频繁的操作DOM，会产生一定的性能问题。这就是虚拟Dom的`产生原因`。
+
+Vue2的Virtual DOM借鉴了开源库`snabbdom`的实现。
+
+`Virtual DOM本质就是用一个原生的JS对象去描述一个DOM节点。是对真实DOM的一层抽象。`(也就是源码中的VNode类，它定义在src/core/vdom/vnode.js中。)
+
+VirtualDOM映射到真实DOM要经历VNode的create、diff、patch等阶段。
+
+**「key的作用是尽可能的复用 DOM 元素。」**
+
+新旧 children 中的节点只有顺序是不同的时候，最佳的操作应该是通过移动元素的位置来达到更新的目的。
+
+需要在新旧 children 的节点中保存映射关系，以便能够在旧 children 的节点中找到可复用的节点。key也就是children中节点的唯一标识。
+
+
+### 7、生命周期钩子 (useEffect):
+
+类定义中有许多生命周期函数而在 `React Hooks` 中也提供了一个相应的函数 (`useEffect`)这里可以看做`componentDidMount`、`componentDidUpdate`和`componentWillUnmount`的结合。
+
+**1、** `useEffect(callback, [source])`接受两个参数
+
+**2、** `callback`: 钩子回调函数
+
+**3、** `source`: 设置触发条件仅当 `source` 发生改变时才会触发
+
+**4、** `useEffect`钩子在没有传入[source]参数时默认在每次 `render` 时都会优先调用上次保存的回调中返回的函数后再重新调用回调
 
 ```
-render(){
-    return(
-        <div>
-            <h1> Hello World from Edureka!!</h1>
-        </div>
-    );
+useEffect(() => {
+ // 组件挂载后执行事件绑定
+ console.log('on')
+ addEventListener()
+ // 组件 update 时会执行事件解绑
+ return () => {
+  console.log('off')
+  removeEventListener()
+ }
+}, [source]);
+
+
+// 每次 source 发生改变时执行结果(以类定义的生命周期便于大家理解):
+// --- DidMount ---
+// 'on'
+// --- DidUpdate ---
+// 'off'
+// 'on'
+// --- DidUpdate ---
+// 'off'
+// 'on'
+// --- WillUnmount --- 
+// 'off'
+```
+
+通过第二个参数我们便可模拟出几个常用的生命周期:
+
+**1、** `componentDidMount`: 传入[]时就只会在初始化时调用一次
+
+**2、** `const useMount = (fn) => useEffect(fn, [])`
+
+**3、** `componentWillUnmount`: 传入[]回调中的返回的函数也只会被最终执行一次
+
+**4、** `const useUnmount = (fn) => useEffect(() => fn, [])`
+
+**5、** `mounted`: 可以使用 useState 封装成一个高度可复用的 `mounted` 状态
+
+```
+const useMounted = () => {
+    const [mounted, setMounted] = useState(false);
+    useEffect(() => {
+        !mounted && setMounted(true);
+        return () => setMounted(false);
+    }, []);
+    return mounted;
+}
+componentDidUpdate: useEffect每次均会执行其实就是排除了 DidMount 后即可
+const mounted = useMounted() 
+useEffect(() => {
+    mounted && fn()
+})
+```
+
+**其它内置钩子:**
+
+**1、** `useContext`: 获取 `context` 对象
+
+**2、** `useReducer`: 类似于 `Redux` 思想的实现但其并不足以替代 Redux可以理解成一个组件内部的 `redux`:并不是持久化存储会随着组件被销毁而销毁
+
+**3、** 属于组件内部各个组件是相互隔离的单纯用它并无法共享数据
+
+**4、** 配合 `useContext`的全局性可以完成一个轻量级的 `Redux`( `easy-peasy`)
+
+**5、** `useCallback`: 缓存回调函数避免传入的回调每次都是新的函数实例而导致依赖组件重新渲染具有性能优化的效果
+
+**6、** `useMemo`: 用于缓存传入的 `props`避免依赖的组件每次都重新渲染
+
+**7、** `useRef`: 获取组件的真实节点
+
+**8、** `useLayoutEffect`
+
+**9、** DOM更新同步钩子。用法与useEffect类似只是区别于执行时间点的不同
+
+**10、** useEffect属于异步执行并不会等待 DOM 真正渲染后执行而 `useLayoutEffect`则会真正渲染后才触发
+
+**11、** 可以获取更新后的 `state`
+
+**12、** 自定义钩子( `useXxxxx`): 基于 `Hooks` 可以引用其它 `Hooks` 这个特性我们可以编写自定义钩子如上面的 `useMounted`。又例如我们需要每个页面自定义标题:
+
+```
+function useTitle(title) {
+  useEffect(
+    () => {
+      document.title = title;
+    });
+}
+
+// 使用:
+function Home() {
+ const title = '我是首页'
+ useTitle(title)
+ 
+ return (
+  <div>{title}</div>
+ )
 }
 ```
 
 
-### 7、详细解释 React 组件的生命周期方法。
-
-**一些最重要的生命周期方法是：**
-
-**1、**  _componentWillMount_() – 在渲染之前执行，在客户端和服务器端都会执行。
-
-**2、**  _componentDidMount_() – 仅在第一次渲染后在客户端执行。
-
-**3、**  _componentWillReceiveProps_() – 当从父类接收到 props 并且在调用另一个渲染器之前调用。
-
-**4、**  _shouldComponentUpdate_() – 根据特定条件返回 true 或 false。如果你希望更新组件，请返回true 否则返回 false。默认情况下，它返回 false。
-
-**5、**  _componentWillUpdate_() – 在 DOM 中进行渲染之前调用。
-
-**6、**  _componentDidUpdate_() – 在渲染发生后立即调用。
-
-**7、**  _componentWillUnmount_() – 从 DOM 卸载组件后调用。用于清理内存空间。
-
-
-### 8、redux中间件
-
-中间件提供第三方插件的模式自定义拦截 `action -> reducer` 的过程。变为 `action` -> `middlewares` -> `reducer`。这种机制可以让我们改变数据流实现如异步`action action` 过滤日志输出异常报告等功能
-
-**1、** `redux-logger`提供日志输出
-
-**2、** `redux-thunk`处理异步操作
-
-**3、** `redux-promise`处理异步操作 `actionCreator`的返回值是 `promise`
-
-
-### 9、connect原理
-
-首先`connect`之所以会成功是因为`Provider`组件在原应用组件上包裹一层使原来整个应用成为`Provider`的子组件接收`Redux`的`store`作为`props`通过`context`对象传递给子孙组件上的`connect`connect做了些什么。它真正连接 `Redux`和 `React`它包在我们的容器组件的外一层它接收上面 `Provider` 提供的 `store` 里面的`state` 和 `dispatch`传给一个构造函数返回一个对象以属性形式传给我们的容器组件
-
-`connect`是一个高阶函数首先传入mapStateToProps、mapDispatchToProps然后返回一个生产Component的函数(wrapWithConnect)然后再将真正的Component作为参数传入wrapWithConnect这样就生产出一个经过包裹的Connect组件该组件具有如下特点
-
-通过`props.store`获取祖先`Component`的`store props`包括`stateProps`、`dispatchProps`、`parentProps`,合并在一起得到`nextState`作为`props`传给真正的`Component componentDidMount`时添加事件`this.store.subscribe(this.handleChange)`实现页面交互`shouldComponentUpdate`时判断是否有避免进行渲染提升页面性能并得到nextState componentWillUnmount时移除注册的事件`this.handleChange`
-
-由于connect的源码过长我们只看主要逻辑
-
-```
-export default function connect(mapStateToProps, mapDispatchToProps, mergeProps, options = {}) {
-  return function wrapWithConnect(WrappedComponent) {
-    class Connect extends Component {
-      constructor(props, context) {
-        // 从祖先Component处获得store
-        this.store = props.store || context.store
-        this.stateProps = computeStateProps(this.store, props)
-        this.dispatchProps = computeDispatchProps(this.store, props)
-        this.state = { storeState: null }
-        // 对stateProps、dispatchProps、parentProps进行合并
-        this.updateState()
-      }
-      shouldComponentUpdate(nextProps, nextState) {
-        // 进行判断当数据发生改变时Component重新渲染
-        if (propsChanged 
-        || mapStateProducedChange 
-        || dispatchPropsChanged) {
-          this.updateState(nextProps)
-            return true
-          }
-        }
-        componentDidMount() {
-          // 改变Component的state
-          this.store.subscribe(() = {
-            this.setState({
-              storeState: this.store.getState()
-            })
-          })
-        }
-        render() {
-          // 生成包裹组件Connect
-          return (
-            <WrappedComponent {...this.nextState} />
-          )
-        }
-      }
-      Connect.contextTypes = {
-        store: storeShape
-      }
-      return Connect;
-    }
-  }
-```
-
-
-### 10、setState
-
-在了解`setState`之前我们先来简单了解下 `React` 一个包装结构: `Transaction`:
-
-**事务 (Transaction)**
-
-是 `React` 中的一个调用结构用于包装一个方法结构为: `initialize` - `perform(method)` - `close`。通过事务可以统一管理一个方法的开始与结束处于事务流中表示进程正在执行一些操作
-
-
-### 11、react hooks它带来了那些便利
-### 12、具体实现步骤如下
-### 13、Vue模版编译原理知道吗，能简单说一下吗？
-### 14、那你知道Vue3.x响应式数据原理吗？
-### 15、React中的合成事件是什么？
-### 16、你对 Time Slice的理解?
-### 17、为什么React Router v4中使用 switch 关键字 ？
-### 18、pureComponent和FunctionComponent区别
-### 19、keep-alive了解吗
-### 20、Redux实现原理解析
-### 21、Vue2.x组件通信有哪些方式？
-### 22、MVC框架的主要问题是什么？
-### 23、如何更新组件的状态？
-### 24、setState到底是异步还是同步?
-### 25、解释 Reducer 的作用。
-### 26、React的请求应该放在哪个生命周期中?
-### 27、说说你用react有什么坑点
-### 28、Redux与Flux有何不同？
+### 8、再说一下vue2.x中如何监测数组变化
+### 9、销毁阶段
+### 10、setState到底是异步还是同步?
+### 11、React与Vue的相似之处
+### 12、你是如何理解fiber的?
+### 13、区分Real DOM和Virtual DOM
+### 14、为什么要用redux
+### 15、说一下v-if和v-show的区别
+### 16、如何告诉 React 它应该编译生产环境版
+### 17、react 的虚拟dom是怎么实现的
+### 18、react性能优化是哪个周期函数
+### 19、React如何进行组件/逻辑复用?
+### 20、Redux三大原则
+### 21、Vue事件绑定原理说一下
+### 22、如何在 React 中创建表单
+### 23、Vue模版编译原理知道吗，能简单说一下吗？
+### 24、mixin、hoc、render props、react-hooks的优劣如何？
+### 25、Vue中组件生命周期调用顺序说一下
+### 26、React Portal 有哪些使用场景
+### 27、列出 Redux 的组件。
+### 28、react组件的划分业务组件技术组件
 
 
 

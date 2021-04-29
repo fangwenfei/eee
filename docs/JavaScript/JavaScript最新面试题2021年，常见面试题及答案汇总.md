@@ -6,159 +6,244 @@
 
 
 
-### 1、XML和JSON的区别？
+### 1、如何创建一个没有 prototype(原型)的对象？
 
-**数据体积方面**
+我们可以使用`Object.create`方法创建没有原型的对象。
 
-`JSON`相对`于XML`来讲，数据的体积小，传递的速度更快些。
+```
+const o1 = {};
+console.log(o1.toString()); // [object Object]
 
-**数据交互方面**
+const o2 = Object.create(null);
+console.log(o2.toString());
+// throws an error o2.toString is not a function
+```
 
-`JSON`与`JavaScript`的交互更加方便，更容易解析处理，更好的数据交互
 
-**数据描述方面**
+### 2、JavaScript原型，原型链 ? 有什么特点？
 
-`JSON`对数据的描述性比`XML`较差
+**1、** 每个对象都会在其内部初始化一个属性，就是`prototype`(原型)，当我们访问一个对象的属性时
 
-**传输速度方面**
+**2、** 如果这个对象内部不存在这个属性，那么他就会去`prototype`里找这个属性，这`个prototype`又会有自己的`prototype`，于是就这样一直找下去，也就是我们平时所说的原型链的概念
 
-`JSON`的速度要远远快于`XML`
+**3、** 关系：`instance.constructor.prototype = instance.__proto__`
 
+**特点：**
 
-### 2、什么是预编译语音|预编译处理器?
+**1、** `JavaScript`对象是通过引用来传递的，我们创建的每个新对象实体中并没有一份属于自己的原型副本。当我们修改原型时，与之相关的对象也会继承这一改变
 
-Sass是一种CSS预处理器语言，通过编程方式生成CSS代码。因为可编程，所以操控灵活性自由度高，方便实现一些直接编写CSS代码较困难的代码。
+2.当我们需要一个属性的时，`Javascript`引擎会先看当前对象中是否有这个属性， 如果没有的 就会查找他的`Prototype`对象是否有这个属性，如此递推下去，一直检索到 `Object` 内建对象
 
-同时，因为Sass是生成CSS的语言，所以写出来的Sass文件是不能直接用的，必须经过编译器编译成CSS文件才能使用。
 
-CSS 预处理器是一种语言用来为 CSS 增加一些编程的的特性，无需考虑浏览器的兼容性问题，例如你可以在 CSS 中使用变量、简单的程序逻辑、函数等等在编程语言中的一些基本技巧，可以让你的 CSS 更见简洁，适应性更强，代码更直观等诸多好处。最常用的css预处理器有sass、less css、stylus。
+### 3、什么是 ES6 模块？
 
+**模块**使我们能够将代码基础分割成多个文件，以获得更高的可维护性，并且避免将所有代码放在一个大文件中。在 ES6 支持模块之前，有两个流行的模块。
 
-### 3、那些操作会造成内存泄漏？
+-
+**CommonJS-Node.js**
 
-**1、** 内存泄漏指任何对象在您不再拥有或需要它之后仍然存在
+-
+AMD（异步模块定义）-**浏览器**
 
-**2、** `setTimeout` 的第一个参数使用字符串而非函数的话，会引发内存泄漏
 
-**3、** 闭包、控制台日志、循环（在两个对象彼此引用且彼此保留时，就会产生一个循环）
+基本上，使用模块的方式很简单，`import`用于从另一个文件中获取功能或几个功能或值，同时`export`用于从文件中公开功能或几个功能或值。
 
+**导出**
 
-### 4、$$.map和$$.each有什么区别###
+使用 ES5 (CommonJS)
 
-map()方法主要用来遍历操作数组和对象，会返回一个新的数组。$.map()方法适用于将数组或对象每个项目新阵列映射到一个新数组的函数；
+```
+// 使用 ES5 CommonJS - helpers.js
+exports.isNull = function (val) {
+  return val === null;
+}
 
-each()主要用于遍历jquery对象，返回的是原来的数组，并不会新创建一个数组。
+exports.isUndefined = function (val) {
+  return val === undefined;
+}
 
+exports.isNullOrUndefined = function (val) {
+  return exports.isNull(val) || exports.isUndefined(val);
+}
+```
 
-### 5、渐进增强和优雅降级
+使用 ES6 模块
 
-**1、** 渐进增强 ：针对低版本浏览器进行构建页面，保证最基本的功能，然后再针对高级浏览器进行效果、交互等改进和追加功能达到更好的用户体验。
+```
+使用 ES6 Modules - helpers.js
+export function isNull(val){
+  return val === null;
+}
 
-**2、** 优雅降级 ：一开始就构建完整的功能，然后再针对低版本浏览器进行兼容
+export function isUndefined(val) {
+  return val === undefined;
+}
 
+export function isNullOrUndefined(val) {
+  return isNull(val) || isUndefined(val);
+}
+```
 
-### 6、call和apply 有什么好处？
+在另一个文件中导入函数
 
-用call和apply:实现更好的继承和扩展，更安全。
+```
+// 使用 ES5 (CommonJS) - index.js
+const helpers = require('./helpers.js'); // helpers is an object
+const isNull = helpers.isNull;
+const isUndefined = helpers.isUndefined;
+const isNullOrUndefined = helpers.isNullOrUndefined;
 
+// or if your environment supports Destructuring
+const { isNull, isUndefined, isNullOrUndefined } = require('./helpers.js');
+-------------------------------------------------------
 
-### 7、ajax中 get 和 post 有什么区别?
+// ES6 Modules - index.js
+import * as helpers from './helpers.js'; // helpers is an object
 
-get和post都是数据提交的方式。
+// or 
 
-get的数据是通过网址问号后边拼接的字符串进行传递的。post是通过一个HTTP包体进行传递数据的。
+import { isNull, isUndefined, isNullOrUndefined as isValid } from './helpers.js';
 
-get的传输量是有限制的，post是没有限制的。
+// using "as" for renaming named exports
+```
 
-get的安全性可能没有post高，所以我们一般用get来获取数据，post一般用来修改数据。
+**在文件中导出单个功能或默认导出**
 
+使用 ES5 (CommonJS)
 
-### 8、常见web安全及防护原理
+```
+// 使用 ES5 (CommonJS) - index.js
+class Helpers {
+  static isNull(val) {
+    return val === null;
+  }
 
-**`sql`注入原理**
+  static isUndefined(val) {
+    return val === undefined;
+  }
 
-就是通过把`SQL`命令插入到`Web`表单递交或输入域名或页面请求的查询字符串，最终达到欺骗服务器执行恶意的SQL命令
+  static isNullOrUndefined(val) {
+    return this.isNull(val) || this.isUndefined(val);
+  }
+}
 
-**总的来说有以下几点**
+module.exports = Helpers;
+```
 
-永远不要信任用户的输入，要对用户的输入进行校验，可以通过正则表达式，或限制长度，对单引号和双`"-"`进行转换等
+使用ES6 Modules
 
-**1、** 永远不要使用动态拼装SQL，可以使用参数化的`SQL`或者直接使用存储过程进行数据查询存取
+```
+// 使用 ES6 Modules - helpers.js
+class Helpers {
+  static isNull(val) {
+    return val === null;
+  }
 
-**2、** 永远不要使用管理员权限的数据库连接，为每个应用使用单独的权限有限的数据库连接
+  static isUndefined(val) {
+    return val === undefined;
+  }
 
-**3、** 不要把机密信息明文存放，请加密或者`hash`掉密码和敏感的信息
+  static isNullOrUndefined(val) {
+    return this.isNull(val) || this.isUndefined(val);
+  }
+}
 
-**XSS原理及防范**
+export default Helpers
+```
 
-`Xss(cross-site scripting)`攻击指的是攻击者往`Web`页面里插入恶意`html`标签或者`javascript`代码。
+从另一个文件导入单个功能
 
-**比如：**
+使用ES5 (CommonJS)
 
-攻击者在论坛中放一个看似安全的链接，骗取用户点击后，窃取`cookie`中的用户私密信息；或者攻击者在论坛中加一个恶意表单，当用户提交表单的时候，却把信息传送到攻击者的服务器中，而不是用户原本以为的信任站点
+`// 使用 ES5 (CommonJS) - index.js const Helpers = require('./helpers.js'); console.log(Helpers.isNull(null));`
 
-**XSS防范方法**
+使用 ES6 Modules
 
-首先代码里对用户输入的地方和变量都需要仔细检查长度和对`”<”,”>”,”;”,”’”`等字符做过滤；其次任何内容写到页面之前都必须加以encode，避免不小心把`html tag` 弄出来。这一个层面做好，至少可以堵住超过一半的XSS 攻击
+`import Helpers from '.helpers.js' console.log(Helpers.isNull(null));`
 
-**XSS与CSRF有什么区别吗？**
 
-**1、** `XSS`是获取信息，不需要提前知道其他用户页面的代码和数据包。`CSRF`是代替用户完成指定的动作，需要知道其他用户页面的代码和数据包。要完成一次`CSRF`攻击，受害者必须依次完成两个步骤
+### 4、实现异步的方式有哪些？
 
-**2、** 登录受信任网站`A`，并在本地生成`Cookie`
+**1、** 回调函数模式：将需要异步执行的函数作为回调函数执行，其缺点在于处理复杂逻辑异步逻辑时，会造成回调地狱(回调嵌套层数太多，代码结构混乱)；
 
-**3、** 在不登出`A`的情况下，访问危险网站`B`
+**2、** 事件监听模式：采用事件驱动的思想，当某一事件发生时触发执行异步函数，其缺点在于整个代码全部得变为事件驱动模式，难以分辨主流程；
 
-**CSRF的防御**
+**3、** 发布订阅模式：当异步任务执行完成时发布消息给信号中心，其他任务通过在信号中心中订阅消息来确定自己是否开始执行；
 
-服务端的`CSRF`方式方法很多样，但总的思想都是一致的，就是在客户端页面增加伪随机数
+**4、** Promise(ES6)：`Promise`对象共有三种状态`pending`(初始化状态)、`fulfilled`(成功状态)、`rejected`(失败状态)。
 
-通过验证码的方法
+**5、** async/await(ES7)：基于`Promise`实现的异步函数； （6）利用生成器实现。
 
 
-### 9、说几条写JavaScript的基本规范？
+### 5、上一个项目是什么？主要负责哪些？购物车流程?支付功能?
 
-**1、** 不要在同一行声明多个变量
+**主要负责哪些就讲主要做哪些功能模块：**
 
-**2、** 请使用`===/!==`来比较`true/false`或者数值
+1）商品模块:
 
-**3、** 使用对象字面量替代`new Array`这种形式
+**1、** 商品列表：商品排序 商品筛选 商品过滤 商品查询 商品推荐
 
-**4、** 不要使用全局函数
+**2、** 商品详情:类型推荐 商品简介 商品详情 商品评价 售后维护
 
-**5、** `Switch`语句必须带有`default`分支
+2)购物车模块：商品编号、数量、价格、总额、运费、运输选项、运费总计、从购物车删除选项、更新数量、结账、继续购物、商品描述、库存信息
 
-**6、** `If`语句必须使用大括号
 
-**7、** `for-in`循环中的变量 应该使用`var`关键字明确限定作用域，从而避免作用域污
+### 6、异步编程？
 
+**方法1：**
 
-### 10、为什么要有同源限制？
+**1、** 回调函数，优点是简单、容易理解和部署，缺点是不利于代码的阅读和维护，各个部分之间高度耦合（Coupling），流程会很混乱，而且每个任务只能指定一个回调函数。
 
-**1、** 同源策略指的是：协议，域名，端口相同，同源策略是一种安全协议
+**方法2：**
 
-**2、** 举例说明：比如一个黑客程序，他利用`Iframe`把真正的银行登录页面嵌到他的页面上，当你使用真实的用户名，密码登录时，他的页面就可以通过`Javascript`读取到你的表单中`input`中的内容，这样用户名，密码就轻松到手了。
+**1、** 时间监听，可以绑定多个事件，每个事件可以指定多个回调函数，而且可以“去耦合”（Decoupling），有利于实现模块化。缺点是整个程序都要变成事件驱动型，运行流程会变得很不清晰。
 
+**方法3：**
 
-### 11、EventLoop事件循环是什么？
-### 12、通过new创建一个对象的时候，函数内部有哪些改变###
-### 13、如何在不使用`%`模运算符的情况下检查一个数字是否是偶数？
-### 14、什么是构造函数？与普通函数有什么区别?
-### 15、谈谈你对AMD、CMD的理解
-### 16、Jq中get和eq有什么区别？
-### 17、JavaScript 中的虚值是什么？
-### 18、展开(spread )运算符和 剩余(Rest) 运算符有什么区别？
-### 19、什么是事件冒泡？
-### 20、有哪些方法可以处理 JS 中的异步代码？
-### 21、压缩合并目的？http请求的优化方式？
-### 22、简述一下你理解的面向对象？
-### 23、如何合并两个数组？数组删除一个元素?
-### 24、什么是提升？
-### 25、对象的 prototype(原型) 是什么？
-### 26、AJAX 是什么？
-### 27、你觉得jQuery源码有哪些写的好的地方
-### 28、jQuery与jQuery UI 有啥区别？
-### 29、说出几个http协议状态码?
+发布/订阅，性质与“事件监听”类似，但是明显优于后者。
+
+**方法4：**
+
+**1、** Promises对象，是CommonJS工作组提出的一种规范，目的是为异步编程提供统一接口。
+
+**2、** 简单说，它的思想是，每一个异步任务返回一个Promise对象，该对象有一个then方法，允许指定回调函数。
+
+
+### 7、为什么typeof null 返回 object？如何检查一个值是否为 null？
+
+`typeof null == 'object'`总是返回`true`，因为这是自 JS 诞生以来`null`的实现。曾经有人提出将`typeof null == 'object'`修改为`typeof null == 'null'`，但是被拒绝了，因为这将导致更多的**bug**。
+
+我们可以使用严格相等运算符`===`来检查值是否为`null`。
+
+```
+function isNull(value){
+  return value === null;
+}
+```
+
+
+### 8、如何通过原生js 判断一个元素当前是显示还是隐藏状态?
+### 9、javascript创建对象的几种方式？
+### 10、Ajax原理
+### 11、什么是 event.target ？
+### 12、谁是c的构造函数?
+### 13、数组的排序方法（sort）？排序？汉字排序？
+### 14、手动实现 `Array.prototype.map 方法`
+### 15、判断数据类型的方法有哪些？
+### 16、slice() splice()?
+### 17、DOM 是什么？
+### 18、数据持久化技术(ajax)?简述ajax流程###
+### 19、Jq中如何将一个jq对象转化为dom对象？
+### 20、javascript 代码中的"use strict";是什么意思 ? 使用它区别是什么？
+### 21、Jq中如何实现多库并存?
+### 22、ES6或ECMAScript 2015有哪些新特性？
+### 23、如何清除一个定时器?
+### 24、event.preventDefault() 和 event.stopPropagation()方法之间有什么区别？
+### 25、如何解决跨域问题?
+### 26、谈谈你对ES6的理解
+### 27、介绍js的基本数据类型
+### 28、web开发中会话跟踪的方法有哪些
+### 29、什么是移动端的300ms延迟？什么是点击穿透？解决方案?
 
 
 

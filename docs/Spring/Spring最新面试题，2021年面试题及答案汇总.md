@@ -6,179 +6,108 @@
 
 
 
-### 1、创建一个 SpringBoot Project 的最简单的方法是什么？
+### 1、什么是微服务中的反应性扩展？
 
-Spring Initializr是启动 SpringBoot Projects 的一个很好的工具。
+Reactive Extensions也称为Rx。这是一种设计方法，我们通过调用多个服务来收集结果，然后编译组合响应。这些调用可以是同步或异步，阻塞或非阻塞。Rx是分布式系统中非常流行的工具，与传统流程相反。
 
-**我们需要做一下几步：**
+希望这些微服务面试问题可以帮助您进行微服务架构师访谈。
 
-**1、** 登录 Spring Initializr，按照以下方式进行选择：
+翻译来源：[https://www.edureka.co/blog/interview-questions/microservices-interview-questions/](https://www.edureka.co/blog/interview-questions/microservices-interview-questions/)
 
-**2、** 选择 com.in28minutes.SpringBoot 为组
 
-**3、** 选择 studet-services 为组件
 
-**4、** 选择下面的依赖项
+### 2、SpringBoot的核心注解是哪个？它主要由哪几个注解组成的？
 
-Web
+启动类上面的注解是@SpringBootApplication，它也是SpringBoot的核心注解，主要组合包含了以下3个注解：
 
-Actuator
+**1、** @SpringBootConfiguration：组合了@Configuration注解，实现配置文件的功能。
 
-DevTools
+**2、** @EnableAutoConfiguration：打开自动配置的功能，也可以关闭某个自动配置的选项，如关闭数据源自动配置功能：SpringBootApplication(exclude={DataSourceAutoConfiguration.class})
 
-**5、** 点击生 GenerateProject
+**3、** @ComponentScan：Spring组件扫描
 
-**6、** 将项目导入 Eclipse。文件 - 导入 - 现有的 Maven 项目
 
+### 3、如何重新加载SpringBoot上的更改，而无需重新启动服务器？
 
-### 2、使用 Spring 访问 Hibernate 的方法有哪些？
+这可以使用DEV工具来实现。通过这种依赖关系，您可以节省任何更改，嵌入式tomcat将重新启动。
 
-我们可以通过两种方式使用 Spring 访问 Hibernate：
+SpringBoot有一个开发工具（DevTools）模块，它有助于提高开发人员的生产力。Java开发人员面临的一个主要挑战是将文件更改自动部署到服务器并自动重启服务器。
 
-**1、** 使用 Hibernate 模板和回调进行控制反转
+开发人员可以重新加载SpringBoot上的更改，而无需重新启动服务器。这将消除每次手动部署更改的需要。SpringBoot在它的第一个版本时没有这个功能。
 
-**2、** 扩展 HibernateDAOSupport 并应用 AOP 拦截器节点
+这是开发人员最需要的功能。DevTools模块完全满足开发人员的需求。该模块将在生产环境中被禁用。它还提供H2数据库控制台以更好地测试应用程序。
 
+org.springframework.boot
 
-### 3、spring 提供了哪些配置方式？
+spring-boot-devtools
 
-基于 xml 配置
+true
 
-bean 所需的依赖项和服务在 XML 格式的配置文件中指定。这些配置文件通常包含许多 bean 定义和特定于应用程序的配置选项。它们通常以 bean 标签开头。例如：
 
-```
-<bean id="studentbean" class="org.edureka.firstSpring.StudentBean">
- <property name="name" value="Edureka"></property>
-</bean>
-```
+### 4、spring-boot-starter-parent 有什么用 ?
 
-基于注解配置
+我们都知道，新创建一个 SpringBoot 项目，默认都是有 parent 的，这个 parent 就是 spring-boot-starter-parent ，spring-boot-starter-parent 主要有如下作用：
 
-您可以通过在相关的类，方法或字段声明上使用注解，将 bean 配置为组件类本身，而不是使用 XML 来描述 bean 装配。默认情况下，Spring 容器中未打开注解装配。因此，您需要在使用它之前在 Spring 配置文件中启用它。例如：
+**1、** 定义了 Java 编译版本为 1.8 。
 
-```
-<beans>
-<context:annotation-config/>
-<!-- bean definitions go here -->
-</beans>
-```
+**2、** 使用 UTF-8 格式编码。
 
-基于 Java API 配置
+**3、** 继承自 spring-boot-dependencies，这个里边定义了依赖的版本，也正是因为继承了这个依赖，所以我们在写依赖时才不需要写版本号。
 
-Spring 的 Java 配置是通过使用 [@Bean ](/Bean ) 和 [@Configuration ](/Configuration ) 来实现。
+**4、** 执行打包操作的配置。
 
-**1、**   [@Bean ](/Bean ) 注解扮演与 `<bean/>` 元素相同的角色。
+**5、** 自动化的资源过滤。
 
-**2、**   [@Configuration ](/Configuration ) 类允许通过简单地调用同一个类中的其他 [@Bean ](/Bean ) 方法来定义 bean 间依赖关系。
+**6、** 自动化的插件配置。
 
-例如：
+**7、** 针对 application.properties 和 application.yml 的资源过滤，包括通过 profile 定义的不同环境的配置文件，例如 application-dev.properties 和 application-dev.yml。
 
-```
-@Configuration
-public class StudentConfig {
-    @Bean
-    public StudentBean myStudent() {
-        return new StudentBean();
-    }
-}
-```
 
+### 5、你更倾向用那种事务管理类型？
 
-### 4、您使用了哪些starter maven依赖项？
+大多数Spring框架的用户选择声明式事务管理，因为它对应用代码的影响最小，因此更符合一个无侵入的轻量级容器的思想。声明式事务管理要优于编程式事务管理，虽然比编程式事务管理（这种方式允许你通过代码控制事务）少了一点灵活性。
 
-使用了下面的一些依赖项
 
-```
-spring-boot-starter-activemq
-spring-boot-starter-security
-```
+### 6、Zuul网关如何搭建集群
 
-这有助于增加更少的依赖关系，并减少版本的冲突。
+使用Nginx的upstream设置Zuul服务集群，通过location拦截请求并转发到upstream，默认使用轮询机制对Zuul集群发送请求。
 
 
-### 5、什么是持续集成（CI）？
+### 7、YAML 配置的优势在哪里 ?
 
-持续集成（CI）是每次团队成员提交版本控制更改时自动构建和测试代码的过程。这鼓励开发人员通过在每个小任务完成后将更改合并到共享版本控制存储库来共享代码和单元测试。
+YAML 现在可以算是非常流行的一种配置文件格式了，无论是前端还是后端，都可以见到 YAML 配置。那么 YAML 配置和传统的 properties 配置相比到底有哪些优势呢？
 
+配置有序，在一些特殊的场景下，配置有序很关键
 
-### 6、保护 SpringBoot 应用有哪些方法？
+简洁明了，他还支持数组，数组中的元素可以是基本数据类型也可以是对象
 
-**1、** 在生产中使用HTTPS
+相比 properties 配置文件，YAML 还有一个缺点，就是不支持 [@PropertySource ](/PropertySource ) 注解导入自定义的 YAML 配置。
 
-**2、** 使用Snyk检查你的依赖关系
 
-**3、** 升级到最新版本
-
-**4、** 启用CSRF保护
-
-**5、** 使用内容安全策略防止XSS攻击
-
-
-### 7、一个Spring的应用看起来象什么？
-
-**1、** 一个定义了一些功能的接口。
-
-**2、** 这实现包括属性，它的Setter ， getter 方法和函数等。
-
-**3、** Spring AOP
-
-**4、** Spring 的XML 配置文件
-
-**5、** 使用以上功能的客户端程序
-
-
-### 8、什么是执行器停机？
-
-关机是允许应用程序正常关机的端点。默认情况下，此功能不启用。你可以在应用程序属性文件中使用management . endpoint . shut down . enabled = true来启用此选项。但是该方法请谨慎使用。
-
-
-### 9、你可以在Spring中注入一个null 和一个空字符串吗？
-
-可以。
-
-
-### 10、SpringBoot 还提供了其它的哪些 Starter Project Options？
-
-SpringBoot 也提供了其它的启动器项目包括，包括用于开发特定类型应用程序的典型依赖项。
-
-**1、** spring-boot-starter-web-services - SOAP Web Services；
-
-**2、** spring-boot-starter-web - Web 和 RESTful 应用程序；
-
-**3、** spring-boot-starter-test - 单元测试和集成测试；
-
-**4、** spring-boot-starter-jdbc - 传统的 JDBC；
-
-**5、** spring-boot-starter-hateoas - 为服务添加 HATEOAS 功能；
-
-**6、** spring-boot-starter-security - 使用 SpringSecurity 进行身份验证和授权；
-
-**7、** spring-boot-starter-data-jpa - 带有 Hibeernate 的 Spring Data JPA；
-
-**8、** spring-boot-starter-data-rest - 使用 Spring Data REST 公布简单的 REST 服务；
-
-
-### 11、什么是CSRF攻击？
-### 12、怎么样把ModelMap里面的数据放入Session里面？
-### 13、如何不通过任何配置来选择 Hibernate 作为 JPA 的默认实现？
-### 14、AOP 有哪些实现方式？
-### 15、Async异步调用方法
-### 16、解释不同方式的自动装配 。
-### 17、spring JDBC API 中存在哪些类？
-### 18、Spring Cloud OpenFeign
-### 19、什么是 Apache Kafka？
-### 20、Spring Cloud Task
-### 21、SpringBoot 有哪些优点？
-### 22、什么是YAML？
-### 23、一个Spring的应用看起来象什么？
-### 24、SpringBoot常用的starter有哪些？
-### 25、微服务中如何实现 session 共享 ?
-### 26、什么是Spring Cloud Config?
-### 27、SpringBoot 2.X 有什么新特性？与 1.X 有什么区别？
-### 28、Spring Cloud Zookeeper
-### 29、SpringBoot 有哪几种读取配置的方式？
-### 30、什么是自动配置？
-### 31、如何通过HibernateDaoSupport将Spring和Hibernate结合起来？
+### 8、什么是不同类型的双因素身份认证？
+### 9、你如何理解 SpringBoot 配置加载顺序？
+### 10、springcloud核⼼组件及其作⽤，以及springcloud⼯作原理：
+### 11、运行 SpringBoot 有哪几种方式？
+### 12、列举 Spring Framework 的优点。
+### 13、Zookeeper如何 保证CP
+### 14、什么是Spring Batch？
+### 15、SpringBoot 有哪些优点？
+### 16、描述一下 DispatcherServlet 的工作流程
+### 17、什么是 SpringBoot？
+### 18、什么是 CSRF 攻击？
+### 19、SpringBoot中的监视器是什么？
+### 20、如何使用 SpringBoot 生成一个 WAR 文件？
+### 21、bootstrap.yml和application.yml有什么区别?
+### 22、Spring对DAO的支持
+### 23、AOP 有哪些实现方式？
+### 24、Mock或Stub有什么区别？
+### 25、JPA 和 Hibernate 有哪些区别？JPA 可以支持动态 SQL 吗？
+### 26、什么是 Spring Framework？
+### 27、什么是耦合和凝聚力？
+### 28、微服务中如何实现 session 共享 ?
+### 29、什么是 AOP切点
+### 30、如何理解 Spring 中的代理？
+### 31、开启 SpringBoot 特性有哪几种方式？
 
 
 
