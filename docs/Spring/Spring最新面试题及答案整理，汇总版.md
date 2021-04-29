@@ -4,137 +4,149 @@
 
 ### 下载链接：[高清172份，累计 7701 页大厂面试题  PDF](https://github.com/souyunku/DevBooks/blob/master/docs/index.md)
 
-### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png)
+
+
+### 1、Spring Cloud和SpringBoot版本对应关系
+| Spring Cloud Version | SpringBoot Version |
+| --- | --- |
+| Hoxton | 2.2.x |
+| Greenwich | 2.1.x |
+| Finchley | 2.0.x |
+| Edgware | 1.5.x |
+| Dalston |  |
 
 
 
-### 1、如何设计一套API接口
+### 2、什么是持续监测？
 
-考虑到API接口的分类可以将API接口分为开发API接口和内网API接口，内网API接口用于局域网，为内部服务器提供服务。开放API接口用于对外部合作单位提供接口调用，需要遵循Oauth2.0权限认证协议。同时还需要考虑安全性、幂等性等问题。
-
-
-### 2、如何实现动态Zuul网关路由转发
-
-通过path配置拦截请求，通过ServiceId到配置中心获取转发的服务列表，Zuul内部使用Ribbon实现本地负载均衡和转发。
+持续监控深入监控覆盖范围，从浏览器内前端性能指标，到应用程序性能，再到主机虚拟化基础架构指标。
 
 
-### 3、什么是SpringBoot？
+### 3、如何在自定义端口上运行SpringBoot应用程序？
 
-多年来，随着新功能的增加，spring变得越来越复杂。只需访问https://spring.io/projects
+为了在自定义端口上运行SpringBoot应用程序，您可以在application.properties中指定端口。
 
-如果必须启动一个新的Spring项目，我们必须添加构建路径或添加Maven依赖关系，配置应用程序服务器，添加spring配置。
-
-因此，开始一个新的spring项目需要很多努力，因为我们现在必须从头开始做所有事情。
-
-SpringBoot是解决这个问题的方法。SpringBoot已经建立在现有spring框架之上。使用spring启动，我们避免了之前我们必须做的所有样板代码和配置。
-
-因此，SpringBoot可以帮助我们以最少的工作量，更加健壮地使用现有的Spring功能。
+```
+ server.port = 8090
+```
 
 
-### 4、SpringBoot 需要独立的容器运行吗？
-
-可以不需要，内置了 Tomcat/ Jetty 等容器。
-
-
-### 5、SpringBoot 中的监视器是什么？
-
-Spring boot actuator 是 spring 启动框架中的重要功能之一。Spring boot 监视器可帮助您访问生产环境中正在运行的应用程序的当前状态。有几个指标必须在生产环境中进行检查和监控。即使一些外部应用程序可能正在使用这些服务来向相关人员触发警报消息。监视器模块公开了一组可直接作为 HTTP URL 访问的REST 端点来检查状态。
-
-
-### 6、什么是 AOP 通知
-
-通知是个在方法执行前或执行后要做的动作，实际上是程序执行时要通过SpringAOP框架触发的代码段。
-
-**Spring切面可以应用五种类型的通知：**
-
-before：前置通知，在一个方法执行前被调用。
-
-after: 在方法执行之后调用的通知，无论方法执行是否成功。
-
-after-returning: 仅当方法成功完成后执行的通知。
-
-after-throwing: 在方法抛出异常退出时执行的通知。
-
-around: 在方法执行之前和之后调用的通知。
-
-
-### 7、SpringBoot如何实现打包
+### 4、SpringBoot如何实现打包
 
 进入项目目录在控制台输入mvn clean package，clean是清空已存在的项目包，package进行打包
 
 或者点击左边选项栏中的Mavne，先点击clean在点击package
 
 
-### 8、如何使用SpringBoot实现分页和排序？
+### 5、服务雪崩？
 
-使用SpringBoot实现分页非常简单。使用Spring Data-JPA可以实现将可分页的
+简介：服务雪崩效应是⼀种因服务提供者的不可⽤导致服务调⽤者的不可⽤,并将不可⽤逐渐放⼤的过程.
 
-传递给存储库方法。
+![](https://gitee.com/souyunkutech/souyunku-home/raw/master/images/souyunku-web/2020/5/2/01/44/45_12.png#alt=45%5C_12.png)
 
+**形成原因**
 
-### 9、Spring Cloud Netflix(重点，这些组件用的最多)
+**1、** 服务提供者不可
 
-Netflix OSS 开源组件集成，包括Eureka、Hystrix、Ribbon、Feign、Zuul等核心组件。
+**2、** 重试加⼤流量
 
-**1、** Eureka：服务治理组件，包括服务端的注册中心和客户端的服务发现机制；
+**3、** 服务调⽤者不可⽤
 
-**2、** Ribbon：负载均衡的服务调用组件，具有多种负载均衡调用策略；
+**采⽤策略**
 
-**3、** Hystrix：服务容错组件，实现了断路器模式，为依赖服务的出错和延迟提供了容错能力；
+**1、** 流量控制
 
-**4、** Feign：基于Ribbon和Hystrix的声明式服务调用组件；
+**2、** 改进缓存模式
 
-**5、** Zuul：API网关组件，对请求提供路由及过滤功能。
+**3、** 服务⾃动扩容
 
-`我觉得SpringCloud的福音是Netflix，他把人家的组件都搬来进行封装了，使开发者能快速简单安全的使用`
-
-
-### 10、SpringBoot 提供了哪些核心功能？
-
-**1、** 独立运行 Spring 项目
-
-**2、** 内嵌 Servlet 容器
-
-SpringBoot 可以选择内嵌 Tomcat、Jetty 或者 Undertow，这样我们无须以 war 包形式部署项目。
-
-**3、** 提供 Starter 简化 Maven 配置
-
-例如，当你使用了 spring-boot-starter-web ，会自动加入如下依赖：`spring-boot-starter-web` 的 pom 文件
-
-**4、** 自动配置 Spring Bean
-
-SpringBoot 检测到特定类的存在，就会针对这个应用做一定的配置，进行自动配置 Bean ，这样会极大地减少我们要使用的配置。
-
-**5、** 准生产的应用监控
-
-SpringBoot 提供基于 HTTP、JMX、SSH 对运行时的项目进行监控。
-
-**6、** 无代码生成和 XML 配置
-
-SpringBoot 没有引入任何形式的代码生成，它是使用的 Spring 4.0 的条件 [@Condition ](/Condition ) 注解以实现根据条件进行配置。同时使用了 Maven /Gradle 的依赖传递解析机制来实现 Spring 应用里面的自动配置。
+**4、** 服务调⽤者降级服务
 
 
-### 11、怎么设计无状态服务？
-### 12、描述一下 DispatcherServlet 的工作流程
-### 13、SpringBoot中的监视器是什么？
-### 14、第⼆层缓存：
-### 15、列举 spring 支持的事务管理类型
-### 16、如何使用SpringBoot实现异常处理?
-### 17、REST 和RPC对比
-### 18、什么是 Hystrix 断路器？我们需要它吗？
-### 19、微服务同时调用多个接口，怎么支持事务的啊？
-### 20、解释对象/关系映射集成模块。
-### 21、22。你能否给出关于休息和微服务的要点？
-### 22、[@RequestMapping ](/RequestMapping ) 注解
-### 23、[@Autowired ](/Autowired ) 注解有什么用？
-### 24、如果想在拦截的方法里面得到从前台传入的参数,怎么得到？
-### 25、SpingMvc中的控制器的注解一般用哪个,有没有别的注解可以替代？
-### 26、为什么需要域驱动设计（DDD）？
-### 27、合同测试你懂什么？
-### 28、解释AOP
-### 29、Spring Cloud 实现服务注册和发现的原理是什么？
-### 30、什么是SpringBoot ？
-### 31、什么是断路器
+### 6、SOA和微服务架构之间的主要区别是什么？
+
+SOA和微服务之间的主要区别如下：
+
+![](https://gitee.com/souyunkutech/souyunku-home/raw/master/images/souyunku-web/2019/08/0816/01/img_8.png#alt=img%5C_8.png)
+
+
+### 7、什么是 JavaConfig？
+
+Spring JavaConfig 是 Spring 社区的产品，Spring 3、0引入了他，它提供了配置 Spring IOC 容器的纯Java 方法。因此它有助于避免使用 XML 配置。使用 JavaConfig 的优点在于：
+
+面向对象的配置。由于配置被定义为 JavaConfig 中的类，因此用户可以充分利用 Java 中的面向对象功能。一个配置类可以继承另一个，重写它的[@Bean ](/Bean ) 方法等。
+
+减少或消除 XML 配置。基于依赖注入原则的外化配置的好处已被证明。但是，许多开发人员不希望在 XML 和 Java 之间来回切换。JavaConfig 为开发人员提供了一种纯 Java 方法来配置与 XML 配置概念相似的 Spring 容器。从技术角度来讲，只使用 JavaConfig 配置类来配置容器是可行的，但实际上很多人认为将JavaConfig 与 XML 混合匹配是理想的。
+
+类型安全和重构友好。JavaConfig 提供了一种类型安全的方法来配置 Spring容器。由于 Java 5、0 对泛型的支持，现在可以按类型而不是按名称检索 bean，不需要任何强制转换或基于字符串的查找。
+
+**常用的Java config：**
+
+@Configuration：在类上打上写下此注解，表示这个类是配置类
+
+@ComponentScan：在配置类上添加 [@ComponentScan ](/ComponentScan ) 注解。该注解默认会扫描该类所在的包下所有的配置类，相当于之前的 <context:component-scan >。
+
+@Bean：bean的注入：相当于以前的< bean id="objectMapper" class="org、codehaus、jackson、map、ObjectMapper" />
+
+@EnableWebMvc：相当于xml的<mvc:annotation-driven >
+
+@ImportResource： 相当于xml的 < import resource="applicationContext-cache、xml">
+
+
+### 8、SpringBoot 最大的优势是什么呢？
+
+SpringBoot 的最大的优势是“约定优于配置“。“约定优于配置“是一种软件设计范式，开发人员按照约定的方式来进行编程，可以减少软件开发人员需做决定的数量，获得简单的好处，而又不失灵活性。
+
+SpringBoot 中 “约定优于配置“的具体产品体现在哪里。
+
+SpringBoot Starter、SpringBoot Jpa 都是“约定优于配置“的一种体现。都是通过“约定优于配置“的设计思路来设计的，SpringBoot Starter 在启动的过程中会根据约定的信息对资源进行初始化；SpringBoot Jpa 通过约定的方式来自动生成 Sql ，避免大量无效代码编写。具体详细可以参考：SpringBoot 为什么这么火？
+
+
+### 9、什么是Hystrix断路器？我们需要它吗？
+
+由于某些原因，employee-consumer公开服务会引发异常。在这种情况下使用Hystrix我们定义了一个回退方法。如果在公开服务中发生异常，则回退方法返回一些默认值。
+
+![](https://gitee.com/souyunkutech/souyunku-home/raw/master/images/souyunku-web/2019/08/0814/02/img_4.png#alt=img%5C_4.png)
+
+如果firstPage method() 中的异常继续发生，则Hystrix电路将中断，并且员工使用者将一起跳过firtsPage方法，并直接调用回退方法。 断路器的目的是给第一页方法或第一页方法可能调用的其他方法留出时间，并导致异常恢复。可能发生的情况是，在负载较小的情况下，导致异常的问题有更好的恢复机会 。
+
+![](https://gitee.com/souyunkutech/souyunku-home/raw/master/images/souyunku-web/2019/08/0814/02/img_5.png#alt=img%5C_5.png)
+
+
+### 10、SpringBoot 有哪些优点？
+
+**SpringBoot 主要有如下优点：**
+
+**1、**  容易上手，提升开发效率，为 Spring 开发提供一个更快、更简单的开发框架。
+
+**2、**  开箱即用，远离繁琐的配置。
+
+**3、**  提供了一系列大型项目通用的非业务性功能，例如：内嵌服务器、安全管理、运行数据监控、运行状况检查和外部化配置等。
+
+**4、**  SpringBoot总结就是使编码变简单、配置变简单、部署变简单、监控变简单等等
+
+
+### 11、康威定律是什么？
+### 12、什么是执行器停机？
+### 13、@RequestMapping注解的作用
+### 14、什么是 AOP什么是目标对象?
+### 15、[@Required ](/Required ) 注解
+### 16、@LoadBalanced注解的作用
+### 17、什么是Spring的依赖注入？
+### 18、SpringBoot默认支持的日志框架有哪些？可以进行哪些设置？
+### 19、在 Spring Initializer 中，如何改变一个项目的包名字？
+### 20、微服务架构如何运作？
+### 21、在Spring AOP 中，关注点和横切关注的区别是什么？
+### 22、Spring Cloud Stream
+### 23、什么是Spring Cloud？
+### 24、SpingMvc中的控制器的注解一般用哪个,有没有别的注解可以替代？
+### 25、Spring Cloud Bus
+### 26、解释JDBC抽象和DAO模块。
+### 27、SpringBoot的核心注解是哪个？它主要由哪几个注解组成的？
+### 28、spring 支持哪些 ORM 框架
+### 29、微服务之间如何独立通讯的?
+### 30、spring 提供了哪些配置方式？
+### 31、如何在 SpringBoot 启动的时候运行一些特定的代码？
 
 
 
@@ -143,7 +155,7 @@ SpringBoot 没有引入任何形式的代码生成，它是使用的 Spring 4.0 
 
 ### 下载链接：[全部答案，整理好了](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
 
-### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
+
 
 
 ## 最新，高清PDF：172份，7701页，最新整理

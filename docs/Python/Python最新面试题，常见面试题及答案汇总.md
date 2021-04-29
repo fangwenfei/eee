@@ -4,208 +4,216 @@
 
 ### 下载链接：[高清172份，累计 7701 页大厂面试题  PDF](https://github.com/souyunku/DevBooks/blob/master/docs/index.md)
 
-### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png)
 
 
+### 1、Python中的字典是什么？
 
-### 1、获取python解释器版本的方法
-
-终端执行python -V
-
-
-### 2、简述线程死锁是怎么造成的。如何避免？
-
-**1、** 死锁的产生原因？
-
-**2、** 系统资源的竞争
-
-**3、** 进程运行推进顺序不当
-
-**4、** 解决死锁
-
-**5、** 加锁顺序：线程按照一定的顺序加锁
-
-**6、** 加锁时限：线程尝试获取锁的时候加上一定的时限，超过时限，则放弃对该锁的请求，并释放自己占有的锁。
-
-**7、** 死锁检测
-
-
-### 3、路由器和交换机的区别
-
-交换机是一种用于电信号转发的网络设备。路由器是链接因特网中各局域网和广域网的设备。
-
-区别
-
-**1、** 交换机工作在第二层，数据链路层，路由器工作在第三层，网络层。
-
-**2、** 路由器提供防火墙服务。
-
-**3、** 传统交换机只能风格冲突域，不能分割广播域，二路由器可以分割广播域。
-
-
-### 4、Python中append，insert和extend的区别?
-
-append：在列表末尾添加新元素。
-
-insert：在列表的特定位置添加元素。
-
-extend：通过添加新列表来扩展列表。
+字典是C++和Java等编程语言中所没有的东西，它具有键值对。
 
 ```
-numbers = [1,2,3,4,5]
-numbers.append(6)
-print(numbers)
->[1,2,3,4,5,6]
+>>> roots={25:5,16:4,9:3,4:2,1:1}
+>>> type(roots)
+<class 'dict'>
+>>> roots[9]
+```
 
-## insert(position,value)
-numbers.insert(2,7)  
-print(numbers)
->[1,2,7,4,5,6]
+运行结果为：
 
-numbers.extend([7,8,9])
-print(numbers)
->[1,2,7,4,5,6,7,8,9]
+```
+3
+```
 
-numbers.append([4,5])
->[1,2,7,4,5,6,7,8,9,[4,5]]
+字典是不可变的，我们也能用一个推导式来创建它。
+
+```
+>>> roots={x**2:x for x in range(5,0,-1)}
+>>> roots
+```
+
+运行结果：
+
+```
+{25: 5, 16: 4, 9: 3, 4: 2, 1: 1}
 ```
 
 
-### 5、编写一个函数，找出数组中没有重复的值的和
+### 2、通过什么途径学习python
+
+**1、** 通过看官方文档
+
+**2、** 通过哔哩哔哩上的视频教程
+
+**3、** 通过百度查资料
+
+**4、** 通过买python相关方面的书
+
+
+### 3、什么是keepalived
+
+Keepalived是Linux下一个轻量级别的高可用解决方案
+
+
+### 4、如何保证Redis中的数据都是热点数据
+
+**1、** Redis 内存数据集大小上升到一定大小的时候，就会施行数据淘汰策略。Redis 提供 6种数据淘汰策略：
+
+**2、** volatile-lru：从已设置过期时间的数据集（server.db[i].expires）中挑选最近最少使用的数据淘汰
+
+**3、** volatile-ttl：从已设置过期时间的数据集（server.db[i].expires）中挑选将要过期的数据淘汰
+
+**4、** volatile-random：从已设置过期时间的数据集（server.db[i].expires）中任意选择数据淘汰
+
+**5、** allkeys-lru：从数据集（server.db[i].dict）中挑选最近最少使用的数据淘汰
+
+**6、** allkeys-random：从数据集（server.db[i].dict）中任意选择数据淘汰
+
+**7、** no-enviction（驱逐）：禁止驱逐数据
+
+
+### 5、解释一下Python中的赋值运算符
+
+这在Python面试中是个重要的面试问题。
+
+我们将所有的算术运算符和赋值符号放在一起展示：
+
+```
+>>> a=7
+>>> a+=1
+>>> a
+8
+ 
+>>> a-=1
+>>> a
+7
+ 
+>>> a*=2
+>>> a
+14
+ 
+>>> a/=2
+>>> a
+7.0 
+ 
+>>> a**=2
+>>> a
+49
+ 
+>>> a//=3
+>>> a
+16.0
+ 
+>>> a%=4
+>>> a
+0.0
+```
+
+
+### 6、python中进制转换
+
+> 进制转换以十进制为媒介
+
+十六进制前面加上0x，八进制加上0o，二进制前面加上0b
+
+|  | 二进制 | 八进制 | 十进制 | 十六进制 |
+| --- | --- | --- | --- | --- |
+| 二进制 |  | bin(int(x, 8)） | bin(int(x, 10)) | bin(int(x, 16)) |
+| 八进制 | oct(int(x, 2)) |  | oct(int(x, 10)) | oct(int(x, 16)) |
+| 十进制 | int(x, 2) | int(x, 8) |  | int(x, 16) |
+| 十六进制 | hex(int(x, 2)) | hex(int(x, 8)) | hex(int(x, 10)) |  |
+
+
+
+### 7、编写程序，检查序列是否为回文
+
+```
+a = input("Enter The sequence")
+ispalindrome = a == a[::-1]
+
+ispalindrome
+>True
+```
+
+
+### 8、什么是正则的贪婪匹配？贪婪模式和非贪婪模式的区别？
+
+[参考文档](https://www.cnblogs.com/ILoke-Yang/p/8060003.html)
+
+贪婪匹配:正则表达式一般趋向于最大长度匹配，也就是所谓的贪婪匹配。
+
+非贪婪匹配：就是匹配到结果就好，就少的匹配字符。
+
+区别：默认是贪婪模式；在量词后面直接加上一个问号？就是非贪婪模式。
+
+
+### 9、解释一下Python中的三元运算子
+
+不像C++，我们在Python中没有?:，但我们有这个：
+
+```
+[on true] if [expression] else [on false]
+```
+
+如果表达式为True，就执行[on true]中的语句。否则，就执行[on false]中的语句。
+
+下面是使用它的方法：
+
+```
+>>> a,b=2,3
+>>> min=a if a<b else b
+>>> min
+```
+
+运行结果：
+
+```
+2
+```
+
+```
+>>> print("Hi") if a<b else print("Bye")
+```
+
+运行结果：
+
+```
+Hi
+```
+
+
+### 10、有一个多层嵌套的列表A=[1,2,3,[4,1,['j1',1,[1,2,3,'aa']]]],请写一段代码将A中的元素全部打印出来
 
 ```python
-def func(lis):
-lis1=[]
-del_lis=[]
+A=[1,2,3,[4,1,['j1',1,[1,2,3,'aa']]]]
+def my_print(lis):
 for i in lis:
-if i not in lis1:
-if i not in del_lis:
-    lis1.append(i)
+if type(i)==list:
+my_print(i)
 else:
-del_lis.append(i)
-lis1.remove(i)
-return sum(lis1)
-
-def func2(lis):
-return sum([i for i in set(lis) if lis.count(i)==1])
-
-print(func2([3,4,1,2,5,6,6,5,4,3,3]))
+print(i)
+my_print(A)
 ```
 
 
-### 6、python中如何使用进程池和线程池
-
-```python
-from concurrent.futures import ThreadPoolExecutor,ProcessPoolExecutor
-import os,time,random
-from multiprocessing import Pool
-
-def task(n):
-print('%s is runing' %os.getpid())
-time.sleep(random.randint(1,3))
-return n**2
-
-if __name__ == '__main__':
-# 多进程方式一
-pool2=Pool()
-pool2.map(task,range(10))
-
-# 多进程方式二，下面这种多进程和多线程的用法一模一样
-executor=ThreadPoolExecutor(max_workers=3)
-futures=[]
-for i in range(11):
-future=executor.submit(task,i)
-futures.append(future)
-executor.shutdown(True)
-print('+++>')
-for future in futures:
-print(future.result())
-```
-
-
-### 7、数据库的导入与导出命令
-
-**1、** 导出(MySQLdump)
-
-**2、** 导出数据和表结构
-
-**3、** MySQLdump -uroot -p dbname > dbname .sql
-
-**4、** 只导出表结构
-
-**5、** MySQLdump -uroot -p -d dbname > dbname .sql
-
-6、导入
-
-**7、** MySQL -u用户名 -p密码 数据库名 < 数据库名.sql
-
-
-### 8、公司线上和开发环境使用的什么系统
-
-线上用的centos和Ubuntu系统
-
-开发环境用的windows，mac，还有Ubuntu。
-
-
-### 9、手写一个队列
-
-```python
-class Queue(object):
-def __init__(self,size):
-self.queue=[]
-self.size=size
-def is_empty(self):
-return not bool(len(self.queue))
-def is_full(self):
-return len(self.queue)==self.size
-def enqueue(self,val):
-if not self.is_full():
-self.queue.insert(0,val)
-return True
-return False
-def dequeue(self):
-if not self.is_empty():
-return self.queue.pop()
-return None
-s=Queue(2)
-print(s.is_empty)
-s.enqueue(1)
-s.enqueue(2)
-print(s.is_full())
-print(s.dequeue())
-print(s.dequeue())
-print(s.is_empty())
-```
-
-
-### 10、一行代码实现删除列表中的所有的重复的值
-
-```python
-lis=[1,1,2,1,22,5]
-lis=list(set(lis))
-```
-
-
-### 11、你了解哪些数据库优化方案
-### 12、如何实现"1.2.3"变成['1','2','3']?
-### 13、如何实现字符串的反转？如：name=felix，反转成name=xilef
-### 14、简述进程，线程，协程的区别以及应用场景？
-### 15、在Python中是如何管理内存的？
-### 16、python中进制转换
-### 17、什么是正则的贪婪匹配？贪婪模式和非贪婪模式的区别？
-### 18、python哪些类型的数据才能作为字典的key？
-### 19、JavaScript(或者jQuery)如何选择一个id为main的容器
-### 20、Python中OOPS是什么？
-### 21、python和java、php、c、c#、c++ 等其他语言对比？
-### 22、解释Python中的Filter？
-### 23、如何判断一个值是方法还是函数？
-### 24、写个函数接收一个文件夹名称作为参数，显示文件夹中文件的路径，以及其中包含的文件夹中文件的如今
-### 25、实现一个单例模式。(尽可能多的方法)
-### 26、MySQL慢日志
-### 27、axios的作用
-### 28、实现99乘法表（使用两种方法）
-### 29、什么是负索引？
-### 30、Python中的pass语句是什么？
+### 11、如何实现['1','2','3']变成[1,2,3]
+### 12、Python中的生成器是什么？
+### 13、如何在函数中设置一个全局变量？
+### 14、如何实现字符串的反转？如：name=felix，反转成name=xilef
+### 15、求出以下代码的输出结果
+### 16、解释//、％、* *运算符？
+### 17、实现99乘法表（使用两种方法）
+### 18、py2项目如何迁移成py3
+### 19、query作为sql模板，args为将要传入的参数
+### 20、解释一下Python中的继承？
+### 21、为什么Python执行速度慢，我们如何改进它？
+### 22、什么是域名解析
+### 23、什么是多态？
+### 24、编写程序，查找文本文件中最长的单词
+### 25、简述触发器、函数、视图和存储过程
+### 26、用一行代码实现数值交换
+### 27、什么是arp协议
+### 28、为什么数据很大的时候使用limit offset分页时，越往后翻速度越慢，如何优化？
+### 29、Python的局限性？
+### 30、前后端分离的基本原理
 
 
 
@@ -214,7 +222,7 @@ lis=list(set(lis))
 
 ### 下载链接：[全部答案，整理好了](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
 
-### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
+
 
 
 ## 最新，高清PDF：172份，7701页，最新整理

@@ -4,173 +4,143 @@
 
 ### 下载链接：[高清172份，累计 7701 页大厂面试题  PDF](https://github.com/souyunku/DevBooks/blob/master/docs/index.md)
 
-### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png)
 
 
+### 1、RecyclerView和ListView的区别
 
-### 1、谈MVC ，MVP，MVVM
+缓存上:前者缓存的是View+ViewHolder+flag，不用每次调用findViewById,后者则只是缓存View
 
-MVC:View是可以直接访问Model的！从而，View里会包含Model信息，不可避免的还要包括一些 业务逻辑。 在MVC模型里，更关注的Model的不变，而同时有多个对Model的不同显示，及View。所以，在MVC模型里，Model不依赖于View，但是 View是依赖于Model的。不仅如此，因为有一些业务逻辑在View里实现了，导致要更改View也是比较困难的，至少那些业务逻辑是无法重用的。
+刷新数据方面，前者提供了局部刷新，后者则全部刷新
 
-MVP：MVP 是从经典的模式MVC演变而来，它们的基本思想有相通的地方：Controller/Presenter负责逻辑的处理，Model提供数据，View负 责显示。作为一种新的模式，MVP与MVC有着一个重大的区别：在MVP中View并不直接使用Model，它们之间的通信是通过Presenter (MVC中的Controller)来进行的，所有的交互都发生在Presenter内部，而在MVC中View会从直接Model中读取数据而不是通过 Controller。
 
-MVVM：数据双向绑定，通过数据驱动UI，M提供数据，V视图，VM即数据驱动层
+### 2、Service和Thread的区别？
 
+servie是系统的组件，它由系统进程托管（servicemanager）；它们之间的通信类似于client和server，是一种轻量级的ipc通信，这种通信的载体是binder，它是在linux层交换信息的一种ipc。而thread是由本应用程序托管。1)、Thread：Thread 是程序执行的最小单元，它是分配CPU的基本单位。可以用 Thread 来执行一些异步的操作。
 
-### 2、AIDL的全称是什么？如何工作？能处理哪些类型的数据？
+2)、Service：Service 是android的一种机制，当它运行的时候如果是Local Service，那么对应的 Service 是运行在主进程的 main 线程上的。如：onCreate，onStart 这些函数在被系统调用的时候都是在主进程的 main 线程上运行的。如果是Remote Service，那么对应的 Service 则是运行在独立进程的 main 线程上。
 
-全称是：Android Interface Define Language
+既然这样，那么我们为什么要用 Service 呢？其实这跟 android 的系统机制有关，我们先拿 Thread 来说。Thread 的运行是独立于 Activity 的，也就是说当一个 Activity 被 finish 之后，如果你没有主动停止 Thread 或者 Thread 里的 run 方法没有执行完毕的话，Thread 也会一直执行。因此这里会出现一个问题：当 Activity 被 finish 之后，你不再持有该 Thread 的引用。另一方面，你没有办法在不同的 Activity 中对同一 Thread 进行控制。
 
-在Android中, 每个应用程序都可以有自己的进程、在写UI应用的时候, 经常要用到Service、在不同的进程中, 怎样传递对象呢?显然, Java中不允许跨进程内存共享、因此传递对象, 只能把对象拆分成操作系统能理解的简单形式, 以达到跨界对象访问的目的、在J2EE中,采用RMI的方式, 可以通过序列化传递对象、在Android中, 则采用AIDL的方式、理论上AIDL可以传递Bundle,实际上做起来却比较麻烦。
+举个例子：如果你的 Thread 需要不停地隔一段时间就要连接服务器做某种同步的话，该 Thread 需要在 Activity 没有start的时候也在运行。这个时候当你 start 一个 Activity 就没有办法在该 Activity 里面控制之前创建的 Thread。因此你便需要创建并启动一个 Service ，在 Service 里面创建、运行并控制该 Thread，这样便解决了该问题（因为任何 Activity 都可以控制同一 Service，而系统也只会创建一个对应 Service 的实例）。
 
-AIDL(AndRoid接口描述语言)是一种借口描述语言; 编译器可以通过aidl文件生成一段代码，通过预先定义的接口达到两个进程内部通信进程的目的、如果需要在一个Activity中, 访问另一个Service中的某个对象, 需要先将对象转化成AIDL可识别的参数(可能是多个参数), 然后使用AIDL来传递这些参数, 在消息的接收端, 使用这些参数组装成自己需要的对象.
+因此你可以把 Service 想象成一种消息服务，而你可以在任何有 Context 的地方调用 Context.startService、Context.stopService、Context.bindService，Context.unbindService，来控制它，你也可以在 Service 里注册 BroadcastReceiver，在其他地方通过发送 broadcast 来控制它，当然这些都是 Thread 做不到的。
 
-AIDL的IPC的机制和COM或CORBA类似, 是基于接口的，但它是轻量级的。它使用代理类在客户端和实现层间传递值、如果要使用AIDL, 需要完成2件事情:
 
-**1、** 引入AIDL的相关类.;
+### 3、如何将SQLite数据库(dictionary.db文件)与apk文件一起发布
 
-**2、** 调用aidl产生的class.
+把这个文件放在/res/raw目录下即可。res\raw目录中的文件不会被压缩，这样可以直接提取该目录中的文件，会生成资源id。
 
-**AIDL的创建方法:**
 
-AIDL语法很简单,可以用来声明一个带一个或多个方法的接口，也可以传递参数和返回值。 由于远程调用的需要, 这些参数和返回值并不是任何类型.下面是些AIDL支持的数据类型:
+### 4、ListView 如何提高其效率？
 
-**1、** 不需要import声明的简单Java编程语言类型(int,boolean等)
+当 convertView 为空时，用 setTag()方法为每个 View 绑定一个存放控件的 ViewHolder 对象。当convertView 不为空， 重复利用已经创建的 view 的时候， 使用 getTag()方法获取绑定的 ViewHolder对象，这样就避免了 findViewById 对控件的层层查询，而是快速定位到控件。 复用 ConvertView，使用历史的 view，提升效率 200%
 
-**2、** String, CharSequence不需要特殊声明
+自定义静态类 ViewHolder，减少 findViewById 的次数。提升效率 50%
 
-**3、** List, Map和Parcelables类型, 这些类型内所包含的数据成员也只能是简单数据类型, String等其他比支持的类型.
+异步加载数据，分页加载数据。
 
-(另外: 我没尝试Parcelables, 在Eclipse+ADT下编译不过, 或许以后会有所支持)
+使用 WeakRefrence 引用 ImageView 对象
 
 
-### 3、ListView 可以显示多种类型的条目吗
+### 5、谈谈对Android NDK的理解
 
-这个当然可以的，ListView 显示的每个条目都是通过 baseAdapter 的 getView(int position,View convertView, ViewGroup parent)来展示的，理论上我们完全可以让每个条目都是不同类型的view。
+NDK是一系列工具的集合.NDK提供了一系列的工具,帮助开发者快速开发C或C++的动态库,并能自动将so和java应用一起打包成apk.这些工具对开发者的帮助是巨大的.NDK集成了交叉编译器,并提供了相应的mk文件隔离CPU,平台,ABI等差异,开发人员只需要简单修改 mk文件(指出"哪些文件需要编译","编译特性要求"等),就可以创建出so.
 
-比如：从服务器拿回一个标识为 id=1,那么当 id=1 的时候，我们就加载类型一的条目，当 id=2的时候，加载类型二的条目。常见布局在资讯类客户端中可以经常看到。
+NDK可以自动地将so和Java应用一起打包,极大地减轻了开发人员的打包工作.NDK提供了一份稳定,功能有限的API头文件声明.
 
-除此之外 adapter 还提供了 getViewTypeCount（）和 getItemViewType(int position)两个方法。在 getView 方法中我们可以根据不同的 viewtype 加载不同的布局文件。
+Google明确声明该API是稳定的,在后续所有版本中都稳定支持当前发布的API.从该版本的NDK中看出,这些 API支持的功能非常有限,包含有:C标准库(libc),标准数学库(libm ),压缩库(libz),Log库(liblog).
 
 
-### 4、ListView 中图片错位的问题是如何产生的
+### 6、Android中的长度单位详解
 
-图片错位问题的本质源于我们的 listview 使用了缓存 convertView， 假设一种场景， 一个 listview一屏显示九个 item，那么在拉出第十个 item 的时候，事实上该 item 是重复使用了第一个 item，也就是说在第一个 item 从网络中下载图片并最终要显示的时候，其实该 item 已经不在当前显示区域内了，此时显示的后果将可能在第十个 item 上输出图像，这就导致了图片错位的问题。所以解决办法就是可见则显示，不可见则不显示。
+```
+Px：像素
+Sp与dp也是长度单位，但是与屏幕的单位密度无关。
+```
 
 
-### 5、andorid 应用第二次登录实现自动登录
+### 7、Android与服务器交互的方式中的对称加密和非对称加密是什么?
 
-前置条件是所有用户相关接口都走 https，非用户相关列表类数据走 http。
+对称加密，就是加密和解密数据都是使用同一个key，这方面的算法有DES。
 
-**步骤**
+非对称加密，加密和解密是使用不同的key。发送数据之前要先和服务端约定生成公钥和私钥，使用公钥加密的数据可以用私钥解密，反之。这方面的算法有RSA。ssh 和 ssl都是典型的非对称加密。
 
-**1、** 第一次登陆 getUserInfo 里带有一个长效 token，该长效 token 用来判断用户是否登陆和换取短 token
 
-**2、** 把长效 token 保存到 SharedPreferences
+### 8、消息推送的方式
 
-**3、** 接口请求用长效 token 换取短token，短 token 服务端可以根据你的接口最后一次请求作为标示，超时时间为一天。
+**1、** 使用极光和友盟推送。
 
-**4、** 所有接口都用短效 token
+**2、** 使用XMPP协议（Openfire + Spark + Smack）
 
-**5、** 如果返回短效 token 失效，执行第3步，再直接当前接口
+**简介：**基于XML协议的通讯协议，前身是Jabber，目前已由IETF国际标准化组织完成了标准化工作。
 
-**6、** 如果长效 token 失效（用户换设备或超过一月），提示用户登录。
+**优点：**协议成熟、强大、可扩展性强、目前主要应用于许多聊天系统中，且已有开源的Java版的开发实例androidpn。
 
+**缺点：**协议较复杂、冗余（基于XML）、费流量、费电，部署硬件成本高。
 
-### 6、什么是嵌入式实时操作系统, Android 操作系统属于实时操作系统吗?
+**3、** 使用MQTT协议（更多信息见：[mqtt.org/）][mqtt.org]
 
-嵌入式实时操作系统是指当外界事件或数据产生时，能够接受并以足够快的速度予以处理，其处理的结果又能在规定的时间之内来控制生产过程或对处理系统作出快速响应，并控制所有实时任务协调一致运行的嵌入式操作系统。主要用于工业控制、 军事设备、 航空航天等领域对系统的响应时间有苛刻的要求，这就需要使用实时系统。又可分为软实时和硬实时两种，而android是基于linux内核的，因此属于软实时。
+**简介：**轻量级的、基于代理的“发布/订阅”模式的消息传输协议。
 
+**优点：**协议简洁、小巧、可扩展性强、省流量、省电，目前已经应用到企业领域（参考：[mqtt.org/software），且…][mqtt.org_software]
 
-### 7、如何将SQLite数据库(dictionary.db文件)与apk文件一起发布
+**缺点：**不够成熟、实现较复杂、服务端组件rsmb不开源，部署硬件成本较高。
 
-解可以将dictionary.db文件复制到Eclipse Android工程中的res aw目录中。所有在res aw目录中的文件不会被压缩，这样可以直接提取该目录中的文件。可以将dictionary.db文件复制到res aw目录中
+**4、** 使用HTTP轮循方式
 
+**简介：**定时向HTTP服务端接口（Web Service API）获取最新消息。
 
-### 8、描述下Handler 机制
+**优点：**实现简单、可控性强，部署硬件成本低。
 
-**1、** Looper: 一个线程可以产生一个Looper对象，由它来管理此线程里的MessageQueue(消息队列)。
+**缺点：**实时性差。
 
-**2、** Handler: 你可以构造Handler对象来与Looper沟通，以便push新消息到MessageQueue里;或者接收Looper从Message Queue取出)所送来的消息。
 
-**3、** Message Queue(消息队列):用来存放线程放入的消息。
+### 9、String,StringBuffer,StringBuilder的区别
 
-**4、** 线程：UIthread 通常就是main thread，而Android启动程序时会替它建立一个MessageQueue。
+String不可改变对象，一旦创建就不能修改
 
-Hander持有对UI主线程消息队列MessageQueue和消息循环Looper的引用，子线程可以通过Handler将消息发送到UI线程的消息队列MessageQueue中。
+```
+String str="aaa";
+str="bbb";
+```
 
+以上代码虽然改变了str，但是执行过程是回收str，把值赋给一个新的str
 
-### 9、Android 应用中验证码登陆都有哪些实现方案
+StringBuffer创建之后，可以去修改
 
-**1、** 从服务器端获取图片
+StringBuilder也可修改，执行效率高于StringBuffer，不安全
 
-**2、** 通过短信服务，将验证码发送给客户端
+当字符赋值少使用String
 
+字符赋值频繁使用StringBuilder
 
-### 10、如何退出Activity？如何安全退出已调用多个Activity的Application？
+当多个线程同步操作数据，使用StringBuffer
 
-对于单一Activity的应用来说，退出很简单，直接finish()即可。当然，也可以用killProcess()和System.exit()这样的方法。
 
-对于多个activity，1、记录打开的Activity：每打开一个Activity，就记录下来。在需要退出时，关闭每一个Activity即可。2、发送特定广播：在需要结束应用时，发送一个特定的广播，每个Activity收到广播后，关闭即可。3、递归退出：在打开新的Activity时使用startActivityForResult，然后自己加标志，在onActivityResult中处理，递归关闭。为了编程方便，最好定义一个Activity基类，处理这些共通问题。
+### 10、Service 里面可以弹吐司么
 
-在2.1之前，可以使用ActivityManager的restartPackage方法。
+可以。
 
-它可以直接结束整个应用。在使用时需要权限android.permission.RESTART_PACKAGES。
 
-注意不要被它的名字迷惑。
-
-可是，在2.2，这个方法失效了。在2.2添加了一个新的方法，killBackground Processes()，需要权限 android.permission.KILL_BACKGROUND_PROCESSES。可惜的是，它和2.2的restartPackage一样，根本起不到应有的效果。
-
-另外还有一个方法，就是系统自带的应用程序管理里，强制结束程序的方法，forceStopPackage()。它需要权限android.permission.FORCE_STOP_PACKAGES。并且需要添加android:sharedUserId="android.uid.system"属性。同样可惜的是，该方法是非公开的，他只能运行在系统进程，第三方程序无法调用。
-
-因为需要在Android.mk中添加LOCAL_CERTIFICATE := platform。
-
-而Android.mk是用于在Android源码下编译程序用的。
-
-从以上可以看出，在2.2，没有办法直接结束一个应用，而只能用自己的办法间接办到。
-
-**现提供几个方法，供参考：**
-
-**1、** 抛异常强制退出：
-
-该方法通过抛异常，使程序Force Close。
-
-验证可以，但是，需要解决的问题是，如何使程序结束掉，而不弹出Force Close的窗口。
-
-**2、** 记录打开的Activity：
-
-每打开一个Activity，就记录下来。在需要退出时，关闭每一个Activity即可。
-
-**3、** 发送特定广播：
-
-在需要结束应用时，发送一个特定的广播，每个Activity收到广播后，关闭即可。
-
-**4、** 递归退出
-
-在打开新的Activity时使用startActivityForResult，然后自己加标志，在onActivityResult中处理，递归关闭。
-
-除了第一个，都是想办法把每一个Activity都结束掉，间接达到目的。但是这样做同样不完美。你会发现，如果自己的应用程序对每一个Activity都设置了nosensor，在两个Activity结束的间隙，sensor可能有效了。但至少，我们的目的达到了，而且没有影响用户使用。为了编程方便，最好定义一个Activity基类，处理这些共通问题。
-
-
-### 11、16Android性能优化
-### 12、recyclerView嵌套卡顿解决如何解决
-### 13、如何提升Service进程优先级
-### 14、NDK
-### 15、说下 Activity 跟 跟 window ， view 之间的关系？
-### 16、如果有个100M大的文件，需要上传至服务器中，而服务器form表单最大只能上传2M，可以用什么方法。
-### 17、Android本身的api并未声明会抛出异常，则其在运行时有无可能抛出runtime异常，你遇到过吗？诺有的话会导致什么问题？如何解决？
-### 18、简要解释一下activity、 intent 、intent filter、service、Broadcase、BroadcaseReceiver
-### 19、DDMS和TraceView的区别?
-### 20、如何将SQLite数据库(dictionary.db文件)与apk文件一起发布?
-### 21、ListView优化
-### 22、横竖屏切换的Activity 生命周期变化？
-### 23、如何修改 Activity 进入和退出动画
-### 24、Android dvm的进程和Linux的进程, 应用程序的进程是否为同一个概念
-### 25、Android数字签名
-### 26、如何将打开res aw目录中的数据库文件?
-### 27、让Activity变成一个窗口
-### 28、Android中的长度单位详解
-### 29、Manifest.xml文件中主要包括哪些信息？
+### 11、都使用过哪些自定义控件
+### 12、Android中常用布局
+### 13、谈谈Android的IPC（进程间通信）机制
+### 14、请解释下Android程序运行时权限与文件系统权限的区别。
+### 15、sim卡的EF文件是什么？有何作用
+### 16、跟activity和Task 有关的 Intent启动方式有哪些？其含义？
+### 17、View的绘制原理
+### 18、Manifest.xml文件中主要包括哪些信息？
+### 19、如何在 ScrollView 中如何嵌入 ListView
+### 20、请描述下Activity的生命周期。
+### 21、如果Listview中的数据源发生改变，如何更新listview中的数据
+### 22、Android 应用中验证码登陆都有哪些实现方案
+### 23、音视频相关类
+### 24、Android中4大组件
+### 25、注册广播有几种方式，这些方式有何优缺点？请谈谈Android引入广播机制的用意。
+### 26、说说 ContentProvider、ContentResolver、ContentObserver 之间的关系
+### 27、Android中任务栈的分配
+### 28、activity，service，intent之间的关系
+### 29、谈谈你对 Bitmap 的理解, 什么时候应该手动调用 bitmap.recycle()
 
 
 
@@ -179,7 +149,7 @@ Hander持有对UI主线程消息队列MessageQueue和消息循环Looper的引用
 
 ### 下载链接：[全部答案，整理好了](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
 
-### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
+
 
 
 ## 最新，高清PDF：172份，7701页，最新整理

@@ -4,139 +4,120 @@
 
 ### 下载链接：[高清172份，累计 7701 页大厂面试题  PDF](https://github.com/souyunku/DevBooks/blob/master/docs/index.md)
 
-### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png)
+
+
+### 1、eureka和zookeeper都可以提供服务注册与发现的功能，请说说两个的区别？
+
+zookeeper 是CP原则，强一致性和分区容错性。
+
+eureka 是AP 原则 可用性和分区容错性。
+
+zookeeper当主节点故障时，zk会在剩余节点重新选择主节点，耗时过长，虽然最终能够恢复，但是选取主节点期间会导致服务不可用，这是不能容忍的。
+
+eureka各个节点是平等的，一个节点挂掉，其他节点仍会正常保证服务。
+
+
+### 2、Spring Cloud和SpringBoot版本对应关系
+| Spring Cloud Version | SpringBoot Version |
+| --- | --- |
+| Hoxton | 2.2.x |
+| Greenwich | 2.1.x |
+| Finchley | 2.0.x |
+| Edgware | 1.5.x |
+| Dalston |  |
 
 
 
-### 1、什么是Netflix Feign？它的优点是什么？
+### 3、设计微服务的最佳实践是什么？
 
-Feign是受到Retrofit，JAXRS-2.0和WebSocket启发的java客户端联编程序。Feign的第一个目标是将约束分母的复杂性统一到http apis，而不考虑其稳定性。在employee-consumer的例子中，我们使用了employee-producer使用REST模板公开的REST服务。
+以下是设计微服务的最佳实践：
 
-但是我们必须编写大量代码才能执行以下步骤
+![](https://gitee.com/souyunkutech/souyunku-home/raw/master/images/souyunku-web/2019/08/0816/01/img_4.png#alt=img%5C_4.png)
 
-**1、** 使用功能区进行负载平衡。
-
-**2、** 获取服务实例，然后获取基本URL。
-
-**3、** 利用REST模板来使用服务。 前面的代码如下
-
-```
-@Controller
-public class ConsumerControllerClient {
-
-@Autowired
-private LoadBalancerClient loadBalancer;
-
-public void getEmployee() throws RestClientException, IOException {
-
-    ServiceInstance serviceInstance=loadBalancer.choose("employee-producer");
-
-    System.out.println(serviceInstance.getUri());
-
-    String baseUrl=serviceInstance.getUri().toString();
-
-    baseUrl=baseUrl+"/employee";
-
-    RestTemplate restTemplate = new RestTemplate();
-    ResponseEntity<String> response=null;
-    try{
-    response=restTemplate.exchange(baseUrl,
-            HttpMethod.GET, getHeaders(),String.class);
-    }catch (Exception ex)
-    {
-        System.out.println(ex);
-    }
-    System.out.println(response.getBody());
-```
-
-之前的代码，有像NullPointer这样的例外的机会，并不是最优的。我们将看到如何使用Netflix Feign使呼叫变得更加轻松和清洁。如果Netflix Ribbon依赖关系也在类路径中，那么Feign默认也会负责负载平衡。
+图4：设计微服务的最佳实践 – 微服务访谈问题
 
 
-### 2、什么是微服务中的反应性扩展？
+### 4、什么是Semantic监控？
 
-Reactive Extensions也称为Rx。这是一种设计方法，我们通过调用多个服务来收集结果，然后编译组合响应。这些调用可以是同步或异步，阻塞或非阻塞。Rx是分布式系统中非常流行的工具，与传统流程相反。
-
-希望这些微服务面试问题可以帮助您进行微服务架构师访谈。
-
-翻译来源：[https://www.edureka.co/blog/interview-questions/microservices-interview-questions/](https://www.edureka.co/blog/interview-questions/microservices-interview-questions/)
+它结合了对整个应用程序的监控以及自动化测试。语义监控的主要好处是找出对您的业务更有利可图的因素。 从业务角度来看，语义监控以及服务层监控可以监控微服务。一旦检测到问题，它们就可以实现更快的隔离和 错误分类，从而减少修复所需的主要时间。它对服务层和事务层进行分类，以确定受可用性或性能不佳影响的事务。
 
 
+### 5、什么是Feign？
 
-### 3、Spring Cloud Sleuth
+**1、** Feign 是一个声明web服务客户端，这使得编写web服务客户端更容易
 
-在微服务中，通常根据业务模块分服务，项目中前端发起一个请求，后端可能跨几个服务调用才能完成这个请求（如下图）。如果系统越来越庞大，服务之间的调用与被调用关系就会变得很复杂，假如一个请求中需要跨几个服务调用，其中一个服务由于网络延迟等原因挂掉了，那么这时候我们需要分析具体哪一个服务出问题了就会显得很困难。Spring Cloud Sleuth服务链路跟踪功能就可以帮助我们快速的发现错误根源以及监控分析每条请求链路上的性能等等。 ![](https://gitee.com/souyunkutech/souyunku-home/raw/master/images/souyunku-web/2020/5/2/023/45/68_1.png#alt=68%5C_1.png)
-
-
-### 4、SpringCloud Config 可以实现实时刷新吗？
-
-springcloud config实时刷新采用SpringCloud Bus消息总线。
+**2、** 他将我们需要调用的服务方法定义成抽象方法保存在本地就可以了，不需要自己构建Http请求了，直接调用接口就行了，不过要注意，调用方法要和本地抽象方法的签名完全一致。
 
 
-### 5、如何覆盖SpringBoot项目的默认属性？
+### 6、微服务架构的优缺点是什么？
 
-这可以通过在application.properties文件中指定属性来完成。 例如，在Spring MVC应用程序中，您必须指定后缀和前缀。这可以通过在application.properties文件中输入下面提到的属性来完成。
-
-```
-对于后缀 - spring.mvc.view.suffix: .jsp
-对于前缀 - spring.mvc.view.prefix: /WEB-INF/
-```
+![](https://gitee.com/souyunkutech/souyunku-home/raw/master/images/souyunku-web/2019/08/0816/01/img_6.png#alt=img%5C_6.png)
 
 
-### 6、Web，RESTful API在微服务中的作用是什么？
+### 7、架构师在微服务架构中的角色是什么？
 
-微服务架构基于一个概念，其中所有服务应该能够彼此交互以构建业务功能。因此，要实现这一点，每个微服务必须具有接口。这使得Web API成为微服务的一个非常重要的推动者。RESTful API基于Web的开放网络原则，为构建微服务架构的各个组件之间的接口提供了最合理的模型。
+微服务架构中的架构师扮演以下角色：
 
+决定整个软件系统的布局。
 
-### 7、在使用微服务架构时，您面临哪些挑战？
+帮助确定组件的分区。因此，他们确保组件相互粘合，但不紧密耦合。
 
-开发一些较小的微服务听起来很容易，但开发它们时经常遇到的挑战如下。
+与开发人员共同编写代码，了解日常生活中面临的挑战。
 
-自动化组件：难以自动化，因为有许多较小的组件。因此，对于每个组件，我们必须遵循Build，Deploy和Monitor的各个阶段。
+为开发微服务的团队提供某些工具和技术的建议。
 
-易感性：将大量组件维护在一起变得难以部署，维护，监控和识别问题。它需要在所有组件周围具有很好的感知能力。
-
-配置管理：有时在各种环境中维护组件的配置变得困难。
-
-调试：很难找到错误的每一项服务。维护集中式日志记录和仪表板以调试问题至关重要。
+提供技术治理，以便技术开发团队遵循微服务原则。
 
 
-### 8、第⼀层缓存：
+### 8、SpringBoot和SpringCloud的区别？
 
-readOnlyCacheMap，本质上是ConcurrentHashMap：这是⼀个JVM的CurrentHashMap只读缓存，这个主要是为了供客户端获取注册信息时使⽤，其缓存更新，依赖于定时器的更新，通过和readWriteCacheMap 的值做对⽐，如果数据不⼀致，则以readWriteCacheMap 的数据为准。readOnlyCacheMap 缓存更新的定时器时间间隔，默认为30秒
+**1、** SpringBoot专注于快速方便的开发单个个体微服务。
 
-#
-### 9、Spring Cloud Task
+**2、** SpringCloud是关注全局的微服务协调整理治理框架，它将SpringBoot开发的一个个单体微服务整合并管理起来，
 
-用于快速构建短暂、有限数据处理任务的微服务框架，用于向应用中添加功能性和非功能性的特性。
+**3、** 为各个微服务之间提供，配置管理、服务发现、断路器、路由、微代理、事件总线、全局锁、决策竞选、分布式会话等等集成服务
 
+**4、** SpringBoot可以离开SpringCloud独立使用开发项目， 但是SpringCloud离不开SpringBoot ，属于依赖的关系
 
-### 10、什么是无所不在的语言？
-
-如果您必须定义泛在语言（UL），那么它是特定域的开发人员和用户使用的通用语言，通过该语言可以轻松解释域。
-
-无处不在的语言必须非常清晰，以便它将所有团队成员放在同一页面上，并以机器可以理解的方式进行翻译。
+**5、** SpringBoot专注于快速、方便的开发单个微服务个体，SpringCloud关注全局的服务治理框架。
 
 
-### 11、微服务限流 dubbo限流：dubbo提供了多个和请求相关的filter：ActiveLimitFilter ExecuteLimitFilter TPSLimiterFilter
-### 12、springcloud和dubbo有哪些区别
-### 13、什么是网关?
-### 14、Spring Cloud Stream
-### 15、什么是不同类型的微服务测试？
-### 16、接⼝限流⽅法？
-### 17、什么是客户证书？
-### 18、微服务有哪些特点？
-### 19、合同测试你懂什么？
-### 20、微服务之间如何独立通讯的?
-### 21、Spring Cloud和SpringBoot版本对应关系
-### 22、什么是耦合和凝聚力？
-### 23、DiscoveryClient的作用
-### 24、你所知道微服务的技术栈有哪些？列举一二
-### 25、Spring Cloud解决了哪些问题？
-### 26、我们如何进行跨功能测试？
-### 27、我们可以用微服务创建状态机吗？
-### 28、什么是Eureka的自我保护模式，
-### 29、如何实现动态Zuul网关路由转发
-### 30、Spring Cloud Gateway
+### 9、如何设计一套API接口
+
+考虑到API接口的分类可以将API接口分为开发API接口和内网API接口，内网API接口用于局域网，为内部服务器提供服务。开放API接口用于对外部合作单位提供接口调用，需要遵循Oauth2.0权限认证协议。同时还需要考虑安全性、幂等性等问题。
+
+
+### 10、什么是端到端微服务测试？
+
+端到端测试验证了工作流中的每个流程都正常运行。这可确保系统作为一个整体协同工作并满足所有要求。
+
+通俗地说，你可以说端到端测试是一种测试，在特定时期后测试所有东西。
+
+![](https://gitee.com/souyunkutech/souyunku-home/raw/master/images/souyunku-web/2019/08/0816/01/img_17.png#alt=img%5C_17.png)
+
+图14：测试层次 – 微服务面试问题
+
+
+### 11、在微服务中，如何保护服务?
+### 12、Eureka和ZooKeeper都可以提供服务注册与发现的功能,请说说两个的区别
+### 13、Spring Cloud Config
+### 14、Spring Cloud Consul
+### 15、链路跟踪Sleuth
+### 16、微服务架构如何运作？
+### 17、微服务之间是如何独立通讯的
+### 18、Spring Cloud的版本关系
+### 19、Web，RESTful API在微服务中的作用是什么？
+### 20、Spring Cloud Netflix(重点，这些组件用的最多)
+### 21、Spring Cloud Zookeeper
+### 22、我们如何在测试中消除非决定论？
+### 23、什么是服务降级
+### 24、spring cloud 和dubbo区别?
+### 25、为什么需要学习Spring Cloud
+### 26、什么是Eureka
+### 27、什么是Oauth？
+### 28、微服务之间是如何独⽴通讯的
+### 29、Spring Cloud Security
+### 30、什么是Spring Cloud？
 
 
 
@@ -145,7 +126,7 @@ readOnlyCacheMap，本质上是ConcurrentHashMap：这是⼀个JVM的CurrentHash
 
 ### 下载链接：[全部答案，整理好了](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
 
-### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
+
 
 
 ## 最新，高清PDF：172份，7701页，最新整理

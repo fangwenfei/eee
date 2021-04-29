@@ -4,269 +4,180 @@
 
 ### 下载链接：[高清172份，累计 7701 页大厂面试题  PDF](https://github.com/souyunku/DevBooks/blob/master/docs/index.md)
 
-### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png)
 
 
+### 1、事件模型
 
-### 1、如何copy一个dom元素？
+**1、** 冒泡型事件：当你使用事件冒泡时，子级元素先触发，父级元素后触发
 
-原生Js方法：var div = document.getElementsByTagName('div')[0];
+**2、** 捕获型事件：当你使用事件捕获时，父级元素先触发，子级元素后触发
 
-var clone = div.cloneNode();
+**3、** `DOM`事件流：同时支持两种事件模型：捕获型事件和冒泡型事件
 
-Jquery方法：$('div').clone();
+**4、** 阻止冒泡：在`W3c`中，使用`stopPropagation（）`方法；在IE下设置`cancelBubble = true`
 
-在默认情况下，.clone()方法不会复制匹配的元素或其后代元素中绑定的事件。不过，可以为这个方法传递一个布尔值参数，将这个参数设置为true, 就可以连同事件一起复制，即.clone(true)。
-
-
-### 2、sessionStorage和localstroage与cookie之间有什么关联, cookie最大存放多少字节
-
-**三者共同点：**
-
-都是保存在浏览器端，且同源的。
-
-区别:
-
-**1、** cookie在浏览器和服务器间来回传递。而sessionStorage和localStorage不会自动把数据发给服务器，仅在本地保存
-
-**2、** 存储大小限制也不同，cookie数据不能超过4k，sessionStorage和localStorage 但比cookie大得多，可以达到5M
-
-**3、** 数据有效期不同，sessionStorage：仅在当前浏览器窗口关闭前有效，自然也就不可能持久保持；localStorage：始终有效，窗口或浏览器关闭也一直保存，因此用作持久数据；cookie只在设置的cookie过期时间之前一直有效，即使窗口或浏览器关闭
-
-**4、** 作用域不同，sessionStorage不在不同的浏览器窗口中共享，即使是同一个页面(即数据不共享)；localStorage 在所有同源窗口中都是共享的；cookie也是在所有同源窗口中都是共享的( 即数据共享 )。
+**5、** 阻止捕获：阻止事件的默认行为，例如`click - <a>`后的跳转。在`W3c`中，使用`preventDefault（）`方法，在`IE`下设置`window.event.returnValue = false`
 
 
-### 3、实现异步的方式有哪些？
-
-**1、** 回调函数模式：将需要异步执行的函数作为回调函数执行，其缺点在于处理复杂逻辑异步逻辑时，会造成回调地狱(回调嵌套层数太多，代码结构混乱)；
-
-**2、** 事件监听模式：采用事件驱动的思想，当某一事件发生时触发执行异步函数，其缺点在于整个代码全部得变为事件驱动模式，难以分辨主流程；
-
-**3、** 发布订阅模式：当异步任务执行完成时发布消息给信号中心，其他任务通过在信号中心中订阅消息来确定自己是否开始执行；
-
-**4、** Promise(ES6)：`Promise`对象共有三种状态`pending`(初始化状态)、`fulfilled`(成功状态)、`rejected`(失败状态)。
-
-**5、** async/await(ES7)：基于`Promise`实现的异步函数； （6）利用生成器实现。
-
-
-### 4、数据持久化技术(ajax)?简述ajax流程###
-
-**1、** 客户端产生js的事件
-
-**2、** 创建XMLHttpRequest对象
-
-**3、** 对XMLHttpRequest进行配置
-
-**4、** 通过AJAX引擎发送异步请求
-
-**5、** 服务器端接收请求并且处理请求，返回html或者xml内容
-
-**6、** XML调用一个callback()处理响应回来的内容
-
-**7、** 页面局部刷新
-
-
-### 5、什么是对象解构？
-
-**对象析构**是从对象或数组中获取或提取值的一种新的、更简洁的方法。假设有如下的对象：
+### 2、typeof？typeof [ ]返回数据类型是？
 
 ```
-const employee = {
-  firstName: "Marko",
-  lastName: "Polo",
-  position: "Software Developer",
-  yearHired: 2017
-};
+//判断基本数据类型；var a=[];typeof a输出object；
+//本来判断一个对象类型用typeof是最好的，不过对于Array类型是不适用的，
+//可以使用 instanceof操作符：
+       var arrayStr=new Array("1","2","3","4","5");    
+       alert(arrayStr instanceof Array); 
+//当然以上在一个简单的页面布局里面是没有问题的，如果是复杂页面情况，
+//入获取的是frame内部的Array对象，可以用这个函数判断：
+       function isArray(obj) {      
+          return Object.prototype.toString.call(obj) === '[object Array]';       
+       }
 ```
 
-从对象获取属性，早期方法是创建一个与对象属性同名的变量。这种方法很麻烦，因为我们要为每个属性创建一个新变量。假设我们有一个大对象，它有很多属性和方法，用这种方法提取属性会很麻烦。
 
-`var firstName = employee.firstName; var lastName = employee.lastName; var position = employee.position; var yearHired = employee.yearHired;`
+### 3、Javascript如何实现继承？
 
-使用解构方式语法就变得简洁多了：
+**1、** 构造继承
 
-`{ firstName, lastName, position, yearHired } = employee;`
+**2、** 原型继承
 
-我们还可以为属性取别名：
+**3、** 实例继承
 
-`let { firstName: fName, lastName: lName, position, yearHired } = employee;`
+**4、** 拷贝继承
 
-当然如果属性值为 `undefined` 时，我们还可以指定默认值：
-
-`let { firstName = "Mark", lastName: lName, position, yearHired } = employee;`
-
-
-### 6、通过new创建一个对象的时候，函数内部有哪些改变###
+原型`prototype`机制或`apply`和`call`方法去实现较简单，建议使用构造函数与原型混合方式
 
 ```
-function Person(){}
-Person.prototype.friend = [];
-Person.prototype.name = '';
-// var a = new Person();
-// a.friend[0] = '王琦';
-// a.name = '程娇';
-// var b = new Person();
-// b.friend？
-// b.name?
-```
-
-**1、** 创建一个空对象，并且 this 变量引用该对象，同时还继承了该函数的原型。
-
-**2、** 属性和方法被加入到 this 引用的对象中。
-
-**3、** 新创建的对象由 this 所引用，并且最后隐式的返回 this 。
-
-
-### 7、同步异步?
-
-**1、** 进程同步：就是在发出一个功能调用时，在没有得到结果之前，该调用就不返回。也就是必须一件一件事做,等前一件做完了才能做下一件事
-
-**2、** 异步的概念和同步相对。当一个异步过程调用发出后，调用者不能立刻得到结果。实际处理这个调用的部件在完成后，通过状态、通知和回调来通知调用者。
-
-
-### 8、JavaScript 中 `this` 值是什么？
-
-基本上，`this`指的是当前正在执行或调用该函数的对象的值。`this`值的变化取决于我们使用它的上下文和我们在哪里使用它。
-
-```
-const carDetails = {
-  name: "Ford Mustang",
-  yearBought: 2005,
-  getName(){
-    return this.name;
-  },
-  isRegistered: true
-};
-
-console.log(carDetails.getName()); // Ford Mustang
-```
-
-这通常是我们期望结果的，因为在`getName`方法中我们返回`this.name`，在此上下文中，`this`指向的是`carDetails`对象，该对象当前是执行函数的“所有者”对象。
-
-接下我们做些奇怪的事情：
-
-```
-var name = "Ford Ranger";
-var getCarName = carDetails.getName;
-
-console.log(getCarName()); // Ford Ranger
-```
-
-上面打印`Ford Ranger`，这很奇怪，因为在第一个`console.log`语句中打印的是`Ford Mustang`。这样做的原因是`getCarName`方法有一个不同的“所有者”对象，即`window`对象。在全局作用域中使用`var`关键字声明变量会在`window`对象中附加与变量名称相同的属性。请记住，当没有使用`“use strict”`时，在全局作用域中`this`指的是`window`对象。
-
-`console.log(getCarName === window.getCarName); // true console.log(getCarName === this.getCarName); // true`
-
-本例中的`this`和`window`引用同一个对象。
-
-解决这个问题的一种方法是在函数中使用`apply`和`call`方法。
-
-`console.log(getCarName.apply(carDetails)); // Ford Mustang console.log(getCarName.call(carDetails)); // Ford Mustang`
-
-`apply`和`call`方法期望第一个参数是一个对象，该对象是函数内部`this`的值。
-
-`IIFE`或**立即执行的函数表达式**，在全局作用域内声明的函数，对象内部方法中的匿名函数和内部函数的`this`具有默认值，该值指向`window`对象。
-
-```
-(function (){
- console.log(this);
-})(); // 打印 "window" 对象
-
-function iHateThis(){
-  console.log(this);
-}
-
-iHateThis(); // 打印 "window" 对象
-
-const myFavoriteObj = {
- guessThis(){
-    function getName(){
-      console.log(this.name);
+ function Parent(){
+        this.name = 'wang';
     }
-    getName();
- },
- name: 'Marko Polo',
- thisIsAnnoying(callback){
-   callback();
- }
-};
 
-myFavoriteObj.guessThis(); // 打印 "window" 对象
-myFavoriteObj.thisIsAnnoying(function (){
- console.log(this); // 打印 "window" 对象
-});
-```
+    function Child(){
+        this.age = 28;
+    }
+    Child.prototype = new Parent();//继承了Parent，通过原型
 
-如果我们要获取`myFavoriteObj`对象中的`name`属性（即**Marko Polo**）的值，则有两种方法可以解决此问题。
-
-一种是将 `this` 值保存在变量中。
-
-```
-const myFavoriteObj = {
- guessThis(){
-  const self = this; // 把 this 值保存在 self 变量中
-  function getName(){
-    console.log(self.name);
+    var demo = new Child();
+    alert(demo.age);
+    alert(demo.name);//得到被继承的属性
   }
-  getName();
- },
- name: 'Marko Polo',
- thisIsAnnoying(callback){
-   callback();
-  }
-};
 ```
 
-第二种方式是使用箭头函数
 
-```
-const myFavoriteObj = {
-  guessThis(){
-     const getName = () => { 
-       console.log(this.name);
-     }
-     getName();
-  },
-  name: 'Marko Polo',
-  thisIsAnnoying(callback){
-   callback();
-  }
-};
-```
+### 4、AJAX 是什么？
 
-箭头函数没有自己的 `this`。它复制了这个封闭的词法作用域中`this`值，在这个例子中，`this`值在`getName`内部函数之外，也就是`myFavoriteObj`对象。
+即异步的 **JavaScript 和 XML**，是一种用于创建快速动态网页的技术，传统的网页（不使用 AJAX）如果需要更新内容，必需重载整个网页面。使用**AJAX**则不需要加载更新整个网页，实现部分内容更新
+
+用到AJAX的技术：
+
+**HTML** - 网页结构
+
+**CSS** - 网页的样式
+
+**JavaScript** - 操作网页的行为和更新DOM
+
+**XMLHttpRequest API** - 用于从服务器发送和获取数据
+
+**PHP，Python，Nodejs** - 某些服务器端语言
 
 
-### 9、disabled readyonly?
+### 5、如何使用storage 对js文件进行缓存
 
-readonly只针对input(text / password)和textarea有效，而disabled对于所有的表单元素都有效，当表单元素在使用了disabled后，当我们将表单以POST或GET的方式提交的话，这个元素的值不会被传递出去，而readonly会将该值传递出去。
-
-
-### 10、什么是构造函数？与普通函数有什么区别?
-
-构造函数：是一种特殊的方法、主要用来创建对象时初始化对象，总与new运算符一起使用，创建对象的语句中构造函数的函数名必须与类名完全相同。
-
-与普通函数相比只能由new关键字调用，构造函数是类的标示
+由于sessionStorage - 针对一个 session 的数据存储，所以我们一般利用localStorage储存js文件，只有在第一次访问该页面的时候加载js文件，以后在访问的时候加载本地localStorage执行
 
 
-### 11、jquery和zepto有什么区别?
-### 12、说几条写JavaScript的基本规范？
-### 13、slice() splice()?
-### 14、节点类型?判断当前节点类型?
-### 15、上一个项目是什么？主要负责哪些？购物车流程?支付功能?
-### 16、什么是事件冒泡？
-### 17、开发时如何对项目进行管理?gulp?
-### 18、30.Jq中怎么样编写插件?
-### 19、什么是函数式编程? JavaScript 的哪些特性使其成为函数式语言的候选语言？
-### 20、web开发中会话跟踪的方法有哪些
-### 21、defer和async
-### 22、sass和less有什么区别?
-### 23、bootstrap好处？
-### 24、Function.prototype.apply 和 Function.prototype.call 之间有什么区别？
-### 25、arguments 的对象是什么？
-### 26、说说你对作用域链的理解
-### 27、JavaScript原型，原型链 ? 有什么特点？
-### 28、JavaScript有几种类型的值？，你能画一下他们的内存图吗？
-### 29、数组的排序方法（sort）？排序？汉字排序？
+### 6、你对数据校验是怎么样处理的？jquery.validate？
+
+通俗的说，就是为保证数据的完整性，用一种指定的算法对原始数据计算出的一个校验值。接收方用同样的算法计算一次校验值，如果和随数据提供的校验值一样，就说明数据是完整的。
+
+用正则表达式来处理;
+
+jquery.validate：为表单验证插件
+
+
+### 7、promise###
+
+Promise的构造函数接收一个参数，是函数，并且传入两个参数：resolve，reject，分别表示异步操作执行成功后的回调函数和异步操作执行失败后的回调函数。
+
+
+### 8、闭包
+
+闭包是指有权访问另一个函数作用域中变量的函数，创建闭包的最常见的方式就是在一个函数内创建另一个函数，通过另一个函数访问这个函数的局部变量,利用闭包可以突破作用链域
+
+**闭包的特性：**
+
+**1、** 函数内再嵌套函数
+
+**2、** 内部函数可以引用外层的参数和变量
+
+**3、** 参数和变量不会被垃圾回收机制回收
+
+**说说你对闭包的理解**
+
+使用闭包主要是为了设计私有的方法和变量。闭包的优点是可以避免全局变量的污染，缺点是闭包会常驻内存，会增大内存使用量，使用不当很容易造成内存泄露。在js中，函数即闭包，只有函数才会产生作用域的概念
+
+
+### 9、节点类型?判断当前节点类型?
+
+**1、** 元素节点
+
+**2、** 属性节点
+
+**3、** 文本节点
+
+**8、** 注释节点
+
+**9、** 文档节点
+
+通过nodeObject.nodeType判断节点类型：其中，nodeObject 为DOM节点（节点对象）。该属性返回以数字表示的节点类型，例如，元素节点返回 1，属性节点返回 2 。
+
+
+### 10、什么是闭包? 堆栈溢出有什么区别？ 内存泄漏? 那些操作会造成内存泄漏？怎么样防止内存泄漏？
+
+**闭包：**
+
+**1、** 就是能够读取其他函数内部变量的函数。
+
+**2、** 堆栈溢出：就是不顾堆栈中分配的局部数据块大小，向该数据块写入了过多的数据，导致数据越界，结果覆盖了别的数据。经常会在递归中发生。
+
+**3、** 内存泄露是指：用动态存储分配函数内存空间，在使用完毕后未释放，导致一直占据该内存单元。直到程序结束。指任何对象在您不再拥有或需要它之后仍然存在。
+
+**造成内存泄漏：**
+
+setTimeout 的第一个参数使用字符串而非函数的话，会引发内存泄漏。
+
+闭包、控制台日志、循环（在两个对象彼此引用且彼此保留时，就会产生一个循环）
+
+防止内存泄露：
+
+**1、** 不要动态绑定事件；
+
+**2、** 不要在动态添加，或者会被动态移除的dom上绑事件，用事件冒泡在父容器监听事件；
+
+**3、** 如果要违反上面的原则，必须提供destroy方法，保证移除dom后事件也被移除，这点可以参考Backbone的源代码，做的比较好；
+
+**4、** 单例化，少创建dom，少绑事件。
+
+
+### 11、什么是包装对象（wrapper object）？
+### 12、说说你对作用域链的理解
+### 13、有哪些方法可以处理 JS 中的异步代码？
+### 14、作用域和执行上下文的区别是什么？
+### 15、JavaScript有几种类型的值？，你能画一下他们的内存图吗？
+### 16、JavaScript原型，原型链 ? 有什么特点？
+### 17、展开(spread )运算符和 剩余(Rest) 运算符有什么区别？
+### 18、Object.seal 和 Object.freeze 方法之间有什么区别？
+### 19、说出几个http协议状态码?
+### 20、disabled readyonly?
+### 21、实现异步的方式有哪些？
+### 22、事件流?事件捕获？事件冒泡？
+### 23、this指向的各种情况都有什么？
+### 24、'use strict' 是干嘛用的？
+### 25、javascript创建对象的几种方式？
+### 26、谈谈你对AMD、CMD的理解
+### 27、如何对登录的账号密码进行加密?
+### 28、如何解决跨域问题?
+### 29、何为防抖和节流？如何实现？
 
 
 
@@ -275,7 +186,7 @@ readonly只针对input(text / password)和textarea有效，而disabled对于所�
 
 ### 下载链接：[全部答案，整理好了](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
 
-### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
+
 
 
 ## 最新，高清PDF：172份，7701页，最新整理

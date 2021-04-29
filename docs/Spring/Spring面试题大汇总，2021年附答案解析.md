@@ -4,135 +4,120 @@
 
 ### 下载链接：[高清172份，累计 7701 页大厂面试题  PDF](https://github.com/souyunku/DevBooks/blob/master/docs/index.md)
 
-### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png)
 
 
+### 1、spring DAO 有什么用？
 
-### 1、SpringBoot 自动配置原理是什么？
-
-注解 @EnableAutoConfiguration, @Configuration, [@ConditionalOnClass ](/ConditionalOnClass ) 就是自动配置的核心，首先它得是一个配置文件，其次根据类路径下是否有这个类去自动配置。
+Spring DAO 使得 JDBC，Hibernate 或 JDO 这样的数据访问技术更容易以一种统一的方式工作。 这使得用户容易在持久性技术之间切换。 它还允许您在编写代码时，无需考虑捕获每种技术不同的异常。
 
 
-### 2、什么是基于注解的容器配置
+### 2、Spring Cloud 和dubbo区别?
 
-不使用 XML 来描述 bean 装配，开发人员通过在相关的类，方法或字段声明上使用注解将配置移动到组件类本身。它可以作为 XML 设置的替代方案。例如：
+**1、** 服务调用方式：dubbo是RPC springcloud Rest Api
 
-Spring 的 Java 配置是通过使用 [@Bean ](/Bean ) 和 [@Configuration ](/Configuration ) 来实现。
+**2、** 注册中心：dubbo 是zookeeper springcloud是eureka，也可以是zookeeper
 
-[@Bean ](/Bean ) 注解扮演与  元素相同的角色。 [@Configuration ](/Configuration ) 类允许通过简单地调用同一个类中的其他 [@Bean ](/Bean ) 方法来定义 bean 间依赖关系。
+**3、** 服务网关，dubbo本身没有实现，只能通过其他第三方技术整合，springcloud有Zuul路由网关，作为路由服务器，进行消费者的请求分发,springcloud支持断路器，与git完美集成配置文件支持版本控制，事物总线实现配置文件的更新与服务自动装配等等一系列的微服务架构要素。
 
-例如：
+
+### 3、如何设计一套API接口
+
+考虑到API接口的分类可以将API接口分为开发API接口和内网API接口，内网API接口用于局域网，为内部服务器提供服务。开放API接口用于对外部合作单位提供接口调用，需要遵循Oauth2.0权限认证协议。同时还需要考虑安全性、幂等性等问题。
+
+
+### 4、Spring Cloud Security
+
+安全工具包，对Zuul代理中的负载均衡OAuth2客户端及登录认证进行支持。
+
+
+### 5、Bean 工厂和 Application contexts 有什么区别？
+
+Application contexts提供一种方法处理文本消息，一个通常的做法是加载文件资源（比如镜像），它们可以向注册为监听器的bean事件。另外，在容器或容器内的对象上执行的那些不得不由bean工厂以程序化方式处理的操作，可以在Application contexts中以声明的方式处理。Application contexts实现了MessageSource接口，该接口的实现以可插拔的方式提供获取本地化消息的方法。
+
+
+### 6、如何实现动态Zuul网关路由转发
+
+通过path配置拦截请求，通过ServiceId到配置中心获取转发的服务列表，Zuul内部使用Ribbon实现本地负载均衡和转发。
+
+
+### 7、如何重新加载SpringBoot上的更改，而无需重新启动服务器？
+
+这可以使用DEV工具来实现。通过这种依赖关系，您可以节省任何更改，嵌入式tomcat将重新启动。
+
+SpringBoot有一个开发工具（DevTools）模块，它有助于提高开发人员的生产力。Java开发人员面临的一个主要挑战是将文件更改自动部署到服务器并自动重启服务器。
+
+开发人员可以重新加载SpringBoot上的更改，而无需重新启动服务器。这将消除每次手动部署更改的需要。SpringBoot在它的第一个版本时没有这个功能。
+
+这是开发人员最需要的功能。DevTools模块完全满足开发人员的需求。该模块将在生产环境中被禁用。它还提供H2数据库控制台以更好地测试应用程序。
+
+
+### 8、什么是 spring 的内部 bean？
+
+只有将 bean 用作另一个 bean 的属性时，才能将 bean 声明为内部 bean。为了定义 bean，Spring 的基于 XML 的配置元数据在 `<property>` 或 `<constructor-arg>` 中提供了 `<bean>` 元素的使用。内部 bean 总是匿名的，它们总是作为原型。
+
+例如，假设我们有一个 Student 类，其中引用了 Person 类。这里我们将只创建一个 Person 类实例并在 Student 中使用它。
+
+Student.java
 
 ```
-@Configuration
-public class StudentConfig {
-    @Bean
-    public StudentBean myStudent() {
-        return new StudentBean();
-    }
+public class Student {
+    private Person person;
+    //Setters and Getters
+}
+public class Person {
+    private String name;
+    private String address;
+    //Setters and Getters
 }
 ```
 
-
-### 3、我们如何连接一个像 MySQL 或者Orcale 一样的外部数据库？
-
-让我们以 MySQL 为例来思考这个问题：
-
-**第一步** - 把 MySQL 连接器的依赖项添加至 pom.xml
-
-**第二步** - 从 pom.xml 中移除 H2 的依赖项
-
-或者至少把它作为测试的范围。
-
-**第三步** - 安装你的 MySQL 数据库
-
-更多的来看看这里 -[https://github.com/in28minutes/jpa-with-hibernate#installing-and-setting-up-MySQL](https://github.com/in28minutes/jpa-with-hibernate#installing-and-setting-up-MySQL)
-
-**第四步** - 配置你的 MySQL 数据库连接
-
-配置 application.properties
+bean.xml
 
 ```
-spring.jpa.hibernate.ddl-auto=none spring.datasource.url=jdbc:MySQL://localhost:3306/todo_example
-spring.datasource.username=todouser spring.datasource.password=YOUR_PASSWORD
+<bean id=“StudentBean" class="com.edureka.Student">
+    <property name="person">
+        <!--This is inner bean -->
+        <bean class="com.edureka.Person">
+            <property name="name" value=“Scott"></property>
+            <property name="address" value=“Bangalore"></property>
+        </bean>
+    </property>
+</bean>
 ```
 
-**第五步** - 重新启动，你就准备好了！
 
-就是这么简单！
+### 9、Spring Cloud Config
 
+Config能够管理所有微服务的配置文件
 
-### 4、使用Spring通过什么方式访问Hibernate?
-
-在Spring中有两种方式访问Hibernate：
-
-**1、** 控制反转 Hibernate Template和 Callback。
-
-**2、** 继承 HibernateDAOSupport提供一个AOP 拦截器。
+集中配置管理工具，分布式系统中统一的外部配置管理，默认使用Git来存储配置，可以支持客户端配置的刷新及加密、解密操作。
 
 
-### 5、SpringBoot性能如何优化
+### 10、[@Qualifier ](/Qualifier ) 注解有什么用？
 
-如果项目比较大，类比较多，不使用@SpringBootApplication，采用@Compoment指定扫包范围
-
-在项目启动时设置JVM初始内存和最大内存相同
-
-将SpringBoot内置服务器由tomcat设置为undertow
+当您创建多个相同类型的 bean 并希望仅使用属性装配其中一个 bean 时，您可以使用[@Qualifier ](/Qualifier ) 注解和 [@Autowired ](/Autowired ) 通过指定应该装配哪个确切的 bean 来消除歧义。
 
 
-### 6、SpringBoot 最大的优势是什么呢？
-
-SpringBoot 的最大的优势是“约定优于配置“。“约定优于配置“是一种软件设计范式，开发人员按照约定的方式来进行编程，可以减少软件开发人员需做决定的数量，获得简单的好处，而又不失灵活性。
-
-SpringBoot 中 “约定优于配置“的具体产品体现在哪里。
-
-SpringBoot Starter、SpringBoot Jpa 都是“约定优于配置“的一种体现。都是通过“约定优于配置“的设计思路来设计的，SpringBoot Starter 在启动的过程中会根据约定的信息对资源进行初始化；SpringBoot Jpa 通过约定的方式来自动生成 Sql ，避免大量无效代码编写。具体详细可以参考：SpringBoot 为什么这么火？
-
-
-### 7、RequestMapping 和 GetMapping 的不同之处在哪里？
-
-RequestMapping 具有类属性的，可以进行 GET,POST,PUT 或者其它的注释中具有的请求方法。
-
-GetMapping 是 GET 请求方法中的一个特例。它只是 ResquestMapping 的一个延伸，目的是为了提高清晰度。
-
-
-### 8、什么是SpringBoot？
-
-用来简化spring应用的初始搭建以及开发过程，使用特定的方式来进行配置（`properties`或`yml`文件）创建独立的spring引用程序 main方法运行，嵌入的Tomcat 无需部署war文件，简化maven配置，自动配置spring添加对应功能starter自动化配置
-
-
-### 9、什么是微服务架构中的DRY？
-
-DRY代表不要重复自己。它基本上促进了重用代码的概念。这导致开发和共享库，这反过来导致紧密耦合。
-
-
-### 10、介绍一下 WebApplicationContext
-
-WebApplicationContext 继承了ApplicationContext 并增加了一些WEB应用必备的特有功能，它不同于一般的ApplicationContext ，因为它能处理主题，并找到被关联的servlet。
-
-
-
-
-### 11、SpringBoot中的监视器是什么？
-### 12、Spring Cloud Gateway
-### 13、Spring MVC常用的注解有哪些？
-### 14、Spring Cloud Bus
-### 15、康威定律是什么？
-### 16、您对微服务有何了解？
-### 17、[@RequestMapping ](/RequestMapping ) 注解有什么用？
-### 18、什么是 Swagger？你用 SpringBoot 实现了它吗？
-### 19、自动装配有哪些局限性 ?
-### 20、什么是Feign？
-### 21、springcloud如何实现服务的注册?
-### 22、什么是 YAML？
-### 23、负载平衡的意义什么？
-### 24、DiscoveryClient的作用
-### 25、核心容器（应用上下文) 模块。
-### 26、什么是YAML？
-### 27、@Component, @Controller, @Repository, [@Service ](/Service ) 有何区别？
-### 28、接⼝限流⽅法？
-### 29、Spring Cloud OpenFeign
-### 30、什么是 AOP 切点
+### 11、@SpringBootApplication注释在内部有什么用处?
+### 12、什么是WebSockets？
+### 13、@Controller注解的作用
+### 14、SpringBoot、Spring MVC 和 Spring 有什么区别？
+### 15、双因素身份验证的凭据类型有哪些？
+### 16、spring-boot-starter-parent有什么用？
+### 17、单片，SOA和微服务架构有什么区别？
+### 18、一个 Spring Bean 定义 包含什么？
+### 19、[@RequestMapping ](/RequestMapping ) 注解有什么用？
+### 20、Spring配置文件
+### 21、Spring Cloud Consul
+### 22、如何覆盖SpringBoot项目的默认属性？
+### 23、怎样在方法里面得到Request,或者Session？
+### 24、保护 SpringBoot 应用有哪些方法？
+### 25、SpringBoot 可以兼容老 Spring 项目吗，如何做？
+### 26、前后端分离，如何维护接口文档 ?
+### 27、如何使用SpringBoot实现异常处理？
+### 28、SpringBoot的自动配置原理是什么
+### 29、Spring、SpringBoot、SpringMVC的区别？
+### 30、什么是Spring Actuator？它有什么优势？
 
 
 
@@ -141,7 +126,7 @@ WebApplicationContext 继承了ApplicationContext 并增加了一些WEB应用必
 
 ### 下载链接：[全部答案，整理好了](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
 
-### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
+
 
 
 ## 最新，高清PDF：172份，7701页，最新整理

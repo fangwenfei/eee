@@ -4,159 +4,182 @@
 
 ### 下载链接：[高清172份，累计 7701 页大厂面试题  PDF](https://github.com/souyunku/DevBooks/blob/master/docs/index.md)
 
-### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png)
 
 
-
-### 1、mkdir （mkdir：创建目录） 创建目录
-
-```
-mkdir 文件夹名称 ;在此目录创建文件夹
-mkdir /opt/java/jdk ;在指定目录创建文件夹
-```
-
-
-### 2、建立软链接(快捷方式)，以及硬链接的命令。
+### 1、目录创建用什么命令？创建文件用什么命令？复制文件用什么命令？
 
 **答案：**
 
-**1、** 软链接： ln -s slink source
+**1、** 创建目录： mkdir
 
-**2、** 硬链接： ln link source
+**2、** 创建文件：典型的如 touch，vi 也可以创建文件，其实只要向一个不存在的文件输出，都会创建文件
 
+**3、** 复制文件： cp 7、文件权限修改用什么命令？格式是怎么样的？
 
-### 3、删除文件?强制删除？递归删除?
+**4、** 文件权限修改： chmod
 
-语法: rm destination
+**格式如下：**
 
--i 询问是否删除,-r 递归删除，-f 强制删除。
+**1、** chmodu+xfile给file的属主增加执行权限 chmod 751 file 给 file 的属主分配读、写、执行(7)的权限，给 file 的所在组分配读、执行(5)的权限，给其他用户分配执行(1)的权限
 
-rm不能删除有文件的目录,需要递归删除。
+**2、** chmodu=rwx,g=rx,o=xfile上例的另一种形式 chmod =r file 为所有用户分配读权限
 
-```
-?  xktest rm jdk
-rm: jdk: is a directory
-?  xktest rm -r jdk
-?  xktest ls
-```
+**3、** chmod444file同上例 chmod a-wx,a+r file同上例
 
-rm -i 询问删除,建议大家平时删除多用 -i，确定一下再删除。
-
-```
-?  xktest touch tomcat
-?  xktest rm -i tomcat
-remove tomcat? n
-```
-
-rm -rf 会直接删除，没有警告信息，使用必须谨慎**。
+**4、** $ chmod -R u+r directory 递归地给 directory 目录下所有文件和子目录的属主分配读的权限
 
 
-### 4、什么是 Linux 内核？
-
-Linux 系统的核心是内核。内核控制着计算机系统上的所有硬件和软件，在必要时分配硬件，并根据需要执行软件。
-
-**1、** 系统内存管理
-
-**2、** 应用程序管理
-
-**3、** 硬件设备管理
-
-**4、** 文件系统管理
-
-
-### 5、同步时间命令
+### 2、如何查看当前主机名？如何修改？如何重启后生效？
 
 ```
-ntpdate ntp1.aliyun.com
+[root@iz2ze76ybn73dvwmdij06zz ~]# hostname//查看当前主机名
+iz2ze76ybn73dvwmdij06zz
+[root@iz2ze76ybn73dvwmdij06zz ~]# hostname xiaoka//修改当前主机名
+[root@iz2ze76ybn73dvwmdij06zz ~]# hostname
+xiaoka
+```
+
+大家知道一般来讲命令重启就会失效，目前基本上用的centos7的比较多，两种方式可以支持重启生效。
+
+一、命令
+
+```
+[root@iz2ze76ybn73dvwmdij06zz ~]# hostnamectl set-hostname xiaoka
+[root@iz2ze76ybn73dvwmdij06zz ~]# hostname
+xiaoka
+[root@xiaoka ~]#
+```
+
+二、修改配置文件:/etc/hostname
+
+```
+[root@xiaoka ~]# vim /etc/hostname
 ```
 
 
-### 6、每天晚上 12 点，打包站点目录/var/www/html 备份到/data 目录下（最好每次备份按时间生成不同的备份包）
+### 3、Unix和Linux有什么区别？
+
+Linux和Unix都是功能强大的操作系统，都是应用广泛的服务器操作系统，有很多相似之处，甚至有一部分人错误地认为Unix和Linux操作系统是一样的，然而，事实并非如此，以下是两者的区别。
+
+**1、开源性**
+
+Linux是一款开源操作系统，不需要付费，即可使用；Unix是一款对源码实行知识产权保护的传统商业软件，使用需要付费授权使用。
+
+**2、跨平台性**
+
+Linux操作系统具有良好的跨平台性能，可运行在多种硬件平台上；Unix操作系统跨平台性能较弱，大多需与硬件配套使用。
+
+**3、可视化界面**
+
+Linux除了进行命令行操作，还有窗体管理系统；Unix只是命令行下的系统。
+
+**4、硬件环境**
+
+Linux操作系统对硬件的要求较低，安装方法更易掌握；Unix对硬件要求比较苛刻，按照难度较大。
+
+**5、用户群体**
+
+Linux的用户群体很广泛，个人和企业均可使用；Unix的用户群体比较窄，多是安全性要求高的大型企业使用，如银行、电信部门等，或者Unix硬件厂商使用，如Sun等
+
+相比于Unix操作系统，Linux操作系统更受广大计算机爱好者的喜爱，主要原因是Linux操作系统具有Unix操作系统的全部功能，并且能够在普通PC计算机上实现全部的Unix特性，开源免费的特性，更容易普及使用！
+
+
+### 4、怎么查看系统支持的所有信号？
+
+**答案：**
+
+kill -l
+
+
+### 5、ll （ll：list的缩写，查看列表详情）查看当前目录下的所有详细信息和文件夹（ll 结果是详细,有时间,是否可读写等信息）
 
 ```
-# cat a.sh 
-#/bin/bash
-cd /var/www/ && /bin/tar zcf /data/html-`date +%m-%d%H`.tar.gz html/
-# crontab –e
-00 00 * * * /bin/sh /root/a.sh
-```
-
-
-
-### 7、验证网络可链接命令是什么？什么原理？
-
-ping。这个 ping 命令发送一个特殊的网络数据包(叫做 IMCP ECHO REQUEST)到一台指定的主机。大多数接收这个包的网络设备将会回复它，来允许网络连接验证。
-
-![80_5.png][80_5.png]image-20200421142307602
-
-一旦启动，ping会持续在特定时间（默认1秒）发送数据包。
-
-
-### 8、什么是BASH？
-
-BASH是Bourne Again SHell的缩写。它由Steve Bourne编写，作为原始Bourne Shell（由/ bin / sh表示）的替代品。它结合了原始版本的Bourne Shell的所有功能，以及其他功能，使其更容易使用。从那以后，它已被改编为运行Linux的大多数系统的默认shell。
-
-
-### 9、重新命名文件？移动文件？
-
-语法 ： mv soucre target
-
-重命名:
-
-```
-?  xktest ls
-?  xktest touch java
-?  xktest ls
-java
-?  xktest mv java java1.8
-?  xktest ls
-java1.8
-```
-
-移动文件:
-
-新建jdk目录把java1.8文件移动到jdk目录下。
-
-```
-?  xktest ls
-java1.8
-?  xktest mkdir jdk
-?  xktest mv java1.8 jdk
-?  xktest ls -R
-jdk
- ./jdk:
-java1.8
+ll -a ;显示所有文件,隐藏文件也显示出来
+ll -R ;连同子目录内容一起列出来
+ll -h ;友好展示详情信息,可以看大小
+ll -al ;即能显示隐藏文件又能显示详细列表。
 ```
 
 
-### 10、cp（copy单词缩写，复制功能）
+### 6、yum install -y lrzsz 命令（实现win到Linux文件互相简单上传文件）
 
 ```
-cp /opt/java/java.log /opt/logs/ ;把java.log 复制到/opt/logs/下
-cp /opt/java/java.log /opt/logs/aaa.log ;把java.log 复制到/opt/logs/下并且改名为aaa.log
-cp -r /opt/java /opt/logs ;把文件夹及内容复制到logs文件中
+#（实际上就是在Linux系统中下载了一个插件）下了了此安装包后就可以实现win系统到linux之间拉文件拉文件
+#等待下载完了就可以输入：
+
+rz  从win系统中选择文件上传到Linux系统中
+
+sz  文件名 选择Linux系统的文件复制到win系统中
 ```
 
 
-### 11、发现一个病毒文件你删了他又自动创建怎么解决
-### 12、Linux系统缺省的运行级别？
-### 13、如何切换目录？
-### 14、移动文件用哪个命令？改名用哪个命令？
-### 15、keepalive的工作原理和如何做到健康检查
-### 16、Windows和Linux的区别
-### 17、| 管道命令（把多个命令组合起来使用）
-### 18、Grep 命令有什么用？ 如何忽略大小写？ 如何查找不含该串的行?
-### 19、开源的优势是什么？
-### 20、Linux 中进程有哪几种状态？在 ps 显示出来的信息中，分别用什么符号表示的？
-### 21、服务器开不了机怎么解决一步步的排查
-### 22、你的系统目前有许多正在运行的任务，在不重启机器的条件下，有什么方法可以把所有正在运行的进程移除呢？
-### 23、什么叫网站灰度发布？
-### 24、Linux 性能调优都有哪几种方法？
-### 25、写一个脚本，实现判断192.168.1.0/24网络里，当前在线的IP有哪些，能ping通则认为在线
-### 26、Linux 的目录结构是怎样的？
-### 27、GNU项目的重要性是什么？
-### 28、如何执行可以执行文件?
-### 29、Linux广泛使用的归档数据方法?
+### 7、删除文件用哪个命令？如果需要连目录及目录下文件一块删除呢？删除空文件夹用什么命令？
+
+**答案：**
+
+rm rm -r rmdir
+
+
+### 8、简述DNS进行域名解析的过程？
+
+用户要访问www.baidu.com，会先找本机的host文件，再找本地设置的DNS服务器，如果也没有的话，就去网络中找根服务器，根服务器反馈结果，说只能提供一级域名服务器.cn，就去找一级域名服务器，一级域名服务器说只能提供二级域名服务器.com.cn,就去找二级域名服务器，二级域服务器只能提供三级域名服务器.baidu.com.cn，就去找三级域名服务器，三级域名服务器正好有这个网站www.baidu.com，然后发给请求的服务器，保存一份之后，再发给客户端
+
+
+### 9、如何中断一个进程?
+
+在一个终端中， Ctrl + c
+
+通过这个命令许多（不是全部）命令行程序都可以被中断。
+
+
+### 10、一台 Linux 系统初始化环境后需要做一些什么安全工作？
+
+添加普通用户登陆，禁止 root 用户登陆，更改 SSH 端口号。
+
+> 修改 SSH 端口不一定绝对哈。当然，如果要暴露在外网，建议改下。
+
+
+**1、** 服务器使用密钥登陆，禁止密码登陆。
+
+**2、** 开启防火墙，关闭 SElinux ，根据业务需求设置相应的防火墙规则。
+
+**3、** 装 fail2ban 这种防止 SSH 暴力破击的软件。
+
+**4、** 设置只允许公司办公网出口 IP 能登陆服务器(看公司实际需要)
+
+> 也可以安装 VPN 等软件，只允许连接 VPN 到服务器上。
+
+
+**1、** 修改历史命令记录的条数为 10 条。
+
+**2、** 只允许有需要的服务器可以访问外网，其它全部禁止。
+
+**3、** 做好软件层面的防护。
+
+**4、** 设置 nginx_waf 模块防止 SQL 注入。
+
+**5、** 把 Web 服务使用 www 用户启动，更改网站目录的所有者和所属组为 www
+
+
+### 11、压缩工具有哪些?
+### 12、简述raid0 raid1 raid5 三种工作模式的工作原理及特点
+### 13、top 命令
+### 14、查看各类环境变量用什么命令?
+### 15、如何查找匹配的文件？基于文件属性？
+### 16、终端是哪个文件夹下的哪个文件？黑洞文件是哪个文件夹下的哪个命令？
+### 17、使用什么命令查看磁盘使用空间？ 空闲空间呢?
+### 18、Squid、Varinsh和Nginx有什么区别，工作中你怎么选择？
+### 19、tar （解压 压缩 命令）
+### 20、关机linux
+### 21、哪个命令专门用来查看后台任务?
+### 22、查看整个文件？按照有文本显示行号？无文本显示行号？
+### 23、现在给你三百台服务器，你怎么对他们进行管理？
+### 24、实时监测进程
+### 25、哪一个bash内置命令能够进行数学运算。
+### 26、储存用户的文件是?包括哪些信息？
+### 27、怎样一页一页地查看一个大文件的内容呢？
+### 28、查看时间命令：
+### 29、ls （ls：list的缩写，查看列表）查看当前目录下的所有文件夹（ls 只列出文件名或目录名）
 
 
 
@@ -165,7 +188,7 @@ cp -r /opt/java /opt/logs ;把文件夹及内容复制到logs文件中
 
 ### 下载链接：[全部答案，整理好了](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
 
-### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
+
 
 
 ## 最新，高清PDF：172份，7701页，最新整理

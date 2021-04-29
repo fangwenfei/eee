@@ -4,67 +4,69 @@
 
 ### 下载链接：[高清172份，累计 7701 页大厂面试题  PDF](https://github.com/souyunku/DevBooks/blob/master/docs/index.md)
 
-### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png)
 
 
+### 1、请解释`ngx_http_upstream_module`的作用是什么?
 
-### 1、轮询(默认)
+`ngx_http_upstream_module`用于定义可通过`fastcgi`传递、`proxy`传递、`uwsgi`传递、`Memcached`传递和scgi传递指令来引用的服务器组。
 
-每个请求按时间顺序逐一分配到不同的后端服务器，如果后端某个服务器宕机，能自动剔除故障系统。
+
+### 2、nignx配置
 
 ```
-upstream backserver {
- server 192.168.0.12;
- server 192.168.0.13;
+worker_processes  8;     工作进程个数
+
+worker_connections  65535;  每个工作进程能并发处理（发起）的最大连接数（包含所有连接数）
+
+error_log         /data/logs/nginx/error.log;  错误日志打印地址
+
+access_log      /data/logs/nginx/access.log  进入日志打印地址
+
+log_format  main  'remote_addr"request" ''status upstream_addr "$request_time"'; 进入日志格式
+
+fastcgi_connect_timeout=300; #连接到后端fastcgi超时时间
+
+fastcgi_send_timeout=300; #向fastcgi请求超时时间(这个指定值已经完成两次握手后向fastcgi传送请求的超时时间)
+
+fastcgi_rend_timeout=300; #接收fastcgi应答超时时间，同理也是2次握手后
+
+fastcgi_buffer_size=64k; #读取fastcgi应答第一部分需要多大缓冲区，该值表示使用1个64kb的缓冲区读取应答第一部分(应答头),可以设置为fastcgi_buffers选项缓冲区大小
+
+fastcgi_buffers 4 64k;#指定本地需要多少和多大的缓冲区来缓冲fastcgi应答请求，假设一个php或java脚本所产生页面大小为256kb,那么会为其分配4个64kb的缓冲来缓存
+
+fastcgi_cache TEST;#开启fastcgi缓存并为其指定为TEST名称，降低cpu负载,防止502错误发生
+
+listen       80;                                            监听端口
+
+server_name  rrc.test.jiedaibao.com;       允许域名
+
+root  /data/release/rrc/web;                    项目根目录
+
+index  index.php index.html index.htm;  访问根文件
+```
+
+
+### 3、请解释 Nginx 服务器上的 Master 和 Worker 进程分别是什么?
+
+Master 进程：读取及评估配置和维持
+
+Worker 进程：处理请求
+
+
+### 4、在 Nginx 中，如何使用未定义的服务器名称来阻止处理请求?
+
+只需将请求删除的服务器就可以定义为：
+
+Server {listen 80;server_name “ “ ;return 444;
+
 }
-```
+
+这里，服务器名被保留为一个空字符串，它将在没有“主机”头字段的情况下
+
+匹配请求，而一个特殊的 Nginx 的非标准代码 444 被返回，从而终止连接。
 
 
-### 2、为什么要做动静分离？
-
-**1、** Nginx是当下最热的Web容器，网站优化的重要点在于静态化网站，网站静态化的关键点则是是动静分离，动静分离是让动态网站里的动态网页根据一定规则把不变的资源和经常变的资源区分开来，动静资源做好了拆分以后，我们则根据静态资源的特点将其做缓存操作。
-
-**2、** 让静态的资源只走静态资源服务器，动态的走动态的服务器
-
-**3、** Nginx的静态处理能力很强，但是动态处理能力不足，因此，在企业中常用动静分离技术。
-
-**4、** 对于静态资源比如图片，js，css等文件，我们则在反向代理服务器nginx中进行缓存。这样浏览器在请求一个静态资源时，代理服务器nginx就可以直接处理，无需将请求转发给后端服务器tomcat。
-
-**5、** 若用户请求的动态文件，比如servlet,jsp则转发给Tomcat服务器处理，从而实现动静分离。这也是反向代理服务器的一个重要的作用。
-
-
-### 3、权重 weight
-
-weight的值越大分配
-
-到的访问概率越高，主要用于后端每台服务器性能不均衡的情况下。其次是为在主从的情况下设置不同的权值，达到合理有效的地利用主机资源。
-
-```
-upstream backserver {
- server 192.168.0.12 weight=2;
- server 192.168.0.13 weight=8;
-}
-```
-
-权重越高，在被访问的概率越大，如上例，分别是20%，80%。
-
-
-### 4、如何用Nginx解决前端跨域问题？
-
-使用Nginx转发请求。把跨域的接口写成调本域的接口，然后将这些接口转发到真正的请求地址。
-
-
-### 5、怎么限制浏览器访问？
-
-```
-## 不允许谷歌浏览器访问 如果是谷歌浏览器返回500
- if ($http_user_agent ~ Chrome) {
-    return 500;
-}
-```
-
-
-### 6、请解释你如何通过不同于 80 的端口开启 Nginx?
+### 5、请解释你如何通过不同于 80 的端口开启 Nginx?
 
 为了通过一个不同的端口开启 Nginx，你必须进入/etc/Nginx/sites
 
@@ -75,61 +77,116 @@ enabled/，如果这是默认文件，那么你必须打开名为“default”�
 Like server { listen 81; }
 
 
-### 7、请解释什么是`C10K`问题?
-
-`C10K`问题是指无法同时处理大量客户端(10,000)的网络套接字。
-
-
-### 8、漏桶流算法和令牌桶算法知道，漏桶算法#
-
-漏桶算法是网络世界中流量整形或速率限制时经常使用的一种算法，它的主要目的是控制数据注入到网络的速率，平滑网络上的突发流量。漏桶算法提供了一种机制，通过它，突发流量可以被整形以便为网络提供一个稳定的流量。也就是我们刚才所讲的情况。漏桶算法提供的机制实际上就是刚才的案例：**突发流量会进入到一个漏桶，漏桶会按照我们定义的速率依次处理请求，如果水流过大也就是突发流量过大就会直接溢出，则多余的请求会被拒绝。所以漏桶算法能控制数据的传输速率。**
-
-![56_1.png][56_1.png]
-
-
-### 9、Nginx负载均衡的算法怎么实现的?策略有哪些?
-
-为了避免服务器崩溃，大家会通过负载均衡的方式来分担服务器压力。将对台服务器组成一个集群，当用户访问时，先访问到一个转发服务器，再由转发服务器将访问分发到压力更小的服务器。
-
-Nginx负载均衡实现的策略有以下五种：
-
-
-### 10、url_hash(第三方插件)
-
-必须安装Nginx的hash软件包
-
-按访问url的hash结果来分配请求，使每个url定向到同一个后端服务器，可以进一步提高后端缓存服务器的效率。
+### 6、Nginx配置文件nginx.conf有哪些属性模块?
 
 ```
-upstream backserver {
- server squid1:3128; 
- server squid2:3128; 
- hash $request_uri; 
- hash_method crc32; 
+worker_processes 1；# worker进程的数量
+events {#事件区块开始
+    worker_connections 1024；#每个 worker进程支持的最大连接数
+}
+
+#事件区块结束
+
+http {#
+    HTTP区块开始
+    include mime.types；# Nginx支持的媒体类型库文件
+    default_type application / octet - stream；#默认的媒体类型
+    sendfile on；#开启高效传输模式
+    keepalive_timeout 65；#连接超时
+    server {
+
+        #第一个
+        Server区块开始，表示一个独立的虚拟主机站点
+        listen 80；#提供服务的端口，默认 80
+        server_name localhost；#提供服务的域名主机名
+        location / {
+             #第一个
+            location区块开始
+            root html；#站点的根目录，相当于 Nginx的安装目录
+            index index.html index.htm；#默认的首页文件，多个用空格分开
+        }
+
+        #第一个
+        location区块结果
+        error_page 500502503504 / 50x.html；#出现对应的 http状态码时，使用 50x.html回应客户
+        location = /50x.html {
+              # location区块开始，访问50x.html
+            root   html；                                  # 指定对应的站点目录为html
+        }
+    }
+......
+```
+
+
+### 7、使用“反向代理服务器的优点是什么?
+
+反向代理服务器可以隐藏源服务器的存在和特征。它充当互联网云和web服务器之间的中间层。这对于安全方面来说是很好的，特别是当您使用web托管服务时。
+
+
+### 8、请陈述 stub_status 和 sub_filter 指令的作用是什么?
+
+Stub_status 指令：该指令用于了解 Nginx 当前状态的当前状态，如当前的活
+
+动连接，接受和处理当前读/写/等待连接的总数
+
+Sub_filter 指令：它用于搜索和替换响应中的内容，并快速修复陈旧的数据
+
+
+### 9、请解释是否有可能将 Nginx 的错误替换为 502 错误、503?
+
+502 =错误网关
+
+503 =服务器超载
+
+有可能，但是您可以确保 fastcgi_intercept_errors 被设置为 ON，并使用错
+
+误页面指令。
+
+Location / {fastcgi_pass 127.0.01:9001;fastcgi_intercept_errors
+
+on;error_page 502 =503/error_page.html;#…}
+
+
+### 10、正常限制访问频率（正常流量）
+
+**1、** 限制一个用户发送的请求，我Nginx多久接收一个请求。
+
+**2、** Nginx中使用ngx_http_limit_req_module模块来限制的访问频率，限制的原理实质是基于漏桶算法原理来实现的。在nginx.conf配置文件中可以使用limit_req_zone命令及limit_req命令限制单个IP的请求处理频率。
+
+```
+#定义限流维度，一个用户一分钟一个请求进来，多余的全部漏掉
+limit_req_zone $binary_remote_addr zone = one: 10m rate = 1r / m;#绑定限流维度
+server {
+    location / seckill.html {
+        limit_req zone = zone;
+        proxy_pass http: //lj_seckill;
+    }
 }
 ```
 
+1r/s代表1秒一个请求，1r/m一分钟接收一个请求， 如果Nginx这时还有别人的请求没有处理完，Nginx就会拒绝处理该用户请求。
 
-### 11、请陈述stub_status和sub_filter指令的作用是什么?
-### 12、Nginx 如何实现后端服务的健康检查？
-### 13、Location正则案例
-### 14、Nginx应用场景？
-### 15、在 Nginx 中，解释如何在 URL 中保留双斜线?
-### 16、location的作用是什么？
-### 17、请解释`ngx_http_upstream_module`的作用是什么?
-### 18、nignx配置
-### 19、nginx和apache的区别？
-### 20、如何通过不同于80的端口开启Nginx?
-### 21、ip_hash( IP绑定)
-### 22、Nginx静态资源?
-### 23、请列举 Nginx 的一些特性。
-### 24、Nginx如何处理HTTP请求？
-### 25、ngx_http_upstream_module的作用是什么?
-### 26、nginx是如何实现高并发的？
-### 27、突发限制访问频率（突发流量）
-### 28、Nginx怎么判断别IP不可访问？
-### 29、fair(第三方插件)
-### 30、解释如何在 Nginx 中获得当前的时间?
+
+### 11、轮询(默认)
+### 12、在 Nginx 中，解释如何在 URL 中保留双斜线?
+### 13、Nginx 是如何实现高并发的？
+### 14、fair(第三方插件)
+### 15、请陈述stub_status和sub_filter指令的作用是什么?
+### 16、令牌桶算法#
+### 17、Nginx目录结构有哪些？
+### 18、什么是C10K问题?
+### 19、Nginx 有哪些优点？
+### 20、限制并发连接数
+### 21、nginx状态码
+### 22、nginx和apache的区别？
+### 23、502错误可能原因
+### 24、location的作用是什么？
+### 25、什么是动态资源、静态资源分离？
+### 26、在Nginx中，如何使用未定义的服务器名称来阻止处理请求?
+### 27、列举Nginx服务器的最佳用途。
+### 28、解释如何在 Nginx 中获得当前的时间?
+### 29、ip_hash( IP绑定)
+### 30、为什么不使用多线程？
 
 
 
@@ -138,7 +195,7 @@ upstream backserver {
 
 ### 下载链接：[全部答案，整理好了](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
 
-### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
+
 
 
 ## 最新，高清PDF：172份，7701页，最新整理

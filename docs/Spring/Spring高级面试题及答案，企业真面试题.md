@@ -4,132 +4,141 @@
 
 ### 下载链接：[高清172份，累计 7701 页大厂面试题  PDF](https://github.com/souyunku/DevBooks/blob/master/docs/index.md)
 
-### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png)
 
 
+### 1、springcloud核⼼组件及其作⽤，以及springcloud⼯作原理：
 
-### 1、运行 SpringBoot 有哪几种方式？
+![](https://gitee.com/souyunkutech/souyunku-home/raw/master/images/souyunku-web/2020/5/2/01/44/45_9.png#alt=45%5C_9.png)
 
-**1、**  打包用命令或者放到容器中运行
+**springcloud由以下⼏个核⼼组件构成：**
 
-**2、**  用 Maven/ Gradle 插件运行
+**1、** Eureka：各个服务启动时，Eureka Client都会将服务注册到Eureka Server，并且Eureka Client还可以反过来从Eureka Server拉取注册表，从⽽知道其他服务在哪⾥
 
-**3、**  直接执行 main 方法运行
+**2、** Ribbon：服务间发起请求的时候，基于Ribbon做负载均衡，从⼀个服务的多台机器中选择⼀台
 
+**3、** Feign：基于Feign的动态代理机制，根据注解和选择的机器，拼接请求URL地址，发起请求
 
-### 2、SpringBoot 的核心配置文件有哪几个？它们的区别是什么？
+**4、** Hystrix：发起请求是通过Hystrix的线程池来⾛的，不同的服务⾛不同的线程池，实现了不同服务调⽤的隔离，避免了服务雪崩的问题
 
-SpringBoot 的核心配置文件是 application 和 bootstrap 配置文件。
-
-application 配置文件这个容易理解，主要用于 SpringBoot 项目的自动化配置。
-
-bootstrap 配置文件有以下几个应用场景。
-
-使用 Spring Cloud Config 配置中心时，这时需要在 bootstrap 配置文件中添加连接到配置中心的配置属性来加载外部配置中心的配置信息； 一些固定的不能被覆盖的属性；一些加密/解密的场景
+**5、** Zuul：如果前端、移动端要调⽤后端系统，统⼀从Zuul⽹关进⼊，由Zuul⽹关转发请求给对应的服务
 
 
-### 3、如何覆盖SpringBoot项目的默认属性？
+### 2、使用 SpringBoot 开发分布式微服务时，我们面临什么问题
 
-这可以通过在application.properties文件中指定属性来完成。 例如，在Spring MVC应用程序中，您必须指定后缀和前缀。这可以通过在application.properties文件中输入下面提到的属性来完成。
+**1、** 与分布式系统相关的复杂性-这种开销包括网络问题，延迟开销，带宽问题，安全问题。
 
-```
-对于后缀 - spring.mvc.view.suffix: .jsp
-对于前缀 - spring.mvc.view.prefix: /WEB-INF/
-```
+**2、** 服务发现-服务发现工具管理群集中的流程和服务如何查找和互相交谈。它涉及一个服务目录，在该目录中注册服务，然后能够查找并连接到该目录中的服务。
 
+**3、** 冗余-分布式系统中的冗余问题。
 
-### 4、开启SpringBoot特性有哪几种方式？（创建SpringBoot项目的两种方式）
+**4、** 负载平衡 --负载平衡改善跨多个计算资源的工作负荷，诸如计算机，计算机集群，网络链路，中央处理单元，或磁盘驱动器的分布。
 
-**1、** 继承Spring-boot-start-parent项目
-
-**2、** 导入Spring-boot-dependencies项目依赖
+**5、** 性能-问题 由于各种运营开销导致的性能问题。
 
 
-### 5、如何使用 SpringBoot 自动重装我的应用程序？
+### 3、什么是 AOP 代理?
 
-使用 SpringBoot 开发工具。
-
-把 SpringBoot 开发工具添加进入你的项目是简单的。
-
-把下面的依赖项添加至你的 SpringBoot Project pom.xml 中
-
-重启应用程序，然后就可以了。
-
-同样的，如果你想自动装载页面，有可以看看 FiveReload
-
-```
-http://www.logicbig.com/tutorials/spring-framework/spring-boot/boot-live-reload/.
-```
-
-在我测试的时候，发现了 LiveReload 漏洞，如果你测试时也发现了，请一定要告诉我们。
+代理是通知目标对象后创建的对象。从客户端的角度看，代理对象和目标对象是一样的。
 
 
-### 6、Spring、SpringBoot、SpringMVC的区别？
+### 4、微服务有什么特点？
 
-**1、** Spring框架就像一个家族，有众多衍生产品，例如boot、mvc、jpa等等。但他们的基础都是Spring的ioc、aop。ioc提供了依赖注入的容器，aop解决了面向横切面编程，然后在此两者的基础上实现了其它延伸产品的高级功能；
+您可以列出微服务的特征，如下所示：
 
-**2、** springMVC是基于Servlet的一个MVC框架主要解决WEB开发的问题；
+![](https://gitee.com/souyunkutech/souyunku-home/raw/master/images/souyunku-web/2019/08/0816/01/img_9.png#alt=img%5C_9.png)
 
-**3、** 为了简化开发的使用，从而创造性地推出了SpringBoot框架，默认优于配置
-
-
-### 7、什么是Spring Actuator？它有什么优势？
-
-这是SpringBoot中最常见的面试问题之一。根据Spring文件：
-
-执行器是一个制造术语，指的是移动或控制某物的机械装置。执行机构可以从一个小的变化中产生大量的运动。
-
-众所周知，SpringBoot提供了许多自动配置特性，帮助开发人员快速开发生产组件。但是，当考虑调试和如何调试，如果出现问题，总是需要分析日志并挖掘应用程序的数据流，检查问题出在何处。因此，Spring Actuator提供了方便的访问这些类型的途径。它提供了许多特性，例如创建了什么样的bean、控制器中的映射、CPU使用情况等等。它还可以将自动收集和审计健康状况和指标应用到应用程序中。
-
-它提供了一种非常简单的方法来访问少数生产就绪的REST端点，并从Web获取各种信息。但是通过使用这些端点，你可以做很多事情来查看端点文档。没有必要担心安全问题;如果存在Spring Security，则默认使用Spring Security的内容协商策略保护这些端点。或者，可以在RequestMatcher的帮助下配置自定义安全性。
+图7：微服务的特征 – 微服务访谈问题
 
 
-### 8、[@Qualifier ](/Qualifier ) 注解有什么用？
+### 5、服务注册和发现是什么意思？Spring Cloud如何实现？
 
-当您创建多个相同类型的 bean 并希望仅使用属性装配其中一个 bean 时，您可以使用[@Qualifier ](/Qualifier ) 注解和 [@Autowired ](/Autowired ) 通过指定应该装配哪个确切的 bean 来消除歧义。
-
-
-### 9、Spring MVC的异常处理？
+当我们开始一个项目时，我们通常在属性文件中进行所有的配置。随着越来越多的服务开发和部署，添加和修改这些属性变得更加复杂。有些服务可能会下降，而某些位置可能会发生变化。手动更改属性可能会产生问题。Eureka服务注册和发现可以在这种情况下提供帮助。由于所有服务都在Eureka服务器上注册并通过调用Eureka服务器完成查找，因此无需处理服务地点的任何更改和处理。
 
 
+### 6、AOP 有哪些实现方式？
 
-可以将异常抛给Spring框架，由Spring框架来处理；我们只需要配置简单的异常处理器，在异常处理器中添视图页面即可。
+**实现 AOP 的技术，主要分为两大类：**
+
+**静态代理**
+
+指使用 AOP 框架提供的命令进行编译，从而在编译阶段就可生成 AOP 代理类，因此也称为编译时增强；
+
+编译时编织（特殊编译器实现）
+
+类加载时编织（特殊的类加载器实现）。
+
+**动态代理**
+
+在运行时在内存中“临时”生成 AOP 动态代理类，因此也被称为运行时增强。
+
+**JDK 动态代理**
+
+**CGLIB**
 
 
-### 10、为什么我们需要 spring-boot-maven-plugin?
+### 7、如何给Spring 容器提供配置元数据?
 
-spring-boot-maven-plugin 提供了一些像 jar 一样打包或者运行应用程序的命令。
+这里有三种重要的方法给Spring 容器提供配置元数据。
 
-spring-boot:run 运行你的 SpringBooty 应用程序。
+**1、** XML配置文件。
 
-spring-boot：repackage 重新打包你的 jar 包或者是 war 包使其可执行
+**2、** 基于注解的配置。
 
-spring-boot：start 和 spring-boot：stop 管理 SpringBoot 应用程序的生命周期（也可以说是为了集成测试）。
-
-spring-boot:build-info 生成执行器可以使用的构造信息。
+**3、** 基于java的配置。
 
 
-### 11、Zuul与Nginx有什么区别？
-### 12、SpringBoot 支持哪些日志框架？推荐和默认的日志框架是哪个？
-### 13、什么是依赖注入？
-### 14、开启 SpringBoot 特性有哪几种方式？
-### 15、SpringBoot 中如何实现定时任务 ?
-### 16、SpringBoot 有哪几种读取配置的方式？
-### 17、如何配置SpringBoot应用程序日志记录？
-### 18、微服务设计的基础是什么？
-### 19、Ribbon和Feign调用服务的区别
-### 20、如何使用SpringBoot实现分页和排序？
-### 21、Spring MVC的主要组件？
-### 22、什么是网关?
-### 23、SpringBoot 自动配置原理是什么？
-### 24、springcloud核⼼组件及其作⽤，以及springcloud⼯作原理：
-### 25、如何集成SpringBoot和ActiveMQ？
-### 26、可以通过多少种方式完成依赖注入？
-### 27、Spring Cloud Bus
-### 28、SpringBoot和springcloud认识
-### 29、SpringCloud限流：
-### 30、什么是bean的自动装配？
-### 31、什么是Spring Batch？
+### 8、什么是 Spring Cloud Bus？
+
+**1、** Spring Cloud Bus就像一个分布式执行器，用于扩展的SpringBoot应用程序的配置文件，但也可以用作应用程序之间的通信通道。
+
+**2、** Spring Cloud Bus 不能单独完成通信，需要配合MQ支持
+
+**3、** Spring Cloud Bus一般是配合Spring Cloud Config做配置中心的
+
+**4、** Springcloud config实时刷新也必须采用SpringCloud Bus消息总线
+
+
+### 9、服务网关的作用
+
+**1、** 简化客户端调用复杂度，统一处理外部请求。
+
+**2、** 数据裁剪以及聚合，根据不同的接口需求，对数据加工后对外。
+
+**3、** 多渠道支持，针对不同的客户端提供不同的网关支持。
+
+**4、** 遗留系统的微服务化改造，可以作为新老系统的中转组件。
+
+**5、** 统一处理调用过程中的安全、权限问题。
+
+
+### 10、SpringBoot中的监视器是什么？
+
+Spring boot actuator是spring启动框架中的重要功能之一。Spring boot监视器可帮助您访问生产环境中正在运行的应用程序的当前状态。
+
+有几个指标必须在生产环境中进行检查和监控。即使一些外部应用程序可能正在使用这些服务来向相关人员触发警报消息。监视器模块公开了一组可直接作为HTTP URL访问的REST端点来检查状态。
+
+
+### 11、开启 SpringBoot 特性有哪几种方式？
+### 12、Spring Cloud解决了哪些问题？
+### 13、什么是 YAML？
+### 14、SpringBoot 日志框架：
+### 15、什么是微服务架构中的DRY？
+### 16、JdbcTemplate
+### 17、如何在不使用BasePACKAGE过滤器的情况下排除程序包？
+### 18、您对微服务架构中的语义监控有何了解？
+### 19、网关的作用是什么
+### 20、SpringBoot与SpringCloud 区别
+### 21、什么是服务降级
+### 22、微服务的端到端测试意味着什么？
+### 23、什么是SpringBoot
+### 24、列举 Spring Framework 的优点。
+### 25、Eureka如何 保证AP
+### 26、什么是基于注解的容器配置
+### 27、什么是 Spring 配置文件？
+### 28、DispatcherServlet
+### 29、什么是 Spring IOC 容器？
+### 30、第⼆层缓存：
+### 31、创建一个 SpringBoot Project 的最简单的方法是什么？
 
 
 
@@ -138,7 +147,7 @@ spring-boot:build-info 生成执行器可以使用的构造信息。
 
 ### 下载链接：[全部答案，整理好了](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
 
-### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
+
 
 
 ## 最新，高清PDF：172份，7701页，最新整理

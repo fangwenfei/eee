@@ -4,53 +4,51 @@
 
 ### 下载链接：[高清172份，累计 7701 页大厂面试题  PDF](https://github.com/souyunku/DevBooks/blob/master/docs/index.md)
 
-### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png)
 
 
+### 1、客户端注册Watcher实现
 
-### 1、zookeeper是如何选取主leader的？
+**1、** 调用getData()/getChildren()/exist()三个API，传入Watcher对象
 
-当leader崩溃或者leader失去大多数的follower，这时zk进入恢复模式，恢复模式需要重新选举出一个新的leader，让所有的Server都恢复到一个正确的状态。Zk的选举算法有两种：一种是基于basic paxos实现的，另外一种是基于fast paxos算法实现的。系统默认的选举算法为fast paxos。
+**2、** 标记请求request，封装Watcher到WatchRegistration
 
-**Zookeeper选主流程(basic paxos)**
+**3、** 封装成Packet对象，发服务端发送request
 
-**1、** 选举线程由当前Server发起选举的线程担任，其主要功能是对投票结果进行统计，并选出推荐的Server；
+**4、** 收到服务端响应后，将Watcher注册到ZKWatcherManager中进行管理
 
-**2、** 选举线程首先向所有Server发起一次询问(包括自己)；
-
-**3、** 选举线程收到回复后，验证是否是自己发起的询问(验证zxid是否一致)，然后获取对方的id(myid)，并存储到当前询问对象列表中，最后获取对方提议的leader相关信息(id,zxid)，并将这些信息存储到当次选举的投票记录表中；
-
-**4、** 收到所有Server回复以后，就计算出zxid最大的那个Server，并将这个Server相关信息设置成下一次要投票的Server；
-
-**5、** 线程将当前zxid最大的Server设置为当前Server要推荐的Leader，如果此时获胜的Server获得n/2 + 1的Server票数，设置当前推荐的leader为获胜的Server，将根据获胜的Server相关信息设置自己的状态，否则，继续这个过程，直到leader被选举出来。 通过流程分析我们可以得出：要使Leader获得多数Server的支持，则Server总数必须是奇数2n+1，且存活的Server的数目不得少于n+1\、每个Server启动后都会重复以上流程。在恢复模式下，如果是刚从崩溃状态恢复的或者刚启动的server还会从磁盘快照中恢复数据和会话信息，zk会记录事务日志并定期进行快照，方便在恢复时进行状态恢复。
-
-![](https://segmentfault.com/img/bV8XeP?w=357&h=791#alt=clipboard.png)
-
-**Zookeeper选主流程(basic paxos)**
-
-fast paxos流程是在选举过程中，某Server首先向所有Server提议自己要成为leader，当其它Server收到提议以后，解决epoch和 zxid的冲突，并接受对方的提议，然后向对方发送接受提议完成的消息，重复这个流程，最后一定能选举出Leader。
-
-![](https://segmentfault.com/img/bV8XeR?w=533&h=451#alt=clipboard.png)
+**5、** 请求返回，完成注册。
 
 
-### 2、Zookeeper工作原理
+### 2、集群最少要几台机器，集群规则是怎样的?
 
-Zookeeper 的核心是原子广播，这个机制保证了各个Server之间的同步。实现这个机制的协议叫做Zab协议。Zab协议有两种模式，它们分别是恢复模式（选主）和广播模式（同步）。当服务启动或者在领导者崩溃后，Zab就进入了恢复模式，当领导者被选举出来，且大多数Server完成了和 leader的状态同步以后，恢复模式就结束了。状态同步保证了leader和Server具有相同的系统状态。
-
-
-### 3、发布订阅的两种设计模式？
-
-推(Push) :服务端主动推数据给所有定于的客户端。
-
-拉(Pull):客户端主动发请求来获取最新数据。
+集群规则为2N+1台，N>0，即3台。
 
 
-### 4、zk的命名服务（文件系统）
+### 3、zookeeper负载均衡和nginx负载均衡区别
 
-命名服务是指通过指定的名字来获取资源或者服务的地址，利用zk创建一个全局的路径，即是唯一的路径，这个路径就可以作为一个名字，指向集群中的集群，提供的服务的地址，或者一个远程的对象等等。
+zk的负载均衡是可以调控，nginx只是能调权重，其他需要可控的都需要自己写插件；但是nginx的吞吐量比zk大很多，应该说按业务选择用哪种方式。
 
 
-### 5、发现?
+### 4、机器中为什么会有leader？
+
+在分布式环境中，有些业务逻辑只需要集群中的某一台机器进行执行，其他的机器可以共享这个结果，这样可以大大减少重复计算，提高性能，于是就需要进行leader选举。
+
+
+### 5、A是根节点，如何表达A子节点下的B节点？
+
+/A/B
+
+
+### 6、Zookeeper分布式锁（文件系统、通知机制）
+
+**1、** 有了zookeeper的一致性文件系统，锁的问题变得容易。锁服务可以分为两类，一个是保持独占，另一个是控制时序。
+
+**2、** 对于第一类，我们将zookeeper上的一个znode看作是一把锁，通过createznode的方式来实现。所有客户端都去创建 /distribute_lock 节点，最终成功创建的那个客户端也即拥有了这把锁。用完删除掉自己创建的distribute_lock 节点就释放出锁。
+
+**3、** 对于第二类， /distribute_lock 已经预先存在，所有客户端在它下面创建临时顺序编号目录节点，和选master一样，编号最小的获得锁，用完删除，依次方便。
+
+
+### 7、发现?
 
 Follower把自己最后的接受事务的Proposal值(CEPOCH(F.p)发送给Leader。
 
@@ -61,97 +59,67 @@ tips: e' = Max((CEPOCH(F.p)) + 1
 Follower收到消息后，如果自己值小于e',则同步e'的值，同时向Leader发Ack消息。
 
 
-### 6、ZNode的类型？
+### 8、Watcher事件监听器？
 
-**1、** 持久节点：一旦创建，除非主动移除，否则会一直保存在ZooKeeper。
-
-**2、** 临时节点：生命周期和客户端会话绑定，会话失效，相关的临时节点被移除。
-
-**3、** 持久顺序性：同时具备顺序性。
-
-**4、** 临时顺序性：同时具备顺序性。
+ZooKeeper允许用户在指定节点上注册Watcher,当触发特定事件时，ZooKeeper服务端会把相应的事件通知到相应的客户端上，属于ZooKeeper一个重要的特性。
 
 
-### 7、四种类型的数据节点 Znode
+### 9、zookeeper watch机制
 
-**1、** PERSISTENT-持久节点
+Watch机制官方声明：一个Watch事件是一个一次性的触发器，当被设置了Watch的数据发生了改变的时候，则服务器将这个改变发送给设置了Watch的客户端，以便通知它们。
 
-除非手动删除，否则节点一直存在于Zookeeper上
+**Zookeeper机制的特点：**
 
-**2、** EPHEMERAL-临时节点
+**1、** 一次性触发数据发生改变时，一个watcher event会被发送到client，但是client只会收到一次这样的信息。
 
-临时节点的生命周期与客户端会话绑定，一旦客户端会话失效（客户端与zookeeper连接断开不一定会话失效），那么这个客户端创建的所有临时节点都会被移除。
+**2、** watcher event异步发送watcher的通知事件从server发送到client是异步的，这就存在一个问题，不同的客户端和服务器之间通过socket进行通信，由于网络延迟或其他因素导致客户端在不通的时刻监听到事件，由于Zookeeper本身提供了ordering guarantee，即客户端监听事件后，才会感知它所监视znode发生了变化。所以我们使用Zookeeper不能期望能够监控到节点每次的变化。Zookeeper只能保证最终的一致性，而无法保证强一致性。
 
-**3、** PERSISTENT_SEQUENTIAL-持久顺序节点
+**3、** 数据监视Zookeeper有数据监视和子数据监视getdata() and exists()设置数据监视，getchildren()设置了子节点监视。
 
-基本特性同持久节点，只是增加了顺序属性，节点名后边会追加一个由父节点维护的自增整型数字。
+**4、** 注册watcher getData、exists、getChildren
 
-**4、** EPHEMERAL_SEQUENTIAL-临时顺序节点
+**5、** 触发watcher create、delete、setData
 
-基本特性同临时节点，增加了顺序属性，节点名后边会追加一个由父节点维护的自增整型数字。
+**6、** setData()会触发znode上设置的data watch（如果set成功的话）。一个成功的create() 操作会触发被创建的znode上的数据watch，以及其父节点上的child watch。而一个成功的delete()操作将会同时触发一个znode的data watch和child watch（因为这样就没有子节点了），同时也会触发其父节点的child watch。
 
+**7、** 当一个客户端连接到一个新的服务器上时，watch将会被以任意会话事件触发。当与一个服务器失去连接的时候，是无法接收到watch的。而当client重新连接时，如果需要的话，所有先前注册过的watch，都会被重新注册。通常这是完全透明的。只有在一个特殊情况下，watch可能会丢失：对于一个未创建的znode的exist watch，如果在客户端断开连接期间被创建了，并且随后在客户端连接上之前又删除了，这种情况下，这个watch事件可能会被丢失。
 
-### 8、CAP理论？
-
-**1、** C : Consistency 一致性,数据在多个副本之间似否能够保持一致的特性。
-
-**2、** A: Availability 可用性，系统服务必须一直处于可用状态，对每个请求总是在指定的时间返回结果。
-
-**3、** P:Partition tolerance 分区容错性,遇到分区网络故障时，仍能对外提供一致性和可用性的服务。
-
-不能同时满足3个要求，只能满足其中的两个。
+**8、** Watch是轻量级的，其实就是本地JVM的Callback，服务器端只是存了是否有设置了Watcher的布尔类型
 
 
-### 9、ZooKeeper定义了几种权限？
+### 10、Zookeeper队列管理（文件系统、通知机制）
 
-**1、** CREATE
+**两种类型的队列：**
 
-**2、** READ
+**1、** 同步队列，当一个队列的成员都聚齐时，这个队列才可用，否则一直等待所有成员到达。
 
-**3、** WRITE
+**2、** 队列按照 FIFO 方式进行入队和出队操作。
 
-**4、** DELETE
+**1、** 第一类，在约定目录下创建临时目录节点，监听节点数目是否是我们要求的数目。
 
-**5、** ADMIN
-
-
-### 10、zk 节点宕机如何处理？
-
-**1、** Zookeeper 本身也是集群，推荐配置不少于 3 个服务器。Zookeeper 自身也要保证当一个节点宕机时，其他节点会继续提供服务。
-
-**2、** 如果是一个 Follower 宕机，还有 2 台服务器提供访问，因为 Zookeeper 上的数据是有多个副本的，数据并不会丢失；
-
-**3、** 如果是一个 Leader 宕机，Zookeeper 会选举出新的 Leader。
-
-**4、** ZK 集群的机制是只要超过半数的节点正常，集群就能正常提供服务。只有在 ZK节点挂得太多，只剩一半或不到一半节点能工作，集群才失效。
-
-**所以**
-
-3 个节点的 cluster 可以挂掉 1 个节点(leader 可以得到 2 票>1.5)
-
-2 个节点的 cluster 就不能挂掉任何 1 个节点了(leader 可以得到 1 票<=1)
+**2、** 第二类，和分布式锁服务中的控制时序场景基本原理一致，入列有编号，出列按编号。在特定的目录下创建PERSISTENT_SEQUENTIAL节点，创建成功时Watcher通知等待的队列，队列删除序列号最小的节点用以消费。此场景下Zookeeper的znode用于消息存储，znode存储的数据就是消息队列中的消息内容，SEQUENTIAL序列号就是消息的编号，按序取出即可。由于创建的节点是持久化的，所以不必担心队列消息的丢失问题。
 
 
-### 11、四种类型的znode
-### 12、集群最少要几台机器，集群规则是怎样的?
-### 13、chubby 是什么，和 zookeeper 比你怎么看？
-### 14、Zookeeper 专门设计的一种支持崩溃恢复的原子广 播协议是?
-### 15、什么是会话Session?
-### 16、会话管理
-### 17、集群角色？
-### 18、四种类型的数据节点 Znode
-### 19、ZooKeeper可以实现哪些功能？
-### 20、服务端处理Watcher实现
-### 21、zookeeper是如何保证事务的顺序一致性的？
-### 22、ZAB的两种基本模式？
-### 23、Zookeeper的java客户端都有哪些？
-### 24、删除指定节点？注意？
-### 25、Zookeeper同步流程
-### 26、什么是ZooKeeper?
-### 27、Stat记录了哪些版本相关数据？
-### 28、数据同步
-### 29、说几个zookeeper常用的命令。
-### 30、Watcher 特性总结
+### 11、Watcher 特性总结
+### 12、Zookeeper工作原理
+### 13、客户端注册 Watcher 实现
+### 14、chubby 是什么，和 zookeeper 比你怎么看？
+### 15、服务器的3中角色？
+### 16、哪些情况会导致ZAB进入恢复模式并选取新的Leader?
+### 17、Zookeeper有哪几种几种部署模式？
+### 18、Zookeeper默认端口？
+### 19、更新指定节点信息？
+### 20、Zookeeper 都有哪些功能？
+### 21、集群支持动态添加机器吗？
+### 22、什么是ZooKeeper?
+### 23、zk节点宕机如何处理？
+### 24、数据发布/订阅？
+### 25、数据同步
+### 26、Zookeeper 文件系统
+### 27、Chroot 特性
+### 28、Zookeeper 下 Server 工作状态
+### 29、四种类型的数据节点 Znode
+### 30、客户端如何获取配置信息？
 
 
 
@@ -160,7 +128,7 @@ Follower收到消息后，如果自己值小于e',则同步e'的值，同时向L
 
 ### 下载链接：[全部答案，整理好了](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
 
-### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
+
 
 
 ## 最新，高清PDF：172份，7701页，最新整理

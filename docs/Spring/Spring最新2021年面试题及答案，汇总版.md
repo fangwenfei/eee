@@ -4,143 +4,130 @@
 
 ### 下载链接：[高清172份，累计 7701 页大厂面试题  PDF](https://github.com/souyunku/DevBooks/blob/master/docs/index.md)
 
-### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png)
 
 
+### 1、什么是Netflix Feign？它的优点是什么？
 
-### 1、前后端分离，如何维护接口文档 ?
+Feign是受到Retrofit，JAXRS-2.0和WebSocket启发的java客户端联编程序。Feign的第一个目标是将约束分母的复杂性统一到http apis，而不考虑其稳定性。在employee-consumer的例子中，我们使用了employee-producer使用REST模板公开的REST服务。
 
-前后端分离开发日益流行，大部分情况下，我们都是通过 SpringBoot 做前后端分离开发，前后端分离一定会有接口文档，不然会前后端会深深陷入到扯皮中。一个比较笨的方法就是使用 word 或者 md 来维护接口文档，但是效率太低，接口一变，所有人手上的文档都得变。在 SpringBoot 中，这个问题常见的解决方案是 Swagger ，使用 Swagger 我们可以快速生成一个接口文档网站，接口一旦发生变化，文档就会自动更新，所有开发工程师访问这一个在线网站就可以获取到最新的接口文档，非常方便。
+**但是我们必须编写大量代码才能执行以下步骤**
 
+使用功能区进行负载平衡。
 
-### 2、SpringBoot 的核心注解是哪个？它主要由哪几个注解组成的？
+获取服务实例，然后获取基本URL。
 
-启动类上面的注解是@SpringBootApplication，它也是 SpringBoot 的核心注解，主要组合包含了以下 3 个注解：
-
-@SpringBootConfiguration：组合了 [@Configuration ](/Configuration ) 注解，实现配置文件的功能。
-
-@EnableAutoConfiguration：打开自动配置的功能，也可以关闭某个自动配置的选项，如关闭数据源自动配置功能： [@SpringBootApplication(exclude ](/SpringBootApplication(exclude ) = { DataSourceAutoConfiguration.class })。
-
-@ComponentScan：Spring组件扫描。
-
-
-### 3、SpringBoot、Spring MVC 和 Spring 有什么区别？
-
-**1、** Spring
-
-Spring最重要的特征是依赖注入。所有 SpringModules 不是依赖注入就是 IOC 控制反转。
-
-当我们恰当的使用 DI 或者是 IOC 的时候，我们可以开发松耦合应用。松耦合应用的单元测试可以很容易的进行。
-
-**2、** Spring MVC
-
-Spring MVC 提供了一种分离式的方法来开发 Web 应用。通过运用像 DispatcherServelet，MoudlAndView 和 ViewResolver 等一些简单的概念，开发 Web 应用将会变的非常简单。
-
-**3、** SpringBoot
-
-Spring 和 SpringMVC 的问题在于需要配置大量的参数。
-
-SpringBoot 通过一个自动配置和启动的项来目解决这个问题。为了更快的构建产品就绪应用程序，SpringBoot 提供了一些非功能性特征。
-
-
-### 4、Spring MVC里面拦截器是怎么写的
-
-有两种写法,一种是实现HandlerInterceptor接口，另外一种是继承适配器类，接着在接口方法当中，实现处理逻辑；然后在Spring MVC的配置文件中配置拦截器即可：
+利用REST模板来使用服务。前面的代码如下
 
 ```
-<!-- 配置Spring MVC的拦截器 -->
-< mvc: interceptors >
-<!-- 配置一个拦截器的Bean就可以了 默认是对所有请求都拦截 -->
-< bean id = "myInterceptor"
-class = "com.zwp.action.MyHandlerInterceptor" > < /bean>
-<!-- 只针对部分请求拦截 -->
-<mvc:interceptor>
-   <mvc:mapping path="/modelMap.do " />
-   <bean class="
-com.
-zwp.action.MyHandlerInterceptorAdapter " />
-</mvc:interceptor>
-</mvc:interceptors>
+@Controller
+public class ConsumerControllerClient {
+@Autowired
+private LoadBalancerClient loadBalancer;
+
+public void getEmployee() throws RestClientException, IOException {
+
+    ServiceInstance serviceInstance=loadBalancer.choose("employee-producer");
+
+    System.out.println(serviceInstance.getUri());
+
+    String baseUrl=serviceInstance.getUri().toString();
+
+    baseUrl=baseUrl+"/employee";
+
+    RestTemplate restTemplate = new RestTemplate();
+    ResponseEntity<String> response=null;
+    try{
+    response=restTemplate.exchange(baseUrl,
+            HttpMethod.GET, getHeaders(),String.class);
+    }catch (Exception ex)
+    {
+        System.out.println(ex);
+    }
+    System.out.println(response.getBody());
+}
 ```
 
-
-### 5、什么是服务降级
-
-consumer 端：consumer 如果发现某个provider出现异常情况，⽐如，经常超时(可能是熔断引起的降级)，数据错误，这时，consumer可以采取⼀定的策略，降级provider的逻辑，基本的有直接返回固定的数据。
-
-provider 端：当provider 发现流量激增的时候，为了保护⾃身的稳定性，也可能考虑降级服务。
-
-**1、** 直接给consumer返回固定数据
-
-**2、** 需要实时写⼊数据库的，先缓存到队列⾥，异步写⼊数据库。
+之前的代码，有像NullPointer这样的例外的机会，并不是最优的。我们将看到如何使用Netflix Feign使呼叫变得更加轻松和清洁。如果Netflix Ribbon依赖关系也在类路径中，那么Feign默认也会负责负载平衡。
 
 
-### 6、如何在 spring 中启动注解装配？
+### 2、为什么需要学习Spring Cloud
 
-默认情况下，Spring 容器中未打开注解装配。因此，要使用基于注解装配，我们必须通过配置 `<context：annotation-config/>` 元素在 Spring 配置文件中启用它。
+**1、** 首先springcloud基于spingboot的优雅简洁，可还记得我们被无数xml支配的恐惧？可还记得springmvc，mybatis错综复杂的配置，有了spingboot，这些东西都不需要了，spingboot好处不再赘诉，springcloud就基于SpringBoot把市场上优秀的服务框架组合起来，通过SpringBoot风格进行再封装屏蔽掉了复杂的配置和实现原理
 
+**2、** 什么叫做开箱即用？即使是当年的黄金搭档dubbo+zookeeper下载配置起来也是颇费心神的！而springcloud完成这些只需要一个jar的依赖就可以了！
 
-### 7、bootstrap.yml和application.yml有什么区别?
-
-**1、** Spring Cloud 构建于 SpringBoot 之上，在 SpringBoot 中有两种上下文，一种是 bootstrap，另外一种是 application。
-
-**2、** application 配置文件这个容易理解，主要用于 SpringBoot 项目的`自动化配置`。
-
-**3、** bootstrap 是应用程序的父上下文，也就是说 `bootstrap 加载优先于 applicaton`。
-
-**4、** bootstrap 主要用于从`额外的资源来加载配置信息`，还可以在本地外部配置文件中解密属性。
-
-**5、** 这两个上下文`共用一个环境`，它是任何Spring应用程序的外部属性的来源。
-
-**6、** bootstrap 里面的属性会`优先加载`，它们默认也不能被本地相同配置覆盖。
-
-**7、** boostrap 由父 ApplicationContext 加载，`比 applicaton 优先加载`
-
-**8、** boostrap 里面的属性`不能被覆盖`
+**3、** springcloud大多数子模块都是直击痛点，像zuul解决的跨域，fegin解决的负载均衡，hystrix的熔断机制等等等等
 
 
-### 8、各服务之间通信，对Restful和Rpc这2种方式如何做选择？
-
-在传统的SOA治理中，使用rpc的居多；Spring Cloud默认使用restful进行服务之间的通讯。rpc通讯效率会比restful要高一些，但是对于大多数公司来讲，这点效率影响甚微。我建议使用restful这种方式，易于在不同语言实现的服务之间通讯。
+### 3、如果想在拦截的方法里面得到从前台传入的参数,怎么得到？
 
 
-### 9、MVC是什么？MVC设计模式的好处有哪些
 
-mvc是一种设计模式（设计模式就是日常开发中编写代码的一种好的方法和经验的总结）。模型（model）-视图（view）-控制器（controller），三层架构的设计模式。用于实现前端页面的展现与后端业务数据处理的分离。
-
-**mvc设计模式的好处**
-
-**1、** 分层设计，实现了业务系统各个组件之间的解耦，有利于业务系统的可扩展性，可维护性。
-
-**2、** 有利于系统的并行开发，提升开发效率。
+直接在形参里面声明这个参数就可以,但必须名字和传过来的参数一样。
 
 
-### 10、SpringBoot 支持哪些日志框架？推荐和默认的日志框架是哪个？
+### 4、什么是有界上下文？
 
-SpringBoot 支持 Java Util Logging, Log4j2, Lockback 作为日志框架，如果你使用 Starters 启动器，SpringBoot 将使用 Logback 作为默认日志框架.
+有界上下文是域驱动设计的核心模式。DDD战略设计部门的重点是处理大型模型和团队。DDD通过将大型模型划分为不同的有界上下文并明确其相互关系来处理大型模型。
 
 
-### 11、是否可以在Spring boot中更改嵌入式Tomcat服务器的端口?
-### 12、spring DAO 有什么用？
-### 13、如何重新加载 SpringBoot上的更改，而无需重新启动服务器？
-### 14、@Component, @Controller, @Repository, [@Service ](/Service ) 有何区别？
-### 15、怎样开启注解装配？
-### 16、什么是Apache Kafka？
-### 17、列举 Spring DAO 抛出的异常。
-### 18、@SpringBootApplication注释在内部有什么用处?
-### 19、什么是 spring 装配
-### 20、Web，RESTful API在微服务中的作用是什么？
-### 21、SpringBoot 配置文件的加载顺序
-### 22、dubbo服务注册与发现原理
-### 23、什么是 JavaConfig？
-### 24、什么是SpringBoot
-### 25、什么是客户证书？
-### 26、@LoadBalanced注解的作用
-### 27、网关的作用是什么
-### 28、SpringBoot 中的 starter 到底是什么 ?
-### 29、spring bean 容器的生命周期是什么样的？
-### 30、什么是 Spring Batch？
-### 31、什么是Hystrix？它如何实现容错？
+### 5、SpringBoot 有哪几种读取配置的方式？
+
+SpringBoot 可以通过 @PropertySource,@Value,@Environment, @ConfigurationPropertie注解来绑定变量
+
+
+### 6、为什么我们需要微服务容器？
+
+要管理基于微服务的应用程序，容器是最简单的选择。它帮助用户单独部署和开发。您还可以使用Docker将微服务封装到容器的镜像中。没有任何额外的依赖或工作，微服务可以使用这些元素。
+
+
+### 7、你所知道微服务的技术栈有哪些？列举一二
+
+![](https://gitee.com/souyunkutech/souyunku-home/raw/master/images/souyunku-web/2020/5/2/010/39/49_2.png#alt=49%5C_2.png)
+
+
+### 8、运行 SpringBoot 有哪几种方式？
+
+**1、** 打包用命令或者者放到容器中运行
+
+**2、** 用 Maven/ Gradle 插件运行
+
+**3、** 直接执行 main 方法运行
+
+
+### 9、我们如何监视所有 SpringBoot 微服务？
+
+SpringBoot 提供监视器端点以监控各个微服务的度量。这些端点对于获取有关应用程序的信息（如它们是否已启动）以及它们的组件（如数据库等）是否正常运行很有帮助。但是，使用监视器的一个主要缺点或困难是，我们必须单独打开应用程序的知识点以了解其状态或健康状况。想象一下涉及 50 个应用程序的微服务，管理员将不得不击中所有 50 个应用程序的执行终端。为了帮助我们处理这种情况，我们将使用位于的开源项目。它建立在 SpringBoot Actuator 之上，它提供了一个 Web UI，使我们能够可视化多个应用程序的度量。
+
+
+### 10、spring 中有多少种 IOC 容器？
+
+BeanFactory - BeanFactory 就像一个包含 bean 集合的工厂类。 它会在客户端要求时实例化 bean。
+
+ApplicationContext - ApplicationContext 接口扩展了 BeanFactory 接口。 它在 BeanFactory 基础上提供了一些额外的功能。
+
+
+### 11、在Spring MVC应用程序中使用WebMvcTest注释有什么用处？
+### 12、你可以在Spring中注入一个null 和一个空字符串吗？
+### 13、如何配置SpringBoot应用程序日志记录？
+### 14、SpringBoot 还提供了其它的哪些 Starter Project Options？
+### 15、为什么需要域驱动设计（DDD）？
+### 16、什么是 JavaConfig？
+### 17、Spring Cloud Netflix
+### 18、Spring Cloud OpenFeign
+### 19、什么是自动配置？
+### 20、我们可以用微服务创建状态机吗？
+### 21、SpringBoot 支持哪些日志框架？推荐和默认的日志框架是哪个？
+### 22、什么是嵌入式服务器？我们为什么要使用嵌入式服务器呢?
+### 23、负载均衡的意义是什么?
+### 24、SpringBoot 2、X 有什么新特性？与 1、X 有什么区别？
+### 25、[@Autowired ](/Autowired ) 注解有什么用？
+### 26、什么是耦合和凝聚力？
+### 27、SpringBoot 的核心注解是哪个？它主要由哪几个注解组成的？
+### 28、您使用了哪些 starter maven 依赖项？
+### 29、什么是 WebSockets？
+### 30、运行 SpringBoot 有哪几种方式？
+### 31、谈谈服务降级、熔断、服务隔离
 
 
 
@@ -149,7 +136,7 @@ SpringBoot 支持 Java Util Logging, Log4j2, Lockback 作为日志框架，如�
 
 ### 下载链接：[全部答案，整理好了](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
 
-### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
+
 
 
 ## 最新，高清PDF：172份，7701页，最新整理

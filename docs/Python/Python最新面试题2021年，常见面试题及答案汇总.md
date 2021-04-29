@@ -4,228 +4,183 @@
 
 ### 下载链接：[高清172份，累计 7701 页大厂面试题  PDF](https://github.com/souyunku/DevBooks/blob/master/docs/index.md)
 
-### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png)
 
 
+### 1、vue中的路由拦截器的作用
 
-### 1、输入一个字符串，输出该字符串的字符的所有组合。如输入'abc',输出a,b,c,ab,ac,bc,abc.
-
-```python
-def getC(s):
-if not s:
-return
-len_s=len(s)
-ss=[]
-for i in range(len_s):
-combination(s,0,i,ss)
-aaa=[]
-def combination(s,index,num,ss):
-global aaa
-if num==-1:
-return
-if index==len(s):
-return
-ss.append(s[index])
-aaa.append(''.join(ss))
-combination(s,index+1,num-1,ss)
-ss.pop()
-combination(s,index+1,num,ss)
-
-getC('123')
-print(aaa)
-print(sorted(set(aaa),key=lambda x:len(str(x))))
-```
+当某些页面需要访问权限时，可以使用路由拦截器对用户权限进行判断
 
 
-### 2、使用python将数据库的student表中的数据写入db.txt
+### 2、什么是Nginx
 
-```python
-import pyMySQL
-connect=pyMySQL.Connect(
-host='',
-port=,
-user='',
-passwd='',
-db='',
-charset='',
-)
-
-cursor=connect.cursor()
-sql='select from student'
-cursor.execute(sql)
-students=cursor.fetchall()
-
-with open('db.txt','w') as f:
-for student in students:
-f.write(student)
-
-cursor.close()
-connect.close()
-```
+nginx是一个高性能的HTTP和反向代理服务，也是一个IMAP/POP3/SMTP服务
 
 
-### 3、如何在函数中设置一个全局变量？
+### 3、mro是什么？
 
-在函数中使用global关键字定义变量
+对于支持继承的编程语言来说，其方法（属性）可能定义在当前类，也可能来自于基类，所以在方法调用时就需要对当前类和基类进行搜索以确定方法所在的位置。而搜索的顺序就是所谓的「方法解析顺序」（Method Resolution Order，或MRO）。
 
 
-### 4、Python中的闭包是什么？
+### 4、怎么移除一个字符串中的前导空格？
 
-当一个嵌套函数在其外部区域引用了一个值时，该嵌套函数就是一个闭包。其意义就是会记录这个值。
+字符串中的前导空格就是出现在字符串中第一个非空格字符前的空格。我们使用方法Istrip()可以将它从字符串中移除。
 
 ```
->>> def A(x):
-    def B():
-        print(x)
-    return B
->>> A(7)()
+>>> '   Ayushi '.lstrip()
 ```
 
 结果：
 
 ```
-7
+‘Ayushi   ’
 ```
 
-更多关于闭包的知识，请参看这里：
+可以看到，该字符串既有前导字符，也有后缀字符，调用Istrip()去除了前导空格。如果我们想去除后缀空格，就用rstrip()方法。
 
-[戳这里](https://data-flair.training/blogs/python-closure/)
+```
+>>> '   Ayushi '.rstrip()
+```
+
+结果：
+
+```
+‘   Ayushi’
+```
+
+从Q 21到Q 35是为有Python经验者准备的进阶版Python面试题。
 
 
-### 5、如何用一行代码生成[1,4,9,16,25,36,49,64,81,100]?
+### 5、什么是lambda函数？
+
+Lambda函数是不带名称的单行函数，可以具有n个参数，但只能有一个表达式。也称为匿名函数。
+
+```
+a = lambda x, y：x + y 
+print(a(5, 6))
+
+> 11
+```
+
+
+### 6、使用生成器编写一个函数实现生成指定个数的斐波那契数列
 
 ```python
-lis=[i**2 for i in range(1,11)]
+def fib2(imax):
+t,a,b=0,0,1
+while t<imax:
+yield b
+a,b=b,a+b
+t+=1
+
+for i in fib2(10):
+print(i)
 ```
 
 
-### 6、前后端分离的基本原理
+### 7、简述jsonp及其原理
 
-前后端分离并非仅仅只是一种开发模式，而是一种架构模式（前后端分离架构）。前端项目与后端项目是两个项目，放在两个不同的服务器，需要独立部署，两个不同的工程，两个不同的代码库，不同的开发人员。前后端工程师需要约定交互接口，实现并行开发，开发结束后需要进行独立部署，前端通过Ajax来调用HTTP请求调用后端的restful api。前端只需要关注页面的样式与动态数据的解析&渲染，而后端专注于具体业务逻辑。
+JSONP是JSON with Padding的略称。它是一个非官方的协议，它允许在服务器端集成Script tags返回至客户端，通过javascript callback的形式实现跨域访问（这仅仅是JSONP简单的实现形式）
+
+原理：
 
 
-### 7、解释Python中reduce函数的用法？
 
-reduce()函数接受一个函数和一个序列，并在计算后返回数值。
+
+
+
+
+
+### 8、什么是switch语句。如何在Python中创建switch语句？
+
+switch语句是实现多分支选择功能，根据列表值测试变量。
+
+switch语句中的每个值都被称为一个case。
+
+在Python中，没有内置switch函数，但是我们可以创建一个自定义的switch语句。
 
 ```
-from functools import reduce
+switcher = {
+   1: "January",
+   2: "February",
+   3: "March",
+   4: "April",
+   5: "May",
+   6: "June",
+   7: "July",
+   8: "August",
+   9: "September",
+   10: "October",
+   11: "November",
+   12: "December"
+}
+month = int(input())
+print(switcher.get(month))
 
-a = lambda x,y:x+y
-print(reduce(a,[1,2,3,4]))
-
-> 10
-```
-
-
-### 8、写一个函数，计算出以下字母所代表的数字，每个字母值不一样
-
-```python
-for A in range(1,10):
-for B in range(10):
-if A==B:
-continue
-for C in range(1,10):
-if C in [A,B]:
-    continue
-for D in range(10):
-    if D in [A,B,C]:
-        continue
-    for E in range(1,10):
-        if E in [A,B,C,D]:
-            continue
-        for F in range(10):
-            if F in [A,B,C,D,E]:
-                continue
-            for G in range(1,10):
-                if G in [A,B,C,D,E,F]:
-                    continue
-                for H in range(10):
-                    if H in [A,B,C,D,E,F,G]:
-                        continue
-                    for P in range(1,10):
-                        if P in [A,B,C,D,E,F,G,H]:
-                            continue
-                        if (A*10+B)-(C*10+D)==(E*10+F) and (E*10+F)+(G*10+H)==(P*100+P*10+P):
-                        print(A,B,C,D,E,F,G,H,P)
+> 3
+march
 ```
 
 
-### 9、解释一下Python中的赋值运算符
+### 9、列表和元组之间的区别是？
 
-这在Python面试中是个重要的面试问题。
-
-我们将所有的算术运算符和赋值符号放在一起展示：
+二者的主要区别是列表是可变的，而元组是不可变的。举个例子，如下所示：
 
 ```
->>> a=7
->>> a+=1
->>> a
-8
- 
->>> a-=1
->>> a
-7
- 
->>> a*=2
->>> a
-14
- 
->>> a/=2
->>> a
-7.0 
- 
->>> a**=2
->>> a
-49
- 
->>> a//=3
->>> a
-16.0
- 
->>> a%=4
->>> a
-0.0
+>>> mylist=[1,3,3]
+>>> mylist[1]=2
+>>> mytuple=(1,3,3)
+>>> mytuple[1]=2
+Traceback (most recent call last):
+File "<pyshell#97>", line 1, in <module>
+mytuple[1]=2
 ```
 
+会出现以下报错：
 
-### 10、简述面向对象的三大特性？
+```
+TypeError: ‘tuple’ object does not support item assignment
+```
 
-继承，封装和多态
-
-**继承：**
-
-继承就是继承的类直接拥有被继承类的属性而不需要在自己的类体中重新再写一遍，其中被继承的类叫做父类、基类，继承的类叫做派生类、子类。
-
-**封装：**
-
-封装就是把类中的属性和方法定义为私有的，方法就是在属性名或方法名前加双下划线，而一旦这样定义了属性或方法名后，python会自动将其转换为_类名**属性名（方法名）的格式，在类的内部调用还是用双下划线加属性名或方法名，在类的外部调用就要用**类名_属性名（方法名）。父类的私有属性和方法，子类无法对其进行修改。
-
-**多态：**
-
-多态就是不同的对象可以调用相同的方法然后得到不同的结果，有点类似接口类的感觉，在python中处处体现着多态，比如不管你是列表还是字符串还是数字都可以使用+和*。
+关于列表和元组的更多内容，可以查看这里：
 
 
-### 11、python解释器种类以及特点
-### 12、Python中的单引号和双引号有什么区别？
-### 13、求以下代码的输出结果
-### 14、简述OSI七层协议
-### 15、简述事务及其特性
-### 16、输入某年某月某日，判断这是这一年的第几天？
-### 17、请列举布尔值位False的常见值
-### 18、Python代码是如何执行的？
-### 19、什么是LVS
-### 20、css如何隐藏一个元素
-### 21、简述left join和right join的区别
-### 22、什么是覆盖索引
-### 23、如何实现Redis集群
-### 24、进程之间如何进行通信？
-### 25、使用async语法实现一个协程
-### 26、如果Redis中的某个列表中的数据量非常大，如何实现循环显示每一个值？
-### 27、判断dict中有没有某个key。
-### 28、or 和 and
-### 29、手写一个栈
-### 30、什么是socket？简述基于tcp协议的socket通信流程？
+### 10、简述线程死锁是怎么造成的。如何避免？
+
+**1、** 死锁的产生原因？
+
+**2、** 系统资源的竞争
+
+**3、** 进程运行推进顺序不当
+
+**4、** 解决死锁
+
+**5、** 加锁顺序：线程按照一定的顺序加锁
+
+**6、** 加锁时限：线程尝试获取锁的时候加上一定的时限，超过时限，则放弃对该锁的请求，并释放自己占有的锁。
+
+**7、** 死锁检测
+
+
+### 11、列举常见的关系型数据库和非关系型数据库。
+### 12、简述数据库的读写分离
+### 13、什么是粘包？出现粘包的原因？
+### 14、请编写一个函数将ip地址转换成一个整数。如10.3.9.12转换成00001010 00000011 00001001 00001100，然后转换成整数
+### 15、什么是轮询和长轮询
+### 16、举例说明Python中的range函数?
+### 17、什么是抽象？
+### 18、简述进程，线程，协程的区别以及应用场景？
+### 19、MySQL如何创建索引
+### 20、编写一个函数，找出数组中没有重复的值的和
+### 21、在什么情况下y!=x-(x-y)会成立？
+### 22、1<(22)和1<22的结果分别是什么？
+### 23、关于Python程序的运行方面，有什么手段能提升性能？
+### 24、列举Redis支持的过期策略
+### 25、对列表[3,1,-4,-2]按照绝对值排序
+### 26、以下代码输出什么？
+### 27、什么是并发和并行
+### 28、三元运算编写格式
+### 29、python如何定义函数时如何书写可变参数和关键字参数？
+### 30、什么是cdn
 
 
 
@@ -234,7 +189,7 @@ for D in range(10):
 
 ### 下载链接：[全部答案，整理好了](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
 
-### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
+
 
 
 ## 最新，高清PDF：172份，7701页，最新整理

@@ -4,72 +4,76 @@
 
 ### 下载链接：[高清172份，累计 7701 页大厂面试题  PDF](https://github.com/souyunku/DevBooks/blob/master/docs/index.md)
 
-### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png)
 
 
+### 1、如何使用 Elastic Reporting ？
 
-### 1、您能否列出 与 ELK日志分析相关的应用场景？
+收费功能，只是了解，点到为止。
 
-**1、** 电子商务搜索解决方案
-
-**2、** 欺诈识别
-
-**3、** 市场情报
-
-**4、** 风险管理
-
-**5、** 安全分析 等。
-
-### 2、什么是ElasticSearch索引？
-
-索引（名词）： 一个索引(index)就像是传统关系数据库中的数据库，它是相关文档存储的地方，index的复数是indices或indexes。
-
-索引（动词）：「索引一个文档」表示把一个文档存储到索引（名词）里，以便它可以被检索或者查询。这很像SQL中的INSERT关键字，差别是，如果文档已经存在，新的文档将覆盖旧的文档。
+Reporting API有助于将检索结果生成 PD F格式，图像 PNG 格式以及电子表格 CSV 格式的数据，并可根据需要进行共享或保存。
 
 
-### 3、Elasticsearch 在部署时，对 Linux 的设置有哪些优化方法？
+### 2、如何监控Elasticsearch集群状态？
 
-**1、** 64 GB 内存的机器是非常理想的， 但是 32 GB 和 16 GB 机器也是很常见的。少于 8 GB 会适得其反。
-
-**2、** 如果你要在更快的 CPUs 和更多的核心之间选择，选择更多的核心更好。多个内核提供的额外并发远胜过稍微快一点点的时钟频率。
-
-**3、** 如果你负担得起 SSD，它将远远超出任何旋转介质。基于 SSD 的节点，查询和索引性能都有提升。如果你负担得起，SSD 是一个好的选择。
-
-**4、** 即使数据中心们近在咫尺，也要避免集群跨越多个数据中心。绝对要避免集群跨越大的地理距离。
-
-**5、** 请确保运行你应用程序的 JVM 和服务器的 JVM 是完全一样的。在Elasticsearch 的几个地方，使用 Java 的本地序列化。
-
-**6、** 通过设置 gateway.recover_after_nodes、gateway.expected_nodes、gateway.recover_after_time 可以在集群重启的时候避免过多的分片交换，这可能会让数据恢复从数个小时缩短为几秒钟。
-
-**7、** Elasticsearch 默认被配置为使用单播发现，以防止节点无意中加入集群。只有在同一台机器上运行的节点才会自动组成集群。最好使用单播代替组播。
-
-**8、** 不要随意修改垃圾回收器（CMS）和各个线程池的大小。
-
-**9、** 把你的内存的（少于）一半给 Lucene（但不要超过 32 GB！），通过ES_HEAP_SIZE 环境变量设置。
-
-**10、** 内存交换到磁盘对服务器性能来说是致命的。如果内存交换到磁盘上，一个100 微秒的操作可能变成 10 毫秒。再想想那么多 10 微秒的操作时延累加起来。不难看出 swapping 对于性能是多么可怕。
-
-**11、** Lucene 使用了_大量 的_文件。同时，Elasticsearch 在节点和 HTTP 客户端之间进行通信也使用了大量的套接字。所有这一切都需要足够的文件描述符。你应该增加你的文件描述符，设置一个很大的值，如 64,000。
-
-补充：索引阶段性能提升方法.
-
-**1、** 使用批量请求并调整其大小：每次批量数据 5–15 MB 大是个不错的起始点。
-
-**2、存储：**使用 SSD
-
-**3、段和合并：**Elasticsearch 默认值是 20 MB/s，对机械磁盘应该是个不错的设置。如果你用的是 SSD，可以考虑提高到 100–200 MB/s。如果你在做批量导入，完全不在意搜索，你可以彻底关掉合并限流。另外还可以增加index.translog.flush_threshold_size 设置，从默认的 512 MB 到更大一些的值，比如 1 GB，这可以在一次清空触发的时候在事务日志里积累出更大的段。
-
-**4、** 如果你的搜索结果不需要近实时的准确度，考虑把每个索引的index.refresh_interval 改到 30s。
-
-**5、** 如果你在做大批量导入，考虑通过设置 index.number_of_replicas: 0 关闭副本。
+Marvel 让你可以很简单的通过 Kibana 监控 Elasticsearch。你可以实时查看你的集群健康状态和性能，也可以分析过去的集群、索引和节点指标。
 
 
-### 4、什么是ElasticSearch脑裂？
+### 3、什么是ElasticSearch脑裂？
 
 一个正常es集群中只有一个主节点，主节点负责管理整个集群，集群的所有节点都会选择同一个节点作 为主节点所以无论访问那个节点都可以查看集群的状态信息。而脑裂问题的出现就是因为从节点在选择 主节点上出现分歧导致一个集群出现多个主节点从而使集群分裂，使得集群处于异常状态。
 
 
-### 5、您能解释一下 Elasticsearch 中的 Explore API 吗？
+### 4、介绍一下你们的个性化搜索方案？
+
+SEE [基于word2vec和Elasticsearch实现个性化搜索](http://ginobefunny.com/post/personalized_search_implemention_based_word2vec_and_elasticsearch/)
+
+
+### 5、请解释在 Elasticsearch 集群中添加或创建索引的过程？
+
+要添加新索引，应使用创建索引 API 选项。创建索引所需的参数是索引的配置Settings，索引中的字段 Mapping 以及索引别名 Alias。
+
+也可以通过模板 Template 创建索引。
+
+
+### 6、你之前公司的ElasticSearch集群，一个Node一般会分配几个分片？
+
+我们遵循官方建议，一个Node最好不要多于三个shards.
+
+
+### 7、拼写纠错是如何实现的？
+
+**1、** 拼写纠错是基于编辑距离来实现；编辑距离是一种标准的方法，它用来表示经过插入、删除和替换操作从一个字符串转换到另外一个字符串的最小操作步数；
+
+**2、** 编辑距离的计算过程：比如要计算batyu和beauty的编辑距离，先创建一个7×8的表（batyu长度为5，coffee长度为6，各加2），接着，在如下位置填入黑色数字。其他格的计算过程是取以下三个值的最小值：
+
+如果最上方的字符等于最左方的字符，则为左上方的数字。否则为左上方的数字+1。（对于3,3来说为0）
+
+左方数字+1（对于3,3格来说为2）
+
+上方数字+1（对于3,3格来说为2）
+
+最终取右下角的值即为编辑距离的值3。
+
+![](https://gitee.com/souyunkutech/souyunku-home/raw/master/images/souyunku-web/2019/08/0820/02/img_6.png#alt=img%5C_6.png)
+
+对于拼写纠错，我们考虑构造一个度量空间（Metric Space），该空间内任何关系满足以下三条基本条件：
+
+d(x,y) = 0 -- 假如x与y的距离为0，则x=y
+
+d(x,y) = d(y,x)  -- x到y的距离等同于y到x的距离
+
+d(x,y) + d(y,z) >= d(x,z) -- 三角不等式
+
+**1、** 根据三角不等式，则满足与query距离在n范围内的另一个字符转B，其与A的距离最大为d+n，最小为d-n。
+
+**2、** BK树的构造就过程如下：每个节点有任意个子节点，每条边有个值表示编辑距离。所有子节点到父节点的边上标注n表示编辑距离恰好为n。比如，我们有棵树父节点是”book”和两个子节点”cake”和”books”，”book”到”books”的边标号1，”book”到”cake”的边上标号4。从字典里构造好树后，无论何时你想插入新单词时，计算该单词与根节点的编辑距离，并且查找数值为d(neweord, root)的边。递归得与各子节点进行比较，直到没有子节点，你就可以创建新的子节点并将新单词保存在那。比如，插入”boo”到刚才上述例子的树中，我们先检查根节点，查找d(“book”, “boo”) = 1的边，然后检查标号为1的边的子节点，得到单词”books”。我们再计算距离d(“books”, “boo”)=2，则将新单词插在”books”之后，边标号为2。
+
+**3、** 查询相似词如下：计算单词与根节点的编辑距离d，然后递归查找每个子节点标号为d-n到d+n（包含）的边。假如被检查的节点与搜索单词的距离d小于n，则返回该节点并继续查询。比如输入cape且最大容忍距离为1，则先计算和根的编辑距离d(“book”, “cape”)=4，然后接着找和根节点之间编辑距离为3到5的，这个就找到了cake这个节点，计算d(“cake”, “cape”)=1，满足条件所以返回**cake**，然后再找和cake节点编辑距离是0到2的，分别找到cape和cart节点，这样就得到**cape**这个满足条件的结果。
+
+![](https://gitee.com/souyunkutech/souyunku-home/raw/master/images/souyunku-web/2019/08/0820/02/img_7.png#alt=img%5C_7.png)
+
+
+### 8、您能解释一下 Elasticsearch 中的 Explore API 吗？
 
 没有用过，这是 Graph （收费功能）相关的API。
 
@@ -78,22 +82,15 @@
 [https://www.elastic.co/guide/en/elasticsearch/reference/current/graph-explore-api.html](https://www.elastic.co/guide/en/elasticsearch/reference/current/graph-explore-api.html)
 
 
-### 6、elasticsearch 数据预热
+### 9、elasticsearch是如何实现master选举的
 
-数据预热是指，每隔一段时间，将热数据
-
-手动在后台查询一遍，将热数据刷新到fileSystem cache上
-
-
-### 7、Elasticsearch是如何实现master选举的？
-
-面试官：想了解ES集群的底层原理，不再只关注业务层面了。
+`面试官`：想了解ES集群的底层原理，不再只关注业务层面了。
 
 **前置前提：**
 
 **1、** 只有候选主节点（master：true）的节点才能成为主节点。
 
-**1、** 最小主节点数（min_master_nodes）的目的是防止脑裂。
+**2、** 最小主节点数（min_master_nodes）的目的是防止脑裂。
 
 这个我看了各种网上分析的版本和源码分析的书籍，云里雾里。
 
@@ -103,120 +100,46 @@
 
 第二步：比较：先判定是否具备master资格，具备候选主节点资格的优先返回；若两节点都为候选主节点，则id小的值会主节点。注意这里的id为string类型。
 
-**题外话：获取节点id的方法。**
-
-**1、** GET /_cat/nodes?v&h=ip,port,heapPercent,heapMax,id,name
-
-**2、** ip    port heapPercent heapMax id  name
-
-**3、** 127.0.0.1 9300     39  1.9gb Hk9w Hk9wFwU
-
-**补充：**
-
-**1、** Elasticsearch 的选主是 ZenDiscovery 模块负责的，主要包含 Ping（节点之间通过这个 RPC 来发现彼此）和 Unicast（单播模块包含一个主机列表以控制哪些节点需要 ping 通）这两部分；
-
-**2、** 对所有可以成为 master 的节点（node.master: true）根据 nodeId 字典排序，每次选举每个节点都把自己所知道节点排一次序，然后选出第一个（第 0 位）节点，暂且认为它是 master 节点。
-
-**3、** 如果对某个节点的投票数达到一定的值（可以成为 master 节点数 n/2+1）并且该节点自己也选举自己，那这个节点就是 master。否则重新选举一直到满足上述条件。
-
-**4、** master 节点的职责主要包括集群、节点和索引的管理，不负责文档级别的管理；data 节点可以关闭 http 功能。
-
-
-
-### 8、您能否分步介绍如何启动 Elasticsearch 服务器？
-
-启动方式有很多种，一般 bin 路径下
+题外话：获取节点id的方法。
 
 ```
-./elasticsearch -d
+ 1GET /_cat/nodes?v&h=ip,port,heapPercent,heapMax,id,name
+2ip        port heapPercent heapMax id   name
 ```
 
-就可以后台启动。
 
-打开浏览器输入 [http://ES](http://ES) IP:9200 就能知道集群是否启动成功。
+### 10、详细描述一下Elasticsearch搜索的过程。
 
-如果启动报错，日志里会有详细信息，逐条核对解决就可以。
+**1、** 搜索被执行成一个两阶段过程，我们称之为 Query Then Fetch；
 
+**2、** 在初始**查询阶段**时，查询会广播到索引中每一个分片拷贝（主分片或者副本分片）。 每个分片在本地执行搜索并构建一个匹配文档的大小为 from + size 的优先队列。
 
-### 9、如何监控 Elasticsearch 集群状态？
+PS：在搜索的时候是会查询Filesystem Cache的，但是有部分数据还在Memory Buffer，所以搜索是近实时的。
 
-Marvel 让你可以很简单的通过 Kibana 监控 Elasticsearch。你可以实时查看你的集群健康状态和性能，也可以分析过去的集群、索引和节点指标。
+**3、** 每个分片返回各自优先队列中 **所有文档的 ID 和排序值** 给协调节点，它合并这些值到自己的优先队列中来产生一个全局排序后的结果列表。
 
+**4、** 接下来就是 **取回阶段**，协调节点辨别出哪些文档需要被取回并向相关的分片提交多个 GET 请求。每个分片加载并 _丰富_ 文档，如果有需要的话，接着返回文档给协调节点。一旦所有的文档都被取回了，协调节点返回结果给客户端。
 
-### 10、elasticsearch 了解多少，说说你们公司 es 的集群架构，索引数据大小，分片有多少，以及一些调优手段 。
+**5、** 补充：Query Then Fetch的搜索类型在文档相关性打分的时候参考的是本分片的数据，这样在文档数量较少的时候可能不够准确，DFS Query Then Fetch增加了一个预查询的处理，询问Term和Document frequency，这个评分更准确，但是性能会变差。*
 
-面试官：想了解应聘者之前公司接触的 ES 使用场景、规模，有没有做过比较大规模的索引设计、规划、调优。
-
-解如实结合自己的实践场景回答即可。
-
-比如：ES 集群架构 13 个节点，索引根据通道不同共 20+索引，根据日期，每日递增 20+，索引：10 分片，每日递增 1 亿+数据，每个通道每天索引大小控制：
-
-150GB 之内。
-
-仅索引层面调优手段：
-
-**设计阶段调优**
-
-**1、** 根据业务增量需求，采取基于日期模板创建索引，通过 roll over API 滚动索引；
-
-**2、** 使用别名进行索引管理；
-
-**3、** 每天凌晨定时对索引做 force_merge 操作，以释放空间；
-
-**4、** 采取冷热分离机制，热数据存储到 SSD，提高检索效率；冷数据定期进行 shrink操作，以缩减存储；
-
-**5、** 采取 curator 进行索引的生命周期管理；
-
-**6、** 仅针对需要分词的字段，合理的设置分词器；
-
-**7、** Mapping 阶段充分结合各个字段的属性，是否需要检索、是否需要存储等。……..
-
-**写入调优**
-
-**1、** 写入前副本数设置为 0；
-
-**2、** 写入前关闭 refresh_interval 设置为-1，禁用刷新机制；
-
-**3、** 写入过程中：采取 bulk 批量写入；
-
-**4、** 写入后恢复副本数和刷新间隔；
-
-**5、** 尽量使用自动生成的 id。
-
-**查询调优**
-
-**1、** 禁用 wildcard；
-
-**2、** 禁用批量 terms（成百上千的场景）；
-
-**3、** 充分利用倒排索引机制，能 keyword 类型尽量 keyword；
-
-**4、** 数据量大时候，可以先基于时间敲定索引再检索；
-
-**5、** 设置合理的路由机制。
-
-**其他调优**
-
-部署调优，业务调优等。
-
-上面的提及一部分，面试者就基本对你之前的实践或者运维经验有所评估了。
+![](https://gitee.com/souyunkutech/souyunku-home/raw/master/images/souyunku-web/2019/08/0820/02/img_2.png#alt=img%5C_2.png)
 
 
-### 11、elasticsearch 的 document设计
-### 12、您能否说明当前可下载的稳定Elasticsearch版本？
-### 13、Elasticsearch中的 Ingest 节点如何工作？
-### 14、如何使用 Elasticsearch Tokenizer？
-### 15、详细描述一下ElasticSearch更新和删除文档的过程
-### 16、Elasticsearch 对于大数据量（上亿量级）的聚合如何实现？
-### 17、elasticsearch 索引数据多了怎么办，如何调优，部署
-### 18、Elasticsearch Analyzer 中的字符过滤器如何利用？
-### 19、详细描述一下 Elasticsearch 索引文档的过程。
-### 20、是否了解字典树？
-### 21、拼写纠错是如何实现的？
-### 22、简要介绍一下Elasticsearch？
-### 23、你之前公司的ElasticSearch集群，一个Node一般会分配几个分片？
-### 24、客户端在和集群连接时，如何选择特定的节点执行请求的？
-### 25、Elasticsearch中的节点（比如共20个），其中的10个选了一个master，另外10个选了另一个master，怎么办？
+### 11、token filter 过滤器 在 Elasticsearch 中如何工作？
+### 12、Elasticsearch 是如何实现 Master 选举的？
+### 13、elasticsearch 读取数据
+### 14、您能否分步介绍如何启动 Elasticsearch 服务器？
+### 15、能列举过你使用的 X-Pack 命令吗?
+### 16、详细描述一下 Elasticsearch 更新和删除文档的过程。
+### 17、介绍下你们电商搜索的整体技术架构。
+### 18、可以列出X-Pack API 吗？
+### 19、lucence内部结构是什么？
+### 20、logstash 如何与 Elasticsearch 结合使用？
+### 21、REST API在 Elasticsearch 方面有哪些优势？
+### 22、Elasticsearch在部署时，对Linux的设置有哪些优化方法？
+### 23、elasticsearch 数据预热
+### 24、在并发情况下，Elasticsearch如果保证读写一致？
+### 25、解释一下 Elasticsearch集群中的 索引的概念 ？
 
 
 
@@ -225,7 +148,7 @@ Marvel 让你可以很简单的通过 Kibana 监控 Elasticsearch。你可以实
 
 ### 下载链接：[全部答案，整理好了](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
 
-### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
+
 
 
 ## 最新，高清PDF：172份，7701页，最新整理

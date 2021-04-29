@@ -4,138 +4,141 @@
 
 ### 下载链接：[高清172份，累计 7701 页大厂面试题  PDF](https://github.com/souyunku/DevBooks/blob/master/docs/index.md)
 
-### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png)
 
 
+### 1、Spring Cloud的版本关系
 
-### 1、什么是REST / RESTful以及它的用途是什么？
-
-Representational State Transfer（REST）/ RESTful Web服务是一种帮助计算机系统通过Internet进行通信的架构风格。这使得微服务更容易理解和实现。
-
-微服务可以使用或不使用RESTful API实现，但使用RESTful API构建松散耦合的微服务总是更容易。
+Spring Cloud是一个由许多子项目组成的综合项目，各子项目有不同的发布节奏。 为了管理Spring Cloud与各子项目的版本依赖关系，发布了一个清单，其中包括了某个Spring Cloud版本对应的子项目版本。 为了避免Spring Cloud版本号与子项目版本号混淆，Spring Cloud版本采用了名称而非版本号的命名，这些版本的名字采用了伦敦地铁站的名字，根据字母表的顺序来对应版本时间顺序，例如Angel是第一个版本，Brixton是第二个版本。 当Spring Cloud的发布内容积累到临界点或者一个重大BUG被解决后，会发布一个"service releases"版本，简称SRX版本，比如Greenwich.SR2就是Spring Cloud发布的Greenwich版本的第2个SRX版本。目前Spring Cloud的最新版本是Hoxton。
 
 
-### 2、[@Required ](/Required ) 注解有什么用？
+### 2、SpringBoot、Spring MVC 和 Spring 有什么区别？
 
-[@Required ](/Required ) 应用于 bean 属性 setter 方法。 此注解仅指示必须在配置时使用 bean 定义中的显式属性值或使用自动装配填充受影响的 bean 属性。 如果尚未填充受影响的 bean 属性，则容器将抛出 BeanInitializationException。
+**1、** SpringSpring最重要的特征是依赖注入。所有 `SpringModules` 不是依赖注入就是 IOC 控制反转。当我们恰当的使用 DI 或者是 IOC 的时候，我们可以开发松耦合应用。松耦合应用的单元测试可以很容易的进行。
 
+**2、** Spring MVC提供了一种分离式的方法来开发 Web 应用。通过运用像 `DispatcherServelet`，`MoudlAndView` 和 `ViewResolver` 等一些简单的概念，开发 Web 应用将会变的非常简单。
 
-### 3、Nginx与Ribbon的区别
+**3、** Spring 和 SpringMVC 的问题在于需要配置大量的参数。
 
-Nginx是反向代理同时可以实现负载均衡，nginx拦截客户端请求采用负载均衡策略根据upstream配置进行转发，相当于请求通过nginx服务器进行转发。Ribbon是客户端负载均衡，从注册中心读取目标服务器信息，然后客户端采用轮询策略对服务直接访问，全程在客户端操作。
-
-
-### 4、什么是Spring IOC 容器？
-
-Spring IOC 负责创建对象，管理对象（通过依赖注入（DI），装配对象，配置对象，并且管理这些对象的整个生命周期。
+**4、** SpringBoot 通过一个自动配置和启动的项来目解决这个问题。为了更快的构建产品就绪应用程序，SpringBoot 提供了一些非功能性特征。
 
 
-### 5、什么是Netflix Feign？它的优点是什么？
+### 3、如何重新加载SpringBoot上的更改，而无需重新启动服务器？
 
-Feign是受到Retrofit，JAXRS-2.0和WebSocket启发的java客户端联编程序。Feign的第一个目标是将约束分母的复杂性统一到http apis，而不考虑其稳定性。在employee-consumer的例子中，我们使用了employee-producer使用REST模板公开的REST服务。
+这可以使用DEV工具来实现。通过这种依赖关系，您可以节省任何更改，嵌入式tomcat将重新启动。
 
-**但是我们必须编写大量代码才能执行以下步骤**
+SpringBoot有一个开发工具（DevTools）模块，它有助于提高开发人员的生产力。Java开发人员面临的一个主要挑战是将文件更改自动部署到服务器并自动重启服务器。
 
-使用功能区进行负载平衡。
+开发人员可以重新加载SpringBoot上的更改，而无需重新启动服务器。这将消除每次手动部署更改的需要。SpringBoot在它的第一个版本时没有这个功能。
 
-获取服务实例，然后获取基本URL。
+这是开发人员最需要的功能。DevTools模块完全满足开发人员的需求。该模块将在生产环境中被禁用。它还提供H2数据库控制台以更好地测试应用程序。
 
-利用REST模板来使用服务。前面的代码如下
+org.springframework.boot
 
-```
-@Controller
-public class ConsumerControllerClient {
-@Autowired
-private LoadBalancerClient loadBalancer;
+spring-boot-devtools
 
-public void getEmployee() throws RestClientException, IOException {
-
-    ServiceInstance serviceInstance=loadBalancer.choose("employee-producer");
-
-    System.out.println(serviceInstance.getUri());
-
-    String baseUrl=serviceInstance.getUri().toString();
-
-    baseUrl=baseUrl+"/employee";
-
-    RestTemplate restTemplate = new RestTemplate();
-    ResponseEntity<String> response=null;
-    try{
-    response=restTemplate.exchange(baseUrl,
-            HttpMethod.GET, getHeaders(),String.class);
-    }catch (Exception ex)
-    {
-        System.out.println(ex);
-    }
-    System.out.println(response.getBody());
-}
-```
-
-之前的代码，有像NullPointer这样的例外的机会，并不是最优的。我们将看到如何使用Netflix Feign使呼叫变得更加轻松和清洁。如果Netflix Ribbon依赖关系也在类路径中，那么Feign默认也会负责负载平衡。
+true
 
 
-### 6、SpringBoot 中的 starter 到底是什么 ?
+### 4、能否举一个例子来解释更多 Staters 的内容？
 
-首先，这个 Starter 并非什么新的技术点，基本上还是基于 Spring 已有功能来实现的。首先它提供了一个自动化配置类，一般命名为 `XXXAutoConfiguration` ，在这个配置类中通过条件注解来决定一个配置是否生效（条件注解就是 Spring 中原本就有的），然后它还会提供一系列的默认配置，也允许开发者根据实际情况自定义相关配置，然后通过类型安全的属性(spring、factories)注入将这些配置属性注入进来，新注入的属性会代替掉默认属性。正因为如此，很多第三方框架，我们只需要引入依赖就可以直接使用了。当然，开发者也可以自定义 Starter
+让我们来思考一个 Stater 的例子 -SpringBoot Stater Web。
 
+如果你想开发一个 web 应用程序或者是公开 REST 服务的应用程序。SpringBoot Start Web 是首选。让我们使用 Spring Initializr 创建一个 SpringBoot Start Web 的快速项目。
 
-### 7、什么是YAML?
+**依赖项可以被分为：**
 
-YAML是一种人类可读的数据序列化语言。它通常用于`配置文件`。 与属性文件相比，如果我们想要在配置文件中添加复杂的属性，YAML文件就更加结构化，而且更少混淆。可以看出YAML具有`分层配置数据`。
+**1、** Spring - core，beans，context，aop
 
+**2、** Web MVC - （Spring MVC）
 
-### 8、如何实现 SpringBoot应用程序的安全性?
+**3、** Jackson - for JSON Binding
 
-使用 `spring--startersecurityboot`--依赖项，并且必须添加安全配置。配置类将必须扩展 `WebSecurityConfigurerAdapter`并覆盖其方法。
+**4、** Validation - Hibernate,Validation API
 
+**5、** Enbedded Servlet Container - Tomcat
 
-### 9、自动装配有哪些方式？
+**6、** Logging - logback,slf4j
 
-Spring 容器能够自动装配 bean。也就是说，可以通过检查 BeanFactory 的内容让 Spring 自动解析 bean 的协作者。
+任何经典的 Web 应用程序都会使用所有这些依赖项。SpringBoot Starter Web 预先打包了这些依赖项。
 
-自动装配的不同模式：
-
-**1、** 这是默认设置，表示没有自动装配。应使用显式 bean 引用进行装配。byName
-
-**2、** 它根据 bean 的名称注入对象依赖项。它匹配并装配其属性与 XML 文件中由相同名称定义的 bean。byType
-
-**3、** 它根据类型注入对象依赖项。如果属性的类型与 XML 文件中的一个 bean 名称匹配，则匹配并装配属性。构造函数
-
-**4、** 它通过调用类的构造函数来注入依赖项。它有大量的参数。autodetect
-
-**5、** 首先容器尝试通过构造函数使用 autowire 装配，如果不能，则尝试通过 byType 自动装配。
+作为一个开发者，我不需要再担心这些依赖项和它们的兼容版本。
 
 
-### 10、如何在自定义端口上运行SpringBoot应用程序？
+### 5、什么是金丝雀释放？
 
-为了在自定义端口上运行SpringBoot应用程序，您可以在application.properties中指定端口。
-
-```
- server.port = 8090
-```
+Canary Releasing是一种降低在生产中引入新软件版本的风险的技术。这是通过将变更缓慢地推广到一小部分用户，然后将其发布到整个基础架构，即将其提供给每个人来完成的。
 
 
-### 11、解释不同方式的自动装配
-### 12、在 Spring中如何注入一个java集合？
-### 13、如何集成 SpringBoot 和 ActiveMQ？
-### 14、服务注册和发现是什么意思？Spring Cloud 如何实现？
-### 15、创建一个 SpringBoot Project 的最简单的方法是什么？
-### 16、为什么在微服务中需要Reports报告和Dashboards仪表板？
-### 17、为什么要使用 Spring Cloud 熔断器？
-### 18、SpringBoot、Spring MVC 和 Spring 有什么区别？
-### 19、什么是Spring Cloud？
-### 20、SpringBoot 有哪几种读取配置的方式？
-### 21、什么是切点（JoinPoint）
-### 22、微服务的优点
-### 23、如何使用 SpringBoot 生成一个 WAR 文件？
-### 24、Mock或Stub有什么区别？
-### 25、什么是 Spring Data ?
-### 26、什么是Spring Cloud？
-### 27、spring 提供了哪些配置方式？
-### 28、SpringBoot 有哪些优点？
-### 29、Spring框架的事务管理有哪些优点？
-### 30、Spring Cloud Security
-### 31、什么是Spring Cloud Bus?
+### 6、什么是 SpringBoot Stater ？
+
+启动器是一套方便的依赖没描述符，它可以放在自己的程序中。你可以一站式的获取你所需要的 Spring 和相关技术，而不需要依赖描述符的通过示例代码搜索和复制黏贴的负载。
+
+例如，如果你想使用 Sping 和 JPA 访问数据库，只需要你的项目包含 spring-boot-starter-data-jpa 依赖项，你就可以完美进行。
+
+
+### 7、什么是 SpringBoot？
+
+SpringBoot 是 Spring 开源组织下的子项目，是 Spring 组件一站式解决方案，主要是简化了使用 Spring 的难度，简省了繁重的配置，提供了各种启动器，使开发者能快速上手。
+
+
+### 8、SpringBoot事物的使用
+
+SpringBoot的事物很简单，首先使用注解EnableTransactionManagement开启事物之后，然后在Service方法上添加注解Transactional便可。
+
+
+### 9、过渡到微服务时的常见错误
+
+不仅在开发上，而且在方面流程也经常发生错误。一些常见错误是：
+
+**1、** 通常开发人员无法概述当前的挑战。
+
+**2、** 重写已经存在的程序。
+
+**3、** 职责、时间线和界限没有明确定义。
+
+**4、** 未能从一开始就实施和确定自动化的范围。
+
+
+### 10、解释Spring框架中bean的生命周期。
+
+**1、** Spring容器 从XML 文件中读取bean的定义，并实例化bean。
+
+**2、** Spring根据bean的定义填充所有的属性。
+
+**3、** 如果bean实现了BeanNameAware 接口，Spring 传递bean 的ID 到 setBeanName方法。
+
+**4、** 如果Bean 实现了 BeanFactoryAware 接口， Spring传递beanfactory 给setBeanFactory 方法。
+
+**5、** 如果有任何与bean相关联的BeanPostProcessors，Spring会在postProcesserBeforeInitialization()方法内调用它们。
+
+**6、** 如果bean实现IntializingBean了，调用它的afterPropertySet方法，如果bean声明了初始化方法，调用此初始化方法。
+
+**7、** 如果有BeanPostProcessors 和bean 关联，这些bean的postProcessAfterInitialization() 方法将被调用。
+
+**8、** 如果bean实现了 DisposableBean，它将调用destroy()方法。
+
+
+### 11、什么是客户证书？
+### 12、Spring Cloud和各子项目版本对应关系
+### 13、Zuul网关如何搭建集群
+### 14、YAML 配置的优势在哪里 ?
+### 15、SpringBoot 中如何实现定时任务 ?
+### 16、如何通过HibernateDaoSupport将Spring和Hibernate结合起来？
+### 17、SpringBoot 的核心注解是哪个？它主要由哪几个注解组成的？
+### 18、什么是 AOP 目标对象?
+### 19、PACT如何运作？
+### 20、Spring AOP and AspectJ AOP 有什么区别？
+### 21、SpringBoot 实现热部署有哪几种方式？
+### 22、spring 中有多少种 IOC 容器？
+### 23、微服务设计的基础是什么？
+### 24、服务雪崩效应产生的原因
+### 25、使用 Spring 有哪些方式？
+### 26、自动装配有什么局限？
+### 27、什么是基于Java的Spring注解配置? 给一些注解的例子.
+### 28、Spring由哪些模块组成?
+### 29、解释AOP模块
+### 30、什么是starter?
+### 31、SpringBoot 的核心注解是哪个？它主要由哪几个注解组成的？
 
 
 
@@ -144,7 +147,7 @@ Spring 容器能够自动装配 bean。也就是说，可以通过检查 BeanFac
 
 ### 下载链接：[全部答案，整理好了](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
 
-### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
+
 
 
 ## 最新，高清PDF：172份，7701页，最新整理

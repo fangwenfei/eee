@@ -4,135 +4,104 @@
 
 ### 下载链接：[高清172份，累计 7701 页大厂面试题  PDF](https://github.com/souyunku/DevBooks/blob/master/docs/index.md)
 
-### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png)
+
+
+### 1、缓存机制：
+
+设置了⼀个每30秒执⾏⼀次的定时任务，定时去服务端获取注册信息。获取之后，存⼊本地内存。
+
+
+### 2、什么是Spring Initializer?
+
+这个问题并不难，但面试官总是以此测试候选人的专业知识。
+
+Spring Initializer是一个网络应用程序，它可以生成一个SpringBoot项目，包含快速启动所需的一切。和往常一样，我们需要一个好的项目框架；它有助于你正确创建项目结构/框架。
+
+
+### 3、运行 SpringBoot 有哪几种方式？
+
+**1、** 打包用命令或者放到容器中运行
+
+**2、** 用 Maven/ Gradle 插件运行
+
+**3、** 直接执行 main 方法运行
+
+
+### 4、如何给静态变量赋值？
+
+SpringBoot无法通过@Value给静态变量赋值
+
+此时需要给当前类加@Component注解，通过set方法设置@Value注解加载set方法上，set方法的参数可以任意命名，不能同属性名，此后当前工具类下的静态方法可直接使用属性值。
 
 
 
-### 1、什么是 Hystrix？
+### 5、架构师在微服务架构中的角色是什么？
 
-在分布式系统，我们一定会依赖各种服务，那么这些个服务一定会出现失败的情况，就会导致雪崩，Hystrix就是这样的一个工具，防雪崩利器，它具有服务降级，服务熔断，服务隔离，监控等一些防止雪崩的技术。
+微服务架构中的架构师扮演以下角色：
 
-**Hystrix有四种防雪崩方式:**
+决定整个软件系统的布局。
 
-**1、** 服务降级：接口调用失败就调用本地的方法返回一个空
+帮助确定组件的分区。因此，他们确保组件相互粘合，但不紧密耦合。
 
-**2、** 服务熔断：接口调用失败就会进入调用接口提前定义好的一个熔断的方法，返回错误信息
+与开发人员共同编写代码，了解日常生活中面临的挑战。
 
-**3、** 服务隔离：隔离服务之间相互影响
+为开发微服务的团队提供某些工具和技术的建议。
 
-**4、** 服务监控：在服务发生调用时,会将每秒请求数、成功请求数等运行指标记录下来。
-
-
-### 2、Ribbon是什么？
-
-**1、** Ribbon是Netflix发布的开源项目，主要功能是提供客户端的软件负载均衡算法
-
-**2、** Ribbon客户端组件提供一系列完善的配置项，如连接超时，重试等。简单的说，就是在配置文件中列出后面所有的机器，Ribbon会自动的帮助你基于某种规则（如简单轮询，随即连接等）去连接这些机器。我们也很容易使用Ribbon实现自定义的负载均衡算法。（有点类似Nginx）
+提供技术治理，以便技术开发团队遵循微服务原则。
 
 
-### 3、微服务的端到端测试意味着什么？
+### 6、你能否举一个以 ReadOnly 为事务管理的例子？
 
-端到端测试 验证工作流中的所有流程，以检查一切是否按预期工作。它还确保系统以统一的方式工作，从而满足业务需求。
-
-
-### 4、Container在微服务中的用途是什么？
-
-容器是管理基于微服务的应用程序以便单独开发和部署它们的好方法。您可以将微服务封装在容器映像及其依赖项中，然后可以使用它来滚动按需实例的微服务，而无需任何额外的工作。
-
-![](https://gitee.com/souyunkutech/souyunku-home/raw/master/images/souyunku-web/2019/08/0816/01/img_18.png#alt=img%5C_18.png)
-
-图15： 容器的表示及其在微服务中的使用方式 – 微服务访谈问题
+当你从数据库读取内容的时候，你想把事物中的用户描述或者是其它描述设置为只读模式，以便于 Hebernate 不需要再次检查实体的变化。这是非常高效的。
 
 
-### 5、SOA和微服务架构之间的主要区别是什么？
+### 7、什么是 Spring Profiles？
 
-SOA和微服务之间的主要区别如下：
-
-![](https://gitee.com/souyunkutech/souyunku-home/raw/master/images/souyunku-web/2019/08/0816/01/img_8.png#alt=img%5C_8.png)
+Spring Profiles 允许用户根据配置文件（dev，test，prod 等）来注册 bean。因此，当应用程序在开发中运行时，只有某些 bean 可以加载，而在 PRODUCTION中，某些其他 bean 可以加载。假设我们的要求是 Swagger 文档仅适用于 QA 环境，并且禁用所有其他文档。这可以使用配置文件来完成。SpringBoot 使得使用配置文件非常简单。
 
 
-### 6、Eureka如何 保证AP
+### 8、Spring MVC的控制器是不是单例模式,如果是,有什么问题,怎么解决？
 
-Eureka看明⽩了这⼀点，因此在设计时就优先保证可⽤性。Eureka各个节点都是平等的，⼏个节点挂掉不会影响正常节点的⼯作，剩余的节点依然可以提供注册和查询服务。⽽Eureka的客户端在向某个Eureka注册或如果发现连接失败，则会⾃动切换⾄其它节点，只要有⼀台Eureka还在，就能保证注册服务可⽤(保证可⽤性)，只不过查到的信息可能不是最新的(不保证强⼀致性)。除此之外，Eureka还有⼀种⾃我保护机制，如果在15分钟内超过85%的节点都没有正常的⼼跳，那么Eureka就认为客户端与注册中⼼出现了⽹络故障，此时会出现以下⼏种情况：
+****
 
-**1、** Eureka不再从注册列表中移除因为⻓时间没收到⼼跳⽽应该过期的服务
-
-**2、** Eureka仍然能够接受新服务的注册和查询请求，但是不会被同步到其它节点上(即保证当前节点依然可⽤)
-
-**3、** 当⽹络稳定时，当前实例新的注册信息会被同步到其它节点中
-
-因此， Eureka可以很好的应对因⽹络故障导致部分节点失去联系的情况，⽽不会像zookeeper那样使整个注册服务瘫痪。
+是单例模式,所以在多线程访问的时候有线程安全问题,不要用同步,会影响性能的,解决方案是在控制器里面不能写字段。
 
 
-### 7、SpringBoot 常用的 Starter 有哪些？
+### 9、运行 SpringBoot 有哪几种方式？
 
-**1、** spring-boot-starter-web ：提供 Spring MVC + 内嵌的 Tomcat 。
+打包用命令或者放到容器中运行
 
-**2、** spring-boot-starter-data-jpa ：提供 Spring JPA + Hibernate 。
+用 Maven/ Gradle 插件运行
 
-**3、** spring-boot-starter-data-Redis ：提供 Redis 。
-
-**4、** mybatis-spring-boot-starter ：提供 MyBatis 。
+直接执行 main 方法运行
 
 
-### 8、SpringBoot有哪些优点？
+### 10、分布式配置中心的作用？
 
-**SpringBoot的优点有：**
-
-**1、** 减少开发，测试时间和努力。
-
-**2、** 使用JavaConfig有助于避免使用XML。
-
-**3、** 避免大量的Maven导入和各种版本冲突。
-
-**4、** 提供意见发展方法。
-
-**5、** 通过提供默认值快速开始开发。
-
-**6、** 没有单独的Web服务器需要。这意味着你不再需要启动Tomcat，Glassfish或其他任何东西。
-
-**7、** 需要更少的配置 因为没有web.xml文件。只需添加用@ Configuration注释的类，然后添加用@Bean注释的方法，Spring将自动加载对象并像以前一样对其进行管理。您甚至可以将@Autowired添加到bean方法中，以使Spring自动装入需要的依赖关系中。
-
-**8、** 基于环境的配置 使用这些属性，您可以将您正在使用的环境传递到应用程序：-Dspring.profiles.active = {enviornment}。在加载主应用程序属性文件后，Spring将在（application{environment} .properties）中加载后续的应用程序属性文件。
+动态变更项目配置信息而不必重新部署项目。
 
 
-### 9、哪种依赖注入方式你建议使用，构造器注入，还是 Setter方法注入？
-
-你两种依赖方式都可以使用，构造器注入和Setter方法注入。最好的解决方案是用构造器参数实现强制依赖，setter方法实现可选依赖。
-
-
-### 10、SpringBoot 的核心注解是哪个？它主要由哪几个注解组成的？
-
-启动类上面的注解是@SpringBootApplication，它也是 SpringBoot 的核心注解，主要组合包含了以下 3 个注解：
-
-@SpringBootConfiguration：组合了 [@Configuration ](/Configuration ) 注解，实现配置文件的功能。
-
-[@EnableAutoConfiguration：打开自动配置的功能，也可以关闭某个自动配置的选项，如关闭数据源自动配置功能：@SpringBootApplication(exclude ](/EnableAutoConfiguration：打开自动配置的功能，也可以关闭某个自动配置的选项，如关闭数据源自动配置功能：@SpringBootApplication(exclude ) = { DataSourceAutoConfiguration.class })。
-
-@ComponentScan：Spring组件扫描。
-
-
-### 11、SpringBoot 的自动配置是如何实现的？
-### 12、比较一下 Spring Security 和 Shiro 各自的优缺点 ?
-### 13、什么是 spring 的内部 bean？
-### 14、SpringBoot 日志框架：
-### 15、列举微服务技术栈
-### 16、Bean 工厂和 Application contexts 有什么区别？
-### 17、JPA 和 Hibernate 有哪些区别？JPA 可以支持动态 SQL 吗？
-### 18、什么是服务熔断
-### 19、SpringBoot 2、X 有什么新特性？与 1、X 有什么区别？
-### 20、如何在 SpringBoot中禁用 Actuator端点安全性?
-### 21、SpringBoot中的监视器是什么?
-### 22、您使用了哪些starter maven依赖项？
-### 23、SpringBoot 的核心注解是哪个？它主要由哪几个注解组成的？
-### 24、什么是YAML？
-### 25、有哪些不同类型的IOC（依赖注入）方式？
-### 26、SpringBoot 还提供了其它的哪些 Starter Project Options？
-### 27、SpringBoot 自动配置原理
-### 28、在Spring MVC应用程序中使用WebMvcTest注释有什么用处？
-### 29、SpringBoot自动配置的原理
-### 30、如何通过HibernateDaoSupport将Spring和Hibernate结合起来？
-### 31、什么是Spring Profiles？
+### 11、SpringBoot 的核心配置文件有哪几个？它们的区别是什么？
+### 12、项目中前后端分离部署，所以需要解决跨域的问题。
+### 13、Spring MVC常用的注解有哪些？
+### 14、可以通过多少种方式完成依赖注入？
+### 15、使用 Spring 有哪些方式？
+### 16、什么是编织（Weaving）？
+### 17、SpringBoot有哪些优点？
+### 18、什么是网关?
+### 19、Spring Cloud Task
+### 20、什么是 AOP切点
+### 21、SpringBoot 中如何解决跨域问题 ?
+### 22、SpringCloud Config 可以实现实时刷新吗？
+### 23、eureka和zookeeper都可以提供服务注册与发现的功能，请说说两个的区别？
+### 24、SpringCloud限流：
+### 25、SpringBoot 有哪几种读取配置的方式？
+### 26、什么是断路器
+### 27、什么是 AOP 切点
+### 28、[@Autowired ](/Autowired ) 注解有什么用？
+### 29、链路跟踪Sleuth
+### 30、SpringBoot常用的starter有哪些?
+### 31、SpringData 项目所支持的关系数据存储技术：
 
 
 
@@ -141,7 +110,7 @@ Eureka看明⽩了这⼀点，因此在设计时就优先保证可⽤性。Eurek
 
 ### 下载链接：[全部答案，整理好了](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
 
-### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
+
 
 
 ## 最新，高清PDF：172份，7701页，最新整理

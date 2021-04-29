@@ -4,204 +4,151 @@
 
 ### 下载链接：[高清172份，累计 7701 页大厂面试题  PDF](https://github.com/souyunku/DevBooks/blob/master/docs/index.md)
 
-### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png)
 
 
+### 1、如何将SQLite数据库(dictionary.db文件)与apk文件一起发布
 
-### 1、Service生命周期
+解可以将dictionary.db文件复制到Eclipse Android工程中的res aw目录中。所有在res aw目录中的文件不会被压缩，这样可以直接提取该目录中的文件。可以将dictionary.db文件复制到res aw目录中
 
-在Service的生命周期里，常用的有：
 
-4个手动调用的方法
+### 2、Fragment中add与replace的区别？
+
+add不会重新初始化fragment,replace每次都会；
+
+添加相同的fragment时，replace不会有任何变化，add会报IllegalStateException 异常；
+
+replace 先 remove 掉相同 id 的所有 fragment，然后在add 当前的这个 fragment，而 add 是覆盖前一个fragment。所以如果使用 add 一般会伴随 hide()和show()，避免布局重叠；
+
+使用 add，如果应用放在后台，或以其他方式被系统销毁，再打开时，hide()中引用的 fragment 会销毁，所以依然会出现布局重叠 bug，可以使用 replace 或使用 add时，添加一个 tag 参数；
+
+
+### 3、Activity启动模式
+
+介绍 Android 启动模式之前，先介绍两个概念task和taskAffinity
+
+**task：**
+
+翻译过来就是“任务”，是一组相互有关联的 activity 集合，可以理解为 Activity 是在 task 里面活动的。 task 存在于一个称为 back stack 的数据结构中，也就是说， task 是以栈的形式去管理 activity 的，所以也叫可以称为“任务栈”。
+
+**taskAffinity：**
+
+官方文档解释是："The task that the activity has an affinity for."，可以翻译为 activity 相关或者亲和的任务，这个参数标识了一个 Activity 所需要的任务栈的名字。默认情况下，所有Activity所需的任务栈的名字为应用的包名。 taskAffinity 属性主要和 singleTask 启动模式或者 allowTaskReparenting 属性配对使用。
+
+**4种启动模式**
+
+**1、** standard：
+
+标准模式，也是系统默认的启动模式。假如 activity A 启动了 activity B ， activity B 则会运行在 activity A 所在的任务栈中。而且每次启动一个 Activity ，都会重新创建新的实例，不管这个实例在任务中是否已经存在。非 Activity 类型的 context （如 ApplicationContext ）启动 standard 模式的 Activity 时会报错。非 Activity 类型的 context 并没有所谓的任务栈，由于上面第 1 点的原因所以系统会报错。此解决办法就是为待启动 Activity 指定 FLAG_ACTIVITY_NEW_TASK 标记位，这样启动的时候系统就会为它创建一个新的任务栈。这个时候待启动 Activity 其实是以 singleTask 模式启动的。
+
+**2、** singleTop：
+
+栈顶复用模式。假如 activity A 启动了 activity B ，就会判断 A 所在的任务栈栈顶是否是 B 的实例。如果是，则不创建新的 activity B 实例而是直接引用这个栈顶实例，同时 onNewIntent 方法会被回调，通过该方法的参数可以取得当前请求的信息；如果不是，则创建新的 activity B 实例。
+
+**3、** singleTask：
+
+栈内复用模式。在第一次启动这个 Activity 时，系统便会创建一个新的任务，并且初始化 Activity 的实例，放在新任务的底部。不过需要满足一定条件的。那就是需要设置 taskAffinity 属性。前面也说过了， taskAffinity 属性是和 singleTask 模式搭配使用的。
+
+![92_4.png][92_4.png]
+
+**1、** singleInstance：单实例模式。这个是 singleTask 模式的加强版，它除了具有 singleTask 模式的所有特性外，它还有一点独特的特性，那就是此模式的 Activity 只能单独地位于一个任务栈，不与其他 Activity 共存于同一个任务栈。
+
+
+### 4、sim卡的EF 文件有何作用
+
+sim卡就是电话卡，sim卡内有自己的操作系统，用来与手机通讯的。Ef文件用来存储数据的。
+
+
+### 5、Fragment 在你们项目中的使用
+
+Fragment 是 android3.0 以后引入的的概念，做局部内容更新更方便，原来为了到达这一点要把多个布局放到一个 activity 里面，现在可以用多 Fragment 来代替，只有在需要的时候才加载Fragment，提高性能。
+
+**Fragment 的好处：**
+
+**1、** Fragment 可以使你能够将 activity 分离成多个可重用的组件，每个都有它自己的生命周期和UI。
+
+**2、** Fragment 可以轻松得创建动态灵活的 UI 设计，可以适应于不同的屏幕尺寸。从手机到平板电脑。
+
+**3、** Fragment 是一个独立的模块,紧紧地与 activity 绑定在一起。可以运行中动态地移除、加入、交换等。
+
+**4、** Fragment 提供一个新的方式让你在不同的安卓设备上统一你的 UI。
+
+**5、** Fragment 解决 Activity 间的切换不流畅，轻量切换。
+
+**6、** Fragment 替代 TabActivity 做导航，性能更好。
+
+**7、** Fragment 在 4.2.版本中新增嵌套 fragment 使用方法，能够生成更好的界面效果。
+
+
+### 6、如何将打开res aw目录中的数据库文件?
+
+**1、** 在Android中不能直接打开res aw目录中的数据库文件，而需要在程序第一次启动时将该文件复制到手机内存或SD卡的某个目录中，然后再打开该数据库文件。
+
+**2、** 复制的基本方法是使用getResources().openRawResource方法获得res aw目录中资源的 InputStream对象，然后将该InputStream对象中的数据写入其他的目录中相应文件中。
+
+**3、** 在Android SDK中可以使用SQLiteDatabase.openOrCreateDatabase方法来打开任意目录中的SQLite数据库文件。
+
+
+### 7、Android root机制
+
+root指的是你有权限可以再系统上对所有档案有 "读" "写" "执行"的权力。root机器不是真正能让你的应用程序具有root权限。它原理就跟linux下的像sudo这样的命令。在系统的bin目录下放个su程序并属主是root并有suid权限。则通过su执行的命令都具有Android root权限。当然使用临时用户权限想把su拷贝的/system/bin目录并改属性并不是一件容易的事情。这里用到2个工具跟2个命令。把busybox拷贝到你有权限访问的目录然后给他赋予4755权限，你就可以用它做很多事了。
+
+
+### 8、GLSurfaceView
+
+基于SurfaceView视图再次进行拓展的视图类，专用于3D游戏开发的视图，是surfaceView的子类，openGL专用
+
+
+### 9、属性动画，例如一个 button 从 A 移动到 B 点，B 点还是可以响应点击事件，这个原理是什么？
+
+补间动画只是显示的位置变动，View 的实际位置未改变，表现为 View 移动到其他地方，点击事件仍在原处才能响应。而属性动画控件移动后事件相应就在控件移动后本身进行处理
+
+
+### 10、什么是IntentService？有何优点？
+
+IntentService 是 Service 的子类，比普通的 Service 增加了额外的功能。先看 Service 本身存在两个问题：
 
 ```
-startService()    启动服务
-stopService()    关闭服务
-bindService()    绑定服务
-unbindService()    解绑服务
+Service 不会专门启动一条单独的进程，Service 与它所在应用位于同一个进程中；
+Service 也不是专门一条新线程，因此不应该在 Service 中直接处理耗时的任务；
 ```
 
-5个内部自动调用的方法
+特征
 
 ```
-onCreat()            创建服务
-onStartCommand()    开始服务
-onDestroy()            销毁服务
-onBind()            绑定服务
-onUnbind()            解绑服务
+会创建独立的 worker 线程来处理所有的 Intent 请求；
+会创建独立的 worker 线程来处理 onHandleIntent()方法实现的代码，无需处理多线程问题；
+所有请求处理完成后，IntentService 会自动停止，无需调用 stopSelf()方法停止 Service；
+为 Service 的 onBind()提供默认实现，返回 null；
+为 Service 的 onStartCommand 提供默认实现，将请求 Intent 添加到队列中
 ```
 
-**1、** 手动调用startService()启动服务，自动调用内部方法：onCreate()、onStartCommand()，如果一个Service被startService()多次启动，那么onCreate()也只会调用一次。
-
-**2、** 手动调用stopService()关闭服务，自动调用内部方法：onDestory()，如果一个Service被启动且被绑定，如果在没有解绑的前提下使用stopService()关闭服务是无法停止服务的。
-
-**3、** 手动调用bindService()后，自动调用内部方法：onCreate()、onBind()。
-
-**4、** 手动调用unbindService()后，自动调用内部方法：onUnbind()、onDestory()。
-
-**5、** startService()和stopService()只能开启和关闭Service，无法操作Service，调用者退出后Service仍然存在；bindService()和unbindService()可以操作Service，调用者退出后，Service随着调用者销毁。
-
-
-### 2、Android 判断SD卡是否存在
-
-首先要在AndroidManifest.xml中增加SD卡访问权限
-
-
-### 3、内存溢出和内存泄漏有什么区别？何时会产生内存泄漏？
-
-内存溢出：当程序运行时所需的内存大于程序允许的最高内存，这时会出现内存溢出；
-
-内存泄漏：在一些比较消耗资源的操作中，如果操作中内存一直未被释放，就会出现内存泄漏。比如未关闭io,cursor。
-
-
-### 4、如何在 ScrollView 中如何嵌入 ListView
-
-通常情况下我们不会在 ScrollView 中嵌套 ListView。
-
-在 ScrollView 添加一个 ListView 会导致 listview 控件显示不全，通常只会显示一条，这是因为两个控件的滚动事件冲突导致。所以需要通过 listview 中的 item 数量去计算 listview 的显示高度，从而使其完整展示。
-
-现阶段最好的处理的方式是： 自定义 ListView，重载 onMeasure()方法，设置全部显示。
-
-
-### 5、事件分发中的 onTouch 和 onTouchEvent 有什么区别，又该如何使用？
-
-这两个方法都是在 View 的 dispatchTouchEvent 中调用的，onTouch 优先于 onTouchEvent执行。如果在 onTouch 方法中通过返回 true 将事件消费掉，onTouchEvent 将不会再执行。
-
-另外需要注意的是，onTouch 能够得到执行需要两个前提条件，第一 mOnTouchListener 的值不能为空，第二当前点击的控件必须是 enable 的。因此如果你有一个控件是非 enable 的，那么给它注册 onTouch 事件将永远得不到执行。对于这一类控件，如果我们想要监听它的 touch 事件，就必须通过在该控件中重写 onTouchEvent 方法来实现。
-
-
-### 6、Android中常用布局
-
-常用的布局：
+使用
 
 ```
-FrameLayout(帧布局):所有东西依次都放在左上角，会重叠
-LinearLayout(线性布局):按照水平和垂直进行数据展示
-RelativeLayout(相对布局):以某一个元素为参照物，来定位的布局方式
-```
-
-不常用的布局：
-
-```
-TableLayout(表格布局): 每一个TableLayout里面有表格行TableRow，TableRow里面可以具体定义每一个元素（Android TV上使用）
-AbsoluteLayout(绝对布局):用X,Y坐标来指定元素的位置，元素多就不适用。（机顶盒上使用）
-```
-
-新增布局：
-
-```
-PercentRelativeLayout（百分比相对布局）可以通过百分比控制控件的大小。
-PercentFrameLayout（百分比帧布局）可以通过百分比控制控件的大小。
+让service类继承IntentService，重写onStartCommand和onHandleIntent实现
 ```
 
 
-### 7、Intent 传递数据时，可以传递哪些类型数据？
-
-```
-基本数据类型以及对应的数组类型
-可以传递bundle类型，但是bundle类型的数据需要实现Serializable或者parcelable接口
-```
-
-
-### 8、都使用过哪些自定义控件
-
-**1、** pull2RefreshListView
-
-**2、** LazyViewPager
-
-**3、** SlidingMenu
-
-**4、** SmoothProgressBar
-
-**5、** 自定义组合控件
-
-**6、** ToggleButton
-
-**7、** 自定义Toast
-
-
-### 9、说说mvc模式的原理，它在android中的运用,android的官方建议应用程序的开发采用mvc模式。何谓mvc？
-
-mvc是model,view,controller的缩写，mvc包含三个部分：
-
-**1、** 模型（model）对象：是应用程序的主体部分，所有的业务逻辑都应该写在该层。
-
-**2、** 视图（view）对象：是应用程序中负责生成用户界面的部分。也是在整个mvc架构中用户唯一可以看到的一层，接收用户的输入，显示处理结果。
-
-**3、** 控制器（control）对象：是根据用户的输入，控制用户界面数据显示及更新model对象状态的部分，控制器更重要的一种导航功能，响应用户出发的相关事件，交给m层处理。
-
-**android鼓励弱耦合和组件的重用，在android中mvc的具体体现如下：**
-
-**1、** 视图层（view）：一般采用xml文件进行界面的描述，使用的时候可以非常方便的引入，当然，如果你对android了解的比较的多了话，就一定可以想到在android中也可以使用JavaScript+html等的方式作为view层，当然这里需要进行java和javascript之间的通信，幸运的是，android提供了它们之间非常方便的通信实现。
-
-**2、** 控制层（controller）：android的控制层的重任通常落在了众多的acitvity的肩上，这句话也就暗含了不要在acitivity中写代码，要通过activity交割model业务逻辑层处理，这样做的另外一个原因是android中的acitivity的响应时间是5s，如果耗时的操作放在这里，程序就很容易被回收掉。
-
-**3、** 模型层（model）：对数据库的操作、对网络等的操作都应该在model里面处理，当然对业务计算等操作也是必须放在的该层的。
-
-
-### 10、activity与fragment区别
-
-生命周期：
-
-fragment从创建倒销毁整个生命周期依次为onAttach()→onCreate()→onCreateView()→onActivityCreated()→onStart()→onResume()→onPause()→onStop()→onDestroyView()→onDestroy()→onDetach()
-
-**与activity不同的方法有**
-
-**1、** onAttach():当Fragment和Activity建立关联的时候调用；
-
-**2、** onCreateView():当Fragment创建视图调用；
-
-**3、** onActivityCreated:与Fragment相关联的Activity完成onCreate()之后调用；
-
-**4、** onDestoryView():在Fragment中的布局被移除时调用；
-
-**5、** onDetach():当Fragment和Activity解除关联时调用；
-
-**6、** activity常用的生命周期只有以下几个；
-
-**7、** onCreate()： 表示 Activity 正在被创建，常用来 初始化工作，比如调用 setContentView 加载界面布局资源，初始化 Activity 所需数据等；
-
-**8、** onRestart()：表示 Activity 正在重新启动，一般情况下，当前Acitivty 从不可见重新变为可见时，OnRestart就会被调用；
-
-**9、** onStart()： 表示 Activity 正在被启动，此时 Activity 可见但不在前台，还处于后台，无法与用户交互；
-
-**10、** onResume()： 表示 Activity 获得焦点，此时 Activity 可见且在前台并开始活动，这是与 onStart 的区别所在；
-
-**11、** onPause()： 表示 Activity 正在停止，此时可做一些 存储数据、停止动画等工作，但是不能太耗时，因为这会影响到新 Activity的显示，onPause 必须先执行完，新 Activity 的 onResume 才会执行；
-
-**12、** onStop()： 表示 Activity 即将停止，可以做一些稍微重量级的回收工作，比如注销广播接收器、关闭网络连接等，同样不能太耗时；
-
-**13、** onDestroy()： 表示 Activity 即将被销毁，这是 Activity 生命周期中的最后一个回调，常做 回收工作、资源释放；
-
-**14、** 区别：
-
-**15、** Fragment比Activity多出四个回调周期，控制操作上更灵活；
-
-**16、** Fragment可以在xml文件中直接写入，也可以在Activity中动态添加；
-
-**17、** Fragment可以使用show()/hide()或者replace()对Fragment进行切换，切换的时候不会出现明显的效果，Activity切换的时候会有明显的翻页或其他效果；
-
-
-### 11、Fragment 在你们项目中的使用
-### 12、Service 是否在 main thread 中执行, service 里面是否能执行耗时的操作?
-### 13、简述JNI
-### 14、请解释下Android程序运行时权限与文件系统权限的区别。
-### 15、跟activity和Task 有关的 Intent启动方式有哪些？其含义？
-### 16、Android 中的动画有哪几类，它们的特点和区别是什么
-### 17、Fragment中add与replace的区别？
-### 18、View的分发机制，滑动冲突
-### 19、SQLite支持事务吗? 添加删除如何提高性能?
-### 20、Android 线程间通信有哪几种方式（重要）
-### 21、IntentService有何优点?
-### 22、子线程发消息到主线程进行更新 UI，除了 handler 和 AsyncTask，还有什么？
-### 23、Android中的ANR
-### 24、自定义view的基本流程
-### 25、说说 ContentProvider、ContentResolver、ContentObserver 之间的关系
-### 26、Service 和 Activity 在同一个线程吗
-### 27、ListView 如何定位到指定位置
-### 28、广播注册
-### 29、Fragment 的 replace 和 add 方法的区别
-### 30、SharedPreference跨进程使用会怎么样？如何保证跨进程使用安全？
+### 11、activity的启动模式有哪些？是什么含义
+### 12、简述JNI
+### 13、补间动画
+### 14、Service 和 Activity 在同一个线程吗
+### 15、16Android性能优化
+### 16、如何启用Service，如何停用Service。
+### 17、什么是 IntentService？有何优点？
+### 18、Android本身的api并未声明会抛出异常，则其在运行时有无可能抛出runtime异常，你遇到过吗？诺有的话会导致什么问题？如何解决？
+### 19、Android 判断SD卡是否存在
+### 20、请解释下在单线程模型中Message、Handler、Message Queue、Looper之间的关系。
+### 21、Adapter是什么？你所接触过的adapter有那些？
+### 22、请解释下 Android 程序运行时权限与文件系统权限的区别？
+### 23、Android 引入广播机制的用意
+### 24、如何退出Activity
+### 25、如何将SQLite数据库(dictionary.db文件)与apk文件一起发布?
+### 26、广播接受者的生命周期？
+### 27、Service生命周期
+### 28、ListView 如何实现分页加载
+### 29、谈谈你在工作中是怎样解决一个 bug
+### 30、Activity间通过Intent传递数据大小有没有限制？
 
 
 
@@ -210,7 +157,7 @@ fragment从创建倒销毁整个生命周期依次为onAttach()→onCreate()→o
 
 ### 下载链接：[全部答案，整理好了](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
 
-### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
+
 
 
 ## 最新，高清PDF：172份，7701页，最新整理

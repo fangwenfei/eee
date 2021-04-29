@@ -4,189 +4,167 @@
 
 ### 下载链接：[高清172份，累计 7701 页大厂面试题  PDF](https://github.com/souyunku/DevBooks/blob/master/docs/index.md)
 
-### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png)
 
 
+### 1、Super与this表示什么？
 
-### 1、怎样通过 Java 程序来判断 JVM 是 32 位 还是 64位？
+**1、** Super表示当前类的父类对象
 
-你可以检查某些系统属性如 sun.arch.data.model 或 os.arch 来获取该信息。
-
-
-### 2、怎么在JDBC内调用一个存储过程
-
-使用CallableStatement
+**2、** This表示当前类的对象
 
 
-### 3、你对线程优先级的理解是什么？
+### 2、HashSet如何检查重复？HashSet是如何保证数据不可重复的？
 
-**1、** 每一个线程都是有优先级的，一般来说，高优先级的线程在运行时会具有优先权，但这依赖于线程调度的实现，这个实现是和操作系统相关的(OS dependent)。我们可以定义线程的优先级，但是这并不能保证高优先级的线程会在低优先级的线程前执行。线程优先级是一个int变量(从1-10)，1代表最低优先级，10代表最高优先级。
+**1、** 向HashSet 中add ()元素时，判断元素是否存在的依据，不仅要比较hash值，同时还要结合equles 方法比较。
 
-**2、** java的线程优先级调度会委托给操作系统去处理，所以与具体的操作系统优先级有关，如非特别需要，一般无需设置线程优先级。
+**2、** HashSet 中的add ()方法会使用HashMap 的put()方法。
 
+**3、** HashMap 的 key 是唯一的，由源码可以看出 HashSet 添加进去的值就是作为HashMap 的key，并且在HashMap中如果K/V相同时，会用新的V覆盖掉旧的V，然后返回旧的V。所以不会重复（ HashMap 比较key是否相等是先比较hashcode 再比较equals ）。
 
-### 4、你平时工作中用过的JVM常用基本配置参数有哪些？
-
-**-Xms**
-
-初始化大小内存，默认为物理内存1/64
-
-等价于-XX:InitialHeapSize
-
-**-Xmx**
-
-最大分配内存，默认物理内存的1/4
-
-等价于-XX:MaxHeapSize
-
-**-Xss**
-
-设置单个线程栈的大小，一般默认为512K~1024K
-
-等价于-XX:ThreadStackSize
-
--XX:ThreadStackSize = 0 ， 表示使用默认512K~1024K
-
--XX:ThreadStackSize != 0 , 表示使用自己设置的
-
-**-Xmn**
-
-设置年轻代大小,一般不需要改动
-
-**-Xms128m -Xmx4096m -Xss1024k -XX:MetaSpaceSize=512m -XX:+PrintCommandFlags -XX:+PrintGCDetails -XX:+UseSerialGC**
-
-**-XX:MetaspaceSize**
-
-元空间的本质和永久代类似，都是对JVM规范中方法区的实现。
-
-不过元空间与永久代之间最大的区别在于：
-
-永久代在堆里面
-
-元空间并不在虚拟机中，而是使用本地内存。
-
-因此，在默认情况下，元空间的大小仅受本地内存限制
-
-eg:
-
-Xms10m -Xmx10m -XX:MetaspaceSize=1024m -XX:+PrintFlagsFinal
-
-初始值约21M，也就是说只占用本地内存的21M，如果你频繁的new对象，有可能就会把元空间撑爆从而发生元空间异常，因此需要调大一些
-
--XX:+PrintGCDetails
-
-你只需要记忆10个左右即可应付`绝大多数`面试，建议只记忆G1相关参数。CMS这种既耗时间参数又多又被淘汰的东西，不看也罢。面试时间有限，不会在这上面纠结，除非你表现的太嚣张了。
-
-
-### 5、说明Tomcat配置了多少个Valve?
-
-Tomcat配置了四种类型的Valve：
-
-**1、** 访问日志
-
-**2、** 远程地址过滤
-
-**3、** 远程主机过滤器
-
-**4、** 客户请求记录器
-
-
-### 6、抽象类必须要有抽象方法吗？
-
-示例代码：
+**以下是HashSet 部分源码：**
 
 ```
-abstract class Cat {
-    public static void sayHi() {
-    System.out.println("hi~");
-    }
+private static final Object PRESENT = new Object();
+private transient HashMap<E,Object> map;
+
+public HashSet() {
+map = new HashMap<>();
+}
+
+public boolean add(E e) {
+// 调用HashMap的put方法,PRESENT是一个至始至终都相同的虚值
+return map.put(e, PRESENT)==null;
 }
 ```
 
-上面代码，抽象类并没有抽象方法但完全可以正常运行。
+**hashCode（）与equals（）的相关规定**：
+
+**1、** 如果两个对象相等，则hashcode一定也是相同的，hashCode是jdk根据对象的地址或者字符串或者数字算出来的int类型的数值
+
+**2、** 两个对象相等,对两个equals方法返回true
+
+**3、** 两个对象有相同的hashcode值，它们也不一定是相等的
+
+**4、** 综上，equals方法被覆盖过，则hashCode方法也必须被覆盖
+
+**5、** hashCode()的默认行为是对堆上的对象产生独特值。如果没有重写hashCode()，则该class的两个对象无论如何都不会相等（即使这两个对象指向相同的数据）。
+
+**==与equals的区别**
+
+**1、** ==是判断两个变量或实例是不是指向同一个内存空间 equals是判断两个变量或实例所指向的内存空间的值是不是相同
+
+**2、** ==是指对内存地址进行比较 equals()是对字符串的内容进行比较
 
 
-### 7、多线程的常用方法
-| 方法 名 | 描述 |
-| --- | --- |
-| sleep() | 强迫一个线程睡眠Ｎ毫秒 |
-| isAlive() | 判断一个线程是否存活。 |
-| join() | 等待线程终止。 |
-| activeCount() | 程序中活跃的线程数。 |
-| enumerate() | 枚举程序中的线程。 |
-| currentThread() | 得到当前线程。 |
-| isDaemon() | 一个线程是否为守护线程。 |
-| setDaemon() | 设置一个线程为守护线程。 |
-| setName() | 为线程设置一个名称。 |
-| wait() | 强迫一个线程等待。 |
-| notify() | 通知一个线程继续运行。 |
-| setPriority() | 设置一个线程的优先级。 |
+### 3、notify()和notifyAll()有什么区别？
+
+当一个线程进入wait之后，就必须等其他线程notify/notifyall,使用notifyall,可以唤醒所有处于wait状态的线程，使其重新进入锁的争夺队列中，而notify只能唤醒一个。
+
+如果没把握，建议notifyAll，防止notigy因为信号丢失而造成程序异常。
+
+
+### 4、生产环境服务器变慢，如何诊断处理？
+
+**1、** 使用 top 指令，服务器中 CPU 和 内存的使用情况，-H 可以按 CPU 使用率降序，-M 内存使用率降序。排除其他进程占用过高的硬件资源，对 Java 服务造成影响。
+
+**2、** 如果发现 CPU 使用过高，可以使用 top 指令查出 JVM 中占用 CPU 过高的线程，通过 jstack 找到对应的线程代码调用，排查出问题代码。
+
+**3、** 如果发现内存使用率比较高，可以 dump 出 JVM 堆内存，然后借助 MAT 进行分析，查出大对象或者占用最多的对象来自哪里，为什么会长时间占用这么多；如果 dump 出的堆内存文件正常，此时可以考虑堆外内存被大量使用导致出现问题，需要借助操作系统指令 pmap 查出进程的内存分配情况、gdb dump 出具体内存信息、perf 查看本地函数调用等。
+
+**4、** 如果 CPU 和 内存使用率都很正常，那就需要进一步开启 GC 日志，分析用户线程暂停的时间、各部分内存区域 GC 次数和时间等指标，可以借助 jstat 或可视化工具 GCeasy 等，如果问题出在 GC 上面的话，考虑是否是内存不够、根据垃圾对象的特点进行参数调优、使用更适合的垃圾收集器；分析 jstack 出来的各个线程状态。如果问题实在比较隐蔽，考虑是否可以开启 jmx，使用 visualmv 等可视化工具远程监控与分析。
+
+
+### 5、请阐述Catalina的配置文件有哪些?
+
+Catalina包含的配置文件有：
+
+**1、** ·policy
+
+**2、** ·properties
+
+**3、** ·properties
+
+**4、** ·xml
+
+**5、** ·xml
+
+**6、** ·Tomcat-users.xml
+
+
+### 6、对象的访问方式有哪些？
+
+Java 程序会通过栈上的 reference 引用操作堆对象，访问方式由虚拟机决定，主流访问方式主要有句柄和直接指针。
+
+**句柄：** 堆会划分出一块内存作为句柄池，reference 中存储对象的句柄地址，句柄包含对象实例数据与类型数据的地址信息。优点是 reference 中存储的是稳定句柄地址，在 GC 过程中对象被移动时只会改变句柄的实例数据指针，而 reference 本身不需要修改。
+
+**直接指针：** 堆中对象的内存布局就必须考虑如何放置访问类型数据的相关信息，reference 存储对象地址，如果只是访问对象本身就不需要多一次间接访问的开销。优点是速度更快，节省了一次指针定位的时间开销，HotSpot 主要使用直接指针进行对象访问。
+
+
+### 7、调优工具
+
+常用调优工具分为两类,jdk自带监控工具：jconsole和jvisualvm，第三方有：MAT(Memory AnalyzerTool)、GChisto。
+
+**1、** jconsole，Java Monitoring and Management Console是从java5开始，在JDK中自带的java监控和管理控制台，用于对JVM中内存，线程和类等的监控
+
+**2、** jvisualvm，jdk自带全能工具，可以分析内存快照、线程快照；监控内存变化、GC变化等。
+
+**3、** MAT，Memory Analyzer Tool，一个基于Eclipse的内存分析工具，是一个快速、功能丰富的Javaheap分析工具，它可以帮助我们查找内存泄漏和减少内存消耗
+
+**4、** GChisto，一款专业分析gc日志的工具
+
+
+### 8、怎么查看服务器默认的垃圾回收器是哪一个？
+
+这通常会使用另外一个参数：`-XX:+PrintCommandLineFlags`可以打印所有的参数，包括使用的垃圾回收器。
+
+
+### 9、是否可以继承String类？
 
 
 
-### 8、事务的使用场景在什么地方？
+String 类是final类，不可以被继承。
 
-但一个业务逻辑包括多个数据库操作的时候，而且需要保证每个数据表操作都执行的成功进行下一个操作，这个时候可以使用事务
-
-
-### 9、简述Hibernate常见优化策略。
-
-**1、** 制定合理的缓存策略（二级缓存、查询缓存）。
-
-**2、** 采用合理的Session管理机制。
-
-**3、** 尽量使用延迟加载特性。
-
-**4、** 设定合理的批处理参数。
-
-**5、** 如果可以，选用UUID作为主键生成器。
-
-**6、** 如果可以，选用乐观锁替代悲观锁。
-
-**7、** 在开发过程中, 开启hibernate.show_sql选项查看生成的SQL，从而了解底层的状况；开发完成后关闭此选项。
-
-**8、** 考虑数据库本身的优化，合理的索引、恰当的数据分区策略等都会对持久层的性能带来可观的提升，但这些需要专业的DBA（数据库管理员）提供支持。
+> 补充：继承String本身就是一个错误的行为，对String类型最好的重用方式是关联关系（Has-A）和依赖关系（Use-A）而不是继承关系（Is-A）。
 
 
-### 10、ArrayList和Vector有什么不同之处？
 
-**Vector方法带上了synchronized关键字，是线程同步的**
-
-**1、** ArrayList添加方法源码 ![](https://gitee.com/souyunkutech/souyunku-home/raw/master/images/souyunku-web/2020/5/2/045/42/87_10.png#alt=87%5C_10.png)
-
-**2、** Vector添加源码（加锁了synchronized关键字） ![](https://gitee.com/souyunkutech/souyunku-home/raw/master/images/souyunku-web/2020/5/2/045/42/87_11.png#alt=87%5C_11.png)
+### 10、举例说明同步和异步。
 
 
-### 11、本地方法栈
-### 12、如何确保线程安全？
-### 13、ConcurrentHashMap的并发度是什么
-### 14、是否可以从一个静态（static）方法内部发出对非静态（non-static）方法的调用？
-### 15、React有哪些优化性能是手段?
-### 16、为什么 Thread 类的 sleep()和 yield ()方法是静态的？
-### 17、假如生产环境CPU占用过高，请谈谈你的分析思路和定位。
-### 18、如何使用exception对象？
-### 19、String 类的常用方法都有那些？
-### 20、单例模式了解吗？给我解释一下双重检验锁方式实现单例模式！”
-### 21、策略模式的优点和缺点
-### 22、JAVA弱引用
-### 23、int 和 Integer 哪个会占用更多的内存？
-### 24、Java中操作字符串使用哪个类？
-### 25、JVM 类加载机制
-### 26、什么情况发生栈溢出？
-### 27、解释servlet如何完成生命周期?
-### 28、char 型变量中能不能存贮一个中文汉字，为什么？
-### 29、Java线程具有五中基本状态
-### 30、什么是原子操作？在Java Concurrency API中有哪些原子类(atomic classes)？
-### 31、Java 的引用有哪些类型？
-### 32、什么是方法的返回值？返回值在类的方法里的作用是什么？
-### 33、JAVA软引用
-### 34、如何将字符串反转？
-### 35、为什么代码会重排序？
-### 36、MinorGC，MajorGC、FullGC都什么时候发生？
-### 37、Java 中应该使用什么数据类型来代表价格？
-### 38、Java 中，编写多线程程序的时候你会遵循哪些最佳实践？
-### 39、构造方法能不能重写？能不能重载？
-### 40、说出几条 Java 中方法重载的最佳实践？
+
+如果系统中存在临界资源（资源数量少于竞争资源的线程数量的资源），例如正在写的数据以后可能被另一个线程读到，或者正在读的数据可能已经被另一个线程写过了，那么这些数据就必须进行同步存取（数据库操作中的排他锁就是最好的例子）。当应用程序在对象上调用了一个需要花费很长时间来执行的方法，并且不希望让程序等待方法的返回时，就应该使用异步编程，在很多情况下采用异步途径往往更有效率。事实上，所谓的同步就是指阻塞式操作，而异步就是非阻塞式操作。
+
+
+### 11、为什么wait(), notify()和notifyAll ()必须在同步方法或者同步块中被调用？
+### 12、notify() 和 notifyAll() 有什么区别？
+### 13、url是什么？由哪些部分组成？
+### 14、线程的状态流转图
+### 15、垃圾回收的优点和原理。说说2种回收机制
+### 16、什么是AQS
+### 17、你说你做过JVM参数调优和参数配置，请问如何查看JVM系统默认值
+### 18、自动装箱与拆箱
+### 19、在 Java 程序中怎么保证多线程的运行安全？
+### 20、阐述静态变量和实例变量的区别。
+### 21、如何实现对象克隆？
+### 22、SWAP会影响性能么？
+### 23、谈谈你知道的垃圾回收算法
+### 24、什么是红黑树
+### 25、继承和组合之间有什么不同？
+### 26、打印昨天的当前时刻。
+### 27、类加载有几个过程？
+### 28、Java 中，Serializable 与 Externalizable 的区别？
+### 29、在Java中CycliBarriar和CountdownLatch有什么区别？
+### 30、线程 B 怎么知道线程 A 修改了变量
+### 31、怎么打出线程栈信息？
+### 32、Get请求与post有什么区别？
+### 33、类ExampleA继承Exception，类ExampleB继承ExampleA。
+### 34、32 位和 64 位的 JVM，int 类型变量的长度是多数？
+### 35、Java应用程序与小程序之间有那些差别？
+### 36、分代收集算法
+### 37、你在项目中哪些地方用到了XML？
+### 38、构造方法能不能重写？能不能重载？
+### 39、什么情况下会违反迪米特法则？为什么会有这个问题？
+### 40、你能写出一个正则表达式来判断一个字符串是否是一个数字吗？
 
 
 
@@ -195,7 +173,7 @@ abstract class Cat {
 
 ### 下载链接：[全部答案，整理好了](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
 
-### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
+
 
 
 ## 最新，高清PDF：172份，7701页，最新整理

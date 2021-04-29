@@ -4,137 +4,123 @@
 
 ### 下载链接：[高清172份，累计 7701 页大厂面试题  PDF](https://github.com/souyunku/DevBooks/blob/master/docs/index.md)
 
-### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png)
 
 
+### 1、SpringBoot多数据源拆分的思路
 
-### 1、您使用了哪些 starter maven 依赖项？
-
-**使用了下面的一些依赖项**
-
-**1、**  spring-boot-starter-web 嵌入tomcat和web开发需要servlet与jsp支持
-
-**2、**  spring-boot-starter-data-jpa 数据库支持
-
-**3、**  spring-boot-starter-data-Redis Redis数据库支持
-
-**4、**  spring-boot-starter-data-solr solr支持
-
-**5、**  mybatis-spring-boot-starter 第三方的mybatis集成starter
-
-自定义的starter(如果自己开发过就可以说出来)
+先在properties配置文件中配置两个数据源，创建分包mapper，使用@ConfigurationProperties读取properties中的配置，使用@MapperScan注册到对应的mapper包中
 
 
-### 2、SpringBoot支持哪些嵌入式容器？
+### 2、您对微服务有何了解？
 
-无论何时创建Java应用程序，都可以通过两种方法进行部署： 使用外部的应用程序容器。 将容器嵌入jar文件中。 SpringBoot包含Jetty，Tomcat和Undertow服务器，所有服务器都是嵌入式的。 Jetty - 用于大量项目，Eclipse Jetty可以嵌入到框架，应用程序服务器，工具和集群中。 Tomcat - Apache Tomcat是一个开源JavaServer Pages实现，可以很好地与嵌入式系统配合使用。 Undertow - 一个灵活而突出的Web服务器，它使用小型单一处理程序来开发Web服务器。
+微服务，又称微服务架构，是一种架构风格，它将应用程序构建为以业务领域为模型的小型自治服务集合 。
 
+通俗地说，你必须看到蜜蜂如何通过对齐六角形蜡细胞来构建它们的蜂窝状物。他们最初从使用各种材料的小部分开始，并继续从中构建一个大型蜂箱。这些细胞形成图案，产生坚固的结构，将蜂窝的特定部分固定在一起。这里，每个细胞独立于另一个细胞，但它也与其他细胞相关。这意味着对一个细胞的损害不会损害其他细胞，因此，蜜蜂可以在不影响完整蜂箱的情况下重建这些细胞。
 
-### 3、创建一个 SpringBoot Project 的最简单的方法是什么？
+![](https://gitee.com/souyunkutech/souyunku-home/raw/master/images/souyunku-web/2019/08/0816/01/img_1.png#alt=img%5C_1.png)
 
-Spring Initializer 是创建 SpringBoot Projects 的一个很好的工具
+图1：微服务的蜂窝表示 – 微服务访谈问题
 
-
-### 4、Spring Cloud Zookeeper
-
-基于Apache Zookeeper的服务治理组件。
+请参考上图。这里，每个六边形形状代表单独的服务组件。与蜜蜂的工作类似，每个敏捷团队都使用可用的框架和所选的技术堆栈构建单独的服务组件。就像在蜂箱中一样，每个服务组件形成一个强大的微服务架构，以提供更好的可扩展性。此外，敏捷团队可以单独处理每个服务组件的问题，而对整个应用程序没有影响或影响最小。
 
 
-### 5、SpringBoot 的核心配置文件有哪几个？它们的区别是什么？
+### 3、Ribbon是什么？
 
-SpringBoot 的核心配置文件是 application 和 bootstrap 配置文件。
+**1、** Ribbon是Netflix发布的开源项目，主要功能是提供客户端的软件负载均衡算法
 
-application 配置文件这个容易理解，主要用于 SpringBoot 项目的自动化配置。
-
-bootstrap 配置文件有以下几个应用场景。
-
-使用 Spring Cloud Config 配置中心时，这时需要在 bootstrap 配置文件中添加连接到配置中心的配置属性来加载外部配置中心的配置信息；
-
-一些固定的不能被覆盖的属性；
-
-一些加密/解密的场景；
+**2、** Ribbon客户端组件提供一系列完善的配置项，如连接超时，重试等。简单的说，就是在配置文件中列出后面所有的机器，Ribbon会自动的帮助你基于某种规则（如简单轮询，随即连接等）去连接这些机器。我们也很容易使用Ribbon实现自定义的负载均衡算法。（有点类似Nginx）
 
 
-### 6、JPA 和 Hibernate 有哪些区别？
+### 4、SpringBoot读取配置文件的方式
 
-简而言之
-
-JPA 是一个规范或者接口
-
-Hibernate 是 JPA 的一个实现
-
-当我们使用 JPA 的时候，我们使用 javax.persistence 包中的注释和接口时，不需要使用 hibernate 的导入包。
-
-我们建议使用 JPA 注释，因为哦我们没有将其绑定到 Hibernate 作为实现。后来（我知道 - 小于百分之一的几率），我们可以使用另一种 JPA 实现。
+SpringBoot默认读取配置文件为application.properties或者是application.yml
 
 
-### 7、什么是Hystrix?
+### 5、Spring Cloud OpenFeign
 
-Hystrix 是一个延迟和容错库，旨在隔离远程系统，服务和第三方库的访问点，当出现故障是不可避免的故障时，停止级联故障并在复杂的分布式系统中实现弹性。通常对于使用微服务架构开发的系统，涉及到许多微服务，这些微服务彼此协作， 随着微服务数量的增加，这个问题变得更加复杂。我们将使用 Hystrix 的 Fallback 方法来处理，假设由于某种原因，公开的服务接口抛出异常，我们在这种情况下使用 Hystrix 定义一个回退方法。这种后备方法应该具有与公开服务相同的返回类型，如果暴露服务中出现异常，回退方法将返回对应信息。
+基于Ribbon和Hystrix的声明式服务调用组件，可以动态创建基于Spring MVC注解的接口实现用于服务调用，在Spring Cloud 2.0中已经取代Feign成为了一等公民。
 
+Spring Cloud的版本关系
 
-### 8、什么是 Spring IOC 容器？
+Spring Cloud是一个由许多子项目组成的综合项目，各子项目有不同的发布节奏。为了管理Spring Cloud与各子项目的版本依赖关系，发布了一个清单，其中包括了某个Spring Cloud版本对应的子项目版本。
 
-Spring 框架的核心是 Spring 容器。 容器创建对象，将它们装配在一起，配置它们并管理它们的完整生命周期。 Spring 容器使用依赖注入来管理组成应用程序的组件。 容器通过读取提供的配置元数据来接收对象进行实例化，配置和组装的指令。 该元数据可以通过 XML，Java 注解或 Java 代码提供。
+为了避免Spring Cloud版本号与子项目版本号混淆，Spring Cloud版本采用了名称而非版本号的命名，这些版本的名字采用了伦敦地铁站的名字，根据字母表的顺序来对应版本时间顺序，例如Angel是第一个版本，Brixton是第二个版本。
 
-
-### 9、自动装配有什么局限？
-
-**1、** 覆盖的可能性 - 您始终可以使用 和 设置指定依赖项，这将覆盖自动装配。
-
-**2、** 基本元数据类型 - 简单属性（如原数据类型，字符串和类）无法自动装配。
-
-**3、** 令人困惑的性质 - 总是喜欢使用明确的装配，因为自动装配不太精确。
-
-###你用过哪些重要的 Spring 注解
-
-**1、** [@Controller ](/Controller ) - 用于 Spring MVC 项目中的控制器类。
-
-**2、** [@Service ](/Service ) - 用于服务类。
-
-**3、** [@RequestMapping ](/RequestMapping ) - 用于在控制器处理程序方法中配置 URI 映射。
-
-**4、** [@ResponseBody ](/ResponseBody ) - 用于发送 Object 作为响应，通常用于发送 XML 或 JSON 数据作为响应。
-
-**5、** [@PathVariable ](/PathVariable ) - 用于将动态值从 URI 映射到处理程序方法参数。
-
-**6、** [@Autowired ](/Autowired ) - 用于在 spring bean 中自动装配依赖项。
-
-**7、** [@Qualifier ](/Qualifier ) - 使用 [@Autowired ](/Autowired ) 注解，以避免在存在多个 bean 类型实例时出现混淆。
-
-**8、** [@Scope ](/Scope ) - 用于配置 spring bean 的范围。
-
-**9、** @Configuration，[@ComponentScan ](/ComponentScan ) 和 [@Bean ](/Bean ) - 用于基于 java 的配置。
-
-**10、** @Aspect，@Before，@After，@Around，[@Pointcut ](/Pointcut ) - 用于切面编程（AOP）
+当Spring Cloud的发布内容积累到临界点或者一个重大BUG被解决后，会发布一个"service releases"版本，简称SRX版本，比如Greenwich.SR2就是Spring Cloud发布的Greenwich版本的第2个SRX版本。目前Spring Cloud的最新版本是Hoxton。
 
 
-### 10、如何实现 SpringBoot 应用程序的安全性？
+### 6、什么是基于注解的容器配置?
 
-为了实现 SpringBoot 的安全性，我们使用 spring-boot-starter-security 依赖项，并且必须添加安全配置。它只需要很少的代码。配置类将必须扩展WebSecurityConfigurerAdapter 并覆盖其方法。
+相对于XML文件，注解型的配置依赖于通过字节码元数据装配组件，而非尖括号的声明。
+
+开发者通过在相应的类，方法或属性上使用注解的方式，直接组件类中进行配置，而不是使用xml表述bean的装配关系。
 
 
-### 11、如何禁用特定的自动配置类？
-### 12、Springboot 有哪些优点？
-### 13、Spring MVC怎么和AJAX相互调用的？
-### 14、使用Spring框架的好处是什么？
-### 15、spring boot扫描流程?
-### 16、什么是 AOP切点
-### 17、spring bean 容器的生命周期是什么样的？
-### 18、您对Distributed Transaction有何了解？
-### 19、是否可以在SpringBoot中覆盖或替换嵌入式Tomcat？
-### 20、什么是Spring的依赖注入？
-### 21、熔断的原理，以及如何恢复？
-### 22、[@Qualifier ](/Qualifier ) 注解
-### 23、spring-boot-starter-parent 有什么用 ?
-### 24、SpringBoot和SpringCloud的区别？
-### 25、微服务之间是如何独⽴通讯的
-### 26、多个消费者调⽤同⼀接⼝，eruka默认的分配⽅式是什么？
-### 27、eureka缓存机制：
-### 28、什么是WebSockets？
-### 29、Spring由哪些模块组成?
-### 30、Spring Cloud和各子项目版本对应关系
-### 31、什么是持续监测？
+### 7、spring JDBC API 中存在哪些类？
+
+**1、** JdbcTemplate
+
+**2、** SimpleJdbcTemplate
+
+**3、** NamedParameterJdbcTemplate
+
+**4、** SimpleJdbcInsert
+
+**5、** SimpleJdbcCall
+
+
+### 8、什么是Spring IOC 容器？
+
+Spring IOC 负责创建对象，管理对象（通过依赖注入（DI），装配对象，配置对象，并且管理这些对象的整个生命周期。
+
+
+### 9、SpringBoot 的自动配置是如何实现的？
+
+SpringBoot 项目的启动注解是：@SpringBootApplication，其实它就是由下面三个注解组成的：
+
+**1、** [@Configuration ](/Configuration )
+
+**2、** [@ComponentScan ](/ComponentScan )
+
+**3、** @EnableAutoConfiguration
+
+其中 @EnableAutoConfiguration 是实现自动配置的入口，该注解又通过 [@Import ](/Import ) 注解导入了AutoConfigurationImportSelector，在该类中加载 META-INF/spring.factories 的配置信息。然后筛选出以 EnableAutoConfiguration 为 key 的数据，加载到 IOC 容器中，实现自动配置功能！
+
+
+### 10、什么是 Aspect？
+
+`aspect` 由 `pointcount` 和 `advice` 组成, 它既包含了横切逻辑的定义, 也包括了连接点的定义、Spring AOP 就是负责实施切面的框架, 它将切面所定义的横切逻辑编织到切面所指定的连接点中、AOP 的工作重心在于如何将增强编织目标对象的连接点上, 这里包含两个工作:
+
+**1、** 如何通过 pointcut 和 advice 定位到特定的 joinpoint 上
+
+**2、** 如何在 advice 中编写切面代码.
+
+![](https://gitee.com/souyunkutech/souyunku-home/raw/master/images/souyunku-web/2019/08/0816/02/img_5.png#alt=img%5C_5.png)
+
+可以简单地认为, 使用 [@Aspect ](/Aspect ) 注解的类就是切面.
+
+
+### 11、你如何理解 SpringBoot 中的 Starters？
+### 12、SpringBoot 配置加载顺序?
+### 13、为什么我们不建议在实际的应用程序中使用 Spring Data Rest?
+### 14、自动装配有什么局限？
+### 15、如何集成SpringBoot和ActiveMQ？
+### 16、spring cloud 断路器的作用是什么？
+### 17、各服务之间通信，对Restful和Rpc这2种方式如何做选择？
+### 18、使⽤中碰到的坑
+### 19、springcloud如何实现服务的注册?
+### 20、什么是Hystrix？它如何实现容错？
+### 21、Spring Cloud Zookeeper
+### 22、谈一下领域驱动设计
+### 23、Spring MVC的主要组件？
+### 24、spring boot 核心配置文件是什么？bootstrap、properties 和 application、properties 有何区别 ?
+### 25、如何使用SpringBoot实现分页和排序？
+### 26、SpringBoot 自动配置原理是什么？
+### 27、什么是spring?
+### 28、spring boot 核心的两个配置文件：
+### 29、如何重新加载 SpringBoot 上的更改，而无需重新启动服务器？SpringBoot项目如何热部署？
+### 30、网关与过滤器有什么区别
+### 31、Docker的目的是什么？
 
 
 
@@ -143,7 +129,7 @@ Spring 框架的核心是 Spring 容器。 容器创建对象，将它们装配�
 
 ### 下载链接：[全部答案，整理好了](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
 
-### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
+
 
 
 ## 最新，高清PDF：172份，7701页，最新整理

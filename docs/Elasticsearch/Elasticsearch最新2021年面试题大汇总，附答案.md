@@ -4,141 +4,226 @@
 
 ### 下载链接：[高清172份，累计 7701 页大厂面试题  PDF](https://github.com/souyunku/DevBooks/blob/master/docs/index.md)
 
-### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png)
 
 
+### 1、你是如何做 ElasticSearch 写入调优的？
 
-### 1、介绍一下你们的个性化搜索方案？
+1）写入前副本数设置为0；
 
-SEE 基于 word2vec 和 Elasticsearch 实现个性化搜索
+2）写入前关闭refresh_interval设置为-1，禁用刷新机制；
 
+3）写入过程中：采取bulk批量写入；
 
-### 2、Elasticsearch在部署时，对Linux的设置有哪些优化方法
+4） 写入后恢复副本数和刷新间隔；
 
-`面试官`：想了解对ES集群的运维能力。
-
-**1、** 关闭缓存swap;
-
-**2、** 堆内存设置为：Min（节点内存/2, 32GB）;
-
-**3、** 设置最大文件句柄数；
-
-**4、** 线程池+队列大小根据业务需要做调整；
-
-**5、** 磁盘存储raid方式——存储有条件使用RAID10，增加单节点性能以及避免单节点存储故障。
+5） 尽量使用自动生成的id。
 
 
-### 3、Elasticsearch 对于大数据量（上亿量级）的聚合如何实现？
+### 2、elasticsearch 数据的写入原理
 
-Elasticsearch 提供的首个近似聚合是 cardinality 度量。它提供一个字段的基数，即该字段的 _distinct_ 或者 _unique_ 值的数目。它是基于 HLL 算法的。HLL 会先对我们的输入作哈希运算，然后根据哈希运算的结果中的 bits 做概率估算从而得到
+es数据写入原理主要可以分为4个操作：
 
-基数。其特点是：可配置的精度，用来控制内存的使用（更精确 ＝ 更多内存）；小的数据集精度是非常高的；我们可以通过配置参数，来设置去重需要的固定内存使用量。无论数千还是数十亿的唯一值，内存使用量只与你配置的精确度相关。
+**1、** refresh
+
+**2、** commit
+
+**3、** flush
+
+**4、** merge
+
+| 操作触发条件 | 操作过程 |
+| --- | --- |
+| **refresh** | 1\\、每隔1s进行一次refresh操作
+2\\、buffer已满，则进行一次refresh操作 |
+| 2\\、清空buffer |  |
+| **commit** | 1\\、每隔30分钟执行一次translog
+2\\、translog日志已满 |
+| 2\\、生成一个 commit point 文件标识此次操作一件把buffer数据执行到了哪一个segment文件
+3\\、执行flush操作 |  |
+| **flush** | commit操作中 |
+| **merge** | 后台检查 |
 
 
-### 4、在索引中更新 Mapping 的语法？
+![](https://image-static.segmentfault.com/284/854/2848546943-5e5b563ad0f06_articlex#alt=3chLse.png)
+
+
+### 3、elasticsearch 索引数据多了怎么办，如何调优，部署
+
+`面试官`：想了解大数据量的运维能力。
+
+索引数据的规划，应在前期做好规划，正所谓“设计先行，编码在后”，这样才能有效的避免突如其来的数据激增导致集群处理能力不足引发的线上客户检索或者其他业务受到影响。
+
+如何调优，正如问题1所说，这里细化一下：
+
+**动态索引层面**
+
+基于`模板+时间+rollover api滚动`创建索引，举例：设计阶段定义：blog索引的模板格式为：blog_index_时间戳的形式，每天递增数据。
+
+这样做的好处：不至于数据量激增导致单个索引数据量非常大，接近于上线2的32次幂-1，索引存储达到了TB+甚至更大。
+
+一旦单个索引很大，存储等各种风险也随之而来，所以要提前考虑+及早避免。
+
+**存储层面**
+
+`冷热数据分离存储`，热数据（比如最近3天或者一周的数据），其余为冷数据。
+
+对于冷数据不会再写入新数据，可以考虑定期force_merge加shrink压缩操作，节省存储空间和检索效率。
+
+**部署层面**
+
+一旦之前没有规划，这里就属于应急策略。
+
+结合ES自身的支持动态扩展的特点，动态新增机器的方式可以缓解集群压力，注意：如果之前主节点等`规划合理`，不需要重启集群也能完成动态新增的。
+
+
+### 4、Elasticsearch的 文档是什么？
+
+文档是存储在 Elasticsearch 中的 JSON 文档。它等效于关系数据库表中的一行记录。
+
+
+### 5、详细描述一下Elasticsearch搜索的过程？
+
+`面试官`：想了解ES搜索的底层原理，不再只关注业务层面了。
+
+搜索拆解为“query then fetch” 两个阶段。
+
+**query阶段的目的**：定位到位置，但不取。
+
+步骤拆解如下：
+
+**1、** 假设一个索引数据有5主+1副本 共10分片，一次请求会命中（主或者副本分片中）的一个。
+
+**2、** 每个分片在本地进行查询，结果返回到本地有序的优先队列中。
+
+**3、** 第2）步骤的结果发送到协调节点，协调节点产生一个全局的排序列表。
+
+**fetch阶段的目的**：取数据。
+
+路由节点获取所有文档，返回给客户端。
+
+
+### 6、我们可以在 Elasticsearch 中执行搜索的各种可能方式有哪些？
+
+核心方式如下：
+
+方式一：基于 DSL 检索（最常用） Elasticsearch提供基于JSON的完整查询DSL来定义查询。
 
 ```
-PUT test_001/_mapping
+GET /shirts/_search
 {
-  "properties": {
-    "title":{
-      "type":"keyword"
+  "query": {
+    "bool": {
+      "filter": [
+        { "term": { "color": "red"   }},
+        { "term": { "brand": "gucci" }}
+      ]
     }
   }
 }
 ```
 
-
-### 5、详细描述一下 Elasticsearch 搜索的过程？
-
-面试官：想了解 ES 搜索的底层原理，不再只关注业务层面了。
-
-解
-
-搜索拆解为“query then fetch” 两个阶段。
-
-query 阶段的目的：定位到位置，但不取。
-
-**步骤拆解如下：**
-
-**1、** 假设一个索引数据有 5 主+1 副本 共 10 分片，一次请求会命中（主或者副本分片中）的一个。
-
-**2、** 每个分片在本地进行查询，结果返回到本地有序的优先队列中。
-
-**3、** 第 2）步骤的结果发送到协调节点，协调节点产生一个全局的排序列表。fetch 阶段的目的：取数据。路由节点获取所有文档，返回给客户端。
-
-
-### 6、ElasticSearch对于大数据量（上亿量级）的聚合如何实现？
-
-ElasticSearch提供的首个近似聚合是cardinality度量。它提供一个字段的基数，即该字段的distinct或者unique值的数目。它是基于HLL算法的。HLL会先对我们的输入做哈希运算，然后根据哈希运算结果中的bits做概率估算从而得到基数。其特点是：
-
-可配置的精度，用来控制内存的使用（更精确＝更多内存），小的数据集精度是非常高的；我们可以通过配置参数来设置去重需要的固定内存使用量，无论数千还是数十亿的唯一值，内存使用量只与你配置的精确度相关 。
-
-图片
-
-
-### 7、Elasticsearch的 文档是什么？
-
-文档是存储在 Elasticsearch 中的 JSON 文档。它等效于关系数据库表中的一行记录。
-
-
-### 8、详细描述一下 Elasticsearch 索引文档的过程。
-
-协调节点默认使用文档 ID 参与计算（也支持通过 routing），以便为路由提供合适的分片。
-
-shard = hash(document_id) % (num_of_primary_shards)
-
-**1、** 当分片所在的节点接收到来自协调节点的请求后，会将请求写入到 MemoryBuffer，然后定时（默认是每隔 1 秒）写入到 Filesystem Cache，这个从 MomeryBuffer 到 Filesystem Cache 的过程就叫做 refresh；
-
-**2、** 当然在某些情况下，存在 Momery Buffer 和 Filesystem Cache 的数据可能会丢失，ES 是通过 translog 的机制来保证数据的可靠性的。其实现机制是接收到请求后，同时也会写入到 translog 中，当 Filesystem cache 中的数据写入到磁盘中时，才会清除掉，这个过程叫做 flush；
-
-**3、** 在 flush 过程中，内存中的缓冲将被清除，内容被写入一个新段，段的 fsync将创建一个新的提交点，并将内容刷新到磁盘，旧的 translog 将被删除并开始一个新的 translog。
-
-**4、** flush 触发的时机是定时触发（默认 30 分钟）或者 translog 变得太大（默认为 512M）时；
-
-
-### 9、elasticsearch 全文检索
-
-(1) 客户端使用RestFul API向对应的node发送查询请求
-
-(2)协调节点将请求转发到所有节点（primary或者replica）所有节点将对应的数据查询之后返回对应的doc id 返回给协调节点
-
-(3)协调节点将doc进行排序聚合
-
-(4) 协调节点再根据doc id 把查询请求发送到对应shard的node，返回document
-
-
-### 10、在 Elasticsearch 中删除索引的语法是什么？
-
-可以使用以下语法删除现有索引：
+方式二：基于 URL 检索
 
 ```
-DELETE <index_name>
+GET /my_index/_search?q=user:seina
 ```
 
-支持通配符删除：
+方式三：类SQL 检索
 
 ```
-DELETE my_*
+POST /_sql?format=txt
+{
+  "query": "SELECT * FROM uint-2020-08-17 ORDER BY itemid DESC LIMIT 5"
+}
 ```
 
+功能还不完备，不推荐使用。
 
-### 11、elasticsearch 数据的写入过程
-### 12、在并发情况下，Elasticsearch如果保证读写一致？
-### 13、你能否在 Elasticsearch 中定义映射？
-### 14、如何监控Elasticsearch集群状态？
-### 15、解释一下 Elasticsearch集群中的 索引的概念 ？
-### 16、定义副本、创建副本的好处是什么？
-### 17、如何在 Elasticsearch中 搜索数据？
-### 18、elasticsearch 索引数据多了怎么办，如何调优，部署
-### 19、elasticsearch 分布式架构原理
-### 20、ElasticSearch中的分析器是什么？
-### 21、客户端在和集群连接时，是如何选择特定的节点执行请求的？
-### 22、Elasticsearch对于大数据量（上亿量级）的聚合如何实现？
-### 23、详细描述一下Elasticsearch索引文档的过程。
-### 24、logstash 如何与 Elasticsearch 结合使用？
-### 25、elasticsearch 的倒排索引是什么
-### 26、是否了解字典树？
+
+### 7、Elasticsearch中的属性 enabled, index 和 store 的功能是什么？
+
+enabled：false，启用的设置仅可应用于顶级映射定义和 Object 对象字段，导致 Elasticsearch 完全跳过对字段内容的解析。
+
+仍然可以从_source字段中检索JSON，但是无法搜索或以其他任何方式存储JSON。
+
+如果对非全局或者 Object 类型，设置 enable : false 会报错如下：
+
+```
+ "type": "mapper_parsing_exception",
+ "reason": "Mapping definition for [user_id] has unsupported parameters:  [enabled : false]"
+```
+
+index：false, 索引选项控制是否对字段值建立索引。它接受true或false，默认为true。未索引的字段不可查询。
+
+如果非要检索，报错如下：
+
+```
+ "type": "search_phase_execution_exception",
+  "reason": "Cannot search on field [user_id] since it is not indexed."
+```
+
+**store：**
+
+某些特殊场景下，如果你只想检索单个字段或几个字段的值，而不是整个_source的值，则可以使用源过滤来实现；
+
+这个时候， store 就派上用场了。
+
+
+### 8、什么是Elasticsearch Analyzer？
+
+分析器用于文本分析，它可以是内置分析器也可以是自定义分析器。
+
+
+### 9、是否了解字典树？
+
+**常用字典数据结构如下所示：**
+
+![70_8.png][70_8.png]
+
+**Trie 的核心思想是空间换时间，利用字符串的公共前缀来降低查询时间的开销以**
+
+达到提高效率的目的。
+
+**它有 3 个基本性质：**
+
+**1、** 根节点不包含字符，除根节点外每一个节点都只包含一个字符。
+
+**2、** 从根节点到某一节点，路径上经过的字符连接起来，为该节点对应的字符串。
+
+**3、** 每个节点的所有子节点包含的字符都不相同。
+
+![70_9.png][70_9.png]
+
+**1、** 可以看到，trie 树每一层的节点数是 26^i 级别的。所以为了节省空间，我们还可以用动态链表，或者用数组来模拟动态。而空间的花费，不会超过单词数×单词长度。
+
+**2、实现：**对每个结点开一个字母集大小的数组，每个结点挂一个链表，使用左儿子右兄弟表示法记录这棵树；
+
+**3、** 对于中文的字典树，每个节点的子节点用一个哈希表存储，这样就不用浪费太大的空间，而且查询速度上可以保留哈希的复杂度 O(1)。
+
+
+### 10、在安装Elasticsearch时，请说明不同的软件包及其重要性？
+
+这个貌似没什么好说的，去官方文档下载对应操作系统安装包即可。
+
+部分功能是收费的，如机器学习、高级别 kerberos 认证安全等选型要知悉。
+
+
+### 11、在Elasticsearch中 cat API的功能是什么？
+### 12、详细描述一下Elasticsearch更新和删除文档的过程。
+### 13、Elasticsearch 在部署时，对 Linux 的设置有哪些优化方法
+### 14、elasticsearch 全文检索
+### 15、Elasticsearch 支持哪些配置管理工具？
+### 16、Kibana在Elasticsearch的哪些地方以及如何使用？
+### 17、Elasticsearch对于大数据量（上亿量级）的聚合如何实现？
+### 18、如何监控 Elasticsearch 集群状态？
+### 19、安装 Elasticsearch 需要依赖什么组件吗？
+### 20、定义副本、创建副本的好处是什么？
+### 21、详细描述一下ElasticSearch更新和删除文档的过程
+### 22、在 Elasticsearch 中列出集群的所有索引的语法是什么？
+### 23、elasticsearch 的倒排索引是什么
+### 24、Elasticsearch 中常用的 cat命令有哪些？
+### 25、elasticsearch 的 document设计
+### 26、您能否列出 与 ELK日志分析相关的应用场景？
 
 
 
@@ -147,7 +232,7 @@ DELETE my_*
 
 ### 下载链接：[全部答案，整理好了](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
 
-### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
+
 
 
 ## 最新，高清PDF：172份，7701页，最新整理

@@ -4,120 +4,185 @@
 
 ### 下载链接：[高清172份，累计 7701 页大厂面试题  PDF](https://github.com/souyunku/DevBooks/blob/master/docs/index.md)
 
-### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png)
 
 
+### 1、什么是 event.target ？
 
-### 1、变量作用域?
+简单来说，`event.target`是发生事件的元素或触发事件的元素。
+
+假设有如下的 HTML 结构：
 
 ```
-//变量作用域：一个变量的作用域是程序源代码中定义这个变量的区域。全局变量拥有全局作用域，
-//在js代码中任何地方都是有定义的。在函数内声明的变量只在函数体内有定义，它们是局部变量，
-//作用域是局部性的。函数参数也是局部变量，它们只在函数体内有定义。
-var a = "";
-window.b=''”;
-function(e) {
-       var c= "";
-       d="";
-       e="";
+<div onclick="clickFunc(event)" style="text-align: center;margin:15px;
+border:1px solid red;border-radius:3px;">
+    <div style="margin: 25px; border:1px solid royalblue;border-radius:3px;">
+        <div style="margin:25px;border:1px solid skyblue;border-radius:3px;">
+          <button style="margin:10px">
+             Button
+          </button>
+        </div>
+    </div>
+ </div>
+```
+
+JS 代码如下：
+
+```
+function clickFunc(event) {
+  console.log(event.target);
 }
-function go() {
-       console.info(this);//window
-       return function() {
-               console.info(this); // window
-               return {
-                b:function(){
-                       console.info(this); //b的父对象
-                   }
-            }
-       }
-}
-go()().b();
 ```
 
-
-### 2、事件委托？有什么好处?
-
-利用冒泡的原理，把事件加到父级上，触发执行效果
-
-好处：新添加的元素还会有之前的事件；提高性能。
+如果单击 `button`，即使我们将事件附加在最外面的`div`上，它也将打印 `button` 标签，因此我们可以得出结论`event.target`是触发事件的元素。
 
 
-### 3、渐进增强和优雅降级
+### 2、如何在 JS 中创建对象？
 
-**1、** 渐进增强 ：针对低版本浏览器进行构建页面，保证最基本的功能，然后再针对高级浏览器进行效果、交互等改进和追加功能达到更好的用户体验。
-
-**2、** 优雅降级 ：一开始就构建完整的功能，然后再针对低版本浏览器进行兼容
-
-
-### 4、手动实现`Array.prototype.reduce`方法
-
-`reduce()` 方法对数组中的每个元素执行一个由您提供的`reducer`函数(升序执行)，将其结果汇总为单个返回值。
+**使用对象字面量：**
 
 ```
-function reduce(arr, reduceCallback, initialValue) {
-  // 首先，检查传递的参数是否正确。
-  if (!Array.isArray(arr) || !arr.length || typeof reduceCallback !== 'function') 
-  {
-    return [];
-  } else {
-    // 如果没有将initialValue传递给该函数，我们将使用第一个数组项作为initialValue
-    let hasInitialValue = initialValue !== undefined;
-    let value = hasInitialValue ? initialValue : arr[0];
-   、
-
-    // 如果有传递 initialValue，则索引从 1 开始，否则从 0 开始
-    for (let i = hasInitialValue ? 0 : 1, len = arr.length; i < len; i++) {
-      value = reduceCallback(value, arr[i], i, arr); 
-    }
-    return value;
+const o = {
+  name: "kyle",
+  greeting() {
+    return `Hi, 我是${this.name}`;
   }
+};
+
+o.greeting(); // "Hi, 我是kyle"
+```
+
+**使用构造函数：**
+
+```
+function Person(name) {
+   this.name = name;
 }
+
+Person.prototype.greeting = function () {
+   return `Hi, 我是${this.name}`;
+}
+
+const mark = new Person("kyle");
+
+mark.greeting(); // "Hi, 我是kyle"
+```
+
+**使用 Object.create 方法：**
+
+```
+const n = {
+   greeting() {
+      return `Hi, 我是${this.name}`;
+   }
+};
+
+const o = Object.create(n); 
+o.name = "kyle";
 ```
 
 
-### 5、为什么要有同源限制？
+### 3、什么是执行上下文和执行栈？
 
-**1、** 同源策略指的是：协议，域名，端口相同，同源策略是一种安全协议
+变量或函数的执行上下文，决定了它们的行为以及可以访问哪些数据。每个上下文都有一个关联的变量对象，而这个上下文中定义的所有变量和函数都存在于这个对象上(如DOM中全局上下文关联的便是`window`对象)。
 
-**2、** 举例说明：比如一个黑客程序，他利用`Iframe`把真正的银行登录页面嵌到他的页面上，当你使用真实的用户名，密码登录时，他的页面就可以通过`Javascript`读取到你的表单中`input`中的内容，这样用户名，密码就轻松到手了。
+每个函数调用都有自己的上下文。当代码执行流进入函数时，函数的上下文被推到一个执行栈中。在函数执行完之后，执行栈会弹出该函数上下文，在其上的所有变量和函数都会被销毁，并将控制权返还给之前的执行上下文。 JS的执行流就是通过这个执行栈进行控制的。
 
 
-### 6、如何通过原生js 判断一个元素当前是显示还是隐藏状态?
+### 4、call & apply 两者之间的区别###
+
+call和apply都是改变this指向的方法，区别在于call可以写多个参数，而apply只能写两个参数，第二个参数是一个数组，用于存放要传的参数。
+
+
+### 5、["1", "2", "3"].map(parseInt) 答案是多少？
+
+`[1, NaN, NaN]`因为 `parseInt` 需要两个参数 `(val, radix)`，其中`radix` 表示解析时用的基数。
+
+`map`传了 `3`个`(element, index, array)`，对应的 `radix` 不合法导致解析失败。
+
+
+### 6、attribute和property的区别是什么？
+
+**1、** `attribute`是`dom`元素在文档中作为`html`标签拥有的属性；
+
+**2、** `property`就是`dom`元素在`js`中作为对象拥有的属性。
+
+**3、** 对于`html`的标准属性来说，`attribute`和`property`是同步的，是会自动更新的
+
+**4、** 但是对于自定义的属性来说，他们是不同步的
+
+
+### 7、异步加载的方式有哪些？
+
+(1) defer，只支持IE
+
+(2) async：true
+
+(3) 创建script，插入到DOM中，加载完毕后callBack
+
+
+### 8、ajax 和 jsonp ？
+
+**ajax和jsonp的区别：**
+
+相同点：都是请求一个url
+
+不同点：ajax的核心是通过xmlHttpRequest获取内容
+
+jsonp的核心则是动态添加
+
+
+
+### 9、什么是箭头函数？
+
+箭头函数表达式的语法比函数表达式更简洁，并且没有自己的`this`，`arguments`，`super`或`new.target`。箭头函数表达式更适用于那些本来需要匿名函数的地方，并且它不能用作构造函数。
 
 ```
-if( document.getElementById("div").css("display")==='none')
-if( document.getElementById("div").css("display")==='block')
-$("#div").is(":hidden"); // 判断是否隐藏
-$("#div").is(":visible")
+//ES5 Version
+var getCurrentDate = function (){
+  return new Date();
+}
+
+//ES6 Version
+const getCurrentDate = () => new Date();
 ```
 
+在本例中，ES5 版本中有`function(){}`声明和`return`关键字，这两个关键字分别是创建函数和返回值所需要的。在箭头函数版本中，我们只需要`()`括号，不需要 `return` 语句，因为如果我们只有一个表达式或值需要返回，箭头函数就会有一个隐式的返回。
 
-### 7、什么是预编译语音|预编译处理器?
+```
+//ES5 Version
+function greet(name) {
+  return 'Hello ' + name + '!';
+}
 
-Sass是一种CSS预处理器语言，通过编程方式生成CSS代码。因为可编程，所以操控灵活性自由度高，方便实现一些直接编写CSS代码较困难的代码。
+//ES6 Version
+const greet = (name) => `Hello ${name}`;
+const greet2 = name => `Hello ${name}`;
+```
 
-同时，因为Sass是生成CSS的语言，所以写出来的Sass文件是不能直接用的，必须经过编译器编译成CSS文件才能使用。
+我们还可以在箭头函数中使用与函数表达式和函数声明相同的参数。如果我们在一个箭头函数中有一个参数，则可以省略括号。
 
-CSS 预处理器是一种语言用来为 CSS 增加一些编程的的特性，无需考虑浏览器的兼容性问题，例如你可以在 CSS 中使用变量、简单的程序逻辑、函数等等在编程语言中的一些基本技巧，可以让你的 CSS 更见简洁，适应性更强，代码更直观等诸多好处。最常用的css预处理器有sass、less css、stylus。
+`const getArgs = () => arguments const getArgs2 = (...rest) => rest`
+
+箭头函数不能访问`arguments`对象。所以调用第一个`getArgs`函数会抛出一个错误。相反，我们可以使用**rest**参数来获得在箭头函数中传递的所有参数。
+
+```
+const data = {
+  result: 0,
+  nums: [1, 2, 3, 4, 5],
+  computeResult() {
+    // 这里的“this”指的是“data”对象
+    const addAll = () => {
+      return this.nums.reduce((total, cur) => total + cur, 0)
+    };
+    this.result = addAll();
+  }
+};
+```
+
+箭头函数没有自己的`this`值。它捕获词法作用域函数的`this`值，在此示例中，`addAll`函数将复制`computeResult` 方法中的`this`值，如果我们在全局作用域声明箭头函数，则`this`值为 `window` 对象。
 
 
-### 8、用过哪些设计模式？
-
-**工厂模式：**
-
-**1、** 工厂模式解决了重复实例化的问题，但还有一个问题,那就是识别问题，因为根本无法
-
-**2、** 主要好处就是可以消除对象间的耦合，通过使用工程方法而不是`new`关键字
-
-**构造函数模式**
-
-**1、** 使用构造函数的方法，即解决了重复实例化的问题，又解决了对象识别的问题，该模式与工厂模式的不同之处在于
-
-**2、** 直接将属性和方法赋值给 `this`对象;
-
-
-### 9、谁是c的构造函数?
+### 10、谁是c的构造函数?
 
 ```
 function ab() {
@@ -132,63 +197,26 @@ var c = new ab();
 ```
 
 
-### 10、何为防抖和节流？如何实现？
-
-**1、** 防抖和节流都是防止短时间内高频触发事件的方案。
-
-**2、** 防抖的原理是：如果一定时间内多次执行了某事件，则只执行其中的最后一次。
-
-**3、** 节流的原理是：要执行的事件每隔一段时间会被冷却，无法执行。
-
-**4、** 应用场景有：搜索框实时搜索，滚动改变相关的事件。
-
-```
-//@fn: 要执行的函数
-//@delay: 设定的时限
-//防抖函数
-function debunce(fn, delay) {
-    let flag = null;
-    return function() {
-        if (flag) clearTimeout(flag)
-        //利用apply改变函数指向，使得封装后的函数可以接收event本身
-        flag = setTimeout(() = > fn.apply(this, arguments), delay)
-    }
-}
-//节流函数
-function throttle(fn, delay) {
-    let flag = true;
-    return function() {
-        if (!flag) return false;
-        flag = false;
-        setTimeout(() = > {
-            fn.apply(this, arguments)
-            flag = true
-        }, delay)
-    }
-}
-```
-
-
-### 11、事件模型
-### 12、如何使用storage 对js文件进行缓存
-### 13、DOM 是什么？
-### 14、与深拷贝有何区别？如何实现？
+### 11、`require`/`import`之间的区别？
+### 12、ECMAScript 是什么？
+### 13、函数fn1 函数fn2 函数fn3，如果想在三个函数都执行完成后执行某一个事件应该如何实现?
+### 14、手动实现 `Array.prototype.map 方法`
 ### 15、new 关键字有什么作用？
-### 16、什么是作用域和作用域链？
-### 17、基本数据类型和引用数据类型有什么区别？
-### 18、javascript 代码中的"use strict";是什么意思 ? 使用它区别是什么？
-### 19、eval是做什么的？
+### 16、在jq中 mouseover mouseenter mouseout mouseleave 和 hover有什么关联?
+### 17、压缩合并目的？http请求的优化方式？
+### 18、什么是AJAX？如何实现？
+### 19、那些操作会造成内存泄漏？
 ### 20、什么是闭包？
-### 21、编写一个 getElementsByClassName 封装函数?
-### 22、promise###
-### 23、JavaScript 中的虚值是什么？
-### 24、$$.map和$$.each有什么区别###
-### 25、如何创建一个对象？
-### 26、谈谈你对AMD、CMD的理解
-### 27、Jq中get和eq有什么区别？
-### 28、js的几种继承方式？
-### 29、Javascript如何实现继承？
-### 30、为什么此代码 `obj.someprop.x` 会引发错误?
+### 21、offsetWidth/offsetHeight,clientWidth/clientHeight与scrollWidth/scrollHeight的区别
+### 22、== 和 === 有什么区别？
+### 23、如何理解同步和异步？
+### 24、什么是对象解构？
+### 25、谈谈你对webpack的看法
+### 26、如何创建一个没有 prototype(原型)的对象？
+### 27、call和apply 有什么好处？
+### 28、ajax请求方式有几种（8种）？
+### 29、Node的应用场景
+### 30、调用函数，可以使用哪些方法？
 
 
 
@@ -197,7 +225,7 @@ function throttle(fn, delay) {
 
 ### 下载链接：[全部答案，整理好了](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
 
-### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
+
 
 
 ## 最新，高清PDF：172份，7701页，最新整理

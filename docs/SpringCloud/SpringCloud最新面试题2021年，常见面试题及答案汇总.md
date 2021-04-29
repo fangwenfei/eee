@@ -4,56 +4,62 @@
 
 ### 下载链接：[高清172份，累计 7701 页大厂面试题  PDF](https://github.com/souyunku/DevBooks/blob/master/docs/index.md)
 
-### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png)
 
 
+### 1、什么是SpringBoot？
 
-### 1、如何设计一套API接口
-
-考虑到API接口的分类可以将API接口分为开发API接口和内网API接口，内网API接口用于局域网，为内部服务器提供服务。开放API接口用于对外部合作单位提供接口调用，需要遵循Oauth2.0权限认证协议。同时还需要考虑安全性、幂等性等问题。
-
-
-### 2、21、在Spring MVC应用程序中使用WebMvcTest注释有什么用处？
-
-![](https://gitee.com/souyunkutech/souyunku-home/raw/master/images/souyunku-web/2019/08/0816/01/img_13.png#alt=img%5C_13.png)
-
-在测试目标只关注Spring MVC组件的情况下，WebMvcTest注释用于单元测试Spring MVC应用程序。在上面显示的快照中，我们只想启动ToTestController。执行此单元测试时，不会启动所有其他控制器和映射。
+Spring boot是微服务面试问题的主要话题。 随着新功能的加入，Spring变得越来越复杂。无论何时启动新项目，都必须添加新的构建路径或Maven依赖项。简而言之，你需要从头开始做每件事。SpringBoot是一种帮助您避免所有代码配置的解决方案。
 
 
-### 3、多个消费者调⽤同⼀接⼝，eruka默认的分配⽅式是什么？
+### 2、第⼀层缓存：
 
-**1、** RoundRobinRule:轮询策略，Ribbon以轮询的⽅式选择服务器，这个是默认值。所以示例中所启动的两个服务会被循环访问;
+readOnlyCacheMap，本质上是ConcurrentHashMap：这是⼀个JVM的CurrentHashMap只读缓存，这个主要是为了供客户端获取注册信息时使⽤，其缓存更新，依赖于定时器的更新，通过和readWriteCacheMap 的值做对⽐，如果数据不⼀致，则以readWriteCacheMap 的数据为准。readOnlyCacheMap 缓存更新的定时器时间间隔，默认为30秒
 
-**2、** RandomRule:随机选择，也就是说Ribbon会随机从服务器列表中选择⼀个进⾏访问;
+#
+### 3、如何覆盖SpringBoot项目的默认属性？
 
-**3、** BestAvailableRule:最⼤可⽤策略，即先过滤出故障服务器后，选择⼀个当前并发请求数最⼩的;
+这可以通过在application.properties文件中指定属性来完成。 例如，在Spring MVC应用程序中，您必须指定后缀和前缀。这可以通过在application.properties文件中输入下面提到的属性来完成。
 
-**4、** WeightedResponseTimeRule:带有加权的轮询策略，对各个服务器响应时间进⾏加权处理，然后在采⽤轮询的⽅式来获取相应的服务器;
-
-**5、** AvailabilityFilteringRule:可⽤过滤策略，先过滤出故障的或并发请求⼤于阈值⼀部分服务实例，然后再以线性轮询的⽅式从过滤后的实例清单中选出⼀个;
-
-**6、** ZoneAvoidanceRule:区域感知策略，先使⽤主过滤条件（区域负载器，选择最优区域）对所有实例过滤并返回过滤后的实例清单，依次使⽤次过滤条件列表中的过滤条件对主过滤条件的结果进⾏过滤，判断最⼩过滤数（默认1）和最⼩过滤百分⽐（默认0），最后对满⾜条件的服务器则使⽤RoundRobinRule(轮询⽅式)选择⼀个服务器实例。
-
-
-### 4、Ribbon底层实现原理
-
-Ribbon使用discoveryClient从注册中心读取目标服务信息，对同一接口请求进行计数，使用%取余算法获取目标服务集群索引，返回获取到的目标服务信息。
+```
+对于后缀 - spring.mvc.view.suffix: .jsp
+对于前缀 - spring.mvc.view.prefix: /WEB-INF/
+```
 
 
-### 5、PACT在微服务架构中的用途是什么？
+### 4、Spring Cloud Sleuth
 
-PACT是一个开源工具，允许测试服务提供者和消费者之间的交互，与合同隔离，从而提高微服务集成的可靠性。
-
-微服务中的用法
-
-用于在微服务中实现消费者驱动的合同。
-
-测试微服务的消费者和提供者之间的消费者驱动的合同。
-
-查看即将到来的批次
+在微服务中，通常根据业务模块分服务，项目中前端发起一个请求，后端可能跨几个服务调用才能完成这个请求（如下图）。如果系统越来越庞大，服务之间的调用与被调用关系就会变得很复杂，假如一个请求中需要跨几个服务调用，其中一个服务由于网络延迟等原因挂掉了，那么这时候我们需要分析具体哪一个服务出问题了就会显得很困难。Spring Cloud Sleuth服务链路跟踪功能就可以帮助我们快速的发现错误根源以及监控分析每条请求链路上的性能等等。 ![](https://gitee.com/souyunkutech/souyunku-home/raw/master/images/souyunku-web/2020/5/2/023/45/68_1.png#alt=68%5C_1.png)
 
 
-### 6、微服务架构有哪些优势？
+### 5、Spring Cloud Config
+
+Config能够管理所有微服务的配置文件
+
+集中配置管理工具，分布式系统中统一的外部配置管理，默认使用Git来存储配置，可以支持客户端配置的刷新及加密、解密操作。
+
+
+### 6、网关的作用是什么
+
+统一管理微服务请求，权限控制、负载均衡、路由转发、监控、安全控制黑名单和白名单等
+
+
+### 7、Ribbon和Feign的区别？
+
+**1、** Ribbon都是调用其他服务的，但方式不同。
+
+**2、** 启动类注解不同，Ribbon是[@RibbonClient ](/RibbonClient ) feign的是[@EnableFeignClients ](/EnableFeignClients )
+
+**3、** 服务指定的位置不同，Ribbon是在@RibbonClient注解上声明，Feign则是在定义抽象方法的接口中使用@FeignClient声明。
+
+**4、** 调用方式不同，Ribbon需要自己构建http请求，模拟http请求然后使用RestTemplate发送给其他服务，步骤相当繁琐。Feign需要将调用的方法定义成抽象方法即可。
+
+
+### 8、什么是网关?
+
+网关相当于一个网络服务架构的入口，所有网络请求必须通过网关转发到具体的服务。
+
+
+### 9、微服务架构有哪些优势？
 
 ![](https://gitee.com/souyunkutech/souyunku-home/raw/master/images/souyunku-web/2019/08/0816/01/img_2.png#alt=img%5C_2.png)
 
@@ -70,66 +76,39 @@ PACT是一个开源工具，允许测试服务提供者和消费者之间的交�
 粒度缩放 – 单个组件可根据需要进行缩放，无需将所有组件缩放在一起
 
 
-### 7、你对SpringBoot有什么了解？
+### 10、Eureka如何 保证AP
 
-事实上，随着新功能的增加，弹簧变得越来越复杂。如果必须启动新的spring项目，则必须添加构建路径或添加maven依赖项，配置应用程序服务器，添加spring配置。所以一切都必须从头开始。
+Eureka看明⽩了这⼀点，因此在设计时就优先保证可⽤性。Eureka各个节点都是平等的，⼏个节点挂掉不会影响正常节点的⼯作，剩余的节点依然可以提供注册和查询服务。⽽Eureka的客户端在向某个Eureka注册或如果发现连接失败，则会⾃动切换⾄其它节点，只要有⼀台Eureka还在，就能保证注册服务可⽤(保证可⽤性)，只不过查到的信息可能不是最新的(不保证强⼀致性)。除此之外，Eureka还有⼀种⾃我保护机制，如果在15分钟内超过85%的节点都没有正常的⼼跳，那么Eureka就认为客户端与注册中⼼出现了⽹络故障，此时会出现以下⼏种情况：
 
-SpringBoot是解决这个问题的方法。使用spring boot可以避免所有样板代码和配置。因此，基本上认为自己就好像你正在烘烤蛋糕一样，春天就像制作蛋糕所需的成分一样，弹簧靴就是你手中的完整蛋糕。
+**1、** Eureka不再从注册列表中移除因为⻓时间没收到⼼跳⽽应该过期的服务
 
-![](https://gitee.com/souyunkutech/souyunku-home/raw/master/images/souyunku-web/2019/08/0816/01/img_12.png#alt=img%5C_12.png)
+**2、** Eureka仍然能够接受新服务的注册和查询请求，但是不会被同步到其它节点上(即保证当前节点依然可⽤)
 
-图10：  SpringBoot的因素 – 微服务面试问题
+**3、** 当⽹络稳定时，当前实例新的注册信息会被同步到其它节点中
 
-
-### 8、服务网关的作用
-
-**1、** 简化客户端调用复杂度，统一处理外部请求。
-
-**2、** 数据裁剪以及聚合，根据不同的接口需求，对数据加工后对外。
-
-**3、** 多渠道支持，针对不同的客户端提供不同的网关支持。
-
-**4、** 遗留系统的微服务化改造，可以作为新老系统的中转组件。
-
-**5、** 统一处理调用过程中的安全、权限问题。
+因此， Eureka可以很好的应对因⽹络故障导致部分节点失去联系的情况，⽽不会像zookeeper那样使整个注册服务瘫痪。
 
 
-### 9、负载平衡的意义什么？
-
-**1、** 简单来说： 先将集群，集群就是把一个的事情交给多个人去做，假如要做1000个产品给一个人做要10天，我叫10个人做就是一天，这就是集群，负载均衡的话就是用来控制集群，他把做的最多的人让他慢慢做休息会，把做的最少的人让他加量让他做多点。
-
-**2、** 在计算中，负载平衡可以改善跨计算机，计算机集群，网络链接，中央处理单元或磁盘驱动器等多种计算资源的工作负载分布。负载平衡旨在优化资源使用，最大化吞吐量，最小化响应时间并避免任何单一资源的过载。使用多个组件进行负载平衡而不是单个组件可能会通过冗余来提高可靠性和可用性。负载平衡通常涉及专用软件或硬件，例如多层交换机或域名系统服务器进程。
-
-
-### 10、为什么需要学习Spring Cloud
-
-**1、** 首先springcloud基于spingboot的优雅简洁，可还记得我们被无数xml支配的恐惧？可还记得springmvc，mybatis错综复杂的配置，有了spingboot，这些东西都不需要了，spingboot好处不再赘诉，springcloud就基于SpringBoot把市场上优秀的服务框架组合起来，通过SpringBoot风格进行再封装屏蔽掉了复杂的配置和实现原理
-
-**2、** 什么叫做开箱即用？即使是当年的黄金搭档dubbo+zookeeper下载配置起来也是颇费心神的！而springcloud完成这些只需要一个jar的依赖就可以了！
-
-**3、** springcloud大多数子模块都是直击痛点，像zuul解决的跨域，fegin解决的负载均衡，hystrix的熔断机制等等等等
-
-
-### 11、微服务之间是如何独⽴通讯的
-### 12、使⽤中碰到的坑
-### 13、什么是微服务架构中的DRY？
-### 14、负载均衡的意义是什么?
-### 15、什么是Idempotence以及它在哪里使用？
-### 16、Ribbon是什么？
-### 17、什么是持续监测？
-### 18、微服务设计的基础是什么？
-### 19、什么是服务降级
-### 20、什么是耦合？
-### 21、SpringCloud由什么组成
-### 22、什么是服务熔断
-### 23、什么是Netflix Feign？它的优点是什么？
-### 24、什么是金丝雀释放？
-### 25、SpringBoot支持哪些嵌入式容器？
-### 26、使用Spring Cloud有什么优势？
-### 27、Mock或Stub有什么区别？
-### 28、服务雪崩效应产生的原因
-### 29、如何在SpringBoot应用程序中实现Spring安全性？
-### 30、什么是不同类型的双因素身份认证？
+### 11、如何配置SpringBoot应用程序日志记录？
+### 12、您对Distributed Transaction有何了解？
+### 13、什么是Spring引导的执行器？
+### 14、您将如何在微服务上执行安全测试？
+### 15、什么是客户证书？
+### 16、什么是Hystrix?
+### 17、服务降级底层是如何实现的？
+### 18、什么是持续集成（CI）？
+### 19、Docker的目的是什么？
+### 20、21、在Spring MVC应用程序中使用WebMvcTest注释有什么用处？
+### 21、Ribbon和Feign调用服务的区别
+### 22、Container在微服务中的用途是什么？
+### 23、Nginx与Ribbon的区别
+### 24、什么是Eureka的自我保护模式，
+### 25、Ribbon是什么？
+### 26、什么是 Hystrix？
+### 27、什么是凝聚力？
+### 28、什么是耦合和凝聚力？
+### 29、Ribbon底层实现原理
+### 30、Spring Cloud Bus
 
 
 
@@ -138,7 +117,7 @@ SpringBoot是解决这个问题的方法。使用spring boot可以避免所有�
 
 ### 下载链接：[全部答案，整理好了](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
 
-### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
+
 
 
 ## 最新，高清PDF：172份，7701页，最新整理

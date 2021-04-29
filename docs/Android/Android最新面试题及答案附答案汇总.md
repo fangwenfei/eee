@@ -4,151 +4,143 @@
 
 ### 下载链接：[高清172份，累计 7701 页大厂面试题  PDF](https://github.com/souyunku/DevBooks/blob/master/docs/index.md)
 
-### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png)
 
 
+### 1、android中的动画有哪几类，它们的特点和区别是什么
 
-### 1、Android 引入广播机制的用意
+两种，一种是Tween动画、还有一种是Frame动画。Tween动画，这种实现方式可以使视图组件移动、放大、缩小以及产生透明度的变化;另一种Frame动画，传统的动画方法，通过顺序的播放排列好的图片来实现，类似电影。
 
-从 MVC 的角度考虑(应用程序内) 其实回答这个问题的时候还可以这样问，android 为什么要有那 4 大组件，现在的移动开发模型基本上也是照搬的 web 那一套 MVC 架构，只不过稍微做了修改。android 的四大组件本质上就是为了实现移动或者说嵌入式设备上的 MVC 架构，它们之间有时候是一种相互依存的关系，有时候又是一种补充关系，引入广播机制可以方便几大组件的信息和数据交互。
 
-程序间互通消息(例如在自己的应用程序内监听系统来电)
+### 2、说说mvc模式的原理，它在android中的运用,android的官方建议应用程序的开发采用mvc模式。何谓mvc？
 
-效率上(参考 UDP 的广播协议在局域网的方便性)
+mvc是model,view,controller的缩写，mvc包含三个部分：
 
-设计模式上(反转控制的一种应用，类似监听者模式)
+**1、** 模型（model）对象：是应用程序的主体部分，所有的业务逻辑都应该写在该层。
 
+**2、** 视图（view）对象：是应用程序中负责生成用户界面的部分。也是在整个mvc架构中用户唯一可以看到的一层，接收用户的输入，显示处理结果。
 
-### 2、内存泄露如何查看和解决
+**3、** 控制器（control）对象：是根据用户的输入，控制用户界面数据显示及更新model对象状态的部分，控制器更重要的一种导航功能，响应用户出发的相关事件，交给m层处理。
 
-概念：有些对象只有有限的生命周期，当他们的任务完成之后，它们将被垃圾回收，如果在对象的生命周期本该结束的时候，这个对象还被一系列的引用，着就会导致内存泄露。
+**android鼓励弱耦合和组件的重用，在android中mvc的具体体现如下：**
 
-解决方法：使用开源框架LeakCanary检测针对性解决
+**1、** 视图层（view）：一般采用xml文件进行界面的描述，使用的时候可以非常方便的引入，当然，如果你对android了解的比较的多了话，就一定可以想到在android中也可以使用JavaScript+html等的方式作为view层，当然这里需要进行java和javascript之间的通信，幸运的是，android提供了它们之间非常方便的通信实现。
 
-**常见的内存泄露有：**
+**2、** 控制层（controller）：android的控制层的重任通常落在了众多的acitvity的肩上，这句话也就暗含了不要在acitivity中写代码，要通过activity交割model业务逻辑层处理，这样做的另外一个原因是android中的acitivity的响应时间是5s，如果耗时的操作放在这里，程序就很容易被回收掉。
 
-**1、** 单例造成的内存泄露，例如单例中的Context生命周期大于本身Context生命周期
+**3、** 模型层（model）：对数据库的操作、对网络等的操作都应该在model里面处理，当然对业务计算等操作也是必须放在的该层的。
 
-**2、** 线程使用Hander造成的内存卸扣，当activity已经结束，线程依然在运行更新UI
 
-**3、** 非静态类使用静态变量导致无法回收释放造成泄露
+### 3、DDMS和TraceView的区别?
 
-**4、** WebView网页过多造成内存泄露
+DDMS是一个程序执行查看器，在里面可以看见线程和堆栈等信息，TraceView是程序性能分析器 。
 
-**5、** 资源未关闭造成泄露，例如数据库使用完之后关闭连接
 
+### 4、广播注册
 
-### 3、定位项目中，如何选取定位方案，如何平衡耗电与实时位置的精度？
+首先写一个类要继承BroadCastReceiver
 
-开始定位，Application 持有一个全局的公共位置对象，然后隔一定时间自动刷新位置，每次刷新成功都把新的位置信息赋值到全局的位置对象， 然后每个需要使用位置请求的地方都使用全局的位置信息进行请求。
+第一种：在清单文件中声明，添加
 
-**1、** 该方案好处：请求的时候无需再反复定位，每次请求都使用全局的位置对象，节省时间。
+```
+<receive android:name=".BroadCastReceiverDemo">
+<intent-filter>
+<action android:name="android.provider.Telephony.SMS_RECEIVED">
+</intent-filter>
+</receiver>
+```
 
-**2、** 该方案弊端：耗电，每隔一定时间自动刷新位置，对电量的消耗比较大。
+第二种：使用代码进行注册如：
 
-按需定位，每次请求前都进行定位。这样做的好处是比较省电，而且节省资源，但是请求时间会变得相对较长。
+```
+IntentFilter filter = new IntentFilter("android.provider.Telephony.SMS_RECEIVED");
+BroadCastReceiverDemo receiver = new BroadCastReceiver();
+registerReceiver(receiver, filter);
+```
 
+两种注册类型的区别是：
 
-### 4、如果后台的Activity由于某原因被系统回收了，如何在被系统回收之前保存当前状态？
+a.第一种是常驻型广播，也就是说当应用程序关闭后，如果有信息广播来，程序也会被系统调用自动运行。
 
-在onPuase方法中调用onSavedInstanceState()
+b.第二种不是常驻广播，也就是说广播跟随程序的生命周期。
 
 
-### 5、什么是 IntentService？有何优点？
+### 5、什么是嵌入式实时操作系统, Android 操作系统属于实时操作系统吗?
 
-IntentService 是 Service 的子类，比普通的 Service 增加了额外的功能。先看 Service 本身存在两个问题：
+嵌入式实时操作系统是指当外界事件或数据产生时，能够接受并以足够快的速度予以处理，其处理的结果又能在规定的时间之内来控制生产过程或对处理系统作出快速响应，并控制所有实时任务协调一致运行的嵌入式操作系统。主要用于工业控制、 军事设备、 航空航天等领域对系统的响应时间有苛刻的要求，这就需要使用实时系统。又可分为软实时和硬实时两种，而android是基于linux内核的，因此属于软实时。
 
-**1、** Service 不会专门启动一条单独的进程，Service 与它所在应用位于同一个进程中；
 
-**2、** Service 也不是专门一条新线程，因此不应该在 Service 中直接处理耗时的任务；
+### 6、如何切换 fragement,不重新实例化
 
-**IntentService 特征**
+翻看了 Android 官方 Doc，和一些组件的源代码，发现 replace()这个方法只是在上一个 Fragment不再需要时采用的简便方法.
 
-**1、** 会创建独立的 worker 线程来处理所有的 Intent 请求；
+正确的切换方式是 add()，切换时 hide()，add()另一个 Fragment；再次切换时，只需 hide()当前，show()另一个。
 
-**2、** 会创建独立的 worker 线程来处理 onHandleIntent()方法实现的代码，无需处理多线程问题；
+这样就能做到多个 Fragment 切换不重新实例化：
 
-**3、** 所有请求处理完成后，IntentService 会自动停止，无需调用 stopSelf()方法停止 Service；
 
-**4、** 为 Service 的 onBind()提供默认实现，返回 null；
+### 7、简要解释一下activity、 intent 、intent filter、service、Broadcase、BroadcaseReceiver
 
-**5、** 为 Service 的 onStartCommand 提供默认实现，将请求 Intent 添加到队列中；
+一个activity呈现了一个用户可以操作的可视化用户界面；一个service不包含可见的用户界面，而是在后台运行，可以与一个activity绑定，通过绑定暴露出来接口并与其进行通信；一个broadcast receiver是一个接收广播消息并做出回应的component，broadcast receiver没有界面；一个intent是一个Intent对象，它保存了消息的内容。对于activity和service来说，它指定了请求的操作名称和待操作数据的URI，Intent对象可以显式的指定一个目标component。如果这样的话，android会找到这个component(基于manifest文件中的声明)并激活它。但如果一个目标不是显式指定的，android必须找到响应intent的最佳component。它是通过将Intent对象和目标的intent filter相比较来完成这一工作的；一个component的intent filter告诉android该component能处理的intent。intent filter也是在manifest文件中声明的。
 
 
-### 6、什么是aar?aar是jar有什么区别?
+### 8、ListView优化
 
-“aar”包是 Android 的类库项目的二进制发行包。
+**1、** convertView重用，利用好 convertView 来重用 View，切忌每次 getView() 都新建。ListView 的核心原理就是重用 View，如果重用 view 不改变宽高，重用View可以减少重新分配缓存造成的内存频繁分配/回收;
 
-文件扩展名是.aar，maven 项目类型应该也是aar，但文件本身是带有以下各项的 zip 文件：
+**2、** ViewHolder优化，使用ViewHolder的原因是findViewById方法耗时较大，如果控件个数过多，会严重影响性能，而使用ViewHolder主要是为了可以省去这个时间。通过setTag，getTag直接获取View。
 
-**1、** /AndroidManifest.xml (mandatory)
+**3、** 减少Item View的布局层级，这是所有layout都必须遵循的，布局层级过深会直接导致View的测量与绘制浪费大量的时间。
 
-**2、** /classes.jar (mandatory)
+**4、** adapter中的getView方法尽量少使用逻辑
 
-**3、** /res/ (mandatory)
+**5、** 图片加载采用三级缓存，避免每次都要重新加载。
 
-**4、** /R.txt (mandatory)
+**6、** 尝试开启硬件加速来使ListView的滑动更加流畅。
 
-**5、** /assets/ (optional)
+**7、** 使用 RecycleView 代替。
 
-**6、** /libs/*.jar (optional)
 
-**7、** /jni//*.so (optional)
+### 9、Android中touch事件的传递机制是怎样的?
 
-**8、** /proguard.txt (optional)
+**1、** Touch事件传递的相关API有dispatchTouchEvent、onTouchEvent、onInterceptTouchEvent
 
-**9、** /lint.jar (optional)
+**2、** Touch事件相关的类有View、ViewGroup、Activity
 
-这些条目是直接位于 zip 文件根目录的。 其中R.txt 文件是aapt带参数–output-text-symbols的输出结果。
+**3、** Touch事件会被封装成MotionEvent对象，该对象封装了手势按下、移动、松开等动作
 
-jar打包不能包含资源文件，比如一些drawable文件、xml资源文件之类的,aar可以。
+**4、** Touch事件通常从Activity#dispatchTouchEvent发出，只要没有被消费，会一直往下传递，到最底层的View。
 
+**5、** 如果Touch事件传递到的每个View都不消费事件，那么Touch事件会反向向上传递,最终交由Activity#onTouchEvent处理、
 
-### 7、Serializable 和 Parcelable 的区别？
+**6、** onInterceptTouchEvent为ViewGroup特有，可以拦截事件、
 
-如果存储在内存中，推荐使用parcelable，使用serialiable在序列化的时候会产生大量的临时变量，会引起频繁的GC
+**7、** Down事件到来时，如果一个View没有消费该事件，那么后续的MOVE/UP事件都不会再给它
 
-如果存储在硬盘上，推荐使用Serializable，虽然serializable效率较低
 
-Serializable的实现：只需要实现Serializable接口，就会自动生成一个序列化id
+### 10、Android dvm的进程和Linux的进程, 应用程序的进程是否为同一个概念
 
-Parcelable的实现：需要实现Parcelable接口，还需要Parcelable.CREATER变量
+DVM指dalivk的虚拟机。每一个Android应用程序都在它自己的进程中运行，都拥有一个独立的Dalvik虚拟机实例。而每一个DVM都是在Linux 中的一个进程，所以说可以认为是同一个概念。
 
 
-### 8、Android i18n
-
-I18n 叫做国际化。android 对i18n和L10n提供了非常好的支持。软件在res/vales 以及 其他带有语言修饰符的文件夹。如： values-zh 这些文件夹中 提供语言，样式，尺寸 xml 资源。
-
-
-### 9、嵌入式操作系统内存管理有哪几种， 各有何特性
-
-页式，段式，段页，用到了MMU,虚拟空间等技术
-
-
-### 10、如果后台的Activity由于某原因被系统回收了，如何在被系统回收之前保存当前状态？
-
-重写onSaveInstanceState()方法，在此方法中保存需要保存的数据，该方法将会在activity被回收之前调用。通过重写onRestoreInstanceState()方法可以从中提取保存好的数据
-
-
-### 11、AsyncTask使用在哪些场景？它的缺陷是什么？如何解决？
-### 12、描述一下android的系统架构
-### 13、谈谈你在工作中是怎样解决一个 bug
-### 14、Framework 工作方式及原理，Activity 是如何生成一个 view 的，机制是什么？
-### 15、你一般在开发项目中都使用什么设计模式？如何来重构，优化你的代码？
-### 16、FragmentPagerAdapter 与 与 FragmentStatePagerAdapter 的区别与使用场景？
-### 17、android中的动画有哪几类，它们的特点和区别是什么
-### 18、一条最长的短信息约占多少byte?
-### 19、ContentProvider与sqlite有什么不一样的？
-### 20、sim卡的EF 文件有何作用
-### 21、Activity启动模式
-### 22、如何切换 fragement,不重新实例化
-### 23、注册广播的几种方法?
-### 24、Android中任务栈的分配
-### 25、如何将一个Activity设置成窗口的样式。
-### 26、说说 LruCache 底层原理
-### 27、View的绘制原理
-### 28、Service和Thread的区别？
-### 29、请介绍下Android中常用的五种布局。
+### 11、recyclerView嵌套卡顿解决如何解决
+### 12、jni 的调用过程?
+### 13、Service 是否在 main thread 中执行, service 里面是否能执行耗时的操作?
+### 14、Android中的ANR
+### 15、如何对 Android 应用进行性能分析
+### 16、SharedPreference跨进程使用会怎么样？如何保证跨进程使用安全？
+### 17、什么情况会导致Force Close ？如何避免？能否捕获导致其的异常？
+### 18、说下 Activity 跟 跟 window ， view 之间的关系？
+### 19、为什么Android引入广播机制?
+### 20、如果后台的Activity由于某原因被系统回收了，如何在被系统回收之前保存当前状态？
+### 21、注册广播的几种方法?
+### 22、andorid 应用第二次登录实现自动登录
+### 23、你一般在开发项目中都使用什么设计模式？如何来重构，优化你的代码？
+### 24、AsyncTask使用在哪些场景？它的缺陷是什么？如何解决？
+### 25、SQLite支持事务吗?添加删除如何提高性能?
+### 26、android 中有哪几种解析xml的类？官方推荐哪种？以及它们的原理和区别。
+### 27、嵌入式操作系统内存管理有哪几种， 各有何特性
+### 28、FragmentPagerAdapter 与 与 FragmentStatePagerAdapter 的区别与使用场景？
+### 29、属性动画
 
 
 
@@ -157,7 +149,7 @@ I18n 叫做国际化。android 对i18n和L10n提供了非常好的支持。软�
 
 ### 下载链接：[全部答案，整理好了](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
 
-### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
+
 
 
 ## 最新，高清PDF：172份，7701页，最新整理

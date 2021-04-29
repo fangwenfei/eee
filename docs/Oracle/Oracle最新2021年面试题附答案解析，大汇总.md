@@ -4,49 +4,43 @@
 
 ### 下载链接：[高清172份，累计 7701 页大厂面试题  PDF](https://github.com/souyunku/DevBooks/blob/master/docs/index.md)
 
-### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png)
 
 
+### 1、比较truncate和delete 命令
 
-### 1、Oralce怎样存储文件，能够存储哪些文件？
-
-**1、** Oracle 能存储 clob、nclob、 blob、 bfile
-
-**2、** Clob 可变长度的字符型数据，也就是其他数据库中提到的文本型数据类型
-
-**3、** Nclob 可变字符类型的数据，不过其存储的是Unicode字符集的字符数据
-
-**4、** Blob 可变长度的二进制数据
-
-**5、** Bfile 数据库外面存储的可变二进制数据
+两者都可以用来删除表中所有的记录。区别在于：truncate是DDL操作，它移动HWK，不需要 rollback segment .而Delete是DML操作, 需要rollback segment 且花费较长时间.
 
 
-### 2、给出数据库正常启动所经历的几种状态 ?
+### 2、使用存储过程访问数据库比直接用SQL语句访问有何优点？
 
-STARTUP NOMOUNT – 数据库实例启动
+**1、** 存储过程是预编译过的，执行时不须编译，执行速度更快。
 
-STARTUP MOUNT - 数据库装载
+**2、** 存储过程封装了多条SQL，便于维护数据的完整性与一致性。
 
-STARTUP OPEN – 数据库打开
-
-
-### 3、Oracle 分区在什么情况下使用
-
-当一张表的数据量到达上亿行的时候，表的性能会严重降低，这个时候就需要用到分区了，通过划分成多个小表，并在每个小表上建立本地索引可以大大缩小索引数据文件的大小，从而更快的定位到目标数据来提升访问性能。
-
-分区除了可以用来提升访问性能外，还因为可以指定分区所使用的表空间，因此也用来做数据的生命周期管理。当前需要频繁使用的活跃数据可以放到访问速度更快但价格也更贵的存储设备上，而2、3年前的历史数据，或者叫冷数据可以放到更廉价、速度更低的设备上。从而降低存储费用。
+**3、** 实现代码复用。
 
 
-### 4、如何使用Oracle的游标？
+### 3、举出3种可以收集three advisory statistics
 
-**1、** oracle中的游标分为显示游标和隐式游标
-
-**2、** 显示游标是用cursor...is命令定义的游标，它可以对查询语句(select)返回的多条记录进行处理；隐式游标是在执行插入 (insert)、删除(delete)、修改(update)和返回单条记录的查询(select)语句时由PL/SQL自动定义的。
-
-**3、** 显式游标的操作：打开游标、操作游标、关闭游标；PL/SQL隐式地打开SQL游标，并在它内部处理SQL语句，然后关闭它
+Buffer Cache Advice, Segment Level Statistics, Timed Statistics
 
 
-### 5、如何生成explain plan?
+### 4、提到一个项目的“验证LOV”属性?提到lov和list项目有什么区别?
+
+当验证的LOV设置为True时，Oracle Forms将文本项的当前值与LOV中显示的第一列中的值进行比较。LOV是列表项的属性。列表项只能有一列，而lov可以有一个或多个列。
+
+
+### 5、说明你可以将FMX转换或反向回到FMB文件吗?
+
+不，不可能将FMX转换或反向回到FMB文件，以确保它们不会丢失。
+
+
+### 6、提示窗体中触发的顺序是什么?
+
+表单打开时，触发序列　　预成型　　预块　　预录　　前文项　　当新形式的实例　　当新块实例　　当新记录实例　　当新项目实例
+
+
+### 7、如何生成explain plan?
 
 运行utlxplan.sql. 建立plan 表
 
@@ -55,50 +49,42 @@ STARTUP OPEN – 数据库打开
 运行utlxplp.sql 或 utlxpls.sql察看explain plan
 
 
-### 6、举出3种可以收集three advisory statistics
+### 8、用于网络连接的2个文件？
 
-Buffer Cache Advice, Segment Level Statistics, Timed Statistics
-
-
-### 7、什么是绑定变量?
-
-报表6i中使用了绑定变量来替换select语句中的单个参数。
+TNSNAMES.ORA and SQLNET.ORA
 
 
-### 8、如何判断数据库的时区？
+### 9、数据库的三大范式是什么？
 
-SELECT DBTIMEZONE FROM DUAL;
+**1、** 第一范式：原子件，要求每一列的值不能再拆分了。
 
+**2、** 第二范式： 一张表只描述一个实体（若列中有冗余数据，则不满足）
 
-### 9、ORA-01555的应对方法？
-
-具体的出错信息是snapshot too old within rollback seg , 通常可以通过增大rollback seg来解决问题。当然也需要察看一下具
-
-体造成错误的SQL文本
+**3、** 第三范式： 所有列与主键值直接相关。
 
 
-### 10、如何建立一个备份控制文件?
+### 10、如何判断谁往表里增加了一条纪录？
 
-Alter database backup control file to trace.
+auditing
 
 
-### 11、哪个VIEW用来检查数据文件的大小？
-### 12、如何判断谁往表里增加了一条纪录？
-### 13、如何建立一个备份控制文件？
-### 14、说一下，Oracle的分区有几种
-### 15、FACT Table上需要建立何种索引？
-### 16、说下如何使用Oracle的游标？
-### 17、解释Oracle表单服务组件包括什么?
-### 18、如何增加buffer cache的命中率？
-### 19、哪个后台进程刷新materialized views?
-### 20、Oracle的导入导出有几种方式，有何区别？
-### 21、如何定位重要(消耗资源多)的SQL
-### 22、举出两个判断DDL改动的方法？
-### 23、解释data block , extent 和 segment的区别(这里建议用英文术语)
-### 24、如何重构索引？
-### 25、你必须利用备份恢复数据库，但是你没有控制文件，该如何解决问题呢?
-### 26、哪个column可以用来区别V$$视图和GV$$视图?
-### 27、如何生成explain plan?
+### 11、你必须利用备份恢复数据库，但是你没有控制文件，该如何解决问题呢?
+### 12、如何转换init.ora到spfile?
+### 13、pctused and pctfree 表示什么含义有什么作用？
+### 14、解释data block , extent 和 segment的区别（这里建议用英文术语）
+### 15、解释$$ORACLE\_HOME和$$ORACLE_BASE的区别?
+### 16、解释data block , extent 和 segment的区别（这里建议用英文术语）
+### 17、什么是绑定变量?
+### 18、解释什么是Oracle Forms?
+### 19、Oracle 分区在什么情况下使用
+### 20、如何进行强制LOG SWITCH?
+### 21、如何生成explain plan?
+### 22、ORA-01555的应对方法?
+### 23、oracle的锁又几种,定义分别是什么;
+### 24、存储过程 、函数 、游标 在项目中怎么用的：
+### 25、怎样查看数据库引擎的报错
+### 26、解释CALL_FORM，NEW_FORM和OPEN_FORM之间有什么区别?
+### 27、解释什么是Partitioning（分区）以及它的优点。
 
 
 
@@ -107,7 +93,7 @@ Alter database backup control file to trace.
 
 ### 下载链接：[全部答案，整理好了](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
 
-### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
+
 
 
 ## 最新，高清PDF：172份，7701页，最新整理

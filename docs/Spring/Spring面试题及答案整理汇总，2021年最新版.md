@@ -4,106 +4,118 @@
 
 ### 下载链接：[高清172份，累计 7701 页大厂面试题  PDF](https://github.com/souyunku/DevBooks/blob/master/docs/index.md)
 
-### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png)
+
+
+### 1、什么是SpringBoot？
+
+Spring boot是微服务面试问题的主要话题。 随着新功能的加入，Spring变得越来越复杂。无论何时启动新项目，都必须添加新的构建路径或Maven依赖项。简而言之，你需要从头开始做每件事。SpringBoot是一种帮助您避免所有代码配置的解决方案。
+
+
+### 2、Zuul与Nginx有什么区别？
+
+Zuul是java语言实现的，主要为java服务提供网关服务，尤其在微服务架构中可以更加灵活的对网关进行操作。Nginx是使用C语言实现，性能高于Zuul，但是实现自定义操作需要熟悉lua语言，对程序员要求较高，可以使用Nginx做Zuul集群。
+
+
+### 3、解释不同方式的自动装配 。
+
+有五种自动装配的方式，可以用来指导Spring容器用自动装配方式来进行依赖注入。
+
+**1、** no：默认的方式是不进行自动装配，通过显式设置ref 属性来进行装配。
+
+**2、** byName：通过参数名 自动装配，Spring容器在配置文件中发现bean的autowire属性被设置成byname，之后容器试图匹配、装配和该bean的属性具有相同名字的bean。
+
+**3、** byType:：通过参数类型自动装配，Spring容器在配置文件中发现bean的autowire属性被设置成byType，之后容器试图匹配、装配和该bean的属性具有相同类型的bean。如果有多个bean符合条件，则抛出错误。
+
+**4、** constructor：这个方式类似于byType， 但是要提供给构造器参数，如果没有确定的带参数的构造器参数类型，将会抛出异常。
+
+**5、** autodetect：首先尝试使用constructor来自动装配，如果无法工作，则使用byType方式。
+
+
+### 4、22。你能否给出关于休息和微服务的要点？
+
+虽然您可以通过多种方式实现微服务，但REST over HTTP是实现微服务的一种方式。REST还可用于其他应用程序，如Web应用程序，API设计和MVC应用程序，以提供业务数据。
+
+微服务是一种体系结构，其中系统的所有组件都被放入单独的组件中，这些组件可以单独构建，部署和扩展。微服务的某些原则和最佳实践有助于构建弹性应用程序。
+
+简而言之，您可以说REST是构建微服务的媒介。
+
+
+### 5、如果在拦截请求中，我想拦截get方式提交的方法,怎么配置
 
 
 
-### 1、什么是 JavaConfig？
-
-Spring JavaConfig 是 Spring 社区的产品，它提供了配置 Spring IoC 容器的纯Java 方法。因此它有助于避免使用 XML 配置。使用 JavaConfig 的优点在于：
-
-**1、** 面向对象的配置。由于配置被定义为 JavaConfig 中的类，因此用户可以充分利用 Java 中的面向对象功能。一个配置类可以继承另一个，重写它的[@Bean ](/Bean ) 方法等。
-
-**2、** 减少或消除 XML 配置。基于依赖注入原则的外化配置的好处已被证明。但是，许多开发人员不希望在 XML 和 Java 之间来回切换。JavaConfig 为开发人员提供了一种纯 Java 方法来配置与 XML 配置概念相似的 Spring 容器。从技术角度来讲，只使用 JavaConfig 配置类来配置容器是可行的，但实际上很多人认为将JavaConfig 与 XML 混合匹配是理想的。
-
-**3、** 类型安全和重构友好。JavaConfig 提供了一种类型安全的方法来配置 Spring容器。由于 Java 5.0 对泛型的支持，现在可以按类型而不是按名称检索 bean，不需要任何强制转换或基于字符串的查找。
+可以在@RequestMapping注解里面加上method=RequestMethod.GET。
 
 
-### 2、Spring Cloud Consul
+### 6、SpringBoot 2.X 有什么新特性？与 1.X 有什么区别？
 
-基于Hashicorp Consul的服务治理组件。
+**1、** 配置变更
 
+**2、** JDK 版本升级
 
-### 3、分布式配置中心的作用？
+**3、** 第三方类库升级
 
-动态变更项目配置信息而不必重新部署项目。
+**4、** 响应式 Spring 编程支持
 
+**5、** HTTP/2 支持
 
-### 4、哪些是重要的bean生命周期方法？ 你能重载它们吗？
+**6、** 配置属性绑定
 
-有两个重要的bean 生命周期方法，第一个是setup ， 它是在容器加载bean的时候被调用。第二个方法是 teardown 它是在容器卸载类的时候被调用。
-
-The bean 标签有两个重要的属性（init-method和destroy-method）。用它们你可以自己定制初始化和注销方法。它们也有相应的注解（@PostConstruct和@PreDestroy）。
-
-
-### 5、什么是 AOP什么是引入?
-
-引入允许我们在已存在的类中增加新的方法和属性。
+**7、** 更多改进与加强…
 
 
-### 6、SpringCloud主要项目
+### 7、什么是 Hystrix 断路器？我们需要它吗？
 
-Spring Cloud的子项目，大致可分成两类，一类是对现有成熟框架"SpringBoot化"的封装和抽象，也是数量最多的项目；第二类是开发了一部分分布式系统的基础设施的实现，如Spring Cloud Stream扮演的就是Kafka, ActiveMQ这样的角色。
+由于某些原因，employee-consumer 公开服务会引发异常。在这种情况下使用 Hystrix 我们定义了一个回退方法。如果在公开服务中发生异常，则回退方法返回一些默认值
 
+![](https://gitee.com/souyunkutech/souyunku-home/raw/master/images/souyunku-web/2020/5/2/01/44/45_13.png#alt=45%5C_13.png)
 
-### 7、Ribbon底层实现原理
+中断，并且员工使用者将一起跳过 firtsPage 方法，并直接调用回退方法。 断路器的目的是给第一页方法或第一页方法可能调用的其他方法留出时间，并导致异常恢复。可能发生的情况是，在负载较小的情况下，导致异常的问题有更好的恢复机会 。
 
-Ribbon使用discoveryClient从注册中心读取目标服务信息，对同一接口请求进行计数，使用%取余算法获取目标服务集群索引，返回获取到的目标服务信息。
-
-
-### 8、shiro和oauth还有cas他们之间的关系是什么？问下您公司权限是如何设计，还有就是这几个概念的区别。
-
-cas和oauth是一个解决单点登录的组件，shiro主要是负责权限安全方面的工作，所以功能点不一致。但往往需要单点登陆和权限控制一起来使用，所以就有 cas+shiro或者oauth+shiro这样的组合。
-
-token一般是客户端登录后服务端生成的令牌，每次访问服务端会进行校验，一般保存到内存即可，也可以放到其他介质；Redis可以做Session共享，如果前端web服务器有几台负载，但是需要保持用户登录的状态，这场景使用比较常见。
-
-我们公司使用oauth+shiro这样的方式来做后台权限的管理，oauth负责多后台统一登录认证，shiro负责给登录用户赋予不同的访问权限。
+![](https://gitee.com/souyunkutech/souyunku-home/raw/master/images/souyunku-web/2020/5/2/01/44/45_14.png#alt=45%5C_14.png)
 
 
-### 9、使用 Spring 有哪些方式？
+### 8、@Component, @Controller, @Repository, [@Service ](/Service ) 有何区别？
 
-**使用 Spring 有以下方式：**
+**1、** @Component： 这将 java 类标记为 bean。 它是任何 Spring 管理组件的通用构造型。 spring 的组件扫描机制现在可以将其拾取并将其拉入应用程序环境中。
 
-**1、** 作为一个成熟的 Spring Web 应用程序。
+**2、** @Controller： 这将一个类标记为 Spring Web MVC 控制器。 标有它的 Bean 会自动导入到 IoC 容器中。
 
-**2、** 作为第三方 Web 框架，使用 Spring Frameworks 中间层。
+**3、** @Service： 此注解是组件注解的特化。 它不会对 [@Component ](/Component ) 注解提供任何其他行为。 您可以在服务层类中使用 [@Service ](/Service ) 而不是 @Component，因为它以更好的方式指定了意图。
 
-**3、** 用于远程使用。
-
-**4、** 作为企业级 Java Bean，它可以包装现有的 POJO（Plain Old Java Objects）。
+**4、** @Repository： 这个注解是具有类似用途和功能的 [@Component ](/Component ) 注解的特化。 它为 DAO 提供了额外的好处。 它将 DAO 导入 IoC 容器，并使未经检查的异常有资格转换为 Spring DataAccessException。
 
 
-### 10、SpringBoot 怎么用好自动配置，精髓:
+### 9、Async异步调用方法
 
-**1、** SpringBoot启动会加载大量的自动配置类
-
-**2、** 我们看我们需要的功能有没有SpringBoot默认写好的自动配置类;
-
-**3、** 我们再来看这个自动配置类中到底配置了哪些组件;(只要我们要用的组件有，我们就不需要再来配置了
-
-**4、** 给容器中自动配置类添加组件的时候，会从properties类中获取某些属性。我们就可以在配置文件中指定这 些属性的值;
+在SpringBoot中使用异步调用是很简单的，只需要在方法上使用@Async注解即可实现方法的异步调用。 注意：需要在启动类加入@EnableAsync使异步调用@Async注解生效。
 
 
-### 11、什么是耦合和凝聚力？
-### 12、什么是客户证书？
-### 13、什么是 JavaConfig？
-### 14、spring 提供了哪些配置方式？
-### 15、SpringBoot有哪些优点？
-### 16、解释WEB 模块。
-### 17、如何在自定义端口上运行 SpringBoot应用程序?
-### 18、谈一下领域驱动设计
-### 19、Spring Framework 有哪些不同的功能？
-### 20、你如何理解 SpringBoot 配置加载顺序？
-### 21、Spring Cloud Gateway
-### 22、什么是JavaConfig？
-### 23、如何在SpringBoot中禁用Actuator端点安全性？
-### 24、什么是 FreeMarker 模板？
-### 25、spring-boot-starter-parent有什么用？
-### 26、什么是 Spring Framework？
-### 27、Docker的目的是什么？
-### 28、微服务的缺点：
-### 29、有几种不同类型的自动代理？
-### 30、Spring支持的事务管理类型
+### 10、解释WEB 模块。
+
+Spring的WEB模块是构建在application context 模块基础之上，提供一个适合web应用的上下文。这个模块也包括支持多种面向web的任务，如透明地处理多个文件上传请求和程序级请求参数的绑定到你的业务对象。它也有对Jakarta Struts的支持。
+
+
+### 11、如何在 SpringBoot 中添加通用的 JS 代码？
+### 12、SpringBoot 实现热部署有哪几种方式？
+### 13、SpringBoot 中如何解决跨域问题 ?
+### 14、Spring框架中的单例bean是线程安全的吗?
+### 15、访问RESTful微服务的方法是什么？
+### 16、[@RequestMapping ](/RequestMapping ) 注解
+### 17、你如何理解 SpringBoot 配置加载顺序？
+### 18、如何在 SpringBoot中禁用 Actuator端点安全性?
+### 19、第⼀层缓存：
+### 20、什么是OAuth？
+### 21、如何使用SpringBoot实现异常处理?
+### 22、如何使用 SpringBoot 实现分页和排序？
+### 23、不同版本的 Spring Framework 有哪些主要功能？
+### 24、Spring支持的事务管理类型
+### 25、什么是微服务中的反应性扩展？
+### 26、如何使用 SpringBoot 实现全局异常处理？
+### 27、保护 SpringBoot 应用有哪些方法？
+### 28、你如何理解 SpringBoot 配置加载顺序？
+### 29、Eureka怎么实现高可用
+### 30、[@RequestMapping ](/RequestMapping ) 注解
 
 
 
@@ -112,7 +124,7 @@ token一般是客户端登录后服务端生成的令牌，每次访问服务端
 
 ### 下载链接：[全部答案，整理好了](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
 
-### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
+
 
 
 ## 最新，高清PDF：172份，7701页，最新整理

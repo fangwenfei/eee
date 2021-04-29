@@ -4,115 +4,154 @@
 
 ### 下载链接：[高清172份，累计 7701 页大厂面试题  PDF](https://github.com/souyunku/DevBooks/blob/master/docs/index.md)
 
-### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png)
 
 
+### 1、SpringBoot 支持哪些日志框架？推荐和默认的日志框架是哪个？
 
-### 1、SpringBoot 怎么用好自动配置，精髓:
-
-**1、** SpringBoot启动会加载大量的自动配置类
-
-**2、** 我们看我们需要的功能有没有SpringBoot默认写好的自动配置类;
-
-**3、** 我们再来看这个自动配置类中到底配置了哪些组件;(只要我们要用的组件有，我们就不需要再来配置了
-
-**4、** 给容器中自动配置类添加组件的时候，会从properties类中获取某些属性。我们就可以在配置文件中指定这 些属性的值;
+SpringBoot 支持 Java Util Logging, Log4j2, Lockback 作为日志框架，如果你使用 Starters 启动器，SpringBoot 将使用 Logback 作为默认日志框架
 
 
-### 2、SpringBoot 配置加载顺序?
+### 2、什么是Spring Actuator？它有什么优势？
 
-**1、** properties文件 2、YAML文件 3、系统环境变量 4、命令行参数
+这是SpringBoot中最常见的面试问题之一。根据Spring文件：
 
+执行器是一个制造术语，指的是移动或控制某物的机械装置。执行机构可以从一个小的变化中产生大量的运动。
 
-### 3、如何重新加载SpringBoot上的更改，而无需重新启动服务器？
+众所周知，SpringBoot提供了许多自动配置特性，帮助开发人员快速开发生产组件。但是，当考虑调试和如何调试，如果出现问题，总是需要分析日志并挖掘应用程序的数据流，检查问题出在何处。因此，Spring Actuator提供了方便的访问这些类型的途径。它提供了许多特性，例如创建了什么样的bean、控制器中的映射、CPU使用情况等等。它还可以将自动收集和审计健康状况和指标应用到应用程序中。
 
-这可以使用DEV工具来实现。通过这种依赖关系，您可以节省任何更改，嵌入式tomcat将重新启动。
-
-SpringBoot有一个开发工具（DevTools）模块，它有助于提高开发人员的生产力。Java开发人员面临的一个主要挑战是将文件更改自动部署到服务器并自动重启服务器。
-
-开发人员可以重新加载SpringBoot上的更改，而无需重新启动服务器。这将消除每次手动部署更改的需要。SpringBoot在它的第一个版本时没有这个功能。
-
-这是开发人员最需要的功能。DevTools模块完全满足开发人员的需求。该模块将在生产环境中被禁用。它还提供H2数据库控制台以更好地测试应用程序。
+它提供了一种非常简单的方法来访问少数生产就绪的REST端点，并从Web获取各种信息。但是通过使用这些端点，你可以做很多事情来查看端点文档。没有必要担心安全问题;如果存在Spring Security，则默认使用Spring Security的内容协商策略保护这些端点。或者，可以在RequestMatcher的帮助下配置自定义安全性。
 
 
-### 4、如何使用 SpringBoot 生成一个 WAR 文件？
+### 3、如何启用/禁用执行器？
 
-推荐阅读:
+启用/禁用致动器很容易；最简单的方法是使特性能够将依赖项(Maven/Gradle)添加到spring-boot-starter-actuator，即启动器。如果不想启用致动器，那么就不要添加依赖项。
 
-[https://spring.io/guides/gs/convert-jar-to-war/](https://spring.io/guides/gs/convert-jar-to-war/)
-
-下面有 spring 说明文档直接的链接地址：
+Maven依赖项：
 
 ```
-https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#build-tool-plugins-maven-packaging
+<dependencies>
+    <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-actuator</artifactId>
+    </dependency>
+</dependencies>
 ```
 
 
-### 5、SpringBoot 是否可以使用 XML 配置 ?
+### 4、如何在 SpringBoot 中添加通用的 JS 代码？
 
-SpringBoot 推荐使用 Java 配置而非 XML 配置，但是 SpringBoot 中也可以使用 XML 配置，通过 [@ImportResource ](/ImportResource ) 注解可以引入一个 XML 配置。
+在源文件夹下，创建一个名为 static 的文件夹。然后，你可以把你的静态的内容放在这里面。
 
+例如，myapp.js 的路径是 resources\static\js\myapp.js
 
-### 6、开启 SpringBoot 特性有哪几种方式？
+**
 
-**1、** 继承spring-boot-starter-parent项目
+你可以参考它在 jsp 中的使用方法：**
 
-**2、** 导入spring-boot-dependencies项目依赖
+错误：HAL browser gives me unauthorized error - Full authenticaition is required to access this resource.
 
+该如何来修复这个错误呢？
 
-### 7、SpringBoot 最大的优势是什么呢？
+两种方法：
 
-SpringBoot 的最大的优势是“约定优于配置“。“约定优于配置“是一种软件设计范式，开发人员按照约定的方式来进行编程，可以减少软件开发人员需做决定的数量，获得简单的好处，而又不失灵活性。
+方法 1：关闭安全验证
 
-SpringBoot 中 “约定优于配置“的具体产品体现在哪里。
+application.properties
 
-SpringBoot Starter、SpringBoot Jpa 都是“约定优于配置“的一种体现。都是通过“约定优于配置“的设计思路来设计的，SpringBoot Starter 在启动的过程中会根据约定的信息对资源进行初始化；SpringBoot Jpa 通过约定的方式来自动生成 Sql ，避免大量无效代码编写。具体详细可以参考：SpringBoot 为什么这么火？
+```
+management.security.enabled:FALSE
+```
 
-
-### 8、Async异步调用方法
-
-在SpringBoot中使用异步调用是很简单的，只需要在方法上使用@Async注解即可实现方法的异步调用。 注意：需要在启动类加入@EnableAsync使异步调用@Async注解生效。
-
-
-### 9、在 Spring Initializer 中，如何改变一个项目的包名字？
-
-好消息是你可以定制它。点击链接“转到完整版本”。你可以配置你想要修改的包名称！
+方法二：在日志中搜索密码并传递至请求标头中
 
 
-### 10、spring boot初始化环境变量流程?
+### 5、保护 SpringBoot 应用有哪些方法？
 
-**1、** 调用`prepareEnvironment`方法去设置环境变量
+**1、**  在生产中使用HTTPS
 
-**2、** 接下来有三个方法`getOrCreateEnvironment`，`configureEnvironment`，`environmentPrepared`
+**2、**  使用Snyk检查你的依赖关系
 
-**3、** `getOrCreateEnvironment`去初始化系统环境变量
+**3、**  升级到最新版本
 
-**4、** `configureEnvironment`去初始化命令行参数
+**4、**  启用CSRF保护
 
-**5、** `environmentPrepared`当广播到来的时候调用`onApplicationEnvironmentPreparedEvent`方法去使用`postProcessEnvironment`方法`load yml`和`properties变量`
+**5、**  使用内容安全策略防止XSS攻击
 
 
-### 11、JPA 和 Hibernate 有哪些区别？JPA 可以支持动态 SQL 吗？
-### 12、什么是YAML？
-### 13、什么是JavaConfig？
-### 14、如何使用 SpringBoot 实现异常处理？
-### 15、SpringBoot有哪些优点？
-### 16、保护 SpringBoot 应用有哪些方法？
-### 17、什么是CSRF攻击？
-### 18、如何启用/禁用执行器？
-### 19、什么是SpringBoot？
-### 20、SpringBoot 支持哪些日志框架？推荐和默认的日志框架是哪个？
-### 21、如何使用SpringBoot实现分页和排序？
-### 22、SpringBoot的启动器有哪几种?
-### 23、什么是FreeMarker模板？
-### 24、为什么我们需要 spring-boot-maven-plugin?
-### 25、你如何理解 SpringBoot 配置加载顺序？
-### 26、SpringBoot 中的 starter 到底是什么 ?
-### 27、SpringBoot常用的starter有哪些?
-### 28、如何重新加载SpringBoot上的更改，而无需重新启动服务器？
-### 29、SpringBoot 实现热部署有哪几种方式？
-### 30、什么是 FreeMarker 模板？
-### 31、如何集成SpringBoot和ActiveMQ？
+### 6、SpringBoot自动配置的原理是什么？
+
+SpringBoot启动的时候通过@EnableAutoConfiguration注解找到META-INF/spring.factories配置文件中所有的自动配置类，并对其进行加载，而这些自动配置类的类名都是以AutoConfiguration结尾来命名的，它实际上就是一个javaConfig形式的Spring容器配置类，它们都有一个@EnableConfigurationPerperties的注解，通过这个注解启动XXXProperties命名的类去加载全局配置中的属性，如server.port,而XXXProperties通过@ConfigurationProperties注解将全局配置文件中的属性与自己的属性进行绑定。
+
+
+### 7、什么是JavaConfig？
+
+Spring JavaConfig是Spring社区的产品，它提供了配置Spring IoC容器的纯Java方法。因此它有助于避免使用XML配置。使用JavaConfig的优点在于：
+
+面向对象的配置。由于配置被定义为JavaConfig中的类，因此用户可以充分利用Java中的面向对象功能。一个配置类可以继承另一个，重写它的@Bean方法等。
+
+减少或消除XML配置。基于依赖注入原则的外化配置的好处已被证明。但是，许多开发人员不希望在XML和Java之间来回切换。
+
+JavaConfig为开发人员提供了一种纯Java方法来配置与XML配置概念相似的Spring容器。
+
+从技术角度来讲，只使用JavaConfig配置类来配置容器是可行的，但实际上很多人认为将JavaConfig与XML混合匹配是理想的。
+
+类型安全和重构友好。JavaConfig提供了一种类型安全的方法来配置Spring容器。由于Java 5.0对泛型的支持，现在可以按类型而不是按名称检索bean，不需要任何强制转换或基于字符串的查找。
+
+
+### 8、什么是 JavaConfig？
+
+**1、** `面向对象的配置`。由于配置被定义为 JavaConfig 中的类，因此用户可以充分利用 Java 中的面向对象功能。一个配置类可以继承另一个，重写它的[@Bean ](/Bean ) 方法等。
+
+**2、** `减少或消除 XML 配置`。基于依赖注入原则的外化配置的好处已被证明。但是，许多开发人员不希望在 XML 和 Java 之间来回切换。JavaConfig 为开发人员提供了一种纯 Java 方法来配置与 XML 配置概念相似的 Spring 容器。从技术角度来讲，只使用 JavaConfig 配置类来配置容器是可行的，但实际上很多人认为将JavaConfig 与 XML 混合匹配是理想的。
+
+**3、** `类型安全和重构友好`。JavaConfig 提供了一种类型安全的方法来配置 Spring容器。由于 Java 5.0 对泛型的支持，现在可以按类型而不是按名称检索 bean，不需要任何强制转换或基于字符串的查找。
+
+
+### 9、什么是 SpringBoot 启动类注解：
+
+@SpringBootConfiguration:SpringBoot的配置类; 标注在某个类上，表示这是一个SpringBoot的配置类; @Configuration:配置类上来标注这个注解;配置类 ----- 配置文件;配置类也是容器中的一个组件;[@Component ](/Component )
+
+@EnableAutoConfiguration:开启自动配置功能;
+
+以前我们需要配置的东西，SpringBoot帮我们自动配置;@EnableAutoConfiguration告诉SpringBoot开启自动配置功能;这样自动配置才能生效;
+
+SpringBoot在启动的时候从类路径下的META-INF/spring.factories中获取EnableAutoConfiguration指定的值，将这些值作为自动配置类导入到容器中，自动配置类就失效，帮我们进行自动配置工作
+
+
+### 10、为什么我们需要 spring-boot-maven-plugin?
+
+spring-boot-maven-plugin 提供了一些像 jar 一样打包或者运行应用程序的命令。
+
+spring-boot:run 运行你的 SpringBooty 应用程序。
+
+spring-boot：repackage 重新打包你的 jar 包或者是 war 包使其可执行
+
+spring-boot：start 和 spring-boot：stop 管理 SpringBoot 应用程序的生命周期（也可以说是为了集成测试）。
+
+spring-boot:build-info 生成执行器可以使用的构造信息。
+
+
+### 11、什么是 Spring Data？
+### 12、SpringBoot中的监视器是什么?
+### 13、SpringBoot如何实现打包
+### 14、SpringBoot 的自动配置是如何实现的？
+### 15、我们如何监视所有 SpringBoot 微服务？
+### 16、SpringBoot 打成的 jar 和普通的 jar 有什么区别 ?
+### 17、如何在自定义端口上运行 SpringBoot 应用程序？
+### 18、SpringBoot 支持哪些日志框架？推荐和默认的日志框架是哪个？
+### 19、如何在不使用BasePACKAGE过滤器的情况下排除程序包？
+### 20、SpringBoot中的监视器是什么？
+### 21、SpringBoot微服务中如何实现 session 共享 ?
+### 22、SpringBoot的自动配置原理是什么
+### 23、您使用了哪些starter maven依赖项？
+### 24、SpringBoot 有哪几种读取配置的方式？
+### 25、创建一个 SpringBoot Project 的最简单的方法是什么？
+### 26、SpringBoot、Spring MVC 和 Spring 有什么区别？
+### 27、什么是SpringBoot？
+### 28、如何在 SpringBoot中禁用 Actuator端点安全性?
+### 29、什么是WebSockets？
+### 30、SpringBoot 支持哪些日志框架？推荐和默认的日志框架是哪个？
+### 31、SpringBoot运行项目的几种方式？
 
 
 
@@ -121,7 +160,7 @@ SpringBoot Starter、SpringBoot Jpa 都是“约定优于配置“的一种体�
 
 ### 下载链接：[全部答案，整理好了](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
 
-### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
+
 
 
 ## 最新，高清PDF：172份，7701页，最新整理

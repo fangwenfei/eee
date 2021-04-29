@@ -4,180 +4,177 @@
 
 ### 下载链接：[高清172份，累计 7701 页大厂面试题  PDF](https://github.com/souyunku/DevBooks/blob/master/docs/index.md)
 
-### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png)
 
 
+### 1、如何基于Redis实现发布和订阅
 
-### 1、如何更改列表的数据类型？
+```python
+# 发布者
+#coding:utf-8import time
+import Redis
 
-要将列表的数据类型进行更改，可以使用tuple()或者set()。
+number_list = ['300033', '300032', '300031', '300030']
+signal = ['1', '-1', '1', '-1']
 
-```
-lst = [1,2,3,4,2]
-
-# 更改为集合
-set(lst)    ## {1,2,3,4}
-# 更改为元组
-tuple(lst)  ## (1,2,3,4,2)
-```
-
-
-### 2、用一行Python代码，从给定列表中取出所有的偶数和奇数
-
-```
-a = [1,2,3,4,5,6,7,8,9,10]
-odd, even = [el for el in a if el % 2==1], [el for el in a if el % 2==0]
-
-print(odd,even)
-> ([1, 3, 5, 7, 9], [2, 4, 6, 8, 10])
+rc = Redis.StrictRedis(host='***', port='6379', db=3, password='********')
+for i in range(len(number_list)):
+value_new = str(number_list[i]) + ' ' + str(signal[i])
+rc.publish("liao", value_new)  #发布消息到liao
 ```
 
+```python
+# 订阅者
+#coding:utf-8import time
+import Redis
 
-### 3、在什么情况下y!=x-(x-y)会成立？
-
-x，y是两个不相等的非空集合
-
-
-### 4、Python中使用的zip函数是什么？
-
-zip函数获取可迭代对象，将它们聚合到一个元组中，然后返回结果。
-
-zip()函数的语法是zip(*iterables)
-
-```
-numbers = [1, 2, 3]
-string = ['one', 'two', 'three'] 
-result = zip(numbers,string)
-
-print(set(result))
--------------------------------------
-{(3, 'three'), (2, 'two'), (1, 'one')}
+rc = Redis.StrictRedis(host='****', port='6379', db=3,     password='******')
+ps = rc.pubsub()
+ps.subscribe('liao')  #从liao订阅消息for item in ps.listen():        #监听状态：有消息发布了就拿过来
+if item['type'] == 'message':
+print item['channel']
+print item['data']
 ```
 
 
-### 5、编写程序，打印斐波那契数列的前十项
+### 2、编写程序，检查数字是否为Armstrong
+
+将每个数字依次分离，并累加其立方(位数)。
+
+最后，如果发现总和等于原始数，则称为阿姆斯特朗数(Armstrong)。
 
 ```
-fibo = [0,1]
-[fibo.append(fibo[-2]+fibo[-1]) for i in range(8)]
+num = int(input("Enter the number:\n"))
+order = len(str(num))
 
-fibo
-> [0, 1, 1, 2, 3, 5, 8, 13, 21, 34]
-```
+sum = 0
+temp = num
 
+while temp > 0:
+   digit = temp % 10
+   sum += digit ** order
+   temp //= 10
 
-### 6、索引有什么作用，有哪些分类，有什么好处和坏处？
-
-作用：为了增加查询速度，提高系统性能
-
-**分类：**
-
-**1、** 唯一索引：不允许其中任何两行具有相同索引值的索引。
-
-**2、** 非唯一索引：允许其中任何两行具有相同索引值的索引。
-
-**3、** 主键索引：有一列或列组合，其值唯一标识表中的每一行。
-
-**4、** 聚集索引：表中行的物理顺序与键值的逻辑（索引）顺序相同。一个表只能包含一个聚集索引。
-
-**好处：**
-
-**1、** 帮助用户提高查询速度
-
-**2、** 利用索引的唯一性来控制记录的唯一性
-
-**3、** 可以加速表与表之间的连接
-
-**4、** 降低查询中分组和排序的时间
-
-**坏处：**
-
-**1、** 存储索引占用磁盘空间
-
-**2、** 执行数据修改操作(INSERT、UPDATE、DELETE)产生索引维护
-
-
-### 7、简述多进程开发中join和deamon的区别
-
-**1、** join：当子线程调用join时，主线程会被阻塞，当子线程结束后，主线程才能继续执行。
-
-**2、** deamon：当子进程被设置为守护进程时，主进程结束，不管子进程是否执行完毕，都会随着主进程的结束而结束。
-
-
-### 8、什么是Python中的猴子补丁？
-
-猴子补丁(monkey patching)，是指在运行时动态修改类或模块。
-
-```
-from SomeOtherProduct.SomeModule import SomeClass
-
-def speak(self):
-    return "Hello!"
-
-SomeClass.speak = speak
+if num == sum:
+   print(num,"is an Armstrong number")
+else:
+   print(num,"is not an Armstrong number")
 ```
 
 
-### 9、为什么学python
+### 3、什么是Twemproxy
 
-答题路线：a、python的优点，b、python的应用领域广
-
-**具体：**
-
-优点
-
-**1、** python语法非常优雅，简单易学
-
-**2、** 免费开源
-
-**3、** 跨平台，可以自由移植
-
-**4、** 可扩展，可嵌入性强
-
-**5、** 第三方库丰富
-
-**应用领域**
-
-**1、** 在系统编程中应用广泛，比如说shell工具。
-
-**2、** 在网络爬虫方面功能非常强大，常用的库如scrapy，request等
-
-**3、** 在web开发中使用也很广泛，如很多大型网站都用python开发的，如ins，youtube等，常用的框架如django，flask等
-
-**4、** python在系统运维中应用广泛，尤其在linux运维方面，基本上都是自动化运维。
-
-**5、** 在人工智能，云计算，金融等方面也应用非常广泛。
+Twemproxy是一种代理分片机制，由Twitter开源。Twemproxy作为代理，可接受来自多个程序的访问，按照路由规则，转发给后台的各个Redis服务器，再原路返回。该方案很好的解决了单个Redis实例承载能力的问题。当然，Twemproxy本身也是单点，需要用Keepalived做高可用方案。通过Twemproxy可以使用多台服务器来水平扩张Redis服务，可以有效的避免单点故障问题。虽然使用Twemproxy需要更多的硬件资源和在Redis性能有一定的损失（twitter测试约20%），但是能够提高整个系统的HA也是相当划算的。不熟悉twemproxy的同学，如果玩过nginx反向代理或者MySQL proxy，那么你肯定也懂twemproxy了。其实twemproxy不光实现了Redis协议
 
 
-### 10、Redis中watch的作用
+### 4、简述SQL注入原理，以及如何在代码层面房子sql注入
 
-**1、** watch 用于在进行事务操作的最后一步也就是在执行exec 之前对某个key进行监视
+通俗点讲，SQL注入的根本原因是: "用户输入数据"意外变成了代码被执行。
 
-**2、** 如果这个被监视的key被改动，那么事务就被取消，否则事务正常执行.
+"用户输入数据"我这里可以指Web前端$_POST,$_GET获取的数据，也可以指从数据库获取的数据，当然也不排除程序猿无意中使用的特殊字符串。
 
-**3、** 一般在MULTI 命令前就用watch命令对某个key进行监控.如果想让key取消被监控，可以用unwatch命令
+在SQL语句的拼接中，一些含特殊字符的变量在拼接时破坏了SQL语句的结构，导致"用户输入数据"意外变成了代码被执行。
+
+**规避方法：**
+
+**1、** 理语句法  (解析协议层面上完全规避SQL注入)
+
+**2、** 字符串转义（不要在sql中拼接字符）
 
 
-### 11、有一个列表lis=['This','is','a','Man','B','!']，对它进行大小写无关的排序
-### 12、列举创建索引但是无法命中索引的情况
-### 13、文件操作时，xreadlines和readlines的区别
-### 14、简述python字符串的驻留机制
-### 15、IO多路复用的作用？
-### 16、列举你所了解的所有Python2和Python3的区别
-### 17、阅读以下代码，写输出结果
-### 18、简述python的深浅拷贝
-### 19、列举Redis支持的过期策略
-### 20、将下面列表中的元素根据位数合并成字典：
-### 21、vue中的路由拦截器的作用
-### 22、双下划线和单下划线的区别
-### 23、数据库锁的作用
-### 24、简述生成器，迭代器，装饰器以及应用场景
-### 25、Python中的Map Function是什么？
-### 26、元组的解封装是什么？
-### 27、什么时GIL锁
-### 28、如何判断一个对象是否可调用？哪些对象是可调用对象？如何定义一个类，使其对象本身就是可调用对象？
-### 29、你对Python类中的self有什么了解？
-### 30、解释Python中的help()和dir()函数
+### 5、如何查找一个字符串中特定的字符？find和index的差异？
+
+使用find和index方法查找
+
+**1、** find()方法：查找子字符串，若找到返回从0开始的下标值，若找不到返回-1
+
+**2、** index()方法：python 的index方法是在字符串里查找子串第一次出现的位置，类似字符串的find方法，不过比find方法更好的是，如果查找不到子串，会抛出异常，而不是返回-1
+
+
+### 6、Python代码是如何执行的？
+
+首先，解释器读取Python代码并检查是否有语法或格式错误。
+
+如果发现错误，则暂停执行。如果没有发现错误，则解释器会将Python代码转换为等效形式或字节代码。
+
+然后将字节码发送到Python虚拟机(PVM)，这里Python代码将被执行，如果发现任何错误，则暂停执行，否则结果将显示在输出窗口中。
+
+![90_1.png][90_1.png]
+
+
+### 7、python代码如何获取命令行参数
+
+[获取命令行参数的方法参考](https://www.cnblogs.com/ouyangpeng/p/8537616.html)
+
+**1、** 使用sys模块
+
+通过sys.argv来获取
+
+**2、** 使用getopt模块
+
+
+### 8、vuex的作用
+
+**1、** 组件之间的数据通信
+
+**2、** 使用单向数据流的方式进行数据的去中心化管理
+
+
+### 9、在python中如何拷贝一个对象，并说明他们之间的区别
+
+**1、** 赋值（=），就是创建了对象的一个新的引用，修改其中任意一个变量都会影响到另一个。
+
+**2、** 浅拷贝：创建一个新的对象，但它包含的是对原始对象中包含项的引用（copy模块的copy()函数）
+
+**3、** 深拷贝：创建一个新的对象，并且递归的复制它所包含的对象（修改其中一个，另外一个不会改变）（copy模块的deep.deepcopy()函数）
+
+
+### 10、有如下代码：
+
+```python
+import copy
+a=[1,2,3,[4,5],6]
+b=a
+c=copy.copy(a)
+d=copy.deepcopy(a)
+b.append(10)
+c[3].append(11)
+d[3].append(12)
+```
+
+求a，b，c，d
+
+**答案：**
+
+> a：[1, 2, 3, [4, 5, 11], 6, 10]
+
+b：[1, 2, 3, [4, 5, 11], 6, 10]
+
+c：[1, 2, 3, [4, 5, 11], 6]
+
+d：[1, 2, 3, [4, 5, 12], 6]
+
+
+
+### 11、输入某年某月某日，判断这是这一年的第几天？
+### 12、GIL锁对python性能的影响
+### 13、讲讲Python中的位运算符
+### 14、MySQL常见数据库引擎及区别
+### 15、如何用一行代码生成[1,4,9,16,25,36,49,64,81,100]?
+### 16、axios的作用
+### 17、解释什么是异步非阻塞
+### 18、求以下代码的输出结果
+### 19、Redis中默认有多少个哈希槽
+### 20、threading.local的作用
+### 21、traceroute使用哪种网络协议
+### 22、如何保证api调用时数据的安全性
+### 23、简述解释型和编译型编程语言
+### 24、为何不建议以下划线作为标识符的开头
+### 25、写一个函数，计算出以下字母所代表的数字，每个字母值不一样
+### 26、python的底层网络交互模块有哪些
+### 27、求下面代码结果
+### 28、编写程序，计算文件中单词的出现频率
+### 29、当退出Python时，是否释放全部内存？
+### 30、请列出至少5个PEP8规范
 
 
 
@@ -186,7 +183,7 @@ SomeClass.speak = speak
 
 ### 下载链接：[全部答案，整理好了](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
 
-### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
+
 
 
 ## 最新，高清PDF：172份，7701页，最新整理

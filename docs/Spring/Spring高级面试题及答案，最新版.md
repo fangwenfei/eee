@@ -4,113 +4,133 @@
 
 ### 下载链接：[高清172份，累计 7701 页大厂面试题  PDF](https://github.com/souyunku/DevBooks/blob/master/docs/index.md)
 
-### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png)
+
+
+### 1、什么是CSRF攻击？
+
+CSRF代表跨站请求伪造。这是一种攻击，迫使最终用户在当前通过身份验证的Web应用程序上执行不需要的操作。CSRF攻击专门针对状态改变请求，而不是数据窃取，因为攻击者无法查看对伪造请求的响应。
+
+
+### 2、SpringBoot自动配置的原理
+
+在spring程序main方法中 添加@SpringBootApplication或者@EnableAutoConfiguration
+
+会自动去maven中读取每个starter中的spring.factories文件 该文件里配置了所有需要被创建spring容器中的bean
+
+
+### 3、SpringBoot 中如何实现定时任务 ?
+
+定时任务也是一个常见的需求，SpringBoot 中对于定时任务的支持主要还是来自 Spring 框架。
+
+在 SpringBoot 中使用定时任务主要有两种不同的方式，一个就是使用 Spring 中的 [@Scheduled ](/Scheduled ) 注解，另一个则是使用第三方框架 Quartz。
+
+使用 Spring 中的 [@Scheduled ](/Scheduled ) 的方式主要通过 [@Scheduled ](/Scheduled ) 注解来实现。
+
+使用 Quartz ，则按照 Quartz 的方式，定义 Job 和 Trigger 即可。
 
 
 
-### 1、怎样在方法里面得到Request,或者Session？
+### 4、SpringCloud的优缺点
+
+**优点：**
+
+**1、** 耦合度比较低。不会影响其他模块的开发。
+
+**2、** 减轻团队的成本，可以并行开发，不用关注其他人怎么开发，先关注自己的开发。
+
+**3、** 配置比较简单，基本用注解就能实现，不用使用过多的配置文件。
+
+**4、** 微服务跨平台的，可以用任何一种语言开发。
+
+**5、** 每个微服务可以有自己的独立的数据库也有用公共的数据库。
+
+**6、** 直接写后端的代码，不用关注前端怎么开发，直接写自己的后端代码即可，然后暴露接口，通过组件进行服务通信。
+
+**缺点：**
+
+1、部署比较麻烦，给运维工程师带来一定的麻烦。
+
+2、针对数据的管理比麻烦，因为微服务可以每个微服务使用一个数据库。
+
+3、系统集成测试比较麻烦
+
+4、性能的监控比较麻烦。【最好开发一个大屏监控系统】
+
+总的来说优点大过于缺点，目前看来Spring Cloud是一套非常完善的分布式框架，目前很多企业开始用微服务、Spring Cloud的优势是显而易见的。因此对于想研究微服务架构的同学来说，学习Spring Cloud是一个不错的选择。
 
 
+### 5、Spring MVC 框架有什么用？
 
-直接在方法的形参中声明request,Spring MVC就自动把request对象传入。
-
-
-### 2、康威定律是什么？
-
-“任何设计系统的组织（广泛定义）都将产生一种设计，其结构是组织通信结构的副本。” –  Mel Conway
-
-![](https://gitee.com/souyunkutech/souyunku-home/raw/master/images/souyunku-web/2019/08/0816/01/img_16.png#alt=img%5C_16.png)
-
-图13：  Conway定律的表示 – 微服务访谈问题
-
-该法律基本上试图传达这样一个事实：为了使软件模块起作用，整个团队应该进行良好的沟通。因此，系统的结构反映了产生它的组织的社会边界。
+Spring Web MVC 框架提供 模型-视图-控制器 架构和随时可用的组件，用于开发灵活且松散耦合的 Web 应用程序。MVC 模式有助于分离应用程序的不同方面，如输入逻辑，业务逻辑和 UI 逻辑，同时在所有这些元素之间提供松散耦合。
 
 
-### 3、[@Required ](/Required ) 注解有什么用？
+### 6、使用 SpringBoot 启动连接到内存数据库 H2 的 JPA 应用程序需要哪些依赖项？
 
-[@Required ](/Required ) 应用于 bean 属性 setter 方法。此注解仅指示必须在配置时使用 bean 定义中的显式属性值或使用自动装配填充受影响的 bean 属性。如果尚未填充受影响的 bean 属性，则容器将抛出 BeanInitializationException。
+在 SpringBoot 项目中，当你确保下面的依赖项都在类路里面的时候，你可以加载 H2 控制台。
 
-示例：
+web 启动器
 
-```
-public class Employee {
-    private String name;
-    @Required
-    public void setName(String name){
-        this.name=name;
-    }
-    public string getName(){
-        return name;
-    }
-}
-```
+h2
 
+jpa 数据启动器
 
-### 4、缓存机制：
+**其它的依赖项在下面：**
 
-设置了⼀个每30秒执⾏⼀次的定时任务，定时去服务端获取注册信息。获取之后，存⼊本地内存。
+需要注意的一些地方：
+
+一个内部数据内存只在应用程序执行期间存在。这是学习框架的有效方式。
+
+这不是你希望的真是世界应用程序的方式。
+
+在问题“如何连接一个外部数据库？”中，我们解释了如何连接一个你所选择的数据库。
 
 
-### 5、解释基于注解的切面实现
+### 7、微服务同时调用多个接口，怎么支持事务的啊？
 
-在这种情况下(基于@AspectJ的实现)，涉及到的切面声明的风格与带有java5标注的普通java类一致。
-
-
-### 6、什么是 Spring IOC 容器？
-
-Spring 框架的核心是 Spring 容器。容器创建对象，将它们装配在一起，配置它们并管理它们的完整生命周期。Spring 容器使用依赖注入来管理组成应用程序的组件。容器通过读取提供的配置元数据来接收对象进行实例化，配置和组装的指令。该元数据可以通过 XML，Java 注解或 Java 代码提供。
-
-![](https://gitee.com/souyunkutech/souyunku-home/raw/master/images/souyunku-web/2019/08/0816/02/img_2.png#alt=img%5C_2.png)
+支持分布式事务，可以使用SpringBoot集成 Aatomikos来解决，但是我一般不建议这样使用，因为使用分布式事务会增加请求的响应时间，影响系统的TPS。一般在实际工作中，会利用消息的补偿机制来处理分布式的事务。
 
 
-### 7、哪些是重要的bean生命周期方法？你能重载它们吗？
+### 8、SpringBoot 中的 starter 到底是什么 ?
 
-有两个重要的bean 生命周期方法，第一个是setup ， 它是在容器加载bean的时候被调用。第二个方法是 teardown 它是在容器卸载类的时候被调用。
-
-The bean 标签有两个重要的属性（init-method和destroy-method）。用它们你可以自己定制初始化和注销方法。它们也有相应的注解（@PostConstruct和@PreDestroy）。
+首先，这个 Starter 并非什么新的技术点，基本上还是基于 Spring 已有功能来实现的。首先它提供了一个自动化配置类，一般命名为 `XXXAutoConfiguration` ，在这个配置类中通过条件注解来决定一个配置是否生效（条件注解就是 Spring 中原本就有的），然后它还会提供一系列的默认配置，也允许开发者根据实际情况自定义相关配置，然后通过类型安全的属性(spring、factories)注入将这些配置属性注入进来，新注入的属性会代替掉默认属性。正因为如此，很多第三方框架，我们只需要引入依赖就可以直接使用了。当然，开发者也可以自定义 Starter
 
 
-### 8、什么是端到端微服务测试？
+### 9、SpringBoot 需要独立的容器运行吗？
 
-端到端测试验证了工作流中的每个流程都正常运行。这可确保系统作为一个整体协同工作并满足所有要求。
-
-通俗地说，你可以说端到端测试是一种测试，在特定时期后测试所有东西。
-
-![](https://gitee.com/souyunkutech/souyunku-home/raw/master/images/souyunku-web/2019/08/0816/01/img_17.png#alt=img%5C_17.png)
-
-图14：测试层次 – 微服务面试问题
+可以不需要，内置了 Tomcat/ Jetty 等容器。
 
 
-### 9、什么是 CSRF 攻击？
+### 10、Spring MVC怎么样设定重定向和转发的？
 
-CSRF 代表跨站请求伪造。这是一种攻击，迫使最终用户在当前通过身份验证的Web 应用程序上执行不需要的操作。CSRF 攻击专门针对状态改变请求，而不是数据窃取，因为攻击者无法查看对伪造请求的响应。
+**转发：**
+
+在返回值前面加"forward:"，譬如"forward:user.do?name=method4"
+
+**重定向：**
+
+在返回值前面加"redirect:"，譬如"redirect:[www.baidu.com](http://www.baidu.com)"
 
 
-### 10、如何使用 SpringBoot 实现全局异常处理？
-
-Spring 提供了一种使用 ControllerAdvice 处理异常的非常有用的方法。 我们通过实现一个 ControlerAdvice 类，来处理控制器类抛出的所有异常。
-
-
-### 11、SpringBoot 2.X 有什么新特性？与 1.X 有什么区别？
-### 12、什么是Netflix Feign？它的优点是什么？
-### 13、spring boot监听器流程?
-### 14、什么是JavaConfig？
-### 15、服务注册和发现是什么意思？Spring Cloud如何实现？
-### 16、Spring对DAO的支持
-### 17、为什么要选择微服务架构？
-### 18、Spring由哪些模块组成?
-### 19、SpringBoot 可以兼容老 Spring 项目吗，如何做？
-### 20、SpringBoot 的核心配置文件有哪几个？它们的区别是什么？
-### 21、SpringBoot有哪些优点？
-### 22、Spring框架中的单例bean是线程安全的吗?
-### 23、WebApplicationContext
-### 24、SpringBoot 中如何实现定时任务 ?
-### 25、自动装配有什么局限？
-### 26、DispatcherServlet
-### 27、SpringBoot的缺点
-### 28、我们如何监视所有 SpringBoot 微服务？
-### 29、一个Spring的应用看起来象什么？
-### 30、有哪些类型的通知（Advice）？
+### 11、Spring 应用程序有哪些不同组件？
+### 12、bootstrap.yml和application.yml有什么区别?
+### 13、dubbo服务注册与发现原理
+### 14、JPA 和 Hibernate 有哪些区别？JPA 可以支持动态 SQL 吗？
+### 15、如何实现SpringBoot应用程序的安全性？
+### 16、Spring MVC的优点
+### 17、什么是切点（JoinPoint）
+### 18、SpringBoot 的核心配置文件有哪几个？它们的区别是什么？
+### 19、哪些是重要的bean生命周期方法？你能重载它们吗？
+### 20、如何在自定义端口上运行 SpringBoot 应用程序？
+### 21、SpringBoot 支持哪些日志框架？推荐和默认的日志框架是哪个？
+### 22、Ribbon和Feign的区别？
+### 23、创建一个 SpringBoot Project 的最简单的方法是什么？
+### 24、如何理解 Spring 中的代理？
+### 25、介绍一下 WebApplicationContext
+### 26、如何解决POST请求中文乱码问题，GET的又如何处理呢？
+### 27、什么是JavaConfig？
+### 28、SpringCloud由什么组成
+### 29、有几种不同类型的自动代理？
+### 30、怎么样把ModelMap里面的数据放入Session里面？
 
 
 
@@ -119,7 +139,7 @@ Spring 提供了一种使用 ControllerAdvice 处理异常的非常有用的方�
 
 ### 下载链接：[全部答案，整理好了](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
 
-### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
+
 
 
 ## 最新，高清PDF：172份，7701页，最新整理

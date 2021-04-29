@@ -4,52 +4,92 @@
 
 ### 下载链接：[高清172份，累计 7701 页大厂面试题  PDF](https://github.com/souyunku/DevBooks/blob/master/docs/index.md)
 
-### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png)
 
 
+### 1、如何转换init.ora到spfile?
 
-### 1、Oracle中function和procedure的区别？
-
-**1、** 可以理解函数是存储过程的一种
-
-**2、** 函数可以没有参数,但是一定需要一个返回值，存储过程可以没有参数,不需要返回值
-
-**3、** 函数return返回值没有返回参数模式，存储过程通过out参数返回值, 如果需要返回多个参数则建议使用存储过程
-
-**4、** 在sql数据操纵语句中只能调用函数而不能调用存储过程
+使用create spfile from pfile 命令.
 
 
-### 2、如何变动数据文件的大小？
+### 2、创建数据库时自动建立的tablespace名称？
 
-ALTER DATABASE DATAFILE <datafile_name> RESIZE <new_size>;
-
-
-### 3、集合操作符
-
-**1、** Union ： 不包含重复值，默认按第一个查询的第一列升序排列。
-
-**2、** Union All : 完全并集包含重复值。不排序。
-
-**3、** Minus 不包含重复值，不排序。
+SYSTEM tablespace.
 
 
-### 4、使用存储过程访问数据库比直接用SQL语句访问有何优点？
+### 3、解释什么是死锁，如何解决Oracle中的死锁？
 
-**1、** 存储过程是预编译过的，执行时不须编译，执行速度更快。
+简言之就是存在加了锁而没有解锁，可能是使用锁没有提交或者回滚事务，如果是表级锁则不能操作表，客户端处于等在状态，如果是行级锁则不能操作锁定行
 
-**2、** 存储过程封装了多条SQL，便于维护数据的完整性与一致性。
+**解决办法：**
 
-**3、** 实现代码复用。
+**1、** 查找出被锁的表
+
+**1、** select b.owner,b.object_name,a.session_id,a.locked_mode
+
+**2、** from v$locked_object a,dba_objects b
+
+**3、** where b.object_id = a.object_id;
+
+**1、** select b.username,b.sid,b.serial#,logon_time
+
+**2、** from v$$locked_object a,v$$session b
+
+**3、** where a.session_id = b.sid order by b.logon_time;
+
+**2、** 杀进程中的会话
+
+alter system kill session "sid,serial#";
 
 
-### 5、说一下，什么是Oracle分区
+### 4、给出数据库正常启动所经历的几种状态 ?
 
-分区的实质是把一张大表的数据按照某种规则使用多张子表来存储。
+STARTUP NOMOUNT – 数据库实例启动
 
-然后这多张子表使用统一的表名对外提供服务，子表实际对用户不可见。类似于在多张子表上建立一个视图，然后用户直接使用该视图来访问数据。
+STARTUP MOUNT - 数据库装载
+
+STARTUP OPEN – 数据库打开
 
 
-### 6、说下 怎样创建一个视图,视图的好处, 视图可以控制权限吗?
+### 5、使用索引的理由
+
+快速访问表中的data block
+
+
+### 6、本地管理表空间和字典管理表空间的特点，ASSM有什么特点？
+
+本地管理表空间(LocallyManaged Tablespace简称LMT)，8i以后出现的一种新的表空间的管理模式，通过位图来管理表空间的空间使用。字典管理表空间(Dictionary-ManagedTablespace简称DMT)8i以前包括以后都还可以使用的一种表空间管理模式，通过数据字典管理表空间的空间使用。动段空间管理（ASSM)，它首次出现在Oracle920里有了ASSM，链接列表freelist被位图所取代，它是一个二进制的数组，能够迅速有效地管理存储扩展和剩余区块(free block)，因此能够改善分段存储本质，ASSM表空间上创建的段还有另外一个称呼叫Bitmap ManagedSegments(BMB 段)
+
+
+### 7、回滚段的作用是什么
+
+事务回滚：当事务修改表中数据的时候，该数据修改前的值(即前影像)会存放在回滚段中，当用户回滚事务(ROLLBACK)时，ORACLE将会利用回滚段中的数据前影像来将修改的数据恢复到原来的值。
+
+事务恢复：当事务正在处理的时候，例程失败，回滚段的信息保存在undo表空间中，ORACLE将在下次打开数据库时利用回滚来恢复未提交的数据。
+
+**1、** 读一致性：当一个会话正在修改数据时，其他的会话将看不到该会话未提交的修改。
+
+**2、** 当一个语句正在执行时，该语句将看不到从该语句开始执行后的未提交的修改(语句级读一致性)。
+
+**3、** 当ORACLE执行Select语句时，ORACLE依照当前的系统改变号(SYSTEM CHANGE NUMBER-SCN)。
+
+**4、** 来保证任何前于当前SCN的未提交的改变不被该语句处理。可以想象：当一个长时间的查询正在执行时。
+
+**5、** 若其他会话改变了该查询要查询的某个数据块，ORACLE将利用回滚段的数据前影像来构造一个读一致性视图。
+
+
+### 8、给出两个检查表结构的方法
+
+**1、** DESCRIBE命令
+
+**2、**  DBMS_METADATA.GET_DDL 包
+
+
+### 9、简单描述table / segment / extent / block之间的关系？
+
+table创建时,默认创建了一个data segment，每个datasegment含有min extents指定的extents数，每个extent据据表空间的存储参数分配一定数量的blocks
+
+
+### 10、说下 怎样创建一个视图,视图的好处, 视图可以控制权限吗?
 
 create view 视图名 as select 列名 [别名]  …  from 表 [unio [all] select … ] ]
 
@@ -64,49 +104,23 @@ create view 视图名 as select 列名 [别名]  …  from 表 [unio [all] sel
 **4、** 视图可以控制权限的，在使用的时候需要将视图的使用权限grant给用户
 
 
-### 7、说下 Oracle的导入导出有几种方式，有何区别？
-
-**1、** 使用oracle工具 exp/imp
-
-**2、** 使用plsql相关工具
-
-方法1、导入/导出的是二进制的数据，
-
-方法2、.plsql导入/导出的是sql语句的文本文件
-
-
-### 8、解释$$ORACLE_HOME和$$ORACLE_BASE的区别？
-
-ORACLE_BASE是oracle的根目录，ORACLE_HOME是oracle产品的目录
-
-
-### 9、解释GLOBAL_NAMES设为TRUE的用途？
-
-GLOBAL_NAMES指明联接数据库的方式。如果这个参数设置为TRUE,在建立数据库链接时就必须用相同的名字连结远程数据库
-
-
-### 10、Coalescing做了什么？
-
-Coalescing针对于字典管理的tablespace进行碎片整理，将临近的小extents合并成单个的大extent.
-
-
-### 11、列出Oracle Forms配置文件?
-### 12、回滚段的作用是什么
-### 13、pctused and pctfree 表示什么含义有什么作用？
+### 11、给出两种相关约束?
+### 12、如何建立一个备份控制文件?
+### 13、MySQL数据库与Oracle 数据库有什么区别？
 ### 14、如何加密PL/SQL程序？
-### 15、说明如何使用相同的LOV 2列?
-### 16、解释CALL_FORM，NEW_FORM和OPEN_FORM之间有什么区别?
-### 17、解释FUNCTION,PROCEDURE和PACKAGE区别
-### 18、比较truncate和delete 命令
-### 19、解释 冷备份 和 热备份 的不同点，以及各自的优点？
-### 20、在Oracle Forms Report中，Record组列的最大长度是多少?什么是不同类型的记录组?
-### 21、不借助第三方工具，怎样查看sql的执行计划
-### 22、本地管理表空间和字典管理表空间的特点，ASSM有什么特点？
-### 23、使用索引的理由
-### 24、ORA-01555的应对方法?
-### 25、事务的特性（ACID）是指什么？
-### 26、哪个column可以用来区别V$$视图和GV$$视图?
-### 27、如何判断哪个session正在连结以及它们等待的资源？
+### 15、如何在tablespace里增加数据文件？
+### 16、Audit trace 存放在哪个oracle目录结构中?
+### 17、解释冷备份和热备份的不同点以及各自的优点
+### 18、ORA-01555的应对方法？
+### 19、解释归档和非归档模式之间的不同和它们各自的优缺点
+### 20、Oracle的游标在存储过程里是放在begin与end的里面还是外面？
+### 21、在千万级的数据库查询中，如何提高效率？
+### 22、比较truncate和delete 命令
+### 23、truncate和delete区别：
+### 24、如何建立一个备份控制文件？
+### 25、如何变动数据文件的大小？
+### 26、怎样创建一个一个索引,索引使用的原则,有什么优点和缺点
+### 27、如何判断数据库的时区？
 
 
 
@@ -115,7 +129,7 @@ Coalescing针对于字典管理的tablespace进行碎片整理，将临近的小
 
 ### 下载链接：[全部答案，整理好了](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
 
-### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
+
 
 
 ## 最新，高清PDF：172份，7701页，最新整理

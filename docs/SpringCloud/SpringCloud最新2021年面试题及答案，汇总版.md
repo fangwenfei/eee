@@ -4,146 +4,174 @@
 
 ### 下载链接：[高清172份，累计 7701 页大厂面试题  PDF](https://github.com/souyunku/DevBooks/blob/master/docs/index.md)
 
-### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png)
+
+
+### 1、微服务有哪些特点？
+
+![](https://gitee.com/souyunkutech/souyunku-home/raw/master/images/souyunku-web/2019/08/0816/01/img_3.png#alt=img%5C_3.png)
+
+图3：微服务的 特点 – 微服务访谈问题
+
+解耦 – 系统内的服务很大程度上是分离的。因此，整个应用程序可以轻松构建，更改和扩展
+
+组件化 – 微服务被视为可以轻松更换和升级的独立组件
+
+业务能力 – 微服务非常简单，专注于单一功能
+
+自治 – 开发人员和团队可以彼此独立工作，从而提高速度
+
+持续交付 – 通过软件创建，测试和批准的系统自动化，允许频繁发布软件
+
+责任 – 微服务不关注应用程序作为项目。相反，他们将应用程序视为他们负责的产品
+
+分散治理 – 重点是使用正确的工具来做正确的工作。这意味着没有标准化模式或任何技术模式。开发人员可以自由选择最有用的工具来解决他们的问题
+
+敏捷 – 微服务支持敏捷开发。任何新功能都可以快速开发并再次丢弃
+
+
+### 2、springcloud如何实现服务的注册?
+
+**1、** 服务发布时，指定对应的服务名,将服务注册到 注册中心(eureka zookeeper)
+
+**2、** 注册中心加@EnableEurekaServer,服务用@EnableDiscoveryClient，然后用ribbon或feign进行服务直接的调用发现。
+
+
+### 3、如何在SpringBoot应用程序中实现Spring安全性？
+
+实施需要最少的配置。您需要做的就是spring-boot-starter-security在pom.xml文件中添加starter。您还需要创建一个Spring配置类，它将覆盖所需的方法，同时扩展 WebSecurityConfigurerAdapter 应用程序中的安全性。这是一些示例代码：
+
+```
+package com.gkatzioura.security.securityendpoints.config;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;@
+Configuration
+public class SecurityConfig extends WebSecurityConfigurerAdapter {@
+    Override
+    protected void configure(HttpSecurity http) throws Exception {
+        http.
+        authorizeRequests().
+        antMatchers("/welcome").
+        permitAll().anyRequest().
+        authenticated().and().
+        formLogin().
+        permitAll().
+        and().
+        logout().
+        permitAll();
+    }
+}
+```
+
+
+### 4、谈一下领域驱动设计
+
+主要关注核心领域逻辑。基于领域的模型检测复杂设计。这涉及与公司层面领域方面的专家定期合作，以解决与领域相关的问题并改进应用程序的模型。在回答这个微服务面试问题时，您还需要提及DDD的核心基础知识。他们是：
+
+**1、** DDD主要关注领域逻辑和领域本身。
+
+**2、** 复杂的设计完全基于领域的模型。
+
+**3、** 为了改进模型的设计并解决任何新出现的问题，DDD不断与公司领域方面的专家合作。
+
+
+### 5、SpringCloud限流：
+
+**1、** 我们可以通过semaphore.maxConcurrentRequests,coreSize,maxQueueSize和queueSizeRejectionThreshold设置信号量模式下的最⼤并发量、线程池⼤⼩、缓冲区⼤⼩和缓冲区降级阈值。
+
+```
+#不设置缓冲区，当请求数超过coreSize时直接降级
+hystrix.threadpool.userThreadPool.maxQueueSize=-1超时时间⼤于我们的timeout接⼝返回时间
+hystrix.command.userCommandKey.execution.isolation.thread.timeoutInMilliseconds=15000
+```
+
+这个时候我们连续多次请求/user/command/timeout接⼝，在第⼀个请求还没有成功返回时，查看输出⽇志可以发现只有第⼀个请求正常的进⼊到user-service的接⼝中，其它请求会直接返回降级信息。这样我们就实现了对服务请求的限流。
+
+**2、** 漏桶算法：⽔（请求）先进⼊到漏桶⾥，漏桶以⼀定的速度出⽔，当⽔流⼊速度过⼤会直接溢出，可以看出漏桶算法能强⾏限制数据的传输速率。
+
+![](https://gitee.com/souyunkutech/souyunku-home/raw/master/images/souyunku-web/2020/5/2/01/44/45_7.png#alt=45%5C_7.png)
+
+**3、** 令牌桶算法：除了要求能够限制数据的平均传输速率外，还要求允许某种程度的突发传输。这时候漏桶算法可能就不合适了，令牌桶算法更为适合。 如图所示，令牌桶算法的原理是系统会以⼀个恒定的速度往桶⾥放⼊令牌，⽽如果请求需要被处理，则需要先从桶⾥获取⼀个令牌，当桶⾥没有令牌可取时，则拒绝服务。
+
+![](https://gitee.com/souyunkutech/souyunku-home/raw/master/images/souyunku-web/2020/5/2/01/44/45_8.png#alt=45%5C_8.png)
+
+
+### 6、什么是微服务中的反应性扩展？
+
+Reactive Extensions也称为Rx。这是一种设计方法，我们通过调用多个服务来收集结果，然后编译组合响应。这些调用可以是同步或异步，阻塞或非阻塞。Rx是分布式系统中非常流行的工具，与传统流程相反。
+
+希望这些微服务面试问题可以帮助您进行微服务架构师访谈。
+
+翻译来源：[https://www.edureka.co/blog/interview-questions/microservices-interview-questions/](https://www.edureka.co/blog/interview-questions/microservices-interview-questions/)
 
 
 
-### 1、什么是Hystrix？它如何实现容错？
+### 7、什么是Spring Cloud Zuul（服务网关）
 
-Hystrix是一个延迟和容错库，旨在隔离远程系统，服务和第三方库的访问点，当出现故障是不可避免的故障时，停止级联故障并在复杂的分布式系统中实现弹性。
+Zuul是对SpringCloud提供的成熟对的路由方案，他会根据请求的路径不同，网关会定位到指定的微服务，并代理请求到不同的微服务接口，他对外隐蔽了微服务的真正接口地址。
 
-通常对于使用微服务架构开发的系统，涉及到许多微服务。这些微服务彼此协作。
+三个重要概念：动态路由表，路由定位，反向代理：
 
-思考以下微服务
+**1、** 动态路由表：Zuul支持Eureka路由，手动配置路由，这俩种都支持自动更新
 
-![](https://gitee.com/souyunkutech/souyunku-home/raw/master/images/souyunku-web/2019/08/0814/02/img_2.png#alt=img%5C_2.png)
+**2、** 路由定位：根据请求路径，Zuul有自己的一套定位服务规则以及路由表达式匹配
 
-假设如果上图中的微服务9失败了，那么使用传统方法我们将传播一个异常。但这仍然会导致整个系统崩溃。
+**3、** 反向代理：客户端请求到路由网关，网关受理之后，在对目标发送请求，拿到响应之后在 给客户端它可以和Eureka,Ribbon,Hystrix等组件配合使用，
 
-随着微服务数量的增加，这个问题变得更加复杂。微服务的数量可以高达1000.这是hystrix出现的地方 我们将使用Hystrix在这种情况下的Fallback方法功能。我们有两个服务employee-consumer使用由employee-consumer公开的服务。
+**Zuul的应用场景：**
 
-简化图如下所示
-
-![](https://gitee.com/souyunkutech/souyunku-home/raw/master/images/souyunku-web/2019/08/0814/02/img_3.png#alt=img%5C_3.png)
-
-现在假设由于某种原因，employee-producer公开的服务会抛出异常。我们在这种情况下使用Hystrix定义了一个回退方法。这种后备方法应该具有与公开服务相同的返回类型。如果暴露服务中出现异常，则回退方法将返回一些值。
+对外暴露，权限校验，服务聚合，日志审计等
 
 
-### 2、什么是Hystrix?
-
-Hystrix 是一个延迟和容错库，旨在隔离远程系统，服务和第三方库的访问点，当出现故障是不可避免的故障时，停止级联故障并在复杂的分布式系统中实现弹性。通常对于使用微服务架构开发的系统，涉及到许多微服务，这些微服务彼此协作， 随着微服务数量的增加，这个问题变得更加复杂。我们将使用 Hystrix 的 Fallback 方法来处理，假设由于某种原因，公开的服务接口抛出异常，我们在这种情况下使用 Hystrix 定义一个回退方法。这种后备方法应该具有与公开服务相同的返回类型，如果暴露服务中出现异常，回退方法将返回对应信息。
-
-
-### 3、Container在微服务中的用途是什么？
-
-容器是管理基于微服务的应用程序以便单独开发和部署它们的好方法。您可以将微服务封装在容器映像及其依赖项中，然后可以使用它来滚动按需实例的微服务，而无需任何额外的工作。
-
-![](https://gitee.com/souyunkutech/souyunku-home/raw/master/images/souyunku-web/2019/08/0816/01/img_18.png#alt=img%5C_18.png)
-
-图15： 容器的表示及其在微服务中的使用方式 – 微服务访谈问题
-
-
-### 4、Spring Cloud Security
-
-安全工具包，对Zuul代理中的负载均衡OAuth2客户端及登录认证进行支持。
-
-
-### 5、什么是Spring Cloud？
-
-spring cloud 是一系列框架的有序集合。它利用 spring boot 的开发便利性巧妙地简化了分布式系统基础设施的开发，如服务发现注册、配置中心、消息总线、负载均衡、断路器、数据监控等，都可以用 spring boot 的开发风格做到一键启动和部署。
-
-
-### 6、什么是Spring Cloud Bus？我们需要它吗？
-
-考虑以下情况：我们有多个应用程序使用Spring Cloud Config读取属性，而Spring Cloud Config从GIT读取这些属性。
-
-下面的例子中多个员工生产者模块从Employee Config Module获取Eureka注册的财产。
-
-![](https://gitee.com/souyunkutech/souyunku-home/raw/master/images/souyunku-web/2019/08/0814/02/img_6.png#alt=img%5C_6.png)
-
-如果假设GIT中的Eureka注册属性更改为指向另一台Eureka服务器，会发生什么情况。在这种情况下，我们将不得不重新启动服务以获取更新的属性。
-
-还有另一种使用执行器端点/刷新的方式。但是我们将不得不为每个模块单独调用这个url。例如，如果Employee Producer1部署在端口8080上，则调用 http：// localhost：8080 / refresh。同样对于Employee Producer2 http：// localhost：8081 / refresh等等。这又很麻烦。这就是Spring Cloud Bus发挥作用的地方。
-
-![](https://gitee.com/souyunkutech/souyunku-home/raw/master/images/souyunku-web/2019/08/0814/02/img_7.png#alt=img%5C_7.png)
-
-Spring Cloud Bus提供了跨多个实例刷新配置的功能。因此，在上面的示例中，如果我们刷新Employee Producer1，则会自动刷新所有其他必需的模块。如果我们有多个微服务启动并运行，这特别有用。这是通过将所有微服务连接到单个消息代理来实现的。无论何时刷新实例，此事件都会订阅到侦听此代理的所有微服务，并且它们也会刷新。可以通过使用端点/总线/刷新来实现对任何单个实例的刷新。
-
-
-### 7、Spring Cloud 和dubbo区别?
-
-**1、** 服务调用方式：dubbo是RPC springcloud Rest Api
-
-**2、** 注册中心：dubbo 是zookeeper springcloud是eureka，也可以是zookeeper
-
-**3、** 服务网关，dubbo本身没有实现，只能通过其他第三方技术整合，springcloud有Zuul路由网关，作为路由服务器，进行消费者的请求分发,springcloud支持断路器，与git完美集成配置文件支持版本控制，事物总线实现配置文件的更新与服务自动装配等等一系列的微服务架构要素。
-
-
-### 8、Spring Cloud和各子项目版本对应关系
-
-**1、** Edgware.SR6：我理解为最低版本号
-
-**2、** Greenwich.SR2 :我理解为最高版本号
-
-**3、** Greenwich.BUILD-SNAPSHOT（快照）：是一种特殊的版本，指定了某个当前的开发进度的副本。不同于常规的版本，几乎每天都要提交更新的版本，如果每次提交都申明一个版本号那不是版本号都不够用？
-
-| Component | Edgware.SR6 | Greenwich.SR2 | Greenwich.BUILD-SNAPSHOT |
-| --- | --- | --- | --- |
-| spring-cloud-aws | 1.2.4.RELEASE | 2.1.2.RELEASE | 2.1.3.BUILD-SNAPSHOT |
-| spring-cloud-bus | 1.3.4.RELEASE | 2.1.2.RELEASE | 2.1.3.BUILD-SNAPSHOT |
-| spring-cloud-cli | 1.4.1.RELEASE | 2.0.0.RELEASE | 2.0.1.BUILD-SNAPSHOT |
-| spring-cloud-commons | 1.3.6.RELEASE | 2.1.2.RELEASE | 2.1.3.BUILD-SNAPSHOT |
-| spring-cloud-contract | 1.2.7.RELEASE | 2.1.2.RELEASE | 2.1.3.BUILD-SNAPSHOT |
-| spring-cloud-config | 1.4.7.RELEASE | 2.1.3.RELEASE | 2.1.4.BUILD-SNAPSHOT |
-| spring-cloud-netflix | 1.4.7.RELEASE | 2.1.2.RELEASE | 2.1.3.BUILD-SNAPSHOT |
-| spring-cloud-security | 1.2.4.RELEASE | 2.1.3.RELEASE | 2.1.4.BUILD-SNAPSHOT |
-| spring-cloud-cloudfoundry | 1.1.3.RELEASE | 2.1.2.RELEASE | 2.1.3.BUILD-SNAPSHOT |
-| spring-cloud-consul | 1.3.6.RELEASE | 2.1.2.RELEASE | 2.1.3.BUILD-SNAPSHOT |
-| spring-cloud-sleuth | 1.3.6.RELEASE | 2.1.1.RELEASE | 2.1.2.BUILD-SNAPSHOT |
-| spring-cloud-stream | Ditmars.SR5 | Fishtown.SR3 | Fishtown.BUILD-SNAPSHOT |
-| spring-cloud-zookeeper | 1.2.3.RELEASE | 2.1.2.RELEASE | 2.1.3.BUILD-SNAPSHOT |
-| spring-boot | 1.5.21.RELEASE | 2.1.5.RELEASE | 2.1.8.BUILD-SNAPSHOT |
-| spring-cloud-task | 1.2.4.RELEASE | 2.1.2.RELEASE | 2.1.3.BUILD-SNAPSHOT |
-| spring-cloud-vault | 1.1.3.RELEASE | 2.1.2.RELEASE | 2.1.3.BUILD-SNAPSHOT |
-| spring-cloud-gateway | 1.0.3.RELEASE | 2.1.2.RELEASE | 2.1.3.BUILD-SNAPSHOT |
-| spring-cloud-openfeign | 2.1.2.RELEASE | 2.1.3.BUILD-SNAPSHOT |  |
-| spring-cloud-function | 1.0.2.RELEASE | 2.0.2.RELEASE | 2.0.3.BUILD-SNAPSHOT |
-
-
-### 9、既然Nginx可以实现网关？为什么还需要使用Zuul框架
+### 8、既然Nginx可以实现网关？为什么还需要使用Zuul框架
 
 Zuul是SpringCloud集成的网关，使用Java语言编写，可以对SpringCloud架构提供更灵活的服务。
 
 
-### 10、在Spring MVC应用程序中使用WebMvcTest注释有什么用处？
+### 9、springcloud核⼼组件及其作⽤，以及springcloud⼯作原理：
 
-WebMvcTest注释用于单元测试Spring MVC应用程序。我们只想启动ToTestController。执行此单元测试时，不会启动所有其他控制器和映射。
+![](https://gitee.com/souyunkutech/souyunku-home/raw/master/images/souyunku-web/2020/5/2/01/44/45_9.png#alt=45%5C_9.png)
 
-```
-@WebMvcTest(value = ToTestController.class, secure = false):
-```
+**springcloud由以下⼏个核⼼组件构成：**
+
+**1、** Eureka：各个服务启动时，Eureka Client都会将服务注册到Eureka Server，并且Eureka Client还可以反过来从Eureka Server拉取注册表，从⽽知道其他服务在哪⾥
+
+**2、** Ribbon：服务间发起请求的时候，基于Ribbon做负载均衡，从⼀个服务的多台机器中选择⼀台
+
+**3、** Feign：基于Feign的动态代理机制，根据注解和选择的机器，拼接请求URL地址，发起请求
+
+**4、** Hystrix：发起请求是通过Hystrix的线程池来⾛的，不同的服务⾛不同的线程池，实现了不同服务调⽤的隔离，避免了服务雪崩的问题
+
+**5、** Zuul：如果前端、移动端要调⽤后端系统，统⼀从Zuul⽹关进⼊，由Zuul⽹关转发请求给对应的服务
 
 
-### 11、熔断的原理，以及如何恢复？
-### 12、架构师在微服务架构中的角色是什么？
-### 13、Actuator在SpringBoot中的作用
-### 14、Spring Cloud 是什么
-### 15、ZuulFilter常用有那些方法
-### 16、Spring Cloud Bus
-### 17、eureka缓存机制：
-### 18、什么是Spring Cloud Config?
-### 19、什么是REST / RESTful以及它的用途是什么？
-### 20、您对微服务有何了解？
-### 21、分布式配置中心的作用？
-### 22、springcloud如何实现服务的注册?
-### 23、Eureka如何 保证AP
-### 24、什么是Spring Cloud？
-### 25、为什么人们会犹豫使用微服务？
-### 26、SpringCloud有几种调用接口方式
-### 27、过渡到微服务时的常见错误
-### 28、为什么要使用 Spring Cloud 熔断器？
-### 29、什么是OAuth？
-### 30、eureka的缺点：
+### 10、为什么需要域驱动设计（DDD）？
+
+![](https://gitee.com/souyunkutech/souyunku-home/raw/master/images/souyunku-web/2019/08/0816/01/img_11.png#alt=img%5C_11.png)
+
+图9：我们需要DDD的因素 – 微服务面试问题
+
+
+### 11、分布式配置中心的作用？
+### 12、Spring Cloud和SpringBoot版本对应关系
+### 13、springcloud和dubbo有哪些区别
+### 14、Spring Cloud 实现服务注册和发现的原理是什么？
+### 15、过渡到微服务时的常见错误
+### 16、什么是Idempotence以及它在哪里使用？
+### 17、谈谈服务雪崩效应
+### 18、@LoadBalanced注解的作用
+### 19、您对微服务架构中的语义监控有何了解？
+### 20、什么是有界上下文？
+### 21、微服务的优点
+### 22、微服务设计的基础是什么？
+### 23、Actuator在SpringBoot中的作用
+### 24、什么是客户证书？
+### 25、Spring Cloud Gateway
+### 26、熔断的原理，以及如何恢复？
+### 27、什么是OAuth？
+### 28、什么是耦合？
+### 29、负载平衡的意义什么？
+### 30、你所知道微服务的技术栈有哪些？列举一二
 
 
 
@@ -152,7 +180,7 @@ WebMvcTest注释用于单元测试Spring MVC应用程序。我们只想启动ToT
 
 ### 下载链接：[全部答案，整理好了](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
 
-### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
+
 
 
 ## 最新，高清PDF：172份，7701页，最新整理

@@ -4,138 +4,141 @@
 
 ### 下载链接：[高清172份，累计 7701 页大厂面试题  PDF](https://github.com/souyunku/DevBooks/blob/master/docs/index.md)
 
-### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png)
 
 
+### 1、什么是Swagger？你用SpringBoot实现了它吗？
 
-### 1、如何集成 SpringBoot 和 ActiveMQ？
-
-对于集成 SpringBoot 和 ActiveMQ，我们使用依赖关系。它只需要很少的配置，并且不需要样板代码。
-
-
-### 2、项目中前后端分离部署，所以需要解决跨域的问题。
-
-我们使用cookie存放用户登录的信息，在spring拦截器进行权限控制，当权限不符合时，直接返回给用户固定的json结果。
-
-当用户登录以后，正常使用；当用户退出登录状态时或者token过期时，由于拦截器和跨域的顺序有问题，出现了跨域的现象。
-
-我们知道一个http请求，先走filter，到达servlet后才进行拦截器的处理，如果我们把cors放在filter里，就可以优先于权限拦截器执行。
-
-```
-@Configuration
-public class CorsConfig {
-
-    @Bean
-    public CorsFilter corsFilter() {
-        CorsConfiguration corsConfiguration = new CorsConfiguration();
-        corsConfiguration.addAllowedOrigin("*");
-        corsConfiguration.addAllowedHeader("*");
-        corsConfiguration.addAllowedMethod("*");
-        corsConfiguration.setAllowCredentials(true);
-        UrlBasedCorsConfigurationSource urlBasedCorsConfigurationSource = new UrlBasedCorsConfigurationSource();
-        urlBasedCorsConfigurationSource.registerCorsConfiguration("/**", corsConfiguration);
-        return new CorsFilter(urlBasedCorsConfigurationSource);
-    }
-
-}
-```
+Swagger广泛用于可视化API，使用Swagger UI为前端开发人员提供在线沙箱。Swagger是用于生成RESTful Web服务的可视化表示的工具，规范和完整框架实现。它使文档能够以与服务器相同的速度更新。当通过Swagger正确定义时，消费者可以使用最少量的实现逻辑来理解远程服务并与其进行交互。因此，Swagger消除了调用服务时的猜测。
 
 
-### 3、如何在SpringBoot中禁用Actuator端点安全性？
+### 2、你如何理解 SpringBoot 配置加载顺序？
 
-默认情况下，所有敏感的HTTP端点都是安全的，只有具有ACTUATOR角色的用户才能访问它们。
+在 SpringBoot 里面，可以使用以下几种方式来加载配置。
 
-安全性是使用标准的HttpServletRequest.isUserInRole方法实施的。 我们可以使用management.security.enabled = false 来禁用安全性。只有在执行机构端点在防火墙后访问时，才建议禁用安全性。
+**1、** properties文件；
 
-如何在自定义端口上运行SpringBoot应用程序？ 为了在自定义端口上运行SpringBoot应用程序，您可以在application.properties中指定端口。 server.port = 8090
+**2、** YAML文件；
 
+**3、** 系统环境变量；
 
-### 4、如何在SpringBoot中禁用Actuator端点安全性？
+**4、** 命令行参数；
 
-默认情况下，所有敏感的HTTP端点都是安全的，只有具有ACTUATOR角色的用户才能访问它们。安全性是使用标准的HttpServletRequest.isUserInRole方法实施的。 我们可以使用
-
-来禁用安全性。只有在执行机构端点在防火墙后访问时，才建议禁用安全性。
-
-
-### 5、SpringBoot与SpringCloud 区别
-
-SpringBoot是快速开发的Spring框架，SpringCloud是完整的微服务框架，SpringCloud依赖于SpringBoot。
+等等……
 
 
-### 6、SpringBoot运行项目的几种方式？
+### 3、为什么我们不建议在实际的应用程序中使用 Spring Data Rest?
 
-打包用命令或者放到容器中运行
+我们认为 Spring Data Rest 很适合快速原型制造！在大型应用程序中使用需要谨慎。
 
-**1、** 打成jar包，使用java -jar xxx.jar运行
+通过 Spring Data REST 你可以把你的数据实体作为 RESTful 服务直接。
 
-**2、** 打成war包，放到tomcat里面运行
+当你设计 RESTful 服务器的时候，最佳实践表明，你的接口应该考虑到两件重要的事情：
 
-直接用maven插件运行   maven spring-boot：run
+你的模型范围。
 
-直接执行main方法运行
+你的客户。
+
+通过 With Spring Data REST，你不需要再考虑这两个方面，只需要作为 TEST 服务实体。
+
+这就是为什么我们建议使用 Spring Data Rest 在快速原型构造上面，或者作为项目的初始解决方法。对于完整演变项目来说，这并不是一个好的注意。
 
 
-### 7、SpringBoot自动配置的原理
+### 4、如何使用SpringBoot实现分页和排序？
+
+使用SpringBoot实现分页非常简单。使用Spring Data-JPA可以实现将可分页的
+
+传递给存储库方法。
+
+
+### 5、spring boot 核心的两个配置文件：
+
+**1、** bootstrap (.yml 或.properties)：boostrap 由父 ApplicationContext 加载的，比 applicaton 优先加载，配置在应用程序上下文的引导阶段生效。一般来说我们在 Spring Cloud Config 或者 Nacos 中会用到它。且 boostrap 里面的属性不能被覆盖；
+
+**2、** application (. yml 或者 . properties)：由ApplicatonContext 加载，用于 spring boot 项目的自动化配置。
+
+
+### 6、SpringBoot 的核心注解是哪个？它主要由哪几个注解组成的？
+
+**1、** `@SpringBootConfiguration`：组合了 [@Configuration ](/Configuration ) 注解，实现配置文件的功能。
+
+**2、** `@EnableAutoConfiguration`：打开自动配置的功能，也可以关闭某个自动配置的选项，如关闭数据源自动配置功能。
+
+**3、** `@ComponentScan`：Spring组件扫描。
+
+
+### 7、如何不通过任何配置来选择 Hibernate 作为 JPA 的默认实现？
+
+因为 SpringBoot 是自动配置的。
+
+**下面是我们添加的依赖项:**
+
+spring-boot-stater-data-jpa 对于 Hibernate 和 JPA 有过渡依赖性。
+
+当 SpringBoot 在类路径中检测到 Hibernate 中，将会自动配置它为默认的 JPA 实现。
+
+
+### 8、SpringBoot 提供了哪些核心功能？
+
+**1、** 独立运行 Spring 项目
+
+**2、** 内嵌 Servlet 容器
+
+SpringBoot 可以选择内嵌 Tomcat、Jetty 或者 Undertow，这样我们无须以 war 包形式部署项目。
+
+**3、** 提供 Starter 简化 Maven 配置
+
+例如，当你使用了 spring-boot-starter-web ，会自动加入如下依赖：`spring-boot-starter-web` 的 pom 文件
+
+**4、** 自动配置 Spring Bean
+
+SpringBoot 检测到特定类的存在，就会针对这个应用做一定的配置，进行自动配置 Bean ，这样会极大地减少我们要使用的配置。
+
+**5、** 准生产的应用监控
+
+SpringBoot 提供基于 HTTP、JMX、SSH 对运行时的项目进行监控。
+
+**6、** 无代码生成和 XML 配置
+
+SpringBoot 没有引入任何形式的代码生成，它是使用的 Spring 4.0 的条件 [@Condition ](/Condition ) 注解以实现根据条件进行配置。同时使用了 Maven /Gradle 的依赖传递解析机制来实现 Spring 应用里面的自动配置。
+
+
+### 9、SpringBoot自动配置的原理
 
 在spring程序main方法中 添加@SpringBootApplication或者@EnableAutoConfiguration
 
 会自动去maven中读取每个starter中的spring.factories文件 该文件里配置了所有需要被创建spring容器中的bean
 
 
-### 8、SpringBoot 自动配置原理
+### 10、SpringData 项目所支持的关系数据存储技术：
 
-**1、** SpringBoot启动的时候加载主配置类，开启了自动配置功能 @EnableAutoConfiguration
+**1、** JDBC
 
-**2、** @EnableAutoConfiguration 作用:
+**2、** JPA
 
-将类路径下 META-INF/spring.factories 里面配置的所有EnableAutoConfiguration的值加入到了容器中;
-
-每一个这样的 xxxAutoConfiguration类都是容器中的一个组件，都加入到容器中;用他们来做自动配置;
-
-**3、** 每一个自动配置类进行自动配置功能;
-
-根据当前不同的条件判断，决定这个配置类是否生效；
-
-**4、** 一但这个配置类生效;这个配置类就会给容器中添加各种组件;这些组件的属性是从对应的properties类中获取 的，这些类里面的每一个属性又是和配置文件绑定的;
-
-**5、** 所有在配置文件中能配置的属性都是在xxxxProperties类中封装者‘;配置文件能配置什么就可以参照某个功 能对应的这个属性类
+Spring Data Jpa 致力于减少数据访问层 (DAO) 的开发量. 开发者唯一要做的，就是声明持久层的接口，其他都交给 Spring Data JPA 来帮你完成！Spring Data JPA 通过规范方法的名字，根据符合规范的名字来确定方法需要实现什么样的逻辑。
 
 
-### 9、什么是 SpringBoot？
-
-SpringBoot 是 Spring 开源组织下的子项目，是 Spring 组件一站式解决方案，主要是简化了使用 Spring 的难度，简省了繁重的配置，提供了各种启动器，开发者能快速上手。
-
-
-### 10、怎么设计无状态服务？
-
-对于无状态服务，首先说一下什么是状态：如果一个数据需要被多个服务共享，才能完成一笔交易，那么这1、个数据被称为状态。进而依赖这个“状态”数据的服务被称为有状态服务，反之称为无状态服务。
-
-**2、** 那么这个无状态服务原则并不是说在微服务架构里就不允许存在状态，表达的真实意思是要把有状态的业务服务改变为无状态的计算类服务，那么状态数据也就相应的迁移到对应的“有状态数据服务”中。
-
-**3、** 场景说明：例如我们以前在本地内存中建立的数据缓存、Session缓存，到现在的微服务架构中就应该把这些数据迁移到分布式缓存中存储，让业务服务变成一个无状态的计算节点。迁移后，就可以做到按需动态伸缩，微服务应用在运行时动态增删节点，就不再需要考虑缓存数据如何同步的问题。
-
-
-### 11、spring boot扫描流程?
-### 12、SpringBoot、Spring MVC 和 Spring 有什么区别
-### 13、SpringBoot 日志框架：
-### 14、什么是Apache Kafka？
-### 15、什么是 JavaConfig？
-### 16、如何重新加载SpringBoot上的更改，而无需重新启动服务器？
-### 17、如何在自定义端口上运行 SpringBoot应用程序?
-### 18、如何集成SpringBoot和ActiveMQ？
-### 19、前后端分离，如何维护接口文档 ?
-### 20、运行 SpringBoot 有哪几种方式？
-### 21、path=”users”, collectionResourceRel=”users” 如何与 Spring Data Rest 一起使用？
-### 22、什么是JavaConfig？
-### 23、SpringBoot 中的 starter 到底是什么 ?
-### 24、如何实现SpringBoot应用程序的安全性？
-### 25、SpringBoot常用的starter有哪些？
-### 26、spring-boot-starter-parent 有什么用 ?
-### 27、SpringBoot 的配置文件有哪几种格式？它们有什么区别？
-### 28、如何使用SpringBoot实现异常处理？
-### 29、SpringBoot 实现热部署有哪几种方式？
-### 30、SpringBoot 支持哪些日志框架？推荐和默认的日志框架是哪个？
-### 31、是否可以在SpringBoot中覆盖或替换嵌入式Tomcat？
+### 11、什么是 JavaConfig？
+### 12、是否可以在SpringBoot中覆盖或替换嵌入式Tomcat？
+### 13、Spring 、SpringBoot 和 Spring Cloud 的关系?
+### 14、SpringBoot中的监视器是什么？
+### 15、SpringBoot 有哪几种读取配置的方式？
+### 16、微服务中如何实现 session 共享 ?
+### 17、如何实现 SpringBoot 应用程序的安全性？
+### 18、spring-boot-starter-parent有什么用？
+### 19、你如何理解 SpringBoot 配置加载顺序？
+### 20、SpringBoot 的核心注解是哪个？它主要由哪几个注解组成的？
+### 21、什么是Spring Profiles？
+### 22、什么是 SpringBoot？
+### 23、SpringBoot 的配置文件有哪几种格式？它们有什么区别？
+### 24、为什么我们需要 spring-boot-maven-plugin?
+### 25、什么是 WebSockets？
+### 26、什么是Apache Kafka？
+### 27、SpringBoot 的核心注解是哪个？它主要由哪几个注解组成的？
+### 28、什么是JavaConfig？
+### 29、SpringBoot 的核心配置文件有哪几个？它们的区别是什么？
+### 30、如何使用 SpringBoot 自动重装我的应用程序？
+### 31、SpringBoot 中的 starter 到底是什么 ?
 
 
 
@@ -144,7 +147,7 @@ SpringBoot 是 Spring 开源组织下的子项目，是 Spring 组件一站式�
 
 ### 下载链接：[全部答案，整理好了](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
 
-### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
+
 
 
 ## 最新，高清PDF：172份，7701页，最新整理

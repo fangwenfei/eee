@@ -4,250 +4,206 @@
 
 ### 下载链接：[高清172份，累计 7701 页大厂面试题  PDF](https://github.com/souyunku/DevBooks/blob/master/docs/index.md)
 
-### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png)
 
 
+### 1、基本数据类型和引用数据类型有什么区别？
 
-### 1、怎么理解Promise对象？
+**两者作为函数的参数进行传递时：**
 
-**`Promise`对象有如下两个特点：**
+**1、** 基本数据类型传入的是数据的副本，原数据的更改不会影响传入后的数据。
 
-**1、** 对象的状态不受外界影响。`Promise`对象共有三种状态`pending`、`fulfilled`、`rejected`。状态值只会被异步结果决定，其他任何操作无法改变。
+**2、** 引用数据类型传入的是数据的引用地址，原数据的更改会影响传入后的数据。
 
-**2、** 状态一旦成型，就不会再变，且任何时候都可得到这个结果。状态值会由`pending`变为`fulfilled`或`rejected`，这时即为`resolved`。
+**两者在内存中的存储位置：**
 
-**Promise的缺点有如下三个缺点：**
+**1、** 基本数据类型存储在栈中。
 
-**1、** `Promise`一旦执行便无法被取消；
-
-**2、** 不可设置回调函数，其内部发生的错误无法捕获；
-
-**3、** 当处于`pending`状态时，无法得知其具体发展到了哪个阶段。
-
-**`Pomise`中常用的方法有：**
-
-**1、** `Promise.prototype.then()`：`Promise`实例的状态发生改变时，会调用`then`内部的回调函数。`then`方法接受两个参数（第一个为`resolved`状态时时执行的回调，第一个为`rejected`状态时时执行的回调）
-
-**2、** `Promise.prototype.catch()`：`.then(null, rejection)`或`.then(undefined, rejection)`的别名，用于指定发生错误时的回调函数。
+**2、** 引用数据类型在栈中存储了指针，该指针指向的数据实体存储在堆中。
 
 
-### 2、什么是 event.currentTarget？？
+### 2、arguments 的对象是什么？
 
-`event.currentTarget`是我们在其上显式附加事件处理程序的元素。
+`arguments`对象是函数中传递的参数值的集合。它是一个类似数组的对象，因为它有一个length属性，我们可以使用数组索引表示法`arguments[1]`来访问单个值，但它没有数组中的内置方法，如：`forEach`、`reduce`、`filter`和`map`。
 
-假设有如下的 HTML 结构：
+我们可以使用`Array.prototype.slice`将`arguments`对象转换成一个数组。
 
 ```
-<div onclick="clickFunc(event)" style="text-align: center;margin:15px;
-border:1px solid red;border-radius:3px;">
-  <div style="margin: 25px; border:1px solid royalblue;border-radius:3px;">
-      <div style="margin:25px;border:1px solid skyblue;border-radius:3px;">
-        <button style="margin:10px">
-           Button
-        </button>
-      </div>
-  </div>
-</div>
-```
-
-JS 代码如下：
-
-```
-function clickFunc(event) {
-  console.log(event.currentTarget);
+function one() {
+  return Array.prototype.slice.call(arguments);
 }
 ```
 
-如果单击 `button`，即使我们单击该 `button`，它也会打印最外面的`div`标签。在此示例中，我们可以得出结论，`event.currentTarget`是附加事件处理程序的元素。
-
-
-### 3、`require`/`import`之间的区别？
-
-**1、** `require`是CommonJS语法，`import`是ES6语法；
-
-**2、** `require`只在后端服务器支持，`import`在高版本浏览器及Node中都可以支持；
-
-**3、** `require`引入的是原始导出值的复制，`import`则是导出值的引用；
-
-**4、** `require`时运行时动态加载，`import`是静态编译；
-
-**5、** `require`调用时默认不是严格模式，`import`则默认调用严格模式.
-
-### 4、this指向的各种情况都有什么？
-
-this的指向只有在调用时才能被确定，因为`this`是执行上下文的一部分。
-
-**全局作用域中的函数：其内部`this`指向`window`：**
+**注意:箭头函数中没有`arguments`对象。**
 
 ```
-var a = 1;
-function fn(){
-console.log(this.a)
+function one() {
+  return arguments;
 }
-fn() //输出1
-```
-
-**对象内部的函数：其内部`this`指向对象本身：**
-
-```
-var a = 1;
-var obj = {
-a:2,
-fn:function(){
-console.log(this.a)
+const two = function () {
+  return arguments;
 }
+const three = function three() {
+  return arguments;
 }
 
-obj.fn() //输出2
+const four = () => arguments;
+
+four(); // Throws an error  - arguments is not defined
 ```
 
-**构造函数：其内部`this`指向生成的实例：**
+当我们调用函数`four`时，它会抛出一个`ReferenceError: arguments is not defined error`。使用`rest`语法，可以解决这个问题。
+
+`const four = (...args) => args;`
+
+这会自动将所有参数值放入数组中。
+
+
+### 3、$(function(){})和window.onload 和 $(document).ready(function(){})
+
+window.onload:用于当页面的所有元素，包括外部引用文件，图片等都加载完毕时运行函数内的函数。load方法只能执行一次，如果在js文件里写了多个，只能执行最后一个。
+
+$$(document).ready(function()\{\})和$$(function(){})都是用于当页面的标准DOM元素被解析成DOM树后就执行内部函数。这个函数是可以在js文件里多次编写的，对于多人共同编写的js就有很大的优势，因为所有行为函数都会执行到。而且$(document).ready()函数在HMTL结构加载完后就可以执行，不需要等大型文件加载或者不存在的连接等耗时工作完成才执行，效率高。
+
+
+### 4、为什么typeof null 返回 object？如何检查一个值是否为 null？
+
+`typeof null == 'object'`总是返回`true`，因为这是自 JS 诞生以来`null`的实现。曾经有人提出将`typeof null == 'object'`修改为`typeof null == 'null'`，但是被拒绝了，因为这将导致更多的**bug**。
+
+我们可以使用严格相等运算符`===`来检查值是否为`null`。
 
 ```
-function createP(name,age){
-this.name = name //this.name指向P
-this.age = age //this.age指向P
+function isNull(value){
+  return value === null;
 }
-var p = new createP("老李",46)
 ```
 
-**由`apply`、`call`、`bind`改造的函数：其`this`指向第一个参数：**
+
+### 5、变量作用域?
 
 ```
-function add(c,d){
-return this.a + this.b + c + d
+//变量作用域：一个变量的作用域是程序源代码中定义这个变量的区域。全局变量拥有全局作用域，
+//在js代码中任何地方都是有定义的。在函数内声明的变量只在函数体内有定义，它们是局部变量，
+//作用域是局部性的。函数参数也是局部变量，它们只在函数体内有定义。
+var a = "";
+window.b=''”;
+function(e) {
+       var c= "";
+       d="";
+       e="";
 }
-var o = {a:1,b:2)
-add.call(o,5,7) //输出15
-```
-
-箭头函数：箭头函数没有自己的`this`，看其外层的是否有函数，如果有，外层函数的`this`就是内部箭头函数的`this`，如果没有，则`this`是`window`。
-
-
-### 5、JS是如何实现异步的？
-
-JS引擎是单线程的，但又能实现异步的原因在于事件循环和任务队列体系。
-
-**事件循环：**
-
-**1、** JS 会创建一个类似于 `while (true)` 的循环，每执行一次循环体的过程称之为 `Tick`。每次 `Tick` 的过程就是查看是否有待处理事件，如果有则取出相关事件及回调函数放入执行栈中由主线程执行。待处理的事件会存储在一个任务队列中，也就是每次 `Tick` 会查看任务队列中是否有需要执行的任务。
-
-**任务队列：**
-
-**1、** 异步操作会将相关回调添加到任务队列中。而不同的异步操作添加到任务队列的时机也不同，如 `onclick`, `setTimeout`, `ajax` 处理的方式都不同，这些异步操作是由浏览器内核的 `webcore` 来执行的，浏览器内核包含3种 webAPI，分别是 `DOM Binding`、`network`、`timer`模块。
-
-**2、** `onclick` 由 `DOM Binding` 模块来处理，当事件触发的时候，回调函数会立即添加到任务队列中。 `setTimeout` 由 `timer` 模块来进行延时处理，当时间到达的时候，才会将回调函数添加到任务队列中。 `ajax` 由`network` 模块来处理，在网络请求完成返回之后，才将回调添加到任务队列中。
-
-**主线程：**
-
-**1、** JS 只有一个线程，称之为主线程。而事件循环是主线程中执行栈里的代码执行完毕之后，才开始执行的。所以，主线程中要执行的代码时间过长，会阻塞事件循环的执行，也就会阻塞异步操作的执行。
-
-**2、** 只有当主线程中执行栈为空的时候（即同步代码执行完后），才会进行事件循环来观察要执行的事件回调，当事件循环检测到任务队列中有事件就取出相关回调放入执行栈中由主线程执行。
-
-
-### 6、new操作符具体干了什么呢?
-
-**1、** 创建一个空对象，并且 `this` 变量引用该对象，同时还继承了该函数的原型
-
-**2、** 属性和方法被加入到 `this` 引用的对象中
-
-**3、** 新创建的对象由 `this` 所引用，并且最后隐式的返回 `this`
-
-
-### 7、typeof？typeof [ ]返回数据类型是？
-
-```
-//判断基本数据类型；var a=[];typeof a输出object；
-//本来判断一个对象类型用typeof是最好的，不过对于Array类型是不适用的，
-//可以使用 instanceof操作符：
-       var arrayStr=new Array("1","2","3","4","5");    
-       alert(arrayStr instanceof Array); 
-//当然以上在一个简单的页面布局里面是没有问题的，如果是复杂页面情况，
-//入获取的是frame内部的Array对象，可以用这个函数判断：
-       function isArray(obj) {      
-          return Object.prototype.toString.call(obj) === '[object Array]';       
+function go() {
+       console.info(this);//window
+       return function() {
+               console.info(this); // window
+               return {
+                b:function(){
+                       console.info(this); //b的父对象
+                   }
+            }
        }
+}
+go()().b();
 ```
 
 
-### 8、Gc机制是什么？为什么闭包不会被回收变量和函数？
+### 6、html和xhtml有什么区别?
 
-**1、** Gc垃圾回收机制;
+HTML是一种基本的WEB网页设计语言，XHTML是一个基于XML的标记语言。
 
-**2、** 外部变量没释放，所以指向的大函数内的小函数也释放不了
+**1、** XHTML 元素必须被正确地嵌套。
 
+**2、** XHTML 元素必须被关闭。
 
-### 9、'use strict' 是干嘛用的？
+**3、** 标签名必须用小写字母。
 
-`"use strict"` 是 **ES5** 特性，它使我们的代码在函数或整个脚本中处于**严格模式**。**严格模式**帮助我们在代码的早期避免 bug，并为其添加限制。
+**4、** 空标签也必须被关闭。
 
-**严格模式**的一些限制：
-
-**1、** 变量必须声明后再使用
-
-**2、** 函数的参数不能有同名属性，否则报错
-
-**3、** 不能使用`with`语句
-
-**4、** 不能对只读属性赋值，否则报错
-
-**5、** 不能使用前缀 0 表示八进制数，否则报错
-
-**6、** 不能删除不可删除的属性，否则报错
-
-**7、** 不能删除变量`delete prop`，会报错，只能删除属性`delete global[prop]`
-
-**8、** `eval`不能在它的外层作用域引入变量
-
-**9、** `eval`和`arguments`不能被重新赋值
-
-**10、** `arguments`不会自动反映函数参数的变化
-
-**11、** 不能使用`arguments.callee`
-
-**12、** 不能使用`arguments.caller`
-
-**13、** 禁止`this`指向全局对象
-
-**14、** 不能使用`fn.caller`和`fn.arguments`获取函数调用的堆栈
-
-**15、** 增加了保留字（比如`protected`、`static`和`interface`）
-
-设立”严格模式”的目的，主要有以下几个：
-
-**1、** 消除Javascript语法的一些不合理、不严谨之处，减少一些怪异行为;
-
-**2、** 消除代码运行的一些不安全之处，保证代码运行的安全；
-
-**3、** 提高编译器效率，增加运行速度；
-
-**4、** 为未来新版本的Javascript做好铺垫。
+**5、** XHTML 文档必须拥有根元素。
 
 
-### 10、window.onload ==? DOMContentLoaded ?
+### 7、JavaScript 中的虚值是什么？
 
-一般情况下，DOMContentLoaded事件要在window.onload之前执行，当DOM树构建完成的时候就会执行DOMContentLoaded事件，而window.onload是在页面载入完成的时候，才执行，这其中包括图片等元素。大多数时候我们只是想在DOM树构建完成后，绑定事件到元素，我们并不需要图片元素，加上有时候加载外域图片的速度非常缓慢。
+`const falsyValues = ['', 0, null, undefined, NaN, false];`
+
+简单的来说虚值就是是在转换为布尔值时变为 `false` 的值。
 
 
-### 11、手动实现 `Array.prototype.map 方法`
-### 12、如何创建一个没有 prototype(原型)的对象？
-### 13、如何确保ajax或连接不走缓存路径
-### 14、Ajax原理
-### 15、什么是NaN？以及如何检查值是否为NaN？
-### 16、Jq绑定事件的几种方式？on bind ?
-### 17、jsonp原理？ 缺点?
+### 8、函数表达式和函数声明之间有什么区别？
+
+看下面的例子：
+
+```
+hoistedFunc();
+notHoistedFunc();
+
+function hoistedFunc(){
+  console.log("注意：我会被提升");
+}
+
+var notHoistedFunc = function(){
+  console.log("注意：我没有被提升");
+}
+```
+
+`notHoistedFunc`调用抛出异常：`Uncaught TypeError: notHoistedFunc is not a function`，而`hoistedFunc`调用不会，因为`hoistedFunc`会被提升到作用域的顶部，而`notHoistedFunc` 不会。
+
+
+### 9、如何copy一个dom元素？
+
+原生Js方法：var div = document.getElementsByTagName('div')[0];
+
+var clone = div.cloneNode();
+
+Jquery方法：$('div').clone();
+
+在默认情况下，.clone()方法不会复制匹配的元素或其后代元素中绑定的事件。不过，可以为这个方法传递一个布尔值参数，将这个参数设置为true, 就可以连同事件一起复制，即.clone(true)。
+
+
+### 10、Function.prototype.apply 和 Function.prototype.call 之间有什么区别？
+
+`apply()`方法可以在使用一个指定的 `this` 值和一个参数数组（或类数组对象）的前提下调用某个函数或方法。`call()`方法类似于`apply()`，不同之处仅仅是`call()`接受的参数是参数列表。
+
+```
+const obj1 = {
+result:0
+};
+
+const obj2 = {
+result:0
+};
+
+function reduceAdd(){
+  let result = 0;
+  for(let i = 0, len = arguments.length; i < len; i++){
+    result += arguments[i];
+  }
+  this.result = result;
+}
+
+reduceAdd.apply(obj1, [1, 2, 3, 4, 5]); // 15
+reduceAdd.call(obj2, 1, 2, 3, 4, 5); // 15
+```
+
+
+### 11、commonjs?requirejs?AMD|CMD|UMD?
+### 12、js延迟加载的方式有哪些？
+### 13、数据持久化技术(ajax)?简述ajax流程###
+### 14、什么是`Set`对象，它是如何工作的？
+### 15、什么是 ES6 模块？
+### 16、Function.prototype.apply 方法的用途是什么？
+### 17、说说你对AMD和Commonjs的理解
 ### 18、回调函数?
-### 19、什么是类？
-### 20、如何添加一个dom对象到body中?innerHTML和innerText区别?
-### 21、异步编程？
-### 22、什么是高阶函数？
-### 23、`in` 运算符和 `Object.hasOwnProperty` 方法有什么区别？
-### 24、split() join()?
-### 25、$$('div+.ab')和$$('.ab+div') 哪个效率高？
-### 26、什么是闭包？
-### 27、ES6或ECMAScript 2015有哪些新特性？
-### 28、异步加载JS的方式有哪些？
-### 29、什么是执行上下文和执行栈？
+### 19、如何在一行中计算多个表达式的值？
+### 20、什么是事件传播?
+### 21、什么是 IIFE，它的用途是什么？
+### 22、同步和异步的区别?
+### 23、谈谈This对象的理解
+### 24、sessionStorage和localstroage与cookie之间有什么关联, cookie最大存放多少字节
+### 25、defer和async
+### 26、如何在不使用`%`模运算符的情况下检查一个数字是否是偶数？
+### 27、如何通过原生js 判断一个元素当前是显示还是隐藏状态?
+### 28、jQuery与jQuery UI 有啥区别？
+### 29、说几条写JavaScript的基本规范？
 
 
 
@@ -256,7 +212,7 @@ JS引擎是单线程的，但又能实现异步的原因在于事件循环和任
 
 ### 下载链接：[全部答案，整理好了](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
 
-### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
+
 
 
 ## 最新，高清PDF：172份，7701页，最新整理

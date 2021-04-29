@@ -4,29 +4,131 @@
 
 ### 下载链接：[高清172份，累计 7701 页大厂面试题  PDF](https://github.com/souyunku/DevBooks/blob/master/docs/index.md)
 
-### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png)
 
 
+### 1、什么是网站数据库注入？
 
-### 1、绝对路径用什么符号表示？当前目录、上层目录用什么表示？主目录用什么表示? 切换目录用什么命令？
+**1、** 由于程序员的水平及经验参差不齐，大部分程序员在编写代码的时候，没有对用户输入数据的合法性进行判断。
 
-**答案：**
+**2、** 应用程序存在安全隐患。用户可以提交一段数据库查询代码，根据程序返回的结果，获得某些他想得知的数据，这就是所谓的 SQL 注入。
 
-**1、** 绝对路径： 如/etc/init.d
+**3、** SQL注入，是从正常的 WWW 端口访问，而且表面看起来跟一般的 Web 页面访问没什么区别，如果管理员没查看日志的习惯，可能被入侵很长时间都不会发觉。
 
-**2、** 当前目录和上层目录： ./ ?../
+**如何过滤与预防？**
 
-**3、** 主目录： ~/
-
-**4、** 切换目录： cd
-
-
-### 2、统计ip访问情况，要求分析nginx访问日志，找出访问页面数量在前十位的ip
-
-cat access.log | awk '{print $1}' | uniq -c | sort -rn | head -10
+数据库网页端注入这种，可以考虑使用 nginx_waf 做过滤与预防。
 
 
-### 3、MySQL数据备份工具
+### 2、已知 apache 服务的访问日志按天记录在服务器本地目录/app/logs 下，由于磁盘空间紧张现在要求只能保留最近 7 天的访问日志！请问如何解决？请给出解决办法或配置或处理命令
+
+创建文件脚本：
+
+#!/bin/bash
+
+for n in `seq 14`
+
+do
+
+date -s "11/0$n/14"
+
+touch access_www_`(date +%F)`.log
+
+done
+
+解决方法：
+
+```
+# pwd/application/logs
+# ll
+-rw-r--r--、1 root root 0 Jan  1 00:00 access_www_2015-01-01.log
+-rw-r--r--、1 root root 0 Jan  2 00:00 access_www_2015-01-02.log
+-rw-r--r--、1 root root 0 Jan  3 00:00 access_www_2015-01-03.log
+-rw-r--r--、1 root root 0 Jan  4 00:00 access_www_2015-01-04.log
+-rw-r--r--、1 root root 0 Jan  5 00:00 access_www_2015-01-05.log
+-rw-r--r--、1 root root 0 Jan  6 00:00 access_www_2015-01-06.log
+-rw-r--r--、1 root root 0 Jan  7 00:00 access_www_2015-01-07.log
+-rw-r--r--、1 root root 0 Jan  8 00:00 access_www_2015-01-08.log
+-rw-r--r--、1 root root 0 Jan  9 00:00 access_www_2015-01-09.log
+-rw-r--r--、1 root root 0 Jan 10 00:00 access_www_2015-01-10.log
+-rw-r--r--、1 root root 0 Jan 11 00:00 access_www_2015-01-11.log
+-rw-r--r--、1 root root 0 Jan 12 00:00 access_www_2015-01-12.log
+-rw-r--r--、1 root root 0 Jan 13 00:00 access_www_2015-01-13.log
+-rw-r--r--、1 root root 0 Jan 14 00:00 access_www_2015-01-14.log
+# find /application/logs/ -type f -mtime +7 -name "*.log"|xargs rm –f  
+##也可以使用-exec rm -f {} ;进行删除
+# ll
+-rw-r--r--、1 root root 0 Jan  7 00:00 access_www_2015-01-07.log
+-rw-r--r--、1 root root 0 Jan  8 00:00 access_www_2015-01-08.log
+-rw-r--r--、1 root root 0 Jan  9 00:00 access_www_2015-01-09.log
+-rw-r--r--、1 root root 0 Jan 10 00:00 access_www_2015-01-10.log
+-rw-r--r--、1 root root 0 Jan 11 00:00 access_www_2015-01-11.log
+-rw-r--r--、1 root root 0 Jan 12 00:00 access_www_2015-01-12.log
+-rw-r--r--、1 root root 0 Jan 13 00:00 access_www_2015-01-13.log
+-rw-r--r--、1 root root 0 Jan 14 00:00 access_www_2015-01-14.log
+```
+
+
+### 3、什么是Linux？
+
+是一套免费使用和自由传播的类UNIX操作系统，其内核由林纳斯·本纳第克特·托瓦兹于1991年第一次释出，它主要受到Minix和Unix思想的启发，是一个基于POSIX和Unix的多用户、多任务、支持多线程和多CPU的操作系统。它能运行主要的Unix工具软件、应用程序和网络协议。它支持32位和64位硬件。
+
+
+### 4、ping （用于检测与目标的连通性）语法：ping ip地址
+
+```
+测试：
+**1、** 在Windows操作系统中?cmd?ipconfig，查看本机IP地址：
+
+**2、** 再到LInux系统中输入 ping ip地址
+
+（公司电脑，我就不暴露Ip了,没图片  自己去试）
+按Ctrl + C 可以停止测试。
+```
+
+
+### 5、Linux 的体系结构
+
+从大的方面讲，Linux 体系结构可以分为两块：
+
+![55_2.png][55_2.png]
+
+**用户空间(User Space) ：**用户空间又包括用户的应用程序(User Applications)、C 库(C Library) 。
+
+**内核空间(Kernel Space) ：**内核空间又包括系统调用接口(System Call Interface)、内核(Kernel)、平台架构相关的代码(Architecture-Dependent Kernel Code) 。
+
+**为什么 Linux 体系结构要分为用户空间和内核空间的原因？**
+
+**1、** 现代 CPU 实现了不同的工作模式，不同模式下 CPU 可以执行的指令和访问的寄存器不同。
+
+**2、** Linux 从 CPU 的角度出发，为了保护内核的安全，把系统分成了两部分。
+
+用户空间和内核空间是程序执行的**两种不同的状态**，我们可以通过两种方式完成用户空间到内核空间的转移：
+
+**1、** 系统调用
+
+**2、** 硬件中断
+
+
+### 6、写一个脚本，实现判断192.168.1.0/24网络里，当前在线的IP有哪些，能ping通则认为在线
+
+```
+#!/bin/bash
+for ip in `seq 1 255`
+do
+{
+ping -c 1 192.168.1.$ip > /dev/null 2>&1
+if [ $? -eq 0 ]; then
+echo 192.168.1.$ip UP
+else
+echo 192.168.1.$ip DOWN
+fi
+}&
+done
+wait
+```
+
+
+### 7、MySQL数据备份工具
 
 **MySQLdump工具**
 
@@ -55,155 +157,60 @@ percona提供的xtrabackup工具
 可以设立独立表空间，打开 innodb_file_per_table功能，启用之后可以支持单独的表备份
 
 
-### 4、free 命令 （显示系统内存）
+### 8、什么是运维？什么是游戏运维？
 
-```
-#显示系统内存使用情况，包括物理内存、交互区内存(swap)和内核缓冲区内存。
--b 以Byte显示内存使用情况
--k 以kb为单位显示内存使用情况
--m 以mb为单位显示内存使用情况
--g 以gb为单位显示内存使用情况
--s<间隔秒数> 持续显示内存
--t 显示内存使用总合
-```
+**运维是指大型组织已经建立好的网络软硬件的维护，就是要保证业务的上线与运作的正常，**
 
+**1、** 在他运转的过程中，对他进行维护，他集合了网络、系统、数据库、开发、安全、监控于一身的技术
 
-### 5、如何写一条规则，拒绝某个ip访问本机8080端口?
+**2、** 运维又包括很多种，有DBA运维、网站运维、虚拟化运维、监控运维、游戏运维等等
 
-```
-iptables -I INPUT -s ip -p tcp —dport 8080 -j REJECT
-```
+**游戏运维又有分工，分为开发运维、应用运维（业务运维）和系统运维**
 
+**1、** 开发运维：是给应用运维开发运维工具和运维平台的
 
-### 6、怎么查看系统支持的所有信号？
+**2、** 应用运维：是给业务上线、维护和做故障排除的，用开发运维开发出来的工具给业务上线、维护、做故障排查
 
-**答案：**
+**3、** 系统运维：是给应用运维提供业务上的基础设施，比如：系统、网络、监控、硬件等等
 
-kill -l
+总结：开发运维和系统运维给应用运维提供了“工具”和“基础设施”上的支撑
+
+开发运维、应用运维和系统运维他们的工作是环环相扣的
 
 
-### 7、请列出你了解的web服务器负载架构
-
-Nginx
-
-Haproxy
-
-Keepalived
-
-LVS
-
-
-### 8、如何查看当前主机名？如何修改？如何重启后生效？
-
-```
-[root@iz2ze76ybn73dvwmdij06zz ~]# hostname//查看当前主机名
-iz2ze76ybn73dvwmdij06zz
-[root@iz2ze76ybn73dvwmdij06zz ~]# hostname xiaoka//修改当前主机名
-[root@iz2ze76ybn73dvwmdij06zz ~]# hostname
-xiaoka
-```
-
-大家知道一般来讲命令重启就会失效，目前基本上用的centos7的比较多，两种方式可以支持重启生效。
-
-一、命令
-
-```
-[root@iz2ze76ybn73dvwmdij06zz ~]# hostnamectl set-hostname xiaoka
-[root@iz2ze76ybn73dvwmdij06zz ~]# hostname
-xiaoka
-[root@xiaoka ~]#
-```
-
-二、修改配置文件:/etc/hostname
-
-```
-[root@xiaoka ~]# vim /etc/hostname
-```
-
-
-### 9、MySQL的innodb如何定位锁问题，MySQL如何减少主从复制延迟？
-
-MySQL的innodb如何定位锁问题:
-
-在使用 show engine innodb status检查引擎状态时，发现了死锁问题
-
-在5.5中，information_schema 库中增加了三个关于锁的表（MEMORY引擎）
-
-innodb_trx ? ? ? ? ## 当前运行的所有事务
-
-innodb_locks ? ? ## 当前出现的锁
-
-innodb_lock_waits ?## 锁等待的对应关系
-
-MySQL如何减少主从复制延迟:
-
-**如果延迟比较大，就先确认以下几个因素：**
-
-**1、** 从库硬件比主库差，导致复制延迟
-
-**2、** 主从复制单线程，如果主库写并发太大，来不及传送到从库就会导致延迟。更高版本的MySQL可以支持多线程复制
-
-**3、** 慢SQL语句过多
-
-**4、** 网络延迟
-
-**5、** master负载
-
-主库读写压力大，导致复制延迟，架构的前端要加buffer及缓存层
-
-**6、** slave负载
-
-一般的做法是，使用多台slave来分摊读请求，再从这些slave中取一台专用的服务器
-
-只作为备份用，不进行其他任何操作.另外， 2个可以减少延迟的参数:
-
-–slave-net-timeout=seconds 单位为秒 默认设置为 3600秒
-
-参数含义：当slave从主数据库读取log数据失败后，等待多久重新建立连接并获取数据
-
-–master-connect-retry=seconds 单位为秒 默认设置为 60秒
-
-参数含义：当重新建立主从连接时，如果连接建立失败，间隔多久后重试
-
-通常配置以上2个参数可以减少网络问题导致的主从数据同步延迟
-
-MySQL数据库主从同步延迟解决方案
-
-最简单的减少slave同步延时的方案就是在架构上做优化，尽量让主库的DDL快速执行
-
-还有就是主库是写，对数据安全性较高，比如sync_binlog=1，innodb_flush_log_at_trx_commit
-
-= 1 之类的设置，而slave则不需要这么高的数据安全，完全可以讲sync_binlog设置为0或者关闭binlog
-
-innodb_flushlog也可以设置为0来提高sql的执行效率。另外就是使用比主库更好的硬件设备作为slave
-
-
-### 10、用什么命令对一个文件的内容进行统计？(行号、单词数、字节数)
+### 9、终止进程用什么命令? 带什么参数?
 
 **答案：**
 
-wc 命令 - c 统计字节数 - l 统计行数 - w 统计字数。
+kill [-s <信息名称或编号>][程序] 或 kill [-l <信息编号>]
+
+kill-9 pid
 
 
-### 11、clear 清屏命令。（强迫症患者使用）
-### 12、简单 Linux 文件系统？
-### 13、什么是Linux？
-### 14、哪个命令专门用来查看后台任务?
-### 15、find （find：找到的意思）查找指定文件或目录
-### 16、vim （VI IMproved：改进版视觉）改进版文本编辑器 （不管是文件查看还是文件编辑 按 Shift + 上或者下可以上下移动查看视角）
-### 17、更改为北京时间命令
-### 18、cat （concatenate：显示或把多个文本文件连接起来）查看文件命令（可以快捷查看当前文件的内容）（不能快速定位到最后一页）
-### 19、Squid、Varinsh和Nginx有什么区别，工作中你怎么选择？
-### 20、源码安装通常的路子?
-### 21、Tomcat和Resin有什么区别，工作中你怎么选择？
-### 22、什么叫 CC 攻击？什么叫 DDOS 攻击？
-### 23、查看各类环境变量用什么命令?
-### 24、使用什么命令查看用过的命令列表?
-### 25、Linux 使用的进程间通信方式？
-### 26、如何用awk查看第2行倒数第3个字段?
-### 27、什么是硬链接和软链接？
-### 28、怎样查看一个linux命令的概要与用法？假设你在/bin目录中偶然看到一个你从没见过的的命令，怎样才能知道它的作用和用法呢？
-### 29、交互方式
+### 10、统计ip访问情况，要求分析nginx访问日志，找出访问页面数量在前十位的ip
+
+cat access.log | awk '{print $1}' | uniq -c | sort -rn | head -10
+
+
+### 11、如何执行可以执行文件?
+### 12、文件描述符?每个描述符的含义?
+### 13、如何切换目录？
+### 14、Linux 中进程有哪几种状态？在 ps 显示出来的信息中，分别用什么符号表示的？
+### 15、bash手册
+### 16、cp（copy单词缩写，复制功能）
+### 17、find （find：找到的意思）查找指定文件或目录
+### 18、Ls 命令执行什么功能？ 可以带哪些参数，有什么区别？
+### 19、讲述一下Tomcat8005、8009、8080三个端口的含义？
+### 20、keepalive的工作原理和如何做到健康检查
+### 21、什么叫CDN？
+### 22、Linux内核主要负责哪些功能
+### 23、Linux 使用的进程间通信方式？
+### 24、lvs/nginx/haproxy优缺点
+### 25、查看部分文件
+### 26、数据字典属于哪一个用户的？
+### 27、怎么使一个命令在后台运行?
+### 28、查看文件内容有哪些命令可以使用？
+### 29、Linux 下命令有哪几种可使用的通配符？分别代表什么含义?
 
 
 
@@ -212,7 +219,7 @@ wc 命令 - c 统计字节数 - l 统计行数 - w 统计字数。
 
 ### 下载链接：[全部答案，整理好了](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
 
-### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
+
 
 
 ## 最新，高清PDF：172份，7701页，最新整理

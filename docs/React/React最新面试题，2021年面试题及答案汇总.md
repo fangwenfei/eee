@@ -4,100 +4,44 @@
 
 ### 下载链接：[高清172份，累计 7701 页大厂面试题  PDF](https://github.com/souyunku/DevBooks/blob/master/docs/index.md)
 
-### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png)
 
 
+### 1、react和vue的区别
 
-### 1、简单说一下Vue2.x响应式数据原理
+**相同点**
 
-Vue在初始化数据时，会使用`Object.defineProperty`重新定义data中的所有属性，当页面使用对应属性时，首先会进行依赖收集(收集当前组件的`watcher`)如果属性发生变化会通知相关依赖进行更新操作(`发布订阅`)。
+**1、** 数据驱动页面提供响应式的试图组件
 
+**2、** 都有 `virtual DOM`,组件化的开发通过 `props`参数进行父子之间组件传递数据都实现了 `webComponents`规范
 
-### 2、再说一下虚拟Dom以及key属性的作用
+**3、** 数据流动单向都支持服务器的渲染SSR
 
-由于在浏览器中操作DOM是很昂贵的。频繁的操作DOM，会产生一定的性能问题。这就是虚拟Dom的`产生原因`。
+**4、** 都有支持 `native`的方法 `react`有 `React native vue`有 `wexx`
 
-Vue2的Virtual DOM借鉴了开源库`snabbdom`的实现。
+**不同点**
 
-`Virtual DOM本质就是用一个原生的JS对象去描述一个DOM节点。是对真实DOM的一层抽象。`(也就是源码中的VNode类，它定义在src/core/vdom/vnode.js中。)
+**1、** 数据绑定 `Vue`实现了双向的数据绑定 `react`数据流动是单向的
 
-VirtualDOM映射到真实DOM要经历VNode的create、diff、patch等阶段。
+**2、** 数据渲染大规模的数据渲染 `react`更快
 
-**「key的作用是尽可能的复用 DOM 元素。」**
+**3、** 使用场景 `React`配合 `Redux`架构适合大规模多人协作复杂项目Vue适合小快的项目
 
-新旧 children 中的节点只有顺序是不同的时候，最佳的操作应该是通过移动元素的位置来达到更新的目的。
+**4、** 开发风格 `react`推荐做法 `jsx` + `inline style`把 `html`和 `css`都写在 `js`了
 
-需要在新旧 children 的节点中保存映射关系，以便能够在旧 children 的节点中找到可复用的节点。key也就是children中节点的唯一标识。
-
-
-### 3、如何模块化 React 中的代码？
-
-可以使用 export 和 import 属性来模块化代码。它们有助于在不同的文件中单独编写组件。
-
-```
-//ChildComponent.jsx
-export default class ChildComponent extends React.Component {
-    render() {
-        return(
-              <div>
-                  <h1>This is a child component</h1>
-              </div>
-        );
-    }
-}
-
-//ParentComponent.jsx
-import ChildComponent from './childcomponent.js';
-class ParentComponent extends React.Component {
-    render() {
-        return(
-             <div>
-                <App />
-             </div>
-        );
-    }
-}
-```
+**5、** `vue`是采用 `webpack` + `vue-loader`单文件组件格式 `html`, `js`, `css`同一个文件
 
 
-### 4、Redux与Flux有何不同？
-| Flux | Redux |
-| --- | --- |
-| 1、Store 包含状态和更改逻辑 | 1、Store 和更改逻辑是分开的 |
-| 2、有多个 Store | 2、只有一个 Store |
-| 3、所有 Store 都互不影响且是平级的 | 3、带有分层 reducer 的单一 Store |
-| 4、有单一调度器 | 4、没有调度器的概念 |
-| 5、React 组件订阅 store | 5、容器组件是有联系的 |
-| 6、状态是可变的 | 6、状态是不可改变的 |
+### 2、react组件的划分业务组件技术组件
+
+根据组件的职责通常把组件分为`UI`组件和容器组件。`UI` 组件负责 `UI` 的呈现容器组件负责管理数据和逻辑。两者通过`React-Redux` 提供`connect`方法联系起来
 
 
+### 3、react 的虚拟dom是怎么实现的
 
-### 5、再说一下Computed和Watch
-
-`Computed`本质是一个具备缓存的watcher，依赖的属性发生变化就会更新视图。 适用于计算比较消耗性能的计算场景。当表达式过于复杂时，在模板中放入过多逻辑会让模板难以维护，可以将复杂的逻辑放入计算属性中处理。
-
-`Watch`没有缓存性，更多的是观察的作用，可以监听某些数据执行回调。当我们需要深度监听对象中的属性时，可以打开`deep：true`选项，这样便会对对象中的每一项进行监听。这样会带来性能问题，优化的话可以使用`字符串形式`监听，如果没有写到组件中，不要忘记使用`unWatch手动注销`哦。
+首先说说为什么要使用`Virturl DOM`因为操作真实`DOM`的耗费的性能代价太高所以`react`内部使用`js`实现了一套`dom`结构在每次操作在和真实`dom`之前使用实现好的`diff`算法对虚拟`dom`进行比较递归找出有变化的dom节点然后对其进行更新操作。为了实现虚拟`DOM`我们需要把每一种节点类型抽象成对象每一种节点类型有自己的属性也就是`prop`每次进行`diff`的时候`react`会先比较该节点类型假如节点类型不一样那么`react`会直接删除该节点然后直接创建新的节点插入到其中假如节点类型一样那么会比较`prop`是否有更新假如有`prop`不一样那么`react`会判定该节点有更新那么重渲染该节点然后在对其子节点进行比较一层一层往下直到没有子节点
 
 
-### 6、react 的渲染过程中兄弟节点之间是怎么处理的也就是key值不一样的时候
-
-通常我们输出节点的时候都是`map`一个数组然后返回一个`ReactNode`为了方便`react`内部进行优化我们必须给每一个`reactNode`添加`key`这个`key prop`在设计值处不是给开发者用的而是给react用的大概的作用就是给每一个reactNode添加一个身份标识方便react进行识别在重渲染过程中如果key一样若组件属性有所变化则`react`只更新组件对应的属性没有变化则不更新如果`key`不一样则`react`先销毁该组件然后重新创建该组件
-
-
-### 7、React有哪些限制？
-
-**React的限制如下：**
-
-**1、**  React 只是一个库，而不是一个完整的框架
-
-**2、**  它的库非常庞大，需要时间来理解
-
-**3、**  新手程序员可能很难理解
-
-**4、**  编码变得复杂，因为它使用内联模板和 JSX
-
-
-### 8、说一下Vue的生命周期
+### 4、说一下Vue的生命周期
 
 `beforeCreate`是new Vue()之后触发的第一个钩子，在当前阶段data、methods、computed以及watch上的数据和方法都不能被访问。
 
@@ -116,47 +60,109 @@ class ParentComponent extends React.Component {
 `destroyed`发生在实例销毁之后，这个时候只剩下了dom空壳。组件已被拆解，数据绑定被卸除，监听被移出，子实例也统统被销毁。
 
 
-### 9、React如何进行组件/逻辑复用?
+### 5、setState到底是异步还是同步?
+
+答案: 有时表现出异步,有时表现出同步
+
+setState只在合成事件和钩子函数中是“异步”的，在原生事件和setTimeout 中都是同步的。
+
+setState 的“异步”并不是说内部由异步代码实现，其实本身执行的过程和代码都是同步的，只是合成事件和钩子函数的调用顺序在更新之前，导致在合成事件和钩子函数中没法立马拿到更新后的值，形成了所谓的“异步”，当然可以通过第二个参数 setState(partialState, callback) 中的callback拿到更新后的结果。
+
+setState 的批量更新优化也是建立在“异步”（合成事件、钩子函数）之上的，在原生事件和setTimeout 中不会批量更新，在“异步”中如果对同一个值进行多次setState，setState的批量更新策略会对其进行覆盖，取最后一次的执行，如果是同时setState多个不同的值，在更新时会对其进行合并批量更新。 #React组件通信
+
+
+### 6、react旧版生命周期函数
+
+初始化阶段
+
+**1、** `getDefaultProps`:获取实例的默认属性
+
+**2、** `getInitialState`:获取每个实例的初始化状态
+
+**3、** `componentWillMount`组件即将被装载、渲染到页面上
+
+**4、** `render`:组件在这里生成虚拟的DOM节点
+
+**5、** `componentDidMount`:组件真正在被装载之后
+
+运行中状态
+
+**1、** `componentWillReceiveProps`:组件将要接收到属性的时候调用
+
+**2、** `shouldComponentUpdate`:组件接受到新属性或者新状态的时候可以返回 `false`接收数据后不更新阻止 `render`调用后面的函数不会被继续执行了
+
+**3、** `componentWillUpdate`:组件即将更新不能修改属性和状态
+
+**4、** `render`:组件重新描绘
+
+**5、** `componentDidUpdate`:组件已经更新
+
+
+### 7、在生命周期中的哪一步你应该发起 AJAX 请求
+
+我们应当将`AJAX` 请求放到 `componentDidMount` 函数中执行主要原因有下
+
+`React` 下一代调和算法 `Fiber` 会通过开始或停止渲染的方式优化应用性能其会影响到 `componentWillMount` 的触发次数。对于 `componentWillMount` 这个生命周期函数的调用次数会变得不确定React 可能会多次频繁调用 `componentWillMount`。如果我们将 AJAX 请求放到 `componentWillMount` 函数中那么显而易见其会被触发多次自然也就不是好的选择。如果我们将AJAX 请求放置在生命周期的其他函数中我们并不能保证请求仅在组件挂载完毕后才会要求响应。如果我们的数据请求在组件挂载之前就完成并且调用了`setState`函数将数据添加到组件状态中对于未挂载的组件则会报错。而在 `componentDidMount` 函数中进行 `AJAX` 请求则能有效避免这个问题
+
+
+### 8、React如何进行组件/逻辑复用?
 
 抛开已经被官方弃用的Mixin,组件抽象的技术目前有三种比较主流:
 
-**1、** 高阶组件
+**高阶组件:**
 
-**2、** 属性代理
+**1、** 属性代理
 
-**3、** 反向继承
+**2、** 反向继承
 
-**4、** 渲染属性
+**3、** 渲染属性
 
-**5、** react-hooks
+**4、** react-hooks
 
 
-### 10、Redux设计理念
+### 9、传入 setState 函数的第二个参数的作用是什么
 
-`Redux`是将整个应用状态存储到一个地方上称为`store`,里面保存着一个状态树`store` `tree`,组件可以派发(`dispatch`)行为(`action`)给`store`,而不是直接通知其他组件组件内部通过订阅`store`中的状态`state`来刷新自己的视图
+该函数会在 setState 函数调用完成并且组件开始重渲染的时候被调用我们可以用该函数来监听渲染是否完成
 
-![80_2.png][80_2.png]
+```
+this.setState(
+  { username: 'tylermcginnis33' },
+  () => console.log('setState has finished and the component has re-rendered.')
+)
+this.setState((prevState, props) => {
+  return {
+    streak: prevState.streak + props.count
+  }
+})
+```
 
-image
+
+### 10、你是如何理解fiber的?
+
+React Fiber 是一种基于浏览器的**单线程调度算法**.
+
+React 16之前 ，`reconcilation` 算法实际上是递归，想要中断递归是很困难的，React 16 开始使用了循环来代替之前的递归.
+
+`Fiber`：**一种将 `recocilation` （递归 diff），拆分成无数个小任务的算法；它随时能够停止，恢复。停止恢复的时机取决于当前的一帧（16ms）内，还有没有足够的时间允许计算。**
 
 
 ### 11、你都做过哪些Vue的性能优化？
-### 12、react和vue的区别
-### 13、react hooks它带来了那些便利
-### 14、什么是控制组件？
-### 15、列出 React Router 的优点。
-### 16、Redux实现原理解析
-### 17、传入 setState 函数的第二个参数的作用是什么
-### 18、为什么虚拟dom会提高性能
-### 19、为什么浏览器无法读取JSX？
-### 20、React组件生命周期的阶段是什么？
-### 21、你的接口请求一般放在哪个生命周期中？
-### 22、mixin、hoc、render props、react-hooks的优劣如何？
-### 23、MVC框架的主要问题是什么？
-### 24、Redux 有哪些优点？
-### 25、什么是高阶组件(HOC)
-### 26、列出一些应该使用 Refs 的情况。
-### 27、redux中间件有哪些，做什么用？
+### 12、Vue事件绑定原理说一下
+### 13、为什么选择使用框架而不是原生?
+### 14、简单说一下Vue2.x响应式数据原理
+### 15、解释 React 中 render() 的目的。
+### 16、为什么React Router v4中使用 switch 关键字 ？
+### 17、组件中的data为什么是一个函数？
+### 18、SSR了解吗？
+### 19、什么是React？
+### 20、Redux遵循的三个原则是什么？
+### 21、MVC框架的主要问题是什么？
+### 22、React中的事件是什么？
+### 23、setState
+### 24、如何模块化 React 中的代码？
+### 25、那你知道Vue3.x响应式数据原理吗？
+### 26、React的请求应该放在哪个生命周期中?
+### 27、Redux三大原则
 
 
 
@@ -165,7 +171,7 @@ image
 
 ### 下载链接：[全部答案，整理好了](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
 
-### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
+
 
 
 ## 最新，高清PDF：172份，7701页，最新整理

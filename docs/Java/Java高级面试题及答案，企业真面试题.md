@@ -4,199 +4,184 @@
 
 ### 下载链接：[高清172份，累计 7701 页大厂面试题  PDF](https://github.com/souyunku/DevBooks/blob/master/docs/index.md)
 
-### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png)
 
 
+### 1、说说CMS垃圾收集器的工作原理
 
-### 1、什么是线程同步和线程互斥，有哪几种实现方式？
+Concurrent mark sweep(CMS)收集器是一种年老代垃圾收集器，其最主要目标是获取最短垃圾回收停顿时间， 和其他年老代使用标记-整理算法不同，它使用多线程的标记-清除算法。最短的垃圾收集停顿时间可以为交互比较高的程序提高用户体验。CMS 工作机制相比其他的垃圾收集器来说更复杂
 
-**1、** 当一个线程对共享的数据进行操作时，应使之成为一个”原子操作“，即在没有完成相关操作之前，不允许其他线程打断它，否则，就会破坏数据的完整性，必然会得到错误的处理结果，这就是线程的同步。
+**整个过程分为以下 4 个阶段：**
 
-**2、** 在多线程应用中，考虑不同线程之间的数据同步和防止死锁。当两个或多个线程之间同时等待对方释放资源的时候就会形成线程之间的死锁。为了防止死锁的发生，需要通过同步来实现线程安全。
+**1、** 初始标记 只是标记一下 GC Roots 能直接关联的对象，速度很快，仍然需要暂停所有的工作线程。
 
-**3、** 线程互斥是指对于共享的进程系统资源，在各单个线程访问时的排它性。当有若干个线程都要使用某一共享资源时，任何时刻最多只允许一个线程去使用，其它要使用该资源的线程必须等待，直到占用资源者释放该资源。线程互斥可以看成是一种特殊的线程同步。
+**2、** 并发标记 进行 GC Roots 跟踪的过程，和用户线程一起工作，不需要暂停工作线程。
 
-**4、** 线程间的同步方法大体可分为两类：用户模式和内核模式。顾名思义，内核模式就是指利用系统内核对象的单一性来进行同步，使用时需要切换内核态与用户态，而用户模式就是不需要切换到内核态，只在用户态完成操作。
+**3、** 重新标记 为了修正在并发标记期间，因用户程序继续运行而导致标记产生变动的那一部分对象的标记记录，仍然需要暂停所有的工作线程。
 
-**5、** 用户模式下的方法有：
-
-原子操作（例如一个单一的全局变量），临界区。内核模式下的方法有：事件，信号量，互斥量。
-
-**实现线程同步的方法**
-
-**1、** 同步代码方法：sychronized 关键字修饰的方法
-
-**2、** 同步代码块：sychronized 关键字修饰的代码块
-
-**3、** 使用特殊变量域volatile实现线程同步：volatile关键字为域变量的访问提供了一种免锁机制
-
-**4、** 使用重入锁实现线程同步：reentrantlock类是可冲入、互斥、实现了lock接口的锁他与sychronized方法具有相同的基本行为和语义
+**4、** 并发清除 清除 GC Roots 不可达对象，和用户线程一起工作，不需要暂停工作线程。由于耗时最长的并发标记和并发清除过程中，垃圾收集线程可以和用户线程一起并发工作， 所以总体上来看CMS 收集器的内存回收和用户线程是一起并发地执行。
 
 
-### 2、JVM 运行时内存
+### 2、Java 中的同步集合与并发集合有什么区别？
 
-Java 堆从 GC 的角度还可以细分为: 新生代(Eden 区、 From Survivor 区和 To Survivor 区)和老年代。
-
-**新生代**
-
-是用来存放新生的对象。一般占据堆的 1/3 空间。由于频繁创建对象，所以新生代会频繁触发MinorGC 进行垃圾回收。新生代又分为 Eden区、 ServivorFrom、 ServivorTo 三个区。
-
-**Eden 区**
-
-Java 新对象的出生地（如果新创建的对象占用内存很大，则直接分配到老年代）。当 Eden 区内存不够的时候就会触发 MinorGC，对新生代区进行一次垃圾回收。
-
-**ServivorFrom**
-
-上一次 GC 的幸存者，作为这一次 GC 的被扫描者。
-
-**ServivorTo**
-
-保留了一次 MinorGC 过程中的幸存者。
-
-**MinorGC 的过程（复制->清空->互换）**
-
-MinorGC 采用复制算法。
-
-**eden、 servicorFrom 复制到 ServicorTo，年龄+1**
-
-首先，把 Eden 和 ServivorFrom 区域中存活的对象复制到 ServicorTo 区域（如果有对象的年龄以及达到了老年的标准，则赋值到老年代区），同时把这些对象的年龄+1（如果 ServicorTo 不够位置了就放到老年区）；
-
-**清空 eden、 servicorFrom**
-
-然后，清空 Eden 和 ServicorFrom 中的对象；
-
-**ServicorTo 和 ServicorFrom 互换**
-
-最后， ServicorTo 和 ServicorFrom 互换，原 ServicorTo 成为下一次 GC 时的 ServicorFrom区。
+同步集合与并发集合都为多线程和并发提供了合适的线程安全的集合，不过并发集合的可扩展性更高。在 Java1.5 之前程序员们只有同步集合来用且在多线程并发的时候会导致争用，阻碍了系统的扩展性。Java5 介绍了并发集合像ConcurrentHashMap，不仅提供线程安全还用锁分离和内部分区等现代技术提高了可扩展性。
 
 
-### 3、什么是同步任务？什么是异步任务？
+### 3、什么是并发容器的实现？
 
-**1、** 同步任务：当前任务没有完成之前，其他任务不能够执行
+何为同步容器：可以简单地理解为通过 synchronized 来实现同步的容器，如果有多个线程调用同步容器的方法，它们将会串行执行。比如 Vector，Hashtable，以及 Collections.synchronizedSet，synchronizedList 等方法返回的容器。可以通过查看 Vector，Hashtable 等这些同步容器的实现代码，可以看到这些容器实现线程安全的方式就是将它们的状态封装起来，并在需要同步的方法上加上关键字 synchronized。
 
-**2、** 异步任务：当前任务没有完成，任然可以可以发送一个新的请求
-
-
-### 4、重排序实际执行的指令步骤
-
-![87_5.png][87_5.png]
-
-**1、** 编译器优化的重排序。编译器在不改变单线程程序语义的前提下，可以重新安排语句的执行顺序。
-
-**2、** 指令级并行的重排序。现代处理器采用了指令级并行技术（ILP）来将多条指令重叠执行。如果不存在数据依赖性，处理器可以改变语句对应机器指令的执行顺序。
-
-**3、** 内存系统的重排序。由于处理器使用缓存和读/写缓冲区，这使得加载和存储操作看上去可能是在乱序执行。
-
-这些重排序对于单线程没问题，但是多线程都可能会导致多线程程序出现内存可见性问题。
+并发容器使用了与同步容器完全不同的加锁策略来提供更高的并发性和伸缩性，例如在 ConcurrentHashMap 中采用了一种粒度更细的加锁机制，可以称为分段锁，在这种锁机制下，允许任意数量的读线程并发地访问 map，并且执行读操作的线程和写操作的线程也可以并发的访问 map，同时允许一定数量的写操作线程并发地修改 map，所以它可以在并发环境下实现更高的吞吐量。
 
 
-### 5、WeakHashMap 是怎么工作的？
+### 4、如何自定义线程线程池?
 
-WeakHashMap 的工作与正常的 HashMap 类似，但是使用弱引用作为 key，意思就是当 key 对象没有任何引用时，key/value 将会被回收。
+先看ThreadPoolExecutor（线程池）这个类的构造参数
 
-
-### 6、什么是重排序
-
-程序执行的顺序按照代码的先后顺序执行。
-
-一般来说处理器为了提高程序运行效率，可能会对输入代码进行优化，进行重新排序（重排序），它不保证程序中各个语句的执行先后顺序同代码中的顺序一致，但是它会保证程序最终执行结果和代码顺序执行的结果是一致的。
+![](https://gitee.com/souyunkutech/souyunku-home/raw/master/images/souyunku-web/2020/5/2/045/42/87_8.png#alt=87%5C_8.png)构造参数参数介绍：
 
 ```
-int a = 5;//语句1
-int r = 3;//语句2
-a = a + 2;//语句3
-r = a*a;  //语句4
+corePoolSize 核心线程数量
+maximumPoolSize 最大线程数量
+keepAliveTime 线程保持时间，N个时间单位
+unit 时间单位（比如秒，分）
+workQueue 阻塞队列
+threadFactory 线程工厂
+handler 线程池拒绝策略
 ```
 
-则因为重排序，他还可能执行顺序为（这里标注的是语句的执行顺序） 2-1-3-4，1-3-2-4 但绝不可能 2-1-4-3，因为这打破了依赖关系。
+- 代码示例：
 
-显然重排序对单线程运行是不会有任何问题，但是多线程就不一定了，所以我们在多线程编程时就得考虑这个问题了。
-
-
-### 7、Java 中的 LinkedList 是单向链表还是双向链表？
-
-是双向链表，你可以检查 JDK 的源码。在 Eclipse，你可以使用快捷键 Ctrl + T，直接在编辑器中打开该类。
-
-
-### 8、什么是方法重载？
-
-方法的重载就是在同一个类中允许同时存在一个以上的同名方法，只要它们的参数个数或者类型不同即可。在这种情况下，该方法就叫被重载了，这个过程称为方法的重载（override）
-
-
-### 9、创建线程的三种方式的对比？
-
-**1、** 采用实现Runnable、Callable接口的方式创建多线程。
-
-**优势是：**
-
-线程类只是实现了Runnable接口或Callable接口，还可以继承其他类。
-
-在这种方式下，多个线程可以共享同一个target对象，所以非常适合多个相同线程来处理同一份资源的情况，从而可以将CPU、代码和数据分开，形成清晰的模型，较好地体现了面向对象的思想。
-
-**劣势是：**
-
-编程稍微复杂，如果要访问当前线程，则必须使用Thread.currentThread()方法。
-
-**2、** 使用继承Thread类的方式创建多线程
-
-**优势是：**
-
-编写简单，如果需要访问当前线程，则无需使用Thread.currentThread()方法，直接使用this即可获得当前线程。
-
-**劣势是：**
-
-线程类已经继承了Thread类，所以不能再继承其他父类。
-
-**3、** Runnable和Callable的区别
-
-**1、** Callable规定（重写）的方法是call()，Runnable规定（重写）的方法是run()。
-
-**2、** Callable的任务执行后可返回值，而Runnable的任务是不能返回值的。
-
-**3、** Call方法可以抛出异常，run方法不可以。
-
-**4、** 运行Callable任务可以拿到一个Future对象，表示异步计算的结果。它提供了检查计算是否完成的方法，以等待计算的完成，并检索计算的结果。通过Future对象可以了解任务执行情况，可取消任务的执行，还可获取执行结果。
+```
+package com.lijie;
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
+public class Test001 {
+    public static void main(String[] args) {
+        //创建线程池
+        ThreadPoolExecutor executor = new ThreadPoolExecutor(1, 2, 60L, TimeUnit.SECONDS, new ArrayBlockingQueue < > (3));
+        for (int i = 1; i <= 6; i++) {
+            TaskThred t1 = new TaskThred("任务" + i);
+            //executor.execute(t1);是执行线程方法
+            executor.execute(t1);
+        }
+        //executor.shutdown()不再接受新的任务，并且等待之前提交的任务都执行完再关闭，阻塞队列中的任务不会再执行。
+        executor.shutdown();
+    }
+}
+class TaskThred implements Runnable {
+    private String taskName;
+    public TaskThred(String taskName) {
+        this.taskName = taskName;
+    }
+    public void run() {
+        System.out.println(Thread.currentThread().getName() + taskName);
+    }
+}
+```
 
 
-### 10、Java 中，Comparator 与 Comparable 有什么不同？
+### 5、创建一个对象用什么运算符？对象实体与对象引用有何不同？
 
-Comparable 接口用于定义对象的自然顺序，而 comparator 通常用于定义用户定制的顺序。Comparable 总是只有一个，但是可以有多个 comparator 来定义对象的顺序。
-
-65）为什么在重写 equals 方法的时候需要重写 hashCode 方法？([答案](http://javarevisited.blogspot.sg/2015/01/why-override-equals-hashcode-or-tostring-java.html))
-
-因为有强制的规范指定需要同时重写 hashcode 与 equal 是方法，许多容器类，如 HashMap、HashSet 都依赖于 hashcode 与 equals 的规定。
+new运算符，new创建对象实例（对象实例在堆内存中），对象引用指向对象实例（对象引用存放在栈内存中）。一个对象引用可以指向0个或1个对象（一根绳子可以不系气球，也可以系一个气球）;一个对象可以有n个引用指向它（可以用n条绳子系住一个气球）
 
 
-### 11、老年代与标记复制算法
-### 12、什么是过滤器？怎么创建一个过滤器
-### 13、Java中有几种类型的流？
-### 14、Collection 和 Collections 有什么区别？
-### 15、什么是链表
-### 16、Java 中能创建 volatile 数组吗？
-### 17、synchronized、volatile、CAS比较
-### 18、为什么 Java 中的 String 是不可变的（Immutable）？
-### 19、栈帧里面包含哪些东西？
-### 20、synchronized、volatile、CAS 比较
-### 21、Hashtable 与 HashMap 有什么不同之处？
-### 22、Java常用包有那些？
-### 23、3*0.1 == 0.3 将会返回什么？true 还是 false？
-### 24、volatile 类型变量提供什么保证？
-### 25、Serial 与 Parallel GC之间的不同之处？
-### 26、[@Before ](/Before ) 和 [@BeforeClass ](/BeforeClass ) 有什么区别？
-### 27、List、Set、Map是否继承自Collection接口？
-### 28、List 和 Set 的区别
-### 29、请你谈谈对OOM的认识
-### 30、什么是不可变对象（immutable object）？Java 中怎么创建一个不可变对象？
-### 31、集合和数组的区别
-### 32、事务的ACID是指什么？
-### 33、a = a + b 与 a += b 的区别
-### 34、方法区的作用是什么？
-### 35、Java 虚拟机栈的作用？
-### 36、Java 中，直接缓冲区与非直接缓冲器有什么区别？
-### 37、什么是模板方法模式？
-### 38、什么是设计模式
-### 39、sleep方法和wait方法有什么区别?
-### 40、JRE、JDK、JVM 及 JIT 之间有什么不同？
+### 6、Java中有几种数据类型
+
+**1、** 整形：byte,short,int,long
+
+**2、** 浮点型：float,double
+
+**3、** 字符型：char
+
+**4、** 布尔型：boolean
+
+
+### 7、MinorGC、MajorGC、FullGC 什么时候发生？
+
+**1、** MinorGC 在年轻代空间不足的时候发生
+
+**2、** MajorGC 指的是老年代的 GC，出现 MajorGC 一般经常伴有 MinorGC
+
+**3、** FullGC 老年代无法再分配内存；元空间不足；显示调用 System.gc；像 CMS 一类的垃圾回收器，在 MinorGC 出现 promotion failure 时也会发生 FullGC
+
+
+### 8、如何将字符串反转？
+
+使用 StringBuilder 或者 stringBuffer 的 reverse() 方法。
+
+示例代码：
+
+```
+// StringBuffer reverse
+StringBuffer stringBuffer = new StringBuffer();
+stringBuffer.append("abcdefg");
+System.out.println(stringBuffer.reverse()); // gfedcba
+// StringBuilder reverse
+StringBuilder stringBuilder = new StringBuilder();
+stringBuilder.append("abcdefg");
+System.out.println(stringBuilder.reverse()); // gfedcba
+```
+
+
+### 9、ArrayList与LinkedList有什么区别？
+
+**1、** ArrayList与LinkedList都实现了List接口。
+
+**2、** ArrayList是线性表，底层是使用数组实现的，它在尾端插入和访问数据时效率较高，
+
+**3、** Linked是双向链表，他在中间插入或者头部插入时效率较高，在访问数据时效率较低
+
+
+### 10、synchronized 和 volatile 的区别是什么？
+
+**1、** synchronized 表示只有一个线程可以获取作用对象的锁，执行代码，阻塞其他线程。
+
+**2、** volatile 表示变量在 CPU 的寄存器中是不确定的，必须从主存中读取。保证多线程环境下变量的可见性；禁止指令重排序。
+
+**区别**
+
+**1、** volatile 是变量修饰符；synchronized 可以修饰类、方法、变量。
+
+**2、** volatile 仅能实现变量的修改可见性，不能保证原子性；而 synchronized 则可以保证变量的修改可见性和原子性。
+
+**3、** volatile 不会造成线程的阻塞；synchronized 可能会造成线程的阻塞。
+
+**4、** volatile标记的变量不会被编译器优化；synchronized标记的变量可以被编译器优化。
+
+**5、** volatile关键字是线程同步的轻量级实现，所以volatile性能肯定比synchronized关键字要好。但是volatile关键字只能用于变量而synchronized关键字可以修饰方法以及代码块。synchronized关键字在JavaSE1.6之后进行了主要包括为了减少获得锁和释放锁带来的性能消耗而引入的偏向锁和轻量级锁以及其它各种优化之后执行效率有了显著提升，实际开发中使用 synchronized 关键字的场景还是更多一些。
+
+
+### 11、新生代与复制算法
+### 12、对象在哪块内存分配？
+### 13、虚拟DOM实现原理?
+### 14、Java 中怎么获取一份线程 dump 文件？
+### 15、用 Java 写一个线程安全的单例模式（Singleton）？
+### 16、代理的分类
+### 17、什么是并发容器的实现？
+### 18、什么是上下文切换?
+### 19、你对线程优先级的理解是什么？
+### 20、重载和重写的区别
+### 21、怎么看死锁的线程？
+### 22、什么是隐式转换，什么是显式转换
+### 23、线程的 run()和 start()有什么区别？
+### 24、虚拟DOM的优劣如何?
+### 25、什么是线程组，为什么在 Java 中不推荐使用？
+### 26、事务的使用场景在什么地方？
+### 27、多线程应用场景
+### 28、Java中ConcurrentHashMap的并发度是什么？
+### 29、GC 垃圾收集器
+### 30、请说明select * from tab的输出结果是什么?
+### 31、你能保证 GC 执行吗？
+### 32、标记整理算法(Mark-Compact)
+### 33、为什么我们调用start()方法时会执行run()方法，为什么我们不能直接调用run()方法？
+### 34、CMS都有哪些问题？
+### 35、Java线程池中submit() 和 execute()方法有什么区别？
+### 36、什么是 CAS
+### 37、Java是否需要开发人员回收内存垃圾吗？
+### 38、工作中常用的 JVM 配置参数有哪些？
+### 39、描述一下 JVM 加载 class 文件的原理机制
+### 40、列举一些你知道的打破双亲委派机制的例子。为什么要打破？
 
 
 
@@ -205,7 +190,7 @@ Comparable 接口用于定义对象的自然顺序，而 comparator 通常用于
 
 ### 下载链接：[全部答案，整理好了](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
 
-### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
+
 
 
 ## 最新，高清PDF：172份，7701页，最新整理

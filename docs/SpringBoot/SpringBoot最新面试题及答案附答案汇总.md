@@ -4,11 +4,41 @@
 
 ### 下载链接：[高清172份，累计 7701 页大厂面试题  PDF](https://github.com/souyunku/DevBooks/blob/master/docs/index.md)
 
-### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png)
 
 
+### 1、什么是 Spring Data ?
 
-### 1、SpringBoot 的核心注解是哪个？它主要由哪几个注解组成的？
+Spring Data 是 Spring 的一个子项目。用于简化数据库访问，支持NoSQL 和 关系数据存储。其主要目标是使数据库的访问变得方便快捷。Spring Data 具有如下特点：
+
+**SpringData 项目支持 NoSQL 存储：**
+
+**1、** MongoDB （文档数据库）
+
+**2、** Neo4j（图形数据库）
+
+**3、** Redis（键/值存储）
+
+**4、** Hbase（列族数据库）
+
+
+### 2、SpringBoot 2.X 有什么新特性？与 1.X 有什么区别？
+
+配置变更
+
+JDK 版本升级
+
+第三方类库升级
+
+响应式 Spring 编程支持
+
+HTTP/2 支持
+
+配置属性绑定
+
+更多改进与加强…
+
+
+### 3、SpringBoot 的核心注解是哪个？它主要由哪几个注解组成的？
 
 启动类上面的注解是@SpringBootApplication，它也是 SpringBoot 的核心注解，主要组合包含了以下 3 个注解：
 
@@ -19,126 +49,100 @@
 @ComponentScan：Spring组件扫描
 
 
-### 2、SpringBoot 的核心配置文件有哪几个？它们的区别是什么？
+### 4、如何使用SpringBoot实现分页和排序？
 
-**1、** SpringBoot 的核心配置文件是 application 和 bootstrap 配置文件。
-
-**2、** application 配置文件这个容易了解，主要用于 SpringBoot 项目的自动化配置。
-
-**3、** bootstrap 配置文件有以下几个应用场景。
-
-**4、** 使用 Spring Cloud Config 配置中心时，这时需要在 bootstrap 配置文件中增加连接到配置中心的配置属性来加载外部配置中心的配置信息；
-
-**5、** 少量固定的不能被覆盖的属性；
-
-**6、** 少量加密/解密的场景；
+使用SpringBoot实现分页非常简单。使用Spring Data-JPA可以实现将可分页的org.springframework.data.domain.Pageable传递给存储库方法。
 
 
-### 3、SpringBoot多数据源事务如何管理
+### 5、SpringBoot Starter 的工作原理是什么？
 
-第一种方式是在service层的@TransactionManager中使用transactionManager指定DataSourceConfig中配置的事务
+SpringBoot 在启动的时候会干这几件事情：
 
-第二种是使用jta-atomikos实现分布式事务管理
+**1、** SpringBoot 在启动时会去依赖的 Starter 包中寻找 resources/META-INF/spring.factories 文件，然后根据文件中配置的 Jar 包去扫描项目所依赖的 Jar 包。
 
+**2、** 根据 spring.factories 配置加载 AutoConfigure 类
 
-### 4、我们如何监视所有SpringBoot微服务？
+**3、** 根据 [@Conditional ](/Conditional ) 注解的条件，进行自动配置并将 Bean 注入 Spring Context
 
-SpringBoot提供监视器端点以监控各个微服务的度量。这些端点对于获取有关应用程序的信息（如它们是否已启动）以及它们的组件（如数据库等）是否正常运行很有帮助。但是，使用监视器的一个主要缺点或困难是，我们必须单独打开应用程序的知识点以了解其状态或健康状况。想象一下涉及50个应用程序的微服务，管理员将不得不击中所有50个应用程序的执行终端。
+总结一下，其实就是 SpringBoot 在启动的时候，按照约定去读取 SpringBoot Starter 的配置信息，再根据配置信息对资源进行初始化，并注入到 Spring 容器中。这样 SpringBoot 启动完毕后，就已经准备好了一切资源，使用过程中直接注入对应 Bean 资源即可。
 
-为了帮助我们处理这种情况，我们将使用位于
+这只是简单的三连环问答，不知道有多少同学能够完整的回答出来。
 
-的开源项目。 它建立在SpringBoot Actuator之上，它提供了一个Web UI，使我们能够可视化多个应用程序的度量。
-
-
-### 5、什么是Spring Profiles？
-
-Spring Profiles允许用户根据配置文件（dev，test，prod等）来注册bean。因此，当应用程序在开发中运行时，只有某些bean可以加载，而在PRODUCTION中，某些其他bean可以加载。假设我们的要求是Swagger文档仅适用于QA环境，并且禁用所有其他文档。这可以使用配置文件来完成。SpringBoot使得使用配置文件非常简单。
+其实 SpringBoot 中有很多的技术点可以挖掘，今天给大家整理了十个高频 SpringBoot 面试题，希望可以在后期的面试中帮助到大家。
 
 
-### 6、SpringBoot 2.X 有什么新特性？与 1.X 有什么区别？
+### 6、SpringBoot 有哪几种读取配置的方式？
 
-**1、** 配置变更
-
-**2、** JDK 版本升级
-
-**3、** 第三方类库升级
-
-**4、** 响应式 Spring 编程支持
-
-**5、** HTTP/2 支持
-
-**6、** 配置属性绑定
-
-**7、** 更多改进与加强…
+SpringBoot 可以通过 @PropertySource,@Value,@Environment, @ConfigurationProperties 来绑定变量
 
 
-### 7、什么是嵌入式服务器？我们为什么要使用嵌入式服务器呢?
+### 7、什么是自动配置？
 
-思考一下在你的虚拟机上部署应用程序需要些什么。
+Spring 和 SpringMVC 的问题在于需要配置大量的参数。
 
-**第一步：**安装 Java
+我们能否带来更多的智能？当一个 MVC JAR 添加到应用程序中的时候，我们能否自动配置一些 beans？
 
-**第二步：**安装 Web 或者是应用程序的服务器（Tomat/Wbesphere/Weblogic 等等）
-
-**第三步：**部署应用程序 war 包
-
-如果我们想简化这些步骤，应该如何做呢？
-
-让我们来思考如何使服务器成为应用程序的一部分？
-
-你只需要一个安装了 Java 的虚拟机，就可以直接在上面部署应用程序了，
-
-这个想法是嵌入式服务器的起源。
-
-当我们创建一个可以部署的应用程序的时候，我们将会把服务器（例如，tomcat）嵌入到可部署的服务器中。
-
-例如，对于一个 SpringBoot 应用程序来说，你可以生成一个包含 Embedded Tomcat 的应用程序 jar。你就可以想运行正常 Java 应用程序一样来运行 web 应用程序了。
-
-嵌入式服务器就是我们的可执行单元包含服务器的二进制文件（例如，tomcat.jar）。
+Spring 查看（CLASSPATH 上可用的框架）已存在的应用程序的配置。在此基础上，SpringBoot 提供了配置应用程序和框架所需要的基本配置。这就是自动配置。
 
 
-### 8、你能否举一个以 ReadOnly 为事务管理的例子？
+### 8、SpringBoot 可以兼容老 Spring 项目吗，如何做？
 
-当你从数据库读取内容的时候，你想把事物中的用户描述或者是其它描述设置为只读模式，以便于 Hebernate 不需要再次检查实体的变化。这是非常高效的。
-
-
-### 9、SpringBoot 自动配置原理是什么？
-
-注解 @EnableAutoConfiguration, @Configuration, [@ConditionalOnClass ](/ConditionalOnClass ) 就是自动配置的核心，首先它得是一个配置文件，其次根据类路径下是否有这个类去自动配置。
+可以兼容，使用 [@ImportResource ](/ImportResource ) 注解导入老 Spring 项目配置文件。
 
 
-### 10、您使用了哪些 starter maven 依赖项？
+### 9、Spring Initializr 是创建 SpringBoot Projects 的唯一方法吗？
 
-使用了下面的一些依赖项：
+不是的。
 
-spring-boot-starter-activemq
+Spring Initiatlizr 让创建 SpringBoot 项目变的很容易，但是，你也可以通过设置一个 maven 项目并添加正确的依赖项来开始一个项目。
 
-spring-boot-starter-security
+在我们的 Spring 课程中，我们使用两种方法来创建项目。
 
-这有助于增加更少的依赖关系，并减少版本的冲突。
+第一种方法是 start.spring.io 。
+
+另外一种方法是在项目的标题为“Basic Web Application”处进行手动设置。
+
+手动设置一个 maven 项目
+
+**这里有几个重要的步骤：**
+
+**1、** 在 Eclipse 中，使用文件 - 新建 Maven 项目来创建一个新项目
+
+**2、** 添加依赖项。
+
+**3、** 添加 maven 插件。
+
+**4、** 添加 SpringBoot 应用程序类。
+
+到这里，准备工作已经做好！
 
 
-### 11、如何在 SpringBoot中禁用 Actuator端点安全性?
-### 12、SpringBoot 有哪几种读取配置的方式？
-### 13、RequestMapping 和 GetMapping 的不同之处在哪里？
-### 14、什么是 Spring Data？
-### 15、如何集成SpringBoot和ActiveMQ？
-### 16、什么是 JavaConfig？
-### 17、如何在 SpringBoot 中禁用 Actuator 端点安全性？
-### 18、spring boot监听器流程?
-### 19、SpringBoot 的核心注解是哪个？它主要由哪几个注解组成的？
-### 20、可以在SpringBoot application中禁用默认的Web服务器吗？
-### 21、比较一下 Spring Security 和 Shiro 各自的优缺点 ?
-### 22、SpringBoot的缺点
-### 23、SpringBoot多数据源拆分的思路
-### 24、SpringBoot Starter的工作原理
-### 25、SpringBoot 有哪几种读取配置的方式？
-### 26、spring-boot-starter-parent有什么用？
-### 27、Spring、SpringBoot、SpringMVC的区别？
-### 28、SpringBoot、Spring MVC 和 Spring 有什么区别？
-### 29、如何禁用特定的自动配置类？
-### 30、创建一个 SpringBoot Project 的最简单的方法是什么？
-### 31、什么是SpringBoot？
+### 10、什么是SpringBoot？
+
+用来简化spring应用的初始搭建以及开发过程，使用特定的方式来进行配置（`properties`或`yml`文件）创建独立的spring引用程序 main方法运行，嵌入的Tomcat 无需部署war文件，简化maven配置，自动配置spring添加对应功能starter自动化配置
+
+
+### 11、SpringBoot 自动配置原理是什么？
+### 12、SpringBoot 常用的 Starter 有哪些？
+### 13、什么是starter?
+### 14、什么是YAML？
+### 15、SpringBoot 实现热部署有哪几种方式？
+### 16、JPA 和 Hibernate 有哪些区别？
+### 17、SpringBoot 实现热部署有哪几种方式？
+### 18、SpringBoot的启动器有哪几种?
+### 19、SpringBoot 有哪几种读取配置的方式？
+### 20、SpringBoot性能如何优化
+### 21、YAML 配置的优势在哪里 ?
+### 22、RequestMapping 和 GetMapping 的不同之处在哪里？
+### 23、SpringBoot 中的 starter 到底是什么 ?
+### 24、SpringBoot 自动配置原理是什么？
+### 25、如何实现 SpringBoot应用程序的安全性?
+### 26、JPA 和 Hibernate 有哪些区别？JPA 可以支持动态 SQL 吗？
+### 27、SpringBoot 中如何解决跨域问题 ?
+### 28、如何使用 SpringBoot 部署到不同的服务器？
+### 29、YAML 配置的优势在哪里 ?
+### 30、path=”users”, collectionResourceRel=”users” 如何与 Spring Data Rest 一起使用？
+### 31、SpringBoot Starter的工作原理
 
 
 
@@ -147,7 +151,7 @@ spring-boot-starter-security
 
 ### 下载链接：[全部答案，整理好了](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
 
-### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
+
 
 
 ## 最新，高清PDF：172份，7701页，最新整理

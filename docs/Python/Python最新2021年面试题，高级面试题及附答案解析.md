@@ -4,124 +4,157 @@
 
 ### 下载链接：[高清172份，累计 7701 页大厂面试题  PDF](https://github.com/souyunku/DevBooks/blob/master/docs/index.md)
 
-### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png)
 
 
+### 1、什么是asyncio
 
-### 1、解决哈希冲突的算法有哪几种？分别有什么特点？
-
-[哈希冲突参考](https://blog.csdn.net/seulzz/article/details/77163878)
-
-**1、** 开放定址法
-
-**2、** 再哈希法
-
-**3、** 链地址法
-
-**4、** 建立公共溢出区
+asyncio是并发的一种方式，是一个协程相关的库。也叫异步IO
 
 
-### 2、曾经使用过哪些前端框架
+### 2、python中enumerate的意思是什么？
 
-react，vue，bootstrap，elementUI，Echarts
+枚举的意思，同时得到可迭代对象，如列表和元组的索引和值，以元组形式返回
 
 
-### 3、如何修改本地hosts文件
+### 3、python哪些类型的数据才能作为字典的key？
+
+可哈希的类型
+
+
+### 4、JavaScript(或者jQuery)如何选择一个id为main的容器
+
+**1、** jquery：$('#id')
+
+**2、** JavaScript：document.getElementById("id"))
+
+
+### 5、Python有哪些应用？
+
+**1、**  Web开发
+
+**2、**  桌面GUI开发
+
+**3、**  人工智能和机器学习
+
+**4、**  软件开发
+
+**5、**  业务应用程序开发
+
+**6、**  基于控制台的应用程序
+
+**7、**  软件测试
+
+**8、**  Web自动化
+
+**9、**  基于音频或视频的应用程序
+
+**10、**  图像处理应用程序
+
+
+### 6、手写一个队列
+
+```python
+class Queue(object):
+def __init__(self,size):
+self.queue=[]
+self.size=size
+def is_empty(self):
+return not bool(len(self.queue))
+def is_full(self):
+return len(self.queue)==self.size
+def enqueue(self,val):
+if not self.is_full():
+self.queue.insert(0,val)
+return True
+return False
+def dequeue(self):
+if not self.is_empty():
+return self.queue.pop()
+return None
+s=Queue(2)
+print(s.is_empty)
+s.enqueue(1)
+s.enqueue(2)
+print(s.is_full())
+print(s.dequeue())
+print(s.dequeue())
+print(s.is_empty())
+```
+
+
+### 7、如何修改本地hosts文件
 
 进入c:\windows\system32\drivers\etc进行修改
 
 
-### 4、简述Redis的有几种持久化策略以及比较？
+### 8、什么是正向代理和反向代理？
 
-**1、** RDB 持久化可以在指定的时间间隔内生成数据集的时间点快照。
+**正向代理**
 
-**2、** AOF 持久化记录服务器执行的所有写操作命令，并在服务器启动时，通过重新执行这些命令来还原数据集。 AOF 文件中的命令全部以 Redis 协议的格式来保存，新命令会被追加到文件的末尾。 Redis 还可以在后台对 AOF 文件进行重写(rewrite)，使得 AOF 文件的体积不会超出保存数据集状态所需的实际大小。
+**1、** 正向代理类似一个跳板机，代理访问外部资源。
 
-**区别：**
+**2、** 正向代理 是一个位于客户端和原始服务器(origin server)之间的服务器，为了从原始服务器取得内容，客户端向代理发送一个请求并指定目标(原始服务器)，然后代理向原始服务器转交请求并将获得的内容返回给客户端。客户端必须要进行一些特别的设置才能使用正向代理。
 
-**1、** RDB持久化是指在指定的时间间隔内将内存中的数据集快照写入磁盘，实际操作过程是fork一个子进程，先将数据集写入临时文件，写入成功后，再替换之前的文件，用二进制压缩存储。
+**正向代理作用：**
 
-**2、** AOF持久化以日志的形式记录服务器所处理的每一个写、删除操作，查询操作不会记录，以文本的方式记录，可以打开文件看到详细的操作记录。
+**1、** 访问原来无法访问的资源，如google
+
+**2、** 可以做缓存，加速访问资源
+
+**3、** 对客户端访问授权，上网进行认证
+
+**4、** 代理可以记录用户访问记录（上网行为管理），对外隐藏用户信息
+
+**反向代理**
+
+**1、** 反向代理（Reverse Proxy）实际运行方式是指以代理服务器来接受internet上的连接请求，然后将请求转发给内部网络上的服务器，并将从服务器上得到的结果返回给internet上请求连接的客户端，此时代理服务器对外就表现为一个服务器
+
+**反向代理的作用：**
+
+**1、** 保证内网的安全，可以使用反向代理提供WAF功能，阻止web攻击
+
+**2、** 负载均衡，通过反向代理服务器来优化网站的负载
 
 
-### 5、解释一下Python中的继承？
-
-继承(inheritance)允许一个类获取另一个类的所有成员和属性。继承提供代码可重用性，可以更轻松地创建和维护应用程序。
-
-被继承的类称为超类，而继承的类称为派生类/子类。
-
-
-### 6、使用生成器编写一个函数实现生成指定个数的斐波那契数列
+### 9、找出两个列表中相同的元素和不同的元素
 
 ```python
-def fib2(imax):
-t,a,b=0,0,1
-while t<imax:
-yield b
-a,b=b,a+b
-t+=1
-
-for i in fib2(10):
-print(i)
+list1=[1,2,3,5,8,7,11,10]
+list2=[5,15,25,10]
+sim=[i for i in list1 if i in list2]
+diff=[i for i in list1+list2 if i not in sim]
+print(sim)
+print(diff)
 ```
 
 
-### 7、什么是cdn
+### 10、什么是一致性哈希
 
-cdn全称是内容分发网络。其目的是让用户能够更快速的得到请求的数据。
+[参考链接](https://www.jianshu.com/p/49e3fbf41b9b)
 
-cdn就是用来加速的，他能让用户就近访问数据，这样就更更快的获取到需要的数据。
-
-
-### 8、is和==的区别
-
-is比较的是两个对象的id是否相同
-
-==比较的是两个对象的值是否相同
+一致性哈希简称DHT,是麻省理工学院提出的一种算法，目前主要应用于分布式缓存当中。一致性哈希可以有效地解决分布式存储结构下动态增加和删除节点所带来的问题。
 
 
-### 9、在Python中如何实现多线程？
-
-一个线程就是一个轻量级进程，多线程能让我们一次执行多个线程。我们都知道，Python是多线程语言，其内置有多线程工具包。
-
-Python中的GIL（全局解释器锁）确保一次执行单个线程。一个线程保存GIL并在将其传递给下个线程之前执行一些操作，这会让我们产生并行运行的错觉。但实际上，只是线程在CPU上轮流运行。当然，所有的传递会增加程序执行的内存压力。
-
-
-### 10、编写程序，查找文本文件中最长的单词
-
-```
-def longest_word(filename):
-    with open(filename, 'r') as infile:
-              words = infile.read().split()
-    max_len = len(max(words, key=len))
-    return [word for word in words if len(word) == max_len]
-
-print(longest_word('test.txt'))
-----------------------------------------------------
-['comprehensions']
-```
-
-
-### 11、类和对象有什么区别？
-### 12、什么是keepalived
-### 13、简述TCP三次握手，四次挥手的流程。
-### 14、简述数据库的读写分离
-### 15、MySQL的增删改查
-### 16、mro是什么？
-### 17、用一行代码实现数值交换
-### 18、关于Python程序的运行方面，有什么手段能提升性能？
-### 19、如何实现响应式布局
-### 20、什么是负载均衡
-### 21、1<(22)和1<22的结果分别是什么？
-### 22、什么是局域网和广域网
-### 23、什么是haproxy？
-### 24、写python爬虫分别用到了哪些模块？分别有什么用？
-### 25、Python有哪些特点和优点？
-### 26、为何不建议以下划线作为标识符的开头
-### 27、求以下代码结果：
-### 28、如何高效的找到Redis中所有以felix开头的key
-### 29、什么是抽象？
-### 30、给定一个非空的字符串，判断它是否可以由它的一个子串重复多次构成。给定的字符串只含有小写英文字母，并且长度不超过10000。例如：'ababab',返回True，'ababa'，返回False
+### 11、python中如何使用进程池和线程池
+### 12、请列举你所知道的python代码检测工具以及他们之间的区别
+### 13、使用yield实现一个协程
+### 14、Python中的闭包是什么？
+### 15、列举你所了解的所有Python2和Python3的区别
+### 16、简述生成器，迭代器，装饰器以及应用场景
+### 17、编写程序，输出给定序列中的所有质数
+### 18、列表推导式[i for i in range(10)]和生成式表达式(i for i in range(10))的区别
+### 19、Redis和Memcached的区别
+### 20、Python中注释代码的方法有哪些？
+### 21、什么是覆盖索引
+### 22、re的match和search的区别
+### 23、MySQL的半同步复制原理
+### 24、你对Python类中的self有什么了解？
+### 25、什么是pickling和unpickling？
+### 26、什么是闭包
+### 27、实现一个装饰器，通过一次调用，使函数重复执行5次
+### 28、发生粘包现象如何处理？
+### 29、什么是断言(assert)?应用场景？
+### 30、Redis如何实现主从复制？以及数据同步机制？
 
 
 
@@ -130,7 +163,7 @@ print(longest_word('test.txt'))
 
 ### 下载链接：[全部答案，整理好了](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
 
-### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
+
 
 
 ## 最新，高清PDF：172份，7701页，最新整理

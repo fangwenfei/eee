@@ -4,133 +4,172 @@
 
 ### 下载链接：[高清172份，累计 7701 页大厂面试题  PDF](https://github.com/souyunku/DevBooks/blob/master/docs/index.md)
 
-### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png)
 
 
+### 1、Redux 有哪些优点？
 
-### 1、如何更新组件的状态？
+**Redux 的优点如下：**
 
-可以用 `this.setState()`更新组件的状态。
+**1、** 结果的可预测性 - 由于总是存在一个真实来源，即 store ，因此不存在如何将当前状态与动作和应用的其他部分同步的问题。
+
+**2、** 可维护性 - 代码变得更容易维护，具有可预测的结果和严格的结构。
+
+**3、** 服务器端渲染 - 你只需将服务器上创建的 store 传到客户端即可。这对初始渲染非常有用，并且可以优化应用性能，从而提供更好的用户体验。
+
+**4、** 开发人员工具 - 从操作到状态更改，开发人员可以实时跟踪应用中发生的所有事情。
+
+**5、** 社区和生态系统 - Redux 背后有一个巨大的社区，这使得它更加迷人。一个由才华横溢的人组成的大型社区为库的改进做出了贡献，并开发了各种应用。
+
+**6、** 易于测试 - Redux 的代码主要是小巧、纯粹和独立的功能。这使代码可测试且独立。
+
+**7、** 组织 - Redux 准确地说明了代码的组织方式，这使得代码在团队使用时更加一致和简单。
+
+
+### 2、redux中如何进行异步操作?
+
+当然,我们可以在`componentDidmount`中直接进行请求无须借助redux.
+
+但是在一定规模的项目中,上述方法很难进行异步流的管理,通常情况下我们会借助redux的异步中间件进行异步处理.
+
+redux异步流中间件其实有很多,但是当下主流的异步中间件只有两种redux-thunk、redux-saga，当然redux-observable可能也有资格占据一席之地,其余的异步中间件不管是社区活跃度还是npm下载量都比较差了.
+
+
+### 3、什么是高阶组件(HOC)
+
+高阶组件(Higher Order Componennt)本身其实不是组件而是一个函数这个函数接收一个元组件作为参数然后返回一个新的增强组件高阶组件的出现本身也是为了逻辑复用举个例子
 
 ```
-class MyComponent extends React.Component {
-    constructor() {
-        super();
-        this.state = {
-            name: 'Maxx',
-            id: '101'
+function withLoginAuth(WrappedComponent) {
+  return class extends React.Component {
+      
+      constructor(props) {
+          super(props);
+          this.state = {
+            isLogin: false
+          };
+      }
+      
+      async componentDidMount() {
+          const isLogin = await getLoginStatus();
+          this.setState({ isLogin });
+      }
+      
+      render() {
+        if (this.state.isLogin) {
+            return <WrappedComponent {...this.props} />;
         }
-    }
-    render()
-        {
-            setTimeout(()=>{this.setState({name:'Jaeha', id:'222'})},2000)
-            return (
-                <div>
-                    <h1>Hello {this.state.name}</h1>
-                    <h2>Your Id is {this.state.id}</h2>
-                </div>
-            );
-        }
-    }
-ReactDOM.render(
-    <MyComponent/>, document.getElementById('content')
-);
+        
+        return (<div>您还未登录...</div>);
+      }
+  }
+}
 ```
 
 
-### 2、为什么要用redux
+### 4、connect原理
 
-在`React`中数据在组件中是单向流动的数据从一个方向父组件流向子组件通过`props`,所以两个非父子组件之间通信就相对麻烦`redux`的出现就是为了解决`state`里面的数据问题
+首先`connect`之所以会成功是因为`Provider`组件在原应用组件上包裹一层使原来整个应用成为`Provider`的子组件接收`Redux`的`store`作为`props`通过`context`对象传递给子孙组件上的`connect`connect做了些什么。它真正连接 `Redux`和 `React`它包在我们的容器组件的外一层它接收上面 `Provider` 提供的 `store` 里面的`state` 和 `dispatch`传给一个构造函数返回一个对象以属性形式传给我们的容器组件
 
+`connect`是一个高阶函数首先传入mapStateToProps、mapDispatchToProps然后返回一个生产Component的函数(wrapWithConnect)然后再将真正的Component作为参数传入wrapWithConnect这样就生产出一个经过包裹的Connect组件该组件具有如下特点
 
-### 3、diff算法?
+通过`props.store`获取祖先`Component`的`store props`包括`stateProps`、`dispatchProps`、`parentProps`,合并在一起得到`nextState`作为`props`传给真正的`Component componentDidMount`时添加事件`this.store.subscribe(this.handleChange)`实现页面交互`shouldComponentUpdate`时判断是否有避免进行渲染提升页面性能并得到nextState componentWillUnmount时移除注册的事件`this.handleChange`
 
-**1、** 把树形结构按照层级分解只比较同级元素。
+由于connect的源码过长我们只看主要逻辑
 
-**2、** 给列表结构的每个单元添加唯一的key属性方便比较。
-
-**3、** `React` 只会匹配相同 `class` 的 `component`这里面的class指的是组件的名字
-
-**4、** 合并操作调用 `component` 的 `setState` 方法的时候, React 将其标记为 - `dirty`.到每一个事件循环结束, `React` 检查所有标记 `dirty`的 `component`重新绘制.
-
-**5、** 选择性子树渲染。开发人员可以重写 `shouldComponentUpdate`提高 `diff`的性能
-
-
-### 4、React 中 refs 的作用是什么
-
-`Refs` 是 `React` 提供给我们的安全访问 `DOM`元素或者某个组件实例的句柄可以为元素添加ref属性然后在回调函数中接受该元素在 `DOM` 树中的句柄该值会作为回调函数的第一个参数返回
-
-
-### 5、setState到底是异步还是同步?
-
-答案: 有时表现出异步,有时表现出同步
-
-setState只在合成事件和钩子函数中是“异步”的，在原生事件和setTimeout 中都是同步的。
-
-setState 的“异步”并不是说内部由异步代码实现，其实本身执行的过程和代码都是同步的，只是合成事件和钩子函数的调用顺序在更新之前，导致在合成事件和钩子函数中没法立马拿到更新后的值，形成了所谓的“异步”，当然可以通过第二个参数 setState(partialState, callback) 中的callback拿到更新后的结果。
-
-setState 的批量更新优化也是建立在“异步”（合成事件、钩子函数）之上的，在原生事件和setTimeout 中不会批量更新，在“异步”中如果对同一个值进行多次setState，setState的批量更新策略会对其进行覆盖，取最后一次的执行，如果是同时setState多个不同的值，在更新时会对其进行合并批量更新。 #React组件通信
-
-
-### 6、简述flux 思想
-
-**1、** Flux 的最大特点就是数据的"单向流动"。
-
-**2、** 用户访问 `View`
-
-**3、** View发出用户的 `Action`
-
-**4、** `Dispatcher` 收到Action要求 `Store` 进行相应的更新
-
-**5、** `Store` 更新后发出一个"`change`"事件
-
-**6、** `View` 收到"`change`"事件后更新页面
-
-
-### 7、你对 Time Slice的理解?
-
-**时间分片**
-
-**1、** React 在渲染（render）的时候，不会阻塞现在的线程
-
-**2、** 如果你的设备足够快，你会感觉渲染是同步的
-
-**3、** 如果你设备非常慢，你会感觉还算是灵敏的
-
-**4、** 虽然是异步渲染，但是你将会看到完整的渲染，而不是一个组件一行行的渲染出来
-
-**5、** 同样书写组件的方式
-
-也就是说，这是React背后在做的事情，对于我们开发者来说，是透明的，具体是什么样的效果呢？
-
-![](https://gitee.com/souyunkutech/souyunku-home/raw/master/images/souyunku-web/2020/4/30/1939/39/97_3.png#alt=97%5C_3.png)![](https://gitee.com/souyunkutech/souyunku-home/raw/master/images/souyunku-web/2020/4/30/1939/39/97_4.png#alt=97%5C_4.png)有图表三个图表，有一个输入框，以及上面的三种模式
-
-**这个组件非常的巨大，而且在输入框**每次**输入东西的时候，就会进去一直在渲染。**为了更好的看到渲染的性能，Dan为我们做了一个表。
-
-**我们先看看，同步模式：**
-
-![](https://gitee.com/souyunkutech/souyunku-home/raw/master/images/souyunku-web/2020/4/30/1939/39/97_5.png#alt=97%5C_5.png)![](https://gitee.com/souyunkutech/souyunku-home/raw/master/images/souyunku-web/2020/4/30/1939/39/97_6.png#alt=97%5C_6.png)
-
-同步模式下，我们都知道，我们没输入一个字符，React就开始渲染，当React渲染一颗巨大的树的时候，是非常卡的，所以才会有shouldUpdate的出现，在这里Dan也展示了，这种卡！
-
-**我们再来看看第二种（Debounced模式）：**
-
-![](https://gitee.com/souyunkutech/souyunku-home/raw/master/images/souyunku-web/2020/4/30/1939/39/97_7.png#alt=97%5C_7.png)![](https://gitee.com/souyunkutech/souyunku-home/raw/master/images/souyunku-web/2020/4/30/1939/39/97_8.png#alt=97%5C_8.png)
-
-Debounced模式简单的来说，就是延迟渲染，比如，当你输入完成以后，再开始渲染所有的变化。
-
-这么做的坏处就是，至少不会阻塞用户的输入了，但是依然有非常严重的卡顿。
-
-**切换到异步模式：**
-
-![](https://gitee.com/souyunkutech/souyunku-home/raw/master/images/souyunku-web/2020/4/30/1939/39/97_9.png#alt=97%5C_9.png)![](https://gitee.com/souyunkutech/souyunku-home/raw/master/images/souyunku-web/2020/4/30/1939/39/97_10.png#alt=97%5C_10.png)
-
-异步渲染模式就是不阻塞当前线程，继续跑。在视频里可以看到所有的输入，表上都会是原谅色的。
-
-时间分片正是基于可随时打断、重启的Fiber架构,可打断当前任务,优先处理紧急且重要的任务,保证页面的流畅运行.
+```
+export default function connect(mapStateToProps, mapDispatchToProps, mergeProps, options = {}) {
+  return function wrapWithConnect(WrappedComponent) {
+    class Connect extends Component {
+      constructor(props, context) {
+        // 从祖先Component处获得store
+        this.store = props.store || context.store
+        this.stateProps = computeStateProps(this.store, props)
+        this.dispatchProps = computeDispatchProps(this.store, props)
+        this.state = { storeState: null }
+        // 对stateProps、dispatchProps、parentProps进行合并
+        this.updateState()
+      }
+      shouldComponentUpdate(nextProps, nextState) {
+        // 进行判断当数据发生改变时Component重新渲染
+        if (propsChanged 
+        || mapStateProducedChange 
+        || dispatchPropsChanged) {
+          this.updateState(nextProps)
+            return true
+          }
+        }
+        componentDidMount() {
+          // 改变Component的state
+          this.store.subscribe(() = {
+            this.setState({
+              storeState: this.store.getState()
+            })
+          })
+        }
+        render() {
+          // 生成包裹组件Connect
+          return (
+            <WrappedComponent {...this.nextState} />
+          )
+        }
+      }
+      Connect.contextTypes = {
+        store: storeShape
+      }
+      return Connect;
+    }
+  }
+```
 
 
-### 8、Vue中组件生命周期调用顺序说一下
+### 5、我现在有一个button要用react在上面绑定点击事件要怎么做
+
+```
+class Demo {
+  render() {
+    return <button onClick={(e) => {
+      alert('我点击了按钮')
+    }}>
+      按钮
+    </button>
+  }
+}
+```
+
+你觉得你这样设置点击事件会有什么问题吗
+
+由于`onClick`使用的是匿名函数所有每次重渲染的时候会把该`onClick`当做一个新的prop来处理会将内部缓存的`onClick`事件进行重新赋值所以相对直接使用函数来说可能有一点的性能下降
+
+修改
+
+```
+class Demo {
+
+  onClick = (e) => {
+    alert('我点击了按钮')
+  }
+
+  render() {
+    return <button onClick={this.onClick}>
+      按钮
+    </button>
+  }
+```
+
+
+### 6、区分状态和 props
+| 条件 | State | Props |
+| --- | --- | --- |
+| 1、从父组件中接收初始值 | Yes | Yes |
+| 2、父组件可以改变值 | No | Yes |
+| 3、在组件中设置默认值 | Yes | Yes |
+| 4、在组件的内部变化 | Yes | No |
+| 5、设置子组件的初始值 | Yes | Yes |
+| 6、在子组件的内部更改 | No | Yes |
+
+
+
+### 7、Vue中组件生命周期调用顺序说一下
 
 **1、** 组件的调用顺序都是`先父后子`,渲染完成的顺序是`先子后父`。
 
@@ -153,38 +192,69 @@ Debounced模式简单的来说，就是延迟渲染，比如，当你输入完�
 `父beforeDestroy->子beforeDestroy->子destroyed->父destroyed`
 
 
-### 9、setState
+### 8、你了解 Virtual DOM 吗？解释一下它的工作原理。
 
-在了解`setState`之前我们先来简单了解下 `React` 一个包装结构: `Transaction`:
+Virtual DOM 是一个轻量级的 JavaScript 对象，它最初只是 real DOM 的副本。它是一个节点树，它将元素、它们的属性和内容作为对象及其属性。 React 的渲染函数从 React 组件中创建一个节点树。然后它响应数据模型中的变化来更新该树，该变化是由用户或系统完成的各种动作引起的。
 
-**事务 (Transaction)**
+**Virtual DOM 工作过程有三个简单的步骤**
 
-是 `React` 中的一个调用结构用于包装一个方法结构为: `initialize` - `perform(method)` - `close`。通过事务可以统一管理一个方法的开始与结束处于事务流中表示进程正在执行一些操作
+**1、** 每当底层数据发生改变时，整个 UI 都将在 Virtual DOM 描述中重新渲染。
+
+**2、**  然后计算之前 DOM 表示与新表示的之间的差异。
+
+**3、**  完成计算后，将只用实际更改的内容更新 real DOM。
 
 
-### 10、那你能讲一讲MVVM吗？
+### 9、Vue2.x组件通信有哪些方式？
 
-MVVM是`Model-View-ViewModel`缩写，也就是把`MVC`中的`Controller`演变成`ViewModel`。Model层代表数据模型，View代表UI组件，ViewModel是View和Model层的桥梁，数据会绑定到viewModel层并自动将数据渲染到页面中，视图变化的时候会通知viewModel层更新数据。
+**父子组件通信**
+
+**1、** 父->子`props`，子->父 `$on、$emit`
+
+**2、** 获取父子组件实例 `$parent、$children`
+
+**3、** `Ref` 获取实例的方式调用组件的属性或者方法
+
+**4、** `Provide、inject` 官方不推荐使用，但是写组件库时很常用
+
+**兄弟组件通信**
+
+**1、** `Event Bus` 实现跨组件通信 `Vue.prototype.$bus = new Vue`
+
+**2、** `Vuex`
+
+**跨级组件通信**
+
+**1、** `Vuex`
+
+**2、** `$attrs、$listeners`
+
+**3、** `Provide、inject`
 
 
-### 11、概述下 React 中的事件处理逻辑
-### 12、你是如何理解fiber的?
-### 13、react-redux是如何工作的?
-### 14、React中的状态是什么？它是如何使用的？
-### 15、Store 在 Redux 中的意义是什么？
-### 16、React与Angular有何不同？
-### 17、diff算法?
-### 18、react 的虚拟dom是怎么实现的
-### 19、什么是纯组件？
-### 20、nextTick知道吗，实现原理是什么？
-### 21、组件中的data为什么是一个函数？
-### 22、redux的工作流程?
-### 23、React最新的生命周期是怎样的?
-### 24、为什么选择使用框架而不是原生?
-### 25、你对“单一事实来源”有什么理解？
-### 26、你对受控组件和非受控组件了解多少？
-### 27、如何将两个或多个组件嵌入到一个组件中？
-### 28、什么是React？
+### 10、什么是 Props?
+
+Props 是 React 中属性的简写。它们是只读组件，必须保持纯，即不可变。它们总是在整个应用中从父组件传递到子组件。子组件永远不能将 prop 送回父组件。这有助于维护单向数据流，通常用于呈现动态生成的数据。
+
+
+### 11、什么是纯组件？
+### 12、你对 Time Slice的理解?
+### 13、keep-alive了解吗
+### 14、说一下v-model的原理
+### 15、React有什么特点？
+### 16、虚拟DOM的优劣如何?
+### 17、那你能讲一讲MVVM吗？
+### 18、hash路由和history路由实现原理说一下
+### 19、React实现的移动应用中如果出现卡顿有哪些可以考虑的优化方案
+### 20、Store 在 Redux 中的意义是什么？
+### 21、具体实现步骤如下
+### 22、react-redux是如何工作的?
+### 23、在合成事件 和 生命周期钩子(除 componentDidUpdate) 中setState是"异步"的
+### 24、如何告诉 React 它应该编译生产环境版
+### 25、再说一下虚拟Dom以及key属性的作用
+### 26、redux的工作流程?
+### 27、虚拟DOM实现原理?
+### 28、与 ES5 相比，React 的 ES6 语法有何不同？
 
 
 
@@ -193,7 +263,7 @@ MVVM是`Model-View-ViewModel`缩写，也就是把`MVC`中的`Controller`演变�
 
 ### 下载链接：[全部答案，整理好了](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
 
-### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
+
 
 
 ## 最新，高清PDF：172份，7701页，最新整理

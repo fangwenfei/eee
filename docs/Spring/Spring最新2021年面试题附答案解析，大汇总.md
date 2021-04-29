@@ -4,124 +4,162 @@
 
 ### 下载链接：[高清172份，累计 7701 页大厂面试题  PDF](https://github.com/souyunku/DevBooks/blob/master/docs/index.md)
 
-### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png)
 
 
+### 1、你更倾向用那种事务管理类型？
 
-### 1、@RequestMapping注解的作用
-
-RequestMapping是一个用来处理请求地址映射的注解，可用于类或方法上。用于类上，表示类中的所有响应请求的方法都是以该地址作为父路径。
-
-RequestMapping注解有六个属性，下面我们把她分成三类进行说明（下面有相应示例）。
-
-**value， method**
-
-**1、** value： 指定请求的实际地址，指定的地址可以是URI Template 模式（后面将会说明）；
-
-**2、** method： 指定请求的method类型， GET、POST、PUT、DELETE等；
-
-**consumes，produces**
-
-**1、** consumes： 指定处理请求的提交内容类型（Content-Type），例如application/json, text/html;
-
-**2、** produces: 指定返回的内容类型，仅当request请求头中的(Accept)类型中包含该指定类型才返回；
-
-**params，headers**
-
-**1、** params： 指定request中必须包含某些参数值是，才让该方法处理。
-
-**2、** headers： 指定request中必须包含某些指定的header值，才能让该方法处理请求。
+大多数Spring框架的用户选择声明式事务管理，因为它对应用代码的影响最小，因此更符合一个无侵入的轻量级容器的思想。声明式事务管理要优于编程式事务管理，虽然比编程式事务管理（这种方式允许你通过代码控制事务）少了一点灵活性。
 
 
-### 2、什么是Spring Initializer?
+### 2、SpringBoot 打成的 jar 和普通的 jar 有什么区别 ?
 
-这个问题并不难，但面试官总是以此测试候选人的专业知识。
+SpringBoot 项目最终打包成的 jar 是可执行 jar ，这种 jar 可以直接通过 `java -jar xxx、jar` 命令来运行，这种 jar 不可以作为普通的 jar 被其他项目依赖，即使依赖了也无法使用其中的类。
 
-Spring Initializer是一个网络应用程序，它可以生成一个SpringBoot项目，包含快速启动所需的一切。和往常一样，我们需要一个好的项目框架；它有助于你正确创建项目结构/框架。
-
-
-### 3、SpringBoot 配置加载顺序?
-
-**1、** properties文件 2、YAML文件 3、系统环境变量 4、命令行参数
+SpringBoot 的 jar 无法被其他项目依赖，主要还是他和普通 jar 的结构不同。普通的 jar 包，解压后直接就是包名，包里就是我们的代码，而 SpringBoot 打包成的可执行 jar 解压后，在 `\BOOT-INF\classes` 目录下才是我们的代码，因此无法被直接引用。如果非要引用，可以在 pom、xml 文件中增加配置，将 SpringBoot 项目打包成两个 jar ，一个可执行，一个可引用。
 
 
-### 4、Spring MVC用什么对象从后台向前台传递数据的？
+### 3、SpringBoot常用的starter有哪些？
+
+**1、** spring-boot-starter-web 嵌入tomcat和web开发需要servlet与jsp支持
+
+**2、** spring-boot-starter-data-jpa 数据库支持
+
+**3、** spring-boot-starter-data-Redis Redis数据库支持
+
+**4、** spring-boot-starter-data-solr solr支持
+
+**5、** mybatis-spring-boot-starter 第三方的mybatis集成starter
 
 
+### 4、我们如何连接一个像 MySQL 或者Orcale 一样的外部数据库？
 
-通过ModelMap对象,可以在这个对象里面调用put方法,把对象加到里面,前台就可以通过el表达式拿到。
+让我们以 MySQL 为例来思考这个问题：
 
+**第一步** - 把 MySQL 连接器的依赖项添加至 pom.xml
 
-### 5、我们如何监视所有SpringBoot微服务？
+**第二步** - 从 pom.xml 中移除 H2 的依赖项
 
-SpringBoot提供监视器端点以监控各个微服务的度量。这些端点对于获取有关应用程序的信息（如它们是否已启动）以及它们的组件（如数据库等）是否正常运行很有帮助。但是，使用监视器的一个主要缺点或困难是，我们必须单独打开应用程序的知识点以了解其状态或健康状况。想象一下涉及50个应用程序的微服务，管理员将不得不击中所有50个应用程序的执行终端。
+或者至少把它作为测试的范围。
 
-为了帮助我们处理这种情况，我们将使用位于
+**第三步** - 安装你的 MySQL 数据库
 
-的开源项目。 它建立在SpringBoot Actuator之上，它提供了一个Web UI，使我们能够可视化多个应用程序的度量。
+更多的来看看这里 -[https://github.com/in28minutes/jpa-with-hibernate#installing-and-setting-up-MySQL](https://github.com/in28minutes/jpa-with-hibernate#installing-and-setting-up-MySQL)
 
+**第四步** - 配置你的 MySQL 数据库连接
 
-### 6、什么是Spring的MVC框架？
+配置 application.properties
 
-Spring 配备构建Web 应用的全功能MVC框架。Spring可以很便捷地和其他MVC框架集成，如Struts，Spring 的MVC框架用控制反转把业务对象和控制逻辑清晰地隔离。它也允许以声明的方式把请求参数和业务对象绑定。
+```
+spring.jpa.hibernate.ddl-auto=none spring.datasource.url=jdbc:MySQL://localhost:3306/todo_example
+spring.datasource.username=todouser spring.datasource.password=YOUR_PASSWORD
+```
 
+**第五步** - 重新启动，你就准备好了！
 
-### 7、你可以在Spring中注入一个null 和一个空字符串吗？
-
-可以。
-
-
-### 8、解释Spring框架中bean的生命周期。
-
-**1、** Spring容器 从XML 文件中读取bean的定义，并实例化bean。
-
-**2、** Spring根据bean的定义填充所有的属性。
-
-**3、** 如果bean实现了BeanNameAware 接口，Spring 传递bean 的ID 到 setBeanName方法。
-
-**4、** 如果Bean 实现了 BeanFactoryAware 接口， Spring传递beanfactory 给setBeanFactory 方法。
-
-**5、** 如果有任何与bean相关联的BeanPostProcessors，Spring会在postProcesserBeforeInitialization()方法内调用它们。
-
-**6、** 如果bean实现IntializingBean了，调用它的afterPropertySet方法，如果bean声明了初始化方法，调用此初始化方法。
-
-**7、** 如果有BeanPostProcessors 和bean 关联，这些bean的postProcessAfterInitialization() 方法将被调用。
-
-**8、** 如果bean实现了 DisposableBean，它将调用destroy()方法。
+就是这么简单！
 
 
-### 9、[@RequestMapping ](/RequestMapping ) 注解
+### 5、什么是 Spring Data ?
 
-该注解是用来映射一个URL到一个类或一个特定的方处理法上。
+Spring Data 是 Spring 的一个子项目。用于简化数据库访问，支持NoSQL 和 关系数据存储。其主要目标是使数据库的访问变得方便快捷。Spring Data 具有如下特点：
+
+**SpringData 项目支持 NoSQL 存储：**
+
+**1、** MongoDB （文档数据库）
+
+**2、** Neo4j（图形数据库）
+
+**3、** Redis（键/值存储）
+
+**4、** Hbase（列族数据库）
 
 
+### 6、Spring Framework 有哪些不同的功能？
 
-### 10、SpringBoot需要独立的容器运行？
+**1、** 轻量级 - Spring 在代码量和透明度方面都很轻便。
 
-SpringBoot不需要独立的容器就可以运行，因为在SpringBoot工程发布的jar文件里已经包含了tomcat的jar文件。SpringBoot运行的时候会创建tomcat对象，实现web服务功能。也可以将SpringBoot发布成war文件，放到tomcat文件里面运行
+**2、** IOC - 控制反转
+
+**3、** AOP - 面向切面编程可以将应用业务逻辑和系统服务分离，以实现高内聚。
+
+**4、** 容器 - Spring 负责创建和管理对象（Bean）的生命周期和配置。
+
+**5、** MVC - 对 web 应用提供了高度可配置性，其他框架的集成也十分方便。
+
+**6、** 事务管理 - 提供了用于事务管理的通用抽象层。Spring 的事务支持也可用于容器较少的环境。
+
+**7、** JDBC 异常 - Spring 的 JDBC 抽象层提供了一个异常层次结构，简化了错误处理策略。
 
 
-### 11、什么是 Aspect 切面
-### 12、Eureka和ZooKeeper都可以提供服务注册与发现的功能,请说说两个的区别
-### 13、可以在SpringBoot application中禁用默认的Web服务器吗？
-### 14、Spring Cloud Config
-### 15、可以通过多少种方式完成依赖注入？
-### 16、SpringCloud 和 Dubbo 有哪些区别?
-### 17、SpringBoot 实现热部署有哪几种方式？
-### 18、如何使用 SpringBoot 部署到不同的服务器？
-### 19、什么是Spring Cloud Config?
-### 20、你对SpringBoot有什么了解？
-### 21、什么是编织（Weaving）？
-### 22、Spring Cloud 和dubbo区别?
-### 23、什么是CSRF攻击？
-### 24、保护 SpringBoot 应用有哪些方法？
-### 25、SpringBoot的启动器有哪几种?
-### 26、什么是无所不在的语言？
-### 27、什么是不同类型的微服务测试？
-### 28、Spring Cloud解决了哪些问题？
-### 29、什么是SpringBoot？
-### 30、YAML 配置的优势在哪里 ?
-### 31、如何重新加载SpringBoot上的更改，而无需重新启动服务器？
+### 7、你对SpringBoot有什么了解？
+
+事实上，随着新功能的增加，弹簧变得越来越复杂。如果必须启动新的spring项目，则必须添加构建路径或添加maven依赖项，配置应用程序服务器，添加spring配置。所以一切都必须从头开始。
+
+SpringBoot是解决这个问题的方法。使用spring boot可以避免所有样板代码和配置。因此，基本上认为自己就好像你正在烘烤蛋糕一样，春天就像制作蛋糕所需的成分一样，弹簧靴就是你手中的完整蛋糕。
+
+![](https://gitee.com/souyunkutech/souyunku-home/raw/master/images/souyunku-web/2019/08/0816/01/img_12.png#alt=img%5C_12.png)
+
+图10：  SpringBoot的因素 – 微服务面试问题
+
+
+### 8、什么是Spring Cloud Zuul（服务网关）
+
+Zuul是对SpringCloud提供的成熟对的路由方案，他会根据请求的路径不同，网关会定位到指定的微服务，并代理请求到不同的微服务接口，他对外隐蔽了微服务的真正接口地址。
+
+三个重要概念：动态路由表，路由定位，反向代理：
+
+**1、** 动态路由表：Zuul支持Eureka路由，手动配置路由，这俩种都支持自动更新
+
+**2、** 路由定位：根据请求路径，Zuul有自己的一套定位服务规则以及路由表达式匹配
+
+**3、** 反向代理：客户端请求到路由网关，网关受理之后，在对目标发送请求，拿到响应之后在 给客户端它可以和Eureka,Ribbon,Hystrix等组件配合使用，
+
+**Zuul的应用场景：**
+
+对外暴露，权限校验，服务聚合，日志审计等
+
+
+### 9、比较一下 Spring Security 和 Shiro 各自的优缺点 ?
+
+由于 SpringBoot 官方提供了大量的非常方便的开箱即用的 Starter ，包括 Spring Security 的 Starter ，使得在 SpringBoot 中使用 Spring Security 变得更加容易，甚至只需要添加一个依赖就可以保护所有的接口，所以，如果是 SpringBoot 项目，一般选择 Spring Security 。当然这只是一个建议的组合，单纯从技术上来说，无论怎么组合，都是没有问题的。Shiro 和 Spring Security 相比，主要有如下一些特点：
+
+Spring Security 是一个重量级的安全管理框架；Shiro 则是一个轻量级的安全管理框架
+
+Spring Security 概念复杂，配置繁琐；Shiro 概念简单、配置简单
+
+Spring Security 功能强大；Shiro 功能简单
+
+
+### 10、微服务的缺点：
+
+**1、** 复杂度⾼：服务调⽤要考虑被调⽤⽅故障、过载、消息丢失等各种异常情况，代码逻辑更加复杂；对于微服务间的事务性操作，因为不同的微服务采⽤了不同的数据库，将⽆法利⽤数据库本身的事务机制保证⼀致性，需要引⼊⼆阶段提交等技术。
+
+**2、** 运维复杂：系统由多个独⽴运⾏的微服务构成，需要⼀个设计良好的监控系统对各个微服务的运⾏状态进⾏监控。运维⼈员需要对系统有细致的了解才对够更好的运维系统。
+
+**3、** 通信延迟：微服务之间调⽤会有时间损耗，造成通信延迟。
+
+
+### 11、JPA 和 Hibernate 有哪些区别？
+### 12、SpringBoot有哪些优点？
+### 13、如何使用SpringBoot实现分页和排序？
+### 14、什么是Feign？
+### 15、@PathVariable和@RequestParam的区别
+### 16、如何使用 SpringBoot 部署到不同的服务器？
+### 17、我们如何进行跨功能测试？
+### 18、SpringBoot 的配置文件有哪几种格式？它们有什么区别？
+### 19、Spring Cloud Zookeeper
+### 20、开启SpringBoot特性有哪几种方式？（创建SpringBoot项目的两种方式）
+### 21、描述一下 DispatcherServlet 的工作流程
+### 22、Actuator在SpringBoot中的作用
+### 23、path=”users”, collectionResourceRel=”users” 如何与 Spring Data Rest 一起使用？
+### 24、SpringBoot多数据源事务如何管理
+### 25、Eureka和ZooKeeper都可以提供服务注册与发现的功能,请说说两个的区别
+### 26、Spring框架的事务管理有哪些优点？
+### 27、Spring Framework 有哪些不同的功能？
+### 28、Mock或Stub有什么区别？
+### 29、什么是领域驱动设计？
+### 30、为什么要使用 Spring Cloud 熔断器？
+### 31、您使用了哪些 starter maven 依赖项？
 
 
 
@@ -130,7 +168,7 @@ SpringBoot不需要独立的容器就可以运行，因为在SpringBoot工程发
 
 ### 下载链接：[全部答案，整理好了](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
 
-### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
+
 
 
 ## 最新，高清PDF：172份，7701页，最新整理

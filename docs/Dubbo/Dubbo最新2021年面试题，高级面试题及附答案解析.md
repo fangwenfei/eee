@@ -4,144 +4,143 @@
 
 ### 下载链接：[高清172份，累计 7701 页大厂面试题  PDF](https://github.com/souyunku/DevBooks/blob/master/docs/index.md)
 
-### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png)
 
 
+### 1、Dubbo 支持哪些协议，每种协议的应用场景，优缺点？
 
-### 1、一般使用什么注册中心？还有别的选择吗？
+**1、** dubbo：单一长连接和 NIO 异步通讯，适合大并发小数据量的服务调用，以及消费者远大于提供者。传输协议 TCP，异步， Hessian 序列化；
 
-推荐使用 Zookeeper 作为注册中心，还有 Redis、Multicast、Simple 注册中心，但不推荐。
+**2、** rmi：采用 JDK 标准的 rmi 协议实现，传输参数和返回参数对象需要实现Serializable 接口，使用 java 标准序列化机制，使用阻塞式短连接，传输数据包大小混合，消费者和提供者个数差不多，可传文件，传输协议 TCP。多个短连接， TCP 协议传输，同步传输，适用常规的远程服务调用和 rmi 互操作。在依赖低版本的 Common-Collections 包， java 序列化存在安全漏洞；
 
+**3、** http：基于 Http 表单提交的远程调用协议，使用 Spring 的 HttpInvoke 实现。多个短连接，传输协议 HTTP，传入参数大小混合，提供者个数多于消费者，需要给应用程序和浏览器 JS 调用；
 
-### 2、Dubbo支持服务多协议吗？
+**4、** webservice：基于 WebService 的远程调用协议，集成 CXF 实现，提供和原生 WebService 的互操作。多个短连接，基于 HTTP 传输，同步传输，适用系统集成和跨语言调用；
 
-Dubbo 允许配置多协议，在不同服务上支持不同协议或者同一服务上同时支持多种协议。
+**5、** hessian：集成 Hessian 服务，基于 HTTP 通讯，采用 Servlet 暴露服务，Dubbo 内嵌 Jetty 作为服务器时默认实现，提供与 Hession 服务互操作。多个短连接，同步 HTTP 传输， Hessian 序列化，传入参数较大，提供者大于消费者，提供者压力较大，可传文件；
 
-
-### 3、说说核心的配置有哪些？
-| 标签 | 用途 | 解释 |
-| --- | --- | --- |
-| [dubbo:service/]() | 服务配置 | 用于暴露一个服务，定义服务的元信息，一个服务可以用多个协议暴露，一个服务也可以注册到多个注册中心 |
-| [dubbo:reference/]() | 引用配置 | 用于创建一个远程服务代理，一个引用可以指向多个注册中心 |
-| [dubbo:protocol/]() | 协议配置 | 用于配置提供服务的协议信息，协议由提供方指定，消费方被动接受 |
-| [dubbo:application/]() | 应用配置 | 用于配置当前应用信息，不管该应用是提供者还是消费者 |
-| [dubbo:module/]() | 模块配置 | 用于配置当前模块信息，可选 |
-| [dubbo:registry/]() | 注册中心配置 | 用于配置连接注册中心相关信息 |
-| [dubbo:monitor/]() | 监控中心配置 | 用于配置连接监控中心相关信息，可选 |
-| [dubbo:provider/]() | 提供方配置 | 当 ProtocolConfig 和 ServiceConfig 某属性没有配置时，采用此缺省值，可选 |
-| [dubbo:consumer/]() | 消费方配置 | 当 ReferenceConfig 某属性没有配置时，采用此缺省值，可选 |
-| [dubbo:method/]() | 方法配置 | 用于 ServiceConfig 和 ReferenceConfig 指定方法级的配置信息 |
-| [dubbo:argument]() | 参数配置 | 用于指定方法参数配置 |
+**6、** Redis：基于 Redis 实现的 RPC 协议
 
 
-`如果是SpringBoot项目就只需要注解，或者开Application配置文件！！！`
+### 2、dubbo 连接注册中心和直连的区别
+
+在开发及测试环境下，经常需要绕过注册中心，只测试指定服务提供者，这时候可能需要点对点直连，点对点直联方式，将以服务接口为单位，忽略注册中心的提供者列表，服务注册中心，动态的注册和发现服务，使服务的位置透明，并通过在消费方获取服务提供方地址列表，实现软负载均衡和 Failover， 注册中心返回服务提供者地址列表给消费者，如果有变更，注册中心将基于长连接推送变更数据给消费者。
+
+服务消费者，从提供者地址列表中，基于软负载均衡算法，选一台提供者进行调用，如果调用失败，再选另一台调用。注册中心负责服务地址的注册与查找，相当于目录服务，服务提供者和消费者只在启动时与注册中心交互，注册中心不转发请求，服务消费者向注册中心获取服务提供者地址列表，并根据负载算法直接调用提供者，注册中心，服务提供者，服务消费者三者之间均为长连接，监控中心除外，注册中心通过长连接感知服务提供者的存在，服务提供者宕机，注册中心将立即推送事件通知消费者注册中心和监控中心全部宕机，不影响已运行的提供者和消费者，消费者在本地缓存了提供者列表注册中心和监控中心都是可选的，服务消费者可以直连服务提供者。
 
 
-### 4、RPC使用了哪些关键技术，从调用者的角度看：
+### 3、Dubbo Monitor 实现原理？
 
-服务的调用者启动的时候根据自己订阅的服务向服务注册中心查找服务提供者的地址等信息；
+Consumer 端在发起调用之前会先走 filter 链；provider 端在接收到请求时也是先走 filter 链，然后才进行真正的业务逻辑处理。默认情况下，在 consumer 和 provider 的 filter 链中都会有 Monitorfilter。
 
-当服务调用者消费的服务上线或者下线的时候，注册中心会告知该服务的调用者；
+**1、** MonitorFilter 向 DubboMonitor 发送数据
 
-服务调用者下线的时候，则取消订阅。
+**2、** DubboMonitor 将数据进行聚合后（默认聚合 1min 中的统计数据）暂存到ConcurrentMap<Statistics, AtomicReference> statisticsMap，然后使用一个含有 3 个线程（线程名字：DubboMonitorSendTimer）的线程池每隔 1min 钟，调用 SimpleMonitorService 遍历发送 statisticsMap 中的统计数据，每发送完毕一个，就重置当前的 Statistics 的 AtomicReference
 
+**3、** SimpleMonitorService 将这些聚合数据塞入 BlockingQueue queue 中（队列大写为 100000）
 
-### 5、什么是RPC
+**4、** SimpleMonitorService 使用一个后台线程（线程名为：DubboMonitorAsyncWriteLogThread）将 queue 中的数据写入文件（该线程以死循环的形式来写）
 
-RPC（Remote Procedure Call Protocol）远程过程调用协议，它是一种通过网络从远程计算机程序上请求服务，而不需要了解底层网络技术的协议。简言之，RPC使得程序能够像访问本地系统资源一样，去访问远端系统资源。比较关键的一些方面包括：通讯协议、序列化、资源（接口）描述、服务框架、性能、语言支持等。
-
-![](https://gitee.com/souyunkutech/souyunku-home/raw/master/images/souyunku-web/2020/5/2/026/54/80_3.png#alt=80%5C_3.png)
-
-简单的说，RPC就是从一台机器(客户端)上通过参数传递的方式调用另一台机器(服务器)上的一个函数或方法(可以统称为服务)并得到返回的结果。
+**5、** SimpleMonitorService 还会使用一个含有 1 个线程（线程名字：DubboMonitorTimer）的线程池每隔 5min 钟，将文件中的统计数据画成图表
 
 
-### 6、Dubbo 的默认集群容错方案？
+### 4、Dubbo 集群的负载均衡有哪些策略
 
-Failover Cluster
+Dubbo 提供了常见的集群策略实现，并预扩展点予以自行实现。
 
+Random LoadBalance: 随机选取提供者策略，有利于动态调整提供者权重。截面碰撞率高，调用次数越多，分布越均匀；
 
-### 7、Dubbo 的架构设计
+RoundRobin LoadBalance: 轮循选取提供者策略，平均分布，但是存在请求累积的问题；
 
-**Dubbo 框架设计一共划分了 10 个层：**
-
-**1、** 服务接口层（ Service） ：该层是与实际业务逻辑相关的，根据服务提供方和服务消费方的业务设计对应的接口和实现。
-
-**2、** 配置层（ Config） ：对外配置接口，以 ServiceConfig 和ReferenceConfig 为中心。
-
-**3、** 服务代理层（ Proxy）：服务接口透明代理，生成服务的客户端 Stub和服务器端 Skeleton
-
-**4、** 服务注册层（ Registry） ：封装服务地址的注册与发现，以服务 URL为中心。
-
-**5、** 集群层（ Cluster） ：封装多个提供者的路由及负载均衡，并桥接注册中心，以 Invoker 为中心。
-
-**6、** 监控层（ Monitor） ：RPC 调用次数和调用时间监控。
-
-**7、** 远程调用层（ Protocol） ：封将 RPC 调用，以 Invocation 和 Result为中心，扩展接口为 Protocol、 Invoker 和 Exporter。
-
-**8、** 信息交换层（ Exchange） ：封装请求响应模式，同步转异步，以Request 和 Response 为中心。
-
-**9、** 网络传输层（ Transport） ：抽象 mina 和 netty 为统一接口，以Message 为中心。
+LeastActive LoadBalance: 最少活跃调用策略，解决慢提供者接收更少的请求； ConstantHash LoadBalance: 一致性 Hash 策略，使相同参数请求总是发到同一提供者，一台机器宕机，可以基于虚拟节点，分摊至其他提供者，避免引起提供者的剧烈变动；
 
 
-### 8、你还了解别的分布式框架吗？
+### 5、Dubbo 能集成 SpringBoot 吗？
 
-别的还有spring的spring cloud，facebook的thrift，twitter的finagle等。
-
-
-### 9、dubbo 和 dubbox 之间的区别？
-
-dubbox 是当当网基于 dubbo 上做了一些扩展，如加了服务可 restful 调用，更新了开源组件等。推荐阅读：厉害了，Dubbo 正式毕业！建议看下它的发展史！
+可以的
 
 
-### 10、Dubbo telnet 命令能做什么？
+### 6、服务读写推荐的容错策略是怎样的？
 
-dubbo服务发布之后，我们可以利用telnet命令进行调试、管理。
+读操作建议使用 Failover 失败自动切换，默认重试两次其他服务器。写操作建议使用 Failfast 快速失败，发一次调用失败就立即报错。
 
-Dubbo2.0.5以上版本服务提供端口支持telnet命令
 
-**连接服务**
+### 7、为什么要有RPC
 
-telnet localhost 20880  //键入回车进入Dubbo命令模式。
+**1、** http接口是在接口不多、系统与系统交互较少的情况下，解决信息孤岛初期常使用的一种通信手段；优点就是简单、直接、开发方便。利用现成的http协议进行传输。但是如果是一个大型的网站，内部子系统较多、接口非常多的情况下，RPC框架的好处就显示出来了，首先就是长链接，不必每次通信都要像http一样去3次握手什么的，减少了网络开销；其次就是RPC框架一般都有注册中心，有丰富的监控管理；发布、下线接口、动态扩展等，对调用方来说是无感知、统一化的操作。第三个来说就是安全性。最后就是最近流行的服务化架构、服务化治理，RPC框架是一个强力的支撑。
 
-**查看服务列表**
+**2、** socket只是一个简单的网络通信方式，只是创建通信双方的通信通道，而要实现rpc的功能，还需要对其进行封装，以实现更多的功能。
 
-```
-dubbo>ls
-com.test.TestService
-dubbo>ls com.test.TestService
-create
-delete
-query
+**3、** RPC一般配合netty框架、spring自定义注解来编写轻量级框架，其实netty内部是封装了socket的，较新的jdk的IO一般是NIO，即非阻塞IO，在高并发网站中，RPC的优势会很明显
+
+
+### 8、Dubbo 超时时间怎样设置？
+
+Dubbo 超时时间设置有两种方式：
+
+服务提供者端设置超时时间，在 Dubbo 的用户文档中，推荐如果能在服务端多配置就尽量多配置，因为服务提供者比消费者更清楚自己提供的服务特性。
+
+服务消费者端设置超时时间，如果在消费者端设置了超时时间，以消费者端为主，即优先级更高。因为服务调用方设置超时时间控制性更灵活。如果消费方超时，服务端线程不会定制，会产生警告。
+
+
+### 9、Dubbo 用到哪些设计模式？
+
+Dubbo框架在初始化和通信过程中使用了多种设计模式，可灵活控制类加载、权限控制等功能。
+
+**工厂模式**
+
+Provider在export服务时，会调用ServiceConfig的export方法。ServiceConfig中有个字段：
+
+```java
+private static final Protocol protocol = ExtensionLoader.getExtensionLoader(Protocol.class).getAdaptiveExtension();
 ```
 
-1. ls (list services and methods)
-2. ls : 显示服务列表。
-3. ls -l : 显示服务详细信息列表。
-4. ls XxxService：显示服务的方法列表。
-5. ls -l XxxService：显示服务的方法详细信息列表。
+Dubbo里有很多这种代码。这也是一种工厂模式，只是实现类的获取采用了JDK SPI的机制。这么实现的优点是可扩展性强，想要扩展实现，只需要在classpath下增加个文件就可以了，代码零侵入。另外，像上面的Adaptive实现，可以做到调用时动态决定调用哪个实现，但是由于这种实现采用了动态代理，会造成代码调试比较麻烦，需要分析出实际调用的实现类。
+
+**装饰器模式**
+
+Dubbo在启动和调用阶段都大量使用了装饰器模式。以Provider提供的调用链为例，具体的调用链代码是在ProtocolFilterWrapper的buildInvokerChain完成的，具体是将注解中含有group=provider的Filter实现，按照order排序，最后的调用顺序是：
+
+```java
+EchoFilter -> ClassLoaderFilter -> GenericFilter -> ContextFilter -> ExecuteLimitFilter -> TraceFilter -> TimeoutFilter -> MonitorFilter -> ExceptionFilter
+```
+
+更确切地说，这里是装饰器和责任链模式的混合使用。例如，EchoFilter的作用是判断是否是回声测试请求，是的话直接返回内容，这是一种责任链的体现。而像ClassLoaderFilter则只是在主功能上添加了功能，更改当前线程的ClassLoader，这是典型的装饰器模式。
+
+**观察者模式**
+
+Dubbo的Provider启动时，需要与注册中心交互，先注册自己的服务，再订阅自己的服务，订阅时，采用了观察者模式，开启一个listener。注册中心会每5秒定时检查是否有服务更新，如果有更新，向该服务的提供者发送一个notify消息，provider接受到notify消息后，即运行NotifyListener的notify方法，执行监听器方法。
+
+**动态代理模式**
+
+Dubbo扩展JDK SPI的类ExtensionLoader的Adaptive实现是典型的动态代理实现。Dubbo需要灵活地控制实现类，即在调用阶段动态地根据参数决定调用哪个实现类，所以采用先生成代理类的方法，能够做到灵活的调用。生成代理类的代码是ExtensionLoader的createAdaptiveExtensionClassCode方法。代理类的主要逻辑是，获取URL参数中指定参数的值作为获取实现类的key。
 
 
-### 11、Dubbo 使用过程中都遇到了些什么问题？
-### 12、dubbo是什么
-### 13、Dubbo 默认采用注册中心？
-### 14、服务调用超时会怎么样？
+### 10、Dubbo可以对结果进行缓存吗？
+
+可以，Dubbo 提供了声明式缓存，用于加速热门数据的访问速度，以减少用户加缓存的工作量
+
+
+### 11、服务调用超时问题怎么解决？
+### 12、Dubbo 有哪些注册中心？
+### 13、同一个服务多个注册的情况下可以直连某一个服务吗？
+### 14、Dubbo服务之间的调用是阻塞的吗？
 ### 15、默认使用的是什么通信框架，还有别的选择吗?
-### 16、默认使用什么序列化框架，你知道的还有哪些？
-### 17、说说核心的配置有哪些？
-### 18、Dubbo SPI 和 Java SPI 区别？
-### 19、在使用过程中都遇到了些什么问题？
-### 20、Dubbo的集群容错方案有哪些？
-### 21、Dubbo 和 Spring Cloud 的关系？
-### 22、Dubbo 集群的负载均衡有哪些策略?
-### 23、RPC使用了哪些关键技术，NIO通信
-### 24、Dubbo的集群容错方案有哪些？
-### 25、Dubbo 能集成 SpringBoot 吗？
-### 26、Dubbo服务之间的调用是阻塞的吗？
-### 27、RPC使用了哪些关键技术，反序列化
-### 28、说说核心的配置有哪些？
-### 29、默认使用什么序列化框架，你知道的还有哪些？
-### 30、Dubbo的管理控制台能做什么？
-### 31、PRC架构组件
+### 16、你还了解别的分布式框架吗？
+### 17、Dubbo 核心组件有哪些？
+### 18、dubbo能做什么
+### 19、Dubbo 支持哪些协议，每种协议的应用场景，优缺点？
+### 20、说说核心的配置有哪些？
+### 21、RPC和SOA、SOAP、REST的区别
+### 22、默认使用什么序列化框架，你知道的还有哪些？
+### 23、默认使用什么序列化框架，你知道的还有哪些？
+### 24、Dubbo 有些哪些注册中心？
+### 25、dubbo 通信协议 dubbo 协议适用范围和适用场景
+### 26、Dubbo 可以对结果进行缓存吗？
+### 27、Dubbo 是什么？
+### 28、dubbo 通信协议 dubbo 协议为什么采用异步单一长连接
+### 29、Dubbo 有哪些注册中心？
+### 30、Dubbo 与 Spring 的关系？
+### 31、Dubbo 和 Spring Cloud 的区别？
 
 
 
@@ -150,7 +149,7 @@ query
 
 ### 下载链接：[全部答案，整理好了](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
 
-### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
+
 
 
 ## 最新，高清PDF：172份，7701页，最新整理

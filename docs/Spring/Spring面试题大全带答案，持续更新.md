@@ -4,165 +4,100 @@
 
 ### 下载链接：[高清172份，累计 7701 页大厂面试题  PDF](https://github.com/souyunku/DevBooks/blob/master/docs/index.md)
 
-### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png)
 
 
+### 1、解释AOP
 
-### 1、springcloud和dubbo有哪些区别
+面向切面的编程，或AOP， 是一种编程技术，允许程序模块化横向切割关注点，或横切典型的责任划分，如日志和事务管理。
 
-**1、** Dubbo具有调度、发现、监控、治理等功能，⽀持相当丰富的服务治理能⼒。Dubbo架构下，注册中⼼对等集群，并会缓存服务列表已被数据库失效时继续提供发现功能，本身的服务发现结构有很强的可⽤性与健壮性，⾜够⽀持⾼访问量的⽹站。
 
-**2、** 虽然Dubbo ⽀持短连接⼤数据量的服务提供模式，但绝⼤多数情况下都是使⽤⻓连接⼩数据量的模式提供服务使⽤的。所以，对于类似于电商等同步调⽤场景多并且能⽀撑搭建Dubbo 这套⽐较复杂环境的成本的产品⽽⾔，Dubbo 确实是⼀个可以考虑的选择。但如果产品业务中由于后台业务逻辑复杂、时间⻓⽽导致异步逻辑⽐较多的话，可能Dubbo 并不合适。同时，对于⼈⼿不⾜的初创产品⽽⾔，这么重的架构维护起来也不是很⽅便。
+### 2、Spring支持的ORM
 
-**3、** Spring Cloud由众多⼦项⽬组成，如Spring Cloud Config、Spring Cloud Netflix、Spring Cloud Consul 等，提供了搭建分布式系统及微服务常⽤的⼯具，如配置管理、服务发现、断路器、智能路由、微代理、控制总线、⼀次性token、全局锁、选主、分布式会话和集群状态等，满⾜了构建微服务所需的所有解决⽅案。⽐如使⽤Spring Cloud Config 可以实现统⼀配置中⼼，对配置进⾏统⼀管理；使⽤Spring Cloud Netflix 可以实现Netflix 组件的功能 - 服务发现（Eureka）、智能路由（Zuul）、客户端负载均衡（Ribbon）。
+Spring支持以下ORM：
 
-**4、** Dubbo 提供了各种 Filter，对于上述中“⽆”的要素，可以通过扩展 Filter 来完善。
+**1、** Hibernate
 
-**5、** dubbo的开发难度较⼤，原因是dubbo的jar包依赖问题很多⼤型⼯程⽆法解决。
+**2、** iBatis
 
-![](https://gitee.com/souyunkutech/souyunku-home/raw/master/images/souyunku-web/2020/5/2/01/44/45_3.png#alt=45%5C_3.png)
+**3、** JPA (Java Persistence API)
 
+**4、** TopLink
 
-### 2、有哪些不同类型的IOC（依赖注入）方式？
+**5、** JDO (Java Data Objects)
 
-**1、** 构造器依赖注入：构造器依赖注入通过容器触发一个类的构造器来实现的，该类有一系列参数，每个参数代表一个对其他类的依赖。
+**6、** OJB
 
-**2、** Setter方法注入：Setter方法注入是容器通过调用无参构造器或无参static工厂 方法实例化bean之后，调用该bean的setter方法，即实现了基于setter的依赖注入。
 
+### 3、什么是 Spring Framework？
 
-### 3、Spring Cloud Stream
+Spring 是一个开源应用框架，旨在降低应用程序开发的复杂度。它是轻量级、松散耦合的。它具有分层体系结构，允许用户选择组件，同时还为 J2EE 应用程序开发提供了一个有凝聚力的框架。它可以集成其他框架，如 Structs、Hibernate、EJB 等，所以又称为框架的框架。
 
-轻量级事件驱动微服务框架，可以使用简单的声明式模型来发送及接收消息，主要实现为Apache Kafka及RabbitMQ。
 
+### 4、什么是 AOP 引入?
 
-### 4、什么是Spring MVC框架的控制器？
+引入允许我们在已存在的类中增加新的方法和属性。
 
-控制器提供一个访问应用程序的行为，此行为通常通过服务接口实现。控制器解析用户输入并将其转换为一个由视图呈现给用户的模型。Spring用一个非常抽象的方式实现了一个控制层，允许用户创建多种用途的控制器。
 
+### 5、[@Required ](/Required ) 注解有什么用？
 
-### 5、解释Spring支持的几种bean的作用域。
+[@Required ](/Required ) 应用于 bean 属性 setter 方法。 此注解仅指示必须在配置时使用 bean 定义中的显式属性值或使用自动装配填充受影响的 bean 属性。 如果尚未填充受影响的 bean 属性，则容器将抛出 BeanInitializationException。
 
-**Spring框架支持以下五种bean的作用域：**
 
-**1、** singleton : bean在每个Spring ioc 容器中只有一个实例。
+### 6、常用网关框架有那些？
 
-**2、** prototype：一个bean的定义可以有多个实例。
+Nginx、Zuul、Gateway
 
-**3、** request：每次http请求都会创建一个bean，该作用域仅在基于web的Spring ApplicationContext情形下有效。
 
-**4、** session：在一个HTTP Session中，一个bean定义对应一个实例。该作用域仅在基于web的Spring ApplicationContext情形下有效。
+### 7、我们如何监视所有 SpringBoot 微服务？
 
-**5、** global-session：在一个全局的HTTP Session中，一个bean定义对应一个实例。该作用域仅在基于web的Spring ApplicationContext情形下有效。
+SpringBoot 提供监视器端点以监控各个微服务的度量。这些端点对于获取有关应用程序的信息（如它们是否已启动）以及它们的组件（如数据库等）是否正常运行很有帮助。但是，使用监视器的一个主要缺点或困难是，我们必须单独打开应用程序的知识点以了解其状态或健康状况。想象一下涉及 50 个应用程序的微服务，管理员将不得不击中所有 50 个应用程序的执行终端。
 
-缺省的Spring bean 的作用域是Singleton.
 
+### 8、既然Nginx可以实现网关？为什么还需要使用Zuul框架
 
-### 6、链路跟踪Sleuth
+Zuul是SpringCloud集成的网关，使用Java语言编写，可以对SpringCloud架构提供更灵活的服务。
 
-当我们项目中引入Spring Cloud Sleuth后，每次链路请求都会添加一串追踪信息，格式是[server-name, main-traceId,sub-spanId,boolean]：
 
-**1、** server-name：服务结点名称。
+### 9、BeanFactory – BeanFactory 实现举例。
 
-**2、** main-traceId：一条链路唯一的ID，为TraceID。
+Bean 工厂是工厂模式的一个实现，提供了控制反转功能，用来把应用的配置和依赖从正真的应用代码中分离。
 
-**3、** sub-spanId：链路中每一环的ID，为SpanID。
+最常用的BeanFactory 实现是XmlBeanFactory 类。
 
-**4、** boolean：是否将信息输出到Zipkin等服务收集和展示。
 
-Sleuth的实现是基于HTTP的，为了在数据的收集过程中不能影响到正常业务，Sleuth会在每个请求的Header上添加跟踪需求的重要信息。这样在数据收集时，只需要将Header上的相关信息发送给对应的图像工具即可，图像工具根据上传的数据，按照Span对应的逻辑进行分析、展示。
+### 10、列举 IoC 的一些好处
 
+**1、** IoC 的一些好处是：
 
+**2、** 它将最小化应用程序中的代码量。
 
-### 7、什么是feigin？它的优点是什么？
+**3、** 它将使您的应用程序易于测试，因为它不需要单元测试用例中的任何单例或 JNDI 查找机制。
 
-**1、** feign采用的是基于接口的注解
+**4、** 它以最小的影响和最少的侵入机制促进松耦合。
 
-**2、** feign整合了ribbon，具有负载均衡的能力
+**5、** 它支持即时的实例化和延迟加载服务。
 
-**3、** 整合了Hystrix，具有熔断的能力
 
-**使用:**
-
-**1、** 添加pom依赖。
-
-**2、** 启动类添加[@EnableFeignClients ](/EnableFeignClients )
-
-**3、** 定义一个接口@FeignClient(name=“xxx”)指定调用哪个服务
-
-
-### 8、[@Autowired ](/Autowired ) 注解有什么用？
-
-[@Autowired ](/Autowired ) 可以更准确地控制应该在何处以及如何进行自动装配。
-
-此注解用于在 setter 方法，构造函数，具有任意名称或多个参数的属性或方法上自动装配 bean。 默认情况下，它是类型驱动的注入。
-
-
-### 9、区分构造函数注入和 setter 注入。
-| 构造函数注入 | setter 注入 |
-| --- | --- |
-| 没有部分注入 | 有部分注入 |
-| 不会覆盖 setter 属性 | 会覆盖 setter 属性 |
-| 任意修改都会创建一个新实例 | 任意修改不会创建一个新实例 |
-| 适用于设置很多属性 | 适用于设置少量属性 |
-
-
-
-### 10、[@Qualifier ](/Qualifier ) 注解有什么用？
-
-当您创建多个相同类型的 bean 并希望仅使用属性装配其中一个 bean 时，您可以使用[@Qualifier ](/Qualifier ) 注解和 [@Autowired ](/Autowired ) 通过指定应该装配哪个确切的 bean 来消除歧义。
-
-例如，这里我们分别有两个类，Employee 和 EmpAccount。在 EmpAccount 中，使用[@Qualifier ](/Qualifier ) 指定了必须装配 id 为 emp1 的 bean。
-
-Employee.java
-
-```
-public class Employee {
-    private String name;
-    @Autowired
-    public void setName(String name) {
-        this.name=name;
-    }
-    public string getName() {
-        return name;
-    }
-}
-```
-
-EmpAccount.java
-
-```
-public class EmpAccount {
-    private Employee emp;
-
-    @Autowired
-    @Qualifier(emp1)
-    public void showName() {
-        System.out.println(“Employee name : ”+emp.getName);
-    }
-}
-```
-
-
-### 11、YAML 配置的优势在哪里 ?
-### 12、列举 Spring Framework 的优点。
-### 13、如何不通过任何配置来选择 Hibernate 作为 JPA 的默认实现？
-### 14、什么是Spring MVC？简单介绍下你对Spring MVC的理解？
-### 15、什么是 Spring 配置文件？
-### 16、怎么样把ModelMap里面的数据放入Session里面？
-### 17、什么是 spring bean？
-### 18、什么是 AOP 代理?
-### 19、谈谈服务降级、熔断、服务隔离
-### 20、什么是Spring beans?
-### 21、如何在不使用BasePACKAGE过滤器的情况下排除程序包？
-### 22、@ResponseBody注解的作用
-### 23、SpringBoot事物的使用
-### 24、什么是SpringBoot？
-### 25、[@Controller ](/Controller ) 注解
-### 26、AOP 有哪些实现方式？
-### 27、什么是 Spring Profiles？
-### 28、SpringBoot自动配置的原理是什么？
-### 29、什么是不同类型的双因素身份认证？
-### 30、Spring Cloud Task
+### 11、SpringBoot集成mybatis的过程
+### 12、区分构造函数注入和 setter 注入。
+### 13、Spring Cloud 是什么
+### 14、SpringBoot 中的监视器是什么？
+### 15、SpringBoot 的核心注解是哪个？它主要由哪几个注解组成的？
+### 16、什么是 AOP 连接点
+### 17、微服务之间是如何独立通讯的
+### 18、使用Spring通过什么方式访问Hibernate?
+### 19、您将如何在微服务上执行安全测试？
+### 20、什么是YAML？
+### 21、shiro和oauth还有cas他们之间的关系是什么？问下您公司权限是如何设计，还有就是这几个概念的区别。
+### 22、列举 spring 支持的事务管理类型
+### 23、什么是织入。什么是织入应用的不同点？
+### 24、为什么要选择微服务架构？
+### 25、什么是Spring Cloud？
+### 26、微服务中如何实现 session 共享 ?
+### 27、什么是双因素身份验证？
+### 28、列举微服务技术栈
+### 29、解释基于注解的切面实现
+### 30、使用Spring框架的好处是什么？
 
 
 
@@ -171,7 +106,7 @@ public class EmpAccount {
 
 ### 下载链接：[全部答案，整理好了](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
 
-### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
+
 
 
 ## 最新，高清PDF：172份，7701页，最新整理

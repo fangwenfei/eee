@@ -4,85 +4,102 @@
 
 ### 下载链接：[高清172份，累计 7701 页大厂面试题  PDF](https://github.com/souyunku/DevBooks/blob/master/docs/index.md)
 
-### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png)
 
 
+### 1、查看是否在主服务器上的命令语法是什么？MongoDB允许多少个主机？
 
-### 1、你怎么比较MongoDB、CouchDB及CouchBase?
-
-不知道
-
-
-### 2、什么是NoSQL数据库？NoSQL和RDBMS有什么区别？在哪些情况下使用和不使用NoSQL数据库？
-
-NoSQL是非关系型数据库，NoSQL = Not Only SQL。
-
-关系型数据库采用的结构化的数据，NoSQL采用的是键值对的方式存储数据。 在处理非结构化/半结构化的大数据时；在水平方向上进行扩展时；随时应对动态增加的数据项时可以优先考虑
-
-使用NoSQL数据库。 在考虑数据库的成熟度；支持；分析和商业智能；管理及专业性等问题时，应优先考虑关系型数据库。
+命令语法Db.isMaster（）会告诉您是否在主服务器上。MongoDB仅允许一个主服务器，而ouchDB允许多个主服务器。
 
 
-### 3、MongoDB支持存储过程吗？如果支持的话，怎么用？
+### 2、当我试图更新一个正在被迁移的块（chunk）上的文档时会发生什么？
 
-MongoDB支持存储过程，它是javascript写的，保存在db.system.js表中。
-
-
-### 4、在MongoDB中如何排序
-
-并使用 1 和 -1 来指定排序方式，其中 1 表示升序，而 -1 表示降序。
-
-db.connectionName.find({key:value}).sort({columnName:1})
+会立即更新旧的分片，然后更改才会在所有权转移前复制到新的分片上
 
 
-### 5、ObjectID"有哪些部分组成
+### 3、为什么要在MongoDB中用"Regular Expression"数据类型
 
-一共有四部分组成:时间戳、客户端ID、客户进程ID、三个字节的增量计数器
-
-
-### 6、MongoDB在A:{B,C}上建立索引，查询A:{B,C}和A:{C,B}都会使用索引吗？
-
-不会，只会在A:{B,C}上使用索引。
+"Regular Expression"类型用于在文档中存储正则表达式
 
 
-### 7、如果在一个分片(shard)停止或者很慢的时候,我发起一个查询会怎样?
+### 4、分片（sharding）和复制（replication）是怎样工作的？
 
-如果一个分片(shard)停止了,除非查询设置了“partial”选项,否则查询会返回一个错误.如果一个分片(shard)响应很慢,mongodb则会等待它的响应.
-
-
-### 8、什么是master或primary？
-
-当前备份集群负责所有的写入操作的主要节点，在集群中，当主节点（master）失效，另一个成员会变为master
+分片可能是单一的服务器或者集群组成，推荐使用集群
 
 
-### 9、31如何理解MongoDB中的GridFS机制，MongoDB为何使用GridFS来存储文件？
+### 5、MongoDB的优势有哪些
 
-GridFS是一种将大型文件存储在MongoDB中的文件规范。使用GridFS可以将大文件分隔成多个小文档存放，这样我们能够有效的保存大文档，而且解决了BSON对象有限制的问题。
+1. 面向文档的存储：以 JSON 格式的文档保存数据。
+2. 任何属性都可以建立索引。
+3. 复制以及高可扩展性。
+4. 自动分片。
+5. 丰富的查询功能。
+6. 快速的即时更新。
 
 
-### 10、说明Profiler在MongoDB中的作用是什么？
+### 6、MySQL与mongodb本质之间最基本的差别是什么
 
-MongoDB数据库分析器显示针对数据库的每个操作的性能特征。您可以使用探查器找到比其慢的查询。
+差别在多方面  例如 数据的表示，查询 关系 事务 模式的设计和定义 速度和性能
 
 
-### 11、.MongoDB支持主键外键关系吗
+### 7、解释什么是MongoDB中的GridFS？
+
+为了存储和检索大文件，例如图像，视频文件和音频文件，使用GridFS。默认情况下，它使用两个文件fs.files和fs.chunks来存储文件的元数据和数据块。
+
+
+### 8、在MongoDB中创建模式时，需要考虑哪些要点？
+
+**需要考虑的要点是**
+
+**1、** 根据用户要求设计架构
+
+**2、** 如果将它们一起使用，则将它们组合到一个文档中。否则，将它们分开
+
+**3、** 在写入时进行连接，而不是在读取时进行连接
+
+**4、** 对于最常见的用例，请优化您的架构
+
+**5、** 在架构中进行复杂的汇总
+
+
+### 9、MongoDB支持哪些数据类型
+
+1. String
+2. Integer
+3. Double
+4. Boolean
+5. Object
+6. Object ID
+7. Arrays
+8. Min/Max Keys
+9. Datetime
+10. Code
+11. Regular Expression等
+
+
+### 10、解释什么是副本集？
+
+副本集是一组托管相同数据集的mongo实例。在副本集中，一个节点是主节点，另一个是辅助节点。从主节点到辅助节点，所有数据都会复制。
+
+
+### 11、mongodb成为最好nosql数据库的原因是什么?
 ### 12、什么是聚合
-### 13、提到如何检查函数的源代码？
-### 14、如何添加索引
-### 15、更新操作立刻fsync到磁盘?
-### 16、更新数据
-### 17、解释什么是MongoDB中的GridFS？
-### 18、查看Mongos使用的连接？
-### 19、MongoDB支持哪些数据类型
-### 20、如何删除文档
-### 21、名字空间（namespace）是什么？
-### 22、解释一下您可以将旧文件移动到moveChunk目录中吗？
-### 23、能否使用日志特征进行安全备份？
-### 24、用什么方法可以格式化输出结果
-### 25、在哪些场景使用MongoDB
-### 26、monogodb 中的分片什么意思
-### 27、使用mongodb的优点
-### 28、数据在什么时候才会扩展到多个分片(shard)里?
-### 29、MongoDB中的命名空间是什么意思?
+### 13、解释什么是MongoDB？
+### 14、如何执行事务/加锁？
+### 15、说明Profiler在MongoDB中的作用是什么？
+### 16、如果用户移除对象的属性,该属性是否从存储层中删除?
+### 17、MongoDB支持存储过程吗？如果支持的话，怎么用？
+### 18、.MongoDB支持主键外键关系吗
+### 19、为什么要在MongoDB中使用分析器
+### 20、什么是MongoDB中的“命名空间”？
+### 21、在MongoDB中创建集合并将其删除的语法是什么？
+### 22、名字空间（namespace）是什么？
+### 23、允许空值null吗?
+### 24、什么是数据库
+### 25、解释一下MongoDB中的索引是什么？
+### 26、解释一下您可以将旧文件移动到moveChunk目录中吗？
+### 27、我应该启动一个集群分片(sharded)还是一个非集群分片的 mongodb 环境?
+### 28、更新操作立刻fsync到磁盘？
+### 29、31如何理解MongoDB中的GridFS机制，MongoDB为何使用GridFS来存储文件？
 
 
 
@@ -91,7 +108,7 @@ MongoDB数据库分析器显示针对数据库的每个操作的性能特征。�
 
 ### 下载链接：[全部答案，整理好了](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
 
-### 一键直达：[https://www.souyunku.com/?p=67](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
+
 
 
 ## 最新，高清PDF：172份，7701页，最新整理
