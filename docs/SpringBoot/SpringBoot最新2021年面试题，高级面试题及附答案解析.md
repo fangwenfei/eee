@@ -6,95 +6,133 @@
 
 
 
-### 1、@SpringBootApplication注释在内部有什么用处?
+### 1、spring boot 核心的两个配置文件：
 
-作为Spring引导文档，@SpringBootApplication注释等同于同时使用@Configuration、@EnableAutoConfiguration和@ComponentScan及其默认属性。SpringBoot允许开发人员使用单个注释而不是多个注释。但是，众所周知，Spring提供了松散耦合的特性，我们可以根据项目需要为每个注释使用这些特性。
+**1、** bootstrap (.yml 或.properties)：boostrap 由父 ApplicationContext 加载的，比 applicaton 优先加载，配置在应用程序上下文的引导阶段生效。一般来说我们在 Spring Cloud Config 或者 Nacos 中会用到它。且 boostrap 里面的属性不能被覆盖；
 
-
-### 2、SpringBoot中的监视器是什么？
-
-Spring boot actuator是spring启动框架中的重要功能之一。Spring boot监视器可帮助您访问生产环境中正在运行的应用程序的当前状态。有几个指标必须在生产环境中进行检查和监控。即使一些外部应用程序可能正在使用这些服务来向相关人员触发警报消息。监视器模块公开了一组可直接作为HTTP URL访问的REST端点来检查状态。
+**2、** application (. yml 或者 . properties)：由ApplicatonContext 加载，用于 spring boot 项目的自动化配置。
 
 
-### 3、SpringBoot 可以兼容老 Spring 项目吗，如何做？
+### 2、是否可以在Spring boot中更改嵌入式Tomcat服务器的端口?
 
-可以兼容，使用 [@ImportResource ](/ImportResource ) 注解导入老 Spring 项目配置文件。
-
-
-### 4、SpringBoot的配置文件有哪几种格式？区别是什么？
-
-.properties和.yml，它们的区别主要是书写格式不同。yml采取的是缩进的格式 不支持@PerpertySource注解导入配置
+是的，更改端口是可行的。可以使用application.properties文件更改端口。但需要提到“server.port”（即server.port=8081）。确保项目类路径中有application.properties；后续工作将由REST Spring框架接手。如果提到server.port=0，那么它将自动分配任何可用的端口。
 
 
-### 5、什么是SpringBoot？
+### 3、如何在 SpringBoot 启动的时候运行一些特定的代码？
 
-多年来，随着新功能的增加，spring变得越来越复杂。只需访问https://spring.io/projects
-
-如果必须启动一个新的Spring项目，我们必须添加构建路径或添加Maven依赖关系，配置应用程序服务器，添加spring配置。
-
-因此，开始一个新的spring项目需要很多努力，因为我们现在必须从头开始做所有事情。
-
-SpringBoot是解决这个问题的方法。SpringBoot已经建立在现有spring框架之上。使用spring启动，我们避免了之前我们必须做的所有样板代码和配置。
-
-因此，SpringBoot可以帮助我们以最少的工作量，更加健壮地使用现有的Spring功能。
+可以实现接口 ApplicationRunner 或者 CommandLineRunner，这两个接口实现方式一样，它们都只提供了一个 run 方法
 
 
-### 6、SpringBoot 的核心配置文件有哪几个？它们的区别是什么？
+### 4、什么是 CSRF 攻击？
 
-**1、** SpringBoot 的核心配置文件是 application 和 bootstrap 配置文件。
-
-**2、** application 配置文件这个容易了解，主要用于 SpringBoot 项目的自动化配置。
-
-**3、** bootstrap 配置文件有以下几个应用场景。
-
-**4、** 使用 Spring Cloud Config 配置中心时，这时需要在 bootstrap 配置文件中增加连接到配置中心的配置属性来加载外部配置中心的配置信息；
-
-**5、** 少量固定的不能被覆盖的属性；
-
-**6、** 少量加密/解密的场景；
+CSRF 代表跨站请求伪造。这是一种攻击，迫使最终用户在当前通过身份验证的Web 应用程序上执行不需要的操作。CSRF 攻击专门针对状态改变请求，而不是数据窃取，因为攻击者无法查看对伪造请求的响应。
 
 
-### 7、SpringBoot 2.X 有什么新特性？与 1.X 有什么区别？
+### 5、bootstrap.yml和application.yml有什么区别?
 
-配置变更
+**1、** Spring Cloud 构建于 SpringBoot 之上，在 SpringBoot 中有两种上下文，一种是 bootstrap，另外一种是 application。
 
-JDK 版本升级
+**2、** application 配置文件这个容易理解，主要用于 SpringBoot 项目的`自动化配置`。
 
-第三方类库升级
+**3、** bootstrap 是应用程序的父上下文，也就是说 `bootstrap 加载优先于 applicaton`。
 
-响应式 Spring 编程支持
+**4、** bootstrap 主要用于从`额外的资源来加载配置信息`，还可以在本地外部配置文件中解密属性。
 
-HTTP/2 支持
+**5、** 这两个上下文`共用一个环境`，它是任何Spring应用程序的外部属性的来源。
 
-配置属性绑定
+**6、** bootstrap 里面的属性会`优先加载`，它们默认也不能被本地相同配置覆盖。
 
-更多改进与加强…
+**7、** boostrap 由父 ApplicationContext 加载，`比 applicaton 优先加载`
+
+**8、** boostrap 里面的属性`不能被覆盖`
 
 
-### 8、什么是 JavaConfig？
-### 9、SpringBoot集成mybatis的过程
-### 10、什么是YAML？
-### 11、什么是JavaConfig？
-### 12、spring boot 核心配置文件是什么？bootstrap、properties 和 application、properties 有何区别 ?
-### 13、什么是YAML？
-### 14、能否举一个例子来解释更多 Staters 的内容？
-### 15、前后端分离，如何维护接口文档 ?
-### 16、你能否举一个以 ReadOnly 为事务管理的例子？
-### 17、什么是FreeMarker模板？
-### 18、什么是SpringBoot？
-### 19、SpringBoot 常用的 Starter 有哪些？
-### 20、运行 SpringBoot 有哪几种方式？
-### 21、SpringBoot 的核心注解是哪个？它主要由哪几个注解组成的？
-### 22、如何重新加载SpringBoot上的更改，而无需重新启动服务器？
-### 23、如何使用 SpringBoot 实现分页和排序？
-### 24、比较一下 Spring Security 和 Shiro 各自的优缺点 ?
-### 25、如何重新加载SpringBoot上的更改，而无需重新启动服务器？
-### 26、什么是WebSockets？
-### 27、开启 SpringBoot 特性有哪几种方式？
-### 28、如何重新加载 SpringBoot 上的更改，而无需重新启动服务器？SpringBoot项目如何热部署？
-### 29、SpringBoot有哪些优点？
-### 30、Spring 、SpringBoot 和 Spring Cloud 的关系?
-### 31、什么是SpringBoot ？
+### 6、SpringBoot的缺点
+
+我觉得是为难人，SpringBoot在目前我觉得没有什么缺点，非要找一个出来我觉得就是
+
+由于不用自己做的配置，报错时很难定位。
+
+
+### 7、SpringBoot 的核心注解是哪个？它主要由哪几个注解组成的？
+
+启动类上面的注解是@SpringBootApplication，它也是 SpringBoot 的核心注解，主要组合包含了以下 3 个注解：
+
+@SpringBootConfiguration：组合了 [@Configuration ](/Configuration ) 注解，实现配置文件的功能。
+
+@EnableAutoConfiguration：打开自动配置的功能，也可以关闭某个自动配置的选项，如关闭数据源自动配置功能：
+
+[@SpringBootApplication(exclude ](/SpringBootApplication(exclude ) = { DataSourceAutoConfiguration.class })。
+
+@ComponentScan：Spring组件扫描。
+
+
+### 8、什么是嵌入式服务器？我们为什么要使用嵌入式服务器呢?
+
+思考一下在你的虚拟机上部署应用程序需要些什么。
+
+第一步：安装 Java
+
+第二部：安装 Web 或者是应用程序的服务器（Tomat/Wbesphere/Weblogic 等等）
+
+第三部：部署应用程序 war 包
+
+如果我们想简化这些步骤，应该如何做呢？
+
+让我们来思考如何使服务器成为应用程序的一部分？
+
+你只需要一个安装了 Java 的虚拟机，就可以直接在上面部署应用程序了，
+
+是不是很爽？
+
+这个想法是嵌入式服务器的起源。
+
+当我们创建一个可以部署的应用程序的时候，我们将会把服务器（例如，tomcat）嵌入到可部署的服务器中。
+
+例如，对于一个 SpringBoot 应用程序来说，你可以生成一个包含 Embedded Tomcat 的应用程序 jar。你就可以像运行正常 Java 应用程序一样来运行 web 应用程序了。
+
+嵌入式服务器就是我们的可执行单元包含服务器的二进制文件（例如，tomcat.jar）。
+
+
+### 9、SpringBoot 的自动配置是如何实现的？
+
+SpringBoot 项目的启动注解是：@SpringBootApplication，其实它就是由下面三个注解组成的：
+
+**1、** [@Configuration ](/Configuration )
+
+**2、** [@ComponentScan ](/ComponentScan )
+
+**3、** @EnableAutoConfiguration
+
+其中 @EnableAutoConfiguration 是实现自动配置的入口，该注解又通过 [@Import ](/Import ) 注解导入了AutoConfigurationImportSelector，在该类中加载 META-INF/spring.factories 的配置信息。然后筛选出以 EnableAutoConfiguration 为 key 的数据，加载到 IOC 容器中，实现自动配置功能！
+
+
+### 10、什么是FreeMarker模板？
+
+FreeMarker是一个基于Java的模板引擎，最初专注于使用MVC软件架构进行动态网页生成。使用Freemarker的主要优点是表示层和业务层的完全分离。程序员可以处理应用程序代码，而设计人员可以处理html页面设计。最后使用freemarker可以将这些结合起来，给出最终的输出页面。
+
+
+### 11、如何在 SpringBoot 启动的时候运行一些特定的代码？
+### 12、SpringBoot 还提供了其它的哪些 Starter Project Options？
+### 13、什么是 SpringBoot？
+### 14、什么是执行器停机？
+### 15、什么是JavaConfig？
+### 16、SpringBoot 中如何实现定时任务 ?
+### 17、Spring 、SpringBoot 和 Spring Cloud 的关系?
+### 18、什么是 FreeMarker 模板？
+### 19、RequestMapping 和 GetMapping 的不同之处在哪里？
+### 20、如何使用 SpringBoot 实现全局异常处理？
+### 21、我们如何监视所有SpringBoot微服务？
+### 22、SpringBoot 自动配置原理是什么？
+### 23、SpringBoot的核心注解是哪个？它主要由哪几个注解组成的？
+### 24、SpringBoot的启动器有哪几种?
+### 25、YAML 配置的优势在哪里 ?
+### 26、如何重新加载 SpringBoot上的更改，而无需重新启动服务器？
+### 27、SpringBoot 支持哪些日志框架？推荐和默认的日志框架是哪个？
+### 28、SpringBoot 的配置文件有哪几种格式？它们有什么区别？
+### 29、什么是SpringBoot ？
+### 30、SpringBoot 实现热部署有哪几种方式？
+### 31、SpringBoot 的核心注解是哪个？它主要由哪几个注解组成的？
 
 
 

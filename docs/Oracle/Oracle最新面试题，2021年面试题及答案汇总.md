@@ -6,72 +6,96 @@
 
 
 
-### 1、你必须利用备份恢复数据库，但是你没有控制文件，该如何解决问题呢？
+### 1、说下，内连接，左连接，右连接的区别
+
+**内连接：**
+
+指主表，从表中符合连接条件的记录全部显示
+
+**左连接：**
+
+外连接方式，主要是显示主表，从表中符合连接条件的记录，并且主表中所有不符合连接条件的记录也要显示。
+
+**右连接：**
+
+外连接方式，主要是显示主表，从表中所有符合连接条件的记录，并且从表中不符合的记录也要显示。
+
+
+### 2、你必须利用备份恢复数据库，但是你没有控制文件，该如何解决问题呢?
 
 重建控制文件，用带backup control file 子句的recover 命令恢复数据库。
 
 
-### 2、使用索引的理由
+### 3、解释$$ORACLE_HOME和$$ORACLE_BASE的区别？
 
-快速访问表中的data block
-
-
-### 3、说下 oracle的锁又几种,定义分别是什么;
-
-**1、** 行共享锁 (ROW SHARE)
-
-**2、** 行排他锁(ROW EXCLUSIVE)
-
-**3、** 共享锁(SHARE)
-
-**4、** 共享行排他锁(SHARE ROW EXCLUSIVE)
-
-**5、** 排他锁(EXCLUSIVE)
+ORACLE_BASE是oracle的根目录，ORACLE_HOME是oracle产品的目录。
 
 
-### 4、你必须利用备份恢复数据库，但是你没有控制文件，该如何解决问题呢?
+### 4、说下 oracle 中 dml、ddl、dcl 的使用有哪些
 
-重建控制文件，用带backup control file 子句的recover 命令恢复数据库。
+**1、** Dml 数据操纵语言，如select、update、delete，insert
 
+**2、** Ddl 数据定义语言，如create table 、drop table 等等
 
-### 5、创建数据库时自动建立的tablespace名称？
-
-SYSTEM tablespace.
-
-
-### 6、如何使用Oracle的游标？
-
-**1、** oracle中的游标分为显示游标和隐式游标
-
-**2、** 显示游标是用cursor...is命令定义的游标，它可以对查询语句(select)返回的多条记录进行处理；隐式游标是在执行插入 (insert)、删除(delete)、修改(update)和返回单条记录的查询(select)语句时由PL/SQL自动定义的。
-
-**3、** 显式游标的操作：打开游标、操作游标、关闭游标；PL/SQL隐式地打开SQL游标，并在它内部处理SQL语句，然后关闭它
+**3、** Dcl 数据控制语言， 如 commit、 rollback、grant、 invoke等
 
 
-### 7、如何判断数据库的时区？
+### 5、比较truncate和delete 命令
 
-SELECT DBTIMEZONE FROM DUAL;
+两者都可以用来删除表中所有的记录。区别在于：truncate是DDL操作，它移动HWK，不需要rollback segment .而Delete是DML操作, 需要rollback segment 且花费较长时间.
 
 
-### 8、解释冷备份和热备份的不同点以及各自的优点
-### 9、给出数据库正常启动所经历的几种状态 ?
-### 10、比较truncate和delete 命令
-### 11、如何增加buffer cache的命中率？
-### 12、集合操作符
-### 13、简述oracle中 dml、ddl、dcl的使用
-### 14、FACT Table上需要建立何种索引？
-### 15、解释归档和非归档模式之间的不同和它们各自的优缺点
-### 16、本地管理表空间和字典管理表空间的特点，ASSM有什么特点？
-### 17、如何转换init.ora到spfile?
-### 18、创建用户时，需要赋予新用户什么权限才能使它联上数据库。
-### 19、触发器的作用有哪些？
-### 20、FACT Table上需要建立何种索引？
-### 21、你刚刚编译了一个PL/SQL Package但是有错误报道，如何显示出错信息？
-### 22、举出两个判断DDL改动的方法？
-### 23、给出两个检查表结构的方法
-### 24、说一下，Oracle的分区有几种
-### 25、如何转换init.ora到spfile?
-### 26、解释data block , extent 和 segment的区别（这里建议用英文术语）
+### 6、如何增加buffer cache的命中率?
+
+在数据库较繁忙时，适用buffer cache advisory 工具，查询v$db_cache_advice.如果有必要更改，可以使用 alter system set db_cache_size 命令
+
+
+### 7、Oracle跟SQL Server 2005的区别？
+
+**宏观上：**
+
+**1、** 最大的区别在于平台，oracle可以运行在不同的平台上，sql server只能运行在windows平台上，由于windows平台的稳定性和安全性影响了sql server的稳定性和安全性
+
+**2、** oracle使用的脚本语言为PL-SQL，而sql server使用的脚本为T-SQL
+
+**微观上：**
+
+**1、** 从数据类型,数据库的结构等等回答
+
+
+### 8、给出两个检查表结构的方法
+
+1.DESCRIBE命令
+
+**2、** DBMS_METADATA.GET_DDL 包
+
+
+### 9、什么是绑定变量?
+
+报表6i中使用了绑定变量来替换select语句中的单个参数。
+
+
+### 10、如何在tablespace里增加数据文件？
+
+ALTER TABLESPACE <tablespace_name> ADD DATAFILE <datafile_name> SIZE
+
+
+### 11、truncate和delete区别：
+### 12、解释$$ORACLE\_HOME和$$ORACLE_BASE的区别?
+### 13、说明你可以将FMX转换或反向回到FMB文件吗?
+### 14、简单描述table / segment / extent / block之间的关系？
+### 15、创建数据库时自动建立的tablespace名称？
+### 16、说下 Oracle中function和procedure的区别？
+### 17、解释 冷备份 和 热备份 的不同点，以及各自的优点？
+### 18、解释data block , extent 和 segment的区别？
+### 19、给出数据库正常启动所经历的几种状态 ?
+### 20、解释FUNCTION,PROCEDURE和PACKAGE区别
+### 21、Oralce怎样存储文件，能够存储哪些文件？
+### 22、解释CALL_FORM，NEW_FORM和OPEN_FORM之间有什么区别?
+### 23、存储过程的操作 当它抛出异常的时候 你是如何解决的用了什么技术
+### 24、解释什么是死锁，如何解决Oracle中的死锁？
+### 25、在Oracle Forms Report中，Record组列的最大长度是多少?什么是不同类型的记录组?
+### 26、ORA-01555的应对方法？
 
 
 

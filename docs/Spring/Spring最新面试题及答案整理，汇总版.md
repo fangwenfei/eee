@@ -6,85 +6,112 @@
 
 
 
-### 1、什么是耦合？
+### 1、什么是 Spring 配置文件？
 
-组件之间依赖关系强度的度量被认为是耦合。一个好的设计总是被认为具有高内聚力和低耦合性。
-
-
-### 2、SpringBoot 有哪几种读取配置的方式？
-
-- `@PropertySource`
-- `@Value`
-- `@Environment`
-- `@ConfigurationPropertie`
+Spring 配置文件是 XML 文件。 该文件主要包含类信息。 它描述了这些类是如何配置以及相互引入的。 但是，XML 配置文件冗长且更加干净。 如果没有正确规划和编写，那么在大项目中管理变得非常困难。
 
 
-### 3、ZuulFilter常用有那些方法
+### 2、保护 SpringBoot 应用有哪些方法？
 
-**1、** Run()：过滤器的具体业务逻辑
+**1、**  在生产中使用HTTPS
 
-**2、** shouldFilter()：判断过滤器是否有效
+**2、**  使用Snyk检查你的依赖关系
 
-**3、** filterOrder()：过滤器执行顺序
+**3、**  升级到最新版本
 
-**4、** filterType()：过滤器拦截位置
+**4、**  启用CSRF保护
+
+**5、**  使用内容安全策略防止XSS攻击
 
 
-### 4、如何覆盖SpringBoot项目的默认属性？
+### 3、@RestController和@Controller的区别
 
-这可以通过在application.properties文件中指定属性来完成。 例如，在Spring MVC应用程序中，您必须指定后缀和前缀。这可以通过在application.properties文件中输入下面提到的属性来完成。
+共同点：①都是加在类级别上的     ②都可以处理http请求
+
+区   别：@RestController是@Controller和@ResponseBody的结合体
+
+
+### 4、如何启用/禁用执行器？
+
+启用/禁用致动器很容易；最简单的方法是使特性能够将依赖项(Maven/Gradle)添加到spring-boot-starter-actuator，即启动器。如果不想启用致动器，那么就不要添加依赖项。
+
+Maven依赖项：
 
 ```
-对于后缀 - spring.mvc.view.suffix: .jsp
-对于前缀 - spring.mvc.view.prefix: /WEB-INF/
+<dependencies>
+    <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-actuator</artifactId>
+    </dependency>
+</dependencies>
 ```
 
 
-### 5、Spring Cloud Sleuth
+### 5、@LoadBalanced注解的作用
 
-Spring Cloud应用程序的分布式请求链路跟踪，支持使用Zipkin、HTrace和基于日志（例如ELK）的跟踪。
-
-
-### 6、如何在SpringBoot中禁用Actuator端点安全性？
-
-默认情况下，所有敏感的HTTP端点都是安全的，只有具有ACTUATOR角色的用户才能访问它们。安全性是使用标准的HttpServletRequest.isUserInRole方法实施的。 我们可以使用
-
-来禁用安全性。只有在执行机构端点在防火墙后访问时，才建议禁用安全性。
+开启客户端负载均衡。
 
 
-### 7、运行 SpringBoot 有哪几种方式？
+### 6、SpringBoot 的核心配置文件有哪几个？它们的区别是什么？
 
-**1、** 打包成 Fat Jar ，直接使用 java -jar 运行。目前主流的做法，推荐。
+**1、** SpringBoot 的核心配置文件是 application 和 bootstrap 配置文件。
 
-**2、** 在 IDEA 或 Eclipse 中，直接运行应用的 SpringBoot 启动类的 #main(String[] args 启动。适用于开发调试场景。
+**2、** application 配置文件这个容易了解，主要用于 SpringBoot 项目的自动化配置。
 
-**3、** 如果是 Web 项目，可以打包成 War 包，使用外部 Tomcat 或 Jetty 等容器。
+**3、** bootstrap 配置文件有以下几个应用场景。
+
+**4、** 使用 Spring Cloud Config 配置中心时，这时需要在 bootstrap 配置文件中增加连接到配置中心的配置属性来加载外部配置中心的配置信息；
+
+**5、** 少量固定的不能被覆盖的属性；
+
+**6、** 少量加密/解密的场景；
 
 
-### 8、什么是 Apache Kafka？
-### 9、什么是 spring 的内部 bean？
-### 10、什么是Spring Cloud Bus？我们需要它吗？
-### 11、spring DAO 有什么用？
-### 12、Spring Initializr 是创建 SpringBoot Projects 的唯一方法吗？
-### 13、Nginx与Ribbon的区别
-### 14、我们如何进行跨功能测试？
-### 15、Spring Cache 三种常用的缓存注解和意义？
-### 16、SpringBoot 中如何解决跨域问题 ?
-### 17、什么是服务降级
-### 18、您对微服务有何了解？
-### 19、SpringBoot多数据源事务如何管理
-### 20、如何在自定义端口上运行SpringBoot应用程序？
-### 21、什么是Idempotence以及它在哪里使用？
-### 22、如何在 spring 中启动注解装配？
-### 23、SpringBoot 的核心注解是哪个？它主要由哪几个注解组成的？
-### 24、使用 SpringBoot 开发分布式微服务时，我们面临什么问题
-### 25、网关的作用是什么
-### 26、SpringBoot 打成的 jar 和普通的 jar 有什么区别 ?
-### 27、服务注册和发现是什么意思？Spring Cloud 如何实现？
-### 28、Spring、SpringBoot、SpringMVC的区别？
-### 29、spring-boot-starter-parent 有什么用 ?
-### 30、如何使用SpringBoot实现异常处理?
-### 31、spring bean 容器的生命周期是什么样的？
+### 7、spring boot 核心的两个配置文件：
+
+**1、** bootstrap (.yml 或.properties)：boostrap 由父 ApplicationContext 加载的，比 applicaton 优先加载，配置在应用程序上下文的引导阶段生效。一般来说我们在 Spring Cloud Config 或者 Nacos 中会用到它。且 boostrap 里面的属性不能被覆盖；
+
+**2、** application (. yml 或者 . properties)：由ApplicatonContext 加载，用于 spring boot 项目的自动化配置。
+
+
+### 8、为什么需要域驱动设计（DDD）？
+
+![](https://gitee.com/souyunkutech/souyunku-home/raw/master/images/souyunku-web/2019/08/0816/01/img_11.png#alt=img%5C_11.png)
+
+图9：我们需要DDD的因素 – 微服务面试问题
+
+
+### 9、解释对象/关系映射集成模块。
+
+Spring 通过提供ORM模块，支持我们在直接JDBC之上使用一个对象/关系映射映射(ORM)工具，Spring 支持集成主流的ORM框架，如Hiberate,JDO和 iBATIS SQL Maps。Spring的事务管理同样支持以上所有ORM框架及JDBC。
+
+
+### 10、如何在 SpringBoot中禁用 Actuator端点安全性?
+
+默认情况下，所有敏感的HTTP端点都是安全的，只有具有 `http ACTUATOR`角色的用户才能访问它们。安全性是使用标准的 `httpservletrequest. isuserinrole..isusernrole`方法实施的。可以使用 `management. security. enabled= false`来禁用安全性。只有在执行机构端点在防火墙后访问时，才建议禁用安全性。
+
+
+### 11、什么是有界上下文？
+### 12、什么是spring?
+### 13、您使用了哪些 starter maven 依赖项？
+### 14、Spring Cloud Security
+### 15、SpringBoot的配置文件有哪几种格式？区别是什么？
+### 16、spring 中有多少种 IOC 容器？
+### 17、什么是Spring Cloud Zuul（服务网关）
+### 18、SpringBoot中的监视器是什么？
+### 19、PACT在微服务架构中的用途是什么？
+### 20、什么是Spring引导的执行器？
+### 21、什么是Spring IOC 容器？
+### 22、SpringBoot中的监视器是什么?
+### 23、Spring Framework 中有多少个模块，它们分别是什么？
+### 24、@SpringBootApplication注释在内部有什么用处?
+### 25、SpringBoot多数据源事务如何管理
+### 26、spring bean 容器的生命周期是什么样的？
+### 27、什么是 Spring IOC 容器？
+### 28、Actuator在SpringBoot中的作用
+### 29、什么是凝聚力？
+### 30、如何在 SpringBoot 中禁用 Actuator 端点安全性？
+### 31、SpringBoot事物的使用
 
 
 

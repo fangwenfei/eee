@@ -6,81 +6,120 @@
 
 
 
-### 1、SpringBoot 2.X 有什么新特性？与 1.X 有什么区别？
+### 1、什么是Spring Batch？
 
-配置变更
-
-JDK 版本升级
-
-第三方类库升级
-
-响应式 Spring 编程支持
-
-HTTP/2 支持
-
-配置属性绑定
-
-更多改进与加强…
+SpringBoot Batch提供可重用的函数，这些函数在处理大量记录时非常重要，包括日志/跟踪，事务管理，作业处理统计信息，作业重新启动，跳过和资源管理。它还提供了更先进的技术服务和功能，通过优化和分区技术，可以实现极高批量和高性能批处理作业。简单以及复杂的大批量批处理作业可以高度可扩展的方式利用框架处理重要大量的信息。
 
 
-### 2、什么是OAuth？
+### 2、spring DAO 有什么用？
 
-OAuth 代表开放授权协议。这允许通过在HTTP服务上启用客户端应用程序（例如第三方提供商Facebook，GitHub等）来访问资源所有者的资源。因此，您可以在不使用其凭据的情况下与另一个站点共享存储在一个站点上的资源。
-
-
-### 3、什么是 Spring IOC 容器？
-
-Spring 框架的核心是 Spring 容器。 容器创建对象，将它们装配在一起，配置它们并管理它们的完整生命周期。 Spring 容器使用依赖注入来管理组成应用程序的组件。 容器通过读取提供的配置元数据来接收对象进行实例化，配置和组装的指令。 该元数据可以通过 XML，Java 注解或 Java 代码提供。
+Spring DAO 使得 JDBC，Hibernate 或 JDO 这样的数据访问技术更容易以一种统一的方式工作。 这使得用户容易在持久性技术之间切换。 它还允许您在编写代码时，无需考虑捕获每种技术不同的异常。
 
 
-### 4、Spring Cloud抛弃了Dubbo 的RPC通信，采用的是基于HTTP的REST方式。
+### 3、什么是 YAML？
 
-严格来说，这两种方式各有优劣。虽然在一定程度上来说，后者牺牲了服务调用的性能，但也避免了上面提到的原生RPC带来的问题。而且REST相比RPC更为灵活，服务提供方和调用方的依赖只依靠一纸契约，不存在代码级别的强依赖，这在强调快速演化的微服务环境下，显得更为合适。
-
-
-
-### 5、各服务之间通信，对Restful和Rpc这2种方式如何做选择？
-
-在传统的SOA治理中，使用rpc的居多；Spring Cloud默认使用restful进行服务之间的通讯。rpc通讯效率会比restful要高一些，但是对于大多数公司来讲，这点效率影响甚微。我建议使用restful这种方式，易于在不同语言实现的服务之间通讯。
+YAML 是一种人类可读的数据序列化语言。它通常用于配置文件。与属性文件相比，如果我们想要在配置文件中添加复杂的属性，YAML 文件就更加结构化，而且更少混淆。可以看出 YAML 具有分层配置数据。
 
 
-### 6、SpringBoot 中如何实现定时任务 ?
+### 4、使⽤中碰到的坑
 
-在 SpringBoot 中使用定时任务主要有两种不同的方式，一个就是使用 Spring 中的 [@Scheduled ](/Scheduled ) 注解，另一-个则是使用第三方框架 Quartz。
+**1、** 超时：确保Hystrix超时时间配置为⻓于配置的Ribbon超时时间
 
-使用 Spring 中的 [@Scheduled ](/Scheduled ) 的方式主要通过 [@Scheduled ](/Scheduled ) 注解来实现。
+**2、** feign path：feign客户端在部署时若有contextpath应该设置 path="/***"来匹配你的服务名。
 
-
-### 7、什么是SpringBoot？
-
-多年来，随着新功能的增加，spring变得越来越复杂。只需访问https://spring.io/projects 页面，我们就会看到可以在我们的应用程序中使用的所有Spring项目的不同功能。如果必须启动一个新的Spring项目，我们必须添加构建路径或添加Maven依赖关系，配置应用程序服务器，添加spring配置。因此，开始一个新的spring项目需要很多努力，因为我们现在必须从头开始做所有事情。
-
-SpringBoot是解决这个问题的方法。SpringBoot已经建立在现有spring框架之上。使用spring启动，我们避免了之前我们必须做的所有样板代码和配置。因此，SpringBoot可以帮助我们以最少的工作量，更加健壮地使用现有的Spring功能。
+**3、** 版本：SpringBoot和springcloud版本要兼容。
 
 
-### 8、JPA 和 Hibernate 有哪些区别？
-### 9、什么是 Spring Batch？
-### 10、创建一个 SpringBoot Project 的最简单的方法是什么？
-### 11、网关与过滤器有什么区别
-### 12、解释不同方式的自动装配 。
-### 13、解释基于注解的切面实现
-### 14、@SpringBootApplication注释在内部有什么用处?
-### 15、如何使用 SpringBoot 实现全局异常处理？
-### 16、什么是 Spring Data？
-### 17、什么是Semantic监控？
-### 18、负载平衡的意义什么？
-### 19、如何重新加载SpringBoot上的更改，而无需重新启动服务器？
-### 20、什么是网关?
-### 21、SpringBoot需要独立的容器运行？
-### 22、什么是依赖注入？
-### 23、SpringBoot 自动配置原理是什么？
-### 24、springcloud如何实现服务的注册?
-### 25、不同版本的 Spring Framework 有哪些主要功能？
-### 26、[@Qualifier ](/Qualifier ) 注解
-### 27、什么是Hystrix断路器？我们需要它吗？
-### 28、SpringCloud限流：
-### 29、什么是Netflix Feign？它的优点是什么？
-### 30、运行 SpringBoot 有哪几种方式？
+### 5、什么是 AOP 通知
+
+通知是个在方法执行前或执行后要做的动作，实际上是程序执行时要通过SpringAOP框架触发的代码段。
+
+Spring切面可以应用五种类型的通知：
+
+**1、** before：前置通知，在一个方法执行前被调用。
+
+**2、** after: 在方法执行之后调用的通知，无论方法执行是否成功。
+
+**3、** after-returning: 仅当方法成功完成后执行的通知。
+
+**4、** after-throwing: 在方法抛出异常退出时执行的通知。
+
+**5、** around: 在方法执行之前和之后调用的通知。
+
+
+### 6、列举 IoC 的一些好处
+
+**1、** IoC 的一些好处是：
+
+**2、** 它将最小化应用程序中的代码量。
+
+**3、** 它将使您的应用程序易于测试，因为它不需要单元测试用例中的任何单例或 JNDI 查找机制。
+
+**4、** 它以最小的影响和最少的侵入机制促进松耦合。
+
+**5、** 它支持即时的实例化和延迟加载服务。
+
+
+### 7、SpringBoot中的监视器是什么？
+
+Spring boot actuator是spring启动框架中的重要功能之一。Spring boot监视器可帮助您访问生产环境中正在运行的应用程序的当前状态。有几个指标必须在生产环境中进行检查和监控。即使一些外部应用程序可能正在使用这些服务来向相关人员触发警报消息。监视器模块公开了一组可直接作为HTTP URL访问的REST端点来检查状态。
+
+
+### 8、SpringBoot 中的监视器是什么？
+
+Spring boot actuator 是 spring 启动框架中的重要功能之一。Spring boot 监视器可帮助您访问生产环境中正在运行的应用程序的当前状态。有几个指标必须在生产环境中进行检查和监控。即使一些外部应用程序可能正在使用这些服务来向相关人员触发警报消息。监视器模块公开了一组可直接作为 HTTP URL 访问的REST 端点来检查状态。
+
+
+### 9、Spring MVC里面拦截器是怎么写的
+
+有两种写法,一种是实现HandlerInterceptor接口，另外一种是继承适配器类，接着在接口方法当中，实现处理逻辑；然后在Spring MVC的配置文件中配置拦截器即可：
+
+```
+<!-- 配置Spring MVC的拦截器 -->
+< mvc: interceptors >
+<!-- 配置一个拦截器的Bean就可以了 默认是对所有请求都拦截 -->
+< bean id = "myInterceptor"
+class = "com.zwp.action.MyHandlerInterceptor" > < /bean>
+<!-- 只针对部分请求拦截 -->
+<mvc:interceptor>
+   <mvc:mapping path="/modelMap.do " />
+   <bean class="
+com.
+zwp.action.MyHandlerInterceptorAdapter " />
+</mvc:interceptor>
+</mvc:interceptors>
+```
+
+
+### 10、Spring Cache 三种常用的缓存注解和意义？
+
+**1、** [@Cacheable ](/Cacheable ) ，用来声明方法是可缓存，将结果存储到缓存中以便后续使用相同参数调用时不需执行实际的方法，直接从缓存中取值。
+
+**2、** @CachePut，使用 [@CachePut ](/CachePut ) 标注的方法在执行前，不会去检查缓存中是否存在之前执行过的结果，而是每次都会执行该方法，并将执行结果以键值对的形式存入指定的缓存中。
+
+**3、** @CacheEvict，是用来标注在需要清除缓存元素的方法或类上的，当标记在一个类上时表示其中所有的方法的执行都会触发缓存的清除操作。
+
+
+### 11、SpringBoot有哪些优点？
+### 12、什么是 Spring Batch？
+### 13、什么是Idempotence以及它在哪里使用？
+### 14、SpringBoot自动配置的原理是什么？
+### 15、什么是基于注解的容器配置
+### 16、@Controller注解的作用
+### 17、SpringBoot 怎么用好自动配置，精髓:
+### 18、什么是耦合和凝聚力？
+### 19、有哪些类型的通知（Advice）？
+### 20、AOP 有哪些实现方式？
+### 21、微服务架构的优缺点是什么？
+### 22、您使用了哪些starter maven依赖项？
+### 23、如何集成SpringBoot和ActiveMQ？
+### 24、第⼀层缓存：
+### 25、如何通过HibernateDaoSupport将Spring和Hibernate结合起来？
+### 26、JPA 和 Hibernate 有哪些区别？JPA 可以支持动态 SQL 吗？
+### 27、微服务的缺点：
+### 28、Spring由哪些模块组成?
+### 29、@RequestMapping注解的作用
+### 30、Spring Cloud Zookeeper
 
 
 

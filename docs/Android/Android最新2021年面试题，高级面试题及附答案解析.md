@@ -6,92 +6,146 @@
 
 
 
-### 1、简述TCP，UDP，Socket
+### 1、andorid 应用第二次登录实现自动登录
 
-TCP是经过3次握手，4次挥手完成一串数据的传送
+前置条件是所有用户相关接口都走 https，非用户相关列表类数据走 http。
 
-UDP是无连接的，知道IP地址和端口号，向其发送数据即可，不管数据是否发送成功
+**步骤**
 
-Socket是一种不同计算机，实时连接，比如说传送文件，即时通讯
+**1、** 第一次登陆 getUserInfo 里带有一个长效 token，该长效 token 用来判断用户是否登陆和换取短 token
 
+**2、** 把长效 token 保存到 SharedPreferences
 
-### 2、如何在 ScrollView 中如何嵌入 ListView
+**3、** 接口请求用长效 token 换取短token，短 token 服务端可以根据你的接口最后一次请求作为标示，超时时间为一天。
 
-通常情况下我们不会在 ScrollView 中嵌套 ListView。
+**4、** 所有接口都用短效 token
 
-在 ScrollView 添加一个 ListView 会导致 listview 控件显示不全，通常只会显示一条，这是因为两个控件的滚动事件冲突导致。所以需要通过 listview 中的 item 数量去计算 listview 的显示高度，从而使其完整展示。
+**5、** 如果返回短效 token 失效，执行第3步，再直接当前接口
 
-现阶段最好的处理的方式是： 自定义 ListView，重载 onMeasure()方法，设置全部显示。
-
-
-### 3、子线程中能不能 new handler？为什么？
-
-不能,如果在子线程中直接 new Handler()会抛出异常 java.lang.RuntimeException: Can'tcreate handler inside thread that has not called
-
-在没有调用 Looper.prepare()的时候不能创建 Handler,因为在创建 Handler 的源码中做了如下操作
-
-Handler 的构造方法中
+**6、** 如果长效 token 失效（用户换设备或超过一月），提示用户登录。
 
 
-### 4、Framework 工作方式及原理，Activity 是如何生成一个 view 的，机制是什么？
+### 2、ContentProvider与sqlite有什么不一样的？
 
-所有的框架都是基于反射 和 配置文件（manifest）的。
-
-**普通的情况:**
-
-Activity 创建一个 view 是通过 ondraw 画出来的, 画这个 view 之前呢,还会调用 onmeasure方法来计算显示的大小.
-
-**特殊情况：**
-
-Surfaceview 是直接操作硬件的，因为 或者视频播放对帧数有要求，onDraw 效率太低，不够使，Surfaceview 直接把数据写到显存。
+```
+ContentProvider会对外隐藏内部实现，只需要关注访问contentProvider的uri即可，contentProvider应用在应用间共享。
+Sqlite操作本应用程序的数据库。
+ContentProiver可以对本地文件进行增删改查操作
+```
 
 
-### 5、ListView 如何实现分页加载
+### 3、AIDL的全称是什么？如何工作？能处理哪些类型的数据？
 
-设置 ListView 的滚动监听器：setOnScrollListener(new OnScrollListener{….})在监听器中有两个方法： 滚动状态发生变化的方法(onScrollStateChanged)和 listView 被滚动时调用的方法(onScroll)
+全称是：Android Interface Define Language
 
-在滚动状态发生改变的方法中，有三种状态：手指按下移动的状态： SCROLL_STATE_TOUCH_SCROLL:触摸滑动，惯性滚动（滑翔（flgin）状态）： SCROLL_STATE_FLING: 滑翔，静止状态： SCROLL_STATE_IDLE: // 静止，对不同的状态进行处理：
+在Android中, 每个应用程序都可以有自己的进程、在写UI应用的时候, 经常要用到Service、在不同的进程中, 怎样传递对象呢?显然, Java中不允许跨进程内存共享、因此传递对象, 只能把对象拆分成操作系统能理解的简单形式, 以达到跨界对象访问的目的、在J2EE中,采用RMI的方式, 可以通过序列化传递对象、在Android中, 则采用AIDL的方式、理论上AIDL可以传递Bundle,实际上做起来却比较麻烦。
 
-分批加载数据，只关心静止状态：关心最后一个可见的条目，如果最后一个可见条目就是数据适配器（集合）里的最后一个，此时可加载更多的数据。在每次加载的时候，计算出滚动的数量，当滚动的数量大于等于总数量的时候，可以提示用户无更多数据了。
+AIDL(AndRoid接口描述语言)是一种借口描述语言; 编译器可以通过aidl文件生成一段代码，通过预先定义的接口达到两个进程内部通信进程的目的、如果需要在一个Activity中, 访问另一个Service中的某个对象, 需要先将对象转化成AIDL可识别的参数(可能是多个参数), 然后使用AIDL来传递这些参数, 在消息的接收端, 使用这些参数组装成自己需要的对象.
+
+AIDL的IPC的机制和COM或CORBA类似, 是基于接口的，但它是轻量级的。它使用代理类在客户端和实现层间传递值、如果要使用AIDL, 需要完成2件事情:
+
+**1、** 引入AIDL的相关类.;
+
+**2、** 调用aidl产生的class.
+
+**AIDL的创建方法:**
+
+AIDL语法很简单,可以用来声明一个带一个或多个方法的接口，也可以传递参数和返回值。 由于远程调用的需要, 这些参数和返回值并不是任何类型.下面是些AIDL支持的数据类型:
+
+**1、** 不需要import声明的简单Java编程语言类型(int,boolean等)
+
+**2、** String, CharSequence不需要特殊声明
+
+**3、** List, Map和Parcelables类型, 这些类型内所包含的数据成员也只能是简单数据类型, String等其他比支持的类型.
+
+(另外: 我没尝试Parcelables, 在Eclipse+ADT下编译不过, 或许以后会有所支持)
 
 
-### 6、如何将打开res aw目录中的数据库文件?
+### 4、activity，fragment传值问题
 
-**1、** 在Android中不能直接打开res aw目录中的数据库文件，而需要在程序第一次启动时将该文件复制到手机内存或SD卡的某个目录中，然后再打开该数据库文件。
-
-**2、** 复制的基本方法是使用getResources().openRawResource方法获得res aw目录中资源的 InputStream对象，然后将该InputStream对象中的数据写入其他的目录中相应文件中。
-
-**3、** 在Android SDK中可以使用SQLiteDatabase.openOrCreateDatabase方法来打开任意目录中的SQLite数据库文件。
+通过Bundle传值，在activty定义变量传值，扩展fragment创建传值
 
 
-### 7、谈谈Android的IPC（进程间通信）机制
+### 5、Manifest.xml文件中主要包括哪些信息？
 
-IPC是内部进程通信的简称， 是共享"命名管道"的资源。Android中的IPC机制是为了让Activity和Service之间可以随时的进行交互，故在Android中该机制，只适用于Activity和Service之间的通信，类似于远程方法调用，类似于C/S模式的访问。通过定义AIDL接口文件来定义IPC接口。Servier端实现IPC接口，Client端调用IPC接口本地代理。
+**1、** manifest：根节点，描述了package中所有的内容。
+
+**2、** uses-permission：请求你的package正常运作所需赋予的安全许可。
+
+**3、** permission： 声明了安全许可来限制哪些程序能你package中的组件和功能。
+
+**4、** instrumentation：声明了用来测试此package或其他package指令组件的代码。
+
+**5、** application：包含package中application级别组件声明的根节点。
+
+**6、** activity：Activity是用来与用户交互的主要工具。
+
+**7、** receiver：IntentReceiver能使的application获得数据的改变或者发生的操作，即使它当前不在运行。
+
+**8、** service：Service是能在后台运行任意时间的组件。
+
+**9、** provider：ContentProvider是用来管理持久化数据并发布给其他应用程序使用的组件。
 
 
-### 8、IntentService有何优点?
-### 9、View的绘制原理
-### 10、自定义view的基本流程
-### 11、音视频相关类
-### 12、如何保存activity的状态？
-### 13、说下Activity 的四种启动模式、应用场景 ？
-### 14、跟activity和Task 有关的 Intent启动方式有哪些？其含义？
-### 15、Android中4大组件
-### 16、什么是aar?aar是jar有什么区别?
-### 17、如何切换 fragement,不重新实例化
-### 18、GLSurfaceView
-### 19、Fragment中add与replace的区别？
-### 20、描述一下android的系统架构
-### 21、如果Listview中的数据源发生改变，如何更新listview中的数据
-### 22、即时通讯是是怎么做的?
-### 23、View的分发机制，滑动冲突
-### 24、属性动画
-### 25、一条最长的短信息约占多少byte?
-### 26、内存溢出和内存泄漏有什么区别？何时会产生内存泄漏？
-### 27、补间动画
-### 28、Android中，帧动画
-### 29、AsyncTask
-### 30、如何启用Service，如何停用Service。
+### 6、简要解释一下activity、 intent 、intent filter、service、Broadcase、BroadcaseReceiver
+
+一个activity呈现了一个用户可以操作的可视化用户界面；一个service不包含可见的用户界面，而是在后台运行，可以与一个activity绑定，通过绑定暴露出来接口并与其进行通信；一个broadcast receiver是一个接收广播消息并做出回应的component，broadcast receiver没有界面；一个intent是一个Intent对象，它保存了消息的内容。对于activity和service来说，它指定了请求的操作名称和待操作数据的URI，Intent对象可以显式的指定一个目标component。如果这样的话，android会找到这个component(基于manifest文件中的声明)并激活它。但如果一个目标不是显式指定的，android必须找到响应intent的最佳component。它是通过将Intent对象和目标的intent filter相比较来完成这一工作的；一个component的intent filter告诉android该component能处理的intent。intent filter也是在manifest文件中声明的。
+
+
+### 7、Serializable 和 Parcelable 的区别？
+
+如果存储在内存中，推荐使用parcelable，使用serialiable在序列化的时候会产生大量的临时变量，会引起频繁的GC
+
+如果存储在硬盘上，推荐使用Serializable，虽然serializable效率较低
+
+Serializable的实现：只需要实现Serializable接口，就会自动生成一个序列化id
+
+Parcelable的实现：需要实现Parcelable接口，还需要Parcelable.CREATER变量
+
+
+### 8、什么是 AIDL？如何使用？
+
+aidl 是 Android interface definition Language 的英文缩写，意思 Android 接口定义语言。
+
+使用 aidl 可以帮助我们发布以及调用远程服务，实现跨进程通信。
+
+**1、** 将服务的 aidl 放到对应的 src 目录，工程的 gen 目录会生成相应的接口类
+
+**2、** 我们通过 bindService（Intent，ServiceConnect，int）方法绑定远程服务，在 bindService中 有 一 个 ServiceConnec 接 口 ， 我 们 需 要 覆 写 该 类 的onServiceConnected(ComponentName,IBinder)方法，这个方法的第二个参数 IBinder 对象其实就是已经在 aidl 中定义的接口，因此我们可以将 IBinder 对象强制转换为 aidl 中的接口类。我们通过 IBinder 获取到的对象（也就是 aidl 文件生成的接口）其实是系统产生的代理对象，该代理对象既可以跟我们的进程通信， 又可以跟远程进程通信， 作为一个中间的角色实现了进程间通信。
+
+
+### 9、嵌入式操作系统内存管理有哪几种， 各有何特性
+
+页式，段式，段页，用到了MMU,虚拟空间等技术
+
+
+### 10、注册广播的几种方法?
+
+**1、** 静态注册:在清单文件中注册， 常见的有监听设备启动，常驻注册不会随程序生命周期改变
+
+**2、** 动态注册:在代码中注册，随着程序的结束，也就停止接受广播了补充一点：有些广播只能通过动态方式注册，比如时间变化事件、屏幕亮灭事件、电量变更事件，因为这些事件触发频率通常很高，如果允许后台监听，会导致进程频繁创建和销毁，从而影响系统整体性能
+
+
+### 11、请介绍下 ContentProvider 是如何实现数据共享的
+### 12、请描述一下 Intent 和 IntentFilter
+### 13、描述下Handler 机制
+### 14、定位项目中，如何选取定位方案，如何平衡耗电与实时位置的精度？
+### 15、如果后台的Activity由于某原因被系统回收了，如何在被系统回收之前保存当前状态？
+### 16、Android 引入广播机制的用意
+### 17、ListView 如何提高其效率？
+### 18、请解释下 Android 程序运行时权限与文件系统权限的区别？
+### 19、什么情况会导致Force Close ？如何避免？能否捕获导致其的异常？
+### 20、Android中，帧动画
+### 21、activity，service，intent之间的关系
+### 22、Service 是否在 main thread 中执行, service 里面是否能执行耗时的操作?
+### 23、AsyncTask使用在哪些场景？它的缺陷是什么？如何解决？
+### 24、事件分发中的 onTouch 和 onTouchEvent 有什么区别，又该如何使用？
+### 25、Android 线程间通信有哪几种方式（重要）
+### 26、消息推送的方式
+### 27、如何退出Activity
+### 28、如何将一个Activity设置成窗口的样式。
+### 29、如果有个100M大的文件，需要上传至服务器中，而服务器form表单最大只能上传2M，可以用什么方法。
+### 30、如何保存activity的状态？
 
 
 

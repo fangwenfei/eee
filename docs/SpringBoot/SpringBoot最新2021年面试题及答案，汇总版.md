@@ -6,111 +6,139 @@
 
 
 
-### 1、SpringBoot 有哪些优点？
+### 1、spring-boot-starter-parent 有什么用 ?
 
-**SpringBoot 主要有如下优点：**
+我们都知道，新创建一个 SpringBoot 项目，默认都是有 parent 的，这个 parent 就是 spring-boot-starter-parent ，spring-boot-starter-parent 主要有如下作用：
 
-**1、** 容易上手，提升开发效率，为 Spring 开发提供一个更快、更广泛的入门体验。
+**1、** 定义了 Java 编译版本为 1.8 。
 
-**2、** 开箱即用，远离繁琐的配置。
+**2、** 使用 UTF-8 格式编码。
 
-**3、** 提供了一系列大型项目通用的非业务性功能，例如：内嵌服务器、安全管理、运行数据监控、运行状况检查和外部化配置等。
+**3、** 继承自 spring-boot-dependencies，这个里边定义了依赖的版本，也正是因为继承了这个依赖，所以我们在写依赖时才不需要写版本号。
 
-**4、** 没有代码生成，也不需要XML配置。
+**4、** 执行打包操作的配置。
 
-**5、** 避免大量的 Maven 导入和各种版本冲突。
+**5、** 自动化的资源过滤。
 
+**6、** 自动化的插件配置。
 
-### 2、SpringBoot事物的使用
-
-SpringBoot的事物很简单，首先使用注解EnableTransactionManagement开启事物之后，然后在Service方法上添加注解Transactional便可。
-
-
-### 3、什么是 JavaConfig？
-
-Spring JavaConfig 是 Spring 社区的产品，它提供了配置 Spring IoC 容器的纯Java 方法。因此它有助于避免使用 XML 配置。使用 JavaConfig 的优点在于：
-
-**1、** 面向对象的配置。由于配置被定义为 JavaConfig 中的类，因此用户可以充分利用 Java 中的面向对象功能。一个配置类可以继承另一个，重写它的[@Bean ](/Bean ) 方法等。
-
-**2、** 减少或消除 XML 配置。基于依赖注入原则的外化配置的好处已被证明。但是，许多开发人员不希望在 XML 和 Java 之间来回切换。JavaConfig 为开发人员提供了一种纯 Java 方法来配置与 XML 配置概念相似的 Spring 容器。从技术角度来讲，只使用 JavaConfig 配置类来配置容器是可行的，但实际上很多人认为将JavaConfig 与 XML 混合匹配是理想的。
-
-**3、** 类型安全和重构友好。JavaConfig 提供了一种类型安全的方法来配置 Spring容器。由于 Java 5.0 对泛型的支持，现在可以按类型而不是按名称检索 bean，不需要任何强制转换或基于字符串的查找。
+**7、** 针对 application.properties 和 application.yml 的资源过滤，包括通过 profile 定义的不同环境的配置文件，例如 application-dev.properties 和 application-dev.yml。
 
 
-### 4、为什么我们需要 spring-boot-maven-plugin?
+### 2、shiro和oauth还有cas他们之间的关系是什么？问下您公司权限是如何设计，还有就是这几个概念的区别。
 
-spring-boot-maven-plugin 提供了一些像 jar 一样打包或者运行应用程序的命令。
+cas和oauth是一个解决单点登录的组件，shiro主要是负责权限安全方面的工作，所以功能点不一致。但往往需要单点登陆和权限控制一起来使用，所以就有 cas+shiro或者oauth+shiro这样的组合。
 
-spring-boot:run 运行你的 SpringBooty 应用程序。
+token一般是客户端登录后服务端生成的令牌，每次访问服务端会进行校验，一般保存到内存即可，也可以放到其他介质；Redis可以做Session共享，如果前端web服务器有几台负载，但是需要保持用户登录的状态，这场景使用比较常见。
 
-spring-boot：repackage 重新打包你的 jar 包或者是 war 包使其可执行
-
-spring-boot：start 和 spring-boot：stop 管理 SpringBoot 应用程序的生命周期（也可以说是为了集成测试）。
-
-spring-boot:build-info 生成执行器可以使用的构造信息。
+我们公司使用oauth+shiro这样的方式来做后台权限的管理，oauth负责多后台统一登录认证，shiro负责给登录用户赋予不同的访问权限。
 
 
-### 5、如何使用SpringBoot实现分页和排序？
+### 3、SpringBoot、Spring MVC 和 Spring 有什么区别？
 
-使用SpringBoot实现分页非常简单。使用Spring Data-JPA可以实现将可分页的
+**1、** Spring
 
-传递给存储库方法。
+Spring最重要的特征是依赖注入。所有 SpringModules 不是依赖注入就是 IOC 控制反转。
 
+当我们恰当的使用 DI 或者是 IOC 的时候，我们可以开发松耦合应用。松耦合应用的单元测试可以很容易的进行。
 
-### 6、SpringBoot 的核心注解是哪个？它主要由哪几个注解组成的？
+**2、** Spring MVC
 
-启动类上面的注解是@SpringBootApplication，它也是 SpringBoot 的核心注解，主要组合包含了以下 3 个注解：
+Spring MVC 提供了一种分离式的方法来开发 Web 应用。通过运用像 DispatcherServelet，MoudlAndView 和 ViewResolver 等一些简单的概念，开发 Web 应用将会变的非常简单。
 
-@SpringBootConfiguration：组合了 [@Configuration ](/Configuration ) 注解，实现配置文件的功能。
+**3、** SpringBoot
 
-@EnableAutoConfiguration：打开自动配置的功能，也可以关闭某个自动配置的选项，如关闭数据源自动配置功能：
+Spring 和 SpringMVC 的问题在于需要配置大量的参数。
 
-[@SpringBootApplication(exclude ](/SpringBootApplication(exclude ) = { DataSourceAutoConfiguration.class })。
-
-@ComponentScan：Spring组件扫描。
-
-
-### 7、您使用了哪些 starter maven 依赖项？
-
-**使用了下面的一些依赖项**
-
-**1、**  spring-boot-starter-web 嵌入tomcat和web开发需要servlet与jsp支持
-
-**2、**  spring-boot-starter-data-jpa 数据库支持
-
-**3、**  spring-boot-starter-data-Redis Redis数据库支持
-
-**4、**  spring-boot-starter-data-solr solr支持
-
-**5、**  mybatis-spring-boot-starter 第三方的mybatis集成starter
-
-自定义的starter(如果自己开发过就可以说出来)
+SpringBoot 通过一个自动配置和启动的项来目解决这个问题。为了更快的构建产品就绪应用程序，SpringBoot 提供了一些非功能性特征。
 
 
-### 8、SpringBoot Starter 的工作原理是什么？
-### 9、是否可以在SpringBoot中覆盖或替换嵌入式Tomcat？
-### 10、如何使用 SpringBoot 部署到不同的服务器？
-### 11、Spring、SpringBoot、SpringMVC的区别？
-### 12、SpringBoot 2.X 有什么新特性？与 1.X 有什么区别？
-### 13、当 SpringBoot 应用程序作为 Java 应用程序运行时，后台会发生什么？
-### 14、如何使用SpringBoot实现分页和排序？
-### 15、什么是 JavaConfig？
-### 16、SpringBoot自动配置的原理
-### 17、我们如何监视所有 SpringBoot 微服务？
-### 18、SpringBoot中的监视器是什么？
-### 19、SpringBoot、Spring MVC 和 Spring 有什么区别？
-### 20、SpringBoot 中如何解决跨域问题 ?
-### 21、SpringBoot 支持哪些日志框架？推荐和默认的日志框架是哪个？
-### 22、@RestController和@Controller的区别
-### 23、SpringBoot 有哪几种读取配置的方式？
-### 24、保护 SpringBoot 应用有哪些方法？
-### 25、什么是 Spring Data ?
-### 26、为什么我们需要 spring-boot-maven-plugin?
-### 27、我们如何监视所有 SpringBoot 微服务？
-### 28、SpringBoot 实现热部署有哪几种方式？
-### 29、SpringBoot 打成的 jar 和普通的 jar 有什么区别 ?
-### 30、什么是Spring Actuator？它有什么优势？
-### 31、什么是JavaConfig？
+### 4、什么是SpringBoot
+
+**1、** 用来简化spring应用的初始搭建以及开发过程 使用特定的方式来进行配置（properties或yml文件）
+
+**2、** 创建独立的spring引用程序 main方法运行
+
+**3、** 嵌入的Tomcat 无需部署war文件
+
+**4、** 简化maven配置
+
+
+### 5、开启 SpringBoot 特性有哪几种方式？
+
+**1、** 继承spring-boot-starter-parent项目
+
+**2、** 导入spring-boot-dependencies项目依赖
+
+
+### 6、什么是YAML?
+
+YAML是一种人类可读的数据序列化语言。它通常用于`配置文件`。 与属性文件相比，如果我们想要在配置文件中添加复杂的属性，YAML文件就更加结构化，而且更少混淆。可以看出YAML具有`分层配置数据`。
+
+
+### 7、什么是Spring Profiles？
+
+Spring Profiles允许用户根据配置文件（dev，test，prod等）来注册bean。因此，当应用程序在开发中运行时，只有某些bean可以加载，而在PRODUCTION中，某些其他bean可以加载。假设我们的要求是Swagger文档仅适用于QA环境，并且禁用所有其他文档。这可以使用配置文件来完成。SpringBoot使得使用配置文件非常简单。
+
+
+### 8、如何在 SpringBoot 中添加通用的 JS 代码？
+
+在源文件夹下，创建一个名为 static 的文件夹。然后，你可以把你的静态的内容放在这里面。
+
+例如，myapp.js 的路径是 resources\static\js\myapp.js
+
+**
+
+你可以参考它在 jsp 中的使用方法：**
+
+错误：HAL browser gives me unauthorized error - Full authenticaition is required to access this resource.
+
+该如何来修复这个错误呢？
+
+两种方法：
+
+方法 1：关闭安全验证
+
+application.properties
+
+```
+management.security.enabled:FALSE
+```
+
+方法二：在日志中搜索密码并传递至请求标头中
+
+
+### 9、SpringBoot 有哪几种读取配置的方式？
+
+SpringBoot 可以通过 @PropertySource,@Value,@Environment, @ConfigurationProperties 来绑定变量。
+
+
+### 10、SpringBoot 是否可以使用 XML 配置 ?
+
+SpringBoot 推荐使用 Java 配置而非 XML 配置，但是 SpringBoot 中也可以使用 XML 配置，通过 [@ImportResource ](/ImportResource ) 注解可以引入一个 XML 配置。
+
+
+### 11、如何重新加载 SpringBoot 上的更改，而无需重新启动服务器？SpringBoot项目如何热部署？
+### 12、什么是 Spring Batch？
+### 13、什么是 Spring Data REST?
+### 14、什么是 JavaConfig？
+### 15、什么是SpringBoot？
+### 16、我们如何连接一个像 MySQL 或者Orcale 一样的外部数据库？
+### 17、SpringBoot中的监视器是什么?
+### 18、SpringBoot有哪些优点？
+### 19、保护 SpringBoot 应用有哪些方法？
+### 20、创建一个 SpringBoot Project 的最简单的方法是什么？
+### 21、如何在自定义端口上运行 SpringBoot 应用程序？
+### 22、什么是YAML？
+### 23、SpringBoot 如何设置支持跨域请求？
+### 24、SpringBoot 打成的 jar 和普通的 jar 有什么区别 ?
+### 25、SpringBoot 配置文件的加载顺序
+### 26、SpringBoot 的核心注解是哪个？它主要由哪几个注解组成的？
+### 27、SpringBoot 支持哪些日志框架？推荐和默认的日志框架是哪个？
+### 28、如何使用 SpringBoot 实现分页和排序？
+### 29、Springboot 有哪些优点？
+### 30、SpringBoot 有哪些优点？
+### 31、SpringBoot性能如何优化
 
 
 

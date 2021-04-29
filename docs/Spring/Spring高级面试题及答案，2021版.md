@@ -6,83 +6,143 @@
 
 
 
-### 1、为什么我们需要微服务容器？
+### 1、[@Qualifier ](/Qualifier ) 注解有什么用？
 
-要管理基于微服务的应用程序，容器是最简单的选择。它帮助用户单独部署和开发。您还可以使用Docker将微服务封装到容器的镜像中。没有任何额外的依赖或工作，微服务可以使用这些元素。
+当您创建多个相同类型的 bean 并希望仅使用属性装配其中一个 bean 时，您可以使用[@Qualifier ](/Qualifier ) 注解和 [@Autowired ](/Autowired ) 通过指定应该装配哪个确切的 bean 来消除歧义。
 
+例如，这里我们分别有两个类，Employee 和 EmpAccount。在 EmpAccount 中，使用[@Qualifier ](/Qualifier ) 指定了必须装配 id 为 emp1 的 bean。
 
-### 2、Spring MVC常用的注解有哪些？
+Employee.java
 
-**1、** @RequestMapping：用于处理请求 url 映射的注解，可用于类或方法上。用于类上，则表示类中的所有响应请求的方法都是以该地址作为父路径。
+```
+public class Employee {
+    private String name;
+    @Autowired
+    public void setName(String name) {
+        this.name=name;
+    }
+    public string getName() {
+        return name;
+    }
+}
+```
 
-**2、** @RequestBody：注解实现接收http请求的json数据，将json转换为java对象。
+EmpAccount.java
 
-**3、** @ResponseBody：注解实现将conreoller方法返回对象转化为json对象响应给客户。
+```
+public class EmpAccount {
+    private Employee emp;
 
-**4、** @Conntroller：控制器的注解，表示是表现层,不能用用别的注解代替
-
-
-### 3、解释WEB 模块。
-
-Spring的WEB模块是构建在application context 模块基础之上，提供一个适合web应用的上下文。这个模块也包括支持多种面向web的任务，如透明地处理多个文件上传请求和程序级请求参数的绑定到你的业务对象。它也有对Jakarta Struts的支持。
-
-
-### 4、SpringBoot 怎么用好自动配置，精髓:
-
-**1、** SpringBoot启动会加载大量的自动配置类
-
-**2、** 我们看我们需要的功能有没有SpringBoot默认写好的自动配置类;
-
-**3、** 我们再来看这个自动配置类中到底配置了哪些组件;(只要我们要用的组件有，我们就不需要再来配置了
-
-**4、** 给容器中自动配置类添加组件的时候，会从properties类中获取某些属性。我们就可以在配置文件中指定这 些属性的值;
-
-
-### 5、SpringBoot支持什么前端模板，
-
-thymeleaf，freemarker，jsp，官方不推荐JSP会有限制
-
-
-### 6、运行 SpringBoot 有哪几种方式？
-
-**1、** 打包用命令或者放到容器中运行
-
-**2、** 用 Maven/ Gradle 插件运行
-
-**3、** 直接执行 main 方法运行
+    @Autowired
+    @Qualifier(emp1)
+    public void showName() {
+        System.out.println(“Employee name : ”+emp.getName);
+    }
+}
+```
 
 
-### 7、负载平衡的意义什么？
+### 2、DispatcherServlet
 
-**1、** 简单来说： 先将集群，集群就是把一个的事情交给多个人去做，假如要做1000个产品给一个人做要10天，我叫10个人做就是一天，这就是集群，负载均衡的话就是用来控制集群，他把做的最多的人让他慢慢做休息会，把做的最少的人让他加量让他做多点。
-
-**2、** 在计算中，负载平衡可以改善跨计算机，计算机集群，网络链接，中央处理单元或磁盘驱动器等多种计算资源的工作负载分布。负载平衡旨在优化资源使用，最大化吞吐量，最小化响应时间并避免任何单一资源的过载。使用多个组件进行负载平衡而不是单个组件可能会通过冗余来提高可靠性和可用性。负载平衡通常涉及专用软件或硬件，例如多层交换机或域名系统服务器进程。
+Spring的MVC框架是围绕DispatcherServlet来设计的，它用来处理所有的HTTP请求和响应。
 
 
-### 8、[@RequestMapping ](/RequestMapping ) 注解
-### 9、什么是 Spring Cloud Bus？
-### 10、SpringBoot 有哪几种读取配置的方式？
-### 11、什么是Spring IOC 容器？
-### 12、自动装配有什么局限？
-### 13、spring boot扫描流程?
-### 14、SpringBoot读取配置文件的方式
-### 15、在 Spring中如何注入一个java集合？
-### 16、我们如何监视所有 SpringBoot 微服务？
-### 17、谈谈服务降级、熔断、服务隔离
-### 18、spring DAO 有什么用？
-### 19、微服务同时调用多个接口，怎么支持事务的啊？
-### 20、微服务有哪些特点？
-### 21、如何重新加载 SpringBoot上的更改，而无需重新启动服务器？
-### 22、什么是Feign？
-### 23、Eureka和ZooKeeper都可以提供服务注册与发现的功能,请说说两个的区别
-### 24、康威定律是什么？
-### 25、前后端分离，如何维护接口文档 ?
-### 26、什么是 AOP什么是引入?
-### 27、什么是 SpringBoot Stater ？
-### 28、微服务限流 http限流：我们使⽤nginx的limitzone来完成：
-### 29、为什么我们需要 spring-boot-maven-plugin?
-### 30、Actuator在SpringBoot中的作用
-### 31、什么是Spring Cloud？
+### 3、SpringCloud有几种调用接口方式
+
+**1、** Feign
+
+**2、** RestTemplate
+
+
+### 4、什么是 Spring Data？
+
+来自：[//projects.spring.io/spring-](//projects.spring.io/spring-) data/
+
+Spring Data 的使命是在保证底层数据存储特殊性的前提下，为数据访问提供一个熟悉的，一致性的，基于 Spring 的编程模型。这使得使用数据访问技术，关系数据库和非关系数据库，map-reduce 框架以及基于云的数据服务变得很容易。
+
+为了让它更简单一些，Spring Data 提供了不受底层数据源限制的 Abstractions 接口。
+
+你可以定义一简单的库，用来插入，更新，删除和检索代办事项，而不需要编写大量的代码。
+
+
+### 5、创建一个 SpringBoot Project 的最简单的方法是什么？
+
+Spring Initializer 是创建 SpringBoot Projects 的一个很好的工具
+
+
+### 6、解释Spring支持的几种bean的作用域。
+
+**Spring框架支持以下五种bean的作用域：**
+
+**1、** singleton : bean在每个Spring ioc 容器中只有一个实例。
+
+**2、** prototype：一个bean的定义可以有多个实例。
+
+**3、** request：每次http请求都会创建一个bean，该作用域仅在基于web的Spring ApplicationContext情形下有效。
+
+**4、** session：在一个HTTP Session中，一个bean定义对应一个实例。该作用域仅在基于web的Spring ApplicationContext情形下有效。
+
+**5、** global-session：在一个全局的HTTP Session中，一个bean定义对应一个实例。该作用域仅在基于web的Spring ApplicationContext情形下有效。
+
+缺省的Spring bean 的作用域是Singleton.
+
+
+### 7、列举 Spring DAO 抛出的异常。
+
+![](https://gitee.com/souyunkutech/souyunku-home/raw/master/images/souyunku-web/2019/08/0816/02/img_4.png#alt=img%5C_4.png)
+
+
+### 8、什么是微服务中的反应性扩展？
+
+Reactive Extensions也称为Rx。这是一种设计方法，我们通过调用多个服务来收集结果，然后编译组合响应。这些调用可以是同步或异步，阻塞或非阻塞。Rx是分布式系统中非常流行的工具，与传统流程相反。
+
+希望这些微服务面试问题可以帮助您进行微服务架构师访谈。
+
+翻译来源：[https://www.edureka.co/blog/interview-questions/microservices-interview-questions/](https://www.edureka.co/blog/interview-questions/microservices-interview-questions/)
+
+
+
+### 9、比较一下 Spring Security 和 Shiro 各自的优缺点 ?
+
+由于 SpringBoot 官方提供了大量的非常方便的开箱即用的 Starter ，包括 Spring Security 的 Starter ，使得在 SpringBoot 中使用 Spring Security 变得更加容易，甚至只需要添加一个依赖就可以保护所有的接口，所以，如果是 SpringBoot 项目，一般选择 Spring Security 。当然这只是一个建议的组合，单纯从技术上来说，无论怎么组合，都是没有问题的。Shiro 和 Spring Security 相比，主要有如下一些特点：
+
+Spring Security 是一个重量级的安全管理框架；Shiro 则是一个轻量级的安全管理框架
+
+Spring Security 概念复杂，配置繁琐；Shiro 概念简单、配置简单
+
+Spring Security 功能强大；Shiro 功能简单
+
+
+### 10、使用 Spring 访问 Hibernate 的方法有哪些？
+
+我们可以通过两种方式使用 Spring 访问 Hibernate：
+
+**1、** 使用 Hibernate 模板和回调进行控制反转
+
+**2、** 扩展 HibernateDAOSupport 并应用 AOP 拦截器节点
+
+
+### 11、bootstrap.yml和application.yml有什么区别?
+### 12、SpringBoot有哪些优点？
+### 13、为什么需要学习Spring Cloud
+### 14、SpringBoot和springcloud认识
+### 15、spring boot 核心配置文件是什么？bootstrap.properties 和 application.properties 有何区别 ?
+### 16、列举微服务技术栈
+### 17、21、在Spring MVC应用程序中使用WebMvcTest注释有什么用处？
+### 18、您对微服务架构中的语义监控有何了解？
+### 19、SpringBoot 中如何实现定时任务 ?
+### 20、在微服务中，如何保护服务?
+### 21、[@Controller ](/Controller ) 注解
+### 22、SpringBoot Starter的工作原理
+### 23、如何集成 SpringBoot 和 ActiveMQ？
+### 24、如何重新加载 SpringBoot 上的更改，而无需重新启动服务器？SpringBoot项目如何热部署？
+### 25、什么是 AOP切点
+### 26、如何集成SpringBoot和ActiveMQ？
+### 27、什么是消费者驱动的合同（CDC）？
+### 28、在Spring框架中如何更有效地使用JDBC?
+### 29、什么是领域驱动设计？
+### 30、SpringBoot 2.X 有什么新特性？与 1.X 有什么区别？
+### 31、SpringCloud 和 Dubbo 有哪些区别?
 
 
 

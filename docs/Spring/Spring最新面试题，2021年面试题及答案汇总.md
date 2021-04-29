@@ -6,108 +6,154 @@
 
 
 
-### 1、什么是微服务中的反应性扩展？
+### 1、spring DAO 有什么用？
 
-Reactive Extensions也称为Rx。这是一种设计方法，我们通过调用多个服务来收集结果，然后编译组合响应。这些调用可以是同步或异步，阻塞或非阻塞。Rx是分布式系统中非常流行的工具，与传统流程相反。
-
-希望这些微服务面试问题可以帮助您进行微服务架构师访谈。
-
-翻译来源：[https://www.edureka.co/blog/interview-questions/microservices-interview-questions/](https://www.edureka.co/blog/interview-questions/microservices-interview-questions/)
+Spring DAO 使得 JDBC，Hibernate 或 JDO 这样的数据访问技术更容易以一种统一的方式工作。这使得用户容易在持久性技术之间切换。它还允许您在编写代码时，无需考虑捕获每种技术不同的异常。
 
 
+### 2、什么是端到端微服务测试？
 
-### 2、SpringBoot的核心注解是哪个？它主要由哪几个注解组成的？
+端到端测试验证了工作流中的每个流程都正常运行。这可确保系统作为一个整体协同工作并满足所有要求。
 
-启动类上面的注解是@SpringBootApplication，它也是SpringBoot的核心注解，主要组合包含了以下3个注解：
+通俗地说，你可以说端到端测试是一种测试，在特定时期后测试所有东西。
 
-**1、** @SpringBootConfiguration：组合了@Configuration注解，实现配置文件的功能。
+![](https://gitee.com/souyunkutech/souyunku-home/raw/master/images/souyunku-web/2019/08/0816/01/img_17.png#alt=img%5C_17.png)
 
-**2、** @EnableAutoConfiguration：打开自动配置的功能，也可以关闭某个自动配置的选项，如关闭数据源自动配置功能：SpringBootApplication(exclude={DataSourceAutoConfiguration.class})
-
-**3、** @ComponentScan：Spring组件扫描
-
-
-### 3、如何重新加载SpringBoot上的更改，而无需重新启动服务器？
-
-这可以使用DEV工具来实现。通过这种依赖关系，您可以节省任何更改，嵌入式tomcat将重新启动。
-
-SpringBoot有一个开发工具（DevTools）模块，它有助于提高开发人员的生产力。Java开发人员面临的一个主要挑战是将文件更改自动部署到服务器并自动重启服务器。
-
-开发人员可以重新加载SpringBoot上的更改，而无需重新启动服务器。这将消除每次手动部署更改的需要。SpringBoot在它的第一个版本时没有这个功能。
-
-这是开发人员最需要的功能。DevTools模块完全满足开发人员的需求。该模块将在生产环境中被禁用。它还提供H2数据库控制台以更好地测试应用程序。
-
-org.springframework.boot
-
-spring-boot-devtools
-
-true
+图14：测试层次 – 微服务面试问题
 
 
-### 4、spring-boot-starter-parent 有什么用 ?
+### 3、解释WEB 模块。
 
-我们都知道，新创建一个 SpringBoot 项目，默认都是有 parent 的，这个 parent 就是 spring-boot-starter-parent ，spring-boot-starter-parent 主要有如下作用：
-
-**1、** 定义了 Java 编译版本为 1.8 。
-
-**2、** 使用 UTF-8 格式编码。
-
-**3、** 继承自 spring-boot-dependencies，这个里边定义了依赖的版本，也正是因为继承了这个依赖，所以我们在写依赖时才不需要写版本号。
-
-**4、** 执行打包操作的配置。
-
-**5、** 自动化的资源过滤。
-
-**6、** 自动化的插件配置。
-
-**7、** 针对 application.properties 和 application.yml 的资源过滤，包括通过 profile 定义的不同环境的配置文件，例如 application-dev.properties 和 application-dev.yml。
+Spring的WEB模块是构建在application context 模块基础之上，提供一个适合web应用的上下文。这个模块也包括支持多种面向web的任务，如透明地处理多个文件上传请求和程序级请求参数的绑定到你的业务对象。它也有对Jakarta Struts的支持。
 
 
-### 5、你更倾向用那种事务管理类型？
+### 4、SpringBoot 的核心注解是哪个？它主要由哪几个注解组成的？
 
-大多数Spring框架的用户选择声明式事务管理，因为它对应用代码的影响最小，因此更符合一个无侵入的轻量级容器的思想。声明式事务管理要优于编程式事务管理，虽然比编程式事务管理（这种方式允许你通过代码控制事务）少了一点灵活性。
+启动类上面的注解是@SpringBootApplication，它也是 SpringBoot 的核心注解，主要组合包含了以下 3 个注解：
 
+@SpringBootConfiguration：组合了 [@Configuration ](/Configuration ) 注解，实现配置文件的功能。
 
-### 6、Zuul网关如何搭建集群
+@EnableAutoConfiguration：打开自动配置的功能，也可以关闭某个自动配置的选项，如关闭数据源自动配置功能： [@SpringBootApplication(exclude ](/SpringBootApplication(exclude ) = { DataSourceAutoConfiguration.class })。
 
-使用Nginx的upstream设置Zuul服务集群，通过location拦截请求并转发到upstream，默认使用轮询机制对Zuul集群发送请求。
-
-
-### 7、YAML 配置的优势在哪里 ?
-
-YAML 现在可以算是非常流行的一种配置文件格式了，无论是前端还是后端，都可以见到 YAML 配置。那么 YAML 配置和传统的 properties 配置相比到底有哪些优势呢？
-
-配置有序，在一些特殊的场景下，配置有序很关键
-
-简洁明了，他还支持数组，数组中的元素可以是基本数据类型也可以是对象
-
-相比 properties 配置文件，YAML 还有一个缺点，就是不支持 [@PropertySource ](/PropertySource ) 注解导入自定义的 YAML 配置。
+@ComponentScan：Spring组件扫描。
 
 
-### 8、什么是不同类型的双因素身份认证？
-### 9、你如何理解 SpringBoot 配置加载顺序？
-### 10、springcloud核⼼组件及其作⽤，以及springcloud⼯作原理：
-### 11、运行 SpringBoot 有哪几种方式？
-### 12、列举 Spring Framework 的优点。
-### 13、Zookeeper如何 保证CP
-### 14、什么是Spring Batch？
-### 15、SpringBoot 有哪些优点？
-### 16、描述一下 DispatcherServlet 的工作流程
-### 17、什么是 SpringBoot？
-### 18、什么是 CSRF 攻击？
-### 19、SpringBoot中的监视器是什么？
-### 20、如何使用 SpringBoot 生成一个 WAR 文件？
-### 21、bootstrap.yml和application.yml有什么区别?
-### 22、Spring对DAO的支持
-### 23、AOP 有哪些实现方式？
-### 24、Mock或Stub有什么区别？
-### 25、JPA 和 Hibernate 有哪些区别？JPA 可以支持动态 SQL 吗？
-### 26、什么是 Spring Framework？
-### 27、什么是耦合和凝聚力？
-### 28、微服务中如何实现 session 共享 ?
-### 29、什么是 AOP切点
-### 30、如何理解 Spring 中的代理？
-### 31、开启 SpringBoot 特性有哪几种方式？
+### 5、spring 提供了哪些配置方式？
+
+bean 所需的依赖项和服务在 XML 格式的配置文件中指定。 这些配置文件通常包含许多 bean 定义和特定于应用程序的配置选项。 它们通常以 bean 标签开头。
+
+**例如：**
+
+```
+<bean id="studentbean" class="org.edureka.firstSpring.StudentBean">
+     <property name="name" value="Edureka"></property>
+</bean>
+```
+
+**基于注解配置**
+
+您可以通过在相关的类，方法或字段声明上使用注解，将 bean 配置为组件类本身，而不是使用 XML 来描述 bean 装配。 默认情况下，Spring 容器中未打开注解装配。 因此，您需要在使用它之前在 Spring 配置文件中启用它。 例如：
+
+context:annotation-config/
+
+Spring 的 Java 配置是通过使用[@Bean ](/Bean ) 和 [@Configuration ](/Configuration ) 来实现。
+
+[@Bean ](/Bean ) 注解扮演与 元素相同的角色。 [@Configuration ](/Configuration ) 类允许通过简单地调用同一个类中的其他[@Bean ](/Bean ) 方法来定义 bean 间依赖关系。
+
+**例如：**
+
+```
+public class StudentConfig {
+    @Bean
+    public StudentBean myStudent() {
+        return new StudentBean();
+    }
+}
+```
+
+
+### 6、SpringBoot需要独立的容器运行？
+
+SpringBoot不需要独立的容器就可以运行，因为在SpringBoot工程发布的jar文件里已经包含了tomcat的jar文件。SpringBoot运行的时候会创建tomcat对象，实现web服务功能。也可以将SpringBoot发布成war文件，放到tomcat文件里面运行
+
+
+### 7、微服务之间是如何独立通讯的
+
+**1、** 远程过程调用（Remote Procedure Invocation）：也就是我们常说的服务的注册与发现，直接通过远程过程调用来访问别的service。
+
+**优点：**
+
+简单，常见,因为没有中间件代理，系统更简单
+
+**缺点：**
+
+**1、** 只支持请求/响应的模式，不支持别的，比如通知、请求/异步响应、发布/订阅、发布/异步响应
+
+**2、** 降低了可用性，因为客户端和服务端在请求过程中必须都是可用的
+
+**2、** 消息：使用异步消息来做服务间通信。服务间通过消息管道来交换消息，从而通信。
+
+**优点:**
+
+**1、** 把客户端和服务端解耦，更松耦合
+
+**2、** 提高可用性，因为消息中间件缓存了消息，直到消费者可以消费
+
+**3、** 支持很多通信机制比如通知、请求/异步响应、发布/订阅、发布/异步响应
+
+**缺点:**
+
+消息中间件有额外的复杂
+
+
+### 8、什么是CSRF攻击？
+
+CSRF代表跨站请求伪造。这是一种攻击，迫使最终用户在当前通过身份验证的Web应用程序上执行不需要的操作。CSRF攻击专门针对状态改变请求，而不是数据窃取，因为攻击者无法查看对伪造请求的响应。
+
+
+### 9、使用 Spring 有哪些方式？
+
+**使用 Spring 有以下方式：**
+
+**1、** 作为一个成熟的 Spring Web 应用程序。
+
+**2、** 作为第三方 Web 框架，使用 Spring Frameworks 中间层。
+
+**3、** 用于远程使用。
+
+**4、** 作为企业级 Java Bean，它可以包装现有的 POJO（Plain Old Java Objects）。
+
+
+### 10、运行 SpringBoot 有哪几种方式？
+
+打包用命令或者放到容器中运行
+
+用 Maven/ Gradle 插件运行
+
+直接执行 main 方法运行
+
+
+### 11、SpringBoot Starter 的工作原理是什么？
+### 12、微服务的优点
+### 13、什么是Eureka的自我保护模式，
+### 14、如何使用 SpringBoot 生成一个 WAR 文件？
+### 15、Spring框架中的单例bean是线程安全的吗?
+### 16、你如何理解 SpringBoot 配置加载顺序？
+### 17、Spring、SpringBoot、SpringMVC的区别？
+### 18、缓存机制：
+### 19、Eureka如何 保证AP
+### 20、SpringBoot 2.X 有什么新特性？与 1.X 有什么区别？
+### 21、单片，SOA和微服务架构有什么区别？
+### 22、什么是执行器停机？
+### 23、什么是客户证书？
+### 24、什么是Hystrix?
+### 25、SpringBoot 有哪几种读取配置的方式？
+### 26、MVC是什么？MVC设计模式的好处有哪些
+### 27、什么是SpringBoot？
+### 28、XMLBeanFactory
+### 29、服务降级底层是如何实现的？
+### 30、Spring Cloud和SpringBoot版本对应关系
+### 31、有哪些不同类型的IOC（依赖注入）方式？
 
 
 

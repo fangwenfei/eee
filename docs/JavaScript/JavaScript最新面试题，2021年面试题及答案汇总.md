@@ -6,157 +6,256 @@
 
 
 
-### 1、什么是`Set`对象，它是如何工作的？
+### 1、什么是作用域？
 
-**Set** 对象允许你存储任何类型的唯一值，无论是原始值或者是对象引用。
+JavaScript 中的作用域是我们可以有效访问变量或函数的区域。JS 有三种类型的作用域：**全局作用域**、**函数作用域**和**块作用域(ES6)**。
 
-我们可以使用`Set`构造函数创建`Set`实例。
+**全局作用域**——在全局命名空间中声明的变量或函数位于全局作用域中，因此在代码中的任何地方都可以访问它们。
 
-`const set1 = new Set(); const set2 = new Set(["a","b","c","d","d","e"]);`
+```
+//global namespace
+var g = "global";
 
-我们可以使用`add`方法向`Set`实例中添加一个新值，因为`add`方法返回`Set`对象，所以我们可以以链式的方式再次使用`add`。如果一个值已经存在于`Set`对象中，那么它将不再被添加。
+function globalFunc(){
+  function innerFunc(){
+    console.log(g); // can access "g" because "g" is a global variable
+  }
+ innerFunc();
+}
+```
 
-`set2.add("f"); set2.add("g").add("h").add("i").add("j").add("k").add("k"); // 后一个『k』不会被添加到set对象中，因为它已经存在了`
+**函数作用域**——在函数中声明的变量、函数和参数可以在函数内部访问，但不能在函数外部访问。
 
-我们可以使用`has`方法检查`Set`实例中是否存在特定的值。
+```
+function myFavoriteFunc(a) {
+  if (true) {
+    var b = "Hello " + a;
+  }
+  return b;
+}
 
-`set2.has("a") // true set2.has("z") // true`
+myFavoriteFunc("World");
 
-我们可以使用`size`属性获得`Set`实例的长度。
+console.log(a); // Throws a ReferenceError "a" is not defined
+console.log(b); // does not continue here
+```
 
-`set2.size // returns 10`
+- **块作用域**-在块`{}`中声明的变量（`let，const`）只能在其中访问。
 
-可以使用`clear`方法删除 `Set` 中的数据。
+```
+function testBlock(){
+   if(true){
+     let z = 5;
+   }
+   return z; 
+ }
 
-`set2.clear();`
+ testBlock(); // Throws a ReferenceError "z" is not defined
+```
 
-我们可以使用`Set`对象来删除数组中重复的元素。
+作用域也是一组用于查找变量的规则。如果变量在当前作用域中不存在，它将向外部作用域中查找并搜索，如果该变量不存在，它将再次查找直到到达全局作用域，如果找到，则可以使用它，否则引发错误，这种查找过程也称为**作用域链**。
 
-`const numbers = [1, 2, 3, 4, 5, 6, 6, 7, 8, 8, 5]; const uniqueNums = [...new Set(numbers)]; // [1,2,3,4,5,6,7,8]`
+```
+/* 作用域链
 
+ 内部作用域->外部作用域-> 全局作用域
+*/
 
-### 2、如何改变this指针的指向？
+// 全局作用域
+var variable1 = "Comrades";   
+var variable2 = "Sayonara";
 
-可以使用`apply`、`call`、`bind`方法改变`this`指向(并不会改变函数的作用域)。比较如下：
-
-**1、** 三者第一个参数都是`this`要指向的对象，也就是想指定的上下文，上下文就是指调用函数的那个对象(没有就指向全局window)；
-
-**2、** `bind`和`call`的第二个参数都是数组，`apply`接收多个参数并用逗号隔开；
-
-**3、** `apply`和`call`只对原函数做改动，`bind`会返回新的函数(要生效还得再调用一次)。
-
-
-### 3、commonjs?requirejs?AMD|CMD|UMD?
-
-**1、** CommonJS就是为JS的表现来制定规范，NodeJS是这种规范的实现，webpack 也是以CommonJS的形式来书写。因为js没有模块的功能，所以CommonJS应运而生。但它不能在浏览器中运行。 CommonJS定义的模块分为:{模块引用(require)} {模块定义(exports)} {模块标识(module)}
-
-**2、** RequireJS 是一个JavaScript模块加载器。 RequireJS有两个主要方法(method): define()和require()。这两个方法基本上拥有相同的定义(declaration) 并且它们都知道如何加载的依赖关系，然后执行一个回调函数(callback function)。与require()不同的是， define()用来存储代码作为一个已命名的模块。 因此define()的回调函数需要有一个返回值作为这个模块定义。这些类似被定义的模块叫作AMD (Asynchronous Module Definition，异步模块定义)。
-
-**3、** AMD 是 RequireJS 在推广过程中对模块定义的规范化产出 AMD异步加载模块。它的模块支持对象 函数 构造器 字符串 JSON等各种类型的模块。 适用AMD规范适用define方法定义模块。
-
-**4、** CMD是SeaJS 在推广过程中对模块定义的规范化产出
-
-AMD与CDM的区别：
-
-（1）对于于依赖的模块，AMD 是提前执行(好像现在也可以延迟执行了)，CMD 是延迟执行。
-
-（2）AMD 推崇依赖前置，CMD 推崇依赖就近。
-
-（3）AMD 推崇复用接口，CMD 推崇单用接口。
-
-（4）书写规范的差异。
-
-**5、** umd是AMD和CommonJS的糅合。
-
-AMD 浏览器第一的原则发展 异步加载模块。
-
-CommonJS模块以服务器第一原则发展，选择同步加载，它的模块无需包装(unwrapped modules)。这迫使人们又想出另一个更通用的模式UMD ( Universal Module Definition ), 希望解决跨平台的解决方案。UMD先判断是否支持Node.js的模块( exports )是否存在，存在则使用Node.js模块模式。
-
-
-### 4、什么是事件传播?
-
-当**事件**发生在**DOM**元素上时，该**事件**并不完全发生在那个元素上。在**“冒泡阶段”**中，事件冒泡或向上传播至父级，祖父母，祖父母或父级，直到到达`window`为止；而在**“捕获阶段”**中，事件从`window`开始向下触发元素 事件或`event.target`。
-
-**事件传播有三个阶段：**
-
-**1、** 捕获阶段 事件从 `window` 开始，然后向下到每个元素，直到到达目标元素。
-
-**2、** 目标阶段 事件已达到目标元素。
-
-**3、** 冒泡阶段 事件从目标元素冒泡，然后上升到每个元素，直到到达 `window`。
+function outer(){
+// 外部作用域
+var variable1 = "World";
+function inner(){
+// 内部作用域
+  var variable2 = "Hello";
+  console.log(variable2 + " " + variable1);
+}
+inner();
+}  
+outer(); // Hello World
+```
 
 
-### 5、你觉得jQuery源码有哪些写的好的地方
+### 2、ajax 和 jsonp ？
 
-**1、** `jquery`源码封装在一个匿名函数的自执行环境中，有助于防止变量的全局污染，然后通过传入`window`对象参数，可以使`window`对象作为局部变量使用，好处是当`jquery`中访问`window`对象的时候，就不用将作用域链退回到顶层作用域了，从而可以更快的访问window对象。同样，传入`undefined`参数，可以缩短查找`undefined`时的作用域链
+**ajax和jsonp的区别：**
 
-**2、** `jquery`将一些原型属性和方法封装在了`jquery.prototype`中，为了缩短名称，又赋值给了`jquery.fn`，这是很形象的写法
+相同点：都是请求一个url
 
-**3、** 有一些数组或对象的方法经常能使用到，`jQuery`将其保存为局部变量以提高访问速度
+不同点：ajax的核心是通过xmlHttpRequest获取内容
 
-**4、** `jquery`实现的链式调用可以节约代码，所返回的都是同一个对象，可以提高代码效率
+jsonp的核心则是动态添加
 
 
-### 6、同步和异步的区别?
+
+### 3、js延迟加载的方式有哪些？
+
+`defer`和`async`、动态创建`DOM`方式（用得最多）、按需异步载入`js`
+
+
+### 4、Object.seal 和 Object.freeze 方法之间有什么区别？
+
+**Object.freeze()**
+
+`Object.freeze()` 方法可以冻结一个对象。一个被冻结的对象再也不能被修改；冻结了一个对象则不能向这个对象添加新的属性，不能删除已有属性，不能修改该对象已有属性的可枚举性、可配置性、可写性，以及不能修改已有属性的值。此外，冻结一个对象后该对象的原型也不能被修改`。freeze()` 返回和传入的参数相同的对象。
+
+**Object.seal()**
+
+```
+Object.seal()方法封闭一个对象，阻止添加新属性并将所有现有属性标记为不可配置。当前属性的值只要可写就可以改变。
+```
+
+方法的相同点：
+
+**1、** ES5新增。
+
+**2、** 对象不可能扩展，也就是不能再添加新的属性或者方法。
+
+**3、** 对象已有属性不允许被删除。
+
+**4、** 对象属性特性不可以重新配置。
+
+方法不同点：
+
+- `Object.seal`方法生成的密封对象，如果属性是可写的，那么可以修改属性值。`* Object.freeze`方法生成的冻结对象，属性都是不可写的，也就是属性值无法更改。
+
+
+### 5、Jq中如何实现多库并存?
+
+Noconfict 多库共存就是“$ ”符号的冲突。
+
+**方法一**：
+
+利用jQuery的实用函数$$.noConflict();这个函数归还$$的名称控制权给另一个库，因此可以在页面上使用其他库。这时，我们可以用"jQuery "这个名称调用jQuery的功能。 $.noConflict();
+
+```
+jQuery('\#id').hide();
+.....
+//或者给jQuery一个别名
+var $j=jQuery
+$j('\#id').hide();
+```
+
+**方法二**： `(function($)\{\})(jQuery)`
+
+**方法三**： `jQuery(function($)\{\})`
+
+通过传递一个函数作为jQuery的参数，因此把这个函数声明为就绪函数。 我们声明$为就绪函数的参数，因为jQuery总是吧jQuery对象的引用作为第一个参数传递，所以就保证了函数的执行。
+
+
+### 6、怎么理解Promise对象？
+
+**`Promise`对象有如下两个特点：**
+
+**1、** 对象的状态不受外界影响。`Promise`对象共有三种状态`pending`、`fulfilled`、`rejected`。状态值只会被异步结果决定，其他任何操作无法改变。
+
+**2、** 状态一旦成型，就不会再变，且任何时候都可得到这个结果。状态值会由`pending`变为`fulfilled`或`rejected`，这时即为`resolved`。
+
+**Promise的缺点有如下三个缺点：**
+
+**1、** `Promise`一旦执行便无法被取消；
+
+**2、** 不可设置回调函数，其内部发生的错误无法捕获；
+
+**3、** 当处于`pending`状态时，无法得知其具体发展到了哪个阶段。
+
+**`Pomise`中常用的方法有：**
+
+**1、** `Promise.prototype.then()`：`Promise`实例的状态发生改变时，会调用`then`内部的回调函数。`then`方法接受两个参数（第一个为`resolved`状态时时执行的回调，第一个为`rejected`状态时时执行的回调）
+
+**2、** `Promise.prototype.catch()`：`.then(null, rejection)`或`.then(undefined, rejection)`的别名，用于指定发生错误时的回调函数。
+
+
+### 7、`in` 运算符和 `Object.hasOwnProperty` 方法有什么区别？
+
+**hasOwnPropert方法**
+
+`hasOwnPropert()`方法返回值是一个布尔值，指示对象自身属性中是否具有指定的属性，因此这个方法会忽略掉那些从原型链上继承到的属性。
+
+看下面的例子：
+
+```
+Object.prototype.phone= '15345025546';
+
+let obj = {
+  name: 'kyle',
+  age: '28'
+}
+console.log(obj.hasOwnProperty('phone')) // false
+console.log(obj.hasOwnProperty('name')) // true
+```
+
+可以看到，如果在函数原型上定义一个变量`phone`，`hasOwnProperty`方法会直接忽略掉。
+
+**in 运算符**
+
+如果指定的属性在指定的对象或其原型链中，则`in` 运算符返回`true`。
+
+还是用上面的例子来演示：
+
+`console.log('phone' in obj) // true`
+
+可以看到`in`运算符会检查它或者其原型链是否包含具有指定名称的属性。
+
+
+### 8、同步和异步的区别?
 
 **1、** 同步：浏览器访问服务器请求，用户看得到页面刷新，重新发请求,等请求完，页面刷新，新内容出现，用户看到新内容,进行下一步操作
 
 **2、** 异步：浏览器访问服务器请求，用户正常操作，浏览器后端进行请求。等请求完，页面不刷新，新内容也会出现，用户看到新内容
 
 
-### 7、== 和 === 有什么区别？
+### 9、说说严格模式的限制
 
-`==`用于一般比较，`===`用于严格比较，`==`在比较的时候可以转换数据类型`，===`严格比较，只要类型不匹配就返回`flase`。
+**1、** 变量必须声明后再使用
 
-先来看看 `==` 这兄弟：
+**2、** 函数的参数不能有同名属性，否则报错
 
-强制是将值转换为另一种类型的过程。在这种情况下，`==`会执行隐式强制。在比较两个值之前，`==`需要执行一些规则。
+**3、** 不能使用`with`语句
 
-假设我们要比较`x == y`的值。
-
-**1、** 如果`x`和`y`的类型相同，则 JS 会换成`===`操作符进行比较。
-
-**2、** 如果`x`为`null`, `y`为`undefined`，则返回`true`。
-
-**3、** 如果`x`为`undefined`且`y`为`null`，则返回`true`。
-
-**4、** 如果`x`的类型是`number`, `y`的类型是`string`，那么返回`x == toNumber(y)`。
-
-**5、** 如果`x`的类型是`string`, `y`的类型是`number`，那么返回`toNumber(x) == y`。
-
-**6、** 如果`x`为类型是`boolean`，则返回`toNumber(x)== y`。
-
-**7、** 如果`y`为类型是`boolean`，则返回`x == toNumber(y)`。
-
-**8、** 如果`x`是`string`、`symbol`或`number`，而`y`是`object`类型，则返回`x == toPrimitive(y)`。
-
-**9、** 如果`x`是`object`，`y`是`string`，`symbol`则返回`toPrimitive(x) == y`。
-
-**10、** 剩下的 返回 `false`
+**4、** 禁止`this`指向全局对象
 
 
-### 8、arguments 的对象是什么？
-### 9、什么是原型、原型链？
-### 10、call & apply 两者之间的区别###
-### 11、事件流?事件捕获？事件冒泡？
-### 12、JavaScript 中 `this` 值是什么？
-### 13、promise###
-### 14、typeof？typeof [ ]返回数据类型是？
-### 15、`Function.prototype.call` 方法的用途是什么？
-### 16、声明函数作用提升?声明变量和声明函数的提升有什么区别
-### 17、什么是类？
-### 18、那些操作会造成内存泄漏？
-### 19、什么是事件冒泡？
-### 20、回调函数?
-### 21、如何copy一个dom元素？
-### 22、ajax请求方式有几种（8种）？
-### 23、&& 运算符能做什么
-### 24、有哪些方法可以处理 JS 中的异步代码？
-### 25、null，undefined 的区别？
-### 26、call和apply 有什么好处？
-### 27、强制转换 显式转换 隐式转换?
-### 28、事件委托？有什么好处?
-### 29、介绍js有哪些内置对象？
+### 10、常见兼容性问题？
+
+**1、** `png24`位的图片在iE6浏览器上出现背景，解决方案是做成`PNG8`
+
+**2、** 浏览器默认的`margin`和`padding`不同。解决方案是加一个全局的`*{margin:0;padding:0;}`来统一,，但是全局效率很低，一般是如下这样解决：
+
+```
+body,ul,li,ol,dl,dt,dd,form,input,h1,h2,h3,h4,h5,h6,p{
+    margin:0;
+    padding:0;
+}
+```
+
+`IE`下,`event`对象有`x`,`y`属性,但是没有`pageX`,`pageY`属性
+
+`Firefox`下,`event`对象有`pageX`,`pageY`属性,但是没有`x,y`属性.
+
+
+### 11、Jq绑定事件的几种方式？on bind ?
+### 12、call & apply 两者之间的区别###
+### 13、同步和异步的区别?
+### 14、什么是 event.currentTarget？？
+### 15、typeof？typeof [ ]返回数据类型是？
+### 16、如何知道是否在元素中使用了`event.preventDefault()`方法？
+### 17、Promise 是什么？
+### 18、eval是做什么的？
+### 19、判断数据类型的方法有哪些？
+### 20、== 和 === 有什么区别？
+### 21、javascript有哪些方法定义对象
+### 22、如何通过原生js 判断一个元素当前是显示还是隐藏状态?
+### 23、与深拷贝有何区别？如何实现？
+### 24、事件流?事件捕获？事件冒泡？
+### 25、ajax 是什么?
+### 26、变量作用域?
+### 27、promise###
+### 28、什么是事件捕获？
+### 29、如何解决跨域问题?
 
 
 

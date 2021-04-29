@@ -6,101 +6,199 @@
 
 
 
-### 1、如何实现"1.2.3"变成['1','2','3']?
+### 1、什么是Python中的猴子补丁？
 
-```python
-s="1,2,3"
-s=s.split(',')
+猴子补丁(monkey patching)，是指在运行时动态修改类或模块。
+
+```
+from SomeOtherProduct.SomeModule import SomeClass
+
+def speak(self):
+    return "Hello!"
+
+SomeClass.speak = speak
 ```
 
 
-### 2、位和字节的关系
-
-8位=一字节
-
-
-### 3、为何不建议以下划线作为标识符的开头
-
-因为Python并没有私有变量的概念，所以约定速成以下划线为开头来声明一个变量为私有。所以如果你不想让变量私有，就不要使用下划线开头。
-
-
-### 4、使用async语法实现一个协程
+### 2、实现99乘法表（使用两种方法）
 
 ```python
-import asyncio
-import time
+print('\n'.join(['\t'.join(['{}*{}={}'.format(x,y,x*y) for x in range(1,y+1)]) for y in range(1,10)]))
+```
 
-now = lambda : time.time()
-
-async def hello():
-print("hello")
-await asyncio.sleep(2)
-return "done"
-
-start = now()
-# 协程对象
-h1 = hello()
-h2 = hello()
-h3 = hello()
-
-# 创建一个事件loop
-loop = asyncio.get_event_loop()
-# 任务（task）对象
-tasks = [
-asyncio.ensure_future(h1),
-asyncio.ensure_future(h2),
-asyncio.ensure_future(h3),
-]
-
-# 将协程加入到事件循环loop
-loop.run_until_complete(asyncio.wait(tasks))
-for task in tasks:
-print(task.result())
-
-print(now()-start)
+```python
+for i in range(1,10):
+for j in range(1,i+1):
+print('%s*%s=%s'%(i,j,i*j),end='\t')
+else:
+print()
 ```
 
 
-### 5、Redis默认多少个db
+### 3、什么是负索引？
 
-默认有16个数据库
+我们先创建这样一个列表：
+
+```
+>>> mylist=[0,1,2,3,4,5,6,7,8]
+```
+
+负索引和正索引不同，它是从右边开始检索。
+
+```
+>>> mylist[-3]
+```
+
+运行结果：
+
+```
+6
+```
+
+它也能用于列表中的切片：
+
+```
+>>> mylist[-6:-1]
+```
+
+结果：
+
+```
+[3, 4, 5, 6, 7]
+```
 
 
-### 6、什么是twisted框架
+### 4、实现一个装饰器，通过一次调用，使函数重复执行5次
 
-twisted是用python实现的基于事件驱动的网络引擎框架。
+```python
+from functools import wraps
+def dec(func):
+@wraps(func)
+def inner(*args,**kwargs):
+result=[func(*args,**kwargs) for i in range(5)]
+return result
+return inner
+
+@dec
+def add(x,y):
+return x+y
+print(add(1,2))
+```
 
 
-### 7、JavaScript(或者jQuery)如何选择一个id为main的容器
+### 5、如何高效的找到Redis中所有以felix开头的key
 
-**1、** jquery：$('#id')
+**1、** scan 0 match felixcount 5
 
-**2、** JavaScript：document.getElementById("id"))
+**2、** 表示从游标0开始查询felix开头的key，每次返回5条，但是这个5条不一定
 
 
-### 8、字节码和机器码的区别
-### 9、什么时GIL锁
-### 10、什么是闭包
-### 11、将列表alist=[{'name':'a','age':25},{'name':'b','age':30},{'name':'c','age':20}]，按照age的值从大到小排列。
-### 12、什么是switch语句。如何在Python中创建switch语句？
-### 13、lambda表达式格式以及应用场景？
-### 14、解释一下Python中的赋值运算符
-### 15、什么是抽象？
-### 16、Python代码是如何执行的？
-### 17、vuex的作用
-### 18、filter、map、reduce的作用。
-### 19、下面代码的执行结果是
-### 20、如何高效的找到Redis中所有以felix开头的key
-### 21、python的垃圾回收机制
-### 22、怎样获取字典中所有键的列表？
-### 23、使用生成器编写一个函数实现生成指定个数的斐波那契数列
-### 24、解释*args和**kwargs？
-### 25、类和对象有什么区别？
-### 26、Python中的闭包是什么？
-### 27、什么是索引合并
-### 28、解释//、％、* *运算符？
-### 29、一个数如果恰好等于它的因子之和，这个数就称为‘完数’，比如6=1+2+3，编程找出1000以内的所有的完数。
-### 30、公司线上和开发环境使用的什么系统
+### 6、列表中保留顺序和不保留顺序去重
+
+**不保留顺序**
+
+```python
+lis=[3, 1, 4, 2, 3]
+print(list(set(lis)))
+```
+
+**保留顺序**
+
+```python
+lis=[3, 1, 4, 2, 3]
+T=[]
+[T.append(i) for i in lis if i not in T])
+print(T)
+
+# 或者
+T=sorted(set(lis), key=lis.index)
+print(T)
+```
+
+
+### 7、python的底层网络交互模块有哪些
+
+socket，urllib，requests，pycurl
+
+
+### 8、一个大小为100G的文件etl_log.txt，要读取文件的内容，写出具体过程代码
+
+```python
+with open("etl_log.txt",'r',encoding='utf8') as f:
+for line in f:
+print(line,end='')
+```
+
+
+### 9、axios的作用
+
+**axios是基于promise的用于浏览器和nodejs的HTTP客户端，本身有以下特征：**
+
+**1、** 从浏览器中创建XMLHttpRequest；
+
+**2、** 从nodejs发出http请求
+
+**3、** 支持promiseAPI
+
+**4、** 拦截 请求和响应
+
+**5、** 转换请求和响应数据
+
+**6、** 取消请求
+
+**7、** 自动转换JSON数据
+
+**8、** 客户端支持防止CSRF/XSRF攻击
+
+
+### 10、解释一下Python中的//，%和 ** 运算符
+
+//运算符执行地板除法（向下取整除），它会返回整除结果的整数部分。
+
+```
+>>> 7//2
+3
+```
+
+这里整除后会返回3.5。
+
+同样地，**执行取幂运算。a**b会返回a的b次方。
+
+```
+>>> 2**10
+1024
+```
+
+最后，%执行取模运算，返回除法的余数。
+
+```
+>>> 13%7
+6
+>>> 3.5%1.5
+0.5
+```
+
+
+### 11、列举常见的关系型数据库和非关系型数据库。
+### 12、css如何隐藏一个元素
+### 13、如何基于Redis实现发布和订阅
+### 14、sys.path.append('xxx')的作用
+### 15、怎样将字符串转换为小写？
+### 16、解释一下Python中的赋值运算符
+### 17、re的match和search的区别
+### 18、举例说明Python中的range函数?
+### 19、输入一个字符串，输出该字符串的字符的所有组合。如输入'abc',输出a,b,c,ab,ac,bc,abc.
+### 20、解释*args和**kwargs？
+### 21、实现一个单例模式。(尽可能多的方法)
+### 22、在Python中如何实现多线程？
+### 23、简述jsonp及其原理
+### 24、什么是Flask？
+### 25、解释Python中reduce函数的用法？
+### 26、深拷贝和浅拷贝之间的区别是什么？
+### 27、在什么情况下y!=x-(x-y)会成立？
+### 28、一个数如果恰好等于它的因子之和，这个数就称为‘完数’，比如6=1+2+3，编程找出1000以内的所有的完数。
+### 29、python中如何使用进程池和线程池
+### 30、编写程序，计算文件中单词的出现频率
 
 
 

@@ -6,142 +6,146 @@
 
 
 
-### 1、如何识别请求的先后顺序？
+### 1、Stat记录了哪些版本相关数据？
+
+version:当前ZNode版本
+
+cversion:当前ZNode子节点版本
+
+aversion:当前ZNode的ACL版本
+
+
+### 2、BASE理论？
+
+**1、** Basically Available(基本可用)、Soft state(软状态) 和 Eventuanlly consistent （最终一致性）3个短语的简写。
+
+**2、** 基本可用：系统出现不可预知的故障时，允许损失部分可用性。
+
+**3、** 弱（软）状态：数据的中间状态，并认为改状态存在不会一项系统整体可用性，允许不同节点数据副本数据同步过程中的延时。
+
+**4、** 最终一致性：系统中所有数据副本，在一段时间的同步后，最终数据能够到一致性的状态。
+
+
+### 3、Zookeeper Watcher 机制 – 数据变更通知
+
+Zookeeper 允许客户端向服务端的某个 Znode 注册一个 Watcher 监听，当服务端的一些指定事件触发了这个 Watcher，服务端会向指定客户端发送一个事件通知来实现分布式的通知功能，然后客户端根据 Watcher 通知状态和事件类型做出业务上的改变。
+
+**工作机制：**
+
+**1、** 客户端注册 watcher
+
+**2、** 服务端处理 watcher
+
+**3、** 客户端回调 watcher
+
+
+### 4、如何识别请求的先后顺序？
 
 ZooKeeper会给每个更新请求，分配一个全局唯一的递增编号（zxid)，编号的大小体现事务操作的先后顺序。
 
 
-### 2、集群支持动态添加机器吗？
+### 5、zk的命名服务（文件系统）
 
-其实就是水平扩容了，Zookeeper在这方面不太好。两种方式：
-
-全部重启：关闭所有Zookeeper服务，修改配置之后启动。不影响之前客户端的会话。
-
-逐个重启：在过半存活即可用的原则下，一台机器重启不影响整个集群对外提供服务。这是比较常用的方式。
-
-3.5版本开始支持动态扩容。
+命名服务是指通过指定的名字来获取资源或者服务的地址，利用zk创建一个全局的路径，即是唯一的路径，这个路径就可以作为一个名字，指向集群中的集群，提供的服务的地址，或者一个远程的对象等等。
 
 
-### 3、数据同步
+### 6、如何查看子节点？
 
-整个集群完成 Leader 选举之后，Learner（Follower 和 Observer 的统称）回向Leader 服务器进行注册。当 Learner 服务器想 Leader 服务器完成注册后，进入数据同步环节。
+ls path [watch]
 
-**数据同步流程：**（均以消息传递的方式进行）
+path : 节点路径
 
-**1、** Learner 向 Learder 注册
+[zk: localhost:2181(CONNECTED) 5] ls /app
 
-**2、** 数据同步
-
-**3、** 同步确认
-
-**Zookeeper 的数据同步通常分为四类：**
-
-**1、** 直接差异化同步（DIFF 同步）
-
-**2、** 先回滚再差异化同步（TRUNC+DIFF 同步）
-
-**3、** 仅回滚同步（TRUNC 同步）
-
-**4、** 全量同步（SNAP 同步）
-
-**在进行数据同步前，Leader服务器会完成数据同步初始化：**
-
-**1、** peerLastZxid：从learner服务器注册时发送的ACKEPOCH消息中提取lastZxid（该Learner服务器最后处理的ZXID）
-
-**2、** minCommittedLog：Leader服务器Proposal缓存队列committedLog中最小ZXID
-
-**3、** maxCommittedLog：Leader服务器Proposal缓存队列committedLog中最大ZXID
-
-**4、** 直接差异化同步（DIFF同步） 场景：peerLastZxid介于minCommittedLog和maxCommittedLog之间
-
-![](https://gitee.com/souyunkutech/souyunku-home/raw/master/images/souyunku-web/2020/5/2/052/19/71_1.png#alt=71%5C_1.png)
-
-**先回滚再差异化同步（TRUNC+DIFF同步）**
-
-场景：当新的Leader服务器发现某个Learner服务器包含了一条自己没有的事务记录，那么就需要让该Learner服务器进行事务回滚--回滚到Leader服务器上存在的，同时也是最接近于peerLastZxid的ZXID
-
-**仅回滚同步（TRUNC同步）**
-
-场景：peerLastZxid 大于 maxCommittedLog
-
-**全量同步（SNAP同步）**
-
-场景一：peerLastZxid 小于 minCommittedLog
-
-场景二：Leader服务器上没有Proposal缓存队列且peerLastZxid不等于lastProcessZxid
+[book]
 
 
-### 4、Zookeeper 的典型应用场景
+### 7、chubby是什么，和zookeeper比你怎么看？
 
-Zookeeper 是一个典型的发布/订阅模式的分布式数据管理与协调框架，开发人员可以使用它来进行分布式数据的发布和订阅。
-
-通过对 Zookeeper 中丰富的数据节点进行交叉使用，配合 Watcher 事件通知机制，可以非常方便的构建一系列分布式应用中年都会涉及的核心功能，如：
-
-**1、** 数据发布/订阅
-
-**2、** 负载均衡
-
-**3、** 命名服务
-
-**4、** 分布式协调/通知
-
-**5、** 集群管理
-
-**6、** Master 选举
-
-**7、** 分布式锁
-
-**8、** 分布式队列
-
-#
-### 5、Zookeeper文件系统
-
-Zookeeper提供一个多层级的节点命名空间（节点称为znode）。与文件系统不同的是，这些节点都可以设置关联的数据，而文件系统中只有文件节点可以存放数据而目录节点不行。
-
-Zookeeper为了保证高吞吐和低延迟，在内存中维护了这个树状的目录结构，这种特性使得Zookeeper不能用于存放大量的数据，每个节点的存放数据上限为1M。
+chubby是google的，完全实现paxos算法，不开源。zookeeper是chubby的开源实现，使用zab协议，paxos算法的变种。
 
 
-### 6、集群支持动态添加机器吗？
+### 8、ZooKeeper 面试题？
 
-**1、** 其实就是水平扩容了，Zookeeper 在这方面不太好。两种方式：
+ZooKeeper是一个开放源码的分布式协调服务，它是集群的管理者，监视着集群中各个节点的状态根据节点提交的反馈进行下一步合理操作。最终，将简单易用的接口和性能高效、功能稳定的系统提供给用户。
 
-**2、** 全部重启：关闭所有 Zookeeper 服务，修改配置之后启动。不影响之前客户端的会话。
+分布式应用程序可以基于Zookeeper实现诸如数据发布/订阅、负载均衡、命名服务、分布式协调/通知、集群管理、Master选举、分布式锁和分布式队列等功能。
 
-**3、** 逐个重启：在过半存活即可用的原则下，一台机器重启不影响整个集群对外提供服务。这是比较常用的方式。
+**Zookeeper保证了如下分布式一致性特性：**
 
-**4、** 3.5 版本开始支持动态扩容。
+**1、** 顺序一致性
+
+**2、** 原子性
+
+**3、** 单一视图
+
+**4、** 可靠性
+
+**5、** 实时性（最终一致性）
+
+客户端的读请求可以被集群中的任意一台机器处理，如果读请求在节点上注册了监听器，这个监听器也是由所连接的zookeeper机器来处理。对于写请求，这些请求会同时发给其他zookeeper机器并且达成一致后，请求才会返回成功。因此，随着zookeeper的集群机器增多，读请求的吞吐会提高但是写请求的吞吐会下降。
+
+有序性是zookeeper中非常重要的一个特性，所有的更新都是全局有序的，每个更新都有一个唯一的时间戳，这个时间戳称为zxid（Zookeeper Transaction Id）。而读请求只会相对于更新有序，也就是读请求的返回结果中会带有这个zookeeper最新的zxid。
 
 
-### 7、客户端回调 Watcher
+### 9、Zookeeper 有哪几种几种部署模式？
 
-客户端 SendThread 线程接收事件通知，交由 EventThread 线程回调 Watcher。
+**Zookeeper 有三种部署模式**：
 
-客户端的 Watcher 机制同样是一次性的，一旦被触发后，该 Watcher 就失效了。
+**1、** 单机部署：一台集群上运行；
+
+**2、** 集群部署：多台集群运行；
+
+**3、** 伪集群部署：一台集群启动多个 Zookeeper 实例运行。
 
 
-### 8、zookeeper是如何选取主leader的？
-### 9、ZAB 和 Paxos 算法的联系与区别？
-### 10、Zookeeper默认端口？
-### 11、分布式集群中为什么会有 Master主节点？
-### 12、ZooKeeper可以实现哪些功能？
-### 13、Zookeeper 下 Server工作状态
-### 14、zk的命名服务（文件系统）
-### 15、ZAB和Paxos算法的联系与区别？
-### 16、Zookeeper有哪几种几种部署模式？
-### 17、客户端回调Watcher
-### 18、Zookeeper 下 Server工作状态
-### 19、zookeeper 负载均衡和 nginx 负载均衡区别
-### 20、zookeeper是如何保证事务的顺序一致性的？
-### 21、服务器角色
-### 22、Zookeeper对节点的watch监听通知是永久的吗？为什么不是永久的?
-### 23、zookeeper负载均衡和nginx负载均衡区别
-### 24、恢复模式
-### 25、服务器的3中角色？
-### 26、获取分布式锁的流程
-### 27、ACL权限控制机制
-### 28、如何创建一个ZNode?
-### 29、ACL 权限控制机制
-### 30、Zookeeper做了什么？
+### 10、服务端处理Watcher实现
+
+**1、** 服务端接收Watcher并存储
+
+接收到客户端请求，处理请求判断是否需要注册Watcher，需要的话将数据节点的节点路径和ServerCnxn（ServerCnxn代表一个客户端和服务端的连接，实现了Watcher的process接口，此时可以看成一个Watcher对象）存储在WatcherManager的WatchTable和watch2Paths中去。
+
+**2、** Watcher触发
+
+以服务端接收到 setData() 事务请求触发NodeDataChanged事件为例：
+
+2.1 封装WatchedEvent
+
+将通知状态（SyncConnected）、事件类型（NodeDataChanged）以及节点路径封装成一个WatchedEvent对象
+
+2.2 查询Watcher
+
+从WatchTable中根据节点路径查找Watcher
+
+2.3 没找到；说明没有客户端在该数据节点上注册过Watcher
+
+2.4 找到；提取并从WatchTable和Watch2Paths中删除对应Watcher（从这里可以看出Watcher在服务端是一次性的，触发一次就失效了）
+
+**3、** 调用process方法来触发Watcher
+
+这里process主要就是通过ServerCnxn对应的TCP连接发送Watcher事件通知。
+
+
+### 11、客户端注册 Watcher 实现
+### 12、客户端回调 Watcher
+### 13、为什么叫ZooKeeper?
+### 14、在sessionTimeout之内的会话，因服务器压力大、网络故障或客户端主动断开情况下，之前的会话还有效吗？
+### 15、Zookeeper 的典型应用场景
+### 16、Zookeeper默认端口？
+### 17、Zookeeper 都有哪些功能？
+### 18、Zookeeper集群管理（文件系统、通知机制）
+### 19、删除指定节点？注意？
+### 20、CAP理论？
+### 21、恢复模式
+### 22、Quorum?
+### 23、ZooKeeper是什么？
+### 24、Zookeeper的java客户端都有哪些？
+### 25、ZNode的类型？
+### 26、集群最少要几台机器，集群规则是怎样的?
+### 27、Zookeeper文件系统
+### 28、ZooKeeper 提供了什么？
+### 29、A是根节点，如何表达A子节点下的B节点？
+### 30、Zookeeper队列管理（文件系统、通知机制）
 
 
 

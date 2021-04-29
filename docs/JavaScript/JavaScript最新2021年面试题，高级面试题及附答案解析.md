@@ -6,226 +6,376 @@
 
 
 
-### 1、什么是缓存及它有什么作用？
+### 1、强制转换 显式转换 隐式转换?
 
-缓存是建立一个函数的过程，这个函数能够记住之前计算的结果或值。使用缓存函数是为了避免在最后一次使用相同参数的计算中已经执行的函数的计算。这节省了时间，但也有不利的一面，即我们将消耗更多的内存来保存以前的结果。
+```
+//强制类型转换：
+Boolean(0)   // =false - 零
+Boolean(new object())   // =true - 对象
+Number(undefined)       // =  NaN
+Number(null)              // =0
+String(null)              // ="null"
+parseInt( )
+parseFloat( )
+JSON.parse( )
+JSON.stringify ( )
+```
+
+隐式类型转换：
+
+在使用算术运算符时，运算符两边的数据类型可以是任意的，比如，一个字符串可以和数字相加。之所以不同的数据类型之间可以做运算，是因为JavaScript引擎在运算之前会悄悄的把他们进行了隐式类型转换的
+
+```
+（例如：x+"" //等价于String(x)  
+\+x //等价于Number(x)  
+x-0 //同上  
+!!x //等价于Boolean(x),是双叹号）
+```
+
+**显式转换：**
+
+如果程序要求一定要将某一类型的数据转换为另一种类型，则可以利用强制类型转换运算符进行转换，这种强制转换过程称为显示转换。
+
+显示转换是你定义让这个值类型转换成你要用的值类型，是底到高的转换。例 int 到float就可以直接转，int i=5,想把他转换成char类型，就用显式转换（char）i
 
 
-### 2、什么是默认参数？
+### 2、JavaScript 中的虚值是什么？
 
-默认参数是在 JS 中定义默认变量的一种新方法，它在ES6或ECMAScript 2015版本中可用。
+`const falsyValues = ['', 0, null, undefined, NaN, false];`
+
+简单的来说虚值就是是在转换为布尔值时变为 `false` 的值。
+
+
+### 3、简述ajax执行流程
+
+```
+基本步骤：
+var xhr =null;//创建对象 
+if(window.XMLHttpRequest){
+       xhr = new XMLHttpRequest();
+}else{
+       xhr = new ActiveXObject("Microsoft.XMLHTTP");
+}
+xhr.open(“方式”,”地址”,”标志位”);//初始化请求 
+   xhr.setRequestHeader(“”,””);//设置http头信息 
+xhr.onreadystatechange =function(){}//指定回调函数 
+xhr.send();//发送请求
+```
+
+
+### 4、null，undefined 的区别？
+
+undefined表示变量声明但未初始化的值，null表示准备用来保存对象，还没有真正保存对象的值。从逻辑角度看，null表示一个空对象指针。
+
+
+### 5、attribute和property的区别是什么？
+
+**1、** `attribute`是`dom`元素在文档中作为`html`标签拥有的属性；
+
+**2、** `property`就是`dom`元素在`js`中作为对象拥有的属性。
+
+**3、** 对于`html`的标准属性来说，`attribute`和`property`是同步的，是会自动更新的
+
+**4、** 但是对于自定义的属性来说，他们是不同步的
+
+
+### 6、什么是`Set`对象，它是如何工作的？
+
+**Set** 对象允许你存储任何类型的唯一值，无论是原始值或者是对象引用。
+
+我们可以使用`Set`构造函数创建`Set`实例。
+
+`const set1 = new Set(); const set2 = new Set(["a","b","c","d","d","e"]);`
+
+我们可以使用`add`方法向`Set`实例中添加一个新值，因为`add`方法返回`Set`对象，所以我们可以以链式的方式再次使用`add`。如果一个值已经存在于`Set`对象中，那么它将不再被添加。
+
+`set2.add("f"); set2.add("g").add("h").add("i").add("j").add("k").add("k"); // 后一个『k』不会被添加到set对象中，因为它已经存在了`
+
+我们可以使用`has`方法检查`Set`实例中是否存在特定的值。
+
+`set2.has("a") // true set2.has("z") // true`
+
+我们可以使用`size`属性获得`Set`实例的长度。
+
+`set2.size // returns 10`
+
+可以使用`clear`方法删除 `Set` 中的数据。
+
+`set2.clear();`
+
+我们可以使用`Set`对象来删除数组中重复的元素。
+
+`const numbers = [1, 2, 3, 4, 5, 6, 6, 7, 8, 8, 5]; const uniqueNums = [...new Set(numbers)]; // [1,2,3,4,5,6,7,8]`
+
+
+### 7、JavaScript 中 `this` 值是什么？
+
+基本上，`this`指的是当前正在执行或调用该函数的对象的值。`this`值的变化取决于我们使用它的上下文和我们在哪里使用它。
+
+```
+const carDetails = {
+  name: "Ford Mustang",
+  yearBought: 2005,
+  getName(){
+    return this.name;
+  },
+  isRegistered: true
+};
+
+console.log(carDetails.getName()); // Ford Mustang
+```
+
+这通常是我们期望结果的，因为在`getName`方法中我们返回`this.name`，在此上下文中，`this`指向的是`carDetails`对象，该对象当前是执行函数的“所有者”对象。
+
+接下我们做些奇怪的事情：
+
+```
+var name = "Ford Ranger";
+var getCarName = carDetails.getName;
+
+console.log(getCarName()); // Ford Ranger
+```
+
+上面打印`Ford Ranger`，这很奇怪，因为在第一个`console.log`语句中打印的是`Ford Mustang`。这样做的原因是`getCarName`方法有一个不同的“所有者”对象，即`window`对象。在全局作用域中使用`var`关键字声明变量会在`window`对象中附加与变量名称相同的属性。请记住，当没有使用`“use strict”`时，在全局作用域中`this`指的是`window`对象。
+
+`console.log(getCarName === window.getCarName); // true console.log(getCarName === this.getCarName); // true`
+
+本例中的`this`和`window`引用同一个对象。
+
+解决这个问题的一种方法是在函数中使用`apply`和`call`方法。
+
+`console.log(getCarName.apply(carDetails)); // Ford Mustang console.log(getCarName.call(carDetails)); // Ford Mustang`
+
+`apply`和`call`方法期望第一个参数是一个对象，该对象是函数内部`this`的值。
+
+`IIFE`或**立即执行的函数表达式**，在全局作用域内声明的函数，对象内部方法中的匿名函数和内部函数的`this`具有默认值，该值指向`window`对象。
+
+```
+(function (){
+ console.log(this);
+})(); // 打印 "window" 对象
+
+function iHateThis(){
+  console.log(this);
+}
+
+iHateThis(); // 打印 "window" 对象
+
+const myFavoriteObj = {
+ guessThis(){
+    function getName(){
+      console.log(this.name);
+    }
+    getName();
+ },
+ name: 'Marko Polo',
+ thisIsAnnoying(callback){
+   callback();
+ }
+};
+
+myFavoriteObj.guessThis(); // 打印 "window" 对象
+myFavoriteObj.thisIsAnnoying(function (){
+ console.log(this); // 打印 "window" 对象
+});
+```
+
+如果我们要获取`myFavoriteObj`对象中的`name`属性（即**Marko Polo**）的值，则有两种方法可以解决此问题。
+
+一种是将 `this` 值保存在变量中。
+
+```
+const myFavoriteObj = {
+ guessThis(){
+  const self = this; // 把 this 值保存在 self 变量中
+  function getName(){
+    console.log(self.name);
+  }
+  getName();
+ },
+ name: 'Marko Polo',
+ thisIsAnnoying(callback){
+   callback();
+  }
+};
+```
+
+第二种方式是使用箭头函数
+
+```
+const myFavoriteObj = {
+  guessThis(){
+     const getName = () => { 
+       console.log(this.name);
+     }
+     getName();
+  },
+  name: 'Marko Polo',
+  thisIsAnnoying(callback){
+   callback();
+  }
+};
+```
+
+箭头函数没有自己的 `this`。它复制了这个封闭的词法作用域中`this`值，在这个例子中，`this`值在`getName`内部函数之外，也就是`myFavoriteObj`对象。
+
+
+### 8、$$('div+.ab')和$$('.ab+div') 哪个效率高？
+
+$('div+.ab')效率高
+
+
+### 9、什么是类？
+
+`类(class)`是在 JS 中编写构造函数的新方法。它是使用构造函数的语法糖，在底层中使用仍然是原型和基于原型的继承。
 
 ```
 //ES5 Version
-function add(a,b){
-  a = a || 0;
-  b = b || 0;
-  return a + b;
+ function Person(firstName, lastName, age, address){
+    this.firstName = firstName;
+    this.lastName = lastName;
+    this.age = age;
+    this.address = address;
+ }
+
+ Person.self = function(){
+   return this;
+ }
+
+ Person.prototype.toString = function(){
+   return "[object Person]";
+ }
+
+ Person.prototype.getFullName = function (){
+   return this.firstName + " " + this.lastName;
+ }  
+
+ //ES6 Version
+ class Person {
+    constructor(firstName, lastName, age, address){
+        this.lastName = lastName;
+        this.firstName = firstName;
+        this.age = age;
+        this.address = address;
+    }
+
+    static self() {
+       return this;
+    }
+
+    toString(){
+       return "[object Person]";
+    }
+
+    getFullName(){
+       return `${this.firstName} ${this.lastName}`;
+    }
+ }
+```
+
+重写方法并从另一个类继承。
+
+```
+//ES5 Version
+Employee.prototype = Object.create(Person.prototype);
+
+function Employee(firstName, lastName, age, address, jobTitle, yearStarted) {
+  Person.call(this, firstName, lastName, age, address);
+  this.jobTitle = jobTitle;
+  this.yearStarted = yearStarted;
+}
+
+Employee.prototype.describe = function () {
+  return `I am ${this.getFullName()} and I have a position of ${this.jobTitle} and I started at ${this.yearStarted}`;
+}
+
+Employee.prototype.toString = function () {
+  return "[object Employee]";
 }
 
 //ES6 Version
-function add(a = 0, b = 0){
-  return a + b;
-}
-add(1); // returns 1
-```
-
-我们还可以在默认参数中使用解构。
-
-```
-function getFirst([first, ...rest] = [0, 1]) {
-  return first;
-}
-
-getFirst();  // 0
-getFirst([10,20,30]);  // 10
-
-function getArr({ nums } = { nums: [1, 2, 3, 4] }){
-    return nums;
-}
-
-getArr(); // [1, 2, 3, 4]
-getArr({nums:[5,4,3,2,1]}); // [5,4,3,2,1]
-```
-
-我们还可以使用先定义的参数再定义它们之后的参数。
-
-```
-function doSomethingWithValue(value = "Hello World", callback = () => { console.log(value) }) {
-  callback();
-}
-doSomethingWithValue(); //"Hello World"
-```
-
-
-### 3、什么是 IIFE，它的用途是什么？
-
-**IIFE**或立即调用的函数表达式是在创建或声明后将被调用或执行的函数。创建**IIFE的**语法是，将`function (){}`包裹在在括号`()`内，然后再用另一个括号`()`调用它，如：`(function(){})()`
-
-```
-(function(){
-  ...
-} ());
-
-(function () {
-  ...
-})();
-
-(function named(params) {
-  ...
-})();
-
-(() => {
-
-});
-
-(function (global) {
-  ...
-})(window);
-
-const utility = (function () {
-  return {
-    ...
+class Employee extends Person { //Inherits from "Person" class
+  constructor(firstName, lastName, age, address, jobTitle, yearStarted) {
+    super(firstName, lastName, age, address);
+    this.jobTitle = jobTitle;
+    this.yearStarted = yearStarted;
   }
-})
+
+  describe() {
+    return `I am ${this.getFullName()} and I have a position of ${this.jobTitle} and I started at ${this.yearStarted}`;
+  }
+
+  toString() { // Overriding the "toString" method of "Person"
+    return "[object Employee]";
+  }
+}
 ```
 
-这些示例都是有效的**IIFE**。倒数第二个救命表明我们可以将参数传递给**IIFE**函数。最后一个示例表明，我们可以将`IIFE`的结果保存到变量中，以便稍后使用。
-
-**IIFE**的一个主要作用是避免与全局作用域内的其他变量命名冲突或污染全局命名空间，来个例子。
-
-`<script src="https://cdnurl.com/somelibrary.js"></script>`
-
-假设我们引入了一个`omelibr.js`的链接，它提供了一些我们在代码中使用的全局函数，但是这个库有两个方法我们没有使用：`createGraph`和`drawGraph`，因为这些方法都有`bug`。我们想实现自己的`createGraph`和`drawGraph`方法。
-
-解决此问题的一种方法是直接覆盖：
+**所以我们要怎么知道它在内部使用原型？**
 
 ```
-<script src="https://cdnurl.com/somelibrary.js"></script>
-<script>
-   function createGraph() {
-      // createGraph logic here
-   }
-   function drawGraph() {
-      // drawGraph logic here
-   }
-</script>
+class Something {
+
+}
+
+function AnotherSomething(){
+
+}
+const as = new AnotherSomething();
+const s = new Something();
+
+console.log(typeof Something); // "function"
+console.log(typeof AnotherSomething); // "function"
+console.log(as.toString()); // "[object Object]"
+console.log(as.toString()); // "[object Object]"
+console.log(as.toString === Object.prototype.toString); // true
+console.log(s.toString === Object.prototype.toString); // true
 ```
 
-当我们使用这个解决方案时，我们覆盖了库提供给我们的那两个方法。
 
-另一种方式是我们自己改名称：
+### 10、如何判断值是否为数组？
 
-```
-<script src="https://cdnurl.com/somelibrary.js"></script>
-<script>
-   function myCreateGraph() {
-      // createGraph logic here
-   }
-   function myDrawGraph() {
-      // drawGraph logic here
-   }
-</script>
-```
-
-当我们使用这个解决方案时，我们把那些函数调用更改为新的函数名。
-
-还有一种方法就是使用**IIFE**：
+我们可以使用`Array.isArray`方法来检查值是否为**数组**。当传递给它的参数是数组时，它返回`true`，否则返回`false`。
 
 ```
-<script src="https://cdnurl.com/somelibrary.js"></script>
-<script>
-   const graphUtility = (function () {
-      function createGraph() {
-         // createGraph logic here
-      }
-      function drawGraph() {
-         // drawGraph logic here
-      }
-      return {
-         createGraph,
-         drawGraph
-      }
-   })
-</script>
+console.log(Array.isArray(5));  // false
+console.log(Array.isArray("")); // false
+console.log(Array.isArray()); // false
+console.log(Array.isArray(null)); // false
+console.log(Array.isArray({ length: 5 })); // false
+
+console.log(Array.isArray([])); // true
 ```
 
-在此解决方案中，我们要声明了`graphUtility` 变量，用来保存**IIFE**执行的结果，该函数返回一个包含两个方法`createGraph`和`drawGraph`的对象。
+如果环境不支持此方法，则可以使用`polyfill`实现。
 
-**IIFE** 还可以用来解决一个常见的面试题：
+`function isArray(value){ return Object.prototype.toString.call(value) === "[object Array]" }`
 
-```
-var li = document.querySelectorAll('.list-group > li');
-for (var i = 0, len = li.length; i < len; i++) {
-   li[i].addEventListener('click', function (e) {
-      console.log(i);
-   })
-```
+当然还可以使用传统的方法：
 
-假设我们有一个带有`list-group`类的`ul`元素，它有`5`个`li`子元素。当我们单击单个`li`元素时，打印对应的下标值。但在此外上述代码不起作用，这里每次点击 `li` 打印 `i` 的值都是`5`，这是由于闭包的原因。
-
-**闭包**只是函数记住其当前作用域，父函数作用域和全局作用域的变量引用的能力。当我们在全局作用域内使用`var`关键字声明变量时，就创建全局变量`i`。因此，当我们单击`li`元素时，它将打印`5`，因为这是稍后在回调函数中引用它时`i`的值。
-
-使用 **IIFE** 可以解决此问题：
-
-`var li = document.querySelectorAll('.list-group > li'); for (var i = 0, len = li.length; i < len; i++) { (function (currentIndex) { li[currentIndex].addEventListener('click', function (e) { console.log(currentIndex); }) })(i); }`
-
-该解决方案之所以行的通，是因为**IIFE**会为每次迭代创建一个新的作用域，我们捕获`i`的值并将其传递给`currentIndex`参数，因此调用**IIFE**时，每次迭代的`currentIndex`值都是不同的。
+`let a = [] if (a instanceof Array) { console.log('是数组') } else { console.log('非数组') }`
 
 
-### 4、简述下 this 和定义属性和方法的时候有什么区别?Prototype？
-
-this表示当前对象，如果在全局作用范围内使用this，则指代当前页面对象window； 如果在函数中使用this，则this指代什么是根据运行时此函数在什么对象上被调用。 我们还可以使用apply和call两个全局方法来改变函数中this的具体指向。
-
-prototype本质上还是一个JavaScript对象。 并且每个函数都有一个默认的prototype属性。
-
-在prototype上定义的属性方法为所有实例共享，所有实例皆引用到同一个对象，单一实例对原型上的属性进行修改，也会影响到所有其他实例。
-
-
-### 5、eval是做什么的？
-
-**1、** 它的功能是把对应的字符串解析成`JS`代码并运行
-
-**2、** 应该避免使用`eval`，不安全，非常耗性能（`2`次，一次解析成`js`语句，一次执行）
-
-**3、** 由`JSON`字符串转换为JSON对象的时候可以用`eval，var obj =eval('('+ str +')')`
-
-
-### 6、Jq中 attr 和 prop 有什么区别###
-
-对于HTML元素本身就带有的固有属性，在处理时，使用prop方法。
-
-对于HTML元素我们自己自定义的DOM属性，在处理时，使用attr方法。
-
-
-### 7、使用 + 或一元加运算符是将字符串转换为数字的最快方法吗？
-
-根据MDN文档，`+`是将字符串转换为数字的最快方法，因为如果值已经是数字，它不会执行任何操作。
-
-
-### 8、git 和 svn的区别?
-### 9、Function.prototype.apply 方法的用途是什么？
-### 10、隐式和显式转换有什么区别）？
-### 11、`var`,`let`和`const`的区别是什么？
-### 12、`require`/`import`之间的区别？
-### 13、为什么在调用这个函数时，代码中的`b`会变成一个全局变量?
-### 14、手动实现`Array.prototype.reduce`方法
-### 15、$(function(){})和window.onload 和 $(document).ready(function(){})
-### 16、new操作符具体干了什么呢?
-### 17、通过new创建一个对象的时候，函数内部有哪些改变###
-### 18、谈谈This对象的理解
-### 19、Javascript如何实现继承？
-### 20、什么是包装对象（wrapper object）？
-### 21、25.Jq如何判断元素显示隐藏？
-### 22、JSON 的了解？**
-### 23、什么是提升？
-### 24、什么是闭包？
-### 25、Function.prototype.bind 的用途是什么？
-### 26、JSON 的了解？
-### 27、自执行函数?用于什么场景？好处?
-### 28、Object.seal 和 Object.freeze 方法之间有什么区别？
-### 29、变量作用域?
-### 30、常见web安全及防护原理
+### 11、调用函数，可以使用哪些方法？
+### 12、JavaScript原型，原型链 ? 有什么特点？
+### 13、谈谈你对AMD、CMD的理解
+### 14、开发时如何对项目进行管理?gulp?
+### 15、一般使用什么版本控制工具?svn如何对文件加锁###
+### 16、ajax中 get 和 post 有什么区别?
+### 17、判断数据类型
+### 18、readystate 0~4
+### 19、一个页面从输入 URL 到页面加载显示完成，这个过程中都发生了什么？（流程说的越详细越好）
+### 20、回调函数?
+### 21、说说你对作用域链的理解
+### 22、如何对登录的账号密码进行加密?
+### 23、ECMAScript 是什么？
+### 24、什么是 IIFE，它的用途是什么？
+### 25、什么是函数式编程? JavaScript 的哪些特性使其成为函数式语言的候选语言？
+### 26、jQuery与jQuery UI 有啥区别？
+### 27、30.Jq中怎么样编写插件?
+### 28、隐式和显式转换有什么区别）？
+### 29、什么是缓存及它有什么作用？
+### 30、如何解决跨域问题?
 
 
 

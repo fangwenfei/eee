@@ -6,143 +6,139 @@
 
 
 
-### 1、ECMAScript 是什么？
+### 1、为什么在 JS 中比较两个相似的对象时返回 false？
 
-ECMAScript 是编写脚本语言的标准，这意味着JavaScript遵循ECMAScript标准中的规范变化，因为它是JavaScript的蓝图。
-
-ECMAScript 和 Javascript，本质上都跟一门语言有关，一个是语言本身的名字，一个是语言的约束条件 只不过发明JavaScript的那个人（Netscape公司），把东西交给了ECMA（European Computer Manufacturers Association），这个人规定一下他的标准，因为当时有java语言了，又想强调这个东西是让ECMA这个人定的规则，所以就这样一个神奇的东西诞生了，这个东西的名称就叫做ECMAScript。
-
-javaScript = ECMAScript + DOM + BOM（自认为是一种广义的JavaScript）
-
-ECMAScript说什么JavaScript就得做什么！
-
-JavaScript（狭义的JavaScript）做什么都要问问ECMAScript我能不能这样干！如果不能我就错了！能我就是对的！
-
-——突然感觉JavaScript好没有尊严，为啥要搞个人出来约束自己，
-
-那个人被创造出来也好委屈，自己被创造出来完全是因为要约束JavaScript。
-
-
-### 2、什么是回调函数？
-
-**回调函数**是一段可执行的代码段，它作为一个参数传递给其他的代码，其作用是在需要的时候方便调用这段（回调函数）代码。
-
-在JavaScript中函数也是对象的一种，同样对象可以作为参数传递给函数，因此函数也可以作为参数传递给另外一个函数，这个作为参数的函数就是回调函数。
+先看下面的例子：
 
 ```
-const btnAdd = document.getElementById('btnAdd');
-
-btnAdd.addEventListener('click', function clickCallback(e) {
-    // do something useless
-});
+let a = { a: 1 };
+let b = { a: 1 };
+let c = a;
+console.log(a === b); // 打印 false，即使它们有相同的属性
+console.log(a === c); // true
 ```
 
-在本例中，我们等待`id`为`btnAdd`的元素中的`click`事件，如果它被单击，则执行`clickCallback`函数。回调函数向某些数据或事件添加一些功能。
-
-数组中的`reduce`、`filter`和`map`方法需要一个回调作为参数。回调的一个很好的类比是，当你打电话给某人，如果他们不接，你留下一条消息，你期待他们回调。调用某人或留下消息的行为是事件或数据，回调是你希望稍后发生的操作。
+JS 以不同的方式比较对象和基本类型。在基本类型中，JS 通过值对它们进行比较，而在对象中，JS 通过引用或存储变量的内存中的地址对它们进行比较。这就是为什么第一个`console.log`语句返回`false`，而第二个`console.log`语句返回`true`。`a`和`c`有相同的引用地址，而`a`和`b`没有。
 
 
-### 3、如何检查对象中是否存在某个属性？
+### 2、函数表达式和函数声明之间有什么区别？
 
-检查对象中是否存在属性有三种方法。
-
-第一种使用 `in` 操作符号：
+看下面的例子：
 
 ```
-const o = { 
-  "prop" : "bwahahah",
-  "prop2" : "hweasa"
-};
+hoistedFunc();
+notHoistedFunc();
 
-console.log("prop" in o); // true
-console.log("prop1" in o); // false
-```
-
-第二种使用 `hasOwnProperty` 方法，`hasOwnProperty()` 方法会返回一个布尔值，指示对象自身属性中是否具有指定的属性（也就是，是否有指定的键）。
-
-```
-console.log(o.hasOwnProperty("prop2")); // true
-console.log(o.hasOwnProperty("prop1")); // false
-```
-
-第三种使用括号符号`obj["prop"]`。如果属性存在，它将返回该属性的值，否则将返回`undefined`。
-
-`console.log(o["prop"]); // "bwahahah" console.log(o["prop1"]); // undefined`
-
-
-### 4、什么是模板字符串？
-
-模板字符串是在 JS 中创建字符串的一种新方法。我们可以通过使用反引号使模板字符串化。
-
-```
-//ES5 Version
-var greet = 'Hi I\'m Mark';
-
-//ES6 Version
-let greet = `Hi I'm Mark`;
-```
-
-在 ES5 中我们需要使用一些转义字符来达到多行的效果，在模板字符串不需要这么麻烦：
-
-```
-//ES5 Version
-var lastWords = '\n'
-  + '   I  \n'
-  + '   Am  \n'
-  + 'Iron Man \n';
-
-//ES6 Version
-let lastWords = `
-    I
-    Am
-  Iron Man   
-`;
-```
-
-在ES5版本中，我们需要添加`\n`以在字符串中添加新行。在模板字符串中，我们不需要这样做。
-
-```
-//ES5 Version
-function greet(name) {
-  return 'Hello ' + name + '!';
+function hoistedFunc(){
+  console.log("注意：我会被提升");
 }
 
-//ES6 Version
-function greet(name) {
-  return `Hello ${name} !`;
+var notHoistedFunc = function(){
+  console.log("注意：我没有被提升");
 }
 ```
 
-在 ES5 版本中，如果需要在字符串中添加表达式或值，则需要使用`+`运算符。在模板字符串s中，我们可以使用`${expr}`嵌入一个表达式，这使其比 ES5 版本更整洁。
+`notHoistedFunc`调用抛出异常：`Uncaught TypeError: notHoistedFunc is not a function`，而`hoistedFunc`调用不会，因为`hoistedFunc`会被提升到作用域的顶部，而`notHoistedFunc` 不会。
 
 
-### 5、Function.prototype.apply 和 Function.prototype.call 之间有什么区别？
+### 3、常见web安全及防护原理
 
-`apply()`方法可以在使用一个指定的 `this` 值和一个参数数组（或类数组对象）的前提下调用某个函数或方法。`call()`方法类似于`apply()`，不同之处仅仅是`call()`接受的参数是参数列表。
+**`sql`注入原理**
+
+就是通过把`SQL`命令插入到`Web`表单递交或输入域名或页面请求的查询字符串，最终达到欺骗服务器执行恶意的SQL命令
+
+**总的来说有以下几点**
+
+永远不要信任用户的输入，要对用户的输入进行校验，可以通过正则表达式，或限制长度，对单引号和双`"-"`进行转换等
+
+**1、** 永远不要使用动态拼装SQL，可以使用参数化的`SQL`或者直接使用存储过程进行数据查询存取
+
+**2、** 永远不要使用管理员权限的数据库连接，为每个应用使用单独的权限有限的数据库连接
+
+**3、** 不要把机密信息明文存放，请加密或者`hash`掉密码和敏感的信息
+
+**XSS原理及防范**
+
+`Xss(cross-site scripting)`攻击指的是攻击者往`Web`页面里插入恶意`html`标签或者`javascript`代码。
+
+**比如：**
+
+攻击者在论坛中放一个看似安全的链接，骗取用户点击后，窃取`cookie`中的用户私密信息；或者攻击者在论坛中加一个恶意表单，当用户提交表单的时候，却把信息传送到攻击者的服务器中，而不是用户原本以为的信任站点
+
+**XSS防范方法**
+
+首先代码里对用户输入的地方和变量都需要仔细检查长度和对`”<”,”>”,”;”,”’”`等字符做过滤；其次任何内容写到页面之前都必须加以encode，避免不小心把`html tag` 弄出来。这一个层面做好，至少可以堵住超过一半的XSS 攻击
+
+**XSS与CSRF有什么区别吗？**
+
+**1、** `XSS`是获取信息，不需要提前知道其他用户页面的代码和数据包。`CSRF`是代替用户完成指定的动作，需要知道其他用户页面的代码和数据包。要完成一次`CSRF`攻击，受害者必须依次完成两个步骤
+
+**2、** 登录受信任网站`A`，并在本地生成`Cookie`
+
+**3、** 在不登出`A`的情况下，访问危险网站`B`
+
+**CSRF的防御**
+
+服务端的`CSRF`方式方法很多样，但总的思想都是一致的，就是在客户端页面增加伪随机数
+
+通过验证码的方法
+
+
+### 4、有哪些数据类型？
+
+根据 JavaScript 中的变量类型传递方式，分为基本数据类型和引用数据类型两大类七种。
+
+基本数据类型包括Undefined、Null、Boolean、Number、String、Symbol (ES6新增)六种。 引用数据类型只有Object一种，主要包括对象、数组和函数。
+
+**判断数据类型采用`typeof`操作符，有两种语法：**
 
 ```
-const obj1 = {
-result:0
-};
+typeof 123;//语法一
 
-const obj2 = {
-result:0
-};
+const FG = 123;
+typeof FG;//语法二
 
-function reduceAdd(){
-  let result = 0;
-  for(let i = 0, len = arguments.length; i < len; i++){
-    result += arguments[i];
-  }
-  this.result = result;
-}
-
-reduceAdd.apply(obj1, [1, 2, 3, 4, 5]); // 15
-reduceAdd.call(obj2, 1, 2, 3, 4, 5); // 15
+typeof(null) //返回 object;
+null == undefined //返回true，因为undefined派生自null;
+null === undefined //返回false。
 ```
 
 
-### 6、说几条写JavaScript的基本规范？
+### 5、简述一下你理解的面向对象？
+
+面向对象是基于万物皆对象这个哲学观点、把一个对象抽象成类,具体上就是把一个对象的静态特征和动态特征抽象成属性和方法,也就是把一类事物的算法和数据结构封装在一个类之中,程序就是多个对象和互相之间的通信组成的、
+
+面向对象具有封装性,继承性,多态性。
+
+封装:隐蔽了对象内部不需要暴露的细节,使得内部细节的变动跟外界脱离,只依靠接口进行通信.封装性降低了编程的复杂性、通过继承,使得新建一个类变得容易,一个类从派生类那里获得其非私有的方法和公用属性的繁琐工作交给了编译器、而 继承和实现接口和运行时的类型绑定机制 所产生的多态,使得不同的类所产生的对象能够对相同的消息作出不同的反应,极大地提高了代码的通用性、
+
+总之,面向对象的特性提高了大型程序的重用性和可维护性.
+
+
+### 6、如何清除一个定时器?
+
+window.clearInterval();
+
+window.clearTimeout();
+
+
+### 7、Gc机制是什么？为什么闭包不会被回收变量和函数？
+
+**1、** Gc垃圾回收机制;
+
+**2、** 外部变量没释放，所以指向的大函数内的小函数也释放不了
+
+
+### 8、为什么此代码 `obj.someprop.x` 会引发错误?
+
+```
+const obj = {};console.log(obj.someprop.x);
+```
+
+显然，由于我们尝试访问`someprop`属性中的`x`属性，而 someprop 并没有在对象中，所以值为 `undefined`。记住对象本身不存在的属性，并且其原型的默认值为`undefined`。因为`undefined`没有属性`x`，所以试图访问将会报错。
+
+
+### 9、说几条写JavaScript的基本规范？
 
 **1、** 不要在同一行声明多个变量
 
@@ -159,41 +155,32 @@ reduceAdd.call(obj2, 1, 2, 3, 4, 5); // 15
 **7、** `for-in`循环中的变量 应该使用`var`关键字明确限定作用域，从而避免作用域污
 
 
-### 7、Jq绑定事件的几种方式？on bind ?
+### 10、JavaScript原型，原型链 ? 有什么特点？
 
-**1、** jQuery中提供了四种事件监听方式，分别是bind、live、delegate、on，对应的解除监听的函数分别是unbind、die、undelegate、off
+在JavaScript中,一共有两种类型的值,原始值和对象值.每个对象都有一个内部属性[[prototype]],我们通常称之为原型.原型的值可以是一个对象,也可以是null.如果它的值是一个对象,则这个对象也一定有自己的原型.这样就形成了一条线性的链,我们称之为原型链、
 
-**2、** Bind( )是使用频率较高的一种，作用就是在选择到的元素上绑定特定事件类型的监听函数;
-
-**3、** Live( )可以对后生成的元素也可以绑定相应的事件,处理机制就是把事件绑定在DOM树的根节点上，而不是直接绑定在某个元素上;
-
-**4、** Delegate( )采用了事件委托的概念，不是直接为子元素绑定事件，而是为其父元素（或祖先元素也可）绑定事件，当在div内任意元素上点击时，事件会一层层从event target向上冒泡，直至到达你为其绑定事件的元素；
-
-**5、** on( )方法可以绑定动态添加到页面元素的事件，on()方法绑定事件可以提升效率；
+访问一个对象的原型可以使用ES5中的Object.getPrototypeOf方法,或者ES6中的__proto__属性、原型链的作用是用来实现继承,比如我们新建一个数组,数组的方法就是从数组的原型上继承而来的。
 
 
-### 8、26.移动端上什么是点击穿透?
-### 9、如何解决跨域问题?
-### 10、开发时如何对项目进行管理?gulp?
-### 11、什么是 event.currentTarget？？
-### 12、ajax 是什么?
-### 13、为什么此代码 `obj.someprop.x` 会引发错误?
-### 14、节点类型?判断当前节点类型?
-### 15、jQuery与jQuery UI 有啥区别？
-### 16、压缩合并目的？http请求的优化方式？
-### 17、JS是如何实现异步的？
-### 18、你有哪些性能优化的方法？
-### 19、null，undefined 的区别？
-### 20、那些操作会造成内存泄漏？
-### 21、说说严格模式的限制
-### 22、什么是构造函数？与普通函数有什么区别?
-### 23、怎么理解宏任务，微任务？？？
-### 24、如何在一行中计算多个表达式的值？
-### 25、说出几个http协议状态码?
-### 26、EventLoop事件循环是什么？
-### 27、什么是预编译语音|预编译处理器?
-### 28、调用函数，可以使用哪些方法？
-### 29、什么是作用域？
+### 11、offsetWidth/offsetHeight,clientWidth/clientHeight与scrollWidth/scrollHeight的区别
+### 12、jsonp原理？ 缺点?
+### 13、disabled readyonly?
+### 14、javascript 代码中的"use strict";是什么意思 ? 使用它区别是什么？
+### 15、XML和JSON的区别？
+### 16、数据持久化技术(ajax)?简述ajax流程###
+### 17、JSON 的了解？
+### 18、ajax的缺点
+### 19、什么是作用域和作用域链？
+### 20、&& 运算符能做什么
+### 21、几种基本数据类型?复杂数据类型?值类型和引用数据类型?堆栈数据结构
+### 22、什么是事件传播?
+### 23、window.onload ==? DOMContentLoaded ?
+### 24、什么是包装对象（wrapper object）？
+### 25、DOM 是什么？
+### 26、谈谈你对webpack的看法
+### 27、JSON 的了解？**
+### 28、何为防抖和节流？如何实现？
+### 29、在jq中 mouseover mouseenter mouseout mouseleave 和 hover有什么关联?
 
 
 

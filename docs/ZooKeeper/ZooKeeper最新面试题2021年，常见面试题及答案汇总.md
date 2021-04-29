@@ -6,104 +6,121 @@
 
 
 
-### 1、Stat记录了哪些版本相关数据？
+### 1、Zookeeper 下 Server工作状态
 
-version:当前ZNode版本
+每个Server在工作过程中有三种状态：
 
-cversion:当前ZNode子节点版本
+LOOKING：当前Server不知道leader是谁，正在搜寻
 
-aversion:当前ZNode的ACL版本
+LEADING：当前Server即为选举出来的leader
 
-
-### 2、Zookeeper工作原理
-
-Zookeeper 的核心是原子广播，这个机制保证了各个Server之间的同步。实现这个机制的协议叫做Zab协议。Zab协议有两种模式，它们分别是恢复模式（选主）和广播模式（同步）。当服务启动或者在领导者崩溃后，Zab就进入了恢复模式，当领导者被选举出来，且大多数Server完成了和 leader的状态同步以后，恢复模式就结束了。状态同步保证了leader和Server具有相同的系统状态。
+FOLLOWING：leader已经选举出来，当前Server与之同步
 
 
-### 3、说几个 zookeeper 常用的命令。
+### 2、ZooKeeper定义了几种权限？
 
-常用命令：ls get set create delete 等。
+**1、** CREATE
 
+**2、** READ
 
-### 4、服务端处理Watcher实现
+**3、** WRITE
 
-**1、** 服务端接收Watcher并存储
+**4、** DELETE
 
-接收到客户端请求，处理请求判断是否需要注册Watcher，需要的话将数据节点的节点路径和ServerCnxn（ServerCnxn代表一个客户端和服务端的连接，实现了Watcher的process接口，此时可以看成一个Watcher对象）存储在WatcherManager的WatchTable和watch2Paths中去。
-
-**2、** Watcher触发
-
-以服务端接收到 setData() 事务请求触发NodeDataChanged事件为例：
-
-2.1 封装WatchedEvent
-
-将通知状态（SyncConnected）、事件类型（NodeDataChanged）以及节点路径封装成一个WatchedEvent对象
-
-2.2 查询Watcher
-
-从WatchTable中根据节点路径查找Watcher
-
-2.3 没找到；说明没有客户端在该数据节点上注册过Watcher
-
-2.4 找到；提取并从WatchTable和Watch2Paths中删除对应Watcher（从这里可以看出Watcher在服务端是一次性的，触发一次就失效了）
-
-**3、** 调用process方法来触发Watcher
-
-这里process主要就是通过ServerCnxn对应的TCP连接发送Watcher事件通知。
+**5、** ADMIN
 
 
-### 5、客户端注册 Watcher 实现
+### 3、ZooKeeper用推/拉模式？
 
-**1、** 调用 getData()/getChildren()/exist()三个 API，传入 Watcher 对象
+推拉结合
 
-**2、** 标记请求 request，封装 Watcher 到 WatchRegistration
 
-**3、** 封装成 Packet 对象，发服务端发送 request
+### 4、客户端如何获取配置信息？
 
-**4、** 收到服务端响应后，将 Watcher 注册到 ZKWatcherManager 中进行管理
+启动时主动到服务端拉取信息，同时，在制定节点注册Watcher监听。一旦有配置变化，服务端就会实时通知订阅它的所有客户端。
+
+### 5、会话管理
+
+分桶策略：将类似的会话放在同一区块中进行管理，以便于 Zookeeper 对会话进行不同区块的隔离处理以及同一区块的统一处理。
+
+分配原则：每个会话的“下次超时时间点”（ExpirationTime）
+
+**计算公式：**
+
+```
+ExpirationTime\_ = currentTime + sessionTimeout
+
+ExpirationTime = (ExpirationTime\_ / ExpirationInrerval + 1) \*
+
+ExpirationInterval , ExpirationInterval 是指 Zookeeper 会话超时检查时间间隔，默认 tickTime
+```
+
+
+### 6、四种类型的数据节点 Znode
+
+**1、** PERSISTENT-持久节点 除非手动删除，否则节点一直存在于 Zookeeper 上
+
+**2、** EPHEMERAL-临时节点 临时节点的生命周期与客户端会话绑定，一旦客户端会话失效（客户端与zookeeper 连接断开不一定会话失效），那么这个客户端创建的所有临时节点都会被移除。
+
+**3、** PERSISTENT_SEQUENTIAL-持久顺序节点 基本特性同持久节点，只是增加了顺序属性，节点名后边会追加一个由父节点维护的自增整型数字。
+
+**4、** EPHEMERAL_SEQUENTIAL-临时顺序节点 基本特性同临时节点，增加了顺序属性，节点名后边会追加一个由父节点维护的自增整型数字。
+
+
+### 7、zookeeper是如何保证事务的顺序一致性的？
+
+zookeeper采用了递增的事务Id来标识，所有的proposal（提议）都在被提出的时候加上了zxid，zxid实际上是一个64位的数字，高32位是epoch（时期; 纪元; 世; 新时代）用来标识leader是否发生改变，如果有新的leader产生出来，epoch会自增，低32位用来递增计数。当新产生proposal的时候，会依据数据库的两阶段过程，首先会向其他的server发出事务执行请求，如果超过半数的机器都能执行并且能够成功，那么就会开始执行。
+
+
+### 8、发现?
+
+Follower把自己最后的接受事务的Proposal值(CEPOCH(F.p)发送给Leader。
+
+当收到过半Follower的消息后，Leader生成NEWEPOCH(e')给这些过半的Follower。
+
+tips: e' = Max((CEPOCH(F.p)) + 1
+
+Follower收到消息后，如果自己值小于e',则同步e'的值，同时向Leader发Ack消息。
+
+
+### 9、客户端注册Watcher实现
+
+**1、** 调用getData()/getChildren()/exist()三个API，传入Watcher对象
+
+**2、** 标记请求request，封装Watcher到WatchRegistration
+
+**3、** 封装成Packet对象，发服务端发送request
+
+**4、** 收到服务端响应后，将Watcher注册到ZKWatcherManager中进行管理
 
 **5、** 请求返回，完成注册。
 
 
-### 6、删除指定节点？注意？
+### 10、Zookeeper文件系统
 
-delete path [version]
-
-[zk: localhost:2181(CONNECTED) 8] delete /app
-
-Node not empty: /app
-
-如果没有子节点，就能删除成功。如果有会提示，该节点不为空。
+Zookeeper提供一个多层级的节点命名空间（节点称为znode）。与文件系统不同的是，这些节点都可以设置关联的数据，而文件系统中只有文件节点可以存放数据而目录节点不行。Zookeeper为了保证高吞吐和低延迟，在内存中维护了这个树状的目录结构，这种特性使得Zookeeper不能用于存放大量的数据，每个节点的存放数据上限为1M。
 
 
-### 7、Zookeeper通知机制
-
-client端会对某个znode建立一个watcher事件，当该znode发生变化时，这些client会收到zk的通知，然后client可以根据znode变化来做出业务上的改变等。
-
-
-### 8、广播模式
-### 9、BASE理论？
-### 10、Zookeeper 怎么保证主从节点的状态同步？
-### 11、集群角色？
-### 12、会话管理
-### 13、Watcher 特性总结
-### 14、什么是ZooKeeper?
-### 15、ZooKeeper定义了几种权限？
-### 16、ZooKeeper的数据模型？
-### 17、A是根节点，如何表达A子节点下的B节点？
+### 11、Zookeeper有哪几种几种部署模式？
+### 12、Zookeeper做了什么？
+### 13、chubby 是什么，和 zookeeper 比你怎么看？
+### 14、权限控制?
+### 15、Zookeeper工作原理
+### 16、说一下 Zookeeper 的通知机制？
+### 17、ZAB的两种基本模式？
 ### 18、分布式集群中为什么会有Master？
-### 19、ZooKeeper提供了什么？
-### 20、Zookeeper同步流程
-### 21、Zookeeper 和 Dubbo 的关系？
-### 22、为什么叫ZooKeeper?
-### 23、chubby 是什么，和 zookeeper 比你怎么看？
-### 24、chubby是什么，和zookeeper比你怎么看？
-### 25、Zookeeper 都有哪些功能？
-### 26、Zookeeper Watcher 机制 – 数据变更通知
-### 27、集群最少要几台机器，集群规则是怎样的?
-### 28、Zookeeper分布式锁（文件系统、通知机制）
-### 29、发现?
-### 30、如何查看子节点？
+### 19、四种类型的znode
+### 20、Zookeeper 下 Server 工作状态
+### 21、Zookeeper的典型应用场景
+### 22、Zookeeper Watcher 机制 -- 数据变更通知
+### 23、会话管理
+### 24、集群角色？
+### 25、Zookeeper 和 Dubbo 的关系？
+### 26、zookeeper是如何保证事务的顺序一致性的？
+### 27、ZAB三个阶段？
+### 28、Zookeeper 下 Server工作状态
+### 29、获取指定节点信息？
+### 30、分布式通知和协调
 
 
 

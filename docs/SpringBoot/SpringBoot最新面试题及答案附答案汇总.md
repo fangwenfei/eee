@@ -6,53 +6,88 @@
 
 
 
-### 1、SpringBoot Starter的工作原理
+### 1、什么是WebSockets？
 
-`我个人理解SpringBoot就是由各种Starter组合起来的，我们自己也可以开发Starter`
+WebSocket是一种计算机通信协议，通过单个TCP连接提供全双工通信信道。
 
-在sprinBoot启动时由@SpringBootApplication注解会自动去maven中读取每个starter中的spring、factories文件,该文件里配置了所有需要被创建spring容器中的bean，并且进行自动配置把bean注入SpringContext中 //（SpringContext是Spring的配置文件）
+![img_2.png][img_0826_04_2.png]
 
+**1、** WebSocket是双向的 -使用WebSocket客户端或服务器可以发起消息发送。
 
-### 2、如何在自定义端口上运行 SpringBoot 应用程序？
+**2、** WebSocket是全双工的 -客户端和服务器通信是相互独立的。
 
-为了在自定义端口上运行 SpringBoot 应用程序，您可以在application.properties 中指定端口。server.port = 8090
+**3、** 单个TCP连接 -初始连接使用HTTP，然后将此连接升级到基于套接字的连接。然后这个单一连接用于所有未来的通信
 
-
-### 3、SpringBoot有哪些优点？
-
-**SpringBoot的优点有：**
-
-**1、** 减少开发，测试时间和努力。
-
-**2、** 使用JavaConfig有助于避免使用XML。
-
-**3、** 避免大量的Maven导入和各种版本冲突。
-
-**4、** 提供意见发展方法。
-
-**5、** 通过提供默认值快速开始开发。
-
-**6、** 没有单独的Web服务器需要。这意味着你不再需要启动Tomcat，Glassfish或其他任何东西。
-
-**7、** 需要更少的配置 因为没有web.xml文件。只需添加用@ Configuration注释的类，然后添加用@Bean注释的方法，Spring将自动加载对象并像以前一样对其进行管理。您甚至可以将@Autowired添加到bean方法中，以使Spring自动装入需要的依赖关系中。
-
-**8、** 基于环境的配置 使用这些属性，您可以将您正在使用的环境传递到应用程序：-Dspring.profiles.active = {enviornment}。在加载主应用程序属性文件后，Spring将在（application{environment} .properties）中加载后续的应用程序属性文件。
+**4、** Light -与http相比，WebSocket消息数据交换要轻得多。
 
 
-### 4、SpringBoot 的自动配置是如何实现的？
+### 2、什么是SpringBoot？
 
-SpringBoot 项目的启动注解是：@SpringBootApplication，其实它就是由下面三个注解组成的：
+多年来，随着新功能的增加，spring变得越来越复杂。只需访问https://spring.io/projects
 
-**1、** [@Configuration ](/Configuration )
+如果必须启动一个新的Spring项目，我们必须添加构建路径或添加Maven依赖关系，配置应用程序服务器，添加spring配置。
 
-**2、** [@ComponentScan ](/ComponentScan )
+因此，开始一个新的spring项目需要很多努力，因为我们现在必须从头开始做所有事情。
 
-**3、** @EnableAutoConfiguration
+SpringBoot是解决这个问题的方法。SpringBoot已经建立在现有spring框架之上。使用spring启动，我们避免了之前我们必须做的所有样板代码和配置。
 
-其中 @EnableAutoConfiguration 是实现自动配置的入口，该注解又通过 [@Import ](/Import ) 注解导入了AutoConfigurationImportSelector，在该类中加载 META-INF/spring.factories 的配置信息。然后筛选出以 EnableAutoConfiguration 为 key 的数据，加载到 IOC 容器中，实现自动配置功能！
+因此，SpringBoot可以帮助我们以最少的工作量，更加健壮地使用现有的Spring功能。
 
 
-### 5、如何在不使用BasePACKAGE过滤器的情况下排除程序包？
+### 3、如何集成 SpringBoot 和 ActiveMQ？
+
+对于集成 SpringBoot 和 ActiveMQ，我们使用依赖关系。它只需要很少的配置，并且不需要样板代码。
+
+
+### 4、SpringBoot 2.X 有什么新特性？与 1.X 有什么区别？
+
+配置变更
+
+JDK 版本升级
+
+第三方类库升级
+
+响应式 Spring 编程支持
+
+HTTP/2 支持
+
+配置属性绑定
+
+更多改进与加强…
+
+
+### 5、什么是YAML？
+
+YAML是一种人类可读的数据序列化语言。它通常用于配置文件。
+
+与属性文件相比，如果我们想要在配置文件中添加复杂的属性，YAML文件就更加结构化，而且更少混淆。可以看出YAML具有分层配置数据。
+
+
+### 6、SpringBoot 的核心注解是哪个？它主要由哪几个注解组成的？
+
+启动类上面的注解是@SpringBootApplication，它也是 SpringBoot 的核心注解，主要组合包含了以下 3 个注解：
+
+@SpringBootConfiguration：组合了 [@Configuration ](/Configuration ) 注解，实现配置文件的功能。
+
+[@EnableAutoConfiguration：打开自动配置的功能，也可以关闭某个自动配置的选项，如关闭数据源自动配置功能：@SpringBootApplication(exclude ](/EnableAutoConfiguration：打开自动配置的功能，也可以关闭某个自动配置的选项，如关闭数据源自动配置功能：@SpringBootApplication(exclude ) = { DataSourceAutoConfiguration.class })。
+
+@ComponentScan：Spring组件扫描。
+
+
+### 7、保护 SpringBoot 应用有哪些方法？
+
+**1、**  在生产中使用HTTPS
+
+**2、**  使用Snyk检查你的依赖关系
+
+**3、**  升级到最新版本
+
+**4、**  启用CSRF保护
+
+**5、**  使用内容安全策略防止XSS攻击
+
+
+### 8、如何在不使用BasePACKAGE过滤器的情况下排除程序包？
 
 过滤程序包的方法不尽相同。但是弹簧启动提供了一个更复杂的选项，可以在不接触组件扫描的情况下实现这一点。在使用注释@ SpringBootApplication时，可以使用排除属性。请参阅下面的代码片段：
 
@@ -61,62 +96,37 @@ SpringBoot 项目的启动注解是：@SpringBootApplication，其实它就是�
 public class FooAppConfiguration {}
 
 
-### 6、如何在 SpringBoot 中添加通用的 JS 代码？
+### 9、微服务中如何实现 session 共享 ?
 
-在源文件夹下，创建一个名为 static 的文件夹。然后，你可以把你的静态的内容放在这里面。
-
-例如，myapp.js 的路径是 resources\static\js\myapp.js
-
-**
-
-你可以参考它在 jsp 中的使用方法：**
-
-错误：HAL browser gives me unauthorized error - Full authenticaition is required to access this resource.
-
-该如何来修复这个错误呢？
-
-两种方法：
-
-方法 1：关闭安全验证
-
-application.properties
-
-```
-management.security.enabled:FALSE
-```
-
-方法二：在日志中搜索密码并传递至请求标头中
+在微服务中，一个完整的项目被拆分成多个不相同的独立的服务，各个服务独立部署在不同的服务器上，各自的 session 被从物理空间上隔离开了，但是经常，我们需要在不同微服务之间共享 session ，常见的方案就是 Spring Session + Redis 来实现 session 共享。将所有微服务的 session 统一保存在 Redis 上，当各个微服务对 session 有相关的读写操作时，都去操作 Redis 上的 session 。这样就实现了 session 共享，Spring Session 基于 Spring 中的代理过滤器实现，使得 session 的同步操作对开发人员而言是透明的，非常简便。
 
 
-### 7、SpringBoot多数据源拆分的思路
+### 10、如何实现 SpringBoot应用程序的安全性?
 
-先在properties配置文件中配置两个数据源，创建分包mapper，使用@ConfigurationProperties读取properties中的配置，使用@MapperScan注册到对应的mapper包中
+使用 `spring--startersecurityboot`--依赖项，并且必须添加安全配置。配置类将必须扩展 `WebSecurityConfigurerAdapter`并覆盖其方法。
 
 
-### 8、我们如何连接一个像 MySQL 或者Orcale 一样的外部数据库？
-### 9、什么是 FreeMarker 模板？
-### 10、JPA 和 Hibernate 有哪些区别？JPA 可以支持动态 SQL 吗？
-### 11、SpringBoot多数据源事务如何管理
-### 12、什么是 WebSockets？
-### 13、什么是 Spring Batch?
-### 14、可以在SpringBoot application中禁用默认的Web服务器吗？
-### 15、SpringBoot的启动器有哪几种?
-### 16、如何实现 SpringBoot 应用程序的安全性？
-### 17、开启SpringBoot特性有哪几种方式？（创建SpringBoot项目的两种方式）
-### 18、SpringBoot 的核心注解是哪个？它主要由哪几个注解组成的？
-### 19、什么是执行器停机？
-### 20、什么是自动配置？
-### 21、SpringBoot与SpringCloud 区别
-### 22、如何在SpringBoot中禁用Actuator端点安全性？
-### 23、SpringBoot 2.X 有什么新特性？与 1.X 有什么区别？
-### 24、SpringBoot默认支持的日志框架有哪些？可以进行哪些设置？
-### 25、什么是 SpringBoot？
-### 26、SpringBoot 自动配置原理是什么？
-### 27、如何集成 SpringBoot 和 ActiveMQ？
-### 28、怎么设计无状态服务？
-### 29、什么是 JavaConfig？
-### 30、Spring Initializr 是创建 SpringBoot Projects 的唯一方法吗？
-### 31、SpringBoot 中如何实现定时任务 ?
+### 11、是否可以在SpringBoot中覆盖或替换嵌入式Tomcat？
+### 12、如何重新加载SpringBoot上的更改，而无需重新启动服务器？
+### 13、项目中前后端分离部署，所以需要解决跨域的问题。
+### 14、SpringBoot 有哪几种读取配置的方式？
+### 15、SpringBoot读取配置文件的方式
+### 16、SpringBoot 中如何解决跨域问题 ?
+### 17、SpringBoot Starter的工作原理
+### 18、如何使用SpringBoot实现分页和排序？
+### 19、如何在 SpringBoot中禁用 Actuator端点安全性?
+### 20、如何集成SpringBoot和ActiveMQ？
+### 21、比较一下 Spring Security 和 Shiro 各自的优缺点 ?
+### 22、什么是嵌入式服务器？我们为什么要使用嵌入式服务器呢?
+### 23、SpringBoot 的核心配置文件有哪几个？它们的区别是什么？
+### 24、如何重新加载SpringBoot上的更改，而无需重新启动服务器？
+### 25、SpringBoot 需要独立的容器运行吗？
+### 26、如何在自定义端口上运行 SpringBoot应用程序?
+### 27、SpringBoot事物的使用
+### 28、SpringBoot 提供了哪些核心功能？
+### 29、微服务同时调用多个接口，怎么支持事务的啊？
+### 30、如何实现 SpringBoot 应用程序的安全性？
+### 31、SpringBoot 2.X 有什么新特性？与 1.X 有什么区别？
 
 
 

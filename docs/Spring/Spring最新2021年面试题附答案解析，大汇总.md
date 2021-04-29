@@ -6,117 +6,147 @@
 
 
 
-### 1、什么是bean装配?
+### 1、SpringBoot 的配置文件有哪几种格式？它们有什么区别？
 
-装配，或bean 装配是指在Spring 容器中把bean组装到一起，前提是容器需要知道bean的依赖关系，如何通过依赖注入来把它们装配到一起。
+.properties 和 .yml，它们的区别主要是书写格式不同。
 
+**1、** properties
 
-### 2、什么是不同类型的微服务测试？
+```
+app.user.name = javastack
+```
 
-在使用微服务时，由于有多个微服务协同工作，测试变得非常复杂。因此，测试分为不同的级别。
+**2、** yml
 
-在底层，我们有面向技术的测试，如单元测试和性能测试。这些是完全自动化的。
+```
+app:
+ user:
+ name: javastack
+```
 
-在中间层面，我们进行了诸如压力测试和可用性测试之类的探索性测试。
-
-在顶层， 我们的 验收测试数量很少。这些验收测试有助于利益相关者理解和验证软件功能。
-
-
-### 3、自动装配有哪些方式？
-
-Spring 容器能够自动装配 bean。也就是说，可以通过检查 BeanFactory 的内容让 Spring 自动解析 bean 的协作者。
-
-自动装配的不同模式：
-
-**1、** 这是默认设置，表示没有自动装配。应使用显式 bean 引用进行装配。byName
-
-**2、** 它根据 bean 的名称注入对象依赖项。它匹配并装配其属性与 XML 文件中由相同名称定义的 bean。byType
-
-**3、** 它根据类型注入对象依赖项。如果属性的类型与 XML 文件中的一个 bean 名称匹配，则匹配并装配属性。构造函数
-
-**4、** 它通过调用类的构造函数来注入依赖项。它有大量的参数。autodetect
-
-**5、** 首先容器尝试通过构造函数使用 autowire 装配，如果不能，则尝试通过 byType 自动装配。
+另外，.yml 格式不支持 [@PropertySource ](/PropertySource ) 注解导入配置。
 
 
-### 4、Spring Cloud Security
+### 2、如何重新加载 SpringBoot上的更改，而无需重新启动服务器？
 
-安全工具包，对Zuul代理中的负载均衡OAuth2客户端及登录认证进行支持。
-
-
-### 5、spring 支持集中 bean scope？
-
-**Spring bean 支持 5 种 scope：**
-
-**1、** Singleton - 每个 Spring IoC 容器仅有一个单实例。
-
-**2、** Prototype - 每次请求都会产生一个新的实例。
-
-**3、** Request - 每一次 HTTP 请求都会产生一个新的实例，并且该 bean 仅在当前 HTTP 请求内有效。
-
-**4、** Session - 每一次 HTTP 请求都会产生一个新的 bean，同时该 bean 仅在当前 HTTP session 内有效。
-
-**5、** Global-session - 类似于标准的 HTTP Session 作用域，不过它仅仅在基于 portlet 的 web 应用中才有意义。 Portlet 规范定义了全局 Session 的概念，它被所有构成某个 portlet web 应用的各种不同的 portlet 所共享。 在 global session 作用域中定义的 bean 被限定于全局 portlet Session 的生命周期范围内。 如果你在 web 中使用 global session 作用域来标识 bean，那么 web 会自动当成 session 类型来使用。
-
-**6、** 仅当用户使用支持 Web 的 ApplicationContext 时，最后三个才可用。
+使用DEV工具来实现。 通过这种依赖关系，可以节省任何更改，嵌入式 tomcat将重新启动。 使用SpringBoot有一个开发工具`Dev Tools`模块，可以重新加载 SpringBoot上的更改，而无需重新启动服务器。消除每次手动部署更改的需要。 SpringBoot在发布它的第一个版本时没有这个功能。该模块将在生产环境中被禁用。它还提供H2数据库控制台以更好地测试应用程序。
 
 
-### 6、Spring 、SpringBoot 和 Spring Cloud 的关系?
+### 3、创建一个 SpringBoot Project 的最简单的方法是什么？
 
-**1、** Spring 最初最核心的两大核心功能 Spring Ioc 和 Spring Aop 成就了 Spring，Spring 在这两大核心的功能上不断的发展，才有了 Spring 事务、Spring Mvc 等一系列伟大的产品，最终成就了 Spring 帝国，到了后期 Spring 几乎可以解决企业开发中的所有问题。
+Spring Initializr是启动 SpringBoot Projects 的一个很好的工具。
 
-**2、** SpringBoot 是在强大的 Spring 帝国生态基础上面发展而来，发明 SpringBoot 不是为了取代 Spring ,是为了让人们更容易的使用 Spring 。
+**我们需要做一下几步：**
 
-**3、** Spring Cloud 是一系列框架的有序集合。它利用 SpringBoot 的开发便利性巧妙地简化了分布式系统基础设施的开发，如服务发现注册、配置中心、消息总线、负载均衡、断路器、数据监控等，都可以用 SpringBoot 的开发风格做到一键启动和部署。
+**1、** 登录 Spring Initializr，按照以下方式进行选择：
 
-**4、** Spring Cloud 是为了解决微服务架构中服务治理而提供的一系列功能的开发框架，并且 Spring Cloud 是完全基于 SpringBoot 而开发，Spring Cloud 利用 SpringBoot 特性整合了开源行业中优秀的组件，整体对外提供了一套在微服务架构中服务治理的解决方案。
+**2、** 选择 com.in28minutes.SpringBoot 为组
 
-**5、** 用一组不太合理的包含关系来表达它们之间的关系。
+**3、** 选择 studet-services 为组件
 
-**6、** Spring ioc/aop > Spring > SpringBoot > Spring Cloud
+**4、** 选择下面的依赖项
 
+Web
 
-### 7、使用Spring Cloud有什么优势？
+Actuator
 
-使用SpringBoot开发分布式微服务时，我们面临以下问题
+DevTools
 
-**1、** 与分布式系统相关的复杂性-这种开销包括网络问题，延迟开销，带宽问题，安全问题。
+**5、** 点击生 GenerateProject
 
-**2、** 服务发现-服务发现工具管理群集中的流程和服务如何查找和互相交谈。它涉及一个服务目录，在该目录中注册服务，然后能够查找并连接到该目录中的服务。
-
-**3、** 冗余-分布式系统中的冗余问题。
-
-**4、** 负载平衡 --负载平衡改善跨多个计算资源的工作负荷，诸如计算机，计算机集群，网络链路，中央处理单元，或磁盘驱动器的分布。
-
-**5、** 性能-问题 由于各种运营开销导致的性能问题。
-
-**6、** 部署复杂性-Devops技能的要求。
+**6、** 将项目导入 Eclipse。文件 - 导入 - 现有的 Maven 项目
 
 
-### 8、SpringBoot 最大的优势是什么呢？
-### 9、Spring Cloud的版本关系
-### 10、SpringBoot 可以兼容老 Spring 项目吗，如何做？
-### 11、微服务架构如何运作？
-### 12、什么是切点（JoinPoint）
-### 13、spring cloud 断路器的作用是什么？
-### 14、使用 Spring 访问 Hibernate 的方法有哪些？
-### 15、如何给Spring 容器提供配置元数据?
-### 16、Spring MVC的控制器是不是单例模式,如果是,有什么问题,怎么解决？
-### 17、什么是spring?
-### 18、什么是Hystrix?
-### 19、什么是微服务
-### 20、什么是Spring的依赖注入？
-### 21、SpringBoot 自动配置原理是什么？
-### 22、Spring框架的事务管理有哪些优点？
-### 23、保护 SpringBoot 应用有哪些方法？
-### 24、如何实现SpringBoot应用程序的安全性？
-### 25、请描述Spring MVC的工作流程？描述一下 DispatcherServlet 的工作流程？
-### 26、SOA和微服务架构之间的主要区别是什么？
-### 27、SpringBoot 的自动配置是如何实现的？
-### 28、您对Distributed Transaction有何了解？
+### 4、SpringBoot 2、X 有什么新特性？与 1、X 有什么区别？
+
+**1、**  配置变更
+
+**2、**  JDK 版本升级
+
+**3、**  第三方类库升级
+
+**4、**  响应式 Spring 编程支持
+
+**5、**  HTTP/2 支持
+
+**6、**  配置属性绑定
+
+**7、**  更多改进与加强
+
+
+### 5、为什么要选择微服务架构？
+
+这是一个非常常见的微服务面试问题，你应该准备好了！微服务架构提供了许多优点。这里有几个：
+
+**1、** 微服务可以轻松适应其他框架或技术。
+
+**2、** 单个进程的失败不会影响整个系统。
+
+**3、** 为大企业和小型团队提供支持。
+
+**4、** 可以在相对较短的时间内独立部署。
+
+
+### 6、什么是 CSRF 攻击？
+
+CSRF 代表跨站请求伪造。这是一种攻击，迫使最终用户在当前通过身份验证的Web 应用程序上执行不需要的操作。CSRF 攻击专门针对状态改变请求，而不是数据窃取，因为攻击者无法查看对伪造请求的响应。
+
+
+### 7、什么是SpringBoot？
+
+多年来，随着新功能的增加，spring变得越来越复杂。只需访问https://spring.io/projects 页面，我们就会看到可以在我们的应用程序中使用的所有Spring项目的不同功能。如果必须启动一个新的Spring项目，我们必须添加构建路径或添加Maven依赖关系，配置应用程序服务器，添加spring配置。因此，开始一个新的spring项目需要很多努力，因为我们现在必须从头开始做所有事情。
+
+SpringBoot是解决这个问题的方法。SpringBoot已经建立在现有spring框架之上。使用spring启动，我们避免了之前我们必须做的所有样板代码和配置。因此，SpringBoot可以帮助我们以最少的工作量，更加健壮地使用现有的Spring功能。
+
+
+### 8、SpringBoot 的核心注解是哪个？它主要由哪几个注解组成的？
+
+启动类上面的注解是@SpringBootApplication，它也是 SpringBoot 的核心注解，主要组合包含了以下 3 个注解：
+
+@SpringBootConfiguration：组合了 [@Configuration ](/Configuration ) 注解，实现配置文件的功能。
+
+@EnableAutoConfiguration：打开自动配置的功能，也可以关闭某个自动配置的选项，如关闭数据源自动配置功能：
+
+[@SpringBootApplication(exclude ](/SpringBootApplication(exclude ) = { DataSourceAutoConfiguration.class })。
+
+@ComponentScan：Spring组件扫描。
+
+
+### 9、为什么我们需要微服务容器？
+
+要管理基于微服务的应用程序，容器是最简单的选择。它帮助用户单独部署和开发。您还可以使用Docker将微服务封装到容器的镜像中。没有任何额外的依赖或工作，微服务可以使用这些元素。
+
+
+### 10、微服务之间是如何独⽴通讯的
+
+**1、** Dubbo 使⽤的是 RPC 通信，⼆进制传输，占⽤带宽⼩；
+
+**2、** Spring Cloud 使⽤的是 HTTP RESTFul ⽅式。
+
+![](https://gitee.com/souyunkutech/souyunku-home/raw/master/images/souyunku-web/2020/5/2/01/44/45_2.png#alt=45%5C_2.png)
+
+
+### 11、SpringBoot 实现热部署有哪几种方式？
+### 12、Spring MVC 框架有什么用？
+### 13、微服务架构有哪些优势？
+### 14、SpringBoot 有哪几种读取配置的方式？
+### 15、列举 Spring Framework 的优点。
+### 16、运行 SpringBoot 有哪几种方式？
+### 17、Spring Cloud Bus
+### 18、spring-boot-starter-parent 有什么用 ?
+### 19、解释不同方式的自动装配
+### 20、什么是耦合？
+### 21、为什么人们会犹豫使用微服务？
+### 22、运行 SpringBoot 有哪几种方式？
+### 23、什么是无所不在的语言？
+### 24、有哪些不同类型的IOC（依赖注入）方式？
+### 25、SpringCloud Config 可以实现实时刷新吗？
+### 26、如何在自定义端口上运行 SpringBoot 应用程序？
+### 27、为什么我们需要 spring-boot-maven-plugin?
+### 28、什么是JavaConfig？
 ### 29、列举 Spring Framework 的优点。
-### 30、如何在SpringBoot应用程序中实现Spring安全性？
-### 31、JdbcTemplate
+### 30、负载平衡的意义什么？
+### 31、spring cloud 断路器的作用是什么？
 
 
 

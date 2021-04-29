@@ -6,114 +6,96 @@
 
 
 
-### 1、什么是 Spring Profiles？
+### 1、什么是 SpringBoot Stater ？
 
-Spring Profiles 允许用户根据配置文件（dev，test，prod 等）来注册 bean。因此，当应用程序在开发中运行时，只有某些 bean 可以加载，而在 PRODUCTION中，某些其他 bean 可以加载。假设我们的要求是 Swagger 文档仅适用于 QA 环境，并且禁用所有其他文档。这可以使用配置文件来完成。SpringBoot 使得使用配置文件非常简单。
+启动器是一套方便的依赖没描述符，它可以放在自己的程序中。你可以一站式的获取你所需要的 Spring 和相关技术，而不需要依赖描述符的通过示例代码搜索和复制黏贴的负载。
 
-
-### 2、SpringData 项目所支持的关系数据存储技术：
-
-**1、** JDBC
-
-**2、** JPA
-
-Spring Data Jpa 致力于减少数据访问层 (DAO) 的开发量. 开发者唯一要做的，就是声明持久层的接口，其他都交给 Spring Data JPA 来帮你完成！Spring Data JPA 通过规范方法的名字，根据符合规范的名字来确定方法需要实现什么样的逻辑。
+例如，如果你想使用 Sping 和 JPA 访问数据库，只需要你的项目包含 spring-boot-starter-data-jpa 依赖项，你就可以完美进行。
 
 
-### 3、SpringBoot常用的starter有哪些？
+### 2、SpringBoot多数据源事务如何管理
 
-**1、** spring-boot-starter-web 嵌入tomcat和web开发需要servlet与jsp支持
+第一种方式是在service层的@TransactionManager中使用transactionManager指定DataSourceConfig中配置的事务
 
-**2、** spring-boot-starter-data-jpa 数据库支持
-
-**3、** spring-boot-starter-data-Redis Redis数据库支持
-
-**4、** spring-boot-starter-data-solr solr支持
-
-**5、** mybatis-spring-boot-starter 第三方的mybatis集成starter
+第二种是使用jta-atomikos实现分布式事务管理
 
 
-### 4、SpringBoot 中如何解决跨域问题 ?
+### 3、SpringBoot 中的 starter 到底是什么 ?
 
-跨域可以在前端通过 JSONP 来解决，但是 JSONP 只可以发送 GET 请求，无法发送其他类型的请求，在 RESTful 风格的应用中，就显得非常鸡肋，因此我们推荐在后端通过 （CORS，Cross-origin resource sharing） 来解决跨域问题。这种解决方案并非 SpringBoot 特有的，在传统的 SSM 框架中，就可以通过 CORS 来解决跨域问题，只不过之前我们是在 XML 文件中配置 CORS ，现在可以通过实现WebMvcConfigurer接口然后重写addCorsMappings方法解决跨域问题。
+首先，这个 Starter 并非什么新的技术点，基本上还是基于 Spring 已有功能来实现的。首先它提供了一个自动化配置类，一般命名为 XXXAutoConfiguration ，在这个配置类中通过条件注解来决定一个配置是否生效（条件注解就是 Spring 中原本就有的），然后它还会提供一系列的默认配置，也允许开发者根据实际情况自定义相关配置，然后通过类型安全的属性注入将这些配置属性注入进来，新注入的属性会代替掉默认属性。正因为如此，很多第三方框架，我们只需要引入依赖就可以直接使用了。当然，开发者也可以自定义 Starter
 
-[@Configuration ](/Configuration )
 
-public class CorsConfig implements WebMvcConfigurer {
+### 4、SpringBoot 有哪几种读取配置的方式？
+
+SpringBoot 可以通过 @PropertySource,@Value,@Environment, @ConfigurationProperties 来绑定变量
+
+
+### 5、SpringBoot 支持哪些日志框架？推荐和默认的日志框架是哪个？
+
+SpringBoot 支持 Java Util Logging, Log4j2, Lockback 作为日志框架，如果你使用 Starters 启动器，SpringBoot 将使用 Logback 作为默认日志框架.
+
+
+### 6、spring boot扫描流程?
+
+**1、** 调用run方法中的`refreshContext`方法
+
+**2、** 用AbstractApplicationContext中的`refresh`方法
+
+**3、** 委托给`invokeBeanFactoryPostProcessors`去处理调用链
+
+**4、** 其中一个方法`postProcessBeanDefinitionRegistry会`去调用`processConfigBeanDefinitions`解析`beandefinitions`
+
+**5、** 在`processConfigBeanDefinitions`中有一个`parse`方法，其中有`componentScanParser.parse`的方法，这个方法会扫描当前路径下所有`Component`组件
+
+
+### 7、什么是SpringBoot？
+
+用来简化spring应用的初始搭建以及开发过程，使用特定的方式来进行配置（`properties`或`yml`文件）创建独立的spring引用程序 main方法运行，嵌入的Tomcat 无需部署war文件，简化maven配置，自动配置spring添加对应功能starter自动化配置
+
+
+### 8、SpringBoot 支持哪些日志框架？推荐和默认的日志框架是哪个？
+
+SpringBoot 支持 Java Util Logging, Log4j2, Lockback 作为日志框架，如果你使用 Starters 启动器，SpringBoot 将使用 Logback 作为默认日志框架，但是不管是那种日志框架他都支持将配置文件输出到控制台或者文件中。
+
+
+### 9、如何重新加载SpringBoot上的更改，而无需重新启动服务器？
+
+这可以使用DEV工具来实现。通过这种依赖关系，您可以节省任何更改，嵌入式tomcat将重新启动。SpringBoot有一个开发工具（DevTools）模块，它有助于提高开发人员的生产力。Java开发人员面临的一个主要挑战是将文件更改自动部署到服务器并自动重启服务器。开发人员可以重新加载SpringBoot上的更改，而无需重新启动服务器。这将消除每次手动部署更改的需要。SpringBoot在发布它的第一个版本时没有这个功能。这是开发人员最需要的功能。DevTools模块完全满足开发人员的需求。该模块将在生产环境中被禁用。它还提供H2数据库控制台以更好地测试应用程序。
 
 ```
-@Override
-public void addCorsMappings(CorsRegistry registry) {
-    registry.addMapping("/**")
-            .allowedOrigins("*")
-            .allowCredentials(true)
-            .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
-            .maxAge(3600);
-}
+<dependency>
+<groupId>org.springframework.boot</groupId>
+<artifactId>spring-boot-devtools</artifactId>
+<optional>true</optional>
 ```
 
-}
+
+### 10、什么是 YAML？
+
+YAML 是一种人类可读的数据序列化语言。它通常用于配置文件。与属性文件相比，如果我们想要在配置文件中添加复杂的属性，YAML 文件就更加结构化，而且更少混淆。可以看出 YAML 具有分层配置数据。
 
 
-### 5、什么是嵌入式服务器？我们为什么要使用嵌入式服务器呢?
-
-思考一下在你的虚拟机上部署应用程序需要些什么。
-
-**第一步：**安装 Java
-
-**第二步：**安装 Web 或者是应用程序的服务器（Tomat/Wbesphere/Weblogic 等等）
-
-**第三步：**部署应用程序 war 包
-
-如果我们想简化这些步骤，应该如何做呢？
-
-让我们来思考如何使服务器成为应用程序的一部分？
-
-你只需要一个安装了 Java 的虚拟机，就可以直接在上面部署应用程序了，
-
-这个想法是嵌入式服务器的起源。
-
-当我们创建一个可以部署的应用程序的时候，我们将会把服务器（例如，tomcat）嵌入到可部署的服务器中。
-
-例如，对于一个 SpringBoot 应用程序来说，你可以生成一个包含 Embedded Tomcat 的应用程序 jar。你就可以想运行正常 Java 应用程序一样来运行 web 应用程序了。
-
-嵌入式服务器就是我们的可执行单元包含服务器的二进制文件（例如，tomcat.jar）。
-
-
-### 6、什么是YAML?
-
-YAML是一种人类可读的数据序列化语言。它通常用于`配置文件`。 与属性文件相比，如果我们想要在配置文件中添加复杂的属性，YAML文件就更加结构化，而且更少混淆。可以看出YAML具有`分层配置数据`。
-
-
-### 7、SpringBoot 中的 starter 到底是什么 ?
-
-首先，这个 Starter 并非什么新的技术点，基本上还是基于 Spring 已有功能来实现的。首先它提供了一个自动化配置类，一般命名为 `XXXAutoConfiguration` ，在这个配置类中通过条件注解来决定一个配置是否生效（条件注解就是 Spring 中原本就有的），然后它还会提供一系列的默认配置，也允许开发者根据实际情况自定义相关配置，然后通过类型安全的属性(spring、factories)注入将这些配置属性注入进来，新注入的属性会代替掉默认属性。正因为如此，很多第三方框架，我们只需要引入依赖就可以直接使用了。当然，开发者也可以自定义 Starter
-
-
-### 8、使用 SpringBoot 启动连接到内存数据库 H2 的 JPA 应用程序需要哪些依赖项？
-### 9、各服务之间通信，对Restful和Rpc这2种方式如何做选择？
-### 10、SpringBoot 中如何实现定时任务 ?
-### 11、如何使用 SpringBoot 生成一个 WAR 文件？
-### 12、spring boot 核心的两个配置文件：
-### 13、微服务同时调用多个接口，怎么支持事务的啊？
-### 14、微服务中如何实现 session 共享 ?
-### 15、SpringBoot 如何设置支持跨域请求？
-### 16、SpringBoot 2、X 有什么新特性？与 1、X 有什么区别？
-### 17、什么是CSRF攻击？
-### 18、如何在 SpringBoot 启动的时候运行一些特定的代码？
-### 19、SpringBoot读取配置文件的方式
-### 20、SpringBoot 的核心配置文件有哪几个？它们的区别是什么？
-### 21、如何重新加载SpringBoot上的更改，而无需重新启动服务器？
-### 22、什么是JavaConfig？
-### 23、创建一个 SpringBoot Project 的最简单的方法是什么？
-### 24、SpringBoot 有哪几种读取配置的方式？
-### 25、SpringBoot 是否可以使用 XML 配置 ?
-### 26、spring boot初始化环境变量流程?
-### 27、JPA 和 Hibernate 有哪些区别？
-### 28、SpringBoot 配置加载顺序?
-### 29、什么是嵌入式服务器？我们为什么要使用嵌入式服务器呢?
-### 30、Springboot 有哪些优点？
-### 31、什么是Spring Batch？
+### 11、为什么我们需要 spring-boot-maven-plugin?
+### 12、如何使用 SpringBoot 生成一个 WAR 文件？
+### 13、运行 SpringBoot 有哪几种方式？
+### 14、JPA 和 Hibernate 有哪些区别？
+### 15、当 SpringBoot 应用程序作为 Java 应用程序运行时，后台会发生什么？
+### 16、你如何理解 SpringBoot 配置加载顺序？
+### 17、SpringBoot 自动配置原理是什么？
+### 18、SpringBoot、Spring MVC 和 Spring 有什么区别
+### 19、如何在SpringBoot中禁用Actuator端点安全性？
+### 20、你能否举一个以 ReadOnly 为事务管理的例子？
+### 21、spring boot监听器流程?
+### 22、如何使用SpringBoot实现分页和排序？
+### 23、SpringBoot常用的starter有哪些？
+### 24、为什么我们不建议在实际的应用程序中使用 Spring Data Rest?
+### 25、SpringBoot支持什么前端模板，
+### 26、spring-boot-starter-parent 有什么用 ?
+### 27、SpringBoot 自动配置原理
+### 28、什么是 JavaConfig？
+### 29、保护 SpringBoot 应用有哪些方法？
+### 30、什么是 Spring Batch?
+### 31、spring boot 核心配置文件是什么？bootstrap.properties 和 application.properties 有何区别 ?
 
 
 

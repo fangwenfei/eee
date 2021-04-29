@@ -6,89 +6,120 @@
 
 
 
-### 1、可以通过多少种方式完成依赖注入？
+### 1、SpringBoot常用的starter有哪些?
 
-通常，依赖注入可以通过三种方式完成，即：
+**1、** `spring-boot-starter-web` (嵌入tomcat和web开发需要servlet与jsp支持)
 
-**1、** 构造函数注入
+**2、** `spring-boot-starter-data-jpa` (数据库支持)
 
-**2、** setter 注入
+**3、** `spring-boot-starter-data-Redis` (Redis数据库支持)
 
-**3、** 接口注入
+**4、** `spring-boot-starter-data-solr` (solr搜索应用框架支持)
 
-在 Spring Framework 中，仅使用构造函数和 setter 注入。
-
-
-### 2、如何集成SpringBoot和ActiveMQ？
-
-对于集成SpringBoot和ActiveMQ，我们使用
-
-依赖关系。 它只需要很少的配置，并且不需要样板代码。
+**5、** `mybatis-spring-boot-starter` (第三方的mybatis集成starter)
 
 
-### 3、[@Controller ](/Controller ) 注解
+### 2、前后端分离，如何维护接口文档 ?
 
-该注解表明该类扮演控制器的角色，Spring不需要你继承任何其他控制器基类或引用Servlet API。
-
-
-### 4、什么是 Spring Batch?
-
-`SpringBoot Batch`提供可重用的函数，这些函数在处理大量记录时非常重要；包括日志/跟踪，事务管理，作业处理统计信息，作业重新启动，跳过和资源管理。它还提供了更先进的技术服务和功能，通过优化和分区技术，可以实现极高批量和高性能批处理作业。简单以及复杂的大批量批处理作业可以高度可扩展的方式利用框架处理重要大量的信息。
+前后端分离开发日益流行，大部分情况下，我们都是通过 SpringBoot 做前后端分离开发，前后端分离一定会有接口文档，不然会前后端会深深陷入到扯皮中。一个比较笨的方法就是使用 word 或者 md 来维护接口文档，但是效率太低，接口一变，所有人手上的文档都得变。在 SpringBoot 中，这个问题常见的解决方案是 Swagger ，使用 Swagger 我们可以快速生成一个接口文档网站，接口一旦发生变化，文档就会自动更新，所有开发工程师访问这一个在线网站就可以获取到最新的接口文档，非常方便。
 
 
+### 3、有几种不同类型的自动代理？
 
-### 5、在Spring框架中如何更有效地使用JDBC?
+BeanNameAutoProxyCreator
 
-使用SpringJDBC 框架，资源管理和错误处理的代价都会被减轻。所以开发者只需写statements 和 queries从数据存取数据，JDBC也可以在Spring框架提供的模板类的帮助下更有效地被使用，这个模板叫JdbcTemplate （例子见这里here）
+DefaultAdvisorAutoProxyCreator
 
-
-### 6、是否可以在SpringBoot中覆盖或替换嵌入式Tomcat？
-
-是的，可以使用starter依赖项将嵌入式Tomcat替换为任何其他服务器。可以根据需要使用SpringBootStarter Jetty或SpringBootStarter作为每个项目的依赖项。
+Metadata autoproxying
 
 
-### 7、SpringBoot 的配置文件有哪几种格式？它们有什么区别？
+### 4、什么是FreeMarker模板？
 
-.properties 和 .yml，它们的区别主要是书写格式不同。
-
-**properties**
-
-```
-app.user.name = javastack
-```
-
-**yml**
-
-```
-app:
-  user:
-    name: javastack
-```
+FreeMarker是一个基于Java的模板引擎，最初专注于使用MVC软件架构进行动态网页生成。使用Freemarker的主要优点是表示层和业务层的完全分离。程序员可以处理应用程序代码，而设计人员可以处理html页面设计。最后使用freemarker可以将这些结合起来，给出最终的输出页面。
 
 
-### 8、Spring Framework 中有多少个模块，它们分别是什么？
-### 9、你如何理解 SpringBoot 配置加载顺序？
-### 10、IOC的优点是什么？
-### 11、Spring配置文件
-### 12、微服务的缺点：
-### 13、Spring Cloud Netflix
-### 14、创建一个 SpringBoot Project 的最简单的方法是什么？
-### 15、开启 SpringBoot 特性有哪几种方式？
-### 16、解释不同方式的自动装配
-### 17、微服务架构有哪些优势？
-### 18、在Spring AOP 中，关注点和横切关注的区别是什么？
-### 19、REST 和RPC对比
-### 20、为什么在微服务中需要Reports报告和Dashboards仪表板？
-### 21、SpringBoot有哪些优点？
-### 22、你能否举一个以 ReadOnly 为事务管理的例子？
-### 23、SpringCloud有几种调用接口方式
-### 24、什么是Spring Cloud Config?
-### 25、介绍一下 WebApplicationContext
-### 26、多个消费者调⽤同⼀接⼝，eruka默认的分配⽅式是什么？
-### 27、BeanFactory – BeanFactory 实现举例。
-### 28、Ribbon是什么？
-### 29、比较一下 Spring Security 和 Shiro 各自的优缺点 ?
-### 30、Eureka如何 保证AP
+### 5、什么是持续集成（CI）？
+
+持续集成（CI）是每次团队成员提交版本控制更改时自动构建和测试代码的过程。这鼓励开发人员通过在每个小任务完成后将更改合并到共享版本控制存储库来共享代码和单元测试。
+
+
+### 6、Spring MVC的优点
+
+**1、** 可以支持各种视图技术,而不仅仅局限于JSP；
+
+**2、** 与Spring框架集成（如IoC容器、AOP等）；
+
+**3、** 清晰的角色分配：前端控制器(dispatcherServlet) , 请求到处理器映射（handlerMapping), 处理器适配器（HandlerAdapter), 视图解析器（ViewResolver）。
+
+**4、** 支持各种请求资源的映射策略。
+
+
+### 7、Spring Initializr 是创建 SpringBoot Projects 的唯一方法吗？
+
+不是的。
+
+Spring Initiatlizr 让创建 SpringBoot 项目变的很容易，但是，你也可以通过设置一个 maven 项目并添加正确的依赖项来开始一个项目。
+
+在我们的 Spring 课程中，我们使用两种方法来创建项目。
+
+第一种方法是 start.spring.io 。
+
+另外一种方法是在项目的标题为“Basic Web Application”处进行手动设置。
+
+手动设置一个 maven 项目
+
+**这里有几个重要的步骤：**
+
+**1、** 在 Eclipse 中，使用文件 - 新建 Maven 项目来创建一个新项目
+
+**2、** 添加依赖项。
+
+**3、** 添加 maven 插件。
+
+**4、** 添加 SpringBoot 应用程序类。
+
+到这里，准备工作已经做好！
+
+
+### 8、使用Spring通过什么方式访问Hibernate?
+
+**在Spring中有两种方式访问Hibernate：**
+
+控制反转 Hibernate Template和 Callback。
+
+继承 HibernateDAOSupport提供一个AOP 拦截器。
+
+
+### 9、什么是bean的自动装配？
+
+Spring 容器能够自动装配相互合作的bean，这意味着容器不需要和配置，能通过Bean工厂自动处理bean之间的协作。
+
+
+### 10、[@Qualifier ](/Qualifier ) 注解
+
+当有多个相同类型的bean却只有一个需要自动装配时，将[@Qualifier ](/Qualifier ) 注解和[@Autowire ](/Autowire ) 注解结合使用以消除这种混淆，指定需要装配的确切的bean。
+
+
+### 11、Spring Cloud Config
+### 12、YAML 配置的优势在哪里 ?
+### 13、服务注册和发现是什么意思？Spring Cloud 如何实现？
+### 14、SpringBoot 支持哪些日志框架？推荐和默认的日志框架是哪个？
+### 15、什么是基于Java的Spring注解配置? 给一些注解的例子.
+### 16、什么是 SpringBoot？
+### 17、什么是Eureka
+### 18、自动装配有哪些局限性 ?
+### 19、什么是Swagger？你用SpringBoot实现了它吗？
+### 20、Spring IoC 的实现机制。
+### 21、[@Autowired ](/Autowired ) 注解有什么用？
+### 22、RequestMapping 和 GetMapping 的不同之处在哪里？
+### 23、开启 SpringBoot 特性有哪几种方式？
+### 24、Spring支持的事务管理类型
+### 25、什么是Spring Initializer?
+### 26、Spring AOP and AspectJ AOP 有什么区别？
+### 27、什么是不同类型的双因素身份认证？
+### 28、SpringBoot与SpringCloud 区别
+### 29、我们如何在测试中消除非决定论？
+### 30、什么是Oauth？
 
 
 

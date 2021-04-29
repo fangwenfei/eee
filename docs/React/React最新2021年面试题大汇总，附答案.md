@@ -6,71 +6,73 @@
 
 
 
-### 1、React 中 keys的作用是什么
+### 1、你的接口请求一般放在哪个生命周期中？
 
-`Keys`是 `React` 用于追踪哪些列表中元素被修改、被添加或者被移除的辅助标识
-
-在开发过程中我们需要保证某个元素的 `key` 在其同级元素中具有唯一性。在 `React Diff` 算法中`React` 会借助元素的 `Key` 值来判断该元素是新近创建的还是被移动而来的元素从而减少不必要的元素重渲染。此外React 还需要借助 `Key` 值来判断元素与本地状态的关联关系因此我们绝不可忽视转换函数中 `Key` 的重要性
+接口请求一般放在`mounted`中，但需要注意的是服务端渲染时不支持mounted，需要放到`created`中。
 
 
-### 2、createElement 与 cloneElement 的区别是什么
+### 2、如何在 Redux 中定义 Action？
 
-`createElement` 函数是 JSX 编译之后使用的创建 `React Element`的函数而 cloneElement 则是用于复制某个元素并传入新的 `Props`
-
-
-### 3、简单说一下Vue2.x响应式数据原理
-
-Vue在初始化数据时，会使用`Object.defineProperty`重新定义data中的所有属性，当页面使用对应属性时，首先会进行依赖收集(收集当前组件的`watcher`)如果属性发生变化会通知相关依赖进行更新操作(`发布订阅`)。
-
-
-### 4、解释一下 Flux
-
-Flux 是一种强制单向数据流的架构模式。它控制派生数据，并使用具有所有数据权限的中心 store 实现多个组件之间的通信。整个应用中的数据更新必须只能在此处进行。 Flux 为应用提供稳定性并减少运行时的错误。
-
-
-### 5、在合成事件 和 生命周期钩子(除 componentDidUpdate) 中setState是"异步"的
-
-**原因: 因为在`setState`的实现中有一个判断: 当更新策略正在事务流的执行中时该组件更新会被推入`dirtyComponents`队列中等待执行否则开始执行`batchedUpdates`队列更新**
-
-在生命周期钩子调用中更新策略都处于更新之前组件仍处于事务流中而`componentDidUpdate`是在更新之后此时组件已经不在事务流中了因此则会同步执行
-
-在合成事件中React 是基于 事务流完成的事件委托机制 实现也是处于事务流中
-
-**问题: 无法在setState后马上从this.state上获取更新后的值。**
-
-解决: 如果需要马上同步去获取新值`setState`其实是可以传入第二个参数的。`setState(updater, callback)`在回调中即可获取最新值#
-
-在 原生事件 和 `setTimeout` 中`setState`是同步的可以马上获取更新后的值
-
-原因: 原生事件是浏览器本身的实现与事务流无关自然是同步而`setTimeout`是放置于定时器线程中延后执行此时事务流已结束因此也是同步#
-
-批量更新: 在 合成事件 和 生命周期钩子 中`setState`更新队列时存储的是 合并状态`(Object.assign)`。因此前面设置的 `key` 值会被后面所覆盖最终只会执行一次更新
-
-函数式: 由于 Fiber 及 合并 的问题官方推荐可以传入 函数 的形式。`setState(fn)`在fn中返回新的state对象即可例如
+React 中的 Action 必须具有 type 属性，该属性指示正在执行的 ACTION 的类型。必须将它们定义为字符串常量，并且还可以向其添加更多的属性。在 Redux 中，action 被名为 Action Creators 的函数所创建。以下是 Action 和Action Creator 的示例：
 
 ```
-this.setState((state, props) => newState)
+function addTodo(text) {
+       return {
+                type: ADD_TODO,
+                 text
+    }
+}
 ```
 
-使用函数式可以用于避免setState的批量更新的逻辑传入的函数将会被 顺序调用
 
-**注意事项:**
+### 3、如何在 React 中创建表单
 
-**1、** `setState` 合并在 合成事件 和 生命周期钩子 中多次连续调用会被优化为一次
+React 表单类似于 HTML 表单。但是在 React 中，状态包含在组件的 state 属性中，并且只能通过 `setState()` 更新。因此元素不能直接更新它们的状态，它们的提交是由 JavaScript 函数处理的。此函数可以完全访问用户输入到表单的数据。
 
-**2、** 当组件已被销毁如果再次调用 `setStateReact` 会报错警告通常有两种解决办法
+```
+handleSubmit(event) {
+    alert('A name was submitted: ' + this.state.value);
+    event.preventDefault();
+}
 
-**3、** 将数据挂载到外部通过 props 传入如放到 Redux 或 父级中
+render() {
+    return (
+        <form onSubmit={this.handleSubmit}>
+            <label>
+                Name:
+                <input type="text" value={this.state.value} onChange={this.handleSubmit} />
+            </label>
+            <input type="submit" value="Submit" />
+        </form>
+    );
+}
+```
 
-**4、** 在组件内部维护一个状态量 ( `isUnmounted`) `componentWillUnmount`中标记为 `true`在 `setState`前进行判断
+
+### 4、你对 React 的 refs 有什么了解？
+
+Refs 是 React 中引用的简写。它是一个有助于存储对特定的 React 元素或组件的引用的属性，它将由组件渲染配置函数返回。用于对 render() 返回的特定元素或组件的引用。当需要进行 DOM 测量或向组件添加方法时，它们会派上用场。
+
+```
+class ReferenceDemo extends React.Component{
+     display() {
+         const name = this.inputDemo.value;
+         document.getElementById('disp').innerHTML = name;
+     }
+render() {
+    return(
+          <div>
+            Name: <input type="text" ref={input => this.inputDemo = input} />
+            <button name="Click" onClick={this.display}>Click</button>
+            <h2>Hello <span id="disp"></span> !!!</h2>
+          </div>
+    );
+   }
+ }
+```
 
 
-### 6、组件中的data为什么是一个函数？
-
-一个组件被复用多次的话，也就会创建多个实例。本质上，`这些实例用的都是同一个构造函数`。如果data是对象的话，对象属于引用类型，会影响到所有的实例。所以为了保证组件不同的实例之间data不冲突，data必须是一个函数。
-
-
-### 7、我现在有一个button要用react在上面绑定点击事件要怎么做
+### 5、我现在有一个button要用react在上面绑定点击事件要怎么做
 
 ```
 class Demo {
@@ -105,27 +107,102 @@ class Demo {
 ```
 
 
-### 8、什么是 Props?
-### 9、setState: React 中用于修改状态更新视图。它具有以下特点:
-### 10、具体实现步骤如下
-### 11、Redux设计理念
-### 12、解释 Reducer 的作用。
-### 13、setState到底是异步还是同步?
-### 14、你对“单一事实来源”有什么理解？
-### 15、HOC(高阶组件)
-### 16、为什么需要 React 中的路由？
-### 17、如何在React中创建一个事件？
-### 18、connect原理
-### 19、传入 setState 函数的第二个参数的作用是什么
-### 20、区分状态和 props
-### 21、你了解 Virtual DOM 吗？解释一下它的工作原理。
-### 22、虚拟DOM实现原理?
-### 23、你的接口请求一般放在哪个生命周期中？
+### 6、说说你用react有什么坑点
+
+**1、** JSX做表达式判断时候需要强转为boolean类型
+
+如果不使用 !!b 进行强转数据类型会在页面里面输出 0。
+
+```
+render() {
+  const b = 0;
+  return <div>
+    {
+      !!b && <div>这是一段文本</div>
+    }
+  </div>
+}
+```
+
+**1、** 尽量不要在 `componentWillReviceProps` 里使用 `setState`如果一定要使用那么需要判断结束条件不然会出现无限重渲染导致页面崩溃
+
+**2、** 给组件添加ref时候尽量不要使用匿名函数因为当组件更新的时候匿名函数会被当做新的`prop`处理让`ref`属性接受到新函数的时候`react`内部会先清空`ref`也就是会以`null`为回调参数先执行一次`ref`这个`props`然后在以该组件的实例执行一次`ref`所以用匿名函数做ref的时候有的时候去`ref`赋值后的属性会取到`null`
+
+**3、** 遍历子节点的时候不要用 index 作为组件的 key 进行传入
+
+
+### 7、setState
+
+在了解`setState`之前我们先来简单了解下 `React` 一个包装结构: `Transaction`:
+
+**事务 (Transaction)**
+
+是 `React` 中的一个调用结构用于包装一个方法结构为: `initialize` - `perform(method)` - `close`。通过事务可以统一管理一个方法的开始与结束处于事务流中表示进程正在执行一些操作
+
+
+### 8、为什么需要 React 中的路由？
+
+Router 用于定义多个路由，当用户定义特定的 URL 时，如果此 URL 与 Router 内定义的任何 “路由” 的路径匹配，则用户将重定向到该特定路由。所以基本上我们需要在自己的应用中添加一个 Router 库，允许创建多个路由，每个路由都会向我们提供一个独特的视图
+
+```
+<switch>
+    <route exact path=’/’ component={Home}/>
+    <route path=’/posts/:id’ component={Newpost}/>
+    <route path=’/posts’   component={Post}/>
+</switch>
+```
+
+
+### 9、pureComponent和FunctionComponent区别
+
+`PureComponent`和`Component`完全相同但是在`shouldComponentUpdate`实现中`PureComponent`使用了`props`和`state`的浅比较。主要作用是用来提高某些特定场景的性能
+
+
+### 10、react旧版生命周期函数
+
+初始化阶段
+
+**1、** `getDefaultProps`:获取实例的默认属性
+
+**2、** `getInitialState`:获取每个实例的初始化状态
+
+**3、** `componentWillMount`组件即将被装载、渲染到页面上
+
+**4、** `render`:组件在这里生成虚拟的DOM节点
+
+**5、** `componentDidMount`:组件真正在被装载之后
+
+运行中状态
+
+**1、** `componentWillReceiveProps`:组件将要接收到属性的时候调用
+
+**2、** `shouldComponentUpdate`:组件接受到新属性或者新状态的时候可以返回 `false`接收数据后不更新阻止 `render`调用后面的函数不会被继续执行了
+
+**3、** `componentWillUpdate`:组件即将更新不能修改属性和状态
+
+**4、** `render`:组件重新描绘
+
+**5、** `componentDidUpdate`:组件已经更新
+
+
+### 11、diff算法?
+### 12、mixin、hoc、render props、react-hooks的优劣如何？
+### 13、React与Angular有何不同？
+### 14、列出React的一些主要优点。
+### 15、如何在React中创建一个事件？
+### 16、createElement 与 cloneElement 的区别是什么
+### 17、再说一下Computed和Watch
+### 18、react-router里的标签和`<a>`标签有什么区别
+### 19、简述flux 思想
+### 20、传入 setState 函数的第二个参数的作用是什么
+### 21、什么是 Props?
+### 22、React如何进行组件/逻辑复用?
+### 23、为什么浏览器无法读取JSX？
 ### 24、setState到底是异步还是同步?
-### 25、列出一些应该使用 Refs 的情况。
-### 26、React有哪些限制？
-### 27、React的请求应该放在哪个生命周期中?
-### 28、为什么虚拟dom会提高性能
+### 25、Redux设计理念
+### 26、什么是纯组件？
+### 27、React有哪些优化性能是手段?
+### 28、react 的虚拟dom是怎么实现的
 
 
 

@@ -6,89 +6,125 @@
 
 
 
-### 1、SpringBoot 的核心注解是哪个？它主要由哪几个注解组成的？
+### 1、既然Nginx可以实现网关？为什么还需要使用Zuul框架
 
-启动类上面的注解是@SpringBootApplication，它也是 SpringBoot 的核心注解，主要组合包含了以下 3 个注解：
-
-@SpringBootConfiguration：组合了 [@Configuration ](/Configuration ) 注解，实现配置文件的功能。
-
-@EnableAutoConfiguration：打开自动配置的功能，也可以关闭某个自动配置的选项，如关闭数据源自动配置功能：
-
-[@SpringBootApplication(exclude ](/SpringBootApplication(exclude ) = { DataSourceAutoConfiguration.class })。
-
-@ComponentScan：Spring组件扫描。
+Zuul是SpringCloud集成的网关，使用Java语言编写，可以对SpringCloud架构提供更灵活的服务。
 
 
-### 2、服务注册和发现是什么意思？Spring Cloud如何实现？
+### 2、JPA 和 Hibernate 有哪些区别？
+
+简而言之
+
+JPA 是一个规范或者接口
+
+Hibernate 是 JPA 的一个实现
+
+当我们使用 JPA 的时候，我们使用 javax.persistence 包中的注释和接口时，不需要使用 hibernate 的导入包。
+
+我们建议使用 JPA 注释，因为哦我们没有将其绑定到 Hibernate 作为实现。后来（我知道 - 小于百分之一的几率），我们可以使用另一种 JPA 实现。
+
+
+### 3、什么是持续监测？
+
+持续监控深入监控覆盖范围，从浏览器内前端性能指标，到应用程序性能，再到主机虚拟化基础架构指标。
+
+
+### 4、Spring 应用程序有哪些不同组件？
+
+**Spring 应用一般有以下组件：**
+
+**1、** 接口 - 定义功能。
+
+**2、** Bean 类 - 它包含属性，setter 和 getter 方法，函数等。
+
+**3、** Spring 面向切面编程（AOP） - 提供面向切面编程的功能。
+
+**4、** Bean 配置文件 - 包含类的信息以及如何配置它们。
+
+**5、** 用户程序 - 它使用接口。
+
+
+### 5、服务注册和发现是什么意思？Spring Cloud如何实现？
 
 当我们开始一个项目时，我们通常在属性文件中进行所有的配置。随着越来越多的服务开发和部署，添加和修改这些属性变得更加复杂。有些服务可能会下降，而某些位置可能会发生变化。手动更改属性可能会产生问题。Eureka服务注册和发现可以在这种情况下提供帮助。由于所有服务都在Eureka服务器上注册并通过调用Eureka服务器完成查找，因此无需处理服务地点的任何更改和处理。
 
 
-### 3、SpringBoot 的核心注解是哪个？它主要由哪几个注解组成的？
+### 6、项目中前后端分离部署，所以需要解决跨域的问题。
 
-启动类上面的注解是@SpringBootApplication，它也是 SpringBoot 的核心注解，主要组合包含了以下 3 个注解：
+我们使用cookie存放用户登录的信息，在spring拦截器进行权限控制，当权限不符合时，直接返回给用户固定的json结果。
 
-@SpringBootConfiguration：组合了 [@Configuration ](/Configuration ) 注解，实现配置文件的功能。
+当用户登录以后，正常使用；当用户退出登录状态时或者token过期时，由于拦截器和跨域的顺序有问题，出现了跨域的现象。
 
-[@EnableAutoConfiguration：打开自动配置的功能，也可以关闭某个自动配置的选项，如关闭数据源自动配置功能：@SpringBootApplication(exclude ](/EnableAutoConfiguration：打开自动配置的功能，也可以关闭某个自动配置的选项，如关闭数据源自动配置功能：@SpringBootApplication(exclude ) = { DataSourceAutoConfiguration.class })。
-
-@ComponentScan：Spring组件扫描。
-
-
-### 4、Spring Cloud Task
-
-Spring Cloud Task的目标是为SpringBoot应用程序提供创建短运行期微服务的功能。在Spring Cloud Task中，我们可以灵活地动态运行任何任务，按需分配资源并在任务完成后检索结果。Tasks是Spring Cloud Data Flow中的一个基础项目，允许用户将几乎任何SpringBoot应用程序作为一个短期任务执行。
-
-
-### 5、Spring Cloud 是什么
-
-**1、** Spring Cloud是一系列框架的有序集合。它利用SpringBoot的开发便利性巧妙地简化了分布式系统基础设施的开发，如服务发现注册、配置中心、智能路由、消息总线、负载均衡、断路器、数据监控等，都可以用SpringBoot的开发风格做到一键启动和部署。
-
-**2、** Spring Cloud并没有重复制造轮子，它只是将各家公司开发的比较成熟、经得起实际考验的服务框架组合起来，通过SpringBoot风格进行再封装屏蔽掉了复杂的配置和实现原理，最终给开发者留出了一套简单易懂、易部署和易维护的分布式系统开发工具包。
-
-
-### 6、什么是Oauth？
-
-开放授权协议，这允许通过在HTTP服务上启用客户端应用程序（例如第三方提供商Facebook，GitHub等）来访问资源所有者的资源。因此，您可以在不使用其凭据的情况下与另一个站点共享存储在一个站点上的资源。
-
-OAuth允许像Facebook这样的第三方使用最终用户的帐户信息，同时保证其安全（不使用或暴露用户的密码）。它更像是代表用户的中介，同时为服务器提供访问所需信息的令牌。
-
-
-### 7、如何重新加载 SpringBoot 上的更改，而无需重新启动服务器？SpringBoot项目如何热部署？
-
-这可以使用 DEV 工具来实现。通过这种依赖关系，您可以节省任何更改，嵌入式tomcat 将重新启动。SpringBoot 有一个开发工具（DevTools）模块，它有助于提高开发人员的生产力。Java 开发人员面临的一个主要挑战是将文件更改自动部署到服务器并自动重启服务器。开发人员可以重新加载 SpringBoot 上的更改，而无需重新启动服务器。这将消除每次手动部署更改的需要。SpringBoot 在发布它的第一个版本时没有这个功能。这是开发人员最需要的功能。DevTools 模块完全满足开发人员的需求。该模块将在生产环境中被禁用。它还提供 H2 数据库控制台以更好地测试应用程序。
+我们知道一个http请求，先走filter，到达servlet后才进行拦截器的处理，如果我们把cors放在filter里，就可以优先于权限拦截器执行。
 
 ```
-<dependency>
-    <groupId>org.springframework.boot</groupId>
-    <artifactId>spring-boot-devtools</artifactId>
-</dependency>
+@Configuration
+public class CorsConfig {
+
+    @Bean
+    public CorsFilter corsFilter() {
+        CorsConfiguration corsConfiguration = new CorsConfiguration();
+        corsConfiguration.addAllowedOrigin("*");
+        corsConfiguration.addAllowedHeader("*");
+        corsConfiguration.addAllowedMethod("*");
+        corsConfiguration.setAllowCredentials(true);
+        UrlBasedCorsConfigurationSource urlBasedCorsConfigurationSource = new UrlBasedCorsConfigurationSource();
+        urlBasedCorsConfigurationSource.registerCorsConfiguration("/**", corsConfiguration);
+        return new CorsFilter(urlBasedCorsConfigurationSource);
+    }
+
+}
 ```
 
 
-### 8、Spring Cloud Zookeeper
-### 9、Spring由哪些模块组成?
-### 10、[@RequestMapping ](/RequestMapping ) 注解
-### 11、第⼀层缓存：
-### 12、SpringCloud 和 Dubbo 有哪些区别?
-### 13、Eureka和ZooKeeper都可以提供服务注册与发现的功能,请说说两个的区别
-### 14、什么是无所不在的语言？
-### 15、我们如何监视所有SpringBoot微服务？
-### 16、如何启用/禁用执行器？
-### 17、spring boot监听器流程?
-### 18、列举微服务技术栈
-### 19、如何在 spring 中启动注解装配？
-### 20、Spring Cloud Bus
-### 21、什么是 AOP？
-### 22、什么是SpringBoot ？
-### 23、SpringBoot 打成的 jar 和普通的 jar 有什么区别 ?
-### 24、@Controller注解的作用
-### 25、接⼝限流⽅法？
-### 26、[@Required ](/Required ) 注解有什么用？
-### 27、什么是 JavaConfig？
-### 28、Spring Cloud Consul
-### 29、如何使用 SpringBoot 实现分页和排序？
-### 30、SpringBoot如何实现打包
+### 7、Spring Cloud Stream
+
+轻量级事件驱动微服务框架，可以使用简单的声明式模型来发送及接收消息，主要实现为Apache Kafka及RabbitMQ。
+
+
+### 8、如何设置服务发现？
+
+有多种方法可以设置服务发现。我将选择我认为效率最高的那个，Netflix的Eureka。这是一个简单的程序，不会对应用程序造成太大影响。此外，它支持多种类型的Web应用程序。 Eureka配置包括两个步骤 - 客户端配置和服务器配置。
+
+使用属性文件可以轻松完成客户端配置。在clas spath中，Eureka搜索一个eureka-client.properties文件。它还搜索由特定于环境的属性文件中的环境引起的覆盖。
+
+对于服务器配置，您必须首先配置客户端。完成后，服务器启动一个客户端，该客户端用于查找其他服务器。。默认情况下，Eureka服务器使用客户端配置来查找对等服务器。
+
+
+### 9、path=”users”, collectionResourceRel=”users” 如何与 Spring Data Rest 一起使用？
+
+path- 这个资源要导出的路径段。
+
+collectionResourceRel- 生成指向集合资源的链接时使用的 rel 值。在生成 HATEOAS 链接时使用。
+
+
+### 10、Spring Cloud 实现服务注册和发现的原理是什么？
+
+**1、** 服务在发布时指定对应的服务名（服务名包括了 IP 地址和端口）将服务注册到注册中心（Eureka 或者 Zookeeper）这一过程是 Spring Cloud 自动实现的，只需要在 main 方法添加 @EnableDisscoveryClient 即可，同一个服务修改端口就可以启动多个实例。
+
+**2、** 调用方法：传递服务名称通过注册中心获取所有的可用实例，通过负载均衡策略调用（Ribbon 和 Feign）对应的服务。
+
+
+### 11、我们可以用微服务创建状态机吗？
+### 12、开启 SpringBoot 特性有哪几种方式？
+### 13、Spring MVC怎么样设定重定向和转发的？
+### 14、开启 SpringBoot 特性有哪几种方式？
+### 15、Zuul与Nginx有什么区别？
+### 16、Spring MVC用什么对象从后台向前台传递数据的？
+### 17、什么是编织（Weaving）？
+### 18、各服务之间通信，对Restful和Rpc这2种方式如何做选择？
+### 19、什么是YAML?
+### 20、如何使用SpringBoot实现分页和排序？
+### 21、如何在不使用BasePACKAGE过滤器的情况下排除程序包？
+### 22、是否可以在Spring boot中更改嵌入式Tomcat服务器的端口?
+### 23、什么是Feign？
+### 24、SpringBoot 是否可以使用 XML 配置 ?
+### 25、PACT如何运作？
+### 26、解释AOP
+### 27、Ribbon和Feign的区别？
+### 28、如何实现 SpringBoot应用程序的安全性?
+### 29、您对Distributed Transaction有何了解？
+### 30、什么是WebSockets？
 
 
 

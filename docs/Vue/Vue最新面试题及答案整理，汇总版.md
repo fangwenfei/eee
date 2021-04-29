@@ -6,86 +6,127 @@
 
 
 
-### 1、vue-router 是什么?它有哪些组件
+### 1、Vue2.x组件通信有哪些方式？
 
-vue用来写路由一个插件。router-link、router-view
+**父子组件通信**
 
+父->子`props`，子->父 `$on、$emit`
 
-### 2、delete和Vue.delete删除数组的区别
+获取父子组件实例 `$parent、$children`
 
-delete只是被删除的元素变成了 empty/undefined 其他的元素的键值还是不变。Vue.delete 直接删除了数组 改变了数组的键值。
+`Ref` 获取实例的方式调用组件的属性或者方法
 
+`Provide、inject` 官方不推荐使用，但是写组件库时很常用
 
-### 3、axios+tp5进阶中，调用axios.post(‘api/user’)是进行的什么操作？axios.put(‘api/user/8′)呢？
+**兄弟组件通信**
 
-跨域，添加用户操作，更新操作。
+`Event Bus` 实现跨组件通信 `Vue.prototype.$bus = new Vue`
 
+`Vuex`
 
-### 4、module.exports 和 exports 之间有什么区别？
+**跨级组件通信**
 
-module和exports是Node.js给每个js文件内置的两个对象。可以通过console.log(module)和console.log(exports)打印出来。如果你在main.js中写入下面两行，然后运行$ node main.js:
+`Vuex`
 
-```
-console.log(exports);//输出：{}
-console.log(module);//输出：Module {..., exports: {}, ...} （注：...代表省略了其他一些属性）
-```
+`$attrs、$listeners`
 
-从打印咱们可以看出，module.exports和exports一开始都是一个空对象{}，实际上，这两个对象指向同一块内存。这也就是说module.exports和exports是等价的（有个前提：不去改变它们指向的内存地址）。
-
-例如：exports.age = 18和module.export.age = 18，这两种写法是一致的（都相当于给最初的空对象{}添加了一个属性，通过require得到的就是{age: 18}）。
+`Provide、inject`
 
 
-### 5、那你能讲一讲MVVM吗？
+### 2、聊聊你对Vue.js的template编译的理解？
 
-MVVM是`Model-View-ViewModel`缩写，也就是把`MVC`中的`Controller`演变成`ViewModel`。Model层代表数据模型，View代表UI组件，ViewModel是View和Model层的桥梁，数据会绑定到viewModel层并自动将数据渲染到页面中，视图变化的时候会通知viewModel层更新数据。
+简而言之，就是先转化成AST树，再得到的render函数返回VNode（Vue的虚拟DOM节点）
 
+**详情步骤：**
 
-### 6、Vue模版编译原理知道吗，能简单说一下吗？
+**1、** 首先，通过compile编译器把template编译成AST语法树（abstract syntax tree 即 源代码的抽象语法结构的树状表现形式），compile是createCompiler的返回值，createCompiler是用以创建编译器的。另外compile还负责合并option。
 
-简单说，Vue的编译过程就是将`template`转化为`render`函数的过程。会经历以下阶段：
-
-**1、** 生成AST树
-
-2、优化
-
-**3、** codegen
-
-首先解析模版，生成`AST语法树`(一种用JavaScript对象的形式来描述整个模板)。 使用大量的正则表达式对模板进行解析，遇到标签、文本的时候都会执行对应的钩子进行相关处理。
-
-Vue的数据是响应式的，但其实模板中并不是所有的数据都是响应式的。有一些数据首次渲染后就不会再变化，对应的DOM也不会变化。那么优化过程就是深度遍历AST树，按照相关条件对树节点进行标记。这些被标记的节点(静态节点)我们就可以`跳过对它们的比对`，对运行时的模板起到很大的优化作用。
-
-编译的最后一步是`将优化后的AST树转换为可执行的代码`。
+**2、** 然后，AST会经过generate（将AST语法树转化成render funtion字符串的过程）得到render函数，render的返回值是VNode，VNode是Vue的虚拟DOM节点，里面有（标签名、子节点、文本等等）
 
 
-### 7、为什么Vue被称为“渐进框架”？
+### 3、data为什么是一个函数？
 
-使用渐进式框架的代价很小，从而使现有项目（使用其他技术构建的项目）更容易采用并迁移到新框架。 Vue.js 是一个渐进式框架，因为你可以逐步将其引入现有应用，而不必从头开始重写整个程序。
+这是有JavaScript的特性所导致，在component中，data必须以函数的形式存在，不可以是对象。
 
-Vue 的最基本和核心的部分涉及“视图”层，因此可以通过逐步将 Vue 引入程序并替换“视图”实现来开始你的旅程。
-
-由于其不断发展的性质，Vue 与其他库配合使用非常好，并且非常容易上手。这与 Angular.js 之类的框架相反，后者要求将现有程序完全重构并在该框架中实现。
+组建中的data写成一个函数，数据以函数返回值的形式定义，这样每次复用组件的时候，都会返回一份新的data，相当于每个组件实例都有自己私有的数据空间，它们只负责各自维护的数据，不会造成混乱。而单纯的写成对象形式，就是所有的组件实例共用了一个data，这样改一个全都改了。
 
 
-### 8、请说下封装 vue 组件的过程？
-### 9、解释 JS 中的函数提升
-### 10、vue-router实现路由懒加载（ 动态加载路由 ）
-### 11、vue组件中data为什么必须是一个函数？
-### 12、说出几种vue当中的指令和它的用法？
-### 13、什么是vue生命周期？
-### 14、v-for中的key的理解？
-### 15、请说出vue.cli项目中src目录每个文件夹和文件的用法？
-### 16、简单描述每个周期具体适合哪些场景？
-### 17、与React的区别
-### 18、active-class 是哪个组件的属性？
-### 19、打包优化
-### 20、vue的diff算法理解？
-### 21、导航钩子有哪些？它们有哪些参数？
-### 22、如何封装一个vue组件？
-### 23、vue的历史记录
-### 24、列出一些单元测试框架
-### 25、再说一下虚拟Dom以及key属性的作用
-### 26、Vue2.x组件通信有哪些方式？
-### 27、vue中template编译的理解？
+### 4、vue中的v-cloak的理解？
+
+使用 v-cloak 指令设置样式，这些样式会在 Vue 实例编译结束时，从绑定的 HTML 元素上被移除。
+
+一般用于解决网页闪屏的问题，在对一个的标签中使用v-cloak，然后在样式中设置[v-cloak]样式,[v-cloak]需写在 link 引入的css中，或者写一个内联css样式，写在import引入的css中不起作用。
+
+
+### 5、Vue事件绑定原理说一下
+
+原生事件绑定是通过`addEventListener`绑定给真实元素的，组件事件绑定是通过Vue自定义的`$on`实现的。
+
+
+### 6、v-if和v-for的优先级
+
+当 v-if 与 v-for 一起使用时，v-for 具有比 v-if 更高的优先级，这意味着 v-if 将分别重复运行于每个 v-for 循环中。所以，不推荐v-if和v-for同时使用。
+
+如果v-if和v-for一起用的话，vue中的的会自动提示v-if应该放到外层去。
+
+
+### 7、scss是什么？在vue.cli中的安装使用步骤是？有哪几大特性？
+
+css的预编译。
+
+**使用步骤：**
+
+**1、** 第一步：用npm 下三个loader（sass-loader、css-loader、node-sass）
+
+**2、** 第二步：在build目录找到webpack.base.config.js，在那个extends属性中加一个拓展.scss
+
+**3、** 第三步：还是在同一个文件，配置一个module属性
+
+**4、** 第四步：然后在组件的style标签加上lang属性 ，例如：lang=”scss”
+
+**有哪几大特性:**
+
+**1、** 可以用变量，例如（$变量名称=值）；
+
+**2、** 可以用混合器，例如（）
+
+**3、** 可以嵌套
+
+
+### 8、如何获取dom?
+
+ref="domName" 用法：this.$refs.domName
+
+
+### 9、JS中的宿主对象与原生对象有何不同？
+
+宿主对象:这些是运行环境提供的对象。这意味着它们在不同的环境下是不同的。例如，浏览器包含像windows这样的对象，但是Node.js环境提供像Node List这样的对象。
+
+原生对象:这些是JS中的内置对象。它们也被称为全局对象，因为如果使用JS，内置对象不受是运行环境影响。
+
+
+### 10、RouterLink在IE和Firefox中不起作用（路由不跳转）的问题
+
+方法一：只用a标签，不适用button标签；方法二：使用button标签和Router.navigate方法
+
+
+### 11、怎么定义 vue-router 的动态路由? 怎么获取传过来的值？
+### 12、请说下封装 vue 组件的过程？
+### 13、如何封装一个vue组件？
+### 14、$nextTick的使用？
+### 15、v-model的理解？
+### 16、vue.cli中怎样使用自定义的组件？有遇到过哪些问题吗？
+### 17、你如何捕获元素上的点击事件？
+### 18、第一次页面加载会触发哪几个钩子？
+### 19、vue生命周期的作用是什么？
+### 20、你们vue项目是打包了一个js文件，一个css文件，还是有多个文件？
+### 21、你都做过哪些Vue的性能优化，编码阶段
+### 22、v-show 指令的用途是什么？
+### 23、解释 JS 中的函数提升
+### 24、v-for中的key的理解？
+### 25、说一下v-model的原理
+### 26、解释 JS 事件委托模型？
+### 27、解释JS中的MUL函数
 
 
 

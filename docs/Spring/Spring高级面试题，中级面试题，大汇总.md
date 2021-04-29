@@ -6,116 +6,160 @@
 
 
 
-### 1、如何在自定义端口上运行 SpringBoot应用程序?
+### 1、Spring MVC的主要组件？
 
-在 `application.properties`中指定端口`serverport=8090`。
+**1、** 前端控制器 DispatcherServlet（不需要程序员开发）
 
+**作用：**
 
-### 2、如何给Spring 容器提供配置元数据?
+接收请求、响应结果，相当于转发器，有了DispatcherServlet 就减少了其它组件之间的耦合度。
 
-这里有三种重要的方法给Spring 容器提供配置元数据。
+**2、** 处理器映射器HandlerMapping（不需要程序员开发）
 
-XML配置文件。
+**作用：**
 
-基于注解的配置。
+根据请求的URL来查找Handler
 
-基于java的配置。
+**3、** 处理器适配器HandlerAdapter
 
+**注意：**
 
-### 3、什么是金丝雀释放？
+在编写Handler的时候要按照HandlerAdapter要求的规则去编写，这样适配器HandlerAdapter才可以正确的去执行Handler。
 
-Canary Releasing是一种降低在生产中引入新软件版本的风险的技术。这是通过将变更缓慢地推广到一小部分用户，然后将其发布到整个基础架构，即将其提供给每个人来完成的。
+**4、** 处理器Handler（需要程序员开发）
 
+**5、** 视图解析器 ViewResolver（不需要程序员开发）
 
-### 4、什么是Netflix Feign？它的优点是什么？
+**作用：**
 
-Feign是受到Retrofit，JAXRS-2.0和WebSocket启发的java客户端联编程序。Feign的第一个目标是将约束分母的复杂性统一到http apis，而不考虑其稳定性。在employee-consumer的例子中，我们使用了employee-producer使用REST模板公开的REST服务。
+进行视图的解析，根据视图逻辑名解析成真正的视图（view）
 
-但是我们必须编写大量代码才能执行以下步骤
+**6、** 视图View（需要程序员开发jsp）
 
-**1、** 使用功能区进行负载平衡。
-
-**2、** 获取服务实例，然后获取基本URL。
-
-**3、** 利用REST模板来使用服务。 前面的代码如下
-
-```
-@Controller
-public class ConsumerControllerClient {
-
-@Autowired
-private LoadBalancerClient loadBalancer;
-
-public void getEmployee() throws RestClientException, IOException {
-
-    ServiceInstance serviceInstance=loadBalancer.choose("employee-producer");
-
-    System.out.println(serviceInstance.getUri());
-
-    String baseUrl=serviceInstance.getUri().toString();
-
-    baseUrl=baseUrl+"/employee";
-
-    RestTemplate restTemplate = new RestTemplate();
-    ResponseEntity<String> response=null;
-    try{
-    response=restTemplate.exchange(baseUrl,
-            HttpMethod.GET, getHeaders(),String.class);
-    }catch (Exception ex)
-    {
-        System.out.println(ex);
-    }
-    System.out.println(response.getBody());
-```
-
-之前的代码，有像NullPointer这样的例外的机会，并不是最优的。我们将看到如何使用Netflix Feign使呼叫变得更加轻松和清洁。如果Netflix Ribbon依赖关系也在类路径中，那么Feign默认也会负责负载平衡。
+View是一个接口， 它的实现类支持不同的视图类型（jsp，freemarker，pdf等等）
 
 
-### 5、WebApplicationContext
+### 2、什么是Hystrix？它如何实现容错？
 
-WebApplicationContext 继承了ApplicationContext 并增加了一些WEB应用必备的特有功能，它不同于一般的ApplicationContext ，因为它能处理主题，并找到被关联的servlet。
+Hystrix是一个延迟和容错库，旨在隔离远程系统，服务和第三方库的访问点，当出现故障是不可避免的故障时，停止级联故障并在复杂的分布式系统中实现弹性。
+
+通常对于使用微服务架构开发的系统，涉及到许多微服务。这些微服务彼此协作。
+
+思考以下微服务
+
+![](https://gitee.com/souyunkutech/souyunku-home/raw/master/images/souyunku-web/2019/08/0814/02/img_2.png#alt=img%5C_2.png)
+
+假设如果上图中的微服务9失败了，那么使用传统方法我们将传播一个异常。但这仍然会导致整个系统崩溃。
+
+随着微服务数量的增加，这个问题变得更加复杂。微服务的数量可以高达1000.这是hystrix出现的地方 我们将使用Hystrix在这种情况下的Fallback方法功能。我们有两个服务employee-consumer使用由employee-consumer公开的服务。
+
+简化图如下所示
+
+![](https://gitee.com/souyunkutech/souyunku-home/raw/master/images/souyunku-web/2019/08/0814/02/img_3.png#alt=img%5C_3.png)
+
+现在假设由于某种原因，employee-producer公开的服务会抛出异常。我们在这种情况下使用Hystrix定义了一个回退方法。这种后备方法应该具有与公开服务相同的返回类型。如果暴露服务中出现异常，则回退方法将返回一些值。
 
 
-### 6、解释对象/关系映射集成模块。
+### 3、什么是 JavaConfig？
 
-Spring 通过提供ORM模块，支持我们在直接JDBC之上使用一个对象/关系映射映射(ORM)工具，Spring 支持集成主流的ORM框架，如Hiberate,JDO和 iBATIS SQL Maps。Spring的事务管理同样支持以上所有ORM框架及JDBC。
+Spring JavaConfig 是 Spring 社区的产品，Spring 3、0引入了他，它提供了配置 Spring IOC 容器的纯Java 方法。因此它有助于避免使用 XML 配置。使用 JavaConfig 的优点在于：
+
+面向对象的配置。由于配置被定义为 JavaConfig 中的类，因此用户可以充分利用 Java 中的面向对象功能。一个配置类可以继承另一个，重写它的[@Bean ](/Bean ) 方法等。
+
+减少或消除 XML 配置。基于依赖注入原则的外化配置的好处已被证明。但是，许多开发人员不希望在 XML 和 Java 之间来回切换。JavaConfig 为开发人员提供了一种纯 Java 方法来配置与 XML 配置概念相似的 Spring 容器。从技术角度来讲，只使用 JavaConfig 配置类来配置容器是可行的，但实际上很多人认为将JavaConfig 与 XML 混合匹配是理想的。
+
+类型安全和重构友好。JavaConfig 提供了一种类型安全的方法来配置 Spring容器。由于 Java 5、0 对泛型的支持，现在可以按类型而不是按名称检索 bean，不需要任何强制转换或基于字符串的查找。
+
+**常用的Java config：**
+
+@Configuration：在类上打上写下此注解，表示这个类是配置类
+
+@ComponentScan：在配置类上添加 [@ComponentScan ](/ComponentScan ) 注解。该注解默认会扫描该类所在的包下所有的配置类，相当于之前的 <context:component-scan >。
+
+@Bean：bean的注入：相当于以前的< bean id="objectMapper" class="org、codehaus、jackson、map、ObjectMapper" />
+
+@EnableWebMvc：相当于xml的<mvc:annotation-driven >
+
+@ImportResource： 相当于xml的 < import resource="applicationContext-cache、xml">
 
 
-### 7、谈一下领域驱动设计
+### 4、SpringBoot 中如何实现定时任务 ?
 
-主要关注核心领域逻辑。基于领域的模型检测复杂设计。这涉及与公司层面领域方面的专家定期合作，以解决与领域相关的问题并改进应用程序的模型。在回答这个微服务面试问题时，您还需要提及DDD的核心基础知识。他们是：
+定时任务也是一个常见的需求，SpringBoot 中对于定时任务的支持主要还是来自 Spring 框架。
 
-**1、** DDD主要关注领域逻辑和领域本身。
+在 SpringBoot 中使用定时任务主要有两种不同的方式，一个就是使用 Spring 中的 [@Scheduled ](/Scheduled ) 注解，另一个则是使用第三方框架 Quartz。
 
-**2、** 复杂的设计完全基于领域的模型。
+使用 Spring 中的 [@Scheduled ](/Scheduled ) 的方式主要通过 [@Scheduled ](/Scheduled ) 注解来实现。
 
-**3、** 为了改进模型的设计并解决任何新出现的问题，DDD不断与公司领域方面的专家合作。
+使用 Quartz ，则按照 Quartz 的方式，定义 Job 和 Trigger 即可。
 
 
-### 8、什么是JavaConfig？
-### 9、什么是 AOP Aspect 切面
-### 10、SpringBoot 中如何实现定时任务 ?
-### 11、什么是Spring的MVC框架？
-### 12、Spring Cloud Config
-### 13、微服务的端到端测试意味着什么？
-### 14、为什么要使用 Spring Cloud 熔断器？
-### 15、什么是 spring bean？
-### 16、SpringBoot 2.X 有什么新特性？与 1.X 有什么区别？
-### 17、@ResponseBody注解的作用
-### 18、Spring Cloud Consul
-### 19、Spring Cloud Gateway
-### 20、为什么要选择微服务架构？
-### 21、SpringBoot的配置文件有哪几种格式？区别是什么？
-### 22、什么是JavaConfig？
-### 23、[@Autowired ](/Autowired ) 注解有什么用？
-### 24、区分 BeanFactory 和 ApplicationContext。
-### 25、22。你能否给出关于休息和微服务的要点？
-### 26、如何设置服务发现？
-### 27、SpringBoot 常用的 Starter 有哪些？
-### 28、什么是执行器停机？
-### 29、如何在自定义端口上运行 SpringBoot 应用程序？
-### 30、Container在微服务中的用途是什么？
-### 31、什么是Spring Cloud Gateway?
+
+### 5、SpringBoot 配置加载顺序?
+
+**1、** properties文件 2、YAML文件 3、系统环境变量 4、命令行参数
+
+
+### 6、康威定律是什么？
+
+康威定律指出，“设计系统的组织，其产生的设计等同于组织之内、组织之间的沟通结构。” 面试官可能会问反微服务面试问题，比如康威定律与微服务的关系。一些松散耦合的api形成了微服务的体系结构。这种结构非常适合小团队实现自治组件的方式。这种体系结构使组织在重组其工作流程时更加灵活。
+
+
+### 7、SpringBoot有哪些优点？
+
+减少开发，测试时间和努力。
+
+使用JavaConfig有助于避免使用XML。
+
+避免大量的Maven导入和各种版本冲突。
+
+提供意见发展方法。
+
+通过提供默认值快速开始开发。
+
+没有单独的Web服务器需要。这意味着你不再需要启动Tomcat，Glassfish或其他任何东西。
+
+需要更少的配置 因为没有web.xml文件。只需添加用@ Configuration注释的类，然后添加用@Bean注释的方法，Spring将自动加载对象并像以前一样对其进行管理。您甚至可以将@Autowired添加到bean方法中，以使Spring自动装入需要的依赖关系中。基于环境的配置 使用这些属性，您可以将您正在使用的环境传递到应用程序：-Dspring.profiles.active = {enviornment}。在加载主应用程序属性文件后，Spring将在（application{environment} .properties）中加载后续的应用程序属性文件。
+
+
+### 8、什么是 FreeMarker 模板？
+
+FreeMarker 是一个基于 Java 的模板引擎，最初专注于使用 MVC 软件架构进行动态网页生成。使用 Freemarker 的主要优点是表示层和业务层的完全分离。程序员可以处理应用程序代码，而设计人员可以处理 html 页面设计。最后使用freemarker 可以将这些结合起来，给出最终的输出页面。
+
+
+### 9、Spring Cloud Config
+
+Config能够管理所有微服务的配置文件
+
+集中配置管理工具，分布式系统中统一的外部配置管理，默认使用Git来存储配置，可以支持客户端配置的刷新及加密、解密操作。
+
+
+### 10、什么是 SpringBoot？
+
+SpringBoot 是 Spring 开源组织下的子项目，是 Spring 组件一站式解决方案，主要是简化了使用 Spring 的难度，简省了繁重的配置，提供了各种启动器，开发者能快速上手。
+
+
+### 11、Spring Cloud OpenFeign
+### 12、SpringBoot 支持哪些日志框架？推荐和默认的日志框架是哪个？
+### 13、如何使用 SpringBoot 实现全局异常处理？
+### 14、什么是JavaConfig？
+### 15、为什么在微服务中需要Reports报告和Dashboards仪表板？
+### 16、微服务的端到端测试意味着什么？
+### 17、什么是Spring的依赖注入？
+### 18、哪些是重要的bean生命周期方法？ 你能重载它们吗？
+### 19、什么是 SpringBoot 启动类注解：
+### 20、WebApplicationContext
+### 21、SpringBoot 支持哪些日志框架？推荐和默认的日志框架是哪个？
+### 22、使用 SpringBoot 开发分布式微服务时，我们面临什么问题
+### 23、什么是基于注解的容器配置?
+### 24、什么是SpringBoot
+### 25、可以通过多少种方式完成依赖注入？
+### 26、怎样在方法里面得到Request,或者Session？
+### 27、eureka和zookeeper都可以提供服务注册与发现的功能，请说说两个的区别？
+### 28、设计微服务的最佳实践是什么？
+### 29、您对Mike Cohn的测试金字塔了解多少？
+### 30、服务雪崩？
+### 31、SpingMvc中的控制器的注解一般用哪个,有没有别的注解可以替代？
 
 
 

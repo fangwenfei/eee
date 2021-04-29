@@ -6,82 +6,101 @@
 
 
 
-### 1、如何生成explain plan?
+### 1、FACT Table上需要建立何种索引?
 
-运行utlxplan.sql. 建立plan 表
-
-针对特定SQL语句，使用 explain plan set statement_id = 'tst1' into plan_table
-
-运行utlxplp.sql 或 utlxpls.sql察看explain plan
+位图索引 (bitmap index)
 
 
-### 2、解释GLOBAL_NAMES设为TRUE的用途？
+### 2、给出两种相关约束?
 
-GLOBAL_NAMES指明联接数据库的方式。如果这个参数设置为TRUE,在建立数据库链接时就必须用相同的名字连结远程数据库
-
-
-### 3、如何建立一个备份控制文件?
-
-Alter database backup control file to trace.
+主键和外键
 
 
-### 4、不借助第三方工具，怎样查看sql的执行计划
+### 3、解释归档和非归档模式之间的不同和它们各自的优缺点
 
-```
-set autot on
+归档模式是指你可以备份所有的数据库 transactions并恢复到任意一个时间点。非归档模式则相反，不能恢复到任意一个时间点。
 
-explain plan set statement_id = &item_id for &sql;
-select * from table(dbms_xplan.display);
-```
+但是非归档模式可以带来数据库性能上的少许提高
 
 
-### 5、当用户进程出错，哪个后台进程负责清理它
+### 4、delete 与Truncate区别？
 
-PMON
+**1、** Truncate 是DDL 语句，DELETE 是DML语句。
 
+**2、** Truncate 的速度远快于DELETE；
 
-### 6、truncate和delete区别：
+原因是： 当执行DELETE操作时所有表数据先被COPY到回滚表空间，数据量不同花费时间长短不一。而TRUNCATE 是直接删除数据不进回滚表空间。
 
-**1、** Truncate 和delete都可以将数据实体删掉，truncate 的操作并不记录到 rollback日志，所以操作速度较快，但同时这个数据不能恢复
+**1、** delete 数据可以运行Rollback 进行数据回滚。而Truncate 则是永久删除不能回滚。
 
-**2、** Delete操作不腾出表空间的空间
+**2、** Truncate 操作不会触发表上的delete触发器，而delete 会正常触发。
 
-**3、** Truncate 不能对视图等进行删除
+**3、** Truncate 语句不能带where 条件意味着只能全部数据删除，而DELETE可带where 条件进行删除数据。
 
-**4、** Truncate是数据定义语言（DDL），而delete是数据操纵语言(DML)
-
-
-### 7、Oracle中function和procedure的区别？
-
-**1、** 可以理解函数是存储过程的一种
-
-**2、** 函数可以没有参数,但是一定需要一个返回值，存储过程可以没有参数,不需要返回值
-
-**3、** 函数return返回值没有返回参数模式，存储过程通过out参数返回值, 如果需要返回多个参数则建议使用存储过程
-
-**4、** 在sql数据操纵语句中只能调用函数而不能调用存储过程
+**4、** Truncate 操作会重置表的高水位线（High Water Mark）,而delete 不会。
 
 
-### 8、哪个后台进程刷新materialized views?
-### 9、解释Oracle表单服务组件包括什么?
-### 10、提到一个项目的“验证LOV”属性?提到lov和list项目有什么区别?
-### 11、说下 Oracle的导入导出有几种方式，有何区别？
-### 12、oracle的锁又几种,定义分别是什么;
-### 13、用于网络连接的2个文件？
-### 14、使用存储过程访问数据库比直接用SQL语句访问有何优点？
-### 15、解释$$ORACLE\_HOME和$$ORACLE_BASE的区别?
-### 16、给出两种相关约束?
-### 17、解释data block , extent 和 segment的区别？
-### 18、比较truncate和delete 命令
-### 19、如何增加buffer cache的命中率？
-### 20、Oracle的导入导出有几种方式，有何区别？
-### 21、如何定位重要(消耗资源多)的SQL
-### 22、Oracle的游标在存储过程里是放在begin与end的里面还是外面？
-### 23、给出在STAR SCHEMA中的两种表及它们分别含有的数据
-### 24、说明如何在指定的块中迭代项目和记录?
-### 25、Audit trace 存放在哪个oracle目录结构中?
-### 26、如何增加buffer cache的命中率?
-### 27、解释$$ORACLE_HOME和$$ORACLE_BASE的区别？
+### 5、哪个后台进程刷新materialized views?
+
+The Job Queue Processes.
+
+
+### 6、MySQL数据库与Oracle 数据库有什么区别？
+
+**1、** 应用方面，MySQL 是中小型应用的数据库。一般用于个人和中小型企业。Oracle 属于大型数据库，一般用于具有相当规模的企业应用。
+
+**2、** 自动增长的数据类型方面： MySQL有自动增长的数据类型。Oracle 没有自动增长的数据类型。需要建立一个自增序列。
+
+**3、** group by 用法： MySQL 中group by 在SELECT 语句中可以随意使用，但在ORACLE 中如果查询语句中有组函数，那么其他列必须是组函数处理过的或者是group by子句中的列，否则会报错。
+
+**4、** 引导方面： MySQL中可以用单引号、双引号包起字符串，Oracle 中只可以用单引号包起字符串
+
+
+### 7、Oracle 分区在什么情况下使用
+
+当一张表的数据量到达上亿行的时候，表的性能会严重降低，这个时候就需要用到分区了，通过划分成多个小表，并在每个小表上建立本地索引可以大大缩小索引数据文件的大小，从而更快的定位到目标数据来提升访问性能。
+
+分区除了可以用来提升访问性能外，还因为可以指定分区所使用的表空间，因此也用来做数据的生命周期管理。当前需要频繁使用的活跃数据可以放到访问速度更快但价格也更贵的存储设备上，而2、3年前的历史数据，或者叫冷数据可以放到更廉价、速度更低的设备上。从而降低存储费用。
+
+
+### 8、oracle中存储过程，游标和函数的区别
+
+**1、** 游标类似指针，游标可以执行多个不相关的操作.如果希望当产生了结果集后,对结果集中的数据进行多 种不相关的数据操作
+
+**2、** 函数可以理解函数是存储过程的一种； 函数可以没有参数,但是一定需要一个返回值，存储过程可以没有参数,不需要返回值；两者都可以通过out参数返回值, 如果需要返回多个
+
+**3、** 参数则建议使用存储过程；在sql数据操纵语句中只能调用函数而不能调用存储过程
+
+
+### 9、如何增加buffer cache的命中率？
+
+在数据库较繁忙时，适用buffer cache advisory 工具，查询v$db_cache_advice . 如果有必要更改，可以使用 alter system set
+
+db_cache_size 命令
+
+
+### 10、使用索引的理由
+
+快速访问表中的data block
+
+
+### 11、如何搜集表的各种状态数据？
+### 12、FACT Table上需要建立何种索引？
+### 13、提及11g版本2中Oracle Forms Services中引入的新功能是什么?
+### 14、说下如何使用Oracle的游标？
+### 15、比较truncate和delete 命令
+### 16、如何判断谁往表里增加了一条纪录？
+### 17、说一下，Oracle的分区有几种
+### 18、可以从表单执行动态SQL吗?
+### 19、解释冷备份和热备份的不同点以及各自的优点
+### 20、日志的作用是什么
+### 21、说明如何在指定的块中迭代项目和记录?
+### 22、描述什么是 redo logs
+### 23、如何定位重要(消耗资源多)的SQL
+### 24、给出两个检查表结构的方法
+### 25、如何加密PL/SQL程序？
+### 26、本地管理表空间和字典管理表空间的特点，ASSM有什么特点？
+### 27、Audit trace 存放在哪个oracle目录结构中?
 
 
 

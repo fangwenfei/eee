@@ -6,98 +6,150 @@
 
 
 
-### 1、Mybaits的优点有什么？
+### 1、什么是 MyBatis？
 
-**1、** 基于SQL语句编程，相当灵活，不会对应用程序或者数据库的现有设计造成任何影响，SQL写在XML里，解除sql与程序代码的耦合，便于统一管理；提供XML标签，支持编写动态SQL语句，并可重用；
-
-**2、** 与JDBC相比，减少了50%以上的代码量，消除了JDBC大量冗余的代码，不需要手动开关连接；
-
-**3、** 很好的与各种数据库兼容；
-
-**4、** 能够与Spring很好的集成；
-
-**5、** 提供映射标签，支持对象与数据库的ORM字段关系映射；提供对象关系映射标签，支持对象关系组件维护。
+MyBatis 是一个可以自定义 SQL、存储过程和高级映射的持久层框架。
 
 
-### 2、简述Mybatis的Xml映射文件和Mybatis内部数据结构之间的映射关系？
+### 2、当实体类中的属性名和表中的字段名不一样 ，怎么办 ？
 
-Mybatis将所有Xml配置信息都封装到All-In-One重量级对象Configuration内部。在Xml映射文件中，`<parameterMap>`标签会被解析为ParameterMap对象，其每个子元素会被解析为ParameterMapping对象。`<resultMap>`标签会被解析为ResultMap对象，其每个子元素会被解析为ResultMapping对象。每一个`<select>`、`<insert>`、`<update>`、`<delete>`标签均会被解析为MappedStatement对象，标签内的sql会被解析为BoundSql对象。
+第1种： 通过在查询的sql语句中定义字段名的别名，让字段名的别名和实体类的属性名一致。
 
+```
+<select id=”selectorder” parametertype=”int” resultetype=”me.gacl.domain.order”>
+       select order_id id, order_no orderno ,order_price price form orders where order_id=#{id};
+</select>
+```
 
-### 3、MyBatis与hibernate有哪些不同？
+第2种： 通过`<resultMap>`来映射字段名和实体类属性名的一一对应的关系。
 
-**1、** Mybatis MyBatis 是支持定制化 SQL、存储过程以及高级映射的一种持久层框架。MyBatis 避免了几乎所有的 JDBC 代码和手动设置参数以及获取结果集。Mybatis它不完全是一个ORM(对象关系映射)框架；它需要程序员自己编写部分SQL语句。 mybatis可以通过xml或者注解的方式灵活的配置要运行的SQL语句，并将java对象和SQL语句映射生成最终的执行的SQL，最后将SQL执行的结果在映射生成java对象。 Mybatis程序员可以直接的编写原生态的SQL语句，可以控制SQL执行性能，灵活度高，适合软件需求变换频繁的企业。 缺点：Mybatis无法做到数据库无关性，如果需要实现支持多种数据库的软件，则需要自定义多套SQL映射文件，工作量大。
+```
+<select id="getOrder" parameterType="int" resultMap="orderresultmap">
+select * from orders where order_id=#{id}
+</select>
 
-**2、** Hibernate Hibernate是支持定制化 SQL、存储过程以及高级映射的一种持久层框架。 Hibernate对象-关系映射能力强，数据库的无关性好，Hirberate可以自动生成SQL语句，对于关系模型要求高的软件，如果用HIrbernate开发可以节省很多时间。
+<resultMap type=”me.gacl.domain.order” id=”orderresultmap”>
+    <!–用id属性来映射主键字段–>
+    <id property=”id” column=”order_id”>
 
-
-### 4、MyBatis 里面的动态 Sql 是怎么设定的?用什么语法?
-
-MyBatis 里面的动态 Sql 一般是通过 if 节点来实现,通过 OGNL 语法来实现,但是如果要
-
-写的完整,必须配合 where,trim 节点,where 节点是判断包含节点有内容就插入 where,否则不
-
-插入,trim 节点是用来判断如果动态语句是以 and 或 or 开始,那么会自动把这个 and 或者 or
-
-取掉。
-
-
-### 5、Hibernate 和 MyBatis 的区别
-
-**相同点**
-
-都是对jdbc的封装，都是持久层的框架，都用于dao层的开发。
-
-**不同点**
-
-映射关系
-
-MyBatis 是一个半自动映射的框架，配置Java对象与sql语句执行结果的对应关系，多表关联关系配置简单
-
-Hibernate 是一个全表映射的框架，配置Java对象与数据库表的对应关系，多表关联关系配置复杂
-
-**SQL优化和移植性**
-
-Hibernate 对SQL语句封装，提供了日志、缓存、级联（级联比 MyBatis 强大）等特性，此外还提供 HQL（Hibernate Query Language）操作数据库，数据库无关性支持好，但会多消耗性能。如果项目需要支持多种数据库，代码开发量少，但SQL语句优化困难。
-
-MyBatis 需要手动编写 SQL，支持动态 SQL、处理列表、动态生成表名、支持存储过程。开发工作量相对大些。直接使用SQL语句操作数据库，不支持数据库无关性，但sql语句优化容易。
+    <!–用result属性来映射非主键字段，property为实体类属性名，column为数据表中的属性–>
+    <result property = “orderno” column =”order_no”/>
+    <result property=”price” column=”order_price” />
+</reslutMap>
+```
 
 
-### 6、#{}和${}的区别是什么？
+### 3、Mybatis是如何将sql执行结果封装为目标对象并返回的？都有哪些映射形式？
 
-`#{}`是预编译处理，${}是字符串替换。
+第一种是使用`<resultMap>`标签，逐一定义数据库列名和对象属性名之间的映射关系。
 
-Mybatis在处理#{}时，会将sql中的#{}替换为?号，调用PreparedStatement的set方法来赋值；
+第二种是使用sql列的别名功能，将列的别名书写为对象属性名。
 
-Mybatis在处理$${}时，就是把$${}替换成变量的值。
-
-使用#{}可以有效的防止SQL注入，提高系统安全性。
+有了列名与属性名的映射关系后，Mybatis通过反射创建对象，同时使用反射给对象的属性逐一赋值并返回，那些找不到映射关系的属性，是无法完成赋值的。
 
 
-### 7、Mybatis的Xml映射文件中，不同的Xml映射文件，id是否可以重复？
+### 4、当实体类中的属性名和表中的字段名不一样 ，怎么办
 
-不同的Xml映射文件，如果配置了namespace，那么id可以重复；如果没有配置namespace，那么id不能重复；
+第1种： 通过在查询的SQL语句中定义字段名的别名，让字段名的别名和实体类的属性名一致。
 
-原因就是namespace+id是作为Map`<String, MapperStatement>`的key使用的，如果没有namespace，就剩下id，那么，id重复会导致数据互相覆盖。有了namespace，自然id就可以重复，namespace不同，namespace+id自然也就不同。
+```
+<select id="getOrder" parameterType="int" resultType="com.jourwon.pojo.Order">
+       select order_id id, order_no orderno ,order_price price form orders where order_id=#{id};
+</select>
+```
+
+第2种： 通过`<resultMap>`来映射字段名和实体类属性名的一一对应的关系。
+
+```
+<select id="getOrder" parameterType="int" resultMap="orderResultMap">
+    select * from orders where order_id=#{id}
+</select>
+    
+<resultMap type="com.jourwon.pojo.Order" id="orderResultMap">
+    <!–用id属性来映射主键字段–>
+    <id property="id" column="order_id">
+    
+    <!–用result属性来映射非主键字段，property为实体类属性名，column为数据库表中的属性–>
+    <result property ="orderno" column ="order_no"/>
+    <result property="price" column="order_price" />
+</reslutMap>
+```
 
 
-### 8、Mybatis是否可以映射Enum枚举类？
-### 9、什么是 MyBatis 的接口绑定,有什么好处？
-### 10、MyBatis和Hibernate的适用场景?
-### 11、Mybatis编程步骤 ？
-### 12、JDBC编程有哪些不足之处，MyBatis是如何解决的？
-### 13、MyBatis的功能架构是怎样的
-### 14、接口绑定有几种实现方式,分别是怎么实现的?
-### 15、Mybatis是如何进行分页的？分页插件的原理是什么？
-### 16、为什么说Mybatis是半自动ORM映射工具？它与全自动的区别在哪里？
-### 17、Mybatis的映射文件 ？
-### 18、Xml映射文件中，除了常见的select|insert|updae|delete标签之外，还有哪些标签？
-### 19、JDBC编程有哪些不足之处，Mybatis是如何解决这些问题的？
-### 20、Mybatis是如何将sql执行结果封装为目标对象并返回的？都有哪些映射形式？
-### 21、简述Mybatis的插件运行原理，以及如何编写一个插件。
-### 22、Mybatis是如何将sql执行结果封装为目标对象并返回的？都有哪些映射形式？
-### 23、MyBatis是什么？
-### 24、模糊查询like语句该怎么写
+### 5、使用Mybatis的mapper接口调用时候有哪些要求？
+
+**1、** Mapper接口方法名和Mapper.xml中定义的每个SQL的id相同；
+
+**2、** Mapper接口方法的输入参数类型和mapper.xml中定义的每个sqlparameterType类型相同
+
+**3、** Mapper接口方法的输入输出参数类型和mapper.xml中定义的每个sql的resultType的类型相同
+
+**4、** Mapper.xml文件中的namespace，就是接口的类路径。
+
+
+### 6、MyBatis框架适用场合：
+
+**1、** MyBatis专注于SQL本身，是一个足够灵活的DAO层解决方案。
+
+**2、** 对性能的要求很高，或者需求变化较多的项目，如互联网项目，MyBatis将是不错的选择。
+
+
+### 7、为什么需要预编译
+
+**定义：**
+
+SQL 预编译指的是数据库驱动在发送 SQL 语句和参数给 DBMS 之前对 SQL 语句进行编译，这样 DBMS 执行 SQL 时，就不需要重新编译。
+
+**为什么需要预编译**
+
+JDBC 中使用对象 PreparedStatement 来抽象预编译语句，使用预编译。预编译阶段可以优化 SQL 的执行。预编译之后的 SQL 多数情况下可以直接执行，DBMS 不需要再次编译，越复杂的SQL，编译的复杂度将越大，预编译阶段可以合并多次操作为一个操作。同时预编译语句对象可以重复利用。把一个 SQL 预编译后产生的 PreparedStatement 对象缓存下来，下次对于同一个SQL，可以直接使用这个缓存的 PreparedState 对象。Mybatis默认情况下，将对所有的 SQL 进行预编译。
+
+还有一个重要的原因，复制SQL注入
+
+
+### 8、什么是Mybatis？
+
+**1、** Mybatis是一个半ORM（对象关系映射）框架，它内部封装了JDBC，开发时只需要关注SQL语句本身，不需要花费精力去处理加载驱动、创建连接、创建statement等繁杂的过程。程序员直接编写原生态sql，可以严格控制sql执行性能，灵活度高。
+
+**2、** MyBatis 可以使用 XML 或注解来配置和映射原生信息，将 POJO映射成数据库中的记录，避免了几乎所有的 JDBC 代码和手动设置参数以及获取结果集。
+
+**3、** 通过xml 文件或注解的方式将要执行的各种 statement 配置起来，并通过java对象和 statement中sql的动态参数进行映射生成最终执行的sql语句，最后由mybatis框架执行sql并将结果映射为java对象并返回。（从执行sql到返回result的过程）。
+
+
+### 9、Mybatis是如何进行分页的？分页插件的原理是什么？
+
+Mybatis使用Row Bounds对象进行分页，它是针对Result Set结果集执行的内存分页，而非物理分页。可以在sql内直接书写带有物理分页的参数来完成物理分页功能，也可以使用分页插件来完成物理分页。
+
+分页原理：分页插件的基本原理是使用Mybatis提供的插件接口，实现自定义插件，在插件的拦截方法内拦截待执行的sql，然后重写sql，根据dialect方言，添加对应的物理分页语句和物理分页参数。
+
+
+### 10、Mybatis 都有哪些 Executor 执行器？它们之间的区别是什么？
+
+Mybatis 有三种基本的 Executor 执行器，SimpleExecutor、ReuseExecutor、
+
+BatchExecutor。1、SimpleExecutor：每执行一次 update 或 select，就开启一个 Statement 对
+
+象，用完立刻关闭 Statement 对象。2、ReuseExecutor：执行 update 或 select，以 sql 作为
+
+key 查找 Statement 对象，存在就使用，不存在就创建，用完后，不关闭 Statement 对象，
+
+而是放置于 Map3、BatchExecutor：完成批处理。
+
+
+### 11、MyBatis与Hibernate有哪些不同？
+### 12、讲下 MyBatis 的缓存
+### 13、MyBatis与Hibernate有哪些不同？
+### 14、Xml 映射文件中，除了常见的 select|insert|updae|delete 标签之外，还有哪些标签？
+### 15、如何获取自动生成的(主)键值?
+### 16、ORM是什么
+### 17、简述Mybatis的插件运行原理，以及如何编写一个插件。
+### 18、如何执行批量插入?
+### 19、模糊查询 like 语句该怎么写
+### 20、Mybatis的一级、二级缓存:
+### 21、Mybatis与Spring 的整合？
+### 22、resultType resultMap 的区别？
+### 23、在 mapper 中如何传递多个参数？
+### 24、Mybatis的表关联的映射？
 
 
 

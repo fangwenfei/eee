@@ -6,100 +6,138 @@
 
 
 
-### 1、SpringBoot集成mybatis的过程
+### 1、SpringBoot 的自动配置是如何实现的？
 
-添加mybatis的starter maven依赖
+SpringBoot 项目的启动注解是：@SpringBootApplication，其实它就是由下面三个注解组成的：
+
+**1、** [@Configuration ](/Configuration )
+
+**2、** [@ComponentScan ](/ComponentScan )
+
+**3、** @EnableAutoConfiguration
+
+其中 @EnableAutoConfiguration 是实现自动配置的入口，该注解又通过 [@Import ](/Import ) 注解导入了AutoConfigurationImportSelector，在该类中加载 META-INF/spring.factories 的配置信息。然后筛选出以 EnableAutoConfiguration 为 key 的数据，加载到 IOC 容器中，实现自动配置功能！
+
+
+### 2、能否举一个例子来解释更多 Staters 的内容？
+
+让我们来思考一个 Stater 的例子 -SpringBoot Stater Web。
+
+如果你想开发一个 web 应用程序或者是公开 REST 服务的应用程序。SpringBoot Start Web 是首选。让我们使用 Spring Initializr 创建一个 SpringBoot Start Web 的快速项目。
+
+**依赖项可以被分为：**
+
+**1、** Spring - core，beans，context，aop
+
+**2、** Web MVC - （Spring MVC）
+
+**3、** Jackson - for JSON Binding
+
+**4、** Validation - Hibernate,Validation API
+
+**5、** Enbedded Servlet Container - Tomcat
+
+**6、** Logging - logback,slf4j
+
+任何经典的 Web 应用程序都会使用所有这些依赖项。SpringBoot Starter Web 预先打包了这些依赖项。
+
+作为一个开发者，我不需要再担心这些依赖项和它们的兼容版本。
+
+
+### 3、什么是Spring Cloud Gateway?
+
+Spring Cloud Gateway是Spring Cloud官方推出的第二代网关框架，取代Zuul网关。网关作为流量的，在微服务系统中有着非常作用，网关常见的功能有路由转发、权限校验、限流控制等作用。
+
+使用了一个RouteLocatorBuilder的bean去创建路由，除了创建路由RouteLocatorBuilder可以让你添加各种predicates和filters，predicates断言的意思，顾名思义就是根据具体的请求的规则，由具体的route去处理，filters是各种过滤器，用来对请求做各种判断和修改。
+
+
+### 4、当 SpringBoot 应用程序作为 Java 应用程序运行时，后台会发生什么？
+
+如果你使用 Eclipse IDE，Eclipse maven 插件确保依赖项或者类文件的改变一经添加，就会被编译并在目标文件中准备好！在这之后，就和其它的 Java 应用程序一样了。
+
+当你启动 java 应用程序的时候，spring boot 自动配置文件就会魔法般的启用了。
+
+当 SpringBoot 应用程序检测到你正在开发一个 web 应用程序的时候，它就会启动 tomcat。
+
+
+### 5、我们如何监视所有 SpringBoot 微服务？
+
+SpringBoot 提供监视器端点以监控各个微服务的度量。这些端点对于获取有关应用程序的信息（如它们是否已启动）以及它们的组件（如数据库等）是否正常运行很有帮助。但是，使用监视器的一个主要缺点或困难是，我们必须单独打开应用程序的知识点以了解其状态或健康状况。想象一下涉及 50 个应用程序的微服务，管理员将不得不击中所有 50 个应用程序的执行终端。为了帮助我们处理这种情况，我们将使用位于的开源项目。它建立在 SpringBoot Actuator 之上，它提供了一个 Web UI，使我们能够可视化多个应用程序的度量。
+
+
+### 6、什么是嵌入式服务器？我们为什么要使用嵌入式服务器呢?
+
+思考一下在你的虚拟机上部署应用程序需要些什么。
+
+第一步：安装 Java
+
+第二部：安装 Web 或者是应用程序的服务器（Tomat/Wbesphere/Weblogic 等等）
+
+第三部：部署应用程序 war 包
+
+如果我们想简化这些步骤，应该如何做呢？
+
+让我们来思考如何使服务器成为应用程序的一部分？
+
+你只需要一个安装了 Java 的虚拟机，就可以直接在上面部署应用程序了，
+
+是不是很爽？
+
+这个想法是嵌入式服务器的起源。
+
+当我们创建一个可以部署的应用程序的时候，我们将会把服务器（例如，tomcat）嵌入到可部署的服务器中。
+
+例如，对于一个 SpringBoot 应用程序来说，你可以生成一个包含 Embedded Tomcat 的应用程序 jar。你就可以像运行正常 Java 应用程序一样来运行 web 应用程序了。
+
+嵌入式服务器就是我们的可执行单元包含服务器的二进制文件（例如，tomcat.jar）。
+
+
+### 7、注解原理是什么
+
+注解本质是一个继承了Annotation的特殊接口，其具体实现类是Java运行时生成的动态代理类。我们通过反射获取注解时，返回的是Java运行时生成的动态代理对象。通过代理对象调用自定义注解的方法，会最终调用AnnotationInvocationHandler的invoke方法。该方法会从memberValues这个Map中索引出对应的值。而memberValues的来源是Java常量池。
+
+
+### 8、Spring Cloud Consul
+
+基于Hashicorp Consul的服务治理组件。
+
+
+### 9、介绍一下 WebApplicationContext
+
+WebApplicationContext 继承了ApplicationContext 并增加了一些WEB应用必备的特有功能，它不同于一般的ApplicationContext ，因为它能处理主题，并找到被关联的servlet。
+
+
+
+
+### 10、如何理解 Spring 中的代理？
+
+将 Advice 应用于目标对象后创建的对象称为代理。在客户端对象的情况下，目标对象和代理对象是相同的。
 
 ```
-<dependency>
-    <groupId>org.mybatis.spring.boot</groupId>
-    <artifactId>mybatis-spring-boot-starter</artifactId>
-    <version>1.3.2</version>
-</dependency>
+Advice + Target Object = Proxy
 ```
 
-在mybatis的接口中 添加@Mapper注解
 
-在application.yml配置数据源信息
-
-
-### 2、SpringBoot 有哪几种读取配置的方式？
-
-SpringBoot 可以通过 @PropertySource,@Value,@Environment, @ConfigurationPropertie注解来绑定变量
-
-
-### 3、path=”users”, collectionResourceRel=”users” 如何与 Spring Data Rest 一起使用？
-
-path- 这个资源要导出的路径段。
-
-collectionResourceRel- 生成指向集合资源的链接时使用的 rel 值。在生成 HATEOAS 链接时使用。
-
-
-### 4、如何使用 SpringBoot 部署到不同的服务器？
-
-你需要做下面两个步骤：
-
-在一个项目中生成一个 war 文件。
-
-将它部署到你最喜欢的服务器（websphere 或者 Weblogic 或者 Tomcat and so on）。
-
-**第一步：**这本入门指南应该有所帮助：
-
-[https://spring.io/guides/gs/convert-jar-to-war/](https://spring.io/guides/gs/convert-jar-to-war/)
-
-**第二步：**取决于你的服务器。
-
-
-### 5、什么是Eureka
-
-Eureka作为SpringCloud的服务注册功能服务器，他是服务注册中心，系统中的其他服务使用Eureka的客户端将其连接到Eureka Service中，并且保持心跳，这样工作人员可以通过Eureka Service来监控各个微服务是否运行正常。
-
-
-### 6、什么是YAML？
-
-YAML是一种人类可读的数据序列化语言。它通常用于配置文件。
-
-与属性文件相比，如果我们想要在配置文件中添加复杂的属性，YAML文件就更加结构化，而且更少混淆。可以看出YAML具有分层配置数据。
-
-
-### 7、SpringBoot 的核心配置文件有哪几个？它们的区别是什么？
-
-SpringBoot 的核心配置文件是 application 和 bootstrap 配置文件。
-
-application 配置文件这个容易理解，主要用于 SpringBoot 项目的自动化配置。
-
-bootstrap 配置文件有以下几个应用场景。
-
-使用 Spring Cloud Config 配置中心时，这时需要在 bootstrap 配置文件中添加连接到配置中心的配置属性来加载外部配置中心的配置信息；
-
-一些固定的不能被覆盖的属性；
-
-一些加密/解密的场景；
-
-
-### 8、什么是基于Java的Spring注解配置? 给一些注解的例子.
-### 9、什么是代理?
-### 10、SpringBoot的自动配置原理是什么
-### 11、什么是YAML？
-### 12、链路跟踪Sleuth
-### 13、可以通过多少种方式完成依赖注入？
-### 14、您使用了哪些 starter maven 依赖项？
-### 15、哪种依赖注入方式你建议使用，构造器注入，还是 Setter方法注入？
-### 16、架构师在微服务架构中的角色是什么？
-### 17、为什么需要学习Spring Cloud
-### 18、SpringBoot 中如何解决跨域问题 ?
-### 19、SpringBoot 的核心注解是哪个？它主要由哪几个注解组成的？
-### 20、spring 支持集中 bean scope？
-### 21、Ribbon和Feign的区别？
-### 22、自动装配有哪些局限性 ?
-### 23、SpringBoot 支持哪些日志框架？推荐和默认的日志框架是哪个？
-### 24、Bean 工厂和 Application contexts 有什么区别？
-### 25、Spring MVC的优点
-### 26、微服务之间如何独立通讯的?
-### 27、@RequestMapping注解的作用
-### 28、解释AOP模块
-### 29、如何集成 SpringBoot 和 ActiveMQ？
-### 30、eureka和zookeeper都可以提供服务注册与发现的功能，请说说两个的区别？
+### 11、您将如何在微服务上执行安全测试？
+### 12、什么是微服务架构
+### 13、Spring MVC中函数的返回值是什么？
+### 14、Spring Framework 有哪些不同的功能？
+### 15、BeanFactory – BeanFactory 实现举例。
+### 16、什么是YAML？
+### 17、spring boot监听器流程?
+### 18、什么是 AOP什么是引入?
+### 19、如何在 SpringBoot 启动的时候运行一些特定的代码？
+### 20、spring boot 核心配置文件是什么？bootstrap、properties 和 application、properties 有何区别 ?
+### 21、什么是 SpringBoot Stater ？
+### 22、SpringBoot 自动配置原理
+### 23、什么是Semantic监控？
+### 24、什么是Spring MVC？简单介绍下你对Spring MVC的理解？
+### 25、微服务测试的主要障碍是什么？
+### 26、如何重新加载SpringBoot上的更改，而无需重新启动服务器？
+### 27、Spring MVC常用的注解有哪些？
+### 28、SpringBoot默认支持的日志框架有哪些？可以进行哪些设置？
+### 29、[@RequestMapping ](/RequestMapping ) 注解有什么用？
+### 30、22。你能否给出关于休息和微服务的要点？
 
 
 

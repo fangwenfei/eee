@@ -6,87 +6,126 @@
 
 
 
-### 1、说说核心的配置有哪些？
-| 配置 | 配置说明 |
-| --- | --- |
-| dubbo:service | 服务配置 |
-| dubbo:reference | 引用配置 |
-| dubbo:protocol | 协议配置 |
-| dubbo:application | 应用配置 |
-| dubbo:module | 模块配置 |
-| dubbo:registry | 注册中心配置 |
-| dubbo:monitor | 监控中心配置 |
-| dubbo:provider | 提供方配置 |
-| dubbo:consumer | 消费方配置 |
-| dubbo:method | 方法配置 |
-| dubbo:argument | 参数配置 |
+### 1、你觉得用 Dubbo 好还是 Spring Cloud 好？
+
+扩展性的问题，没有好坏，只有适合不适合，不过我好像更倾向于使用 Dubbo, Spring Cloud 版本升级太快，组件更新替换太频繁，配置太繁琐，还有很多我觉得是没有 Dubbo 顺手的地方。
 
 
+### 2、Dubbo Monitor 实现原理？
 
-### 2、同一个服务多个注册的情况下可以直连某一个服务吗？
+Consumer端在发起调用之前会先走filter链；provider端在接收到请求时也是先走filter链，然后才进行真正的业务逻辑处理。
 
-可以直连，修改配置即可，也可以通过 telnet 直接某个服务。
+默认情况下，在consumer和provider的filter链中都会有Monitorfilter。
 
+**1、** MonitorFilter向DubboMonitor发送数据
 
-### 3、Dubbo 集群容错有几种方案？
-| 集群容错方案 | 说明 |
-| --- | --- |
-| Failover Cluster | 失败自动切换，自动重试其它服务器（默认） |
-| Failfast Cluster | 快速失败，立即报错，只发起一次调用 |
-| Failsafe Cluster | 失败安全，出现异常时，直接忽略 |
-| Failback Cluster | 失败自动恢复，记录失败请求，定时重发 |
-| Forking Cluster | 并行调用多个服务器，只要一个成功即返回 |
-| Broadcast Cluster | 广播逐个调用所有提供者，任意一个报错则报错 |
+**2、** DubboMonitor将数据进行聚合后（默认聚合1min中的统计数据）暂存到ConcurrentMap<Statistics, AtomicReference> statisticsMap，然后使用一个含有3个线程（线程名字：DubboMonitorSendTimer）的线程池每隔1min钟，调用SimpleMonitorService遍历发送statisticsMap中的统计数据，每发送完毕一个，就重置当前的Statistics的AtomicReference
 
+**3、** SimpleMonitorService将这些聚合数据塞入BlockingQueue queue中（队列大写为100000）
+
+**4、** SimpleMonitorService使用一个后台线程（线程名为：DubboMonitorAsyncWriteLogThread）将queue中的数据写入文件（该线程以死循环的形式来写）
+
+**5、** SimpleMonitorService还会使用一个含有1个线程（线程名字：DubboMonitorTimer）的线程池每隔5min钟，将文件中的统计数据画成图表
 
 
-### 4、集群容错怎么做？
+### 3、RPC使用了哪些关键技术，从调用者的角度看：
+
+服务的调用者启动的时候根据自己订阅的服务向服务注册中心查找服务提供者的地址等信息；
+
+当服务调用者消费的服务上线或者下线的时候，注册中心会告知该服务的调用者；
+
+服务调用者下线的时候，则取消订阅。
+
+
+### 4、Dubbo 可以对结果进行缓存吗？
+
+为了提高数据访问的速度。Dubbo 提供了声明式缓存，以减少用户加缓存的工作量<dubbo:reference cache=“true” />
+
+其实比普通的配置文件就多了一个标签 cache=“true”
+
+
+### 5、Dubbo 用到哪些设计模式？
+
+Dubbo框架在初始化和通信过程中使用了多种设计模式，可灵活控制类加载、权限控制等功能。
+
+**工厂模式**
+
+Provider在export服务时，会调用ServiceConfig的export方法。ServiceConfig中有个字段：
+
+```java
+private static final Protocol protocol = ExtensionLoader.getExtensionLoader(Protocol.class).getAdaptiveExtension();
+```
+
+Dubbo里有很多这种代码。这也是一种工厂模式，只是实现类的获取采用了JDK SPI的机制。这么实现的优点是可扩展性强，想要扩展实现，只需要在classpath下增加个文件就可以了，代码零侵入。另外，像上面的Adaptive实现，可以做到调用时动态决定调用哪个实现，但是由于这种实现采用了动态代理，会造成代码调试比较麻烦，需要分析出实际调用的实现类。
+
+**装饰器模式**
+
+Dubbo在启动和调用阶段都大量使用了装饰器模式。以Provider提供的调用链为例，具体的调用链代码是在ProtocolFilterWrapper的buildInvokerChain完成的，具体是将注解中含有group=provider的Filter实现，按照order排序，最后的调用顺序是：
+
+```java
+EchoFilter -> ClassLoaderFilter -> GenericFilter -> ContextFilter -> ExecuteLimitFilter -> TraceFilter -> TimeoutFilter -> MonitorFilter -> ExceptionFilter
+```
+
+更确切地说，这里是装饰器和责任链模式的混合使用。例如，EchoFilter的作用是判断是否是回声测试请求，是的话直接返回内容，这是一种责任链的体现。而像ClassLoaderFilter则只是在主功能上添加了功能，更改当前线程的ClassLoader，这是典型的装饰器模式。
+
+**观察者模式**
+
+Dubbo的Provider启动时，需要与注册中心交互，先注册自己的服务，再订阅自己的服务，订阅时，采用了观察者模式，开启一个listener。注册中心会每5秒定时检查是否有服务更新，如果有更新，向该服务的提供者发送一个notify消息，provider接受到notify消息后，即运行NotifyListener的notify方法，执行监听器方法。
+
+**动态代理模式**
+
+Dubbo扩展JDK SPI的类ExtensionLoader的Adaptive实现是典型的动态代理实现。Dubbo需要灵活地控制实现类，即在调用阶段动态地根据参数决定调用哪个实现类，所以采用先生成代理类的方法，能够做到灵活的调用。生成代理类的代码是ExtensionLoader的createAdaptiveExtensionClassCode方法。代理类的主要逻辑是，获取URL参数中指定参数的值作为获取实现类的key。
+
+
+### 6、Dubbo 如何优雅停机？
+
+Dubbo 是通过 JDK 的 ShutdownHook 来完成优雅停机的，所以如果使用kill -9 PID 等强制关闭指令，是不会执行优雅停机的，只有通过 kill PID 时，才会执行。
+
+
+### 7、RPC使用了哪些关键技术，NIO通信
+
+出于并发性能的考虑，传统的阻塞式 IO 显然不太合适，因此我们需要异步的 IO，即 NIO。Java 提供了 NIO 的解决方案，Java 7 也提供了更优秀的 NIO.2 支持。可以选择Netty或者MINA来解决NIO数据传输的问题。
+
+
+### 8、在使用过程中都遇到了些什么问题？
+
+如序列化问题。
+
+
+### 9、集群容错怎么做？
 
 读操作建议使用 Failover 失败自动切换，默认重试两次其他服务器。写操作建议使用 Failfast 快速失败，发一次调用失败就立即报错。
 
 
-### 5、服务上线怎么兼容旧版本？
+### 10、Dubbo 超时时间怎样设置？
 
-可以用版本号（version）过渡，多个不同版本的服务注册到注册中心，版本号不同的服务相互间不引用。这个和服务分组的概念有一点类似。
+Dubbo 超时时间设置有两种方式：
 
+服务提供者端设置超时时间，在 Dubbo 的用户文档中，推荐如果能在服务端多配置就尽量多配置，因为服务提供者比消费者更清楚自己提供的服务特性。
 
-### 6、为什么要用Dubbo？
-
-随着服务化的进一步发展，服务越来越多，服务之间的调用和依赖关系也越来越复杂，诞生了面向服务的架构体系(SOA)，
-
-也因此衍生出了一系列相应的技术，如对服务提供、服务调用、连接处理、通信协议、序列化方式、服务发现、服务路由、日志输出等行为进行封装的服务框架。
-
-就这样为分布式系统的服务治理框架就出现了，Dubbo也就这样产生了。
+服务消费者端设置超时时间，如果在消费者端设置了超时时间，以消费者端为主，即优先级更高。因为服务调用方设置超时时间控制性更灵活。如果消费方超时，服务端线程不会定制，会产生警告。
 
 
-### 7、如何解决服务调用链过长的问题？
-
-可以结合zipkin实现分布式服务追踪。
-
-
-### 8、Dubbo 的注册中心集群挂掉，者和订阅者之间还能通信么？
-### 9、在使用过程中都遇到了些什么问题？
-### 10、你还了解别的分布式框架吗？
-### 11、服务调用是阻塞的吗？
-### 12、Dubbo 用到哪些设计模式？
-### 13、RPC使用了哪些关键技术，NIO通信
-### 14、Dubbo 使用过程中都遇到了些什么问题？
-### 15、Dubbo 服务器注册与发现的流程？
-### 16、Dubbo 核心功能有哪些？
-### 17、服务提供者能实现失效踢出是什么原理？
-### 18、Dubbo 超时设置有哪些方式？
-### 19、Dubbo 推荐什么协议？
-### 20、Dubbo 集群的负载均衡有哪些策略
-### 21、dubbo和dubbox之间的区别？
-### 22、默认使用什么序列化框架，你知道的还有哪些？
-### 23、Dubbo 和 Spring Cloud 有什么关系？
-### 24、Dubbo的管理控制台能做什么？
-### 25、Dubbo支持服务多协议吗？
-### 26、Dubbo 支持哪些协议，它们的优缺点有哪些？
-### 27、RPC使用了哪些关键技术，服务注册中心
-### 28、Dubbo 的默认集群容错方案？
-### 29、Dubbo 和 Dubbox 之间的区别？
-### 30、Dubbo 如何优雅停机？
+### 11、说说 Dubbo 服务暴露的过程。
+### 12、注册了多个同一样的服务，如果测试指定的某一个服务呢？
+### 13、Dubbo 服务降级，失败重试怎么做？
+### 14、说说核心的配置有哪些？
+### 15、RPC使用了哪些关键技术，Dubbo
+### 16、服务上线怎么不影响旧版本？
+### 17、dubbo推荐用什么协议？
+### 18、Dubbo 支持服务降级吗？
+### 19、Dubbo的集群容错方案有哪些？
+### 20、dubbo 推荐用什么协议？
+### 21、Dubbo 的主要应用场景？
+### 22、集群容错怎么做？
+### 23、Dubbo 支持哪些协议，每种协议的应用场景，优缺点？
+### 24、RPC使用了哪些关键技术，建立通信
+### 25、RPC使用了哪些关键技术，动态代理
+### 26、服务调用超时会怎么样？
+### 27、Dubbo支持服务多协议吗？
+### 28、dubbo 服务负载均衡策略？
+### 29、dubbo 连接注册中心和直连的区别
+### 30、Dubbo 配置文件是如何加载到 Spring 中的？
 
 
 

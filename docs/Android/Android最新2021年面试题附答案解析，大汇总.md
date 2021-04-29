@@ -6,136 +6,122 @@
 
 
 
-### 1、请描述一下 Intent 和 IntentFilter
+### 1、谈谈你在工作中是怎样解决一个 bug
 
-```
-Intent是组件的通讯使者，可以在组件间传递消息和数据。
-IntentFilter是intent的筛选器，可以对intent的action，data，catgory，uri这些属性进行筛选，确定符合的目标组件。
-```
+**1、** 异常附近多打印 log 信息；
 
+**2、** 分析 log 日志，实在不行的话进行断点调试；
 
-### 2、启动一个程序，可以主界面点击图标进入，也可以从一个程序中跳转过去，二者有什么区别？
+**3、** 调试不出结果，上 Stack Overflow 贴上异常信息，请教大牛
 
-通过主界面进入，就是设置默认启动的activity。在manifest.xml文件的activity标签中，写以下代码
+**4、** 再多看看代码，或者从源代码中查找相关信息
 
-```
-<intent- filter>
-<intent android:name=“android.intent.action.MAIN”>
-<intent android:name=”android:intent.category.LAUNCHER”>
-</intent-filter>
-```
-
-从另一个组件跳转到目标activity，需要通过intent进行跳转。具体
-
-```
-Intent intent=new Intent(this,activity.class),startActivity(intent)
-```
+**5、** 实在不行就 GG 了，找师傅来解决！
 
 
-### 3、Serializable 和 Parcelable 的区别？
+### 2、Android 判断SD卡是否存在
 
-如果存储在内存中，推荐使用parcelable，使用serialiable在序列化的时候会产生大量的临时变量，会引起频繁的GC
-
-如果存储在硬盘上，推荐使用Serializable，虽然serializable效率较低
-
-Serializable的实现：只需要实现Serializable接口，就会自动生成一个序列化id
-
-Parcelable的实现：需要实现Parcelable接口，还需要Parcelable.CREATER变量
+首先要在AndroidManifest.xml中增加SD卡访问权限
 
 
-### 4、广播注册
+### 3、Android dvm的进程和Linux的进程, 应用程序的进程是否为同一个概念
 
-首先写一个类要继承BroadCastReceiver
-
-第一种：在清单文件中声明，添加
-
-```
-<receive android:name=".BroadCastReceiverDemo">
-<intent-filter>
-<action android:name="android.provider.Telephony.SMS_RECEIVED">
-</intent-filter>
-</receiver>
-```
-
-第二种：使用代码进行注册如：
-
-```
-IntentFilter filter = new IntentFilter("android.provider.Telephony.SMS_RECEIVED");
-BroadCastReceiverDemo receiver = new BroadCastReceiver();
-registerReceiver(receiver, filter);
-```
-
-两种注册类型的区别是：
-
-a.第一种是常驻型广播，也就是说当应用程序关闭后，如果有信息广播来，程序也会被系统调用自动运行。
-
-b.第二种不是常驻广播，也就是说广播跟随程序的生命周期。
+DVM指dalivk的虚拟机。每一个Android应用程序都在它自己的进程中运行，都拥有一个独立的Dalvik虚拟机实例。而每一个DVM都是在Linux 中的一个进程，所以说可以认为是同一个概念。
 
 
-### 5、View和SurfaceView的区别
+### 4、9.进程和线程的区别
 
-View基于主线程刷新UI，SurfaceView子线程又可以刷新UI
+概念：进程包括多个线程，一个程序一个进程，多线程的优点可以提高执行效率，提高资源利用率
 
+创建：Thread类和Runnable接口
 
-### 6、Fragment 在你们项目中的使用
+**常用方法有：**
 
-Fragment 是 android3.0 以后引入的的概念，做局部内容更新更方便，原来为了到达这一点要把多个布局放到一个 activity 里面，现在可以用多 Fragment 来代替，只有在需要的时候才加载Fragment，提高性能。
+**1、** start()用于启动线程
 
-**Fragment 的好处：**
+**2、** run()调用线程对象中的run方法
 
-**1、** Fragment 可以使你能够将 activity 分离成多个可重用的组件，每个都有它自己的生命周期和UI。
+**3、** join()合并插队到当前线程
 
-**2、** Fragment 可以轻松得创建动态灵活的 UI 设计，可以适应于不同的屏幕尺寸。从手机到平板电脑。
+**4、** sellp()睡眠释放cpu资源
 
-**3、** Fragment 是一个独立的模块,紧紧地与 activity 绑定在一起。可以运行中动态地移除、加入、交换等。
-
-**4、** Fragment 提供一个新的方式让你在不同的安卓设备上统一你的 UI。
-
-**5、** Fragment 解决 Activity 间的切换不流畅，轻量切换。
-
-**6、** Fragment 替代 TabActivity 做导航，性能更好。
-
-**7、** Fragment 在 4.2.版本中新增嵌套 fragment 使用方法，能够生成更好的界面效果。
+**5、** setPriority()设置线程优先级
 
 
-### 7、为什么Android引入广播机制?
+### 5、Activity间通过Intent传递数据大小有没有限制？
 
-**1、** 从MVC的角度考虑(应用程序内) 其实回答这个问题的时候还可以这样问，android为什么要有那4大组件，现在的移动开发模型基本上也是照搬的web那一套MVC架构，只不过是改了点嫁妆而已。
-
-**2、** android的四大组件本质上就是为了实现移动或者说嵌入式设备上的MVC架构
-
-**3、** 它们之间有时候是一种相互依存的关系，有时候又是一种补充关系，引入广播机制可以方便几大组件的信息和数据交互。
-
-**4、** 程序间互通消息(例如在自己的应用程序内监听系统来电)
-
-**5、** 效率上(参考UDP的广播协议在局域网的方便性)
-
-**6、** 设计模式上(反转控制的一种应用，类似监听者模式)
+Intent在传递数据时是有大小限制的，这里官方并未详细说明，不过通过实验的方法可以测出数据应该被限制在1MB之内（1024KB），笔者采用的是传递Bitmap的方法，发现当图片大小超过1024（准确地说是1020左右）的时候，程序就会出现闪退、停止运行等异常(不同的手机反应不同)，因此可以判断Intent的传输容量在1MB之内。
 
 
-### 8、请解释下 Android 程序运行时权限与文件系统权限的区别？
-### 9、子线程发消息到主线程进行更新 UI，除了 handler 和 AsyncTask，还有什么？
-### 10、Android与服务器交互的方式中的对称加密和非对称加密是什么?
-### 11、说说 ContentProvider、ContentResolver、ContentObserver 之间的关系
-### 12、如果有个100M大的文件，需要上传至服务器中，而服务器form表单最大只能上传2M，可以用什么方法。
-### 13、ListView 中图片错位的问题是如何产生的
-### 14、横竖屏切换的Activity 生命周期变化？
-### 15、Android中的ANR
-### 16、说说 LruCache 底层原理
-### 17、SQLite支持事务吗?添加删除如何提高性能?
-### 18、Android中touch事件的传递机制是怎样的?
-### 19、AsyncTask使用在哪些场景？它的缺陷是什么？如何解决？
-### 20、Android 线程间通信有哪几种方式（重要）
-### 21、View
-### 22、如何对 Android 应用进行性能分析
-### 23、ListView优化
-### 24、android中的动画有哪几类，它们的特点和区别是什么
-### 25、什么是 IntentService？有何优点？
-### 26、activity，service，intent之间的关系
-### 27、DDMS和TraceView的区别?
-### 28、如果后台的Activity由于某原因被系统回收了，如何在被系统回收之前保存当前状态？
-### 29、Service 里面可以弹吐司么
-### 30、如何修改 Activity 进入和退出动画
+### 6、跨进程通信的几种方式
+
+Intent,比如拨打电话
+
+ContentProvider数据库存储数据
+
+Broadcast广播通信
+
+AIDL通信，通过接口共享数据
+
+
+### 7、View的绘制原理
+
+View为所有图形控件的基类，View的绘制由3个函数完成
+
+measure,计算视图的大小
+
+layout,提供视图要显示的位置
+
+draw,绘制
+
+
+### 8、什么是嵌入式实时操作系统, Android 操作系统属于实时操作系统吗?
+
+嵌入式实时操作系统是指当外界事件或数据产生时，能够接受并以足够快的速度予以处理，其处理的结果又能在规定的时间之内来控制生产过程或对处理系统作出快速响应，并控制所有实时任务协调一致运行的嵌入式操作系统。主要用于工业控制、 军事设备、 航空航天等领域对系统的响应时间有苛刻的要求，这就需要使用实时系统。又可分为软实时和硬实时两种，而android是基于linux内核的，因此属于软实时。
+
+
+### 9、SurfaceView
+
+基于view视图进行拓展的视图类，更适合2D游戏的开发，是view的子类，类似使用双缓机制，在新的线程中更新画面所以刷新界面速度比view快
+
+
+### 10、怎样对 android 进行优化？
+
+**1、** 对 listview 的优化。
+
+**2、** 对图片的优化。
+
+**3、** 对内存的优化。
+
+**4、** 具体一些措施
+
+**5、** 尽量不要使用过多的静态类 static
+
+**6、** 数据库使用完成后要记得关闭 cursor
+
+**7、** 广播使用完之后要注销
+
+
+### 11、Android中常用布局
+### 12、说下 Activity 跟 跟 window ， view 之间的关系？
+### 13、jni 的调用过程?
+### 14、activity的启动模式有哪些？是什么含义
+### 15、sim卡的EF 文件有何作用
+### 16、Android 应用中验证码登陆都有哪些实现方案
+### 17、recyclerView嵌套卡顿解决如何解决
+### 18、如何提升Service进程优先级
+### 19、activity的生命周期
+### 20、请描述下Activity的生命周期。
+### 21、View和SurfaceView的区别
+### 22、子线程发消息到主线程进行更新 UI，除了 handler 和 AsyncTask，还有什么？
+### 23、都使用过哪些自定义控件
+### 24、请解释下Android程序运行时权限与文件系统权限的区别。
+### 25、补间动画
+### 26、AsyncTask
+### 27、如何在 ScrollView 中如何嵌入 ListView
+### 28、Fragment 如何实现类似 Activity 栈的压栈和出栈效果的？
+### 29、如何将打开res aw目录中的数据库文件?
+### 30、ListView优化
 
 
 

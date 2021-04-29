@@ -6,33 +6,7 @@
 
 
 
-### 1、$$('div+.ab')和$$('.ab+div') 哪个效率高？
-
-$('div+.ab')效率高
-
-
-### 2、几种基本数据类型?复杂数据类型?值类型和引用数据类型?堆栈数据结构
-
-**1、** 基本数据类型：Undefined、Null、Boolean、Number、String
-
-**2、** 值类型：数值、布尔值、null、undefined。
-
-**3、** 引用类型：对象、数组、函数。
-
-**4、** 堆栈数据结构：是一种支持后进先出(LIFO)的集合,即后被插入的数据,先被取出!
-
-**5、** js数组中提供了以下几个方法可以让我们很方便实现堆栈：
-
-**6、** shift:从数组中把第一个元素删除，并返回这个元素的值。
-
-**7、** unshift: 在数组的开头添加一个或更多元素，并返回新的长度
-
-**8、** push:在数组的中末尾添加元素，并返回新的长度
-
-**9、** pop:从数组中把最后一个元素删除，并返回这个元素的值。
-
-
-### 3、模块化开发怎么做？
+### 1、模块化开发怎么做？
 
 立即执行函数,不暴露私有成员
 
@@ -53,30 +27,142 @@ var module1 = (function(){
 ```
 
 
-### 4、什么是高阶函数？
+### 2、vue、react、angular
 
-**高阶函数只是将函数作为参数或返回值的函数。**
+**`Vue.js`**
 
-`function higherOrderFunction(param,callback){ return callback(param); }`
+一个用于创建 `web` 交互界面的库，是一个精简的 `MVVM`。它通过双向数据绑定把 `View` 层和 `Model` 层连接了起来。实际的 `DOM` 封装和输出格式都被抽象为了`Directives` 和 `Filters`
 
+**`AngularJS`**
 
-### 5、JavaScript提供了哪几种“异步模式”？
+是一个比较完善的前端`MVVM`框架，包含模板，数据双向绑定，路由，模块化，服务，依赖注入等所有功能，模板功能强大丰富，自带了丰富的 `Angular`指令
 
-**1、** 回调函数（callbacks）
+**`react`**
 
-**2、** 事件监听
-
-**3、** Promise对象
-
-
-### 6、JavaScript原型，原型链 ? 有什么特点？
-
-在JavaScript中,一共有两种类型的值,原始值和对象值.每个对象都有一个内部属性[[prototype]],我们通常称之为原型.原型的值可以是一个对象,也可以是null.如果它的值是一个对象,则这个对象也一定有自己的原型.这样就形成了一条线性的链,我们称之为原型链、
-
-访问一个对象的原型可以使用ES5中的Object.getPrototypeOf方法,或者ES6中的__proto__属性、原型链的作用是用来实现继承,比如我们新建一个数组,数组的方法就是从数组的原型上继承而来的。
+`React` 仅仅是 `VIEW` 层是`facebook`公司。推出的一个用于构建`UI`的一个库，能够实现服务器端的渲染。用了`virtual dom`，所以性能很好。
 
 
-### 7、undefined 和 null 有什么区别？
+### 3、什么是 `async/await` 及其如何工作？
+
+`async/await`是 JS 中编写异步或非阻塞代码的新方法。它建立在**Promises**之上，让异步代码的可读性和简洁度都更高。
+
+`async/await`是 JS 中编写异步或非阻塞代码的新方法。它建立在`Promises`之上，相对于 Promise 和回调，它的可读性和简洁度都更高。但是，在使用此功能之前，我们必须先学习`Promises`的基础知识，因为正如我之前所说，它是基于`Promise`构建的，这意味着幕后使用仍然是**Promise**。
+
+**使用 Promise**
+
+```
+function callApi() {
+  return fetch("url/to/api/endpoint")
+    .then(resp => resp.json())
+    .then(data => {
+      //do something with "data"
+    }).catch(err => {
+      //do something with "err"
+    });
+}
+```
+
+**使用async/await**
+
+在`async/await`，我们使用 tru/catch 语法来捕获异常。
+
+```
+async function callApi() {
+ try {
+   const resp = await fetch("url/to/api/endpoint");
+   const data = await resp.json();
+   //do something with "data"
+ } catch (e) {
+   //do something with "err"
+ }
+}
+```
+
+**注意**:使用 `async`关键声明函数会隐式返回一个**Promise**。
+
+```
+const giveMeOne = async () => 1;
+giveMeOne()
+  .then((num) => {
+    console.log(num); // logs 1
+  });
+```
+
+**注意:**`await`关键字只能在`async function`中使用。在任何非**async function**的函数中使用`await`关键字都会抛出错误。`await`关键字在执行下一行代码之前等待右侧表达式(可能是一个**Promise**)返回。
+
+```
+const giveMeOne = async () => 1;
+
+function getOne() {
+  try {
+    const num = await giveMeOne();
+    console.log(num);
+  } catch (e) {
+    console.log(e);
+  }
+}
+
+// Uncaught SyntaxError: await is only valid in async function
+
+async function getTwo() {
+  try {
+    const num1 = await giveMeOne(); // 这行会等待右侧表达式执行完成
+    const num2 = await giveMeOne(); 
+    return num1 + num2;
+  } catch (e) {
+    console.log(e);
+  }
+}
+
+await getTwo(); // 2
+```
+
+
+### 4、实现异步的方式有哪些？
+
+**1、** 回调函数模式：将需要异步执行的函数作为回调函数执行，其缺点在于处理复杂逻辑异步逻辑时，会造成回调地狱(回调嵌套层数太多，代码结构混乱)；
+
+**2、** 事件监听模式：采用事件驱动的思想，当某一事件发生时触发执行异步函数，其缺点在于整个代码全部得变为事件驱动模式，难以分辨主流程；
+
+**3、** 发布订阅模式：当异步任务执行完成时发布消息给信号中心，其他任务通过在信号中心中订阅消息来确定自己是否开始执行；
+
+**4、** Promise(ES6)：`Promise`对象共有三种状态`pending`(初始化状态)、`fulfilled`(成功状态)、`rejected`(失败状态)。
+
+**5、** async/await(ES7)：基于`Promise`实现的异步函数； （6）利用生成器实现。
+
+
+### 5、JavaScript有几种类型的值？，你能画一下他们的内存图吗？
+
+**1、** 栈：原始数据类型（`Undefined`，`Null`，`Boolean`，`Numbe`r、`String`）
+
+**2、** 堆：引用数据类型（对象、数组和函数）
+
+**3、** 两种类型的区别是：存储位置不同；
+
+**4、** 原始数据类型直接存储在栈(`stack`)中的简单数据段，占据空间小、大小固定，属于被频繁使用数据，所以放入栈中存储；
+
+**5、** 引用数据类型存储在堆(`heap`)中的对象,占据空间大、大小不固定,如果存储在栈中，将会影响程序运行的性能；引用数据类型在栈中存储了指针，该指针指向堆中该实体的起始地址。当解释器寻找引用值时，会首先检索其
+
+**6、** 在栈中的地址，取得地址后从堆中获得实体
+
+![33_1.png][33_1.png]
+
+
+### 6、介绍js的基本数据类型
+
+`Undefined`、`Null`、`Boolean`、`Number`、`String`
+
+
+### 7、eval是做什么的？
+
+**1、** 它的功能是把对应的字符串解析成`JS`代码并运行
+
+**2、** 应该避免使用`eval`，不安全，非常耗性能（`2`次，一次解析成`js`语句，一次执行）
+
+**3、** 由`JSON`字符串转换为JSON对象的时候可以用`eval，var obj =eval('('+ str +')')`
+
+
+### 8、undefined 和 null 有什么区别？
 
 在理解 `undefined` 和 `null` 的差异之前，我们先来看看它们的相似点。
 
@@ -134,28 +220,71 @@ console.log(null === undefined); // false
 ```
 
 
-### 8、window.onload ==? DOMContentLoaded ?
-### 9、什么是事件捕获？
+### 9、事件委托？有什么好处?
+
+利用冒泡的原理，把事件加到父级上，触发执行效果
+
+好处：新添加的元素还会有之前的事件；提高性能。
+
+
 ### 10、什么是AJAX？如何实现？
-### 11、如何使用storage 对js文件进行缓存
-### 12、split() join()?
-### 13、sessionStorage和localstroage与cookie之间有什么关联, cookie最大存放多少字节
-### 14、eval是做什么的？
-### 15、readystate 0~4
-### 16、你对数据校验是怎么样处理的？jquery.validate？
-### 17、函数表达式和函数声明之间有什么区别？
-### 18、谈谈你对webpack的看法
-### 19、实现继承的方法有哪些？？？
-### 20、`in` 运算符和 `Object.hasOwnProperty` 方法有什么区别？
-### 21、什么是函数式编程? JavaScript 的哪些特性使其成为函数式语言的候选语言？
-### 22、手动实现`Array.prototype.filter`方法
-### 23、$$.map和$$.each有什么区别###
-### 24、请解释什么是事件代理
-### 25、对象的 prototype(原型) 是什么？
-### 26、vue、react、angular
-### 27、30.Jq中怎么样编写插件?
-### 28、html和xhtml有什么区别?
-### 29、怎么理解Promise对象？
+
+`ajax`是一种能够实现局部网页刷新的技术，可以使网页异步刷新。
+
+`ajax`的实现主要包括四个步骤：
+
+**1、** 创建核心对象`XMLhttpRequest`；
+
+**2、** 利用`open`方法打开与服务器的连接；
+
+**3、** 利用`send`方法发送请求；（"POST"请求时，还需额外设置请求头）
+
+**4、** 监听服务器响应，接收返回值。
+
+```
+//1-创建核心对象
+//该对象有兼容问题，低版本浏览器应使用ActiveXObject
+const xthhp = new XMLHttpRequest();
+//2-连接服务器
+//open(method,url,async)
+xhttp.open("POST", "http://localhost:3000", true)
+//设置请求头
+xmlHttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded")；
+//3-发送请求
+//send方法发送请求参数，如为GET方法，则在open中url后拼接
+xhttp.send({
+    _id: 123
+})
+//4-接收服务器响应
+//onreadystatechange事件，会在xhttp的状态发生变化时自动调用
+xhttp.onreadystatechange = function() {
+    //状态码共5种：0-未open  1-已open  2-已send  3-读取响应  4-响应读取结束
+    if (xhttp.readyState == 4 && xhttp.status == 200) {
+        alert("ajax请求已完成")
+    }
+}
+```
+
+
+### 11、什么是执行上下文和执行栈？
+### 12、如何检查对象中是否存在某个属性？
+### 13、$$.map和$$.each有什么区别###
+### 14、简述下工作流程###
+### 15、defer和async
+### 16、'use strict' 是干嘛用的？
+### 17、split() join()?
+### 18、介绍js有哪些内置对象？
+### 19、什么是构造函数？与普通函数有什么区别?
+### 20、什么是移动端的300ms延迟？什么是点击穿透？解决方案?
+### 21、上一个项目是什么？主要负责哪些？购物车流程?支付功能?
+### 22、如何在不使用`%`模运算符的情况下检查一个数字是否是偶数？
+### 23、Jq中 attr 和 prop 有什么区别###
+### 24、那些操作会造成内存泄漏？
+### 25、如何理解同步和异步？
+### 26、JS是如何实现异步的？
+### 27、call和apply 有什么好处？
+### 28、AJAX 是什么？
+### 29、什么是箭头函数？
 
 
 

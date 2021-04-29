@@ -6,7 +6,39 @@
 
 
 
-### 1、eureka服务注册与发现原理
+### 1、SpringBoot运行项目的几种方式？
+
+打包用命令或者放到容器中运行
+
+**1、** 打成jar包，使用java -jar xxx.jar运行
+
+**2、** 打成war包，放到tomcat里面运行
+
+直接用maven插件运行   maven spring-boot：run
+
+直接执行main方法运行
+
+
+### 2、IOC的优点是什么？
+
+IOC 或 依赖注入把应用的代码量降到最低。它使应用容易测试，单元测试不再需要单例和JNDI查找机制。最小的代价和最小的侵入性使松散耦合得以实现。IOC容器支持加载服务时的饿汉式初始化和懒加载。
+
+
+### 3、在Spring MVC应用程序中使用WebMvcTest注释有什么用处？
+
+WebMvcTest注释用于单元测试Spring MVC应用程序。我们只想启动ToTestController。执行此单元测试时，不会启动所有其他控制器和映射。
+
+```
+@WebMvcTest(value = ToTestController.class, secure = false):
+```
+
+
+### 4、什么是Spring Cloud？
+
+根据Spring Cloud的官方网站，Spring Cloud为开发人员提供了快速构建分布式系统中一些常见模式的工具（例如配置管理，服务发现，断路器，智能路由，领导选举，分布式会话，集群状态）。
+
+
+### 5、eureka服务注册与发现原理
 
 **1、** 每30s发送⼼跳检测重新进⾏租约，如果客户端不能多次更新租约，它将在90s内从服务器注册中⼼移除。
 
@@ -17,103 +49,66 @@
 ![](https://gitee.com/souyunkutech/souyunku-home/raw/master/images/souyunku-web/2020/5/2/01/44/45_4.png#alt=45%5C_4.png)
 
 
-### 2、RequestMapping 和 GetMapping 的不同之处在哪里？
+### 6、SpringBoot 配置文件的加载顺序
 
-RequestMapping 具有类属性的，可以进行 GET,POST,PUT 或者其它的注释中具有的请求方法。
+由jar包外向jar包内进行寻找;
 
-GetMapping 是 GET 请求方法中的一个特例。它只是 ResquestMapping 的一个延伸，目的是为了提高清晰度。
+优先加载带profile
 
+jar包外部的application-{profile}.properties或application.yml(带spring.profile配置文件
 
-### 3、spring 提供了哪些配置方式？
+jar包内部的application-{profile}.properties或application.yml(带spring.profile配置文件
 
-基于 xml 配置
+再来加载不带profile
 
-bean 所需的依赖项和服务在 XML 格式的配置文件中指定。这些配置文件通常包含许多 bean 定义和特定于应用程序的配置选项。它们通常以 bean 标签开头。例如：
+jar包外部的application.properties或application.yml(不带spring.profile配置文件
 
-```
-<bean id="studentbean" class="org.edureka.firstSpring.StudentBean">
- <property name="name" value="Edureka"></property>
-</bean>
-```
-
-基于注解配置
-
-您可以通过在相关的类，方法或字段声明上使用注解，将 bean 配置为组件类本身，而不是使用 XML 来描述 bean 装配。默认情况下，Spring 容器中未打开注解装配。因此，您需要在使用它之前在 Spring 配置文件中启用它。例如：
-
-```
-<beans>
-<context:annotation-config/>
-<!-- bean definitions go here -->
-</beans>
-```
-
-基于 Java API 配置
-
-Spring 的 Java 配置是通过使用 [@Bean ](/Bean ) 和 [@Configuration ](/Configuration ) 来实现。
-
-**1、**   [@Bean ](/Bean ) 注解扮演与 `<bean/>` 元素相同的角色。
-
-**2、**   [@Configuration ](/Configuration ) 类允许通过简单地调用同一个类中的其他 [@Bean ](/Bean ) 方法来定义 bean 间依赖关系。
-
-例如：
-
-```
-@Configuration
-public class StudentConfig {
-    @Bean
-    public StudentBean myStudent() {
-        return new StudentBean();
-    }
-}
-```
+jar包内部的application.properties或application.yml(不带spring.profile配置文件
 
 
-### 4、SpringCloud Config 可以实现实时刷新吗？
+### 7、什么是 spring 装配
 
-springcloud config实时刷新采用SpringCloud Bus消息总线。
+当 bean 在 Spring 容器中组合在一起时，它被称为装配或 bean 装配。Spring 容器需要知道需要什么 bean 以及容器应该如何使用依赖注入来将 bean 绑定在一起，同时装配 bean。
 
 
-### 5、怎么样把ModelMap里面的数据放入Session里面？
+### 8、为什么要用SpringBoot
+
+快速开发，快速整合，配置简化、内嵌服务容器
+
+
+### 9、怎么样把ModelMap里面的数据放入Session里面？
 
 
 
 可以在类上面加上@SessionAttributes注解,里面包含的字符串就是要放入session里面的key。
 
 
-### 6、分布式配置中心有那些框架？
+### 10、什么是微服务架构中的DRY？
 
-Apollo、zookeeper、springcloud config。
-
-
-### 7、怎样开启注解装配？
-
-注解装配在默认情况下是不开启的，为了使用注解装配，我们必须在Spring配置文件中配置 [context:annotation-config/]()元素。
+DRY代表不要重复自己。它基本上促进了重用代码的概念。这导致开发和共享库，这反过来导致紧密耦合。
 
 
-### 8、SpringBoot的启动器有哪几种?
-### 9、微服务之间是如何独⽴通讯的
-### 10、SpringBoot 的配置文件有哪几种格式？它们有什么区别？
-### 11、如何使用SpringBoot实现异常处理？
-### 12、缓存机制：
-### 13、你对SpringBoot有什么了解？
-### 14、什么是Swagger？你用SpringBoot实现了它吗？
-### 15、微服务限流 dubbo限流：dubbo提供了多个和请求相关的filter：ActiveLimitFilter ExecuteLimitFilter TPSLimiterFilter
-### 16、什么是Spring MVC？简单介绍下你对Spring MVC的理解？
-### 17、SpringCloud的优缺点
-### 18、什么是Spring Cloud Zuul（服务网关）
-### 19、SpingMvc中的控制器的注解一般用哪个,有没有别的注解可以替代？
-### 20、SpringBoot、Spring MVC 和 Spring 有什么区别？
-### 21、保护 SpringBoot 应用有哪些方法？
-### 22、SpringBoot、Spring MVC 和 Spring 有什么区别？
-### 23、什么是自动配置？
-### 24、什么是断路器
-### 25、如何配置SpringBoot应用程序日志记录？
-### 26、列举 spring 支持的事务管理类型
-### 27、如果在拦截请求中，我想拦截get方式提交的方法,怎么配置
-### 28、什么是Spring MVC框架的控制器？
-### 29、可以在SpringBoot application中禁用默认的Web服务器吗？
-### 30、Springboot 有哪些优点？
-### 31、SpringBoot性能如何优化
+### 11、使用Spring Cloud有什么优势？
+### 12、负载平衡的意义什么？
+### 13、SpringBoot 中的 starter 到底是什么 ?
+### 14、Spring对DAO的支持
+### 15、介绍一下 WebApplicationContext
+### 16、什么是 Spring Framework？
+### 17、为什么要使用 Spring Cloud 熔断器？
+### 18、Spring Cloud的版本关系
+### 19、SpringBoot、Spring MVC 和 Spring 有什么区别
+### 20、DiscoveryClient的作用
+### 21、什么是嵌入式服务器？我们为什么要使用嵌入式服务器呢?
+### 22、什么是Spring的内部bean？
+### 23、SpringBoot 的核心配置文件有哪几个？它们的区别是什么？
+### 24、网关与过滤器有什么区别
+### 25、描述一下 DispatcherServlet 的工作流程
+### 26、SpringBoot集成mybatis的过程
+### 27、什么是 Aspect 切面
+### 28、Spring Cloud Gateway
+### 29、Zuul网关如何搭建集群
+### 30、什么是 JavaConfig？
+### 31、使用 SpringBoot 启动连接到内存数据库 H2 的 JPA 应用程序需要哪些依赖项？
 
 
 

@@ -6,7 +6,107 @@
 
 
 
-### 1、对列表[3,1,-4,-2]按照绝对值排序
+### 1、使用python将数据库的student表中的数据写入db.txt
+
+```python
+import pyMySQL
+connect=pyMySQL.Connect(
+host='',
+port=,
+user='',
+passwd='',
+db='',
+charset='',
+)
+
+cursor=connect.cursor()
+sql='select from student'
+cursor.execute(sql)
+students=cursor.fetchall()
+
+with open('db.txt','w') as f:
+for student in students:
+f.write(student)
+
+cursor.close()
+connect.close()
+```
+
+
+### 2、了解过Hbase，DB2，SQLServer，Access吗
+
+**1、** Hbase：HBase是一个分布式的、面向列的开源数据库
+
+**2、** DB2：一套关系型数据库管理系统，
+
+**3、** SQLServer：SQL Server是由Microsoft开发和推广的关系数据库管理系统
+
+**4、** Sccess：Access是由微软发布的关系数据库管理系统。
+
+
+### 3、解释一下Python中的继承？
+
+继承(inheritance)允许一个类获取另一个类的所有成员和属性。继承提供代码可重用性，可以更轻松地创建和维护应用程序。
+
+被继承的类称为超类，而继承的类称为派生类/子类。
+
+
+### 4、什么是并发和并行
+
+**1、** 并发:指应用能够交替执行不同的任务,其实并发有点类似于多线程的原理,多线程并非是同时执行多个任务,如果你开两个线程执行,就是在你几乎不可能察觉到的速度不断去切换这两个任务,已达到"同时执行效果",其实并不是的,只是计算机的速度太快,我们无法察觉到而已.
+
+**2、** 并行:指应用能够同时执行不同的任务,
+
+**3、** 并发是多个事件在同一时间段执行，并行是多个事件在统一时间点执行。
+
+
+### 5、json序列化时可以处理的数据类型有哪些？如何定制支持datetime类型？序列化时，遇到中文转成unicode，如何保持中文形式？
+
+**1、** 可以处理的数据类型是 string、int、list、tuple、dict、bool、null
+
+**2、** 通过自定义时间序列化转换器
+
+```python
+import json
+from json import JSONEncoder
+from datetime import datetime
+class ComplexEncoder(JSONEncoder):
+def default(self, obj):
+if isinstance(obj, datetime):
+return obj.strftime(‘%Y-%m-%d %H:%M:%S‘)
+else:
+return super(ComplexEncoder,self).default(obj)
+d = { ‘name‘:‘alex‘,‘data‘:datetime.now()}
+print(json.dumps(d,cls=ComplexEncoder))
+# {"name": "alex", "data": "2018-05-18 19:52:05"}
+```
+
+**3、** 使用ensure_ascii=False参数
+
+
+### 6、二叉树是非线性结构，栈和队列以及线性表都是线性结构，对吗？
+
+对的
+
+
+### 7、如何以就地操作方式打乱一个列表的元素？
+
+为了达到这个目的，我们从random模块中导入shuffle()函数。
+
+```
+>>> from random import shuffle
+>>> shuffle(mylist)
+>>> mylist
+```
+
+运行结果：
+
+```
+[3, 4, 8, 0, 5, 7, 6, 2, 1]
+```
+
+
+### 8、对列表[3,1,-4,-2]按照绝对值排序
 
 ```python
 lis=[3,1,-4,-2]
@@ -15,92 +115,85 @@ print(lis)
 ```
 
 
-### 2、python的底层网络交互模块有哪些
+### 9、Python中的字典是什么？
 
-socket，urllib，requests，pycurl
+字典是C++和Java等编程语言中所没有的东西，它具有键值对。
 
+```
+>>> roots={25:5,16:4,9:3,4:2,1:1}
+>>> type(roots)
+<class 'dict'>
+>>> roots[9]
+```
 
-### 3、python的可变类型和不可变类型的区别
+运行结果为：
 
-**1、** 可变类型有：列表，字典等
+```
+3
+```
 
-**2、** 不可变类型有：数字，字符串，元组等
+字典是不可变的，我们也能用一个推导式来创建它。
 
-**3、** 这里的可变不可变是指内存中的那块内容是否可以被改变。
+```
+>>> roots={x**2:x for x in range(5,0,-1)}
+>>> roots
+```
 
+运行结果：
 
-### 4、通过什么途径学习python
-
-**1、** 通过看官方文档
-
-**2、** 通过哔哩哔哩上的视频教程
-
-**3、** 通过百度查资料
-
-**4、** 通过买python相关方面的书
-
-
-### 5、如何判断一个值是方法还是函数？
-
-**1、** 使用type()来判断，如果是method为方法，如果是function则是函数。
-
-**2、** 与类和实例无绑定关系的function都属于函数（function）
-
-**3、** 与类和实例有绑定关系的function都属于方法
-
-
-### 6、请编写一个函数将ip地址转换成一个整数。如10.3.9.12转换成00001010 00000011 00001001 00001100，然后转换成整数
-
-```python
-def ip2int(ip):
-nums=ip.split('.')
-# zfill()函数是补0
-to_bin=[bin(int(i))[2:].zfill(8) for i in nums]
-return int(''.join(to_bin),2)
-i=ip2int('127.0.0.1')
-print(i)
+```
+{25: 5, 16: 4, 9: 3, 4: 2, 1: 1}
 ```
 
 
-### 7、MySQL的建表语句
+### 10、类和对象有什么区别？
 
-```mysql
-#创建表，例子
-#所谓的建表就是声明列的过程,所以要首先分析列
-create table member(
-                       id int unsigned auto_increment primary key,
-                       username varchar(20) not null default '',
-                       gender char(1) not null default '',
-                       weight tinyint unsigned not null default 0,
-                       birth date not null default '0000-00-00',
-                       salary decimal(8,2) not null default 0.00,
-                       lastlogin int unsigned not null default 0
-)engine myisam charset utf8;
+类(Class)被视为对象的蓝图。类中的第一行字符串称为doc字符串，包含该类的简短描述。
+
+在Python中，使用class关键字可以创建了一个类。一个类包含变量和成员组合，称为类成员。
+
+对象(Object)是真实存在的实体。在Python中为类创建一个对象，我们可以使用obj = CLASS_NAME()
+
+例如：obj = num()
+
+使用类的对象，我们可以访问类的所有成员，并对其进行操作。
+
+```
+class Person:
+    """ This is a Person Class"""
+    # varable
+    age = 10
+    def greets(self):
+        print('Hello')
+
+
+# object
+obj = Person()
+print(obj.greet)
+----------------------------------------
+Hello
 ```
 
 
-### 8、简述面向对象的三大特性？
-### 9、解释一下Python中的逻辑运算符
-### 10、二叉树是非线性结构，栈和队列以及线性表都是线性结构，对吗？
-### 11、手写一个栈
-### 12、简述TCP三次握手，四次挥手的流程。
-### 13、22、iterables和iterators之间的区别？
-### 14、把a='aaabbcccdddde'这种形式的字符串，压缩成a3b2c3d4e1这种形式。
-### 15、获取python解释器版本的方法
-### 16、找出两个列表中相同的元素和不同的元素
-### 17、Python中的装饰器是什么？
-### 18、MySQL的半同步复制原理
-### 19、写一个的支持with语句的类
-### 20、Redis和Memcached的区别
-### 21、如何用一行代码生成[1,4,9,16,25,36,49,64,81,100]?
-### 22、如何使用python删除一个文件或者文件夹？
-### 23、写python爬虫分别用到了哪些模块？分别有什么用？
-### 24、一个大小为100G的文件etl_log.txt，要读取文件的内容，写出具体过程代码
-### 25、编写程序，检查数字是否为Armstrong
-### 26、手写一个队列
-### 27、select、poll、epoll模型的区别
-### 28、python哪些类型的数据才能作为字典的key？
-### 29、编写程序，计算文件中单词的出现频率
+### 11、如何在函数中设置一个全局变量？
+### 12、解释一下Python中的成员运算符
+### 13、什么是asyncio
+### 14、简述线程死锁是怎么造成的。如何避免？
+### 15、JavaScript(或者jQuery)如何选择一个id为main的容器
+### 16、什么是codis
+### 17、用尽量简洁的方法将二维数组合并成一维数组
+### 18、阅读以下代码，写输出结果
+### 19、判断dict中有没有某个key。
+### 20、编写程序，检查序列是否为回文
+### 21、手写一个队列
+### 22、MySQL慢日志
+### 23、列举面向对象中带双下划线的特殊方法
+### 24、python和java、php、c、c#、c++ 等其他语言对比？
+### 25、描述以下字典的items()方法和iteritems()方法有啥不同？
+### 26、发生粘包现象如何处理？
+### 27、什么是pickling和unpickling？
+### 28、Python区分大小写吗？
+### 29、Python代码是如何执行的？
 
 
 

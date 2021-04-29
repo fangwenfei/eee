@@ -6,108 +6,7 @@
 
 
 
-### 1、异步加载JS的方式有哪些？
-
-defer，只支持`IE`
-
-`async`：
-
-创建`script`，插入到`DOM`中，加载完毕后`callBack`
-
-
-### 2、什么是箭头函数？
-
-箭头函数表达式的语法比函数表达式更简洁，并且没有自己的`this`，`arguments`，`super`或`new.target`。箭头函数表达式更适用于那些本来需要匿名函数的地方，并且它不能用作构造函数。
-
-```
-//ES5 Version
-var getCurrentDate = function (){
-  return new Date();
-}
-
-//ES6 Version
-const getCurrentDate = () => new Date();
-```
-
-在本例中，ES5 版本中有`function(){}`声明和`return`关键字，这两个关键字分别是创建函数和返回值所需要的。在箭头函数版本中，我们只需要`()`括号，不需要 `return` 语句，因为如果我们只有一个表达式或值需要返回，箭头函数就会有一个隐式的返回。
-
-```
-//ES5 Version
-function greet(name) {
-  return 'Hello ' + name + '!';
-}
-
-//ES6 Version
-const greet = (name) => `Hello ${name}`;
-const greet2 = name => `Hello ${name}`;
-```
-
-我们还可以在箭头函数中使用与函数表达式和函数声明相同的参数。如果我们在一个箭头函数中有一个参数，则可以省略括号。
-
-`const getArgs = () => arguments const getArgs2 = (...rest) => rest`
-
-箭头函数不能访问`arguments`对象。所以调用第一个`getArgs`函数会抛出一个错误。相反，我们可以使用**rest**参数来获得在箭头函数中传递的所有参数。
-
-```
-const data = {
-  result: 0,
-  nums: [1, 2, 3, 4, 5],
-  computeResult() {
-    // 这里的“this”指的是“data”对象
-    const addAll = () => {
-      return this.nums.reduce((total, cur) => total + cur, 0)
-    };
-    this.result = addAll();
-  }
-};
-```
-
-箭头函数没有自己的`this`值。它捕获词法作用域函数的`this`值，在此示例中，`addAll`函数将复制`computeResult` 方法中的`this`值，如果我们在全局作用域声明箭头函数，则`this`值为 `window` 对象。
-
-
-### 3、Gc机制是什么？为什么闭包不会被回收变量和函数？
-
-**1、** Gc垃圾回收机制;
-
-**2、** 外部变量没释放，所以指向的大函数内的小函数也释放不了
-
-
-### 4、JavaScript有几种类型的值？，你能画一下他们的内存图吗？
-
-**1、** 栈：原始数据类型（`Undefined`，`Null`，`Boolean`，`Numbe`r、`String`）
-
-**2、** 堆：引用数据类型（对象、数组和函数）
-
-**3、** 两种类型的区别是：存储位置不同；
-
-**4、** 原始数据类型直接存储在栈(`stack`)中的简单数据段，占据空间小、大小固定，属于被频繁使用数据，所以放入栈中存储；
-
-**5、** 引用数据类型存储在堆(`heap`)中的对象,占据空间大、大小不固定,如果存储在栈中，将会影响程序运行的性能；引用数据类型在栈中存储了指针，该指针指向堆中该实体的起始地址。当解释器寻找引用值时，会首先检索其
-
-**6、** 在栈中的地址，取得地址后从堆中获得实体
-
-![33_1.png][33_1.png]
-
-
-### 5、!! 运算符能做什么？
-
-`!!`运算符可以将右侧的值强制转换为布尔值，这也是将值转换为布尔值的一种简单方法。
-
-```
-console.log(!!null); // false
-console.log(!!undefined); // false
-console.log(!!''); // false
-console.log(!!0); // false
-console.log(!!NaN); // false
-console.log(!!' '); // true
-console.log(!!{}); // true
-console.log(!![]); // true
-console.log(!!1); // true
-console.log(!![].length); // false
-```
-
-
-### 6、简述下你理解的面向对象？
+### 1、简述下你理解的面向对象？
 
 万物皆对象，把一个对象抽象成类,具体上就是把一个对象的静态特征和动态特征抽象成属性和方法,也就是把一类事物的算法和数据结构封装在一个类之中,程序就是多个对象和互相之间的通信组成的、
 
@@ -118,52 +17,188 @@ console.log(!![].length); // false
 总之,面向对象的特性提高了大型程序的重用性和可维护性.
 
 
-### 7、如何合并两个数组？数组删除一个元素?
+### 2、简述下 this 和定义属性和方法的时候有什么区别?Prototype？
+
+this表示当前对象，如果在全局作用范围内使用this，则指代当前页面对象window； 如果在函数中使用this，则this指代什么是根据运行时此函数在什么对象上被调用。 我们还可以使用apply和call两个全局方法来改变函数中this的具体指向。
+
+prototype本质上还是一个JavaScript对象。 并且每个函数都有一个默认的prototype属性。
+
+在prototype上定义的属性方法为所有实例共享，所有实例皆引用到同一个对象，单一实例对原型上的属性进行修改，也会影响到所有其他实例。
+
+
+### 3、javascript创建对象的几种方式？
+
+`javascript`创建对象简单的说,无非就是使用内置对象或各种自定义对象，当然还可以用`JSON`；但写法有很多种，也能混合使用
+
+对象字面量的方式
 
 ```
-//三种方法。
+person={firstname:"Mark",lastname:"Yun",age:25,eyecolor:"black"};
+```
 
-（1）var arr1=[1,2,3];
-        var arr2=[4,5,6];
-        arr1 = arr1.concat(arr2);
-        console.log(arr1); 
-        
-（2）var arr1=[1,2,3];
-        var arr2=[4,5,6];
-        Array.prototype.push.apply(arr1,arr2);
-        console.log(arr1);
-        
-（3）var arr1=[1,2,3];
-    var arr2=[4,5,6];
-    for (var i=0; i < arr2.length; i++) {
-    arr1.push( arr2[i] );
+用`function`来模拟无参的构造函数
+
+```
+ function Person(){}
+    var person=new Person();//定义一个function，如果使用new"实例化",该function可以看作是一个Class
+        person.name="Mark";
+        person.age="25";
+        person.work=function(){
+        alert(person.name+" hello...");
     }
-    console.log(arr1);
+person.work();
+```
+
+用`function`来模拟参构造函数来实现（用`this`关键字定义构造的上下文属性）
+
+```
+function Pet(name,age,hobby){
+       this.name=name;//this作用域：当前对象
+       this.age=age;
+       this.hobby=hobby;
+       this.eat=function(){
+          alert("我叫"+this.name+",我喜欢"+this.hobby+",是个程序员");
+       }
+    }
+    var maidou =new Pet("麦兜",25,"coding");//实例化、创建对象
+    maidou.eat();//调用eat方法
+```
+
+用工厂方式来创建（内置对象）
+
+```
+var wcDog =new Object();
+     wcDog.name="旺财";
+     wcDog.age=3;
+     wcDog.work=function(){
+       alert("我是"+wcDog.name+",汪汪汪......");
+     }
+     wcDog.work();
+```
+
+用原型方式来创建
+
+```
+function Dog(){
+
+     }
+     Dog.prototype.name="旺财";
+     Dog.prototype.eat=function(){
+     alert(this.name+"是个吃货");
+     }
+     var wangcai =new Dog();
+     wangcai.eat();
+```
+
+用混合方式来创建
+
+```
+ function Car(name,price){
+      this.name=name;
+      this.price=price; 
+    }
+     Car.prototype.sell=function(){
+       alert("我是"+this.name+"，我现在卖"+this.price+"万元");
+      }
+    var camry =new Car("凯美瑞",27);
+    camry.sell();
 ```
 
 
-### 8、为什么要有同源限制？
-### 9、除了jsonp 还有什么跨域方式###
-### 10、什么是闭包? 堆栈溢出有什么区别？ 内存泄漏? 那些操作会造成内存泄漏？怎么样防止内存泄漏？
-### 11、DOM事件模型和事件流？
-### 12、常见兼容性问题？
-### 13、用过哪些设计模式？
-### 14、ajax 和 jsonp ？
-### 15、作用域和执行上下文的区别是什么？
-### 16、何为防抖和节流？如何实现？
-### 17、js延迟加载的方式有哪些？
-### 18、谈谈你对AMD、CMD的理解
-### 19、jsonp原理？ 缺点?
-### 20、this是什么 在不同场景中分别代表什么###
-### 21、如何创建一个对象？
-### 22、为什么在 JS 中比较两个相似的对象时返回 false？
-### 23、attribute和property的区别是什么？
-### 24、如何添加一个dom对象到body中?innerHTML和innerText区别?
-### 25、什么是闭包？
-### 26、什么是 `async/await` 及其如何工作？
-### 27、异步加载的方式有哪些？
-### 28、手动实现缓存方法
-### 29、简述ajax执行流程
+### 4、异步加载的方式有哪些？
+
+(1) defer，只支持IE
+
+(2) async：true
+
+(3) 创建script，插入到DOM中，加载完毕后callBack
+
+
+### 5、你有哪些性能优化的方法？
+
+**1、** 减少http请求次数：CSS Sprites, JS、CSS源码压缩、图片大小控制合适；网页Gzip， CDN托管，data缓存 ，图片服务器。
+
+**2、** 前端模板 JS+数据，减少由于HTML标签导致的带宽浪费，前端用变量保存AJAX请求结果，每次操作本地变量，不用请求，减少请求次数
+
+**3、** 用innerHTML代替DOM操作，减少DOM操作次数，优化javascript性能。
+
+**4、** 当需要设置的样式很多时设置className而不是直接操作style。
+
+**5、** 少用全局变量、缓存DOM节点查找的结果。减少IO读取操作。
+
+**6、** 避免使用CSS Expression（css表达式)又称Dynamic properties(动态属性)。
+
+**7、** 图片预加载，将样式表放在顶部，将脚本放在底部 加上时间戳。
+
+**8、** 避免在页面的主体布局中使用table，table要等其中的内容完全下载之后才会显示出来，显示比div+css布局慢。
+
+
+### 6、压缩合并目的？http请求的优化方式？
+
+1）Web性能优化最佳实践中最重要的一条是减少HTTP请求。而减少HTTP请求的最主要的方式就是，合并并压缩JavaScript和CSS文件。
+
+CSS Sprites（CSS精灵）：把全站的图标都放在一个图像文件中，然后用CSS的background-image和background-position属性定位来显示其中的一小部分。
+
+合并脚本和样式表; 图片地图：利用image map标签定义一个客户端图像映射，（图像映射指带有可点击区域的一幅图像）具体看： [http://club.topsage.com/thread-2527479-1-1.html](http://link.zhihu.com/?target=http%3A//club.topsage.com/thread-2527479-1-1.html)
+
+图片js/css等静态资源放在静态服务器或CDN服时，尽量采用不用的域名，这样能防止cookie不会互相污染，减少每次请求的往返数据。
+
+css替代图片, 缓存一些数据
+
+少用location.reload()：使用location.reload() 会刷新页面，刷新页面时页面所有资源 (css，js，img等) 会重新请求服务器。建议使用location.href="当前页url" 代替location.reload() ，使用location.href 浏览器会读取本地缓存资源。
+
+
+### 7、你觉得jQuery源码有哪些写的好的地方
+
+**1、** `jquery`源码封装在一个匿名函数的自执行环境中，有助于防止变量的全局污染，然后通过传入`window`对象参数，可以使`window`对象作为局部变量使用，好处是当`jquery`中访问`window`对象的时候，就不用将作用域链退回到顶层作用域了，从而可以更快的访问window对象。同样，传入`undefined`参数，可以缩短查找`undefined`时的作用域链
+
+**2、** `jquery`将一些原型属性和方法封装在了`jquery.prototype`中，为了缩短名称，又赋值给了`jquery.fn`，这是很形象的写法
+
+**3、** 有一些数组或对象的方法经常能使用到，`jQuery`将其保存为局部变量以提高访问速度
+
+**4、** `jquery`实现的链式调用可以节约代码，所返回的都是同一个对象，可以提高代码效率
+
+
+### 8、bootstrap好处？
+
+自适应和响应式布局，12栅格系统，统一的界面风格和css样式有利于团队开发。编写灵活、稳定、高质量的 HTML 和 CSS 代码的规范。
+
+
+### 9、声明函数作用提升?声明变量和声明函数的提升有什么区别
+
+**变量声明提升：**
+
+**1、** 变量申明在进入执行上下文就完成了。
+
+**2、** 只要变量在代码中进行了声明，无论它在哪个位置上进行声明， js引擎都会将它的声明放在范围作用域的顶部；
+
+**函数声明提升
+### 10、$(function(){})和window.onload 和 $(document).ready(function(){})
+
+window.onload:用于当页面的所有元素，包括外部引用文件，图片等都加载完毕时运行函数内的函数。load方法只能执行一次，如果在js文件里写了多个，只能执行最后一个。
+
+$$(document).ready(function()\{\})和$$(function(){})都是用于当页面的标准DOM元素被解析成DOM树后就执行内部函数。这个函数是可以在js文件里多次编写的，对于多人共同编写的js就有很大的优势，因为所有行为函数都会执行到。而且$(document).ready()函数在HMTL结构加载完后就可以执行，不需要等大型文件加载或者不存在的连接等耗时工作完成才执行，效率高。
+
+
+### 11、渐进增强和优雅降级
+### 12、事件模型
+### 13、说出几个http协议状态码?
+### 14、web开发中会话跟踪的方法有哪些
+### 15、实现继承的方法有哪些？？？
+### 16、js延迟加载的方式有哪些？
+### 17、ajax请求方式有几种（8种）？
+### 18、谁是c的构造函数?
+### 19、基本数据类型和引用数据类型有什么区别？
+### 20、什么是对象解构？
+### 21、对象的 prototype(原型) 是什么？
+### 22、函数fn1 函数fn2 函数fn3，如果想在三个函数都执行完成后执行某一个事件应该如何实现?
+### 23、如何检查值是否虚值？
+### 24、为什么函数被称为一等公民？
+### 25、什么是 ES6 模块？
+### 26、jquery和zepto有什么区别?
+### 27、说说你对AMD和Commonjs的理解
+### 28、什么是事件冒泡？
+### 29、闭包
 
 
 
