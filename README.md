@@ -38,7 +38,7 @@
 |  [Nginx](https://github.com/souyunku/DevBooks#nginx) |  [Python](https://github.com/souyunku/DevBooks#python)   |  [Android](https://github.com/souyunku/DevBooks#android)   |  [Vue](https://github.com/souyunku/DevBooks#vue)   |  [前端](https://github.com/souyunku/DevBooks#前端)    |
 |  [JavaScript](https://github.coms/souyunku/DevBooks#javascript) |  [HTML](https://github.com/souyunku/DevBooks#html)   |  [Memcached](https://github.com/souyunku/DevBooks#memcached)   |  []()   |  []()    |
 
-[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/githup-mst.png "架构师专栏")](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png "架构师专栏")
+[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/githup-mst.png "架构师专栏")](https://github.com/souyunku/DevBooks/blob/master/docs/index.md "架构师专栏")
 
 ### Java
 
