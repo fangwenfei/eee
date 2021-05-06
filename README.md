@@ -18,31 +18,8 @@
 |  [Nginx](https://github.com/souyunku/DevBooks#nginx) |  [Python](https://github.com/souyunku/DevBooks#python)   |  [Android](https://github.com/souyunku/DevBooks#android)   |  [Vue](https://github.com/souyunku/DevBooks#vue)   |  [前端](https://github.com/souyunku/DevBooks#前端)    |
 |  [JavaScript](https://github.coms/souyunku/DevBooks#javascript) |  [HTML](https://github.com/souyunku/DevBooks#html)   |  [Memcached](https://github.com/souyunku/DevBooks#memcached)   |  []()   |  []()    |
 
-<<<<<<< HEAD
 [![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/githup-mst.png "架构师专栏")](https://github.com/souyunku/DevBooks/blob/master/docs/index.md "架构师专栏")
-=======
-## 最新 280多份，程序员，面试题，大汇总
-## 整理那么辛苦，求个 Star，Fork 谢谢
 
-最近又赶上跳槽的高峰期，好多粉丝，都问我要有没有最新面试题，我连日加班好多天，终于整理好了，280多份面试题大全，我会持续更新中，马上就会整理更多！
-
-## 题库非常全面，累计 10000+ 道
-
-包括 Java 集合、JVM、多线程、并发编程、设计模式、SpringBoot、SpringCloud、Java、MyBatis、ZooKeeper、Dubbo、Elasticsearch、Memcached、MongoDB、Redis、MySQL、RabbitMQ、Kafka、Linux、Netty、Tomcat、Python、HTML、CSS、Vue、React、JavaScript、Android 大数据、阿里巴巴等大厂面试题等、等技术栈！
-
-## 280多份 面试题技术大类，索引，直达
-
-|   |   |    |    |     |
-| ------------ | ------------ | ------------ | ------------ | ------------ |
-|  [Java](https://github.com/souyunku/DevBooks#java) |  [Jvm](https://github.com/souyunku/DevBooks#jvm)   |  [Dubbo](https://github.com/souyunku/DevBooks#dubbo)   |  [MySQL](https://github.com/souyunku/DevBooks#mysql)   |  [并发编程](https://github.com/souyunku/DevBooks#并发编程)    |
-|  [Spring](https://github.com/souyunku/DevBooks#spring) |  [SpringBoot](https://github.com/souyunku/DevBooks#springboot)   |  [SpringCloud](https://github.com/souyunku/DevBooks#springcloud)   |  [ZooKeeper](https://github.com/souyunku/DevBooks#zookeeper)   |  [大数据](https://github.com/souyunku/DevBooks#大数据)    |
-|  [Redis](https://github.com/souyunku/DevBooks#redis) |  [React](https://github.com/souyunku/DevBooks#react)   |  [RabbitMQ](https://github.com/souyunku/DevBooks#rabbitmq)   |  [Elasticsearch](https://github.com/souyunku/DevBooks#elasticsearch)   |  [Kafka](https://github.com/souyunku/DevBooks#kafka)    |
-|  [MyBatis](https://github.com/souyunku/DevBooks#mybatis) |  [Linux](https://github.com/souyunku/DevBooks#linux)   |  [MongoDB](https://github.com/souyunku/DevBooks#mongodb)   |  [Oracle](https://github.com/souyunku/DevBooks#oracle)   |  [Netty](https://github.com/souyunku/DevBooks#netty)    |
-|  [Nginx](https://github.com/souyunku/DevBooks#nginx) |  [Python](https://github.com/souyunku/DevBooks#python)   |  [Android](https://github.com/souyunku/DevBooks#android)   |  [Vue](https://github.com/souyunku/DevBooks#vue)   |  [前端](https://github.com/souyunku/DevBooks#前端)    |
-|  [JavaScript](https://github.coms/souyunku/DevBooks#javascript) |  [HTML](https://github.com/souyunku/DevBooks#html)   |  [Memcached](https://github.com/souyunku/DevBooks#memcached)   |  []()   |  []()    |
->>>>>>> 8df839b7c43b65d95ba9bad30719901c1338042a
-
-[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/githup-mst.png "架构师专栏")](https://github.com/souyunku/DevBooks/blob/master/docs/index.md "架构师专栏")
 
 ### Java
 
