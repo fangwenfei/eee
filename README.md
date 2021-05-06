@@ -1,13 +1,13 @@
-## 最新 280多份，程序员，面试题，大汇总
+## 最新 10000+ 道，280多份，面试题，汇总
 ## 整理那么辛苦，求个 Star，Fork 谢谢
 
-最近又赶上跳槽的高峰期，好多粉丝，都问我要有没有最新面试题，我连日加班好多天，终于整理好了，280多份面试题大全，我会持续更新中，马上就会整理更多！
+最近又赶上跳槽的高峰期，好多粉丝，都问我要有没有最新面试题，我连日加班好多天，终于整理好了，10000+ 道，280多份，多份面试题大全，我会持续更新中，马上就会整理更多！
 
 ## 题库非常全面，累计 10000+ 道
 
 包括 Java 集合、JVM、多线程、并发编程、设计模式、SpringBoot、SpringCloud、Java、MyBatis、ZooKeeper、Dubbo、Elasticsearch、Memcached、MongoDB、Redis、MySQL、RabbitMQ、Kafka、Linux、Netty、Tomcat、Python、HTML、CSS、Vue、React、JavaScript、Android 大数据、阿里巴巴等大厂面试题等、等技术栈！
 
-## 280多份 面试题技术大类，索引，直达
+## 10000+ 道，面试题技术大类，索引，直达
 
 |   |   |    |    |     |
 | ------------ | ------------ | ------------ | ------------ | ------------ |
@@ -18,8 +18,7 @@
 |  [Nginx](https://github.com/souyunku/DevBooks#nginx) |  [Python](https://github.com/souyunku/DevBooks#python)   |  [Android](https://github.com/souyunku/DevBooks#android)   |  [Vue](https://github.com/souyunku/DevBooks#vue)   |  [前端](https://github.com/souyunku/DevBooks#前端)    |
 |  [JavaScript](https://github.coms/souyunku/DevBooks#javascript) |  [HTML](https://github.com/souyunku/DevBooks#html)   |  [Memcached](https://github.com/souyunku/DevBooks#memcached)   |  []()   |  []()    |
 
-## 新增：[高清172份，累计 7701 页大厂面试题 PDF](https://github.com/souyunku/DevBooks/blob/master/docs/index.md)
-## 新增：[高清172份，累计 7701 页大厂面试题 PDF](https://github.com/souyunku/DevBooks/blob/master/docs/index.md)
+[![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/githup-mst.png "架构师专栏")](https://github.com/souyunku/DevBooks/blob/master/docs/index.md "架构师专栏")
 
 
 ### Java
