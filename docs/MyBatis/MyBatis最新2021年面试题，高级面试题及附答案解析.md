@@ -184,7 +184,7 @@ mapper接口中的方法名和mapper.xml中的定义的statement的id保持一�
 
 
 
-## 最新，高清PDF：172份，7701页，最新整理
+## 新增：高清PDF：172份，7701页，最新整理
 
 [![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/mst.png "架构师专栏")](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png "架构师专栏")
 

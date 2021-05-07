@@ -132,7 +132,7 @@ requeue=true，则当 RabbitMQ server 收到该拒绝信令后，会将该 messa
 
 
 
-## 最新，高清PDF：172份，7701页，最新整理
+## 新增：高清PDF：172份，7701页，最新整理
 
 [![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/mst.png "架构师专栏")](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png "架构师专栏")
 

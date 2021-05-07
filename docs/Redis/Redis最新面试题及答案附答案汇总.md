@@ -120,7 +120,7 @@ Redis的出色之处不仅仅是性能，Redis最大的魅力是支持保存多�
 
 
 
-## 最新，高清PDF：172份，7701页，最新整理
+## 新增：高清PDF：172份，7701页，最新整理
 
 [![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/mst.png "架构师专栏")](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png "架构师专栏")
 

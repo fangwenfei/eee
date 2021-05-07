@@ -178,7 +178,7 @@ Marvel 让你可以很简单的通过 Kibana 监控 Elasticsearch。你可以实
 
 
 
-## 最新，高清PDF：172份，7701页，最新整理
+## 新增：高清PDF：172份，7701页，最新整理
 
 [![大厂面试题](https://www.souyunku.com/wp-content/uploads/weixin/mst.png "架构师专栏")](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin.png "架构师专栏")
 
