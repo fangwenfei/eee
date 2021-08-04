@@ -6,7 +6,8 @@
 
 
 
-### 1、Spring MVC的主要组件？
+### [1、Spring MVC的主要组件？](https://github.com/souyunku/DevBooks/blob/master/docs/Spring/Spring高级面试题，中级面试题，大汇总.md#1spring-mvc的主要组件)  
+
 
 **1、** 前端控制器 DispatcherServlet（不需要程序员开发）
 
@@ -39,7 +40,8 @@
 View是一个接口， 它的实现类支持不同的视图类型（jsp，freemarker，pdf等等）
 
 
-### 2、什么是Hystrix？它如何实现容错？
+### [2、什么是Hystrix？它如何实现容错？](https://github.com/souyunku/DevBooks/blob/master/docs/Spring/Spring高级面试题，中级面试题，大汇总.md#2什么是hystrix它如何实现容错)  
+
 
 Hystrix是一个延迟和容错库，旨在隔离远程系统，服务和第三方库的访问点，当出现故障是不可避免的故障时，停止级联故障并在复杂的分布式系统中实现弹性。
 
@@ -60,7 +62,8 @@ Hystrix是一个延迟和容错库，旨在隔离远程系统，服务和第三�
 现在假设由于某种原因，employee-producer公开的服务会抛出异常。我们在这种情况下使用Hystrix定义了一个回退方法。这种后备方法应该具有与公开服务相同的返回类型。如果暴露服务中出现异常，则回退方法将返回一些值。
 
 
-### 3、什么是 JavaConfig？
+### [3、什么是 JavaConfig？](https://github.com/souyunku/DevBooks/blob/master/docs/Spring/Spring高级面试题，中级面试题，大汇总.md#3什么是-javaconfig)  
+
 
 Spring JavaConfig 是 Spring 社区的产品，Spring 3、0引入了他，它提供了配置 Spring IOC 容器的纯Java 方法。因此它有助于避免使用 XML 配置。使用 JavaConfig 的优点在于：
 
@@ -83,7 +86,8 @@ Spring JavaConfig 是 Spring 社区的产品，Spring 3、0引入了他，它提
 @ImportResource： 相当于xml的 < import resource="applicationContext-cache、xml">
 
 
-### 4、SpringBoot 中如何实现定时任务 ?
+### [4、SpringBoot 中如何实现定时任务 ?](https://github.com/souyunku/DevBooks/blob/master/docs/Spring/Spring高级面试题，中级面试题，大汇总.md#4springboot-中如何实现定时任务-)  
+
 
 定时任务也是一个常见的需求，SpringBoot 中对于定时任务的支持主要还是来自 Spring 框架。
 
@@ -95,17 +99,20 @@ Spring JavaConfig 是 Spring 社区的产品，Spring 3、0引入了他，它提
 
 
 
-### 5、SpringBoot 配置加载顺序?
+### [5、SpringBoot 配置加载顺序?](https://github.com/souyunku/DevBooks/blob/master/docs/Spring/Spring高级面试题，中级面试题，大汇总.md#5springboot-配置加载顺序)  
+
 
 **1、** properties文件 2、YAML文件 3、系统环境变量 4、命令行参数
 
 
-### 6、康威定律是什么？
+### [6、康威定律是什么？](https://github.com/souyunku/DevBooks/blob/master/docs/Spring/Spring高级面试题，中级面试题，大汇总.md#6康威定律是什么)  
+
 
 康威定律指出，“设计系统的组织，其产生的设计等同于组织之内、组织之间的沟通结构。” 面试官可能会问反微服务面试问题，比如康威定律与微服务的关系。一些松散耦合的api形成了微服务的体系结构。这种结构非常适合小团队实现自治组件的方式。这种体系结构使组织在重组其工作流程时更加灵活。
 
 
-### 7、SpringBoot有哪些优点？
+### [7、SpringBoot有哪些优点？](https://github.com/souyunku/DevBooks/blob/master/docs/Spring/Spring高级面试题，中级面试题，大汇总.md#7springboot有哪些优点)  
+
 
 减少开发，测试时间和努力。
 
@@ -122,19 +129,22 @@ Spring JavaConfig 是 Spring 社区的产品，Spring 3、0引入了他，它提
 需要更少的配置 因为没有web.xml文件。只需添加用@ Configuration注释的类，然后添加用@Bean注释的方法，Spring将自动加载对象并像以前一样对其进行管理。您甚至可以将@Autowired添加到bean方法中，以使Spring自动装入需要的依赖关系中。基于环境的配置 使用这些属性，您可以将您正在使用的环境传递到应用程序：-Dspring.profiles.active = {enviornment}。在加载主应用程序属性文件后，Spring将在（application{environment} .properties）中加载后续的应用程序属性文件。
 
 
-### 8、什么是 FreeMarker 模板？
+### [8、什么是 FreeMarker 模板？](https://github.com/souyunku/DevBooks/blob/master/docs/Spring/Spring高级面试题，中级面试题，大汇总.md#8什么是-freemarker-模板)  
+
 
 FreeMarker 是一个基于 Java 的模板引擎，最初专注于使用 MVC 软件架构进行动态网页生成。使用 Freemarker 的主要优点是表示层和业务层的完全分离。程序员可以处理应用程序代码，而设计人员可以处理 html 页面设计。最后使用freemarker 可以将这些结合起来，给出最终的输出页面。
 
 
-### 9、Spring Cloud Config
+### [9、Spring Cloud Config](https://github.com/souyunku/DevBooks/blob/master/docs/Spring/Spring高级面试题，中级面试题，大汇总.md#9spring-cloud-config)  
+
 
 Config能够管理所有微服务的配置文件
 
 集中配置管理工具，分布式系统中统一的外部配置管理，默认使用Git来存储配置，可以支持客户端配置的刷新及加密、解密操作。
 
 
-### 10、什么是 SpringBoot？
+### [10、什么是 SpringBoot？](https://github.com/souyunku/DevBooks/blob/master/docs/Spring/Spring高级面试题，中级面试题，大汇总.md#10什么是-springboot)  
+
 
 SpringBoot 是 Spring 开源组织下的子项目，是 Spring 组件一站式解决方案，主要是简化了使用 Spring 的难度，简省了繁重的配置，提供了各种启动器，开发者能快速上手。
 
@@ -164,9 +174,9 @@ SpringBoot 是 Spring 开源组织下的子项目，是 Spring 组件一站式�
 
 
 
-## 全部答案，整理好了，直接下载吧
+## [全部答案，整理好了，直接下载吧](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
-### 下载链接：[全部答案，整理好了](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
+### 下载链接：[全部答案，整理好了](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
 
 

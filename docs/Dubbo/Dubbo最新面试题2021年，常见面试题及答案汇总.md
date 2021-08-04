@@ -6,7 +6,8 @@
 
 
 
-### 1、Dubbo集群提供了哪些负载均衡策略？
+### [1、Dubbo集群提供了哪些负载均衡策略？](https://github.com/souyunku/DevBooks/blob/master/docs/Dubbo/Dubbo最新面试题2021年，常见面试题及答案汇总.md#1dubbo集群提供了哪些负载均衡策略)  
+
 
 **1、** Random LoadBalance: 随机选取提供者策略，有利于动态调整提供者权重。截面碰撞率高，调用次数越多，分布越均匀。
 
@@ -19,7 +20,8 @@
 默认为 Random 随机调用。
 
 
-### 2、Dubbo 服务器注册与发现的流程？
+### [2、Dubbo 服务器注册与发现的流程？](https://github.com/souyunku/DevBooks/blob/master/docs/Dubbo/Dubbo最新面试题2021年，常见面试题及答案汇总.md#2dubbo-服务器注册与发现的流程)  
+
 
 **1、** Provider（提供者）绑定指定端口并启动服务。
 
@@ -34,22 +36,26 @@
 **6、** Provider 状态变更会实时通知注册中心、在由注册中心实时推送至 Consumer。
 
 
-### 3、同一个服务多个注册的情况下可以直连某一个服务吗？
+### [3、同一个服务多个注册的情况下可以直连某一个服务吗？](https://github.com/souyunku/DevBooks/blob/master/docs/Dubbo/Dubbo最新面试题2021年，常见面试题及答案汇总.md#3同一个服务多个注册的情况下可以直连某一个服务吗)  
+
 
 可以直连，修改配置即可，也可以通过 telnet 直接某个服务。
 
 
-### 4、默认使用什么序列化框架，你知道的还有哪些？
+### [4、默认使用什么序列化框架，你知道的还有哪些？](https://github.com/souyunku/DevBooks/blob/master/docs/Dubbo/Dubbo最新面试题2021年，常见面试题及答案汇总.md#4默认使用什么序列化框架你知道的还有哪些)  
+
 
 默认使用Hessian序列化，还有Duddo、FastJson、Java自带序列化。
 
 
-### 5、你还了解别的分布式框架吗？
+### [5、你还了解别的分布式框架吗？](https://github.com/souyunku/DevBooks/blob/master/docs/Dubbo/Dubbo最新面试题2021年，常见面试题及答案汇总.md#5你还了解别的分布式框架吗)  
+
 
 别的还有 spring 的 spring cloud，facebook 的 thrift，twitter 的 finagle 等。冲上云霄，Dubbo Go！GO语言版本都发布了～推荐阅读：Spring Cloud是什么，和Dubbo对比呢？
 
 
-### 6、Dubbo 的使用场景有哪些？
+### [6、Dubbo 的使用场景有哪些？](https://github.com/souyunku/DevBooks/blob/master/docs/Dubbo/Dubbo最新面试题2021年，常见面试题及答案汇总.md#6dubbo-的使用场景有哪些)  
+
 
 **1、** 透明化的远程方法调用：就像调用本地方法一样调用远程方法，只需简单配置，没有任何API侵入。
 
@@ -58,24 +64,28 @@
 **3、** 服务自动注册与发现：不再需要写死服务提供方地址，注册中心基于接口名查询服务提供者的IP地址，并且能够平滑添加或删除服务提供者。
 
 
-### 7、Dubbo 的注册中心集群挂掉，者和订阅者之间还能通信么？
+### [7、Dubbo 的注册中心集群挂掉，者和订阅者之间还能通信么？](https://github.com/souyunku/DevBooks/blob/master/docs/Dubbo/Dubbo最新面试题2021年，常见面试题及答案汇总.md#7dubbo-的注册中心集群挂掉者和订阅者之间还能通信么)  
+
 
 可以的，启动 dubbo 时，消费者会从 zookeeper 拉取注册的生产者的地址接口等数据，缓存在本地。
 
 每次调用时，按照本地存储的地址进行调用。
 
 
-### 8、同一个服务多个注册的情况下可以直连某一个服务吗？
+### [8、同一个服务多个注册的情况下可以直连某一个服务吗？](https://github.com/souyunku/DevBooks/blob/master/docs/Dubbo/Dubbo最新面试题2021年，常见面试题及答案汇总.md#8同一个服务多个注册的情况下可以直连某一个服务吗)  
+
 
 可以点对点直连，修改配置即可，也可以通过telnet直连某个服务。
 
 
-### 9、默认使用什么序列化框架，你知道的还有哪些？
+### [9、默认使用什么序列化框架，你知道的还有哪些？](https://github.com/souyunku/DevBooks/blob/master/docs/Dubbo/Dubbo最新面试题2021年，常见面试题及答案汇总.md#9默认使用什么序列化框架你知道的还有哪些)  
+
 
 推荐使用Hessian序列化，还有Dubbo、FastJson、Java自带序列化。
 
 
-### 10、Dubbo 和 Dubbox 之间的区别？
+### [10、Dubbo 和 Dubbox 之间的区别？](https://github.com/souyunku/DevBooks/blob/master/docs/Dubbo/Dubbo最新面试题2021年，常见面试题及答案汇总.md#10dubbo-和-dubbox-之间的区别)  
+
 
 dubbox 基于 dubbo 上做了一些扩展，如加了服务可 restful 调用，更新了开源组件等。
 
@@ -104,9 +114,9 @@ dubbox 基于 dubbo 上做了一些扩展，如加了服务可 restful 调用，
 
 
 
-## 全部答案，整理好了，直接下载吧
+## [全部答案，整理好了，直接下载吧](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
-### 下载链接：[全部答案，整理好了](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
+### 下载链接：[全部答案，整理好了](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
 
 

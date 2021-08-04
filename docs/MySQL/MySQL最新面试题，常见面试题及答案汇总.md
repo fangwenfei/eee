@@ -6,7 +6,8 @@
 
 
 
-### 1、超大分页怎么处理？
+### [1、超大分页怎么处理？](https://github.com/souyunku/DevBooks/blob/master/docs/MySQL/MySQL最新面试题，常见面试题及答案汇总.md#1超大分页怎么处理)  
+
 
 **超大的分页一般从两个方向上来解决.**
 
@@ -17,7 +18,8 @@
 解决超大分页,其实主要是靠缓存,可预测性的提前查到内容,缓存至Redis等k-V数据库中,直接返回即可
 
 
-### 2、存储引擎分类有哪些以及使用场景？
+### [2、存储引擎分类有哪些以及使用场景？](https://github.com/souyunku/DevBooks/blob/master/docs/MySQL/MySQL最新面试题，常见面试题及答案汇总.md#2存储引擎分类有哪些以及使用场景)  
+
 
 **存储引擎主要有**
 
@@ -48,7 +50,8 @@
 **5、** 支持自动增加列属性 auto_increment
 
 
-### 3、视图有哪些特点？
+### [3、视图有哪些特点？](https://github.com/souyunku/DevBooks/blob/master/docs/MySQL/MySQL最新面试题，常见面试题及答案汇总.md#3视图有哪些特点)  
+
 
 **视图的特点如下:**
 
@@ -65,7 +68,8 @@
 视图的操作包括创建视图，查看视图，删除视图和修改视图。
 
 
-### 4、什么是存储过程？有哪些优缺点？
+### [4、什么是存储过程？有哪些优缺点？](https://github.com/souyunku/DevBooks/blob/master/docs/MySQL/MySQL最新面试题，常见面试题及答案汇总.md#4什么是存储过程有哪些优缺点)  
+
 
 「存储过程」，就是一些编译好了的SQL语句，这些SQL语句代码像一个方法一样实现一些功能（对单表或多表的增删改查），然后给这些代码块取一个名字，在用到这个功能的时候调用即可。
 
@@ -91,7 +95,8 @@
 
 
 
-### 5、日常工作中你是怎么优化SQL的？
+### [5、日常工作中你是怎么优化SQL的？](https://github.com/souyunku/DevBooks/blob/master/docs/MySQL/MySQL最新面试题，常见面试题及答案汇总.md#5日常工作中你是怎么优化sql的)  
+
 
 可以从这几个维度回答这个问题：
 
@@ -108,7 +113,8 @@
 **6、** 读写分离
 
 
-### 6、创建索引的原则
+### [6、创建索引的原则](https://github.com/souyunku/DevBooks/blob/master/docs/MySQL/MySQL最新面试题，常见面试题及答案汇总.md#6创建索引的原则)  
+
 
 **索引虽好，但也不是无限制的使用，最好符合一下几个原则**
 
@@ -129,7 +135,8 @@
 **8、** 对于定义为text、image和bit的数据类型的列不要建立索引。
 
 
-### 7、什么是死锁？怎么解决？
+### [7、什么是死锁？怎么解决？](https://github.com/souyunku/DevBooks/blob/master/docs/MySQL/MySQL最新面试题，常见面试题及答案汇总.md#7什么是死锁怎么解决)  
+
 
 死锁是指两个或多个事务在同一资源上相互占用，并请求锁定对方的资源，从而导致恶性循环的现象。
 
@@ -144,14 +151,16 @@
 如果业务不好处理,可以用分布式事务锁或者使用乐观锁
 
 
-### 8、为表中得字段选择合适得数据类型
+### [8、为表中得字段选择合适得数据类型](https://github.com/souyunku/DevBooks/blob/master/docs/MySQL/MySQL最新面试题，常见面试题及答案汇总.md#8为表中得字段选择合适得数据类型)  
+
 
 字段类型优先级: 整形>date,time>enum,char>varchar>blob,text
 
 优先考虑数字类型，其次是日期或者二进制类型，最后是字符串类型，同级别得数据类型，应该优先选择占用空间小的数据类型
 
 
-### 9、MySQL 索引使用有哪些注意事项呢？
+### [9、MySQL 索引使用有哪些注意事项呢？](https://github.com/souyunku/DevBooks/blob/master/docs/MySQL/MySQL最新面试题，常见面试题及答案汇总.md#9mysql-索引使用有哪些注意事项呢)  
+
 
 可以从三个维度回答这个问题：索引哪些情况会失效，索引不适合哪些场景，索引规则
 
@@ -198,7 +207,8 @@
 **5、** 索引下推
 
 
-### 10、什么是锁？
+### [10、什么是锁？](https://github.com/souyunku/DevBooks/blob/master/docs/MySQL/MySQL最新面试题，常见面试题及答案汇总.md#10什么是锁)  
+
 
 数据库是一个多用户使用的共享资源。当多个用户并发地存取数据时，在数据库中就会产生多个事务同时存取同一数据的情况。若对并发操作不加控制就可能会读取和存储不正确的数据，破坏数据库的一致性。
 
@@ -231,9 +241,9 @@
 
 
 
-## 全部答案，整理好了，直接下载吧
+## [全部答案，整理好了，直接下载吧](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
-### 下载链接：[全部答案，整理好了](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
+### 下载链接：[全部答案，整理好了](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
 
 

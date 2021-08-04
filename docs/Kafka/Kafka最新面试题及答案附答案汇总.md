@@ -6,7 +6,8 @@
 
 
 
-### 1、Kafka Producer如何优化写入速度?
+### [1、Kafka Producer如何优化写入速度?](https://github.com/souyunku/DevBooks/blob/master/docs/Kafka/Kafka最新面试题及答案附答案汇总.md#1kafka-producer如何优化写入速度)  
+
 
 1. 增加线程
 2. 提高 batch.size
@@ -16,12 +17,14 @@
 6. 跨数据中心的传输：增加 socket 缓冲区设置以及 OS tcp 缓冲区设置。
 
 
-### 2、生产者中，什么情况下会发生 QueueFullException？
+### [2、生产者中，什么情况下会发生 QueueFullException？](https://github.com/souyunku/DevBooks/blob/master/docs/Kafka/Kafka最新面试题及答案附答案汇总.md#2生产者中什么情况下会发生-queuefullexception)  
+
 
 每当Kafka生产者试图以代理的身份在当时无法处理的速度发送消息时，通常都会发生QueueFullException。但是，为了协作处理增加的负载，用户需要添加足够的代理，因为生产者不会阻止。
 
 
-### 3、数据传输的事务定义有哪三种？
+### [3、数据传输的事务定义有哪三种？](https://github.com/souyunku/DevBooks/blob/master/docs/Kafka/Kafka最新面试题及答案附答案汇总.md#3数据传输的事务定义有哪三种)  
+
 
 **和MQTT的事务定义一样都是3种**
 
@@ -32,22 +35,26 @@
 **3、** 精确的一次（Exactly once）: 不会漏传输也不会重复传输,每个消息都传输被一次而且仅仅被传输一次，这是大家所期望的
 
 
-### 4、Kafka Unclean 配置代表什么？会对 spark streaming 消费有什么影响？
+### [4、Kafka Unclean 配置代表什么？会对 spark streaming 消费有什么影响？](https://github.com/souyunku/DevBooks/blob/master/docs/Kafka/Kafka最新面试题及答案附答案汇总.md#4kafka-unclean-配置代表什么会对-spark-streaming-消费有什么影响)  
+
 
 unclean.leader.election.enable 为 true 的话，意味着非 ISR 集合的 broker 也可以参与选举，这样有可能就会丢数据，spark streaming在消费过程中拿到的 end offset 会突然变小，导致 spark streaming job 挂掉。如果 unclean.leader.election.enable 参数设置为 true，就有可能发生数据丢失和数据不一致的情况，Kafka 的可靠性就会降低；而如果 unclean.leader.election.enable 参数设置为 false，Kafka 的可用性就会降低。
 
 
-### 5、Kafka 中 Consumer Group 是什么概念？
+### [5、Kafka 中 Consumer Group 是什么概念？](https://github.com/souyunku/DevBooks/blob/master/docs/Kafka/Kafka最新面试题及答案附答案汇总.md#5kafka-中-consumer-group-是什么概念)  
+
 
 同样是逻辑上的概念，是Kafka实现单播和广播两种消息模型的手段。同一个topic的数据，会广播给不同的group；同一个group中的worker，只有一个worker能拿到这个数据。换句话说，对于同一个topic，每个group都可以拿到同样的所有数据，但是数据进入group后只能被其中的一个worker消费。group内的worker可以使用多线程或多进程来实现，也可以将进程分散在多台机器上，worker的数量通常不超过partition的数量，且二者最好保持整数倍关系，因为Kafka在设计时假定了一个partition只能被一个worker消费（同一group内）。
 
 
-### 6、什么是生产者？
+### [6、什么是生产者？](https://github.com/souyunku/DevBooks/blob/master/docs/Kafka/Kafka最新面试题及答案附答案汇总.md#6什么是生产者)  
+
 
 生产者的主要作用是将数据到他们选择的主题上。基本上，它的职责是选择要分配给主题内分区的记录。
 
 
-### 7、Kafka 与传统消息系统之间有三个关键区别
+### [7、Kafka 与传统消息系统之间有三个关键区别](https://github.com/souyunku/DevBooks/blob/master/docs/Kafka/Kafka最新面试题及答案附答案汇总.md#7kafka-与传统消息系统之间有三个关键区别)  
+
 
 **1、** Kafka 持久化日志，这些日志可以被重复读取和无限期保留
 
@@ -58,15 +65,18 @@ unclean.leader.election.enable 为 true 的话，意味着非 ISR 集合的 brok
 **4、** Kafka 支持实时的流式处理
 
 
-### 8、Kafka 中是怎么体现消息顺序性的？
+### [8、Kafka 中是怎么体现消息顺序性的？](https://github.com/souyunku/DevBooks/blob/master/docs/Kafka/Kafka最新面试题及答案附答案汇总.md#8kafka-中是怎么体现消息顺序性的)  
+
 
 Kafka 每个 partition 中的消息在写入时都是有序的，消费时，每个 partition 只能被每一个 group 中的一个消费者消费，保证了消费时也是有序的。整个 topic 不保证有序。如果为了保证 topic 整个有序，那么将 partition 调整为1.
 
 
-### 9、Apache Kafka的缺陷
+### [9、Apache Kafka的缺陷](https://github.com/souyunku/DevBooks/blob/master/docs/Kafka/Kafka最新面试题及答案附答案汇总.md#9apache-kafka的缺陷)  
+
 
 Kafka的局限性是：1.没有完整的监控工具集2.消息调整的
-### 10、解释Apache Kafka用例？
+### [10、解释Apache Kafka用例？](https://github.com/souyunku/DevBooks/blob/master/docs/Kafka/Kafka最新面试题及答案附答案汇总.md#10解释apache-kafka用例)  
+
 
 Apache Kafka有很多用例，例如：
 
@@ -94,9 +104,9 @@ Kafka指标可以使用Kafka进行操作监测数据。此外，为了生成操�
 
 
 
-## 全部答案，整理好了，直接下载吧
+## [全部答案，整理好了，直接下载吧](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
-### 下载链接：[全部答案，整理好了](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
+### 下载链接：[全部答案，整理好了](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
 
 

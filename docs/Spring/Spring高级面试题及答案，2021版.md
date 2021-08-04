@@ -6,7 +6,8 @@
 
 
 
-### 1、[@Qualifier ](/Qualifier ) 注解有什么用？
+### [1、[@Qualifier ](/Qualifier ) 注解有什么用？](https://github.com/souyunku/DevBooks/blob/master/docs/Spring/Spring高级面试题及答案，2021版.md#1[@qualifier-]/qualifier--注解有什么用)  
+
 
 当您创建多个相同类型的 bean 并希望仅使用属性装配其中一个 bean 时，您可以使用[@Qualifier ](/Qualifier ) 注解和 [@Autowired ](/Autowired ) 通过指定应该装配哪个确切的 bean 来消除歧义。
 
@@ -42,19 +43,22 @@ public class EmpAccount {
 ```
 
 
-### 2、DispatcherServlet
+### [2、DispatcherServlet](https://github.com/souyunku/DevBooks/blob/master/docs/Spring/Spring高级面试题及答案，2021版.md#2dispatcherservlet)  
+
 
 Spring的MVC框架是围绕DispatcherServlet来设计的，它用来处理所有的HTTP请求和响应。
 
 
-### 3、SpringCloud有几种调用接口方式
+### [3、SpringCloud有几种调用接口方式](https://github.com/souyunku/DevBooks/blob/master/docs/Spring/Spring高级面试题及答案，2021版.md#3springcloud有几种调用接口方式)  
+
 
 **1、** Feign
 
 **2、** RestTemplate
 
 
-### 4、什么是 Spring Data？
+### [4、什么是 Spring Data？](https://github.com/souyunku/DevBooks/blob/master/docs/Spring/Spring高级面试题及答案，2021版.md#4什么是-spring-data)  
+
 
 来自：[//projects.spring.io/spring-](//projects.spring.io/spring-) data/
 
@@ -65,12 +69,14 @@ Spring Data 的使命是在保证底层数据存储特殊性的前提下，为�
 你可以定义一简单的库，用来插入，更新，删除和检索代办事项，而不需要编写大量的代码。
 
 
-### 5、创建一个 SpringBoot Project 的最简单的方法是什么？
+### [5、创建一个 SpringBoot Project 的最简单的方法是什么？](https://github.com/souyunku/DevBooks/blob/master/docs/Spring/Spring高级面试题及答案，2021版.md#5创建一个-springboot-project-的最简单的方法是什么)  
+
 
 Spring Initializer 是创建 SpringBoot Projects 的一个很好的工具
 
 
-### 6、解释Spring支持的几种bean的作用域。
+### [6、解释Spring支持的几种bean的作用域。](https://github.com/souyunku/DevBooks/blob/master/docs/Spring/Spring高级面试题及答案，2021版.md#6解释spring支持的几种bean的作用域。)  
+
 
 **Spring框架支持以下五种bean的作用域：**
 
@@ -87,12 +93,14 @@ Spring Initializer 是创建 SpringBoot Projects 的一个很好的工具
 缺省的Spring bean 的作用域是Singleton.
 
 
-### 7、列举 Spring DAO 抛出的异常。
+### [7、列举 Spring DAO 抛出的异常。](https://github.com/souyunku/DevBooks/blob/master/docs/Spring/Spring高级面试题及答案，2021版.md#7列举-spring-dao-抛出的异常。)  
+
 
 ![](https://gitee.com/souyunkutech/souyunku-home/raw/master/images/souyunku-web/2019/08/0816/02/img_4.png#alt=img%5C_4.png)
 
 
-### 8、什么是微服务中的反应性扩展？
+### [8、什么是微服务中的反应性扩展？](https://github.com/souyunku/DevBooks/blob/master/docs/Spring/Spring高级面试题及答案，2021版.md#8什么是微服务中的反应性扩展)  
+
 
 Reactive Extensions也称为Rx。这是一种设计方法，我们通过调用多个服务来收集结果，然后编译组合响应。这些调用可以是同步或异步，阻塞或非阻塞。Rx是分布式系统中非常流行的工具，与传统流程相反。
 
@@ -102,7 +110,8 @@ Reactive Extensions也称为Rx。这是一种设计方法，我们通过调用�
 
 
 
-### 9、比较一下 Spring Security 和 Shiro 各自的优缺点 ?
+### [9、比较一下 Spring Security 和 Shiro 各自的优缺点 ?](https://github.com/souyunku/DevBooks/blob/master/docs/Spring/Spring高级面试题及答案，2021版.md#9比较一下-spring-security-和-shiro-各自的优缺点-)  
+
 
 由于 SpringBoot 官方提供了大量的非常方便的开箱即用的 Starter ，包括 Spring Security 的 Starter ，使得在 SpringBoot 中使用 Spring Security 变得更加容易，甚至只需要添加一个依赖就可以保护所有的接口，所以，如果是 SpringBoot 项目，一般选择 Spring Security 。当然这只是一个建议的组合，单纯从技术上来说，无论怎么组合，都是没有问题的。Shiro 和 Spring Security 相比，主要有如下一些特点：
 
@@ -113,7 +122,8 @@ Spring Security 概念复杂，配置繁琐；Shiro 概念简单、配置简单
 Spring Security 功能强大；Shiro 功能简单
 
 
-### 10、使用 Spring 访问 Hibernate 的方法有哪些？
+### [10、使用 Spring 访问 Hibernate 的方法有哪些？](https://github.com/souyunku/DevBooks/blob/master/docs/Spring/Spring高级面试题及答案，2021版.md#10使用-spring-访问-hibernate-的方法有哪些)  
+
 
 我们可以通过两种方式使用 Spring 访问 Hibernate：
 
@@ -147,9 +157,9 @@ Spring Security 功能强大；Shiro 功能简单
 
 
 
-## 全部答案，整理好了，直接下载吧
+## [全部答案，整理好了，直接下载吧](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
-### 下载链接：[全部答案，整理好了](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
+### 下载链接：[全部答案，整理好了](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
 
 

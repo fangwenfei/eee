@@ -6,7 +6,8 @@
 
 
 
-### 1、andorid 应用第二次登录实现自动登录
+### [1、andorid 应用第二次登录实现自动登录](https://github.com/souyunku/DevBooks/blob/master/docs/Android/Android最新2021年面试题，高级面试题及附答案解析.md#1andorid-应用第二次登录实现自动登录)  
+
 
 前置条件是所有用户相关接口都走 https，非用户相关列表类数据走 http。
 
@@ -25,7 +26,8 @@
 **6、** 如果长效 token 失效（用户换设备或超过一月），提示用户登录。
 
 
-### 2、ContentProvider与sqlite有什么不一样的？
+### [2、ContentProvider与sqlite有什么不一样的？](https://github.com/souyunku/DevBooks/blob/master/docs/Android/Android最新2021年面试题，高级面试题及附答案解析.md#2contentprovider与sqlite有什么不一样的)  
+
 
 ```
 ContentProvider会对外隐藏内部实现，只需要关注访问contentProvider的uri即可，contentProvider应用在应用间共享。
@@ -34,7 +36,8 @@ ContentProiver可以对本地文件进行增删改查操作
 ```
 
 
-### 3、AIDL的全称是什么？如何工作？能处理哪些类型的数据？
+### [3、AIDL的全称是什么？如何工作？能处理哪些类型的数据？](https://github.com/souyunku/DevBooks/blob/master/docs/Android/Android最新2021年面试题，高级面试题及附答案解析.md#3aidl的全称是什么如何工作能处理哪些类型的数据)  
+
 
 全称是：Android Interface Define Language
 
@@ -61,12 +64,14 @@ AIDL语法很简单,可以用来声明一个带一个或多个方法的接口，
 (另外: 我没尝试Parcelables, 在Eclipse+ADT下编译不过, 或许以后会有所支持)
 
 
-### 4、activity，fragment传值问题
+### [4、activity，fragment传值问题](https://github.com/souyunku/DevBooks/blob/master/docs/Android/Android最新2021年面试题，高级面试题及附答案解析.md#4activityfragment传值问题)  
+
 
 通过Bundle传值，在activty定义变量传值，扩展fragment创建传值
 
 
-### 5、Manifest.xml文件中主要包括哪些信息？
+### [5、Manifest.xml文件中主要包括哪些信息？](https://github.com/souyunku/DevBooks/blob/master/docs/Android/Android最新2021年面试题，高级面试题及附答案解析.md#5manifestxml文件中主要包括哪些信息)  
+
 
 **1、** manifest：根节点，描述了package中所有的内容。
 
@@ -87,12 +92,14 @@ AIDL语法很简单,可以用来声明一个带一个或多个方法的接口，
 **9、** provider：ContentProvider是用来管理持久化数据并发布给其他应用程序使用的组件。
 
 
-### 6、简要解释一下activity、 intent 、intent filter、service、Broadcase、BroadcaseReceiver
+### [6、简要解释一下activity、 intent 、intent filter、service、Broadcase、BroadcaseReceiver](https://github.com/souyunku/DevBooks/blob/master/docs/Android/Android最新2021年面试题，高级面试题及附答案解析.md#6简要解释一下activity-intent-intent-filterservicebroadcasebroadcasereceiver)  
+
 
 一个activity呈现了一个用户可以操作的可视化用户界面；一个service不包含可见的用户界面，而是在后台运行，可以与一个activity绑定，通过绑定暴露出来接口并与其进行通信；一个broadcast receiver是一个接收广播消息并做出回应的component，broadcast receiver没有界面；一个intent是一个Intent对象，它保存了消息的内容。对于activity和service来说，它指定了请求的操作名称和待操作数据的URI，Intent对象可以显式的指定一个目标component。如果这样的话，android会找到这个component(基于manifest文件中的声明)并激活它。但如果一个目标不是显式指定的，android必须找到响应intent的最佳component。它是通过将Intent对象和目标的intent filter相比较来完成这一工作的；一个component的intent filter告诉android该component能处理的intent。intent filter也是在manifest文件中声明的。
 
 
-### 7、Serializable 和 Parcelable 的区别？
+### [7、Serializable 和 Parcelable 的区别？](https://github.com/souyunku/DevBooks/blob/master/docs/Android/Android最新2021年面试题，高级面试题及附答案解析.md#7serializable-和-parcelable-的区别)  
+
 
 如果存储在内存中，推荐使用parcelable，使用serialiable在序列化的时候会产生大量的临时变量，会引起频繁的GC
 
@@ -103,7 +110,8 @@ Serializable的实现：只需要实现Serializable接口，就会自动生成�
 Parcelable的实现：需要实现Parcelable接口，还需要Parcelable.CREATER变量
 
 
-### 8、什么是 AIDL？如何使用？
+### [8、什么是 AIDL？如何使用？](https://github.com/souyunku/DevBooks/blob/master/docs/Android/Android最新2021年面试题，高级面试题及附答案解析.md#8什么是-aidl如何使用)  
+
 
 aidl 是 Android interface definition Language 的英文缩写，意思 Android 接口定义语言。
 
@@ -114,12 +122,14 @@ aidl 是 Android interface definition Language 的英文缩写，意思 Android 
 **2、** 我们通过 bindService（Intent，ServiceConnect，int）方法绑定远程服务，在 bindService中 有 一 个 ServiceConnec 接 口 ， 我 们 需 要 覆 写 该 类 的onServiceConnected(ComponentName,IBinder)方法，这个方法的第二个参数 IBinder 对象其实就是已经在 aidl 中定义的接口，因此我们可以将 IBinder 对象强制转换为 aidl 中的接口类。我们通过 IBinder 获取到的对象（也就是 aidl 文件生成的接口）其实是系统产生的代理对象，该代理对象既可以跟我们的进程通信， 又可以跟远程进程通信， 作为一个中间的角色实现了进程间通信。
 
 
-### 9、嵌入式操作系统内存管理有哪几种， 各有何特性
+### [9、嵌入式操作系统内存管理有哪几种， 各有何特性](https://github.com/souyunku/DevBooks/blob/master/docs/Android/Android最新2021年面试题，高级面试题及附答案解析.md#9嵌入式操作系统内存管理有哪几种-各有何特性)  
+
 
 页式，段式，段页，用到了MMU,虚拟空间等技术
 
 
-### 10、注册广播的几种方法?
+### [10、注册广播的几种方法?](https://github.com/souyunku/DevBooks/blob/master/docs/Android/Android最新2021年面试题，高级面试题及附答案解析.md#10注册广播的几种方法)  
+
 
 **1、** 静态注册:在清单文件中注册， 常见的有监听设备启动，常驻注册不会随程序生命周期改变
 
@@ -150,9 +160,9 @@ aidl 是 Android interface definition Language 的英文缩写，意思 Android 
 
 
 
-## 全部答案，整理好了，直接下载吧
+## [全部答案，整理好了，直接下载吧](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
-### 下载链接：[全部答案，整理好了](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
+### 下载链接：[全部答案，整理好了](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
 
 

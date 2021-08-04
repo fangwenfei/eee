@@ -6,7 +6,8 @@
 
 
 
-### 1、谈谈你在工作中是怎样解决一个 bug
+### [1、谈谈你在工作中是怎样解决一个 bug](https://github.com/souyunku/DevBooks/blob/master/docs/Android/Android最新2021年面试题附答案解析，大汇总.md#1谈谈你在工作中是怎样解决一个-bug)  
+
 
 **1、** 异常附近多打印 log 信息；
 
@@ -19,17 +20,20 @@
 **5、** 实在不行就 GG 了，找师傅来解决！
 
 
-### 2、Android 判断SD卡是否存在
+### [2、Android 判断SD卡是否存在](https://github.com/souyunku/DevBooks/blob/master/docs/Android/Android最新2021年面试题附答案解析，大汇总.md#2android-判断sd卡是否存在)  
+
 
 首先要在AndroidManifest.xml中增加SD卡访问权限
 
 
-### 3、Android dvm的进程和Linux的进程, 应用程序的进程是否为同一个概念
+### [3、Android dvm的进程和Linux的进程, 应用程序的进程是否为同一个概念](https://github.com/souyunku/DevBooks/blob/master/docs/Android/Android最新2021年面试题附答案解析，大汇总.md#3android-dvm的进程和linux的进程,-应用程序的进程是否为同一个概念)  
+
 
 DVM指dalivk的虚拟机。每一个Android应用程序都在它自己的进程中运行，都拥有一个独立的Dalvik虚拟机实例。而每一个DVM都是在Linux 中的一个进程，所以说可以认为是同一个概念。
 
 
-### 4、9.进程和线程的区别
+### [4、9.进程和线程的区别](https://github.com/souyunku/DevBooks/blob/master/docs/Android/Android最新2021年面试题附答案解析，大汇总.md#49进程和线程的区别)  
+
 
 概念：进程包括多个线程，一个程序一个进程，多线程的优点可以提高执行效率，提高资源利用率
 
@@ -48,12 +52,14 @@ DVM指dalivk的虚拟机。每一个Android应用程序都在它自己的进程�
 **5、** setPriority()设置线程优先级
 
 
-### 5、Activity间通过Intent传递数据大小有没有限制？
+### [5、Activity间通过Intent传递数据大小有没有限制？](https://github.com/souyunku/DevBooks/blob/master/docs/Android/Android最新2021年面试题附答案解析，大汇总.md#5activity间通过intent传递数据大小有没有限制)  
+
 
 Intent在传递数据时是有大小限制的，这里官方并未详细说明，不过通过实验的方法可以测出数据应该被限制在1MB之内（1024KB），笔者采用的是传递Bitmap的方法，发现当图片大小超过1024（准确地说是1020左右）的时候，程序就会出现闪退、停止运行等异常(不同的手机反应不同)，因此可以判断Intent的传输容量在1MB之内。
 
 
-### 6、跨进程通信的几种方式
+### [6、跨进程通信的几种方式](https://github.com/souyunku/DevBooks/blob/master/docs/Android/Android最新2021年面试题附答案解析，大汇总.md#6跨进程通信的几种方式)  
+
 
 Intent,比如拨打电话
 
@@ -64,7 +70,8 @@ Broadcast广播通信
 AIDL通信，通过接口共享数据
 
 
-### 7、View的绘制原理
+### [7、View的绘制原理](https://github.com/souyunku/DevBooks/blob/master/docs/Android/Android最新2021年面试题附答案解析，大汇总.md#7view的绘制原理)  
+
 
 View为所有图形控件的基类，View的绘制由3个函数完成
 
@@ -75,17 +82,20 @@ layout,提供视图要显示的位置
 draw,绘制
 
 
-### 8、什么是嵌入式实时操作系统, Android 操作系统属于实时操作系统吗?
+### [8、什么是嵌入式实时操作系统, Android 操作系统属于实时操作系统吗?](https://github.com/souyunku/DevBooks/blob/master/docs/Android/Android最新2021年面试题附答案解析，大汇总.md#8什么是嵌入式实时操作系统,-android-操作系统属于实时操作系统吗)  
+
 
 嵌入式实时操作系统是指当外界事件或数据产生时，能够接受并以足够快的速度予以处理，其处理的结果又能在规定的时间之内来控制生产过程或对处理系统作出快速响应，并控制所有实时任务协调一致运行的嵌入式操作系统。主要用于工业控制、 军事设备、 航空航天等领域对系统的响应时间有苛刻的要求，这就需要使用实时系统。又可分为软实时和硬实时两种，而android是基于linux内核的，因此属于软实时。
 
 
-### 9、SurfaceView
+### [9、SurfaceView](https://github.com/souyunku/DevBooks/blob/master/docs/Android/Android最新2021年面试题附答案解析，大汇总.md#9surfaceview)  
+
 
 基于view视图进行拓展的视图类，更适合2D游戏的开发，是view的子类，类似使用双缓机制，在新的线程中更新画面所以刷新界面速度比view快
 
 
-### 10、怎样对 android 进行优化？
+### [10、怎样对 android 进行优化？](https://github.com/souyunku/DevBooks/blob/master/docs/Android/Android最新2021年面试题附答案解析，大汇总.md#10怎样对-android-进行优化)  
+
 
 **1、** 对 listview 的优化。
 
@@ -126,9 +136,9 @@ draw,绘制
 
 
 
-## 全部答案，整理好了，直接下载吧
+## [全部答案，整理好了，直接下载吧](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
-### 下载链接：[全部答案，整理好了](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
+### 下载链接：[全部答案，整理好了](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
 
 

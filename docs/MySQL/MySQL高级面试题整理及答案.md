@@ -6,7 +6,8 @@
 
 
 
-### 1、索引的分类?
+### [1、索引的分类?](https://github.com/souyunku/DevBooks/blob/master/docs/MySQL/MySQL高级面试题整理及答案.md#1索引的分类)  
+
 
 **1、** 从存储结构上来划分：BTree索引（B-Tree或B+Tree索引），Hash索引，full-index全文索引，R-Tree索引。这里所描述的是索引存储时保存的形式，
 
@@ -37,12 +38,14 @@
 非聚簇索引：不是聚簇索引，就是非聚簇索引
 
 
-### 2、索引具体采用那种数据结构呢？
+### [2、索引具体采用那种数据结构呢？](https://github.com/souyunku/DevBooks/blob/master/docs/MySQL/MySQL高级面试题整理及答案.md#2索引具体采用那种数据结构呢)  
+
 
 常见的MySQL主要有两种结构：hash索引和B+Tree索引，我们使用的是innodb引擎，默认的是B+树。
 
 
-### 3、索引算法有哪些？
+### [3、索引算法有哪些？](https://github.com/souyunku/DevBooks/blob/master/docs/MySQL/MySQL高级面试题整理及答案.md#3索引算法有哪些)  
+
 
 索引算法有 BTree算法和Hash算法
 
@@ -62,7 +65,8 @@ select * from user where name like '%jack';
 Hash Hash索引只能用于对等比较，例如=,<=>（相当于=）操作符。由于是一次定位数据，不像BTree索引需要从根节点到枝节点，最后才能访问到页节点这样多次IO访问，所以检索效率远高于BTree索引。
 
 
-### 4、备份计划，MySQLdump以及xtranbackup的实现原理
+### [4、备份计划，MySQLdump以及xtranbackup的实现原理](https://github.com/souyunku/DevBooks/blob/master/docs/MySQL/MySQL高级面试题整理及答案.md#4备份计划mysqldump以及xtranbackup的实现原理)  
+
 
 **备份计划**
 
@@ -105,14 +109,16 @@ xtrabackup 属于物理备份，直接拷贝表空间文件，同时不断扫描
 - 概念，因为 xtrabackup 并不拷贝 binlog，所以必须保证所有的 redo log 都落盘，否则可能会丢最后一组提交事务的数据)。这个时间点就是 innodb 完成备份的时间点，数据文件虽然不是一致性的，但是有这段时间的 redo 就可以让数据文件达到一致性(恢复的时候做的事情)。然后还需要 flush tables with read lock，把 myisam 等其他引擎的表给备份出来，备份完后解锁。这样就做到了完美的热备。
 
 
-### 5、BLOB和TEXT有什么区别？
+### [5、BLOB和TEXT有什么区别？](https://github.com/souyunku/DevBooks/blob/master/docs/MySQL/MySQL高级面试题整理及答案.md#5blob和text有什么区别)  
+
 
 BLOB是一个二进制对象，可以容纳可变数量的数据。TEXT是一个不区分大小写的BLOB。
 
 BLOB和TEXT类型之间的唯一区别在于对BLOB值进行排序和比较时区分大小写，对TEXT值不区分大小写。
 
 
-### 6、百万级别或以上的数据如何删除
+### [6、百万级别或以上的数据如何删除](https://github.com/souyunku/DevBooks/blob/master/docs/MySQL/MySQL高级面试题整理及答案.md#6百万级别或以上的数据如何删除)  
+
 
 关于索引：由于索引需要额外的维护成本，因为索引文件是单独存在的文件,所以当我们对数据的增加,修改,删除,都会产生额外的对索引文件的操作,这些操作需要消耗额外的IO,会降低增/改/删的执行效率。所以，在我们删除数据库百万级别数据的时候，查询MySQL官方手册得知删除数据的速度和创建的索引数量是成正比的。
 
@@ -125,12 +131,14 @@ BLOB和TEXT类型之间的唯一区别在于对BLOB值进行排序和比较时�
 **4、** 与之前的直接删除绝对是要快速很多，更别说万一删除中断,一切删除会回滚。那更是坑了。
 
 
-### 7、乐观锁：
+### [7、乐观锁：](https://github.com/souyunku/DevBooks/blob/master/docs/MySQL/MySQL高级面试题整理及答案.md#7乐观锁：)  
+
 
 乐观锁的“乐观情绪”体现在，它认为数据的变动不会太频繁。因此，它允许多个事务同时对数据进行变动。实现方式：乐观锁一般会使用版本号机制或CAS算法实现。
 
 
-### 8、B树和B+树的区别
+### [8、B树和B+树的区别](https://github.com/souyunku/DevBooks/blob/master/docs/MySQL/MySQL高级面试题整理及答案.md#8b树和b+树的区别)  
+
 
 **1、** 在B树中，你可以将键和值存放在内部节点和叶子节点；但在B+树中，内部节点都是键，没有值，叶子节点同时存放键和值。
 
@@ -139,7 +147,8 @@ BLOB和TEXT类型之间的唯一区别在于对BLOB值进行排序和比较时�
 ![99_4.png][99_4.png]
 
 
-### 9、InnoDB引擎的4大特性
+### [9、InnoDB引擎的4大特性](https://github.com/souyunku/DevBooks/blob/master/docs/MySQL/MySQL高级面试题整理及答案.md#9innodb引擎的4大特性)  
+
 
 **1、** 插入缓冲（insert buffer)
 
@@ -150,7 +159,8 @@ BLOB和TEXT类型之间的唯一区别在于对BLOB值进行排序和比较时�
 **4、** 预读(read ahead)
 
 
-### 10、有多少种日志
+### [10、有多少种日志](https://github.com/souyunku/DevBooks/blob/master/docs/MySQL/MySQL高级面试题整理及答案.md#10有多少种日志)  
+
 
 innodb两种日志redo和undo。
 
@@ -178,9 +188,9 @@ innodb两种日志redo和undo。
 
 
 
-## 全部答案，整理好了，直接下载吧
+## [全部答案，整理好了，直接下载吧](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
-### 下载链接：[全部答案，整理好了](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
+### 下载链接：[全部答案，整理好了](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
 
 

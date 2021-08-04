@@ -6,7 +6,8 @@
 
 
 
-### 1、React组件生命周期的阶段是什么？
+### [1、React组件生命周期的阶段是什么？](https://github.com/souyunku/DevBooks/blob/master/docs/React/React最新2021年面试题，高级面试题及附答案解析.md#1react组件生命周期的阶段是什么)  
+
 
 React 组件的生命周期有三个不同的阶段：
 
@@ -17,7 +18,8 @@ React 组件的生命周期有三个不同的阶段：
 **3、** 卸载阶段：这是组件生命周期的最后阶段，组件被销毁并从 DOM 中删除。
 
 
-### 2、Redux与Flux有何不同？
+### [2、Redux与Flux有何不同？](https://github.com/souyunku/DevBooks/blob/master/docs/React/React最新2021年面试题，高级面试题及附答案解析.md#2redux与flux有何不同)  
+
 | Flux | Redux |
 | --- | --- |
 | 1、Store 包含状态和更改逻辑 | 1、Store 和更改逻辑是分开的 |
@@ -29,7 +31,8 @@ React 组件的生命周期有三个不同的阶段：
 
 
 
-### 3、React实现的移动应用中如果出现卡顿有哪些可以考虑的优化方案
+### [3、React实现的移动应用中如果出现卡顿有哪些可以考虑的优化方案](https://github.com/souyunku/DevBooks/blob/master/docs/React/React最新2021年面试题，高级面试题及附答案解析.md#3react实现的移动应用中如果出现卡顿有哪些可以考虑的优化方案)  
+
 
 **1、** 增加`shouldComponentUpdate`钩子对新旧`props`进行比较如果值相同则阻止更新避免不必要的渲染或者使用`PureReactComponent`替代`Component`其内部已经封装了`shouldComponentUpdate`的浅比较逻辑
 
@@ -50,7 +53,8 @@ onClick={() => {
 **2、** webpack-bundle-analyzer分析当前页面的依赖包是否存在不合理性如果存在找到优化点并进行优化
 
 
-### 4、Redux遵循的三个原则是什么？
+### [4、Redux遵循的三个原则是什么？](https://github.com/souyunku/DevBooks/blob/master/docs/React/React最新2021年面试题，高级面试题及附答案解析.md#4redux遵循的三个原则是什么)  
+
 
 **1、**  单一事实来源：整个应用的状态存储在单个 store 中的对象/状态树里。单一状态树可以更容易地跟踪随时间的变化，并调试或检查应用程序。
 
@@ -59,17 +63,20 @@ onClick={() => {
 **3、**  使用纯函数进行更改：为了指定状态树如何通过操作进行转换，你需要纯函数。纯函数是那些返回值仅取决于其参数值的函数。
 
 
-### 5、简单说一下Vue2.x响应式数据原理
+### [5、简单说一下Vue2.x响应式数据原理](https://github.com/souyunku/DevBooks/blob/master/docs/React/React最新2021年面试题，高级面试题及附答案解析.md#5简单说一下vue2x响应式数据原理)  
+
 
 Vue在初始化数据时，会使用`Object.defineProperty`重新定义data中的所有属性，当页面使用对应属性时，首先会进行依赖收集(收集当前组件的`watcher`)如果属性发生变化会通知相关依赖进行更新操作(`发布订阅`)。
 
 
-### 6、如何告诉 React 它应该编译生产环境版
+### [6、如何告诉 React 它应该编译生产环境版](https://github.com/souyunku/DevBooks/blob/master/docs/React/React最新2021年面试题，高级面试题及附答案解析.md#6如何告诉-react-它应该编译生产环境版)  
+
 
 通常情况下我们会使用 `Webpack` 的 `DefinePlugin` 方法来将 `NODE_ENV` 变量值设置为 `production`。编译版本中 `React`会忽略 `propType` 验证以及其他的告警信息同时还会降低代码库的大小React 使用了 `Uglify` 插件来移除生产环境下不必要的注释等信息
 
 
-### 7、React最新的生命周期是怎样的?
+### [7、React最新的生命周期是怎样的?](https://github.com/souyunku/DevBooks/blob/master/docs/React/React最新2021年面试题，高级面试题及附答案解析.md#7react最新的生命周期是怎样的)  
+
 
 React 16之后有三个生命周期被废弃(但并未删除)
 
@@ -112,14 +119,16 @@ componentWillUnmount: 当我们的组件被卸载或者销毁了就会调用，�
 ![](https://gitee.com/souyunkutech/souyunku-home/raw/master/images/souyunku-web/2020/4/30/1939/39/97_1.png#alt=97%5C_1.png)
 
 
-### 8、Vue事件绑定原理说一下
+### [8、Vue事件绑定原理说一下](https://github.com/souyunku/DevBooks/blob/master/docs/React/React最新2021年面试题，高级面试题及附答案解析.md#8vue事件绑定原理说一下)  
+
 
 原生事件绑定是通过`addEventListener`绑定给真实元素的，组件事件绑定是通过Vue自定义的`$on`实现的。
 
 **面试官：(这小子基础还可以，接下来我得上上难度了)**
 
 
-### 9、Vue中组件生命周期调用顺序说一下
+### [9、Vue中组件生命周期调用顺序说一下](https://github.com/souyunku/DevBooks/blob/master/docs/React/React最新2021年面试题，高级面试题及附答案解析.md#9vue中组件生命周期调用顺序说一下)  
+
 
 **1、** 组件的调用顺序都是`先父后子`,渲染完成的顺序是`先子后父`。
 
@@ -142,7 +151,8 @@ componentWillUnmount: 当我们的组件被卸载或者销毁了就会调用，�
 `父beforeDestroy->子beforeDestroy->子destroyed->父destroyed`
 
 
-### 10、react 的渲染过程中兄弟节点之间是怎么处理的也就是key值不一样的时候
+### [10、react 的渲染过程中兄弟节点之间是怎么处理的也就是key值不一样的时候](https://github.com/souyunku/DevBooks/blob/master/docs/React/React最新2021年面试题，高级面试题及附答案解析.md#10react-的渲染过程中兄弟节点之间是怎么处理的也就是key值不一样的时候)  
+
 
 通常我们输出节点的时候都是`map`一个数组然后返回一个`ReactNode`为了方便`react`内部进行优化我们必须给每一个`reactNode`添加`key`这个`key prop`在设计值处不是给开发者用的而是给react用的大概的作用就是给每一个reactNode添加一个身份标识方便react进行识别在重渲染过程中如果key一样若组件属性有所变化则`react`只更新组件对应的属性没有变化则不更新如果`key`不一样则`react`先销毁该组件然后重新创建该组件
 
@@ -169,9 +179,9 @@ componentWillUnmount: 当我们的组件被卸载或者销毁了就会调用，�
 
 
 
-## 全部答案，整理好了，直接下载吧
+## [全部答案，整理好了，直接下载吧](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
-### 下载链接：[全部答案，整理好了](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
+### 下载链接：[全部答案，整理好了](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
 
 

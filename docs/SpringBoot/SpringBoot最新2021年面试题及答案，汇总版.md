@@ -6,7 +6,8 @@
 
 
 
-### 1、spring-boot-starter-parent 有什么用 ?
+### [1、spring-boot-starter-parent 有什么用 ?](https://github.com/souyunku/DevBooks/blob/master/docs/SpringBoot/SpringBoot最新2021年面试题及答案，汇总版.md#1spring-boot-starter-parent-有什么用-)  
+
 
 我们都知道，新创建一个 SpringBoot 项目，默认都是有 parent 的，这个 parent 就是 spring-boot-starter-parent ，spring-boot-starter-parent 主要有如下作用：
 
@@ -25,7 +26,8 @@
 **7、** 针对 application.properties 和 application.yml 的资源过滤，包括通过 profile 定义的不同环境的配置文件，例如 application-dev.properties 和 application-dev.yml。
 
 
-### 2、shiro和oauth还有cas他们之间的关系是什么？问下您公司权限是如何设计，还有就是这几个概念的区别。
+### [2、shiro和oauth还有cas他们之间的关系是什么？问下您公司权限是如何设计，还有就是这几个概念的区别。](https://github.com/souyunku/DevBooks/blob/master/docs/SpringBoot/SpringBoot最新2021年面试题及答案，汇总版.md#2shiro和oauth还有cas他们之间的关系是什么问下您公司权限是如何设计还有就是这几个概念的区别。)  
+
 
 cas和oauth是一个解决单点登录的组件，shiro主要是负责权限安全方面的工作，所以功能点不一致。但往往需要单点登陆和权限控制一起来使用，所以就有 cas+shiro或者oauth+shiro这样的组合。
 
@@ -34,7 +36,8 @@ token一般是客户端登录后服务端生成的令牌，每次访问服务端
 我们公司使用oauth+shiro这样的方式来做后台权限的管理，oauth负责多后台统一登录认证，shiro负责给登录用户赋予不同的访问权限。
 
 
-### 3、SpringBoot、Spring MVC 和 Spring 有什么区别？
+### [3、SpringBoot、Spring MVC 和 Spring 有什么区别？](https://github.com/souyunku/DevBooks/blob/master/docs/SpringBoot/SpringBoot最新2021年面试题及答案，汇总版.md#3springbootspring-mvc-和-spring-有什么区别)  
+
 
 **1、** Spring
 
@@ -53,7 +56,8 @@ Spring 和 SpringMVC 的问题在于需要配置大量的参数。
 SpringBoot 通过一个自动配置和启动的项来目解决这个问题。为了更快的构建产品就绪应用程序，SpringBoot 提供了一些非功能性特征。
 
 
-### 4、什么是SpringBoot
+### [4、什么是SpringBoot](https://github.com/souyunku/DevBooks/blob/master/docs/SpringBoot/SpringBoot最新2021年面试题及答案，汇总版.md#4什么是springboot)  
+
 
 **1、** 用来简化spring应用的初始搭建以及开发过程 使用特定的方式来进行配置（properties或yml文件）
 
@@ -64,24 +68,28 @@ SpringBoot 通过一个自动配置和启动的项来目解决这个问题。为
 **4、** 简化maven配置
 
 
-### 5、开启 SpringBoot 特性有哪几种方式？
+### [5、开启 SpringBoot 特性有哪几种方式？](https://github.com/souyunku/DevBooks/blob/master/docs/SpringBoot/SpringBoot最新2021年面试题及答案，汇总版.md#5开启-springboot-特性有哪几种方式)  
+
 
 **1、** 继承spring-boot-starter-parent项目
 
 **2、** 导入spring-boot-dependencies项目依赖
 
 
-### 6、什么是YAML?
+### [6、什么是YAML?](https://github.com/souyunku/DevBooks/blob/master/docs/SpringBoot/SpringBoot最新2021年面试题及答案，汇总版.md#6什么是yaml)  
+
 
 YAML是一种人类可读的数据序列化语言。它通常用于`配置文件`。 与属性文件相比，如果我们想要在配置文件中添加复杂的属性，YAML文件就更加结构化，而且更少混淆。可以看出YAML具有`分层配置数据`。
 
 
-### 7、什么是Spring Profiles？
+### [7、什么是Spring Profiles？](https://github.com/souyunku/DevBooks/blob/master/docs/SpringBoot/SpringBoot最新2021年面试题及答案，汇总版.md#7什么是spring-profiles)  
+
 
 Spring Profiles允许用户根据配置文件（dev，test，prod等）来注册bean。因此，当应用程序在开发中运行时，只有某些bean可以加载，而在PRODUCTION中，某些其他bean可以加载。假设我们的要求是Swagger文档仅适用于QA环境，并且禁用所有其他文档。这可以使用配置文件来完成。SpringBoot使得使用配置文件非常简单。
 
 
-### 8、如何在 SpringBoot 中添加通用的 JS 代码？
+### [8、如何在 SpringBoot 中添加通用的 JS 代码？](https://github.com/souyunku/DevBooks/blob/master/docs/SpringBoot/SpringBoot最新2021年面试题及答案，汇总版.md#8如何在-springboot-中添加通用的-js-代码)  
+
 
 在源文件夹下，创建一个名为 static 的文件夹。然后，你可以把你的静态的内容放在这里面。
 
@@ -108,12 +116,14 @@ management.security.enabled:FALSE
 方法二：在日志中搜索密码并传递至请求标头中
 
 
-### 9、SpringBoot 有哪几种读取配置的方式？
+### [9、SpringBoot 有哪几种读取配置的方式？](https://github.com/souyunku/DevBooks/blob/master/docs/SpringBoot/SpringBoot最新2021年面试题及答案，汇总版.md#9springboot-有哪几种读取配置的方式)  
+
 
 SpringBoot 可以通过 @PropertySource,@Value,@Environment, @ConfigurationProperties 来绑定变量。
 
 
-### 10、SpringBoot 是否可以使用 XML 配置 ?
+### [10、SpringBoot 是否可以使用 XML 配置 ?](https://github.com/souyunku/DevBooks/blob/master/docs/SpringBoot/SpringBoot最新2021年面试题及答案，汇总版.md#10springboot-是否可以使用-xml-配置-)  
+
 
 SpringBoot 推荐使用 Java 配置而非 XML 配置，但是 SpringBoot 中也可以使用 XML 配置，通过 [@ImportResource ](/ImportResource ) 注解可以引入一个 XML 配置。
 
@@ -143,9 +153,9 @@ SpringBoot 推荐使用 Java 配置而非 XML 配置，但是 SpringBoot 中也�
 
 
 
-## 全部答案，整理好了，直接下载吧
+## [全部答案，整理好了，直接下载吧](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
-### 下载链接：[全部答案，整理好了](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
+### 下载链接：[全部答案，整理好了](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
 
 

@@ -6,12 +6,14 @@
 
 
 
-### 1、在高并发情况下，如何做到安全的修改同一行数据？
+### [1、在高并发情况下，如何做到安全的修改同一行数据？](https://github.com/souyunku/DevBooks/blob/master/docs/MySQL/MySQL最新面试题及答案附答案汇总.md#1在高并发情况下如何做到安全的修改同一行数据)  
+
 
 要安全的修改同一行数据，就要保证一个线程在修改时其它线程无法更新这行记录。一般有悲观锁和乐观锁两种方案~
 
 
-### 2、索引有哪些优缺点？
+### [2、索引有哪些优缺点？](https://github.com/souyunku/DevBooks/blob/master/docs/MySQL/MySQL最新面试题及答案附答案汇总.md#2索引有哪些优缺点)  
+
 
 **索引的优点**
 
@@ -26,7 +28,8 @@
 **2、** 空间方面：索引需要占物理空间。
 
 
-### 3、非聚簇索引一定会回表查询吗？
+### [3、非聚簇索引一定会回表查询吗？](https://github.com/souyunku/DevBooks/blob/master/docs/MySQL/MySQL最新面试题及答案附答案汇总.md#3非聚簇索引一定会回表查询吗)  
+
 
 不一定，这涉及到查询语句所要求的字段是否全部命中了索引，如果全部命中了索引，那么就不必再进行回表查询。
 
@@ -35,7 +38,8 @@
 假设我们在员工表的年龄上建立了索引，那么当进行`select age from employee where age < 20`的查询时，在索引的叶子节点上，已经包含了age信息，不会再次进行回表查询。
 
 
-### 4、MySQL数据库cpu飙升的话，要怎么处理呢？
+### [4、MySQL数据库cpu飙升的话，要怎么处理呢？](https://github.com/souyunku/DevBooks/blob/master/docs/MySQL/MySQL最新面试题及答案附答案汇总.md#4mysql数据库cpu飙升的话要怎么处理呢)  
+
 
 **「排查过程：」**
 
@@ -58,7 +62,8 @@ kill 掉这些线程(同时观察 cpu 使用率是否下降)，
 也有可能是每个 sql 消耗资源并不多，但是突然之间，有大量的 session 连进来导致 cpu 飙升，这种情况就需要跟应用一起来分析为何连接数会激增，再做出相应的调整，比如说限制连接数等
 
 
-### 5、Hash索引和B+树区别是什么？你在设计索引是怎么抉择的？
+### [5、Hash索引和B+树区别是什么？你在设计索引是怎么抉择的？](https://github.com/souyunku/DevBooks/blob/master/docs/MySQL/MySQL最新面试题及答案附答案汇总.md#5hash索引和b+树区别是什么你在设计索引是怎么抉择的)  
+
 
 **1、** B+树可以进行范围查询，Hash索引不能。
 
@@ -71,7 +76,8 @@ kill 掉这些线程(同时观察 cpu 使用率是否下降)，
 **5、** B+树使用like 进行模糊查询的时候，like后面（比如%开头）的话可以起到优化的作用，Hash索引根本无法进行模糊查询。
 
 
-### 6、数据库自增主键可能遇到什么问题。
+### [6、数据库自增主键可能遇到什么问题。](https://github.com/souyunku/DevBooks/blob/master/docs/MySQL/MySQL最新面试题及答案附答案汇总.md#6数据库自增主键可能遇到什么问题。)  
+
 
 **1、** 使用自增主键对数据库做分库分表，可能出现诸如主键重复等的问题。解决方案的话，简单点的话可以考虑使用UUID哈
 
@@ -80,7 +86,8 @@ kill 掉这些线程(同时观察 cpu 使用率是否下降)，
 **3、** 自增主键可能用完问题。
 
 
-### 7、事务特性：
+### [7、事务特性：](https://github.com/souyunku/DevBooks/blob/master/docs/MySQL/MySQL最新面试题及答案附答案汇总.md#7事务特性：)  
+
 
 （1）原子性：即不可分割性，事务要么全部被执行，要么就全部不被执行。
 
@@ -95,7 +102,8 @@ kill 掉这些线程(同时观察 cpu 使用率是否下降)，
 事务就是被绑定在一起作为一个逻辑工作单元的SQL语句分组，如果任何一个语句操作失败那么整个操作就被失败，以后操作就会回滚到操作前状态，或者是上有个节点。为了确保要么执行，要么不执行，就可以使用事务。要将有组语句作为事务考虑，就需要通过ACID测试，即原子性，一致性，隔离性和持久性。
 
 
-### 8、优化数据库的方法
+### [8、优化数据库的方法](https://github.com/souyunku/DevBooks/blob/master/docs/MySQL/MySQL最新面试题及答案附答案汇总.md#8优化数据库的方法)  
+
 
 **1、** 选取最适用的字段属性，尽可能减少定义字段宽度，尽量把字段设置NOTNULL，例如’省份’、’性别’最好适用ENUM
 
@@ -114,7 +122,8 @@ kill 掉这些线程(同时观察 cpu 使用率是否下降)，
 **8、** 优化查询语句
 
 
-### 9、MySQL中int(10)和char(10)以及varchar(10)的区别
+### [9、MySQL中int(10)和char(10)以及varchar(10)的区别](https://github.com/souyunku/DevBooks/blob/master/docs/MySQL/MySQL最新面试题及答案附答案汇总.md#9mysql中int10和char10以及varchar10的区别)  
+
 
 **1、** int(10)的10表示显示的数据的长度，不是存储数据的大小；chart(10)和varchar(10)的10表示存储数据的大小，即表示存储多少个字符。
 
@@ -123,7 +132,8 @@ kill 掉这些线程(同时观察 cpu 使用率是否下降)，
 **3、** varchar(10)表示存储10个变长的字符，存储多少个就是多少个，空格也按一个字符存储，这一点是和char(10)的空格不同的，char(10)的空格表示占位不算一个字符
 
 
-### 10、简述在MySQL数据库中MyISAM和InnoDB的区别
+### [10、简述在MySQL数据库中MyISAM和InnoDB的区别](https://github.com/souyunku/DevBooks/blob/master/docs/MySQL/MySQL最新面试题及答案附答案汇总.md#10简述在mysql数据库中myisam和innodb的区别)  
+
 
 **MyISAM：**
 
@@ -174,9 +184,9 @@ kill 掉这些线程(同时观察 cpu 使用率是否下降)，
 
 
 
-## 全部答案，整理好了，直接下载吧
+## [全部答案，整理好了，直接下载吧](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
-### 下载链接：[全部答案，整理好了](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
+### 下载链接：[全部答案，整理好了](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
 
 

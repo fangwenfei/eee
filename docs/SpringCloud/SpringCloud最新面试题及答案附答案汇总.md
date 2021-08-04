@@ -6,7 +6,8 @@
 
 
 
-### 1、为什么人们会犹豫使用微服务？
+### [1、为什么人们会犹豫使用微服务？](https://github.com/souyunku/DevBooks/blob/master/docs/SpringCloud/SpringCloud最新面试题及答案附答案汇总.md#1为什么人们会犹豫使用微服务)  
+
 
 我见过许多开发者在这个问题上摸索。毕竟，在面试微服务架构师角色时，他们会被问到这个问题，所以承认它的缺点可能有点棘手。以下是一些很好的答案：
 
@@ -15,21 +16,24 @@
 他们需要建立繁重的架构 - 系统是分布式的，架构涉及很多。 他们需要过多的计划来处理操作开销 - 如果您计划使用微服务架构，则需要为操作开销做好准备。 需要熟练的专业人员，他们可以支持异构分布的微服务。
 
 
-### 2、Spring Cloud 是什么
+### [2、Spring Cloud 是什么](https://github.com/souyunku/DevBooks/blob/master/docs/SpringCloud/SpringCloud最新面试题及答案附答案汇总.md#2spring-cloud-是什么)  
+
 
 **1、** Spring Cloud是一系列框架的有序集合。它利用SpringBoot的开发便利性巧妙地简化了分布式系统基础设施的开发，如服务发现注册、配置中心、智能路由、消息总线、负载均衡、断路器、数据监控等，都可以用SpringBoot的开发风格做到一键启动和部署。
 
 **2、** Spring Cloud并没有重复制造轮子，它只是将各家公司开发的比较成熟、经得起实际考验的服务框架组合起来，通过SpringBoot风格进行再封装屏蔽掉了复杂的配置和实现原理，最终给开发者留出了一套简单易懂、易部署和易维护的分布式系统开发工具包。
 
 
-### 3、为什么需要域驱动设计（DDD）？
+### [3、为什么需要域驱动设计（DDD）？](https://github.com/souyunku/DevBooks/blob/master/docs/SpringCloud/SpringCloud最新面试题及答案附答案汇总.md#3为什么需要域驱动设计ddd)  
+
 
 ![](https://gitee.com/souyunkutech/souyunku-home/raw/master/images/souyunku-web/2019/08/0816/01/img_11.png#alt=img%5C_11.png)
 
 图9：我们需要DDD的因素 – 微服务面试问题
 
 
-### 4、Spring Cloud和SpringBoot版本对应关系
+### [4、Spring Cloud和SpringBoot版本对应关系](https://github.com/souyunku/DevBooks/blob/master/docs/SpringCloud/SpringCloud最新面试题及答案附答案汇总.md#4spring-cloud和springboot版本对应关系)  
+
 | Spring Cloud Version | SpringBoot Version |
 | --- | --- |
 | Hoxton | 2.2.x |
@@ -40,18 +44,21 @@
 
 
 
-### 5、Spring Cloud抛弃了Dubbo 的RPC通信，采用的是基于HTTP的REST方式。
+### [5、Spring Cloud抛弃了Dubbo 的RPC通信，采用的是基于HTTP的REST方式。](https://github.com/souyunku/DevBooks/blob/master/docs/SpringCloud/SpringCloud最新面试题及答案附答案汇总.md#5spring-cloud抛弃了dubbo-的rpc通信采用的是基于http的rest方式。)  
+
 
 严格来说，这两种方式各有优劣。虽然在一定程度上来说，后者牺牲了服务调用的性能，但也避免了上面提到的原生RPC带来的问题。而且REST相比RPC更为灵活，服务提供方和调用方的依赖只依靠一纸契约，不存在代码级别的强依赖，这在强调快速演化的微服务环境下，显得更为合适。
 
 
 
-### 6、什么是SpringBoot？
+### [6、什么是SpringBoot？](https://github.com/souyunku/DevBooks/blob/master/docs/SpringCloud/SpringCloud最新面试题及答案附答案汇总.md#6什么是springboot)  
+
 
 Spring boot是微服务面试问题的主要话题。 随着新功能的加入，Spring变得越来越复杂。无论何时启动新项目，都必须添加新的构建路径或Maven依赖项。简而言之，你需要从头开始做每件事。SpringBoot是一种帮助您避免所有代码配置的解决方案。
 
 
-### 7、微服务有什么特点？
+### [7、微服务有什么特点？](https://github.com/souyunku/DevBooks/blob/master/docs/SpringCloud/SpringCloud最新面试题及答案附答案汇总.md#7微服务有什么特点)  
+
 
 您可以列出微服务的特征，如下所示：
 
@@ -60,7 +67,8 @@ Spring boot是微服务面试问题的主要话题。 随着新功能的加入�
 图7：微服务的特征 – 微服务访谈问题
 
 
-### 8、什么是Spring Cloud Bus?
+### [8、什么是Spring Cloud Bus?](https://github.com/souyunku/DevBooks/blob/master/docs/SpringCloud/SpringCloud最新面试题及答案附答案汇总.md#8什么是spring-cloud-bus)  
+
 
 spring cloud bus 将分布式的节点用轻量的消息代理连接起来，它可以用于广播配置文件的更改或者服务直接的通讯，也可用于监控。
 
@@ -73,7 +81,8 @@ spring cloud bus 将分布式的节点用轻量的消息代理连接起来，它
 **2、** 配置rabbimq
 
 
-### 9、SpringBoot和springcloud认识
+### [9、SpringBoot和springcloud认识](https://github.com/souyunku/DevBooks/blob/master/docs/SpringCloud/SpringCloud最新面试题及答案附答案汇总.md#9springboot和springcloud认识)  
+
 
 **1、** SpringBoot 是 Spring 的⼀套快速配置脚⼿架，可以基于SpringBoot 快速开发单个微服务，Spring Cloud是⼀个基于SpringBoot实现的云应⽤开发⼯具；
 
@@ -84,7 +93,8 @@ spring cloud bus 将分布式的节点用轻量的消息代理连接起来，它
 **4、** Spring Cloud很⼤的⼀部分是基于SpringBoot来实现，可以不基于SpringBoot吗？不可以。
 
 
-### 10、链路跟踪Sleuth
+### [10、链路跟踪Sleuth](https://github.com/souyunku/DevBooks/blob/master/docs/SpringCloud/SpringCloud最新面试题及答案附答案汇总.md#10链路跟踪sleuth)  
+
 
 当我们项目中引入Spring Cloud Sleuth后，每次链路请求都会添加一串追踪信息，格式是[server-name, main-traceId,sub-spanId,boolean]：
 
@@ -124,9 +134,9 @@ Sleuth的实现是基于HTTP的，为了在数据的收集过程中不能影响�
 
 
 
-## 全部答案，整理好了，直接下载吧
+## [全部答案，整理好了，直接下载吧](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
-### 下载链接：[全部答案，整理好了](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
+### 下载链接：[全部答案，整理好了](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
 
 

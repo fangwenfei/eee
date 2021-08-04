@@ -6,7 +6,8 @@
 
 
 
-### 1、区分 BeanFactory 和 ApplicationContext。
+### [1、区分 BeanFactory 和 ApplicationContext。](https://github.com/souyunku/DevBooks/blob/master/docs/Spring/Spring面试题及答案整理汇总，2021年最新版.md#1区分-beanfactory-和-applicationcontext。)  
+
 | BeanFactory | ApplicationContext |
 | --- | --- |
 | 它使用懒加载 | 它使用即时加载 |
@@ -16,7 +17,8 @@
 
 
 
-### 2、如何重新加载SpringBoot上的更改，而无需重新启动服务器？
+### [2、如何重新加载SpringBoot上的更改，而无需重新启动服务器？](https://github.com/souyunku/DevBooks/blob/master/docs/Spring/Spring面试题及答案整理汇总，2021年最新版.md#2如何重新加载springboot上的更改而无需重新启动服务器)  
+
 
 这可以使用DEV工具来实现。通过这种依赖关系，您可以节省任何更改，嵌入式tomcat将重新启动。
 
@@ -27,7 +29,8 @@ SpringBoot有一个开发工具（DevTools）模块，它有助于提高开发�
 这是开发人员最需要的功能。DevTools模块完全满足开发人员的需求。该模块将在生产环境中被禁用。它还提供H2数据库控制台以更好地测试应用程序。
 
 
-### 3、spring JDBC API 中存在哪些类？
+### [3、spring JDBC API 中存在哪些类？](https://github.com/souyunku/DevBooks/blob/master/docs/Spring/Spring面试题及答案整理汇总，2021年最新版.md#3spring-jdbc-api-中存在哪些类)  
+
 
 **1、** JdbcTemplate
 
@@ -40,7 +43,8 @@ SpringBoot有一个开发工具（DevTools）模块，它有助于提高开发�
 **5、** SimpleJdbcCall
 
 
-### 4、spring cloud 和dubbo区别?
+### [4、spring cloud 和dubbo区别?](https://github.com/souyunku/DevBooks/blob/master/docs/Spring/Spring面试题及答案整理汇总，2021年最新版.md#4spring-cloud-和dubbo区别)  
+
 
 **1、** 服务调用方式 dubbo是RPC springcloud Rest Api
 
@@ -49,7 +53,8 @@ SpringBoot有一个开发工具（DevTools）模块，它有助于提高开发�
 **3、** 服务网关,dubbo本身没有实现，只能通过其他第三方技术整合，springcloud有Zuul路由网关，作为路由服务器，进行消费者的请求分发,springcloud支持断路器，与git完美集成配置文件支持版本控制，事物总线实现配置文件的更新与服务自动装配等等一系列的微服务架构要素。
 
 
-### 5、spring boot初始化环境变量流程?
+### [5、spring boot初始化环境变量流程?](https://github.com/souyunku/DevBooks/blob/master/docs/Spring/Spring面试题及答案整理汇总，2021年最新版.md#5spring-boot初始化环境变量流程)  
+
 
 **1、** 调用`prepareEnvironment`方法去设置环境变量
 
@@ -62,7 +67,8 @@ SpringBoot有一个开发工具（DevTools）模块，它有助于提高开发�
 **5、** `environmentPrepared`当广播到来的时候调用`onApplicationEnvironmentPreparedEvent`方法去使用`postProcessEnvironment`方法`load yml`和`properties变量`
 
 
-### 6、服务网关的作用
+### [6、服务网关的作用](https://github.com/souyunku/DevBooks/blob/master/docs/Spring/Spring面试题及答案整理汇总，2021年最新版.md#6服务网关的作用)  
+
 
 **1、** 简化客户端调用复杂度，统一处理外部请求。
 
@@ -75,12 +81,14 @@ SpringBoot有一个开发工具（DevTools）模块，它有助于提高开发�
 **5、** 统一处理调用过程中的安全、权限问题。
 
 
-### 7、SpringBoot 支持哪些日志框架？推荐和默认的日志框架是哪个？
+### [7、SpringBoot 支持哪些日志框架？推荐和默认的日志框架是哪个？](https://github.com/souyunku/DevBooks/blob/master/docs/Spring/Spring面试题及答案整理汇总，2021年最新版.md#7springboot-支持哪些日志框架推荐和默认的日志框架是哪个)  
+
 
 SpringBoot 支持 Java Util Logging, Log4j2, Lockback 作为日志框架，如果你使用 Starters 启动器，SpringBoot 将使用 Logback 作为默认日志框架。
 
 
-### 8、如何配置SpringBoot应用程序日志记录？
+### [8、如何配置SpringBoot应用程序日志记录？](https://github.com/souyunku/DevBooks/blob/master/docs/Spring/Spring面试题及答案整理汇总，2021年最新版.md#8如何配置springboot应用程序日志记录)  
+
 
 SpringBoot附带了对Log4J2，Java Util Logging和Logback的支持。它通常预先配置为控制台输出。可以通过仅在application.properties文件中指定logging.level来配置它们。
 
@@ -89,14 +97,16 @@ logging.level.spring.framework=Debug
 ```
 
 
-### 9、Ribbon和Feign调用服务的区别
+### [9、Ribbon和Feign调用服务的区别](https://github.com/souyunku/DevBooks/blob/master/docs/Spring/Spring面试题及答案整理汇总，2021年最新版.md#9ribbon和feign调用服务的区别)  
+
 
 **1、** 调用方式同：Ribbon需要我们自己构建Http请求，模拟Http请求然后通过RestTemplate发给其他服务，步骤相当繁琐
 
 **2、** 而Feign则是在Ribbon的基础上进行了一次改进，采用接口的形式，将我们需要调用的服务方法定义成抽象方法保存在本地就可以了，不需要自己构建Http请求了，直接调用接口就行了，不过要注意，调用方法要和本地抽象方法的签名完全一致。
 
 
-### 10、什么是 Swagger？你用 SpringBoot 实现了它吗？
+### [10、什么是 Swagger？你用 SpringBoot 实现了它吗？](https://github.com/souyunku/DevBooks/blob/master/docs/Spring/Spring面试题及答案整理汇总，2021年最新版.md#10什么是-swagger你用-springboot-实现了它吗)  
+
 
 Swagger 广泛用于可视化 API，使用 Swagger UI 为前端开发人员提供在线沙箱。Swagger 是用于生成 RESTful Web 服务的可视化表示的工具，规范和完整框架实现。它使文档能够以与服务器相同的速度更新。当通过 Swagger 正确定义时，消费者可以使用最少量的实现逻辑来理解远程服务并与其进行交互。因此，Swagger消除了调用服务时的猜测。
 
@@ -125,9 +135,9 @@ Swagger 广泛用于可视化 API，使用 Swagger UI 为前端开发人员提�
 
 
 
-## 全部答案，整理好了，直接下载吧
+## [全部答案，整理好了，直接下载吧](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
-### 下载链接：[全部答案，整理好了](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
+### 下载链接：[全部答案，整理好了](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
 
 

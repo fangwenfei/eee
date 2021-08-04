@@ -6,7 +6,8 @@
 
 
 
-### 1、Dubbo 集群提供了哪些负载均衡策略？
+### [1、Dubbo 集群提供了哪些负载均衡策略？](https://github.com/souyunku/DevBooks/blob/master/docs/Dubbo/Dubbo最新面试题，2021年面试题及答案汇总.md#1dubbo-集群提供了哪些负载均衡策略)  
+
 
 **1、** Random LoadBalance: 随机选取提供者策略，有利于动态调整提供者权重。截面碰撞率高，调用次数越多，分布越均匀；
 
@@ -19,7 +20,8 @@
 **5、** 缺省时为 Random 随机调用
 
 
-### 2、RPC的实现基础？
+### [2、RPC的实现基础？](https://github.com/souyunku/DevBooks/blob/master/docs/Dubbo/Dubbo最新面试题，2021年面试题及答案汇总.md#2rpc的实现基础)  
+
 
 **1、** 需要有非常高效的网络通信，比如一般选择Netty作为网络通信框架；
 
@@ -30,7 +32,8 @@
 **4、** 如果是带会话（状态）的RPC调用，还需要有会话和状态保持的功能；
 
 
-### 3、dubbo 通信协议 dubbo 协议适用范围和适用场景
+### [3、dubbo 通信协议 dubbo 协议适用范围和适用场景](https://github.com/souyunku/DevBooks/blob/master/docs/Dubbo/Dubbo最新面试题，2021年面试题及答案汇总.md#3dubbo-通信协议-dubbo-协议适用范围和适用场景)  
+
 
 适用范围：传入传出参数数据包较小（建议小于 100K），消费者比提供者个数多，单一消费者无法压满提供者，尽量不要用 dubbo 协议传输大文件或超大字符串。
 
@@ -49,17 +52,20 @@ dubbo 协议补充：
 序列化：Hessian 二进制序列化
 
 
-### 4、Dubbo 是什么？
+### [4、Dubbo 是什么？](https://github.com/souyunku/DevBooks/blob/master/docs/Dubbo/Dubbo最新面试题，2021年面试题及答案汇总.md#4dubbo-是什么)  
+
 
 Dubbo 是一款高性能、轻量级的开源 RPC 框架，提供服务自动注册、自动发现等高效服务治理方案， 可以和 Spring 框架无缝集成。
 
 
-### 5、Dubbo 默认采用注册中心？
+### [5、Dubbo 默认采用注册中心？](https://github.com/souyunku/DevBooks/blob/master/docs/Dubbo/Dubbo最新面试题，2021年面试题及答案汇总.md#5dubbo-默认采用注册中心)  
+
 
 采用 Zookeeper
 
 
-### 6、Dubbo SPI 和 Java SPI 区别？
+### [6、Dubbo SPI 和 Java SPI 区别？](https://github.com/souyunku/DevBooks/blob/master/docs/Dubbo/Dubbo最新面试题，2021年面试题及答案汇总.md#6dubbo-spi-和-java-spi-区别)  
+
 
 **JDK SPI：**
 
@@ -76,7 +82,8 @@ JDK 标准的 SPI 会一次性加载所有的扩展实现，如果有的扩展�
 **4、** Dubbo 的扩展机制能很好的支持第三方 IoC 容器，默认支持 Spring Bean。
 
 
-### 7、Dubbo 有些哪些注册中心？
+### [7、Dubbo 有些哪些注册中心？](https://github.com/souyunku/DevBooks/blob/master/docs/Dubbo/Dubbo最新面试题，2021年面试题及答案汇总.md#7dubbo-有些哪些注册中心)  
+
 
 **1、** Multicast 注册中心：Multicast 注册中心不需要任何中心节点，只要广播地址，就能进行服务注册和发现。基于网络中组播传输实现；
 
@@ -87,7 +94,8 @@ JDK 标准的 SPI 会一次性加载所有的扩展实现，如果有的扩展�
 **4、** Simple 注册中心
 
 
-### 8、Dubbo 超时时间怎样设置？
+### [8、Dubbo 超时时间怎样设置？](https://github.com/souyunku/DevBooks/blob/master/docs/Dubbo/Dubbo最新面试题，2021年面试题及答案汇总.md#8dubbo-超时时间怎样设置)  
+
 
 **Dubbo 超时时间设置有两种方式：**
 
@@ -96,12 +104,14 @@ JDK 标准的 SPI 会一次性加载所有的扩展实现，如果有的扩展�
 服务消费者端设置超时时间，如果在消费者端设置了超时时间，以消费者端为主，即优先级更高。因为服务调用方设置超时时间控制性更灵活。如果消费方超时，服务端线程不会定制，会产生警告。
 
 
-### 9、Dubbo telnet 命令能做什么？
+### [9、Dubbo telnet 命令能做什么？](https://github.com/souyunku/DevBooks/blob/master/docs/Dubbo/Dubbo最新面试题，2021年面试题及答案汇总.md#9dubbo-telnet-命令能做什么)  
+
 
 dubbo 服务发布之后，我们可以利用 telnet 命令进行调试、管理。Dubbo2.0.5 以上版本服务提供端口支持 telnet 命令
 
 
-### 10、Dubbo 和 Spring Cloud 有什么哪些区别？
+### [10、Dubbo 和 Spring Cloud 有什么哪些区别？](https://github.com/souyunku/DevBooks/blob/master/docs/Dubbo/Dubbo最新面试题，2021年面试题及答案汇总.md#10dubbo-和-spring-cloud-有什么哪些区别)  
+
 
 Dubbo 底层是使用 Netty 这样的 NIO 框架，是基于 TCP 协议传输的，配合以 Hession 序列化完成 RPC 通信。
 
@@ -132,9 +142,9 @@ Spring Cloud 是基于 Http 协议 Rest 接口调用远程过程的通信，相�
 
 
 
-## 全部答案，整理好了，直接下载吧
+## [全部答案，整理好了，直接下载吧](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
-### 下载链接：[全部答案，整理好了](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
+### 下载链接：[全部答案，整理好了](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
 
 

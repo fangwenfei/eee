@@ -6,12 +6,14 @@
 
 
 
-### 1、Jq中有几种选择器?分别是什么?
+### [1、Jq中有几种选择器?分别是什么?](https://github.com/souyunku/DevBooks/blob/master/docs/JavaScript/JavaScript最新2021年面试题及答案，汇总版.md#1jq中有几种选择器分别是什么)  
+
 
 层叠选择器、基本过滤选择器、内容过滤选择器、可视化过滤选择器、属性过滤选择器、子元素过滤选择器、表单元素选择器、表单元素过滤选择器
 
 
-### 2、`Function.prototype.call` 方法的用途是什么？
+### [2、`Function.prototype.call` 方法的用途是什么？](https://github.com/souyunku/DevBooks/blob/master/docs/JavaScript/JavaScript最新2021年面试题及答案，汇总版.md#2functionprototypecall-方法的用途是什么)  
+
 
 `call()` 方法使用一个指定的 `this` 值和单独给出的一个或多个参数来调用一个函数。
 
@@ -46,7 +48,8 @@ greeting.call(person, 'Hello'); // "Hello Marko Polo!"
 ```
 
 
-### 3、什么是模板字符串？
+### [3、什么是模板字符串？](https://github.com/souyunku/DevBooks/blob/master/docs/JavaScript/JavaScript最新2021年面试题及答案，汇总版.md#3什么是模板字符串)  
+
 
 模板字符串是在 JS 中创建字符串的一种新方法。我们可以通过使用反引号使模板字符串化。
 
@@ -92,7 +95,8 @@ function greet(name) {
 在 ES5 版本中，如果需要在字符串中添加表达式或值，则需要使用`+`运算符。在模板字符串s中，我们可以使用`${expr}`嵌入一个表达式，这使其比 ES5 版本更整洁。
 
 
-### 4、js的几种继承方式？
+### [4、js的几种继承方式？](https://github.com/souyunku/DevBooks/blob/master/docs/JavaScript/JavaScript最新2021年面试题及答案，汇总版.md#4js的几种继承方式)  
+
 
 **1、** 使用对象冒充实现继承
 
@@ -101,7 +105,8 @@ function greet(name) {
 **3、** 原型链方式继承
 
 
-### 5、this是什么 在不同场景中分别代表什么###
+### [5、this是什么 在不同场景中分别代表什么###](https://github.com/souyunku/DevBooks/blob/master/docs/JavaScript/JavaScript最新2021年面试题及答案，汇总版.md#5this是什么-在不同场景中分别代表什么###)  
+
 
 （1）function a(){ this ?} //This:指向windows
 
@@ -112,12 +117,14 @@ function greet(name) {
 由于其运行期绑定的特性，JavaScript 中的 this 含义要丰富得多，它可以是全局对象、当前对象或者任意对象，这完全取决于函数的调用方式。
 
 
-### 6、如何使用storage 对js文件进行缓存
+### [6、如何使用storage 对js文件进行缓存](https://github.com/souyunku/DevBooks/blob/master/docs/JavaScript/JavaScript最新2021年面试题及答案，汇总版.md#6如何使用storage-对js文件进行缓存)  
+
 
 由于sessionStorage - 针对一个 session 的数据存储，所以我们一般利用localStorage储存js文件，只有在第一次访问该页面的时候加载js文件，以后在访问的时候加载本地localStorage执行
 
 
-### 7、如何创建一个对象？
+### [7、如何创建一个对象？](https://github.com/souyunku/DevBooks/blob/master/docs/JavaScript/JavaScript最新2021年面试题及答案，汇总版.md#7如何创建一个对象)  
+
 
 **1、** 工厂模式
 
@@ -154,7 +161,8 @@ function greet(name) {
 ( 设计模式实在是太高深了，小伙伴门结合网上实例自行学习，我实在是无能为力啊 )
 
 
-### 8、什么是回调函数？
+### [8、什么是回调函数？](https://github.com/souyunku/DevBooks/blob/master/docs/JavaScript/JavaScript最新2021年面试题及答案，汇总版.md#8什么是回调函数)  
+
 
 **回调函数**是一段可执行的代码段，它作为一个参数传递给其他的代码，其作用是在需要的时候方便调用这段（回调函数）代码。
 
@@ -173,7 +181,8 @@ btnAdd.addEventListener('click', function clickCallback(e) {
 数组中的`reduce`、`filter`和`map`方法需要一个回调作为参数。回调的一个很好的类比是，当你打电话给某人，如果他们不接，你留下一条消息，你期待他们回调。调用某人或留下消息的行为是事件或数据，回调是你希望稍后发生的操作。
 
 
-### 9、commonjs?requirejs?AMD|CMD|UMD?
+### [9、commonjs?requirejs?AMD|CMD|UMD?](https://github.com/souyunku/DevBooks/blob/master/docs/JavaScript/JavaScript最新2021年面试题及答案，汇总版.md#9commonjsrequirejs||)  
+
 
 **1、** CommonJS就是为JS的表现来制定规范，NodeJS是这种规范的实现，webpack 也是以CommonJS的形式来书写。因为js没有模块的功能，所以CommonJS应运而生。但它不能在浏览器中运行。 CommonJS定义的模块分为:{模块引用(require)} {模块定义(exports)} {模块标识(module)}
 
@@ -200,7 +209,8 @@ AMD 浏览器第一的原则发展 异步加载模块。
 CommonJS模块以服务器第一原则发展，选择同步加载，它的模块无需包装(unwrapped modules)。这迫使人们又想出另一个更通用的模式UMD ( Universal Module Definition ), 希望解决跨平台的解决方案。UMD先判断是否支持Node.js的模块( exports )是否存在，存在则使用Node.js模块模式。
 
 
-### 10、平时工作中怎么样进行数据交互?如果后台没有提供数据怎么样进行开发?
+### [10、平时工作中怎么样进行数据交互?如果后台没有提供数据怎么样进行开发?](https://github.com/souyunku/DevBooks/blob/master/docs/JavaScript/JavaScript最新2021年面试题及答案，汇总版.md#10平时工作中怎么样进行数据交互如果后台没有提供数据怎么样进行开发)  
+
 
 **mock数据与后台返回的格式不同意怎么办?**
 
@@ -234,9 +244,9 @@ CommonJS模块以服务器第一原则发展，选择同步加载，它的模块
 
 
 
-## 全部答案，整理好了，直接下载吧
+## [全部答案，整理好了，直接下载吧](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
-### 下载链接：[全部答案，整理好了](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
+### 下载链接：[全部答案，整理好了](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
 
 

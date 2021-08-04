@@ -6,52 +6,62 @@
 
 
 
-### 1、解释什么是MongoDB？
+### [1、解释什么是MongoDB？](https://github.com/souyunku/DevBooks/blob/master/docs/MongoDB/MongoDB最新2021年面试题大汇总，附答案.md#1解释什么是mongodb)  
+
 
 Mongo-DB是一个文档数据库，可提供高性能，高可用性和易扩展性。
 
 
-### 2、mongodb成为最好nosql数据库的原因是什么?
+### [2、mongodb成为最好nosql数据库的原因是什么?](https://github.com/souyunku/DevBooks/blob/master/docs/MongoDB/MongoDB最新2021年面试题大汇总，附答案.md#2mongodb成为最好nosql数据库的原因是什么)  
+
 
 面向文件的 高性能 高可用性 易扩展性 丰富的查询语言
 
 
-### 3、如何添加索引
+### [3、如何添加索引](https://github.com/souyunku/DevBooks/blob/master/docs/MongoDB/MongoDB最新2021年面试题大汇总，附答案.md#3如何添加索引)  
+
 
 使用db.collection.createIndex()在集合中创建一个索引
 
 
-### 4、如果用户移除对象的属性,该属性是否从存储层中删除?
+### [4、如果用户移除对象的属性,该属性是否从存储层中删除?](https://github.com/souyunku/DevBooks/blob/master/docs/MongoDB/MongoDB最新2021年面试题大汇总，附答案.md#4如果用户移除对象的属性,该属性是否从存储层中删除)  
+
 
 是的,用户移除属性然后对象会重新保存(re-save()).
 
 
-### 5、如果用户移除对象的属性，该属性是否从存储层中删除？
+### [5、如果用户移除对象的属性，该属性是否从存储层中删除？](https://github.com/souyunku/DevBooks/blob/master/docs/MongoDB/MongoDB最新2021年面试题大汇总，附答案.md#5如果用户移除对象的属性该属性是否从存储层中删除)  
+
 
 是的，用户移除属性然后对象会重新保存（re-save()）。
 
 
-### 6、要进行安全备份，可以使用MongoDB中的功能是什么？
+### [6、要进行安全备份，可以使用MongoDB中的功能是什么？](https://github.com/souyunku/DevBooks/blob/master/docs/MongoDB/MongoDB最新2021年面试题大汇总，附答案.md#6要进行安全备份可以使用mongodb中的功能是什么)  
+
 
 日记功能是MongoDB中的功能，可用于执行安全备份。
 
 
-### 7、能否使用日志特征进行安全备份？
+### [7、能否使用日志特征进行安全备份？](https://github.com/souyunku/DevBooks/blob/master/docs/MongoDB/MongoDB最新2021年面试题大汇总，附答案.md#7能否使用日志特征进行安全备份)  
+
 
 是的。
 
 
-### 8、为什么在MongoDB中使用"Object ID"数据类型
+### [8、为什么在MongoDB中使用"Object ID"数据类型](https://github.com/souyunku/DevBooks/blob/master/docs/MongoDB/MongoDB最新2021年面试题大汇总，附答案.md#8为什么在mongodb中使用"object-id"数据类型)  
+
 
 "ObjectID"数据类型用于存储文档id
 
 
-### 9、当更新一个正在被迁移的块（Chunk）上的文档时会发生什么？
+### [9、当更新一个正在被迁移的块（Chunk）上的文档时会发生什么？](https://github.com/souyunku/DevBooks/blob/master/docs/MongoDB/MongoDB最新2021年面试题大汇总，附答案.md#9当更新一个正在被迁移的块chunk上的文档时会发生什么)  
+
 
 更新操作会立即发生在旧的块（Chunk）上，然后更改才会在所有权转移前复制到新的分片上。
 
 
-### 10、你怎么比较MongoDB、CouchDB及CouchBase?
+### [10、你怎么比较MongoDB、CouchDB及CouchBase?](https://github.com/souyunku/DevBooks/blob/master/docs/MongoDB/MongoDB最新2021年面试题大汇总，附答案.md#10你怎么比较mongodbcouchdb及couchbase)  
+
 
 不知道
 
@@ -79,9 +89,9 @@ Mongo-DB是一个文档数据库，可提供高性能，高可用性和易扩展
 
 
 
-## 全部答案，整理好了，直接下载吧
+## [全部答案，整理好了，直接下载吧](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
-### 下载链接：[全部答案，整理好了](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
+### 下载链接：[全部答案，整理好了](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
 
 

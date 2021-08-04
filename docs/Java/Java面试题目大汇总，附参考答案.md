@@ -6,7 +6,8 @@
 
 
 
-### 1、StringBuffer，Stringbuilder有什么区别？
+### [1、StringBuffer，Stringbuilder有什么区别？](https://github.com/souyunku/DevBooks/blob/master/docs/Java/Java面试题目大汇总，附参考答案.md#1stringbufferstringbuilder有什么区别)  
+
 
 StringBuffer与StringBuilder都继承了AbstractStringBulder类，而AbtractStringBuilder又实现了CharSequence接口，两个类都是用来进行字符串操作的。
 
@@ -15,22 +16,26 @@ StringBuffer与StringBuilder都继承了AbstractStringBulder类，而AbtractStri
 StringBuffer是线程安全的，Stringbuilder是非线程安全的。所以Stringbuilder比stringbuffer效率更高，StringBuffer的方法大多都加了synchronized关键字
 
 
-### 2、什么是分布式垃圾回收（DGC）？它是如何工作的？
+### [2、什么是分布式垃圾回收（DGC）？它是如何工作的？](https://github.com/souyunku/DevBooks/blob/master/docs/Java/Java面试题目大汇总，附参考答案.md#2什么是分布式垃圾回收dgc它是如何工作的)  
+
 
 DGC 叫做分布式垃圾回收。RMI 使用 DGC 来做自动垃圾回收。因为 RMI 包含了跨虚拟机的远程对象的引用，垃圾回收是很困难的。DGC 使用引用计数算法来给远程对象提供自动内存管理。
 
 
-### 3、OSGI（ 动态模型系统）
+### [3、OSGI（ 动态模型系统）](https://github.com/souyunku/DevBooks/blob/master/docs/Java/Java面试题目大汇总，附参考答案.md#3osgi-动态模型系统)  
+
 
 OSGi(Open Service Gateway Initiative)，是面向 Java 的动态模型系统，是 Java 动态化模块化系统的一系列规范。
 
 
-### 4、什么是方法的返回值？返回值在类的方法里的作用是什么？
+### [4、什么是方法的返回值？返回值在类的方法里的作用是什么？](https://github.com/souyunku/DevBooks/blob/master/docs/Java/Java面试题目大汇总，附参考答案.md#4什么是方法的返回值返回值在类的方法里的作用是什么)  
+
 
 方法的返回值是指我们获取到的某个方法体中的代码执行后产生的结果！（前提是该方法可能产生结果）。返回值的作用:接收出结果，使得它可以用于其他的操作！
 
 
-### 5、什么是线程死锁
+### [5、什么是线程死锁](https://github.com/souyunku/DevBooks/blob/master/docs/Java/Java面试题目大汇总，附参考答案.md#5什么是线程死锁)  
+
 
 **1、** 死锁是指两个或两个以上的进程（线程）在执行过程中，由于竞争资源或者由于彼此通信而造成的一种阻塞的现象，若无外力作用，它们都将无法推进下去。此时称系统处于死锁状态或系统产生了死锁，这些永远在互相等待的进程（线程）称为死锁进程（线程）。
 
@@ -41,12 +46,14 @@ OSGi(Open Service Gateway Initiative)，是面向 Java 的动态模型系统，�
 ![87_1.png][87_1.png]
 
 
-### 6、JVM中一次完整的GC流程是怎样的，对象如何晋升到老年代？
+### [6、JVM中一次完整的GC流程是怎样的，对象如何晋升到老年代？](https://github.com/souyunku/DevBooks/blob/master/docs/Java/Java面试题目大汇总，附参考答案.md#6jvm中一次完整的gc流程是怎样的对象如何晋升到老年代)  
+
 
 当 Eden 区的空间满了， Java虚拟机会触发一次 Minor GC，以收集新生代的垃圾，存活下来的对象，则会转移到 Survivor区。大对象（需要大量连续内存空间的Java对象，如那种很长的字符串）直接进入老年态；如果对象在Eden出生，并经过第一次Minor GC后仍然存活，并且被Survivor容纳的话，年龄设为1，每熬过一次Minor GC，年龄+1，若年龄超过一定限制（15），则被晋升到老年态。即长期存活的对象进入老年态。老年代满了而无法容纳更多的对象，Minor GC 之后通常就会进行Full GC，Full GC 清理整个内存堆 – 包括年轻代和年老代。Major GC 发生在老年代的GC，清理老年区，经常会伴随至少一次Minor GC，比Minor GC慢10倍以上。
 
 
-### 7、为什么使用Executor框架比使用应用创建和管理线程好？
+### [7、为什么使用Executor框架比使用应用创建和管理线程好？](https://github.com/souyunku/DevBooks/blob/master/docs/Java/Java面试题目大汇总，附参考答案.md#7为什么使用executor框架比使用应用创建和管理线程好)  
+
 
 为什么要使用Executor线程池框架
 
@@ -67,7 +74,8 @@ OSGi(Open Service Gateway Initiative)，是面向 Java 的动态模型系统，�
 综上所述使用线程池框架Executor能更好的管理线程、提供系统资源使用率。
 
 
-### 8、运行时异常与受检异常有何异同？
+### [8、运行时异常与受检异常有何异同？](https://github.com/souyunku/DevBooks/blob/master/docs/Java/Java面试题目大汇总，附参考答案.md#8运行时异常与受检异常有何异同)  
+
 
 
 
@@ -88,14 +96,16 @@ OSGi(Open Service Gateway Initiative)，是面向 Java 的动态模型系统，�
 **7、** 不要在catch中忽略掉捕获到的异常
 
 
-### 9、字节流与字符流的区别
+### [9、字节流与字符流的区别](https://github.com/souyunku/DevBooks/blob/master/docs/Java/Java面试题目大汇总，附参考答案.md#9字节流与字符流的区别)  
+
 
 **1、** 以字节为单位输入输出数据，字节流按照8位传输
 
 **2、** 以字符为单位输入输出数据，字符流按照16位传输
 
 
-### 10、怎样通过 Java 程序来判断 JVM 是 32 位 还是 64位？
+### [10、怎样通过 Java 程序来判断 JVM 是 32 位 还是 64位？](https://github.com/souyunku/DevBooks/blob/master/docs/Java/Java面试题目大汇总，附参考答案.md#10怎样通过-java-程序来判断-jvm-是-32-位-还是-64位)  
+
 
 你可以检查某些系统属性如 sun.arch.data.model 或 os.arch 来获取该信息。
 
@@ -134,9 +144,9 @@ OSGi(Open Service Gateway Initiative)，是面向 Java 的动态模型系统，�
 
 
 
-## 全部答案，整理好了，直接下载吧
+## [全部答案，整理好了，直接下载吧](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
-### 下载链接：[全部答案，整理好了](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
+### 下载链接：[全部答案，整理好了](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
 
 

@@ -6,7 +6,8 @@
 
 
 
-### 1、死信队列和延迟队列的使用?
+### [1、死信队列和延迟队列的使用?](https://github.com/souyunku/DevBooks/blob/master/docs/RabbitMQ/RabbitMQ最新面试题，2021年面试题及答案汇总.md#1死信队列和延迟队列的使用)  
+
 
 **1、** 死信消息：消息被拒绝（Basic.Reject或Basic.Nack）并且设置 requeue 参数的值为 false 消息过期了 队列达到最大的长度
 
@@ -78,7 +79,8 @@ connection.close();
 ```
 
 
-### 2、RabbitMQ的集群模式有几种？
+### [2、RabbitMQ的集群模式有几种？](https://github.com/souyunku/DevBooks/blob/master/docs/RabbitMQ/RabbitMQ最新面试题，2021年面试题及答案汇总.md#2rabbitmq的集群模式有几种)  
+
 
 RabbitMQ 是比较有代表性的，因为是基于主从（非分布式）做高可用性的，我们就以 RabbitMQ 为例子讲解第一种 MQ 的高可用性怎么实现。RabbitMQ 有三种模式：`单机模式`、`普通集群模式`、`镜像集群模式`。
 
@@ -89,19 +91,22 @@ RabbitMQ 是比较有代表性的，因为是基于主从（非分布式）做�
 **3、** 镜像模式：把需要的队列做成镜像队列，存在与多个节点属于RabibitMQ的HA方案，该模式解决了普通模式中的问题，其实质和普通模式不同之处在于，消息体会主动在镜像节点间同步，而不是在客户端取数据时临时拉取，该模式带来的副作用也很明显，除了降低系统性能外，如果镜像队列数量过多，加之大量的消息进入，集群内部的网络带宽将会被这种同步通讯大大消耗掉，所以在对可靠性要求比较高的场合中适用
 
 
-### 3、无法被路由的消息去了哪里?
+### [3、无法被路由的消息去了哪里?](https://github.com/souyunku/DevBooks/blob/master/docs/RabbitMQ/RabbitMQ最新面试题，2021年面试题及答案汇总.md#3无法被路由的消息去了哪里)  
+
 
 mandatory：true 返回消息给生产者。
 
 mandatory：false 直接丢弃。
 
 
-### 4、向不存在的 exchange 发 publish 消息会发生什么？向不存在的 queue 执行consume 动作会发生什么？
+### [4、向不存在的 exchange 发 publish 消息会发生什么？向不存在的 queue 执行consume 动作会发生什么？](https://github.com/souyunku/DevBooks/blob/master/docs/RabbitMQ/RabbitMQ最新面试题，2021年面试题及答案汇总.md#4向不存在的-exchange-发-publish-消息会发生什么向不存在的-queue-执行consume-动作会发生什么)  
+
 
 都会收到 Channel.Close 信令告之不存在（内含原因 404 NOT_FOUND）。
 
 
-### 5、消息如何保证幂等性？
+### [5、消息如何保证幂等性？](https://github.com/souyunku/DevBooks/blob/master/docs/RabbitMQ/RabbitMQ最新面试题，2021年面试题及答案汇总.md#5消息如何保证幂等性)  
+
 
 生产者方面：可以对每条消息生成一个msgID，以控制消息重复投递
 
@@ -113,7 +118,8 @@ porperties.messageId(String.valueOF(UUID.randomUUID()))
 消费者方面：消息体中必须携带一个业务ID，如银行流水号，消费者可以根据业务ID去重，避免重复消费
 
 
-### 6、生产者消息如何运转？
+### [6、生产者消息如何运转？](https://github.com/souyunku/DevBooks/blob/master/docs/RabbitMQ/RabbitMQ最新面试题，2021年面试题及答案汇总.md#6生产者消息如何运转)  
+
 
 **1、** Producer先连接到Broker,建立连接Connection,开启一个信道(Channel)。
 
@@ -134,7 +140,8 @@ porperties.messageId(String.valueOF(UUID.randomUUID()))
 **9、** 管理连接。
 
 
-### 7、优先级队列？
+### [7、优先级队列？](https://github.com/souyunku/DevBooks/blob/master/docs/RabbitMQ/RabbitMQ最新面试题，2021年面试题及答案汇总.md#7优先级队列)  
+
 
 优先级高的队列会先被消费。
 
@@ -143,19 +150,22 @@ porperties.messageId(String.valueOF(UUID.randomUUID()))
 当消费速度大于生产速度且Broker没有堆积的情况下，优先级显得没有意义。
 
 
-### 8、消费者某些原因无法处理当前接受的消息如何来拒绝？
+### [8、消费者某些原因无法处理当前接受的消息如何来拒绝？](https://github.com/souyunku/DevBooks/blob/master/docs/RabbitMQ/RabbitMQ最新面试题，2021年面试题及答案汇总.md#8消费者某些原因无法处理当前接受的消息如何来拒绝)  
+
 
 channel.basicNack
 
 channel.basicReject
 
 
-### 9、消息基于什么传输?
+### [9、消息基于什么传输?](https://github.com/souyunku/DevBooks/blob/master/docs/RabbitMQ/RabbitMQ最新面试题，2021年面试题及答案汇总.md#9消息基于什么传输)  
+
 
 由于TCP连接的创建和销毁开销较大，且并发数受系统资源限制，会造成性能瓶颈。RabbitMQ使用信道的方式来传输数据。信道是建立在真实的TCP连接内的虚拟连接，且每条TCP连接上的信道数量没有限制。
 
 
-### 10、rabbitmq的集群
+### [10、rabbitmq的集群](https://github.com/souyunku/DevBooks/blob/master/docs/RabbitMQ/RabbitMQ最新面试题，2021年面试题及答案汇总.md#10rabbitmq的集群)  
+
 
 **镜像集群模式**
 
@@ -185,9 +195,9 @@ channel.basicReject
 
 
 
-## 全部答案，整理好了，直接下载吧
+## [全部答案，整理好了，直接下载吧](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
-### 下载链接：[全部答案，整理好了](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
+### 下载链接：[全部答案，整理好了](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
 
 

@@ -6,12 +6,14 @@
 
 
 
-### 1、你的接口请求一般放在哪个生命周期中？
+### [1、你的接口请求一般放在哪个生命周期中？](https://github.com/souyunku/DevBooks/blob/master/docs/React/React最新2021年面试题大汇总，附答案.md#1你的接口请求一般放在哪个生命周期中)  
+
 
 接口请求一般放在`mounted`中，但需要注意的是服务端渲染时不支持mounted，需要放到`created`中。
 
 
-### 2、如何在 Redux 中定义 Action？
+### [2、如何在 Redux 中定义 Action？](https://github.com/souyunku/DevBooks/blob/master/docs/React/React最新2021年面试题大汇总，附答案.md#2如何在-redux-中定义-action)  
+
 
 React 中的 Action 必须具有 type 属性，该属性指示正在执行的 ACTION 的类型。必须将它们定义为字符串常量，并且还可以向其添加更多的属性。在 Redux 中，action 被名为 Action Creators 的函数所创建。以下是 Action 和Action Creator 的示例：
 
@@ -25,7 +27,8 @@ function addTodo(text) {
 ```
 
 
-### 3、如何在 React 中创建表单
+### [3、如何在 React 中创建表单](https://github.com/souyunku/DevBooks/blob/master/docs/React/React最新2021年面试题大汇总，附答案.md#3如何在-react-中创建表单)  
+
 
 React 表单类似于 HTML 表单。但是在 React 中，状态包含在组件的 state 属性中，并且只能通过 `setState()` 更新。因此元素不能直接更新它们的状态，它们的提交是由 JavaScript 函数处理的。此函数可以完全访问用户输入到表单的数据。
 
@@ -49,7 +52,8 @@ render() {
 ```
 
 
-### 4、你对 React 的 refs 有什么了解？
+### [4、你对 React 的 refs 有什么了解？](https://github.com/souyunku/DevBooks/blob/master/docs/React/React最新2021年面试题大汇总，附答案.md#4你对-react-的-refs-有什么了解)  
+
 
 Refs 是 React 中引用的简写。它是一个有助于存储对特定的 React 元素或组件的引用的属性，它将由组件渲染配置函数返回。用于对 render() 返回的特定元素或组件的引用。当需要进行 DOM 测量或向组件添加方法时，它们会派上用场。
 
@@ -72,7 +76,8 @@ render() {
 ```
 
 
-### 5、我现在有一个button要用react在上面绑定点击事件要怎么做
+### [5、我现在有一个button要用react在上面绑定点击事件要怎么做](https://github.com/souyunku/DevBooks/blob/master/docs/React/React最新2021年面试题大汇总，附答案.md#5我现在有一个button要用react在上面绑定点击事件要怎么做)  
+
 
 ```
 class Demo {
@@ -107,7 +112,8 @@ class Demo {
 ```
 
 
-### 6、说说你用react有什么坑点
+### [6、说说你用react有什么坑点](https://github.com/souyunku/DevBooks/blob/master/docs/React/React最新2021年面试题大汇总，附答案.md#6说说你用react有什么坑点)  
+
 
 **1、** JSX做表达式判断时候需要强转为boolean类型
 
@@ -131,7 +137,8 @@ render() {
 **3、** 遍历子节点的时候不要用 index 作为组件的 key 进行传入
 
 
-### 7、setState
+### [7、setState](https://github.com/souyunku/DevBooks/blob/master/docs/React/React最新2021年面试题大汇总，附答案.md#7setstate)  
+
 
 在了解`setState`之前我们先来简单了解下 `React` 一个包装结构: `Transaction`:
 
@@ -140,7 +147,8 @@ render() {
 是 `React` 中的一个调用结构用于包装一个方法结构为: `initialize` - `perform(method)` - `close`。通过事务可以统一管理一个方法的开始与结束处于事务流中表示进程正在执行一些操作
 
 
-### 8、为什么需要 React 中的路由？
+### [8、为什么需要 React 中的路由？](https://github.com/souyunku/DevBooks/blob/master/docs/React/React最新2021年面试题大汇总，附答案.md#8为什么需要-react-中的路由)  
+
 
 Router 用于定义多个路由，当用户定义特定的 URL 时，如果此 URL 与 Router 内定义的任何 “路由” 的路径匹配，则用户将重定向到该特定路由。所以基本上我们需要在自己的应用中添加一个 Router 库，允许创建多个路由，每个路由都会向我们提供一个独特的视图
 
@@ -153,12 +161,14 @@ Router 用于定义多个路由，当用户定义特定的 URL 时，如果此 U
 ```
 
 
-### 9、pureComponent和FunctionComponent区别
+### [9、pureComponent和FunctionComponent区别](https://github.com/souyunku/DevBooks/blob/master/docs/React/React最新2021年面试题大汇总，附答案.md#9purecomponent和functioncomponent区别)  
+
 
 `PureComponent`和`Component`完全相同但是在`shouldComponentUpdate`实现中`PureComponent`使用了`props`和`state`的浅比较。主要作用是用来提高某些特定场景的性能
 
 
-### 10、react旧版生命周期函数
+### [10、react旧版生命周期函数](https://github.com/souyunku/DevBooks/blob/master/docs/React/React最新2021年面试题大汇总，附答案.md#10react旧版生命周期函数)  
+
 
 初始化阶段
 
@@ -207,9 +217,9 @@ Router 用于定义多个路由，当用户定义特定的 URL 时，如果此 U
 
 
 
-## 全部答案，整理好了，直接下载吧
+## [全部答案，整理好了，直接下载吧](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
-### 下载链接：[全部答案，整理好了](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
+### 下载链接：[全部答案，整理好了](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
 
 

@@ -6,12 +6,14 @@
 
 
 
-### 1、既然Nginx可以实现网关？为什么还需要使用Zuul框架
+### [1、既然Nginx可以实现网关？为什么还需要使用Zuul框架](https://github.com/souyunku/DevBooks/blob/master/docs/Spring/Spring高级面试题合集，附答案解析.md#1既然nginx可以实现网关为什么还需要使用zuul框架)  
+
 
 Zuul是SpringCloud集成的网关，使用Java语言编写，可以对SpringCloud架构提供更灵活的服务。
 
 
-### 2、JPA 和 Hibernate 有哪些区别？
+### [2、JPA 和 Hibernate 有哪些区别？](https://github.com/souyunku/DevBooks/blob/master/docs/Spring/Spring高级面试题合集，附答案解析.md#2jpa-和-hibernate-有哪些区别)  
+
 
 简而言之
 
@@ -24,12 +26,14 @@ Hibernate 是 JPA 的一个实现
 我们建议使用 JPA 注释，因为哦我们没有将其绑定到 Hibernate 作为实现。后来（我知道 - 小于百分之一的几率），我们可以使用另一种 JPA 实现。
 
 
-### 3、什么是持续监测？
+### [3、什么是持续监测？](https://github.com/souyunku/DevBooks/blob/master/docs/Spring/Spring高级面试题合集，附答案解析.md#3什么是持续监测)  
+
 
 持续监控深入监控覆盖范围，从浏览器内前端性能指标，到应用程序性能，再到主机虚拟化基础架构指标。
 
 
-### 4、Spring 应用程序有哪些不同组件？
+### [4、Spring 应用程序有哪些不同组件？](https://github.com/souyunku/DevBooks/blob/master/docs/Spring/Spring高级面试题合集，附答案解析.md#4spring-应用程序有哪些不同组件)  
+
 
 **Spring 应用一般有以下组件：**
 
@@ -44,12 +48,14 @@ Hibernate 是 JPA 的一个实现
 **5、** 用户程序 - 它使用接口。
 
 
-### 5、服务注册和发现是什么意思？Spring Cloud如何实现？
+### [5、服务注册和发现是什么意思？Spring Cloud如何实现？](https://github.com/souyunku/DevBooks/blob/master/docs/Spring/Spring高级面试题合集，附答案解析.md#5服务注册和发现是什么意思spring-cloud如何实现)  
+
 
 当我们开始一个项目时，我们通常在属性文件中进行所有的配置。随着越来越多的服务开发和部署，添加和修改这些属性变得更加复杂。有些服务可能会下降，而某些位置可能会发生变化。手动更改属性可能会产生问题。Eureka服务注册和发现可以在这种情况下提供帮助。由于所有服务都在Eureka服务器上注册并通过调用Eureka服务器完成查找，因此无需处理服务地点的任何更改和处理。
 
 
-### 6、项目中前后端分离部署，所以需要解决跨域的问题。
+### [6、项目中前后端分离部署，所以需要解决跨域的问题。](https://github.com/souyunku/DevBooks/blob/master/docs/Spring/Spring高级面试题合集，附答案解析.md#6项目中前后端分离部署所以需要解决跨域的问题。)  
+
 
 我们使用cookie存放用户登录的信息，在spring拦截器进行权限控制，当权限不符合时，直接返回给用户固定的json结果。
 
@@ -77,12 +83,14 @@ public class CorsConfig {
 ```
 
 
-### 7、Spring Cloud Stream
+### [7、Spring Cloud Stream](https://github.com/souyunku/DevBooks/blob/master/docs/Spring/Spring高级面试题合集，附答案解析.md#7spring-cloud-stream)  
+
 
 轻量级事件驱动微服务框架，可以使用简单的声明式模型来发送及接收消息，主要实现为Apache Kafka及RabbitMQ。
 
 
-### 8、如何设置服务发现？
+### [8、如何设置服务发现？](https://github.com/souyunku/DevBooks/blob/master/docs/Spring/Spring高级面试题合集，附答案解析.md#8如何设置服务发现)  
+
 
 有多种方法可以设置服务发现。我将选择我认为效率最高的那个，Netflix的Eureka。这是一个简单的程序，不会对应用程序造成太大影响。此外，它支持多种类型的Web应用程序。 Eureka配置包括两个步骤 - 客户端配置和服务器配置。
 
@@ -91,14 +99,16 @@ public class CorsConfig {
 对于服务器配置，您必须首先配置客户端。完成后，服务器启动一个客户端，该客户端用于查找其他服务器。。默认情况下，Eureka服务器使用客户端配置来查找对等服务器。
 
 
-### 9、path=”users”, collectionResourceRel=”users” 如何与 Spring Data Rest 一起使用？
+### [9、path=”users”, collectionResourceRel=”users” 如何与 Spring Data Rest 一起使用？](https://github.com/souyunku/DevBooks/blob/master/docs/Spring/Spring高级面试题合集，附答案解析.md#9path=users,-collectionresourcerel=users-如何与-spring-data-rest-一起使用)  
+
 
 path- 这个资源要导出的路径段。
 
 collectionResourceRel- 生成指向集合资源的链接时使用的 rel 值。在生成 HATEOAS 链接时使用。
 
 
-### 10、Spring Cloud 实现服务注册和发现的原理是什么？
+### [10、Spring Cloud 实现服务注册和发现的原理是什么？](https://github.com/souyunku/DevBooks/blob/master/docs/Spring/Spring高级面试题合集，附答案解析.md#10spring-cloud-实现服务注册和发现的原理是什么)  
+
 
 **1、** 服务在发布时指定对应的服务名（服务名包括了 IP 地址和端口）将服务注册到注册中心（Eureka 或者 Zookeeper）这一过程是 Spring Cloud 自动实现的，只需要在 main 方法添加 @EnableDisscoveryClient 即可，同一个服务修改端口就可以启动多个实例。
 
@@ -129,9 +139,9 @@ collectionResourceRel- 生成指向集合资源的链接时使用的 rel 值。�
 
 
 
-## 全部答案，整理好了，直接下载吧
+## [全部答案，整理好了，直接下载吧](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
-### 下载链接：[全部答案，整理好了](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
+### 下载链接：[全部答案，整理好了](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
 
 

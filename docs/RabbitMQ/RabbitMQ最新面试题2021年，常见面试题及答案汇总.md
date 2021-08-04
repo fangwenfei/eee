@@ -6,7 +6,8 @@
 
 
 
-### 1、集群中的节点类型？
+### [1、集群中的节点类型？](https://github.com/souyunku/DevBooks/blob/master/docs/RabbitMQ/RabbitMQ最新面试题2021年，常见面试题及答案汇总.md#1集群中的节点类型)  
+
 
 内存节点：ram,将变更写入内存。
 
@@ -15,19 +16,22 @@
 RabbitMQ要求最少有一个磁盘节点。
 
 
-### 2、集群节点类型有几种？
+### [2、集群节点类型有几种？](https://github.com/souyunku/DevBooks/blob/master/docs/RabbitMQ/RabbitMQ最新面试题2021年，常见面试题及答案汇总.md#2集群节点类型有几种)  
+
 
 内存节点：保存状态到内存，但持久化的队列和消息还是会保存到磁盘；
 
 磁盘节点：保存状态到内存和磁盘，一个集群中至少需要一个磁盘节点
 
 
-### 3、Consumer Cancellation Notification 机制用于什么场景？
+### [3、Consumer Cancellation Notification 机制用于什么场景？](https://github.com/souyunku/DevBooks/blob/master/docs/RabbitMQ/RabbitMQ最新面试题2021年，常见面试题及答案汇总.md#3consumer-cancellation-notification-机制用于什么场景)  
+
 
 用于保证当镜像 queue 中 master 挂掉时，连接到 slave 上的 consumer 可以收到自身 consume 被取消的通知，进而可以重新执行 consume 动作从新选出的 master 出获得消息。若不采用该机制，连接到 slave 上的 consumer 将不会感知 master 挂掉这个事情，导致后续无法再收到新 master 广播出来的 message 。另外，因为在镜像 queue 模式下，存在将 message 进行 requeue 的可能，所以实现 consumer 的逻辑时需要能够正确处理出现重复 message 的情况。
 
 
-### 4、消息传输保证层级？
+### [4、消息传输保证层级？](https://github.com/souyunku/DevBooks/blob/master/docs/RabbitMQ/RabbitMQ最新面试题2021年，常见面试题及答案汇总.md#4消息传输保证层级)  
+
 
 **1、** At most once：最多一次。消息可能会丢失，单不会重复传输。
 
@@ -36,7 +40,8 @@ RabbitMQ要求最少有一个磁盘节点。
 **3、** Exactly once：恰好一次，每条消息肯定仅传输一次。
 
 
-### 5、事务机制？
+### [5、事务机制？](https://github.com/souyunku/DevBooks/blob/master/docs/RabbitMQ/RabbitMQ最新面试题2021年，常见面试题及答案汇总.md#5事务机制)  
+
 
 RabbitMQ 客户端中与事务机制相关的方法有三个:
 
@@ -47,7 +52,8 @@ channel 、txCommit 用于提交事务 。
 channel 、txRollback 用于事务回滚,如果在事务提交执行之前由于 RabbitMQ 异常崩溃或者其他原因抛出异常,通过txRollback来回滚。
 
 
-### 6、如何避免消息重复投递或重复消费?
+### [6、如何避免消息重复投递或重复消费?](https://github.com/souyunku/DevBooks/blob/master/docs/RabbitMQ/RabbitMQ最新面试题2021年，常见面试题及答案汇总.md#6如何避免消息重复投递或重复消费)  
+
 
 在消息生产时，MQ内部针对每条生产者发送的消息生成一个`inner-msg-id`，作为去重和幂等的依据（消息投递失败并重传），避免重复的消息进入队列；在消息消费时，要求消息体中必须要有一个`bizId`（对于同一业务全局唯一，如支付ID、订单ID、帖子ID等）作为去重和幂等的依据，避免同一条消息被重复消费。
 
@@ -60,12 +66,14 @@ channel 、txRollback 用于事务回滚,如果在事务提交执行之前由于
 **3、** 如果上面两种情况还不行。准备一个第三方介质,来做消费记录。以Redis为例，给消息分配一个全局id，只要消费过该消息，将<id,message>以K-V形式写入Redis。那消费者开始消费前，先去Redis中查询有没消费记录即可。
 
 
-### 7、routing_key 和 binding_key 的最大长度是多少？
+### [7、routing_key 和 binding_key 的最大长度是多少？](https://github.com/souyunku/DevBooks/blob/master/docs/RabbitMQ/RabbitMQ最新面试题2021年，常见面试题及答案汇总.md#7routing_key-和-binding_key-的最大长度是多少)  
+
 
 255 字节。
 
 
-### 8、RabbitMQ消息确认过程？
+### [8、RabbitMQ消息确认过程？](https://github.com/souyunku/DevBooks/blob/master/docs/RabbitMQ/RabbitMQ最新面试题2021年，常见面试题及答案汇总.md#8rabbitmq消息确认过程)  
+
 
 1.
 消费者收到的每一条消息都必须进行确认（自动确认和自行确认）
@@ -84,7 +92,8 @@ RabbitMQ不会为 ack消息设置超时时间，它判断此消息是否需要�
 
 
 
-### 9、RabbitMQ如何实现延时队列?
+### [9、RabbitMQ如何实现延时队列?](https://github.com/souyunku/DevBooks/blob/master/docs/RabbitMQ/RabbitMQ最新面试题2021年，常见面试题及答案汇总.md#9rabbitmq如何实现延时队列)  
+
 
 利用TTL（队列的消息存活时间或者消息存活时间），加上死信交换机
 
@@ -99,7 +108,8 @@ arguments.put("x-dead-letter-exchange","DLX_EXCHANGE");
 ```
 
 
-### 10、消息怎么路由？
+### [10、消息怎么路由？](https://github.com/souyunku/DevBooks/blob/master/docs/RabbitMQ/RabbitMQ最新面试题2021年，常见面试题及答案汇总.md#10消息怎么路由)  
+
 
 从概念上来说，消息路由必须有三部分：交换器、路由、绑定。生产者把消息到交换器上；绑定决定了消息如何从路由器路由到特定的队列；消息最终到达队列，并被消费者接收。
 
@@ -135,9 +145,9 @@ arguments.put("x-dead-letter-exchange","DLX_EXCHANGE");
 
 
 
-## 全部答案，整理好了，直接下载吧
+## [全部答案，整理好了，直接下载吧](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
-### 下载链接：[全部答案，整理好了](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
+### 下载链接：[全部答案，整理好了](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
 
 

@@ -6,7 +6,8 @@
 
 
 
-### 1、类加载为什么要使用双亲委派模式，有没有什么场景是打破了这个模式？
+### [1、类加载为什么要使用双亲委派模式，有没有什么场景是打破了这个模式？](https://github.com/souyunku/DevBooks/blob/master/docs/Jvm/Jvm最新面试题及答案整理，汇总版.md#1类加载为什么要使用双亲委派模式有没有什么场景是打破了这个模式)  
+
 
 **双亲委托模型的重要用途是为了解决类载入过程中的安全性问题。**
 
@@ -21,7 +22,8 @@ Java的类加载是否一定遵循双亲委托模型？
 **2、** SPI就是打破了双亲委托机制的(SPI：服务提供发现)。
 
 
-### 2、生产环境 CPU 占用过高，你如何解决？
+### [2、生产环境 CPU 占用过高，你如何解决？](https://github.com/souyunku/DevBooks/blob/master/docs/Jvm/Jvm最新面试题及答案整理，汇总版.md#2生产环境-cpu-占用过高你如何解决)  
+
 
 **1、** top + H 指令找出占用 CPU 最高的进程的 pid
 
@@ -38,21 +40,25 @@ threads.txt，导出进程的线程栈信息到文本，导出出现异常的话
 我用上述方法查到过，jvm 多条线程疯狂 full gc 导致的CPU 100% 的问题和 JDK1.6 HashMap 并发 put 导致线程 CPU 100% 的问题
 
 
-### 3、JVM 的内存模型是什么？
+### [3、JVM 的内存模型是什么？](https://github.com/souyunku/DevBooks/blob/master/docs/Jvm/Jvm最新面试题及答案整理，汇总版.md#3jvm-的内存模型是什么)  
+
 
 JVM 试图定义一种统一的内存模型，能将各种底层硬件以及操作系统的内存访问差异进行封装，使 Java 程序在不同硬件以及操作系统上都能达到相同的并发效果。它分为工作内存和主内存，线程无法对主存储器直接进行操作，如果一个线程要和另外一个线程通信，那么只能通过主存进行交换。
 
 
-### 4、你知道哪些GC类型？
+### [4、你知道哪些GC类型？](https://github.com/souyunku/DevBooks/blob/master/docs/Jvm/Jvm最新面试题及答案整理，汇总版.md#4你知道哪些gc类型)  
+
 
 Minor GC：发生在年轻代的 GC。Major GC：发生在老年代的 GC。Full GC：全堆垃圾回收。比如 Metaspace 区引起年轻代和老年代的回收。
 
 
-### 5、如何判断一个常量是废弃常量 ？
+### [5、如何判断一个常量是废弃常量 ？](https://github.com/souyunku/DevBooks/blob/master/docs/Jvm/Jvm最新面试题及答案整理，汇总版.md#5如何判断一个常量是废弃常量-)  
+
 
 运行时常量池主要回收的是废弃的常量。假如在常量池中存在字符串 "abc"，如果当前没有任何 String 对象引用该字符串常量的话，就说明常量 "abc" 就是废弃常量，如果这时发生内存回收的话而且有必要的话，"abc" 就会被系统清理出常量池。
 
-### 6、对象的内存布局了解吗？
+### [6、对象的内存布局了解吗？](https://github.com/souyunku/DevBooks/blob/master/docs/Jvm/Jvm最新面试题及答案整理，汇总版.md#6对象的内存布局了解吗)  
+
 
 对象在堆内存的存储布局可分为对象头、实例数据和对齐填充。
 
@@ -65,7 +71,8 @@ Minor GC：发生在年轻代的 GC。Major GC：发生在老年代的 GC。Full
 **对齐填充**不是必然存在的，仅起占位符作用。虚拟机的自动内存管理系统要求任何对象的大小必须是 8B 的倍数，对象头已被设为 8B 的 1 或 2 倍，如果对象实例数据部分没有对齐，需要对齐填充补全。
 
 
-### 7、Java对象的布局了解过吗？
+### [7、Java对象的布局了解过吗？](https://github.com/souyunku/DevBooks/blob/master/docs/Jvm/Jvm最新面试题及答案整理，汇总版.md#7java对象的布局了解过吗)  
+
 
 对象头区域此处存储的信息包括两部分：1、对象自身的运行时数据( MarkWord )，占8字节 存储 hashCode、GC 分代年龄、锁类型标记、偏向锁线程 ID 、 CAS 锁指向线程 LockRecord 的指针等， synconized 锁的机制与这个部分( markwork )密切相关，用 markword 中最低的三位代表锁的状态，其中一位是偏向锁位，另外两位是普通锁位。2、对象类型指针( Class Pointer )，占4字节 对象指向它的类元数据的指针、 JVM 就是通过它来确定是哪个 Class 的实例。
 
@@ -74,7 +81,8 @@ Minor GC：发生在年轻代的 GC。Major GC：发生在老年代的 GC。Full
 对齐填充区域 JVM 的实现 HostSpot 规定对象的起始地址必须是 8 字节的整数倍，换句话来说，现在 64 位的 OS 往外读取数据的时候一次性读取 64bit 整数倍的数据，也就是 8 个字节，所以 HotSpot 为了高效读取对象，就做了"对齐"，如果一个对象实际占的内存大小不是 8byte 的整数倍时，就"补位"到 8byte 的整数倍。所以对齐填充区域的大小不是固定的。
 
 
-### 8、谈谈双亲委派模型
+### [8、谈谈双亲委派模型](https://github.com/souyunku/DevBooks/blob/master/docs/Jvm/Jvm最新面试题及答案整理，汇总版.md#8谈谈双亲委派模型)  
+
 
 **1、** Parents Delegation Model，这里的 Parents 翻译成双亲有点不妥，类加载向上传递的过程中只有单亲；parents 更多的是多级向上的意思。
 
@@ -125,7 +133,8 @@ protected synchronized Class<?> loadClass(String name, boolean resolve) throws C
 ```
 
 
-### 9、CMS分为哪几个阶段?
+### [9、CMS分为哪几个阶段?](https://github.com/souyunku/DevBooks/blob/master/docs/Jvm/Jvm最新面试题及答案整理，汇总版.md#9cms分为哪几个阶段)  
+
 
 CMS已经弃用。生活美好，时间有限，不建议再深入研究了。如果碰到问题，直接祭出回收过程即可。
 
@@ -144,7 +153,8 @@ CMS已经弃用。生活美好，时间有限，不建议再深入研究了。�
 由于《深入理解java虚拟机》一书的流行，面试时省略3、4步一般也是没问题的。
 
 
-### 10、解释 Java 堆空间及 GC？
+### [10、解释 Java 堆空间及 GC？](https://github.com/souyunku/DevBooks/blob/master/docs/Jvm/Jvm最新面试题及答案整理，汇总版.md#10解释-java-堆空间及-gc)  
+
 
 当通过 Java 命令启动 Java 进程的时候，会为它分配内存。内存的一部分用于创建堆空间，当程序中创建对象的时候，就从对空间中分配内存。GC 是 JVM 内部的一个进程，回收无效对象的内存用于将来的分配。
 
@@ -173,9 +183,9 @@ CMS已经弃用。生活美好，时间有限，不建议再深入研究了。�
 
 
 
-## 全部答案，整理好了，直接下载吧
+## [全部答案，整理好了，直接下载吧](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
-### 下载链接：[全部答案，整理好了](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
+### 下载链接：[全部答案，整理好了](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
 
 

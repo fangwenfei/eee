@@ -6,7 +6,8 @@
 
 
 
-### 1、如何开启和查看 GC 日志？
+### [1、如何开启和查看 GC 日志？](https://github.com/souyunku/DevBooks/blob/master/docs/Jvm/Jvm最新面试题及答案附答案汇总.md#1如何开启和查看-gc-日志)  
+
 
 **常见的 GC 日志开启参数包括：**
 
@@ -43,17 +44,20 @@ GC 日志输出的格式，会随着上面的参数不同而发生变化。关�
 如果现场环境不允许，可以使用 JDK 自带的 jstat 工具监控观察 GC 情况。
 
 
-### 2、Parallel Scavenge 收集器（多线程复制算法、高效）
+### [2、Parallel Scavenge 收集器（多线程复制算法、高效）](https://github.com/souyunku/DevBooks/blob/master/docs/Jvm/Jvm最新面试题及答案附答案汇总.md#2parallel-scavenge-收集器多线程复制算法高效)  
+
 
 Parallel Scavenge 收集器也是一个新生代垃圾收集器，同样使用复制算法，也是一个多线程的垃圾收集器， 它重点关注的是程序达到一个可控制的吞吐量（Thoughput， CPU 用于运行用户代码的时间/CPU 总消耗时间，即吞吐量=运行用户代码时间/(运行用户代码时间+垃圾收集时间)），高吞吐量可以最高效率地利用 CPU 时间，尽快地完成程序的运算任务，主要适用于在后台运算而不需要太多交互的任务。自适应调节策略也是 ParallelScavenge 收集器与 ParNew 收集器的一个重要区别。
 
 
-### 3、说下有哪些类加载器？
+### [3、说下有哪些类加载器？](https://github.com/souyunku/DevBooks/blob/master/docs/Jvm/Jvm最新面试题及答案附答案汇总.md#3说下有哪些类加载器)  
+
 
 Bootstrap ClassLoader（启动类加载器） Extention ClassLoader（扩展类加载器） App ClassLoader（应用类加载器）
 
 
-### 4、你做过 JVM 调优，说说如何查看 JVM 参数默认值？
+### [4、你做过 JVM 调优，说说如何查看 JVM 参数默认值？](https://github.com/souyunku/DevBooks/blob/master/docs/Jvm/Jvm最新面试题及答案附答案汇总.md#4你做过-jvm-调优说说如何查看-jvm-参数默认值)  
+
 
 **1、** jps -v 可以查看 jvm 进程显示指定的参数
 
@@ -62,19 +66,22 @@ Bootstrap ClassLoader（启动类加载器） Extention ClassLoader（扩展类�
 **3、** jinfo 可以实时查看和调整虚拟机各项参数
 
 
-### 5、什么是双亲委派机制？
+### [5、什么是双亲委派机制？](https://github.com/souyunku/DevBooks/blob/master/docs/Jvm/Jvm最新面试题及答案附答案汇总.md#5什么是双亲委派机制)  
+
 
 双亲委派机制的意思是除了顶层的启动类加载器以外，其余的类加载器，在加载之前，都会委派给它的父加载器进行加载。这样一层层向上传递，直到祖先们都无法胜任，它才会真正的加载。
 
 
-### 6、内存溢出和内存泄漏的区别？
+### [6、内存溢出和内存泄漏的区别？](https://github.com/souyunku/DevBooks/blob/master/docs/Jvm/Jvm最新面试题及答案附答案汇总.md#6内存溢出和内存泄漏的区别)  
+
 
 内存溢出 OutOfMemory，指程序在申请内存时，没有足够的内存空间供其使用。
 
 内存泄露 Memory Leak，指程序在申请内存后，无法释放已申请的内存空间，内存泄漏最终将导致内存溢出。
 
 
-### 7、强引用、软引用、弱引用、虚引用是什么，有什么区别？
+### [7、强引用、软引用、弱引用、虚引用是什么，有什么区别？](https://github.com/souyunku/DevBooks/blob/master/docs/Jvm/Jvm最新面试题及答案附答案汇总.md#7强引用软引用弱引用虚引用是什么有什么区别)  
+
 
 **1、** 强引用，就是普通的对象引用关系，如 String s = new String("ConstXiong")
 
@@ -85,14 +92,16 @@ Bootstrap ClassLoader（启动类加载器） Extention ClassLoader（扩展类�
 **4、** 虚引用是一种形同虚设的引用，在现实场景中用的不是很多，它主要用来跟踪对象被垃圾回收的活动。PhantomReference 实现
 
 
-### 8、垃圾回收的优点和原理。说说2种回收机制
+### [8、垃圾回收的优点和原理。说说2种回收机制](https://github.com/souyunku/DevBooks/blob/master/docs/Jvm/Jvm最新面试题及答案附答案汇总.md#8垃圾回收的优点和原理。说说2种回收机制)  
+
 
 Java 语言中一个显著的特点就是引入了垃圾回收机制，使 C++ 程序员最头疼的内存管理的问题迎刃而解，它使得 Java 程序员在编写程序的时候不再需要考虑内存管理。由于有个垃圾回收机制，Java 中的对象不再有“作用域”的概念，只有对象的引用才有"作用域"。垃圾回收可以有效的防止内存泄露，有效的使用可以使用的内存。垃圾回收器通常是作为一个单独的低级别的线程运行，不可预知的情况下对内存堆中已经死亡的或者长时间没有使用的对象进行清楚和回收，程序员不能实时的调用垃圾回收器对某个对象或所有对象进行垃圾回收。
 
 **回收机制有分代复制垃圾回收和标记垃圾回收，增量垃圾回收。**
 
 
-### 9、说一下垃圾分代收集的过程
+### [9、说一下垃圾分代收集的过程](https://github.com/souyunku/DevBooks/blob/master/docs/Jvm/Jvm最新面试题及答案附答案汇总.md#9说一下垃圾分代收集的过程)  
+
 
 分为新生代和老年代，新生代默认占总空间的 1/3，老年代默认占 2/3。
 
@@ -129,7 +138,8 @@ FullGC，整个堆的垃圾收集，触发条件：
 **6、** 堆内存分配很大的对象
 
 
-### 10、JVM 运行时内存
+### [10、JVM 运行时内存](https://github.com/souyunku/DevBooks/blob/master/docs/Jvm/Jvm最新面试题及答案附答案汇总.md#10jvm-运行时内存)  
+
 
 Java 堆从 GC 的角度还可以细分为: 新生代(Eden 区、 From Survivor 区和 To Survivor 区)和老年代。
 
@@ -190,9 +200,9 @@ MinorGC 采用复制算法。
 
 
 
-## 全部答案，整理好了，直接下载吧
+## [全部答案，整理好了，直接下载吧](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
-### 下载链接：[全部答案，整理好了](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
+### 下载链接：[全部答案，整理好了](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
 
 

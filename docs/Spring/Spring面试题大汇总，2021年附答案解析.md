@@ -6,7 +6,8 @@
 
 
 
-### 1、SpringBoot常用的starter有哪些?
+### [1、SpringBoot常用的starter有哪些?](https://github.com/souyunku/DevBooks/blob/master/docs/Spring/Spring面试题大汇总，2021年附答案解析.md#1springboot常用的starter有哪些)  
+
 
 **1、** `spring-boot-starter-web` (嵌入tomcat和web开发需要servlet与jsp支持)
 
@@ -19,12 +20,14 @@
 **5、** `mybatis-spring-boot-starter` (第三方的mybatis集成starter)
 
 
-### 2、前后端分离，如何维护接口文档 ?
+### [2、前后端分离，如何维护接口文档 ?](https://github.com/souyunku/DevBooks/blob/master/docs/Spring/Spring面试题大汇总，2021年附答案解析.md#2前后端分离如何维护接口文档-)  
+
 
 前后端分离开发日益流行，大部分情况下，我们都是通过 SpringBoot 做前后端分离开发，前后端分离一定会有接口文档，不然会前后端会深深陷入到扯皮中。一个比较笨的方法就是使用 word 或者 md 来维护接口文档，但是效率太低，接口一变，所有人手上的文档都得变。在 SpringBoot 中，这个问题常见的解决方案是 Swagger ，使用 Swagger 我们可以快速生成一个接口文档网站，接口一旦发生变化，文档就会自动更新，所有开发工程师访问这一个在线网站就可以获取到最新的接口文档，非常方便。
 
 
-### 3、有几种不同类型的自动代理？
+### [3、有几种不同类型的自动代理？](https://github.com/souyunku/DevBooks/blob/master/docs/Spring/Spring面试题大汇总，2021年附答案解析.md#3有几种不同类型的自动代理)  
+
 
 BeanNameAutoProxyCreator
 
@@ -33,17 +36,20 @@ DefaultAdvisorAutoProxyCreator
 Metadata autoproxying
 
 
-### 4、什么是FreeMarker模板？
+### [4、什么是FreeMarker模板？](https://github.com/souyunku/DevBooks/blob/master/docs/Spring/Spring面试题大汇总，2021年附答案解析.md#4什么是freemarker模板)  
+
 
 FreeMarker是一个基于Java的模板引擎，最初专注于使用MVC软件架构进行动态网页生成。使用Freemarker的主要优点是表示层和业务层的完全分离。程序员可以处理应用程序代码，而设计人员可以处理html页面设计。最后使用freemarker可以将这些结合起来，给出最终的输出页面。
 
 
-### 5、什么是持续集成（CI）？
+### [5、什么是持续集成（CI）？](https://github.com/souyunku/DevBooks/blob/master/docs/Spring/Spring面试题大汇总，2021年附答案解析.md#5什么是持续集成ci)  
+
 
 持续集成（CI）是每次团队成员提交版本控制更改时自动构建和测试代码的过程。这鼓励开发人员通过在每个小任务完成后将更改合并到共享版本控制存储库来共享代码和单元测试。
 
 
-### 6、Spring MVC的优点
+### [6、Spring MVC的优点](https://github.com/souyunku/DevBooks/blob/master/docs/Spring/Spring面试题大汇总，2021年附答案解析.md#6spring-mvc的优点)  
+
 
 **1、** 可以支持各种视图技术,而不仅仅局限于JSP；
 
@@ -54,7 +60,8 @@ FreeMarker是一个基于Java的模板引擎，最初专注于使用MVC软件架
 **4、** 支持各种请求资源的映射策略。
 
 
-### 7、Spring Initializr 是创建 SpringBoot Projects 的唯一方法吗？
+### [7、Spring Initializr 是创建 SpringBoot Projects 的唯一方法吗？](https://github.com/souyunku/DevBooks/blob/master/docs/Spring/Spring面试题大汇总，2021年附答案解析.md#7spring-initializr-是创建-springboot-projects-的唯一方法吗)  
+
 
 不是的。
 
@@ -81,7 +88,8 @@ Spring Initiatlizr 让创建 SpringBoot 项目变的很容易，但是，你也�
 到这里，准备工作已经做好！
 
 
-### 8、使用Spring通过什么方式访问Hibernate?
+### [8、使用Spring通过什么方式访问Hibernate?](https://github.com/souyunku/DevBooks/blob/master/docs/Spring/Spring面试题大汇总，2021年附答案解析.md#8使用spring通过什么方式访问hibernate)  
+
 
 **在Spring中有两种方式访问Hibernate：**
 
@@ -90,12 +98,14 @@ Spring Initiatlizr 让创建 SpringBoot 项目变的很容易，但是，你也�
 继承 HibernateDAOSupport提供一个AOP 拦截器。
 
 
-### 9、什么是bean的自动装配？
+### [9、什么是bean的自动装配？](https://github.com/souyunku/DevBooks/blob/master/docs/Spring/Spring面试题大汇总，2021年附答案解析.md#9什么是bean的自动装配)  
+
 
 Spring 容器能够自动装配相互合作的bean，这意味着容器不需要和配置，能通过Bean工厂自动处理bean之间的协作。
 
 
-### 10、[@Qualifier ](/Qualifier ) 注解
+### [10、[@Qualifier ](/Qualifier ) 注解](https://github.com/souyunku/DevBooks/blob/master/docs/Spring/Spring面试题大汇总，2021年附答案解析.md#10[@qualifier-]/qualifier--注解)  
+
 
 当有多个相同类型的bean却只有一个需要自动装配时，将[@Qualifier ](/Qualifier ) 注解和[@Autowire ](/Autowire ) 注解结合使用以消除这种混淆，指定需要装配的确切的bean。
 
@@ -124,9 +134,9 @@ Spring 容器能够自动装配相互合作的bean，这意味着容器不需要
 
 
 
-## 全部答案，整理好了，直接下载吧
+## [全部答案，整理好了，直接下载吧](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
-### 下载链接：[全部答案，整理好了](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
+### 下载链接：[全部答案，整理好了](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
 
 

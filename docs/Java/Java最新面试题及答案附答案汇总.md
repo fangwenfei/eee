@@ -6,36 +6,42 @@
 
 
 
-### 1、js如何实现页面刷新呢？
+### [1、js如何实现页面刷新呢？](https://github.com/souyunku/DevBooks/blob/master/docs/Java/Java最新面试题及答案附答案汇总.md#1js如何实现页面刷新呢)  
+
 
 **1、** history.go(0)
 
 **2、** location.reload()
 
 
-### 2、什么是线程池？
+### [2、什么是线程池？](https://github.com/souyunku/DevBooks/blob/master/docs/Java/Java最新面试题及答案附答案汇总.md#2什么是线程池)  
+
 
 在一个应用程序中初始化一个线程集合，然后在需要执行新的任务时重用线程池中的线程，而不是创建一个新的线程。线程池中的每个线程都有被分配一个任务，一旦任务完成，线程就回到线程池中，等待下一次的任务分配
 
 
-### 3、如何实现 Array 和 List 之间的转换？
+### [3、如何实现 Array 和 List 之间的转换？](https://github.com/souyunku/DevBooks/blob/master/docs/Java/Java最新面试题及答案附答案汇总.md#3如何实现-array-和-list-之间的转换)  
+
 
 **1、** Array 转 List： Arrays、asList(array) ；
 
 **2、** List 转 Array：List 的 toArray() 方法。
 
 
-### 4、普通类和抽象类有哪些区别？
+### [4、普通类和抽象类有哪些区别？](https://github.com/souyunku/DevBooks/blob/master/docs/Java/Java最新面试题及答案附答案汇总.md#4普通类和抽象类有哪些区别)  
+
 
 普通类不能包含抽象方法，抽象类可以包含抽象方法。 抽象类不能直接实例化，普通类可以直接实例化。
 
 
-### 5、为什么线程通信的方法wait(), notify()和notifyAll()被定义在Object 类里？
+### [5、为什么线程通信的方法wait(), notify()和notifyAll()被定义在Object 类里？](https://github.com/souyunku/DevBooks/blob/master/docs/Java/Java最新面试题及答案附答案汇总.md#5为什么线程通信的方法wait,-notify和notifyall被定义在object-类里)  
+
 
 Java的每个对象中都有一个锁(monitor，也可以成为监视器) 并且wait()，notify()等方法用于等待对象的锁或者通知其他线程对象的监视器可用。在Java的线程中并没有可供任何对象使用的锁和同步器。这就是为什么这些方法是Object类的一部分，这样Java的每一个类都有用于线程间通信的基本方法。
 
 
-### 6、遍历一个 List 有哪些不同的方式？每种方法的实现原理是什么？Java 中 List 遍历的最佳实践是什么？
+### [6、遍历一个 List 有哪些不同的方式？每种方法的实现原理是什么？Java 中 List 遍历的最佳实践是什么？](https://github.com/souyunku/DevBooks/blob/master/docs/Java/Java最新面试题及答案附答案汇总.md#6遍历一个-list-有哪些不同的方式每种方法的实现原理是什么java-中-list-遍历的最佳实践是什么)  
+
 
 **遍历方式有以下几种：**
 
@@ -56,12 +62,14 @@ Java Collections 框架中提供了一个 RandomAccess 接口，用来标记 Lis
 **3、** 推荐的做法就是，支持 Random Access 的列表可用 for 循环遍历，否则建议用 Iterator 或 foreach 遍历。
 
 
-### 7、String str="i"与 String str=new String("i")一样吗？
+### [7、String str="i"与 String str=new String("i")一样吗？](https://github.com/souyunku/DevBooks/blob/master/docs/Java/Java最新面试题及答案附答案汇总.md#7string-str="i"与-string-str=new-string"i"一样吗)  
+
 
 不一样，因为内存的分配方式不一样。String str="i"的方式，java 虚拟机会将其分配到常量池中；而 String str=new String("i") 则会被分到堆内存中。
 
 
-### 8、用过ConcurrentHashMap，讲一下他和HashTable的不同之处？
+### [8、用过ConcurrentHashMap，讲一下他和HashTable的不同之处？](https://github.com/souyunku/DevBooks/blob/master/docs/Java/Java最新面试题及答案附答案汇总.md#8用过concurrenthashmap讲一下他和hashtable的不同之处)  
+
 
 ConcurrentHashMap是Java5中支持高并发、高吞吐量的线程安全HashMap实现。它由Segment数组结构和HashEntry数组结构组成。Segment数组在ConcurrentHashMap里扮演锁的角色，HashEntry则用于存储键-值对数据。一个ConcurrentHashMap里包含一个Segment数组，Segment的结构和HashMap类似，是一种数组和链表结构；一个Segment里包含一个HashEntry数组，每个HashEntry是一个链表结构的元素；每个Segment守护着一个HashEntry数组里的元素，当对HashEntry数组的数据进行修改时，必须首先获得它对应的Segment锁。
 
@@ -80,7 +88,8 @@ ConcurrentHashMap是Java5中支持高并发、高吞吐量的线程安全HashMap
 **5、** 扩容：段内扩容（段内元素超过该段对应Entry数组长度的75%触发扩容，不会对整个Map进行扩容），插入前检测需不需要扩容，有效避免无效扩容
 
 
-### 9、线程的基本状态以及状态之间的关系？
+### [9、线程的基本状态以及状态之间的关系？](https://github.com/souyunku/DevBooks/blob/master/docs/Java/Java最新面试题及答案附答案汇总.md#9线程的基本状态以及状态之间的关系)  
+
 
 
 
@@ -90,7 +99,8 @@ ConcurrentHashMap是Java5中支持高并发、高吞吐量的线程安全HashMap
 
 
 
-### 10、线程池中 submit() 和 execute() 方法有什么区别？
+### [10、线程池中 submit() 和 execute() 方法有什么区别？](https://github.com/souyunku/DevBooks/blob/master/docs/Java/Java最新面试题及答案附答案汇总.md#10线程池中-submit-和-execute-方法有什么区别)  
+
 
 **相同点：**
 
@@ -140,9 +150,9 @@ ConcurrentHashMap是Java5中支持高并发、高吞吐量的线程安全HashMap
 
 
 
-## 全部答案，整理好了，直接下载吧
+## [全部答案，整理好了，直接下载吧](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
-### 下载链接：[全部答案，整理好了](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
+### 下载链接：[全部答案，整理好了](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
 
 

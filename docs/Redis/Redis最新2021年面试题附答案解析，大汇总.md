@@ -6,31 +6,36 @@
 
 
 
-### 1、一个Redis实例最多能存放多少的keys？List、Set、Sorted Set他们最多能存放多少元素？
+### [1、一个Redis实例最多能存放多少的keys？List、Set、Sorted Set他们最多能存放多少元素？](https://github.com/souyunku/DevBooks/blob/master/docs/Redis/Redis最新2021年面试题附答案解析，大汇总.md#1一个redis实例最多能存放多少的keyslistsetsorted-set他们最多能存放多少元素)  
+
 
 理论上Redis可以处理多达232的keys，并且在实际中进行了测试，每个实例至少存放了2亿5千万的keys。我们正在测试一些较大的值。任何list、set、和sorted set都可以放232个元素。换句话说，Redis的存储极限是系统中的可用内存值。
 
 
-### 2、为什么要做Redis分区？
+### [2、为什么要做Redis分区？](https://github.com/souyunku/DevBooks/blob/master/docs/Redis/Redis最新2021年面试题附答案解析，大汇总.md#2为什么要做redis分区)  
+
 
 分区可以让Redis管理更大的内存，Redis将可以使用所有机器的内存。如果没有分区，你最多只能使用一台机器的内存。分区使Redis的计算能力通过简单地增加计算机得到成倍提升,Redis的网络带宽也会随着计算机和网卡的增加而成倍增长。
 
 
-### 3、定时删除
+### [3、定时删除](https://github.com/souyunku/DevBooks/blob/master/docs/Redis/Redis最新2021年面试题附答案解析，大汇总.md#3定时删除)  
+
 
 优点：对内存友好，定时删除策略可以保证过期键会尽可能快地被删除，并释放国期间所占用的内存
 
 缺点：对cpu时间不友好，在过期键比较多时，删除任务会占用很大一部分cpu时间，在内存不紧张但cpu时间紧张的情况下，将cpu时间用在删除和当前任务无关的过期键上，影响服务器的响应时间和吞吐量
 
 
-### 4、怎么理解Redis事务？
+### [4、怎么理解Redis事务？](https://github.com/souyunku/DevBooks/blob/master/docs/Redis/Redis最新2021年面试题附答案解析，大汇总.md#4怎么理解redis事务)  
+
 
 事务是一个单独的隔离操作：事务中的所有命令都会序列化、按顺序地执行。事务在执行的过程中，不会被其他客户端发送来的命令请求所打断。
 
 事务是一个原子操作：事务中的命令要么全部被执行，要么全部都不执行。
 
 
-### 5、什么是Redis？
+### [5、什么是Redis？](https://github.com/souyunku/DevBooks/blob/master/docs/Redis/Redis最新2021年面试题附答案解析，大汇总.md#5什么是redis)  
+
 
 Redis本质上是一个Key-Value类型的内存数据库，很像Memcached，整个数据库统统加载在内存当中进行操作，定期通过异步操作把数据库数据flush到硬盘上进行保存。因为是纯内存操作，Redis的性能非常出色，每秒可以处理超过 10万次读写操作，是已知性能最快的Key-Value DB。
 
@@ -39,27 +44,32 @@ Redis的出色之处不仅仅是性能，Redis最大的魅力是支持保存多�
 Redis的主要缺点是数据库容量受到物理内存的限制，不能用作海量数据的高性能读写，因此Redis适合的场景主要局限在较小数据量的高性能操作和运算上。
 
 
-### 6、Redis分布式锁实现
+### [6、Redis分布式锁实现](https://github.com/souyunku/DevBooks/blob/master/docs/Redis/Redis最新2021年面试题附答案解析，大汇总.md#6redis分布式锁实现)  
+
 
 先拿setnx来争抢锁，抢到之后，再用expire给锁加一个过期时间防止锁忘记了释放。如果在setnx之后执行expire之前进程意外crash或者要重启维护了，那会怎么样？set指令有非常复杂的参数，这个应该是可以同时把setnx和expire合成一条指令来用的！
 
 
-### 7、Redis做异步队列
+### [7、Redis做异步队列](https://github.com/souyunku/DevBooks/blob/master/docs/Redis/Redis最新2021年面试题附答案解析，大汇总.md#7redis做异步队列)  
+
 
 一般使用list结构作为队列，rpush生产消息，lpop消费消息。当lpop没有消息的时候，要适当sleep一会再重试。缺点：在消费者下线的情况下，生产的消息会丢失，得使用专业的消息队列如rabbitmq等。能不能生产一次消费多次呢？使用pub/sub主题订阅者模式，可以实现1:N的消息队列。
 
 
-### 8、Reids常用5种数据类型
+### [8、Reids常用5种数据类型](https://github.com/souyunku/DevBooks/blob/master/docs/Redis/Redis最新2021年面试题附答案解析，大汇总.md#8reids常用5种数据类型)  
+
 
 string，list，set，sorted set，hash
 
 
-### 9、Redis 事务相关的命令有哪几个？
+### [9、Redis 事务相关的命令有哪几个？](https://github.com/souyunku/DevBooks/blob/master/docs/Redis/Redis最新2021年面试题附答案解析，大汇总.md#9redis-事务相关的命令有哪几个)  
+
 
 MULTI、EXEC、DISCARD、WATCH
 
 
-### 10、WATCH命令和基于CAS的乐观锁：
+### [10、WATCH命令和基于CAS的乐观锁：](https://github.com/souyunku/DevBooks/blob/master/docs/Redis/Redis最新2021年面试题附答案解析，大汇总.md#10watch命令和基于cas的乐观锁：)  
+
 
 在Redis的事务中，WATCH命令可用于提供CAS(check-and-set)功能。假设我们通过WATCH命令在事务执行之前监控了多个Keys，倘若在WATCH之后有任何Key的值发生了变化，EXEC命令执行的事务都将被放弃，同时返回Null multi-bulk应答以通知调用者事务
 
@@ -111,9 +121,9 @@ EXEC
 
 
 
-## 全部答案，整理好了，直接下载吧
+## [全部答案，整理好了，直接下载吧](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
-### 下载链接：[全部答案，整理好了](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
+### 下载链接：[全部答案，整理好了](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
 
 

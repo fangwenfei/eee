@@ -6,12 +6,14 @@
 
 
 
-### 1、spring DAO 有什么用？
+### [1、spring DAO 有什么用？](https://github.com/souyunku/DevBooks/blob/master/docs/Spring/Spring最新面试题，2021年面试题及答案汇总.md#1spring-dao-有什么用)  
+
 
 Spring DAO 使得 JDBC，Hibernate 或 JDO 这样的数据访问技术更容易以一种统一的方式工作。这使得用户容易在持久性技术之间切换。它还允许您在编写代码时，无需考虑捕获每种技术不同的异常。
 
 
-### 2、什么是端到端微服务测试？
+### [2、什么是端到端微服务测试？](https://github.com/souyunku/DevBooks/blob/master/docs/Spring/Spring最新面试题，2021年面试题及答案汇总.md#2什么是端到端微服务测试)  
+
 
 端到端测试验证了工作流中的每个流程都正常运行。这可确保系统作为一个整体协同工作并满足所有要求。
 
@@ -22,12 +24,14 @@ Spring DAO 使得 JDBC，Hibernate 或 JDO 这样的数据访问技术更容易�
 图14：测试层次 – 微服务面试问题
 
 
-### 3、解释WEB 模块。
+### [3、解释WEB 模块。](https://github.com/souyunku/DevBooks/blob/master/docs/Spring/Spring最新面试题，2021年面试题及答案汇总.md#3解释web-模块。)  
+
 
 Spring的WEB模块是构建在application context 模块基础之上，提供一个适合web应用的上下文。这个模块也包括支持多种面向web的任务，如透明地处理多个文件上传请求和程序级请求参数的绑定到你的业务对象。它也有对Jakarta Struts的支持。
 
 
-### 4、SpringBoot 的核心注解是哪个？它主要由哪几个注解组成的？
+### [4、SpringBoot 的核心注解是哪个？它主要由哪几个注解组成的？](https://github.com/souyunku/DevBooks/blob/master/docs/Spring/Spring最新面试题，2021年面试题及答案汇总.md#4springboot-的核心注解是哪个它主要由哪几个注解组成的)  
+
 
 启动类上面的注解是@SpringBootApplication，它也是 SpringBoot 的核心注解，主要组合包含了以下 3 个注解：
 
@@ -38,7 +42,8 @@ Spring的WEB模块是构建在application context 模块基础之上，提供一
 @ComponentScan：Spring组件扫描。
 
 
-### 5、spring 提供了哪些配置方式？
+### [5、spring 提供了哪些配置方式？](https://github.com/souyunku/DevBooks/blob/master/docs/Spring/Spring最新面试题，2021年面试题及答案汇总.md#5spring-提供了哪些配置方式)  
+
 
 bean 所需的依赖项和服务在 XML 格式的配置文件中指定。 这些配置文件通常包含许多 bean 定义和特定于应用程序的配置选项。 它们通常以 bean 标签开头。
 
@@ -72,12 +77,14 @@ public class StudentConfig {
 ```
 
 
-### 6、SpringBoot需要独立的容器运行？
+### [6、SpringBoot需要独立的容器运行？](https://github.com/souyunku/DevBooks/blob/master/docs/Spring/Spring最新面试题，2021年面试题及答案汇总.md#6springboot需要独立的容器运行)  
+
 
 SpringBoot不需要独立的容器就可以运行，因为在SpringBoot工程发布的jar文件里已经包含了tomcat的jar文件。SpringBoot运行的时候会创建tomcat对象，实现web服务功能。也可以将SpringBoot发布成war文件，放到tomcat文件里面运行
 
 
-### 7、微服务之间是如何独立通讯的
+### [7、微服务之间是如何独立通讯的](https://github.com/souyunku/DevBooks/blob/master/docs/Spring/Spring最新面试题，2021年面试题及答案汇总.md#7微服务之间是如何独立通讯的)  
+
 
 **1、** 远程过程调用（Remote Procedure Invocation）：也就是我们常说的服务的注册与发现，直接通过远程过程调用来访问别的service。
 
@@ -106,12 +113,14 @@ SpringBoot不需要独立的容器就可以运行，因为在SpringBoot工程发
 消息中间件有额外的复杂
 
 
-### 8、什么是CSRF攻击？
+### [8、什么是CSRF攻击？](https://github.com/souyunku/DevBooks/blob/master/docs/Spring/Spring最新面试题，2021年面试题及答案汇总.md#8什么是csrf攻击)  
+
 
 CSRF代表跨站请求伪造。这是一种攻击，迫使最终用户在当前通过身份验证的Web应用程序上执行不需要的操作。CSRF攻击专门针对状态改变请求，而不是数据窃取，因为攻击者无法查看对伪造请求的响应。
 
 
-### 9、使用 Spring 有哪些方式？
+### [9、使用 Spring 有哪些方式？](https://github.com/souyunku/DevBooks/blob/master/docs/Spring/Spring最新面试题，2021年面试题及答案汇总.md#9使用-spring-有哪些方式)  
+
 
 **使用 Spring 有以下方式：**
 
@@ -124,7 +133,8 @@ CSRF代表跨站请求伪造。这是一种攻击，迫使最终用户在当前�
 **4、** 作为企业级 Java Bean，它可以包装现有的 POJO（Plain Old Java Objects）。
 
 
-### 10、运行 SpringBoot 有哪几种方式？
+### [10、运行 SpringBoot 有哪几种方式？](https://github.com/souyunku/DevBooks/blob/master/docs/Spring/Spring最新面试题，2021年面试题及答案汇总.md#10运行-springboot-有哪几种方式)  
+
 
 打包用命令或者放到容器中运行
 
@@ -158,9 +168,9 @@ CSRF代表跨站请求伪造。这是一种攻击，迫使最终用户在当前�
 
 
 
-## 全部答案，整理好了，直接下载吧
+## [全部答案，整理好了，直接下载吧](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
-### 下载链接：[全部答案，整理好了](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
+### 下载链接：[全部答案，整理好了](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
 
 

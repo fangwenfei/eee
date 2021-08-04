@@ -6,7 +6,8 @@
 
 
 
-### 1、Memcached的多线程是什么？如何使用它们？
+### [1、Memcached的多线程是什么？如何使用它们？](https://github.com/souyunku/DevBooks/blob/master/docs/Memcached/Memcached最新2021年面试题，高级面试题及附答案解析.md#1memcached的多线程是什么如何使用它们)  
+
 
 线程就是定律（threads rule）！在Steven Grimm和Facebook的努力下，Memcached 1.2及更高版本拥有了多线程模式。多线程模式允许Memcached能够充分利用多个CPU，并在CPU之间共享所有的缓存数据。Memcached使用一种简单的锁机制来保证数据更新操作的互斥。相比在同一个物理机器上运行多个Memcached实例，这种方式能够更有效地处理multi gets。
 
@@ -15,12 +16,14 @@
 简单地总结一下：命令解析（Memcached在这里花了大部分时间）可以运行在多线程模式下。Memcached内部对数据的操作是基于很多全局锁的（因此这部分工作不是多线程的）。未来对多线程模式的改进，将移除大量的全局锁，提高Memcached在负载极高的场景下的性能。
 
 
-### 2、Memcached是什么，有什么作用？
+### [2、Memcached是什么，有什么作用？](https://github.com/souyunku/DevBooks/blob/master/docs/Memcached/Memcached最新2021年面试题，高级面试题及附答案解析.md#2memcached是什么有什么作用)  
+
 
 Memcached是一个开源的，高性能的内存绶存软件，从名称上看Mem就是内存的意思，而Cache就是缓存的意思。Memcached的作用：通过在事先规划好的内存空间中临时绶存数据库中的各类数据，以达到减少业务对数据库的直接高并发访问，从而达到提升数据库的访问性能，加速网站集群动态应用服务的能力。
 
 
-### 3、Memcached与Redis的区别？
+### [3、Memcached与Redis的区别？](https://github.com/souyunku/DevBooks/blob/master/docs/Memcached/Memcached最新2021年面试题，高级面试题及附答案解析.md#3memcached与redis的区别)  
+
 
 **1、** Redis不仅仅支持简单的k/v类型的数据，同时还提供list，set，zset，hash等数据结构的存储。而memcache只支持简单数据类型，需要客户端自己处理复杂对象
 
@@ -40,7 +43,8 @@ cpu利用。由于Redis只使用单核，而Memcached可以使用多核，所以
 
 **8、** Redis内存管理： Redis通过定义一个数组来记录所有的内存分配情况， Redis采用的是包装的malloc/free，相较于Memcached的内存 管理方法来说，要简单很多。由于malloc 首先以链表的方式搜索已管理的内存中可用的空间分配，导致内存碎片比较多
 
-### 4、什么是二进制协议，我该关注吗？
+### [4、什么是二进制协议，我该关注吗？](https://github.com/souyunku/DevBooks/blob/master/docs/Memcached/Memcached最新2021年面试题，高级面试题及附答案解析.md#4什么是二进制协议我该关注吗)  
+
 
 **关于二进制最好的信息当然是二进制协议规范：**
 
@@ -49,14 +53,16 @@ cpu利用。由于Redis只使用单核，而Memcached可以使用多核，所以
 根据Facebook的测试，解析ASCII协议是Memcached中消耗CPU时间最多的环节。所以，我们为什么不改进ASCII协议呢？
 
 
-### 5、如果缓存数据在导出导入之间过期了，您又怎么处理这些数据呢？
+### [5、如果缓存数据在导出导入之间过期了，您又怎么处理这些数据呢？](https://github.com/souyunku/DevBooks/blob/master/docs/Memcached/Memcached最新2021年面试题，高级面试题及附答案解析.md#5如果缓存数据在导出导入之间过期了您又怎么处理这些数据呢)  
+
 
 因此，批量导出导入数据并不像您想象中的那么有用。不过在一个场景倒是很有用。如果您有大量的从不变化的数据，并且希望缓存很快热（warm）起来，批量导入缓存数据是很有帮助的。虽然这个场景并不典型，但却经常发生，因此我们会考虑在将来实现批量导出导入的功能。
 
 如果一个Memcached节点down了让您很痛苦，那么您还会陷入其他很多麻烦。您的系统太脆弱了。您需要做一些优化工作。比如处理”惊群”问题（比如 Memcached节点都失效了，反复的查询让您的数据库不堪重负…这个问题在FAQ的其他提到过），或者优化不好的查询。记住，Memcached 并不是您逃避优化查询的借口。
 
 
-### 6、如何实现集群中的session共享存储？
+### [6、如何实现集群中的session共享存储？](https://github.com/souyunku/DevBooks/blob/master/docs/Memcached/Memcached最新2021年面试题，高级面试题及附答案解析.md#6如何实现集群中的session共享存储)  
+
 
 Session是运行在一台服务器上的，所有的访问都会到达我们的唯一服务器上，这样我们可以根据客户端传来的sessionID，来获取session，或在对应Session不存在的情况下（session 生命周期到了/用户第一次登录），创建一个新的Session；但是，如果我们在集群环境下，假设我们有两台服务器A，B，用户的请求会由Nginx服务器进行转发（别的方案也是同理），用户登录时，Nginx将请求转发至服务器A上，A创建了新的session，并将SessionID返回给客户端，用户在浏览其他页面时，客户端验证登录状态，Nginx将请求转发至服务器B，由于B上并没有对应客户端发来sessionId的session，所以会重新创建一个新的session，并且再将这个新的sessionID返回给客户端，这样，我们可以想象一下，用户每一次操作都有1/2的概率进行再次的登录，这样不仅对用户体验特别差，还会让服务器上的session激增，加大服务器的运行压力。
 
@@ -79,7 +85,8 @@ Session是运行在一台服务器上的，所有的访问都会到达我们的�
 将session存储至数据库中，像操作数据一样才做session。
 
 
-### 7、Memcached和MySQL的query
+### [7、Memcached和MySQL的query](https://github.com/souyunku/DevBooks/blob/master/docs/Memcached/Memcached最新2021年面试题，高级面试题及附答案解析.md#7memcached和mysql的query)  
+
 
 **cache相比，有什么优缺点？**
 
@@ -94,7 +101,8 @@ Session是运行在一台服务器上的，所有的访问都会到达我们的�
 **4、** query cache能够利用的内存容量受到MySQL服务器空闲内存空间的限制。给数据库服务器增加更多的内存来缓存数据，固然是很好的。但是，有了Memcached，只要您有空闲的内存，都可以用来增加Memcached集群的规模，然后您就可以缓存更多的数据。
 
 
-### 8、Memcached是原子的吗？
+### [8、Memcached是原子的吗？](https://github.com/souyunku/DevBooks/blob/master/docs/Memcached/Memcached最新2021年面试题，高级面试题及附答案解析.md#8memcached是原子的吗)  
+
 
 所有的被发送到Memcached的单个命令是完全原子的。如果您针对同一份数据同时发送了一个set命令和一个get命令，它们不会影响对方。它们将被串行化、先后执行。即使在多线程模式，所有的命令都是原子的，除非程序有bug:)
 
@@ -103,12 +111,14 @@ Session是运行在一台服务器上的，所有的访问都会到达我们的�
 Memcached 1.2.5以及更高版本，提供了gets和cas命令，它们可以解决上面的问题。如果您使用gets命令查询某个key的item，Memcached会给您返回该item当前值的唯一标识。如果您覆写了这个item并想把它写回到Memcached中，您可以通过cas命令把那个唯一标识一起发送给 Memcached。如果该item存放在Memcached中的唯一标识与您提供的一致，您的写操作将会成功。如果另一个进程在这期间也修改了这个 item，那么该item存放在Memcached中的唯一标识将会改变，您的写操作就会失败
 
 
-### 9、Memcached能够更有效地使用内存吗？
+### [9、Memcached能够更有效地使用内存吗？](https://github.com/souyunku/DevBooks/blob/master/docs/Memcached/Memcached最新2021年面试题，高级面试题及附答案解析.md#9memcached能够更有效地使用内存吗)  
+
 
 Memcache客户端仅根据哈希算法来决定将某个key存储在哪个节点上，而不考虑节点的内存大小。因此，您可以在不同的节点上使用大小不等的缓存。但是一般都是这样做的：拥有较多内存的节点上可以运行多个Memcached实例，每个实例使用的内存跟其他节点上的实例相同。
 
 
-### 10、Memcached的内存分配器是如何工作的？为什么不适用malloc/free！？为何要使用slabs？
+### [10、Memcached的内存分配器是如何工作的？为什么不适用malloc/free！？为何要使用slabs？](https://github.com/souyunku/DevBooks/blob/master/docs/Memcached/Memcached最新2021年面试题，高级面试题及附答案解析.md#10memcached的内存分配器是如何工作的为什么不适用malloc/free为何要使用slabs)  
+
 
 实际上，这是一个编译时选项。默认会使用内部的slab分配器。您确实确实应该使用内建的slab分配器。最早的时候，Memcached只使用 malloc/free来管理内存。然而，这种方式不能与OS的内存管理以前很好地工作。反复地malloc/free造成了内存碎片，OS最终花费大量的时间去查找连续的内存块来满足malloc的请求，而不是运行Memcached进程。如果您不同意，当然可以使用malloc！只是不要在邮件列表中抱怨啊
 
@@ -132,9 +142,9 @@ slab分配器就是为了解决这个问题而生的。内存被分配并划分�
 
 
 
-## 全部答案，整理好了，直接下载吧
+## [全部答案，整理好了，直接下载吧](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
-### 下载链接：[全部答案，整理好了](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
+### 下载链接：[全部答案，整理好了](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
 
 

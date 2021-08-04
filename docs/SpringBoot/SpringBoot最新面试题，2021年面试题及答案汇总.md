@@ -6,7 +6,8 @@
 
 
 
-### 1、什么是 JavaConfig？
+### [1、什么是 JavaConfig？](https://github.com/souyunku/DevBooks/blob/master/docs/SpringBoot/SpringBoot最新面试题，2021年面试题及答案汇总.md#1什么是-javaconfig)  
+
 
 **1、** `面向对象的配置`。由于配置被定义为 JavaConfig 中的类，因此用户可以充分利用 Java 中的面向对象功能。一个配置类可以继承另一个，重写它的[@Bean ](/Bean ) 方法等。
 
@@ -15,17 +16,20 @@
 **3、** `类型安全和重构友好`。JavaConfig 提供了一种类型安全的方法来配置 Spring容器。由于 Java 5.0 对泛型的支持，现在可以按类型而不是按名称检索 bean，不需要任何强制转换或基于字符串的查找。
 
 
-### 2、SpringBoot多数据源拆分的思路
+### [2、SpringBoot多数据源拆分的思路](https://github.com/souyunku/DevBooks/blob/master/docs/SpringBoot/SpringBoot最新面试题，2021年面试题及答案汇总.md#2springboot多数据源拆分的思路)  
+
 
 先在properties配置文件中配置两个数据源，创建分包mapper，使用@ConfigurationProperties读取properties中的配置，使用@MapperScan注册到对应的mapper包中
 
 
-### 3、前后端分离，如何维护接口文档 ?
+### [3、前后端分离，如何维护接口文档 ?](https://github.com/souyunku/DevBooks/blob/master/docs/SpringBoot/SpringBoot最新面试题，2021年面试题及答案汇总.md#3前后端分离如何维护接口文档-)  
+
 
 前后端分离开发日益流行，大部分情况下，我们都是通过 SpringBoot 做前后端分离开发，前后端分离一定会有接口文档，不然会前后端会深深陷入到扯皮中。一个比较笨的方法就是使用 word 或者 md 来维护接口文档，但是效率太低，接口一变，所有人手上的文档都得变。在 SpringBoot 中，这个问题常见的解决方案是 Swagger ，使用 Swagger 我们可以快速生成一个接口文档网站，接口一旦发生变化，文档就会自动更新，所有开发工程师访问这一个在线网站就可以获取到最新的接口文档，非常方便。
 
 
-### 4、什么是 Spring Data？
+### [4、什么是 Spring Data？](https://github.com/souyunku/DevBooks/blob/master/docs/SpringBoot/SpringBoot最新面试题，2021年面试题及答案汇总.md#4什么是-spring-data)  
+
 
 来自：[//projects.spring.io/spring-](//projects.spring.io/spring-) data/
 
@@ -36,19 +40,22 @@ Spring Data 的使命是在保证底层数据存储特殊性的前提下，为�
 你可以定义一简单的库，用来插入，更新，删除和检索代办事项，而不需要编写大量的代码。
 
 
-### 5、什么是 SpringBoot？
+### [5、什么是 SpringBoot？](https://github.com/souyunku/DevBooks/blob/master/docs/SpringBoot/SpringBoot最新面试题，2021年面试题及答案汇总.md#5什么是-springboot)  
+
 
 SpringBoot 是 Spring 开源组织下的子项目，是 Spring 组件一站式解决方案，主要是简化了使用 Spring 的难度，简省了繁重的配置，提供了各种启动器，使开发者能快速上手。
 
 
-### 6、SpringBoot如何实现打包
+### [6、SpringBoot如何实现打包](https://github.com/souyunku/DevBooks/blob/master/docs/SpringBoot/SpringBoot最新面试题，2021年面试题及答案汇总.md#6springboot如何实现打包)  
+
 
 进入项目目录在控制台输入mvn clean package，clean是清空已存在的项目包，package进行打包
 
 或者点击左边选项栏中的Mavne，先点击clean在点击package
 
 
-### 7、Spring、SpringBoot、SpringMVC的区别？
+### [7、Spring、SpringBoot、SpringMVC的区别？](https://github.com/souyunku/DevBooks/blob/master/docs/SpringBoot/SpringBoot最新面试题，2021年面试题及答案汇总.md#7springspringbootspringmvc的区别)  
+
 
 **1、** Spring框架就像一个家族，有众多衍生产品，例如boot、mvc、jpa等等。但他们的基础都是Spring的ioc、aop。ioc提供了依赖注入的容器，aop解决了面向横切面编程，然后在此两者的基础上实现了其它延伸产品的高级功能；
 
@@ -57,12 +64,14 @@ SpringBoot 是 Spring 开源组织下的子项目，是 Spring 组件一站式�
 **3、** 为了简化开发的使用，从而创造性地推出了SpringBoot框架，默认优于配置
 
 
-### 8、你如何理解 SpringBoot 中的 Starters？
+### [8、你如何理解 SpringBoot 中的 Starters？](https://github.com/souyunku/DevBooks/blob/master/docs/SpringBoot/SpringBoot最新面试题，2021年面试题及答案汇总.md#8你如何理解-springboot-中的-starters)  
+
 
 Starters可以理解为启动器，它包含了一系列可以集成到应用里面的依赖包，你可以一站式集成 Spring 及其他技术，而不需要到处找示例代码和依赖包。如你想使用 Spring JPA 访问数据库，只要加入 spring-boot-starter-data-jpa 启动器依赖就能使用了。
 
 
-### 9、您使用了哪些 starter maven 依赖项？
+### [9、您使用了哪些 starter maven 依赖项？](https://github.com/souyunku/DevBooks/blob/master/docs/SpringBoot/SpringBoot最新面试题，2021年面试题及答案汇总.md#9您使用了哪些-starter-maven-依赖项)  
+
 
 **使用了下面的一些依赖项**
 
@@ -79,7 +88,8 @@ Starters可以理解为启动器，它包含了一系列可以集成到应用里
 自定义的starter(如果自己开发过就可以说出来)
 
 
-### 10、什么是 JavaConfig？
+### [10、什么是 JavaConfig？](https://github.com/souyunku/DevBooks/blob/master/docs/SpringBoot/SpringBoot最新面试题，2021年面试题及答案汇总.md#10什么是-javaconfig)  
+
 
 Spring JavaConfig 是 Spring 社区的产品，它提供了配置 Spring IoC 容器的纯Java 方法。因此它有助于避免使用 XML 配置。使用 JavaConfig 的优点在于：
 
@@ -115,9 +125,9 @@ Spring JavaConfig 是 Spring 社区的产品，它提供了配置 Spring IoC 容
 
 
 
-## 全部答案，整理好了，直接下载吧
+## [全部答案，整理好了，直接下载吧](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
-### 下载链接：[全部答案，整理好了](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
+### 下载链接：[全部答案，整理好了](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
 
 

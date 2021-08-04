@@ -6,7 +6,8 @@
 
 
 
-### 1、说明Tomcat配置了多少个Valve?
+### [1、说明Tomcat配置了多少个Valve?](https://github.com/souyunku/DevBooks/blob/master/docs/Java/Java高级面试题合集，附答案解析.md#1说明tomcat配置了多少个valve)  
+
 
 Tomcat配置了四种类型的Valve：
 
@@ -19,17 +20,20 @@ Tomcat配置了四种类型的Valve：
 **4、** 客户请求记录器
 
 
-### 2、Java中Semaphore是什么？
+### [2、Java中Semaphore是什么？](https://github.com/souyunku/DevBooks/blob/master/docs/Java/Java高级面试题合集，附答案解析.md#2java中semaphore是什么)  
+
 
 Java中的Semaphore是一种新的同步类，它是一个计数信号。从概念上讲，从概念上讲，信号量维护了一个许可集合。如有必要，在许可可用前会阻塞每一个 acquire()，然后再获取该许可。每个 release()添加一个许可，从而可能释放一个正在阻塞的获取者。但是，不使用实际的许可对象，Semaphore只对可用许可的号码进行计数，并采取相应的行动。信号量常常用于多线程的代码中，比如数据库连接池。
 
 
-### 3、一个类的构造方法的作用是什么？若一个类没有声明构造方法，改程序能正确执行吗？为什么？
+### [3、一个类的构造方法的作用是什么？若一个类没有声明构造方法，改程序能正确执行吗？为什么？](https://github.com/souyunku/DevBooks/blob/master/docs/Java/Java高级面试题合集，附答案解析.md#3一个类的构造方法的作用是什么若一个类没有声明构造方法改程序能正确执行吗为什么)  
+
 
 主要作用是完成对类对象的初始化工作。可以执行。因为一个类即使没有声明构造方法也会有默认的不带参数的构造方法。
 
 
-### 4、请说出与线程同步以及线程调度相关的方法。
+### [4、请说出与线程同步以及线程调度相关的方法。](https://github.com/souyunku/DevBooks/blob/master/docs/Java/Java高级面试题合集，附答案解析.md#4请说出与线程同步以及线程调度相关的方法。)  
+
 
 
 
@@ -248,7 +252,8 @@ public class Account {
 按照上述三种方式对代码进行修改后，重写执行测试代码Test01，将看到最终的账户余额为100元。当然也可以使用Semaphore或CountdownLatch来实现同步。
 
 
-### 5、正则表达式有那些符号？
+### [5、正则表达式有那些符号？](https://github.com/souyunku/DevBooks/blob/master/docs/Java/Java高级面试题合集，附答案解析.md#5正则表达式有那些符号)  
+
 
 **1、** $：匹配字符串结束的位置
 
@@ -275,7 +280,8 @@ public class Account {
 **12、** \D：与\d相反
 
 
-### 6、介绍一下 JVM 中垃圾收集器有哪些？ 他们特点分别是什么？
+### [6、介绍一下 JVM 中垃圾收集器有哪些？ 他们特点分别是什么？](https://github.com/souyunku/DevBooks/blob/master/docs/Java/Java高级面试题合集，附答案解析.md#6介绍一下-jvm-中垃圾收集器有哪些-他们特点分别是什么)  
+
 
 **新生代垃圾收集器**
 
@@ -342,12 +348,14 @@ CMS 垃圾收集器是一款以获取最短停顿时间为目标的收集器。�
 **使用算法：复制 + 标记整理**
 
 
-### 7、Log4j日志有几个级别？
+### [7、Log4j日志有几个级别？](https://github.com/souyunku/DevBooks/blob/master/docs/Java/Java高级面试题合集，附答案解析.md#7log4j日志有几个级别)  
+
 
 由低到高：debug、info、wran、error
 
 
-### 8、有哪些类加载器？
+### [8、有哪些类加载器？](https://github.com/souyunku/DevBooks/blob/master/docs/Java/Java高级面试题合集，附答案解析.md#8有哪些类加载器)  
+
 
 自 JDK1.2 起 Java 一直保持三层类加载器：
 
@@ -364,7 +372,8 @@ CMS 垃圾收集器是一款以获取最短停顿时间为目标的收集器。�
 也称系统类加载器，负责加载用户类路径上的类库，可以直接在代码中使用。如果没有自定义类加载器，一般情况下应用类加载器就是默认的类加载器。自定义类加载器通过继承 ClassLoader 并重写 `findClass` 方法实现。
 
 
-### 9、描述一下 JVM 加载 class 文件的原理机制
+### [9、描述一下 JVM 加载 class 文件的原理机制](https://github.com/souyunku/DevBooks/blob/master/docs/Java/Java高级面试题合集，附答案解析.md#9描述一下-jvm-加载-class-文件的原理机制)  
+
 
 **1、** JVM 中类的装载是由类加载器（ClassLoader）和它的子类来实现的，Java 中各类加载器是一个重要的 Java 运行时系统组件，它负责在运行时查找和装入类文件中的类。
 
@@ -387,7 +396,8 @@ CMS 垃圾收集器是一款以获取最短停顿时间为目标的收集器。�
 java.class.path 所指定的目录中记载类，是用户自定义加载器的默认父加载器。
 
 
-### 10、Jsp指令有那些？
+### [10、Jsp指令有那些？](https://github.com/souyunku/DevBooks/blob/master/docs/Java/Java高级面试题合集，附答案解析.md#10jsp指令有那些)  
+
 
 Include
 
@@ -430,9 +440,9 @@ Page
 
 
 
-## 全部答案，整理好了，直接下载吧
+## [全部答案，整理好了，直接下载吧](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
-### 下载链接：[全部答案，整理好了](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
+### 下载链接：[全部答案，整理好了](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
 
 

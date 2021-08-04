@@ -6,12 +6,14 @@
 
 
 
-### 1、MySQL里有2000w数据，Redis中只存20w的数据，如何保证Redis中的数据都是热点数据？
+### [1、MySQL里有2000w数据，Redis中只存20w的数据，如何保证Redis中的数据都是热点数据？](https://github.com/souyunku/DevBooks/blob/master/docs/Redis/Redis最新面试题及答案附答案汇总.md#1mysql里有2000w数据redis中只存20w的数据如何保证redis中的数据都是热点数据)  
+
 
 Redis内存数据集大小上升到一定大小的时候，就会施行数据淘汰策略。
 
 
-### 2、Redis 过期键的删除策略？
+### [2、Redis 过期键的删除策略？](https://github.com/souyunku/DevBooks/blob/master/docs/Redis/Redis最新面试题及答案附答案汇总.md#2redis-过期键的删除策略)  
+
 
 **1、** 定时删除:在设置键的过期时间的同时，创建一个定时器 timer). 让定时器在键的过期时间来临时， 立即执行对键的删除操作。
 
@@ -20,17 +22,20 @@ Redis内存数据集大小上升到一定大小的时候，就会施行数据淘
 **3、** 定期删除:每隔一段时间程序就对数据库进行一次检查，删除里面的过期键。至   于要删除多少过期键， 以及要检查多少个数据库， 则由算法决定。
 
 
-### 3、mySQL里有2000w数据，Redis中只存20w的数据，如何保证Redis中的数据都是热点数据
+### [3、mySQL里有2000w数据，Redis中只存20w的数据，如何保证Redis中的数据都是热点数据](https://github.com/souyunku/DevBooks/blob/master/docs/Redis/Redis最新面试题及答案附答案汇总.md#3mysql里有2000w数据redis中只存20w的数据如何保证redis中的数据都是热点数据)  
+
 
 _相关知识：Redis 内存数据集大小上升到一定大小的时候，就会施行数据淘汰策略（回收策略）。_
 
 
-### 4、Redis key的过期时间和永久有效分别怎么设置？
+### [4、Redis key的过期时间和永久有效分别怎么设置？](https://github.com/souyunku/DevBooks/blob/master/docs/Redis/Redis最新面试题及答案附答案汇总.md#4redis-key的过期时间和永久有效分别怎么设置)  
+
 
 EXPIRE和PERSIST命令。
 
 
-### 5、请用Redis和任意语言实现一段恶意登录保护的代码，
+### [5、请用Redis和任意语言实现一段恶意登录保护的代码，](https://github.com/souyunku/DevBooks/blob/master/docs/Redis/Redis最新面试题及答案附答案汇总.md#5请用redis和任意语言实现一段恶意登录保护的代码)  
+
 
 限制1小时内每用户Id最多只能登录5次。具体登录函数或功能用空函数即可，不用详细写出。
 
@@ -57,8 +62,10 @@ else:
 ```
 
 
-### 6、，或是关注
-### 7、怎么理解Redis事务？
+### [6、，或是关注](https://github.com/souyunku/DevBooks/blob/master/docs/Redis/Redis最新面试题及答案附答案汇总.md#6或是关注)  
+
+### [7、怎么理解Redis事务？](https://github.com/souyunku/DevBooks/blob/master/docs/Redis/Redis最新面试题及答案附答案汇总.md#7怎么理解redis事务)  
+
 
 
 
@@ -67,17 +74,20 @@ else:
 事务是一个原子操作：事务中的命令要么全部被执行，要么全部都不执行。
 
 
-### 8、Redis key 的过期时间和永久有效分别怎么设置？
+### [8、Redis key 的过期时间和永久有效分别怎么设置？](https://github.com/souyunku/DevBooks/blob/master/docs/Redis/Redis最新面试题及答案附答案汇总.md#8redis-key-的过期时间和永久有效分别怎么设置)  
+
 
 EXPIRE 和 PERSIST 命令。
 
 
-### 9、Redis中海量数据的正确操作方式
+### [9、Redis中海量数据的正确操作方式](https://github.com/souyunku/DevBooks/blob/master/docs/Redis/Redis最新面试题及答案附答案汇总.md#9redis中海量数据的正确操作方式)  
+
 
 利用SCAN系列命令（SCAN、SSCAN、HSCAN、ZSCAN）完成数据迭代。
 
 
-### 10、什么是Redis？简述它的优缺点？
+### [10、什么是Redis？简述它的优缺点？](https://github.com/souyunku/DevBooks/blob/master/docs/Redis/Redis最新面试题及答案附答案汇总.md#10什么是redis简述它的优缺点)  
+
 
 Redis的全称是：Remote Dictionary.Server，本质上是一个Key-Value类型的内存数据库，很像Memcached，整个数据库统统加载在内存当中进行操作，定期通过异步操作把数据库数据flush到硬盘上进行保存。
 
@@ -113,9 +123,9 @@ Redis的出色之处不仅仅是性能，Redis最大的魅力是支持保存多�
 
 
 
-## 全部答案，整理好了，直接下载吧
+## [全部答案，整理好了，直接下载吧](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
-### 下载链接：[全部答案，整理好了](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
+### 下载链接：[全部答案，整理好了](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
 
 

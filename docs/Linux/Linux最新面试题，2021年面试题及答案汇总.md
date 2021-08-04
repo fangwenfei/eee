@@ -6,7 +6,8 @@
 
 
 
-### 1、ls （ls：list的缩写，查看列表）查看当前目录下的所有文件夹（ls 只列出文件名或目录名）
+### [1、ls （ls：list的缩写，查看列表）查看当前目录下的所有文件夹（ls 只列出文件名或目录名）](https://github.com/souyunku/DevBooks/blob/master/docs/Linux/Linux最新面试题，2021年面试题及答案汇总.md#1ls-ls：list的缩写查看列表查看当前目录下的所有文件夹ls-只列出文件名或目录名)  
+
 
 ```
 ls -a ;显示所有文件夹,隐藏文件也显示出来
@@ -14,7 +15,8 @@ ls -R ;连同子目录一起列出来
 ```
 
 
-### 2、awk 详解。
+### [2、awk 详解。](https://github.com/souyunku/DevBooks/blob/master/docs/Linux/Linux最新面试题，2021年面试题及答案汇总.md#2awk-详解。)  
+
 
 **答案：**
 
@@ -27,7 +29,8 @@ daemon /bin/sh 搜索/etc/passwd 有 root 关键字的所有行
 ```
 
 
-### 3、已知 apache 服务的访问日志按天记录在服务器本地目录/app/logs 下，由于磁盘空间紧张现在要求只能保留最近 7 天的访问日志！请问如何解决？请给出解决办法或配置或处理命令
+### [3、已知 apache 服务的访问日志按天记录在服务器本地目录/app/logs 下，由于磁盘空间紧张现在要求只能保留最近 7 天的访问日志！请问如何解决？请给出解决办法或配置或处理命令](https://github.com/souyunku/DevBooks/blob/master/docs/Linux/Linux最新面试题，2021年面试题及答案汇总.md#3已知-apache-服务的访问日志按天记录在服务器本地目录/app/logs-下由于磁盘空间紧张现在要求只能保留最近-7-天的访问日志请问如何解决请给出解决办法或配置或处理命令)  
+
 
 创建文件脚本：
 
@@ -76,7 +79,8 @@ done
 ```
 
 
-### 4、如果一个linux新手想要知道当前系统支持的所有命令的列表，他需要怎么做？
+### [4、如果一个linux新手想要知道当前系统支持的所有命令的列表，他需要怎么做？](https://github.com/souyunku/DevBooks/blob/master/docs/Linux/Linux最新面试题，2021年面试题及答案汇总.md#4如果一个linux新手想要知道当前系统支持的所有命令的列表他需要怎么做)  
+
 
 **答案：**
 
@@ -105,7 +109,8 @@ done
 ```
 
 
-### 5、du 和 df 的定义，以及区别？
+### [5、du 和 df 的定义，以及区别？](https://github.com/souyunku/DevBooks/blob/master/docs/Linux/Linux最新面试题，2021年面试题及答案汇总.md#5du-和-df-的定义以及区别)  
+
 
 **答案：**
 
@@ -118,7 +123,8 @@ du 显示目录或文件的大小
 **3、** df 命令获得真正的文件系统数据，而 du 命令只查看文件系统的部分情况。
 
 
-### 6、什么叫网站灰度发布？
+### [6、什么叫网站灰度发布？](https://github.com/souyunku/DevBooks/blob/master/docs/Linux/Linux最新面试题，2021年面试题及答案汇总.md#6什么叫网站灰度发布)  
+
 
 灰度发布是指在黑与白之间，能够平滑过渡的一种发布方式
 
@@ -129,7 +135,8 @@ AB test就是一种灰度发布方式，让一部用户继续用A，一部分用
 灰度发布可以保证整体系统的稳定，在初始灰度的时候就可以发现、调整问题，以保证其影响度
 
 
-### 7、RAID 是什么?
+### [7、RAID 是什么?](https://github.com/souyunku/DevBooks/blob/master/docs/Linux/Linux最新面试题，2021年面试题及答案汇总.md#7raid-是什么)  
+
 
 RAID 全称为独立磁盘冗余阵列(Redundant Array of Independent Disks)，基本思想就是把多个相对便宜的硬盘组合起来，成为一个硬盘阵列组，使性能达到甚至超过一个价格昂贵、 容量巨大的硬盘。RAID 通常被用在服务器电脑上，使用完全相同的硬盘组成一个逻辑扇区，因此操作系统只会把它当做一个硬盘。
 
@@ -138,7 +145,8 @@ RAID 分为不同的等级，各个不同的等级均在数据可靠性及读写
 当然，因为很多公司都使用云服务，大家很难接触到 RAID 这个概念，更多的可能是普通云盘、SSD 云盘酱紫的概念。
 
 
-### 8、clear 清屏命令。（强迫症患者使用）
+### [8、clear 清屏命令。（强迫症患者使用）](https://github.com/souyunku/DevBooks/blob/master/docs/Linux/Linux最新面试题，2021年面试题及答案汇总.md#8clear-清屏命令。强迫症患者使用)  
+
 
 ```
 kill 命令用来中止一个进程。（要配合ps命令使用，配合pid关闭进程）
@@ -148,14 +156,16 @@ kill -9 PID ;不推荐,强制杀死进程
 ```
 
 
-### 9、用tcpdump嗅探80端口的访问看看谁最高
+### [9、用tcpdump嗅探80端口的访问看看谁最高](https://github.com/souyunku/DevBooks/blob/master/docs/Linux/Linux最新面试题，2021年面试题及答案汇总.md#9用tcpdump嗅探80端口的访问看看谁最高)  
+
 
 ```
 tcpdump -i eth0 -tnn dst port 80 -c 1000 | awk -F"." '{print $1"."$2"."$3"."$4}'| sort | uniq -c | sort -nr |head -20
 ```
 
 
-### 10、移动文件用哪个命令？改名用哪个命令？
+### [10、移动文件用哪个命令？改名用哪个命令？](https://github.com/souyunku/DevBooks/blob/master/docs/Linux/Linux最新面试题，2021年面试题及答案汇总.md#10移动文件用哪个命令改名用哪个命令)  
+
 
 **答案：**
 
@@ -185,9 +195,9 @@ mv mv
 
 
 
-## 全部答案，整理好了，直接下载吧
+## [全部答案，整理好了，直接下载吧](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
-### 下载链接：[全部答案，整理好了](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
+### 下载链接：[全部答案，整理好了](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
 
 

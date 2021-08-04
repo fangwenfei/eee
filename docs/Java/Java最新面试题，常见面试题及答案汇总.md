@@ -6,12 +6,14 @@
 
 
 
-### 1、Java 8 为什么要将永久代(PermGen)替换为元空间(MetaSpace)呢？
+### [1、Java 8 为什么要将永久代(PermGen)替换为元空间(MetaSpace)呢？](https://github.com/souyunku/DevBooks/blob/master/docs/Java/Java最新面试题，常见面试题及答案汇总.md#1java-8-为什么要将永久代permgen替换为元空间metaspace呢)  
+
 
 整个永久代有一个 JVM 本身设置固定大小上线，无法进行调整，而元空间使用的是直接内存，受本机可用内存的限制，并且永远不会出现java.lang.OutOfMemoryError。你可以使用 -XX：MaxMetaspaceSize 标志设置最大元空间大小，默认值为 unlimited，这意味着它只受系统内存的限制。-XX：MetaspaceSize 调整标志定义元空间的初始大小如果未指定此标志，则 Metaspace 将根据运行时的应用程序需求动态地重新调整大小。
 
 
-### 2、如何自定义线程线程池?
+### [2、如何自定义线程线程池?](https://github.com/souyunku/DevBooks/blob/master/docs/Java/Java最新面试题，常见面试题及答案汇总.md#2如何自定义线程线程池)  
+
 
 先看ThreadPoolExecutor（线程池）这个类的构造参数
 
@@ -59,7 +61,8 @@ class TaskThred implements Runnable {
 ```
 
 
-### 3、类初始化的情况有哪些？
+### [3、类初始化的情况有哪些？](https://github.com/souyunku/DevBooks/blob/master/docs/Java/Java最新面试题，常见面试题及答案汇总.md#3类初始化的情况有哪些)  
+
 
 1.
 遇到 `new`、`getstatic`、`putstatic` 或 `invokestatic` 字节码指令时，还未初始化。典型场景包括 new 实例化对象、读取或设置静态字段、调用静态方法。
@@ -87,7 +90,8 @@ class TaskThred implements Runnable {
 
 
 
-### 4、Java里有哪些引用类型？
+### [4、Java里有哪些引用类型？](https://github.com/souyunku/DevBooks/blob/master/docs/Java/Java最新面试题，常见面试题及答案汇总.md#4java里有哪些引用类型)  
+
 
 **1、** 强引用 这种引用属于最普通最强硬的一种存在，只有在和 GC Roots 断绝关系时，才会被消灭掉。
 
@@ -98,17 +102,20 @@ class TaskThred implements Runnable {
 **4、** 虚引用 这是一种形同虚设的引用，在现实场景中用的不是很多。虚引用必须和引用队列（ReferenceQueue）联合使用。如果一个对象仅持有虚引用，那么它就和没有任何引用一样，在任何时候都可能被垃圾回收。实际上，虚引用的 get，总是返回 null。
 
 
-### 5、JAVA8 与元数据
+### [5、JAVA8 与元数据](https://github.com/souyunku/DevBooks/blob/master/docs/Java/Java最新面试题，常见面试题及答案汇总.md#5java8-与元数据)  
+
 
 在 Java8 中， 永久代已经被移除，被一个称为“元数据区”（元空间）的区域所取代。元空间的本质和永久代类似，元空间与永久代之间最大的区别在于：元空间并不在虚拟机中，而是使用本地内存。因此，默认情况下，元空间的大小仅受本地内存限制。类的元数据放入nativememory, 字符串池和类的静态变量放入 java 堆中， 这样可以加载多少类的元数据就不再由MaxPermSize 控制, 而由系统的实际可用空间来控制。
 
 
-### 6、引用计数法
+### [6、引用计数法](https://github.com/souyunku/DevBooks/blob/master/docs/Java/Java最新面试题，常见面试题及答案汇总.md#6引用计数法)  
+
 
 在 Java 中，引用和对象是有关联的。如果要操作对象则必须用引用进行。因此，很显然一个简单的办法是通过引用计数来判断一个对象是否可以回收。简单说，即一个对象如果没有任何与之关联的引用， 即他们的引用计数都不为 0， 则说明对象不太可能再被用到，那么这个对象就是可回收对象。
 
 
-### 7、String str=”aaa”,与String str=new String(“aaa”)一样吗？
+### [7、String str=”aaa”,与String str=new String(“aaa”)一样吗？](https://github.com/souyunku/DevBooks/blob/master/docs/Java/Java最新面试题，常见面试题及答案汇总.md#7string-str=aaa,与string-str=new-string“aaa一样吗)  
+
 
 **1、** 不一样的。因为内存分配的方式不一样。
 
@@ -117,7 +124,8 @@ class TaskThred implements Runnable {
 **3、** 第二种创建的是一个对象，jvm将其值分配在堆内存中。
 
 
-### 8、Xml的java解析有几种方式？
+### [8、Xml的java解析有几种方式？](https://github.com/souyunku/DevBooks/blob/master/docs/Java/Java最新面试题，常见面试题及答案汇总.md#8xml的java解析有几种方式)  
+
 
 **Java API解析xml主要有两种方式；**
 
@@ -128,12 +136,14 @@ Sax解析：基于事件的解析方式，解析速度比较快，解析的文�
 还有一些开源的技术可以解析xml，dom4j或者jdom。
 
 
-### 9、为什么 wait(), notify()和 notifyAll()必须在同步方法或者同步块中被调用？
+### [9、为什么 wait(), notify()和 notifyAll()必须在同步方法或者同步块中被调用？](https://github.com/souyunku/DevBooks/blob/master/docs/Java/Java最新面试题，常见面试题及答案汇总.md#9为什么-wait,-notify和-notifyall必须在同步方法或者同步块中被调用)  
+
 
 当一个线程需要调用对象的 wait()方法的时候，这个线程必须拥有该对象的锁，接着它就会释放这个对象锁并进入等待状态直到其他线程调用这个对象上的 notify()方法。同样的，当一个线程需要调用对象的 notify()方法时，它会释放这个对象的锁，以便其他在等待的线程就可以得到这个对象锁。由于所有的这些方法都需要线程持有对象的锁，这样就只能通过同步来实现，所以他们只能在同步方法或者同步块中被调用。
 
 
-### 10、JVM新生代中为什么要分为Eden和Survivor？
+### [10、JVM新生代中为什么要分为Eden和Survivor？](https://github.com/souyunku/DevBooks/blob/master/docs/Java/Java最新面试题，常见面试题及答案汇总.md#10jvm新生代中为什么要分为eden和survivor)  
+
 
 如果没有Survivor，Eden区每进行一次Minor GC，存活的对象就会被送到老年代。老年代很快被填满，触发Major GC.老年代的内存空间远大于新生代，进行一次Full GC消耗的时间比Minor GC长得多,所以需要分为Eden和Survivor。Survivor的存在意义，就是减少被送到老年代的对象，进而减少Full GC的发生，Survivor的预筛选保证，只有经历16次Minor GC还能在新生代中存活的对象，才会被送到老年代。设置两个Survivor区最大的好处就是解决了碎片化，刚刚新建的对象在Eden中，经历一次Minor GC，Eden中的存活对象就会被移动到第一块survivor space S0，Eden被清空；等Eden区再满了，就再触发一次Minor GC，Eden和S0中的存活对象又会被复制送入第二块survivor space S1（这个过程非常重要，因为这种复制算法保证了S1中来自S0和Eden两部分的存活对象占用连续的内存空间，避免了碎片化的发生）
 
@@ -172,9 +182,9 @@ Sax解析：基于事件的解析方式，解析速度比较快，解析的文�
 
 
 
-## 全部答案，整理好了，直接下载吧
+## [全部答案，整理好了，直接下载吧](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
-### 下载链接：[全部答案，整理好了](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
+### 下载链接：[全部答案，整理好了](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
 
 

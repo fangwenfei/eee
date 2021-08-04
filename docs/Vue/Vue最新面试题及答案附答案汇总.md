@@ -6,7 +6,8 @@
 
 
 
-### 1、vue常用的修饰符？
+### [1、vue常用的修饰符？](https://github.com/souyunku/DevBooks/blob/master/docs/Vue/Vue最新面试题及答案附答案汇总.md#1vue常用的修饰符)  
+
 
 **1、** .stop：等同于JavaScript中的event.stopPropagation()，防止事件冒泡；
 
@@ -19,7 +20,8 @@
 **5、** .once：只会触发一次。
 
 
-### 2、vue常用的修饰符
+### [2、vue常用的修饰符](https://github.com/souyunku/DevBooks/blob/master/docs/Vue/Vue最新面试题及答案附答案汇总.md#2vue常用的修饰符)  
+
 
 **1、** .stop：等同于JavaScript中的event.stopPropagation()，防止事件冒泡；
 
@@ -32,7 +34,8 @@
 **5、** .once：只会触发一次。
 
 
-### 3、Vue-router跳转和location.href有什么区别
+### [3、Vue-router跳转和location.href有什么区别](https://github.com/souyunku/DevBooks/blob/master/docs/Vue/Vue最新面试题及答案附答案汇总.md#3vue-router跳转和locationhref有什么区别)  
+
 
 **1、** 使用location.href='/url'来跳转，简单方便，但是刷新了页面；
 
@@ -43,12 +46,14 @@
 **4、** 其实使用router跳转和使用history.pushState()没什么差别的，因为vue-router就是用了history.pushState()，尤其是在history模式下。
 
 
-### 4、简单说一下Vue2.x响应式数据原理
+### [4、简单说一下Vue2.x响应式数据原理](https://github.com/souyunku/DevBooks/blob/master/docs/Vue/Vue最新面试题及答案附答案汇总.md#4简单说一下vue2x响应式数据原理)  
+
 
 Vue在初始化数据时，会使用`Object.defineProperty`重新定义data中的所有属性，当页面使用对应属性时，首先会进行依赖收集(收集当前组件的`watcher`)如果属性发生变化会通知相关依赖进行更新操作(`发布订阅`)。
 
 
-### 5、vuex有哪几种属性？
+### [5、vuex有哪几种属性？](https://github.com/souyunku/DevBooks/blob/master/docs/Vue/Vue最新面试题及答案附答案汇总.md#5vuex有哪几种属性)  
+
 
 有五种，分别是 State、 Getter、Mutation 、Action、 Module
 
@@ -63,24 +68,28 @@ Vue在初始化数据时，会使用`Object.defineProperty`重新定义data中�
 **5、** modules => 模块化Vuex
 
 
-### 6、路由跳转和location.href的区别？
+### [6、路由跳转和location.href的区别？](https://github.com/souyunku/DevBooks/blob/master/docs/Vue/Vue最新面试题及答案附答案汇总.md#6路由跳转和locationhref的区别)  
+
 
 使用location.href='/url'来跳转，简单方便，但是刷新了页面；
 
 使用路由方式跳转，无刷新页面，静态跳转；
 
 
-### 7、销毁过程
+### [7、销毁过程](https://github.com/souyunku/DevBooks/blob/master/docs/Vue/Vue最新面试题及答案附答案汇总.md#7销毁过程)  
+
 
 `父beforeDestroy->子beforeDestroy->子destroyed->父destroyed`
 
 
-### 8、什么是vue生命周期？
+### [8、什么是vue生命周期？](https://github.com/souyunku/DevBooks/blob/master/docs/Vue/Vue最新面试题及答案附答案汇总.md#8什么是vue生命周期)  
+
 
 Vue 实例从创建到销毁的过程，就是生命周期。也就是从开始创建、初始化数据、编译模板、挂载Dom→渲染、更新→渲染、卸载等一系列过程，我们称这是 Vue 的生命周期。
 
 
-### 9、用纯JS编写一个程序来反转字符串
+### [9、用纯JS编写一个程序来反转字符串](https://github.com/souyunku/DevBooks/blob/master/docs/Vue/Vue最新面试题及答案附答案汇总.md#9用纯js编写一个程序来反转字符串)  
+
 
 使用内置函数：内置函数reverse()直接反转字符串。
 
@@ -95,7 +104,8 @@ alert(str);
 首先将字符串拆分为数组，然后反转数组，最近将字符连接起来形成字符串。 使用循环:首先，计算字符串中的字符数，然后对原始字符串应用递减循环，该循环从最后一个字符开始，打印每个字符，直到count变为零。
 
 
-### 10、分别简述computed和watch的使用场景
+### [10、分别简述computed和watch的使用场景](https://github.com/souyunku/DevBooks/blob/master/docs/Vue/Vue最新面试题及答案附答案汇总.md#10分别简述computed和watch的使用场景)  
+
 
 **computed:**
 
@@ -132,9 +142,9 @@ alert(str);
 
 
 
-## 全部答案，整理好了，直接下载吧
+## [全部答案，整理好了，直接下载吧](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
-### 下载链接：[全部答案，整理好了](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
+### 下载链接：[全部答案，整理好了](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
 
 

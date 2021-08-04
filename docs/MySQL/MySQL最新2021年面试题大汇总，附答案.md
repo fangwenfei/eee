@@ -6,21 +6,24 @@
 
 
 
-### 1、innoDB的B+Tree 存储整行数据和主键的值得区别？
+### [1、innoDB的B+Tree 存储整行数据和主键的值得区别？](https://github.com/souyunku/DevBooks/blob/master/docs/MySQL/MySQL最新2021年面试题大汇总，附答案.md#1innodb的b+tree-存储整行数据和主键的值得区别)  
+
 
 **1、** 整行数据：innoDB的B+Tree存储了整行数据的是主键索引，也被成为聚凑索引。
 
 **2、** 存储主键的值：成为非主键索引，也被称为非聚凑索引
 
 
-### 2、读写分离常见方案？
+### [2、读写分离常见方案？](https://github.com/souyunku/DevBooks/blob/master/docs/MySQL/MySQL最新2021年面试题大汇总，附答案.md#2读写分离常见方案)  
+
 
 **1、** 应用程序根据业务逻辑来判断，增删改等写操作命令发给主库，查询命令发给备库。
 
 **2、** 利用中间件来做代理，负责对数据库的请求识别出读还是写，并分发到不同的数据库中。（如：amoeba，MySQL-proxy）
 
 
-### 3、六种关联查询
+### [3、六种关联查询](https://github.com/souyunku/DevBooks/blob/master/docs/MySQL/MySQL最新2021年面试题大汇总，附答案.md#3六种关联查询)  
+
 
 **1、** 交叉连接（CROSS JOIN）
 
@@ -192,7 +195,8 @@ select r.*,s.* from r full join s on r.c=s.c
 
 
 
-### 4、什么是存储过程？有哪些优缺点？
+### [4、什么是存储过程？有哪些优缺点？](https://github.com/souyunku/DevBooks/blob/master/docs/MySQL/MySQL最新2021年面试题大汇总，附答案.md#4什么是存储过程有哪些优缺点)  
+
 
 **存储过程**，就是一些编译好了的SQL语句，这些SQL语句代码像一个方法一样实现一些功能（对单表或多表的增删改查），然后给这些代码块取一个名字，在用到这个功能的时候调用即可。
 
@@ -217,28 +221,32 @@ select r.*,s.* from r full join s on r.c=s.c
 **3、** 重新编译问题
 
 
-### 5、优化关联查询
+### [5、优化关联查询](https://github.com/souyunku/DevBooks/blob/master/docs/MySQL/MySQL最新2021年面试题大汇总，附答案.md#5优化关联查询)  
+
 
 **1、** 确定ON或者USING子句中是否有索引。
 
 **2、** 确保GROUP BY和ORDER BY只有一个表中的列，这样MySQL才有可能使用索引。
 
 
-### 6、主键和候选键有什么区别？
+### [6、主键和候选键有什么区别？](https://github.com/souyunku/DevBooks/blob/master/docs/MySQL/MySQL最新2021年面试题大汇总，附答案.md#6主键和候选键有什么区别)  
+
 
 表格的每一行都由主键唯一标识,一个表只有一个主键。
 
 主键也是候选键。按照惯例，候选键可以被指定为主键，并且可以用于任何外键引用。
 
 
-### 7、既然提到了InnoDB使用户的B+树的索引模型
+### [7、既然提到了InnoDB使用户的B+树的索引模型](https://github.com/souyunku/DevBooks/blob/master/docs/MySQL/MySQL最新2021年面试题大汇总，附答案.md#7既然提到了innodb使用户的b+树的索引模型)  
+
 
 **那么你知道为什么采用B+树吗？这和Hash索引比较起来有什么缺点吗？**
 
 因为hash索引底层是哈希表，哈希表是一种以key-value存储数据的结构，所以多个数据在存储关系上是完全没有任何顺序关系的，所以，对于区间查询是无法直接通过索引查询的，就需要全表扫描。所以，哈希索引只适用于等值查询的场景。而B+树是一种多路平衡查询树，所以他的节点是天然有序的（左子节点小于父节点，父节点小于右子节点），所以对于范围查询的时候不需要做全表扫描。
 
 
-### 8、MySQL_fetch_array和MySQL_fetch_object的区别是什么？
+### [8、MySQL_fetch_array和MySQL_fetch_object的区别是什么？](https://github.com/souyunku/DevBooks/blob/master/docs/MySQL/MySQL最新2021年面试题大汇总，附答案.md#8mysql_fetch_array和mysql_fetch_object的区别是什么)  
+
 
 以下是MySQL_fetch_array和MySQL_fetch_object的区别：
 
@@ -247,7 +255,8 @@ MySQL_fetch_array（） – 将结果行作为关联数组或来自数据库的�
 MySQL_fetch_object – 从数据库返回结果行作为对象。
 
 
-### 9、对于关系型数据库而言，索引是相当重要的概念，请回答有关索引的几个问题：
+### [9、对于关系型数据库而言，索引是相当重要的概念，请回答有关索引的几个问题：](https://github.com/souyunku/DevBooks/blob/master/docs/MySQL/MySQL最新2021年面试题大汇总，附答案.md#9对于关系型数据库而言索引是相当重要的概念请回答有关索引的几个问题：)  
+
 
 **1、** 索引的目的是什么？
 
@@ -278,7 +287,8 @@ MySQL_fetch_object – 从数据库返回结果行作为对象。
 对于一些特殊的数据类型，不宜建立索引，比如文本字段（text）等
 
 
-### 10、MySQL如何优化DISTINCT？
+### [10、MySQL如何优化DISTINCT？](https://github.com/souyunku/DevBooks/blob/master/docs/MySQL/MySQL最新2021年面试题大汇总，附答案.md#10mysql如何优化distinct)  
+
 
 DISTINCT在所有列上转换为GROUP BY，并与ORDER BY子句结合使用。
 
@@ -311,9 +321,9 @@ SELECT DISTINCT t1.a FROM t1,t2 where t1.a=t2.a;
 
 
 
-## 全部答案，整理好了，直接下载吧
+## [全部答案，整理好了，直接下载吧](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
-### 下载链接：[全部答案，整理好了](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
+### 下载链接：[全部答案，整理好了](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
 
 

@@ -6,12 +6,14 @@
 
 
 
-### 1、在生产者中，何时发生QueueFullException？
+### [1、在生产者中，何时发生QueueFullException？](https://github.com/souyunku/DevBooks/blob/master/docs/Kafka/Kafka最新2021年面试题，高级面试题及附答案解析.md#1在生产者中何时发生queuefullexception)  
+
 
 每当Kafka生产者试图以代理的身份在当时无法处理的速度发送消息时，通常都会发生QueueFullException。但是，为了协作处理增加的负载，用户需要添加足够的代理，因为生产者不会阻止。
 
 
-### 2、如何估算Kafka集群的机器数量？
+### [2、如何估算Kafka集群的机器数量？](https://github.com/souyunku/DevBooks/blob/master/docs/Kafka/Kafka最新2021年面试题，高级面试题及附答案解析.md#2如何估算kafka集群的机器数量)  
+
 
 **1、** 该题也算是SRE的送分题吧，对于SRE来讲，任何生产的系统第一步需要做的就是容量预估以及集群的架构规划，实际上也就是机器数量和所用资源之间的关联关系，资源通常来讲就是CPU，内存，磁盘容量，带宽。但需要注意的是，Kafka因为独有的设计，对于磁盘的要求并不是特别高，普通机械硬盘足够，而通常的瓶颈会出现在带宽上。
 
@@ -22,7 +24,8 @@
 **4、** 对于带宽来说，常见的带宽有1Gbps和10Gbps，通常我们需要知道，当带宽占用接近总带宽的90%时，丢包情形就会发生。
 
 
-### 3、分区Leader选举策略有几种？
+### [3、分区Leader选举策略有几种？](https://github.com/souyunku/DevBooks/blob/master/docs/Kafka/Kafka最新2021年面试题，高级面试题及附答案解析.md#3分区leader选举策略有几种)  
+
 
 分区的Leader副本选举对用户是完全透明的，它是由Controller独立完成的。你需要回答的是，在哪些场景下，需要执行分区Leader选举。每一种场景对应于一种选举策略。
 
@@ -37,7 +40,8 @@
 这4类选举策略的大致思想是类似的，即从AR中挑选首个在ISR中的副本，作为新Leader。
 
 
-### 4、Kafka中有哪几个组件?
+### [4、Kafka中有哪几个组件?](https://github.com/souyunku/DevBooks/blob/master/docs/Kafka/Kafka最新2021年面试题，高级面试题及附答案解析.md#4kafka中有哪几个组件)  
+
 
 Kafka最重要的元素是：
 
@@ -46,23 +50,28 @@ Kafka最重要的元素是：
 主题：Kafka主题是一堆或一组消息。生产者：在Kafka，生产者发布通信以及向Kafka主题发布消息。消费者：Kafka消费者订阅了一个主题，并且还从主题中读取和处理消息。经纪人：在管理主题中的消息存储时，我们使用Kafka Brokers。
 
 
-### 5、：24, 22
+### [5、：24, 22](https://github.com/souyunku/DevBooks/blob/master/docs/Kafka/Kafka最新2021年面试题，高级面试题及附答案解析.md#5：24,-22)  
 
 
-### 6、系统工具有哪些类型？
+
+### [6、系统工具有哪些类型？](https://github.com/souyunku/DevBooks/blob/master/docs/Kafka/Kafka最新2021年面试题，高级面试题及附答案解析.md#6系统工具有哪些类型)  
+
 
 系统工具有三种类型：1.Kafka迁移工具：它有助于将代理从一个版本迁移到另一个版本。2.Mirror Maker：Mirror Maker工具有助于将一个Kafka集群的镜像提供给另一个。3.消费者检查:对于指定的主题集和消费者组，它显示主题，分区，所有者。
 
 
-### 7、比较传统队列系统与Apache Kafka
+### [7、比较传统队列系统与Apache Kafka](https://github.com/souyunku/DevBooks/blob/master/docs/Kafka/Kafka最新2021年面试题，高级面试题及附答案解析.md#7比较传统队列系统与apache-kafka)  
+
 
 让我们比较一下传统队列系统与Apache Kafka的功能：消息保留 传统的队列系统 - 它通常从队列末尾处理完成后删除消息。 Apache Kafka中，消息即使在处理后仍然存在。这意味着Kafka中的消息不会因消费者收到消息而被删除。基于逻辑的处理传统队列系统不允许基于类似消息或事件处理逻辑。Apache Kafka允许基于类似消息或事件处理逻辑。
 
 
-### 8、连接器API的作用是什么？
+### [8、连接器API的作用是什么？](https://github.com/souyunku/DevBooks/blob/master/docs/Kafka/Kafka最新2021年面试题，高级面试题及附答案解析.md#8连接器api的作用是什么)  
+
 
 一个允许运行和构建可重用的生产者或消费者的API，将Kafka主题连接到现有的应用程序或数据系统，我们称之为连接器API。Apache Kafka对于新手的面试
-### 9、消息队列的作用
+### [9、消息队列的作用](https://github.com/souyunku/DevBooks/blob/master/docs/Kafka/Kafka最新2021年面试题，高级面试题及附答案解析.md#9消息队列的作用)  
+
 
 **解耦**
 
@@ -83,7 +92,8 @@ Kafka最重要的元素是：
 我们能看到在系统需要交互的场景中，使用消息队列中间件真的是好处多多，基于这种思路，就有了丰巢、菜鸟驿站等比小芳便利店更专业的“中间件”了。
 
 
-### 10、数据传输的事物定义有哪三种？
+### [10、数据传输的事物定义有哪三种？](https://github.com/souyunku/DevBooks/blob/master/docs/Kafka/Kafka最新2021年面试题，高级面试题及附答案解析.md#10数据传输的事物定义有哪三种)  
+
 
 **数据传输的事务定义通常有以下三种级别：**
 
@@ -116,9 +126,9 @@ Kafka最重要的元素是：
 
 
 
-## 全部答案，整理好了，直接下载吧
+## [全部答案，整理好了，直接下载吧](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
-### 下载链接：[全部答案，整理好了](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
+### 下载链接：[全部答案，整理好了](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
 
 

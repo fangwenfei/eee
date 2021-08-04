@@ -6,7 +6,8 @@
 
 
 
-### 1、MySQL的增删改查
+### [1、MySQL的增删改查](https://github.com/souyunku/DevBooks/blob/master/docs/Python/Python高级面试题及答案，企业真面试题.md#1mysql的增删改查)  
+
 
 **增**
 
@@ -211,7 +212,8 @@
 命令：SELECT name AS stu_name,gender AS stu_gender FROM student2;
 
 
-### 2、编写程序，检查数字是否为Armstrong
+### [2、编写程序，检查数字是否为Armstrong](https://github.com/souyunku/DevBooks/blob/master/docs/Python/Python高级面试题及答案，企业真面试题.md#2编写程序检查数字是否为armstrong)  
+
 
 将每个数字依次分离，并累加其立方(位数)。
 
@@ -236,12 +238,14 @@ else:
 ```
 
 
-### 3、pass的使用
+### [3、pass的使用](https://github.com/souyunku/DevBooks/blob/master/docs/Python/Python高级面试题及答案，企业真面试题.md#3pass的使用)  
+
 
 通常用来标记一个还未写的代码的位置，pass不做任何事情，一般用来做占位语句，保持程序结构的完整性
 
 
-### 4、MySQL的建表语句
+### [4、MySQL的建表语句](https://github.com/souyunku/DevBooks/blob/master/docs/Python/Python高级面试题及答案，企业真面试题.md#4mysql的建表语句)  
+
 
 ```mysql
 #创建表，例子
@@ -258,7 +262,8 @@ create table member(
 ```
 
 
-### 5、请列出至少5个PEP8规范
+### [5、请列出至少5个PEP8规范](https://github.com/souyunku/DevBooks/blob/master/docs/Python/Python高级面试题及答案，企业真面试题.md#5请列出至少5个pep8规范)  
+
 
 **1、** 每个缩进级别使用4个空格
 
@@ -289,14 +294,16 @@ c、本地应用程序的库导入
 **7、** 命名要规范，通俗易懂
 
 
-### 6、数据库锁的作用
+### [6、数据库锁的作用](https://github.com/souyunku/DevBooks/blob/master/docs/Python/Python高级面试题及答案，企业真面试题.md#6数据库锁的作用)  
+
 
 **锁分为三种：乐观锁，悲观锁和共享锁**
 
 数据库和操作系统一样，是一个多用户使用的共享资源。当多个用户并发地存取数据 时，在数据库中就会产生多个事务同时存取同一数据的情况。若对并发操作不加控制就可能会读取和存储不正确的数据，破坏数据库的一致性。加锁是实现数据库并 发控制的一个非常重要的技术。在实际应用中经常会遇到的与锁相关的异常情况，当两个事务需要一组有冲突的锁，而不能将事务继续下去的话，就会出现死锁，严 重影响应用的正常执行。
 
 
-### 7、生成器与函数的区别？
+### [7、生成器与函数的区别？](https://github.com/souyunku/DevBooks/blob/master/docs/Python/Python高级面试题及答案，企业真面试题.md#7生成器与函数的区别)  
+
 
 生成器和函数的主要区别在于函数 return a value，生成器 yield a value同时标记或记忆point of the yield 以便于在下次调用时从标记点恢复执行。 yield 使函数转换成生成器，而生成器反过来又返回迭代器。
 
@@ -313,7 +320,8 @@ print(i)
 ```
 
 
-### 8、MySQL常见的函数
+### [8、MySQL常见的函数](https://github.com/souyunku/DevBooks/blob/master/docs/Python/Python高级面试题及答案，企业真面试题.md#8mysql常见的函数)  
+
 
 **1、** ABS(x)：返回x的绝对值
 
@@ -328,7 +336,8 @@ print(i)
 **6、** SUM()：求和
 
 
-### 9、在python中如何拷贝一个对象，并说明他们之间的区别
+### [9、在python中如何拷贝一个对象，并说明他们之间的区别](https://github.com/souyunku/DevBooks/blob/master/docs/Python/Python高级面试题及答案，企业真面试题.md#9在python中如何拷贝一个对象并说明他们之间的区别)  
+
 
 **1、** 赋值（=），就是创建了对象的一个新的引用，修改其中任意一个变量都会影响到另一个。
 
@@ -337,7 +346,8 @@ print(i)
 **3、** 深拷贝：创建一个新的对象，并且递归的复制它所包含的对象（修改其中一个，另外一个不会改变）（copy模块的deep.deepcopy()函数）
 
 
-### 10、讲讲Python中的位运算符
+### [10、讲讲Python中的位运算符](https://github.com/souyunku/DevBooks/blob/master/docs/Python/Python高级面试题及答案，企业真面试题.md#10讲讲python中的位运算符)  
+
 
 该运算符按二进制位对值进行操作。
 
@@ -411,9 +421,9 @@ print(i)
 
 
 
-## 全部答案，整理好了，直接下载吧
+## [全部答案，整理好了，直接下载吧](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
-### 下载链接：[全部答案，整理好了](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
+### 下载链接：[全部答案，整理好了](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
 
 

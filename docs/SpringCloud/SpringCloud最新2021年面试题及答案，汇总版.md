@@ -6,7 +6,8 @@
 
 
 
-### 1、Spring Cloud和各子项目版本对应关系
+### [1、Spring Cloud和各子项目版本对应关系](https://github.com/souyunku/DevBooks/blob/master/docs/SpringCloud/SpringCloud最新2021年面试题及答案，汇总版.md#1spring-cloud和各子项目版本对应关系)  
+
 
 **1、** Edgware.SR6：我理解为最低版本号
 
@@ -37,12 +38,14 @@
 | spring-cloud-function | 1.0.2.RELEASE | 2.0.2.RELEASE | 2.0.3.BUILD-SNAPSHOT |
 
 
-### 2、什么是客户证书？
+### [2、什么是客户证书？](https://github.com/souyunku/DevBooks/blob/master/docs/SpringCloud/SpringCloud最新2021年面试题及答案，汇总版.md#2什么是客户证书)  
+
 
 客户端系统用于向远程服务器发出经过身份验证的请求的一种数字证书称为客户端证书。客户端证书在许多相互认证设计中起着非常重要的作用，为请求者的身份提供了强有力的保证。
 
 
-### 3、Spring Cloud OpenFeign
+### [3、Spring Cloud OpenFeign](https://github.com/souyunku/DevBooks/blob/master/docs/SpringCloud/SpringCloud最新2021年面试题及答案，汇总版.md#3spring-cloud-openfeign)  
+
 
 基于Ribbon和Hystrix的声明式服务调用组件，可以动态创建基于Spring MVC注解的接口实现用于服务调用，在Spring Cloud 2.0中已经取代Feign成为了一等公民。
 
@@ -55,7 +58,8 @@ Spring Cloud是一个由许多子项目组成的综合项目，各子项目有�
 当Spring Cloud的发布内容积累到临界点或者一个重大BUG被解决后，会发布一个"service releases"版本，简称SRX版本，比如Greenwich.SR2就是Spring Cloud发布的Greenwich版本的第2个SRX版本。目前Spring Cloud的最新版本是Hoxton。
 
 
-### 4、在使用微服务架构时，您面临哪些挑战？
+### [4、在使用微服务架构时，您面临哪些挑战？](https://github.com/souyunku/DevBooks/blob/master/docs/SpringCloud/SpringCloud最新2021年面试题及答案，汇总版.md#4在使用微服务架构时您面临哪些挑战)  
+
 
 开发一些较小的微服务听起来很容易，但开发它们时经常遇到的挑战如下。
 
@@ -68,7 +72,8 @@ Spring Cloud是一个由许多子项目组成的综合项目，各子项目有�
 调试：很难找到错误的每一项服务。维护集中式日志记录和仪表板以调试问题至关重要。
 
 
-### 5、springcloud核⼼组件及其作⽤，以及springcloud⼯作原理：
+### [5、springcloud核⼼组件及其作⽤，以及springcloud⼯作原理：](https://github.com/souyunku/DevBooks/blob/master/docs/SpringCloud/SpringCloud最新2021年面试题及答案，汇总版.md#5springcloud核⼼组件及其作⽤以及springcloud⼯作原理：)  
+
 
 ![](https://gitee.com/souyunkutech/souyunku-home/raw/master/images/souyunku-web/2020/5/2/01/44/45_9.png#alt=45%5C_9.png)
 
@@ -85,7 +90,8 @@ Spring Cloud是一个由许多子项目组成的综合项目，各子项目有�
 **5、** Zuul：如果前端、移动端要调⽤后端系统，统⼀从Zuul⽹关进⼊，由Zuul⽹关转发请求给对应的服务
 
 
-### 6、接⼝限流⽅法？
+### [6、接⼝限流⽅法？](https://github.com/souyunku/DevBooks/blob/master/docs/SpringCloud/SpringCloud最新2021年面试题及答案，汇总版.md#6接⼝限流⽅法)  
+
 
 **限制 总并发数（⽐如 数据库连接池、线程池）**
 
@@ -101,24 +107,28 @@ Spring Cloud是一个由许多子项目组成的综合项目，各子项目有�
 
 
 
-### 7、Spring Cloud Task
+### [7、Spring Cloud Task](https://github.com/souyunku/DevBooks/blob/master/docs/SpringCloud/SpringCloud最新2021年面试题及答案，汇总版.md#7spring-cloud-task)  
+
 
 Spring Cloud Task的目标是为SpringBoot应用程序提供创建短运行期微服务的功能。在Spring Cloud Task中，我们可以灵活地动态运行任何任务，按需分配资源并在任务完成后检索结果。Tasks是Spring Cloud Data Flow中的一个基础项目，允许用户将几乎任何SpringBoot应用程序作为一个短期任务执行。
 
 
-### 8、什么是Oauth？
+### [8、什么是Oauth？](https://github.com/souyunku/DevBooks/blob/master/docs/SpringCloud/SpringCloud最新2021年面试题及答案，汇总版.md#8什么是oauth)  
+
 
 开放授权协议，这允许通过在HTTP服务上启用客户端应用程序（例如第三方提供商Facebook，GitHub等）来访问资源所有者的资源。因此，您可以在不使用其凭据的情况下与另一个站点共享存储在一个站点上的资源。
 
 OAuth允许像Facebook这样的第三方使用最终用户的帐户信息，同时保证其安全（不使用或暴露用户的密码）。它更像是代表用户的中介，同时为服务器提供访问所需信息的令牌。
 
 
-### 9、为什么在微服务中需要Reports报告和Dashboards仪表板？
+### [9、为什么在微服务中需要Reports报告和Dashboards仪表板？](https://github.com/souyunku/DevBooks/blob/master/docs/SpringCloud/SpringCloud最新2021年面试题及答案，汇总版.md#9为什么在微服务中需要reports报告和dashboards仪表板)  
+
 
 报告和仪表板主要用于监视和维护微服务。有多种工具可以帮助实现此目的。报告 和仪表板可用于： 找出哪些微服务公开了哪些资源。 找出组件发生变化时受影响的服务。 提供一个简单的点，只要需要文档，就可以访问它。 部署的组件的版本。
 
 
-### 10、什么是微服务架构中的DRY？
+### [10、什么是微服务架构中的DRY？](https://github.com/souyunku/DevBooks/blob/master/docs/SpringCloud/SpringCloud最新2021年面试题及答案，汇总版.md#10什么是微服务架构中的dry)  
+
 
 DRY代表不要重复自己。它基本上促进了重用代码的概念。这导致开发和共享库，这反过来导致紧密耦合。
 
@@ -147,9 +157,9 @@ DRY代表不要重复自己。它基本上促进了重用代码的概念。这�
 
 
 
-## 全部答案，整理好了，直接下载吧
+## [全部答案，整理好了，直接下载吧](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
-### 下载链接：[全部答案，整理好了](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
+### 下载链接：[全部答案，整理好了](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
 
 

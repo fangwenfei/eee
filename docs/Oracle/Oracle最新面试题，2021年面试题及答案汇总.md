@@ -6,7 +6,8 @@
 
 
 
-### 1、说下，内连接，左连接，右连接的区别
+### [1、说下，内连接，左连接，右连接的区别](https://github.com/souyunku/DevBooks/blob/master/docs/Oracle/Oracle最新面试题，2021年面试题及答案汇总.md#1说下内连接左连接右连接的区别)  
+
 
 **内连接：**
 
@@ -21,17 +22,20 @@
 外连接方式，主要是显示主表，从表中所有符合连接条件的记录，并且从表中不符合的记录也要显示。
 
 
-### 2、你必须利用备份恢复数据库，但是你没有控制文件，该如何解决问题呢?
+### [2、你必须利用备份恢复数据库，但是你没有控制文件，该如何解决问题呢?](https://github.com/souyunku/DevBooks/blob/master/docs/Oracle/Oracle最新面试题，2021年面试题及答案汇总.md#2你必须利用备份恢复数据库但是你没有控制文件该如何解决问题呢)  
+
 
 重建控制文件，用带backup control file 子句的recover 命令恢复数据库。
 
 
-### 3、解释$$ORACLE_HOME和$$ORACLE_BASE的区别？
+### [3、解释$$ORACLE_HOME和$$ORACLE_BASE的区别？](https://github.com/souyunku/DevBooks/blob/master/docs/Oracle/Oracle最新面试题，2021年面试题及答案汇总.md#3解释$$oracle_home和$$oracle_base的区别)  
+
 
 ORACLE_BASE是oracle的根目录，ORACLE_HOME是oracle产品的目录。
 
 
-### 4、说下 oracle 中 dml、ddl、dcl 的使用有哪些
+### [4、说下 oracle 中 dml、ddl、dcl 的使用有哪些](https://github.com/souyunku/DevBooks/blob/master/docs/Oracle/Oracle最新面试题，2021年面试题及答案汇总.md#4说下-oracle-中-dmlddldcl-的使用有哪些)  
+
 
 **1、** Dml 数据操纵语言，如select、update、delete，insert
 
@@ -40,17 +44,20 @@ ORACLE_BASE是oracle的根目录，ORACLE_HOME是oracle产品的目录。
 **3、** Dcl 数据控制语言， 如 commit、 rollback、grant、 invoke等
 
 
-### 5、比较truncate和delete 命令
+### [5、比较truncate和delete 命令](https://github.com/souyunku/DevBooks/blob/master/docs/Oracle/Oracle最新面试题，2021年面试题及答案汇总.md#5比较truncate和delete-命令)  
+
 
 两者都可以用来删除表中所有的记录。区别在于：truncate是DDL操作，它移动HWK，不需要rollback segment .而Delete是DML操作, 需要rollback segment 且花费较长时间.
 
 
-### 6、如何增加buffer cache的命中率?
+### [6、如何增加buffer cache的命中率?](https://github.com/souyunku/DevBooks/blob/master/docs/Oracle/Oracle最新面试题，2021年面试题及答案汇总.md#6如何增加buffer-cache的命中率)  
+
 
 在数据库较繁忙时，适用buffer cache advisory 工具，查询v$db_cache_advice.如果有必要更改，可以使用 alter system set db_cache_size 命令
 
 
-### 7、Oracle跟SQL Server 2005的区别？
+### [7、Oracle跟SQL Server 2005的区别？](https://github.com/souyunku/DevBooks/blob/master/docs/Oracle/Oracle最新面试题，2021年面试题及答案汇总.md#7oracle跟sql-server-2005的区别)  
+
 
 **宏观上：**
 
@@ -63,19 +70,22 @@ ORACLE_BASE是oracle的根目录，ORACLE_HOME是oracle产品的目录。
 **1、** 从数据类型,数据库的结构等等回答
 
 
-### 8、给出两个检查表结构的方法
+### [8、给出两个检查表结构的方法](https://github.com/souyunku/DevBooks/blob/master/docs/Oracle/Oracle最新面试题，2021年面试题及答案汇总.md#8给出两个检查表结构的方法)  
+
 
 1.DESCRIBE命令
 
 **2、** DBMS_METADATA.GET_DDL 包
 
 
-### 9、什么是绑定变量?
+### [9、什么是绑定变量?](https://github.com/souyunku/DevBooks/blob/master/docs/Oracle/Oracle最新面试题，2021年面试题及答案汇总.md#9什么是绑定变量)  
+
 
 报表6i中使用了绑定变量来替换select语句中的单个参数。
 
 
-### 10、如何在tablespace里增加数据文件？
+### [10、如何在tablespace里增加数据文件？](https://github.com/souyunku/DevBooks/blob/master/docs/Oracle/Oracle最新面试题，2021年面试题及答案汇总.md#10如何在tablespace里增加数据文件)  
+
 
 ALTER TABLESPACE <tablespace_name> ADD DATAFILE <datafile_name> SIZE
 
@@ -100,9 +110,9 @@ ALTER TABLESPACE <tablespace_name> ADD DATAFILE <datafile_name> SIZE
 
 
 
-## 全部答案，整理好了，直接下载吧
+## [全部答案，整理好了，直接下载吧](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
-### 下载链接：[全部答案，整理好了](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
+### 下载链接：[全部答案，整理好了](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
 
 

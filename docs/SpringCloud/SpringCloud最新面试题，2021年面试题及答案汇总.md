@@ -6,17 +6,20 @@
 
 
 
-### 1、什么是Spring引导的执行器？
+### [1、什么是Spring引导的执行器？](https://github.com/souyunku/DevBooks/blob/master/docs/SpringCloud/SpringCloud最新面试题，2021年面试题及答案汇总.md#1什么是spring引导的执行器)  
+
 
 SpringBoot执行程序提供了restful Web服务，以访问生产环境中运行应用程序的当前状态。在执行器的帮助下，您可以检查各种指标并监控您的应用程序。
 
 
-### 2、什么是持续集成（CI）？
+### [2、什么是持续集成（CI）？](https://github.com/souyunku/DevBooks/blob/master/docs/SpringCloud/SpringCloud最新面试题，2021年面试题及答案汇总.md#2什么是持续集成ci)  
+
 
 持续集成（CI）是每次团队成员提交版本控制更改时自动构建和测试代码的过程。这鼓励开发人员通过在每个小任务完成后将更改合并到共享版本控制存储库来共享代码和单元测试。
 
 
-### 3、你对SpringBoot有什么了解？
+### [3、你对SpringBoot有什么了解？](https://github.com/souyunku/DevBooks/blob/master/docs/SpringCloud/SpringCloud最新面试题，2021年面试题及答案汇总.md#3你对springboot有什么了解)  
+
 
 事实上，随着新功能的增加，弹簧变得越来越复杂。如果必须启动新的spring项目，则必须添加构建路径或添加maven依赖项，配置应用程序服务器，添加spring配置。所以一切都必须从头开始。
 
@@ -27,14 +30,16 @@ SpringBoot是解决这个问题的方法。使用spring boot可以避免所有�
 图10：  SpringBoot的因素 – 微服务面试问题
 
 
-### 4、Ribbon和Feign调用服务的区别
+### [4、Ribbon和Feign调用服务的区别](https://github.com/souyunku/DevBooks/blob/master/docs/SpringCloud/SpringCloud最新面试题，2021年面试题及答案汇总.md#4ribbon和feign调用服务的区别)  
+
 
 **1、** 调用方式同：Ribbon需要我们自己构建Http请求，模拟Http请求然后通过RestTemplate发给其他服务，步骤相当繁琐
 
 **2、** 而Feign则是在Ribbon的基础上进行了一次改进，采用接口的形式，将我们需要调用的服务方法定义成抽象方法保存在本地就可以了，不需要自己构建Http请求了，直接调用接口就行了，不过要注意，调用方法要和本地抽象方法的签名完全一致。
 
 
-### 5、Spring Cloud和SpringBoot版本对应关系
+### [5、Spring Cloud和SpringBoot版本对应关系](https://github.com/souyunku/DevBooks/blob/master/docs/SpringCloud/SpringCloud最新面试题，2021年面试题及答案汇总.md#5spring-cloud和springboot版本对应关系)  
+
 | Spring Cloud Version | SpringBoot Version |
 | --- | --- |
 | Hoxton | 2.2.x |
@@ -45,7 +50,8 @@ SpringBoot是解决这个问题的方法。使用spring boot可以避免所有�
 
 
 
-### 6、微服务有哪些特点？
+### [6、微服务有哪些特点？](https://github.com/souyunku/DevBooks/blob/master/docs/SpringCloud/SpringCloud最新面试题，2021年面试题及答案汇总.md#6微服务有哪些特点)  
+
 
 ![](https://gitee.com/souyunkutech/souyunku-home/raw/master/images/souyunku-web/2019/08/0816/01/img_3.png#alt=img%5C_3.png)
 
@@ -68,24 +74,28 @@ SpringBoot是解决这个问题的方法。使用spring boot可以避免所有�
 敏捷 – 微服务支持敏捷开发。任何新功能都可以快速开发并再次丢弃
 
 
-### 7、Ribbon是什么？
+### [7、Ribbon是什么？](https://github.com/souyunku/DevBooks/blob/master/docs/SpringCloud/SpringCloud最新面试题，2021年面试题及答案汇总.md#7ribbon是什么)  
+
 
 **1、** Ribbon是Netflix发布的开源项目，主要功能是提供客户端的软件负载均衡算法
 
 **2、** Ribbon客户端组件提供一系列完善的配置项，如连接超时，重试等。简单的说，就是在配置文件中列出后面所有的机器，Ribbon会自动的帮助你基于某种规则（如简单轮询，随即连接等）去连接这些机器。我们也很容易使用Ribbon实现自定义的负载均衡算法。（有点类似Nginx）
 
 
-### 8、微服务之间是如何独立通讯的?
+### [8、微服务之间是如何独立通讯的?](https://github.com/souyunku/DevBooks/blob/master/docs/SpringCloud/SpringCloud最新面试题，2021年面试题及答案汇总.md#8微服务之间是如何独立通讯的)  
+
 
 **1、** 远程调用，比如feign调用，直接通过远程过程调用来访问别的service。 2.消息中间件
 
 
-### 9、什么是网关?
+### [9、什么是网关?](https://github.com/souyunku/DevBooks/blob/master/docs/SpringCloud/SpringCloud最新面试题，2021年面试题及答案汇总.md#9什么是网关)  
+
 
 网关相当于一个网络服务架构的入口，所有网络请求必须通过网关转发到具体的服务。
 
 
-### 10、使用Spring Cloud有什么优势？
+### [10、使用Spring Cloud有什么优势？](https://github.com/souyunku/DevBooks/blob/master/docs/SpringCloud/SpringCloud最新面试题，2021年面试题及答案汇总.md#10使用spring-cloud有什么优势)  
+
 
 使用SpringBoot开发分布式微服务时，我们面临以下问题
 
@@ -126,9 +136,9 @@ SpringBoot是解决这个问题的方法。使用spring boot可以避免所有�
 
 
 
-## 全部答案，整理好了，直接下载吧
+## [全部答案，整理好了，直接下载吧](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
-### 下载链接：[全部答案，整理好了](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
+### 下载链接：[全部答案，整理好了](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
 
 

@@ -6,7 +6,8 @@
 
 
 
-### 1、React与Vue的相似之处
+### [1、React与Vue的相似之处](https://github.com/souyunku/DevBooks/blob/master/docs/React/React最新面试题，2021年面试题及答案汇总.md#1react与vue的相似之处)  
+
 
 都使用 Virtual DOM
 
@@ -15,7 +16,8 @@
 将注意力集中保持在核心库，而将其他功能如路由和全局状态管理交给相关的库。
 
 
-### 2、Vue2.x和Vue3.x渲染器的diff算法分别说一下
+### [2、Vue2.x和Vue3.x渲染器的diff算法分别说一下](https://github.com/souyunku/DevBooks/blob/master/docs/React/React最新面试题，2021年面试题及答案汇总.md#2vue2x和vue3x渲染器的diff算法分别说一下)  
+
 
 **简单来说，diff算法有以下过程**
 
@@ -42,19 +44,22 @@ Vue3.x借鉴了 [ivi](https://github.com/localvoid/ivi)算法和 [inferno](https
 **面试官：(可以可以，看来是个苗子，不过自我介绍属实有些无聊，下一题)**
 
 
-### 3、概述下 React 中的事件处理逻辑
+### [3、概述下 React 中的事件处理逻辑](https://github.com/souyunku/DevBooks/blob/master/docs/React/React最新面试题，2021年面试题及答案汇总.md#3概述下-react-中的事件处理逻辑)  
+
 
 为了解决跨浏览器兼容性问题`React` 会将浏览器原生事件`Browser Native Event`封装为合成事件`SyntheticEvent`传入设置的事件处理器中。这里的合成事件提供了与原生事件相同的接口不过它们屏蔽了底层浏览器的细节差异保证了行为的一致性。另外有意思的是React 并没有直接将事件附着到子元素上而是以单一事件监听器的方式将所有的事件发送到顶层进行处理。这样 `React` 在更新 `DOM` 的时候就不需要考虑如何去处理附着在 `DOM` 上的事件监听器最终达到优化性能的目的
 
 
-### 4、再说一下vue2.x中如何监测数组变化
+### [4、再说一下vue2.x中如何监测数组变化](https://github.com/souyunku/DevBooks/blob/master/docs/React/React最新面试题，2021年面试题及答案汇总.md#4再说一下vue2x中如何监测数组变化)  
+
 
 使用了函数劫持的方式，重写了数组的方法，Vue将data中的数组进行了原型链重写，指向了自己定义的数组原型方法。这样当调用数组api时，可以通知依赖更新。如果数组中包含着引用类型，会对数组中的引用类型再次递归遍历进行监控。这样就实现了监测数组变化。
 
 （能问到这的面试官都比较注重深度，这些常规操作要记牢）
 
 
-### 5、React组件通信如何实现?
+### [5、React组件通信如何实现?](https://github.com/souyunku/DevBooks/blob/master/docs/React/React最新面试题，2021年面试题及答案汇总.md#5react组件通信如何实现)  
+
 
 **React组件间通信方式:**
 
@@ -73,7 +78,8 @@ Vue3.x借鉴了 [ivi](https://github.com/localvoid/ivi)算法和 [inferno](https
 ![](https://gitee.com/souyunkutech/souyunku-home/raw/master/images/souyunku-web/2020/4/30/1939/39/97_2.png#alt=97%5C_2.png)
 
 
-### 6、React Portal 有哪些使用场景
+### [6、React Portal 有哪些使用场景](https://github.com/souyunku/DevBooks/blob/master/docs/React/React最新面试题，2021年面试题及答案汇总.md#6react-portal-有哪些使用场景)  
+
 
 在以前 `react` 中所有的组件都会位于 `#app` 下而使用 `Portals` 提供了一种脱离 `#app` 的组件因此 `Portals` 适合脱离文档流(`out of flow`) 的组件特别是 `position: absolute` 与 `position: fixed`的组件。比如模态框通知警告`goTop` 等。
 
@@ -139,7 +145,8 @@ class Modal extends React.Component {
 **3、** [source]参数有值时则只会监听到数组中的值发生变化后才优先调用返回的那个函数再调用外部的函数。
 
 
-### 7、你能用HOC做什么？
+### [7、你能用HOC做什么？](https://github.com/souyunku/DevBooks/blob/master/docs/React/React最新面试题，2021年面试题及答案汇总.md#7你能用hoc做什么)  
+
 
 **HOC可用于许多任务，例如：**
 
@@ -152,12 +159,14 @@ class Modal extends React.Component {
 **4、** Props 控制
 
 
-### 8、Store 在 Redux 中的意义是什么？
+### [8、Store 在 Redux 中的意义是什么？](https://github.com/souyunku/DevBooks/blob/master/docs/React/React最新面试题，2021年面试题及答案汇总.md#8store-在-redux-中的意义是什么)  
+
 
 Store 是一个 JavaScript 对象，它可以保存程序的状态，并提供一些方法来访问状态、调度操作和注册侦听器。应用程序的整个状态/对象树保存在单一存储中。因此，Redux 非常简单且是可预测的。我们可以将中间件传递到 store 来处理数据，并记录改变存储状态的各种操作。所有操作都通过 reducer 返回一个新状态。
 
 
-### 9、区分Real DOM和Virtual DOM
+### [9、区分Real DOM和Virtual DOM](https://github.com/souyunku/DevBooks/blob/master/docs/React/React最新面试题，2021年面试题及答案汇总.md#9区分real-dom和virtual-dom)  
+
 | Real DOM | Virtual DOM |
 | --- | --- |
 | 1、更新缓慢。 | 1、更新更快。 |
@@ -168,7 +177,8 @@ Store 是一个 JavaScript 对象，它可以保存程序的状态，并提供�
 
 
 
-### 10、那你能讲一讲MVVM吗？
+### [10、那你能讲一讲MVVM吗？](https://github.com/souyunku/DevBooks/blob/master/docs/React/React最新面试题，2021年面试题及答案汇总.md#10那你能讲一讲mvvm吗)  
+
 
 MVVM是`Model-View-ViewModel`缩写，也就是把`MVC`中的`Controller`演变成`ViewModel`。Model层代表数据模型，View代表UI组件，ViewModel是View和Model层的桥梁，数据会绑定到viewModel层并自动将数据渲染到页面中，视图变化的时候会通知viewModel层更新数据。
 
@@ -194,9 +204,9 @@ MVVM是`Model-View-ViewModel`缩写，也就是把`MVC`中的`Controller`演变�
 
 
 
-## 全部答案，整理好了，直接下载吧
+## [全部答案，整理好了，直接下载吧](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
-### 下载链接：[全部答案，整理好了](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
+### 下载链接：[全部答案，整理好了](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
 
 

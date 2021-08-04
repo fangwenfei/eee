@@ -6,12 +6,14 @@
 
 
 
-### 1、类加载有几个过程？
+### [1、类加载有几个过程？](https://github.com/souyunku/DevBooks/blob/master/docs/Jvm/Jvm最新面试题，常见面试题及答案汇总.md#1类加载有几个过程)  
+
 
 加载、验证、准备、解析、初始化。
 
 
-### 2、简述Java的对象结构
+### [2、简述Java的对象结构](https://github.com/souyunku/DevBooks/blob/master/docs/Jvm/Jvm最新面试题，常见面试题及答案汇总.md#2简述java的对象结构)  
+
 
 Java对象由三个部分组成：对象头、实例数据、对齐填充。
 
@@ -22,17 +24,20 @@ Java对象由三个部分组成：对象头、实例数据、对齐填充。
 对齐填充：JVM要求对象起始地址必须是8字节的整数倍（8字节对齐 )
 
 
-### 3、怎么查看服务器默认的垃圾回收器是哪一个？
+### [3、怎么查看服务器默认的垃圾回收器是哪一个？](https://github.com/souyunku/DevBooks/blob/master/docs/Jvm/Jvm最新面试题，常见面试题及答案汇总.md#3怎么查看服务器默认的垃圾回收器是哪一个)  
+
 
 这通常会使用另外一个参数：`-XX:+PrintCommandLineFlags`可以打印所有的参数，包括使用的垃圾回收器。
 
 
-### 4、JAVA 强引用
+### [4、JAVA 强引用](https://github.com/souyunku/DevBooks/blob/master/docs/Jvm/Jvm最新面试题，常见面试题及答案汇总.md#4java-强引用)  
+
 
 在 Java 中最常见的就是强引用， 把一个对象赋给一个引用变量，这个引用变量就是一个强引用。当一个对象被强引用变量引用时，它处于可达状态，它是不可能被垃圾回收机制回收的，即使该对象以后永远都不会被用到 JVM 也不会回收。因此强引用是造成 Java 内存泄漏的主要原因之一。
 
 
-### 5、详细介绍一下JVM内存模型
+### [5、详细介绍一下JVM内存模型](https://github.com/souyunku/DevBooks/blob/master/docs/Jvm/Jvm最新面试题，常见面试题及答案汇总.md#5详细介绍一下jvm内存模型)  
+
 
 根据 JVM 规范，JVM 内存共分为虚拟机栈、堆、方法区、程序计数器、本地方法栈五个部分。
 
@@ -47,27 +52,32 @@ Java对象由三个部分组成：对象头、实例数据、对齐填充。
 **4、** 替换的好处：一、字符串存在永久代中，容易出现性能问题和内存溢出。二、永久代会为 GC 带来不必要的复杂度，并且回收效率偏低。
 
 
-### 6、32 位 JVM 和 64 位 JVM 的最大堆内存分别是多数？
+### [6、32 位 JVM 和 64 位 JVM 的最大堆内存分别是多数？](https://github.com/souyunku/DevBooks/blob/master/docs/Jvm/Jvm最新面试题，常见面试题及答案汇总.md#632-位-jvm-和-64-位-jvm-的最大堆内存分别是多数)  
+
 
 理论上说上 32 位的 JVM 堆内存可以到达 2^32，即 4GB，但实际上会比这个小很多。不同操作系统之间不同，如 Windows 系统大约 1.5GB，Solaris 大约3GB。64 位 JVM 允许指定最大的堆内存，理论上可以达到 2^64，这是一个非常大的数字，实际上你可以指定堆内存大小到 100GB。甚至有的 JVM，如 Azul，堆内存到 1000G 都是可能的。
 
 
-### 7、HashMap中的key，可以是普通对象么？需要什么注意的地方？
+### [7、HashMap中的key，可以是普通对象么？需要什么注意的地方？](https://github.com/souyunku/DevBooks/blob/master/docs/Jvm/Jvm最新面试题，常见面试题及答案汇总.md#7hashmap中的key可以是普通对象么需要什么注意的地方)  
+
 
 Map的key和value都可以是任何类型。但要注意的是，一定要重写它的equals和hashCode方法，否则容易发生内存泄漏。
 
 
-### 8、你熟悉哪些垃圾收集算法？
+### [8、你熟悉哪些垃圾收集算法？](https://github.com/souyunku/DevBooks/blob/master/docs/Jvm/Jvm最新面试题，常见面试题及答案汇总.md#8你熟悉哪些垃圾收集算法)  
+
 
 标记清除（缺点是碎片化） 复制算法（缺点是浪费空间） 标记整理算法（效率比前两者差） 分代收集算法（老年代一般使用“标记-清除”、“标记-整理”算法，年轻代一般用复制算法）
 
 
-### 9、GC 垃圾收集器
+### [9、GC 垃圾收集器](https://github.com/souyunku/DevBooks/blob/master/docs/Jvm/Jvm最新面试题，常见面试题及答案汇总.md#9gc-垃圾收集器)  
+
 
 Java 堆内存被划分为新生代和年老代两部分，新生代主要使用复制和标记-清除垃圾回收算法；年老代主要使用标记-整理垃圾回收算法，因此 java 虚拟中针对新生代和年老代分别提供了多种不同的垃圾收集器， JDK1.6 中 Sun HotSpot 虚拟机的垃圾收集器
 
 
-### 10、什么情况发生栈溢出？
+### [10、什么情况发生栈溢出？](https://github.com/souyunku/DevBooks/blob/master/docs/Jvm/Jvm最新面试题，常见面试题及答案汇总.md#10什么情况发生栈溢出)  
+
 
 -Xss可以设置线程栈的大小，当线程方法递归调用层次太深或者栈帧中的局部变量过多时，会出现栈溢出错误 java.lang.StackOverflowError
 
@@ -96,9 +106,9 @@ Java 堆内存被划分为新生代和年老代两部分，新生代主要使用
 
 
 
-## 全部答案，整理好了，直接下载吧
+## [全部答案，整理好了，直接下载吧](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
-### 下载链接：[全部答案，整理好了](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
+### 下载链接：[全部答案，整理好了](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
 
 

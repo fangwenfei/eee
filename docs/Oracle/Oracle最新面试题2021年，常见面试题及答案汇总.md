@@ -6,7 +6,8 @@
 
 
 
-### 1、说下 怎样创建一个视图,视图的好处, 视图可以控制权限吗?
+### [1、说下 怎样创建一个视图,视图的好处, 视图可以控制权限吗?](https://github.com/souyunku/DevBooks/blob/master/docs/Oracle/Oracle最新面试题2021年，常见面试题及答案汇总.md#1说下-怎样创建一个视图,视图的好处,-视图可以控制权限吗)  
+
 
 create view 视图名 as select 列名 [别名]  …  from 表 [unio [all] select … ] ]
 
@@ -21,7 +22,8 @@ create view 视图名 as select 列名 [别名]  …  from 表 [unio [all] sel
 **4、** 视图可以控制权限的，在使用的时候需要将视图的使用权限grant给用户
 
 
-### 2、使用存储过程访问数据库比直接用SQL语句访问有何优点？
+### [2、使用存储过程访问数据库比直接用SQL语句访问有何优点？](https://github.com/souyunku/DevBooks/blob/master/docs/Oracle/Oracle最新面试题2021年，常见面试题及答案汇总.md#2使用存储过程访问数据库比直接用sql语句访问有何优点)  
+
 
 **1、** 存储过程是预编译过的，执行时不须编译，执行速度更快。
 
@@ -30,12 +32,14 @@ create view 视图名 as select 列名 [别名]  …  from 表 [unio [all] sel
 **3、** 实现代码复用。
 
 
-### 3、当用户进程出错，哪个后台进程负责清理它
+### [3、当用户进程出错，哪个后台进程负责清理它](https://github.com/souyunku/DevBooks/blob/master/docs/Oracle/Oracle最新面试题2021年，常见面试题及答案汇总.md#3当用户进程出错哪个后台进程负责清理它)  
+
 
 PMON
 
 
-### 4、说下 Oracle的导入导出有几种方式，有何区别？
+### [4、说下 Oracle的导入导出有几种方式，有何区别？](https://github.com/souyunku/DevBooks/blob/master/docs/Oracle/Oracle最新面试题2021年，常见面试题及答案汇总.md#4说下-oracle的导入导出有几种方式有何区别)  
+
 
 **1、** 使用oracle工具 exp/imp
 
@@ -46,29 +50,34 @@ PMON
 方法2、.plsql导入/导出的是sql语句的文本文件
 
 
-### 5、哪个VIEW用来判断tablespace的剩余空间
+### [5、哪个VIEW用来判断tablespace的剩余空间](https://github.com/souyunku/DevBooks/blob/master/docs/Oracle/Oracle最新面试题2021年，常见面试题及答案汇总.md#5哪个view用来判断tablespace的剩余空间)  
+
 
 DBA_FREE_SPACE
 
 
-### 6、给出两个检查表结构的方法
+### [6、给出两个检查表结构的方法](https://github.com/souyunku/DevBooks/blob/master/docs/Oracle/Oracle最新面试题2021年，常见面试题及答案汇总.md#6给出两个检查表结构的方法)  
+
 
 **1、** DESCRIBE命令
 
 **2、**  DBMS_METADATA.GET_DDL 包
 
 
-### 7、ORA-01555的应对方法?
+### [7、ORA-01555的应对方法?](https://github.com/souyunku/DevBooks/blob/master/docs/Oracle/Oracle最新面试题2021年，常见面试题及答案汇总.md#7ora-01555的应对方法)  
+
 
 具体的出错信息是snapshot too old within rollback seg , 通常可以通过增大rollback seg来解决问题。当然也需要察看一下具体造成错误的SQL文本
 
 
-### 8、解释data block , extent 和 segment的区别（这里建议用英文术语）
+### [8、解释data block , extent 和 segment的区别（这里建议用英文术语）](https://github.com/souyunku/DevBooks/blob/master/docs/Oracle/Oracle最新面试题2021年，常见面试题及答案汇总.md#8解释data-block-,-extent-和-segment的区别这里建议用英文术语)  
+
 
 data block是数据库中最小的逻辑存储单元。当数据库的对象需要更多的物理存储空间时，连续的data block就组成了extent . 一个数据库对象拥有的所有extents被称为该对象的segment.
 
 
-### 9、解释冷备份和热备份的不同点以及各自的优点
+### [9、解释冷备份和热备份的不同点以及各自的优点](https://github.com/souyunku/DevBooks/blob/master/docs/Oracle/Oracle最新面试题2021年，常见面试题及答案汇总.md#9解释冷备份和热备份的不同点以及各自的优点)  
+
 
 热备份针对归档模式的数据库，在数据库仍旧处于工作状态时进行备份。而冷备份指在数据库关闭后，进行备份，适用于所有模式的
 
@@ -77,7 +86,8 @@ data block是数据库中最小的逻辑存储单元。当数据库的对象需�
 操作相当简单，并且由于冷备份的数据库可以工作在非归档模式下,数据库性能会比归档模式稍好。（因为不必将archive log写入硬盘）
 
 
-### 10、TEMPORARY tablespace和PERMANENT tablespace 的区别是？
+### [10、TEMPORARY tablespace和PERMANENT tablespace 的区别是？](https://github.com/souyunku/DevBooks/blob/master/docs/Oracle/Oracle最新面试题2021年，常见面试题及答案汇总.md#10temporary-tablespace和permanent-tablespace-的区别是)  
+
 
 A temporary tablespace 用于临时对象例如排序结构而 permanent tablespaces用来存储那些'真实'的对象(例如表，回滚段等)
 
@@ -103,9 +113,9 @@ A temporary tablespace 用于临时对象例如排序结构而 permanent tablesp
 
 
 
-## 全部答案，整理好了，直接下载吧
+## [全部答案，整理好了，直接下载吧](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
-### 下载链接：[全部答案，整理好了](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
+### 下载链接：[全部答案，整理好了](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
 
 

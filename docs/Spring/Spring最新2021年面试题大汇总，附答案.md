@@ -6,7 +6,8 @@
 
 
 
-### 1、SpringBoot运行项目的几种方式？
+### [1、SpringBoot运行项目的几种方式？](https://github.com/souyunku/DevBooks/blob/master/docs/Spring/Spring最新2021年面试题大汇总，附答案.md#1springboot运行项目的几种方式)  
+
 
 打包用命令或者放到容器中运行
 
@@ -19,12 +20,14 @@
 直接执行main方法运行
 
 
-### 2、IOC的优点是什么？
+### [2、IOC的优点是什么？](https://github.com/souyunku/DevBooks/blob/master/docs/Spring/Spring最新2021年面试题大汇总，附答案.md#2ioc的优点是什么)  
+
 
 IOC 或 依赖注入把应用的代码量降到最低。它使应用容易测试，单元测试不再需要单例和JNDI查找机制。最小的代价和最小的侵入性使松散耦合得以实现。IOC容器支持加载服务时的饿汉式初始化和懒加载。
 
 
-### 3、在Spring MVC应用程序中使用WebMvcTest注释有什么用处？
+### [3、在Spring MVC应用程序中使用WebMvcTest注释有什么用处？](https://github.com/souyunku/DevBooks/blob/master/docs/Spring/Spring最新2021年面试题大汇总，附答案.md#3在spring-mvc应用程序中使用webmvctest注释有什么用处)  
+
 
 WebMvcTest注释用于单元测试Spring MVC应用程序。我们只想启动ToTestController。执行此单元测试时，不会启动所有其他控制器和映射。
 
@@ -33,12 +36,14 @@ WebMvcTest注释用于单元测试Spring MVC应用程序。我们只想启动ToT
 ```
 
 
-### 4、什么是Spring Cloud？
+### [4、什么是Spring Cloud？](https://github.com/souyunku/DevBooks/blob/master/docs/Spring/Spring最新2021年面试题大汇总，附答案.md#4什么是spring-cloud)  
+
 
 根据Spring Cloud的官方网站，Spring Cloud为开发人员提供了快速构建分布式系统中一些常见模式的工具（例如配置管理，服务发现，断路器，智能路由，领导选举，分布式会话，集群状态）。
 
 
-### 5、eureka服务注册与发现原理
+### [5、eureka服务注册与发现原理](https://github.com/souyunku/DevBooks/blob/master/docs/Spring/Spring最新2021年面试题大汇总，附答案.md#5eureka服务注册与发现原理)  
+
 
 **1、** 每30s发送⼼跳检测重新进⾏租约，如果客户端不能多次更新租约，它将在90s内从服务器注册中⼼移除。
 
@@ -49,7 +54,8 @@ WebMvcTest注释用于单元测试Spring MVC应用程序。我们只想启动ToT
 ![](https://gitee.com/souyunkutech/souyunku-home/raw/master/images/souyunku-web/2020/5/2/01/44/45_4.png#alt=45%5C_4.png)
 
 
-### 6、SpringBoot 配置文件的加载顺序
+### [6、SpringBoot 配置文件的加载顺序](https://github.com/souyunku/DevBooks/blob/master/docs/Spring/Spring最新2021年面试题大汇总，附答案.md#6springboot-配置文件的加载顺序)  
+
 
 由jar包外向jar包内进行寻找;
 
@@ -66,24 +72,28 @@ jar包外部的application.properties或application.yml(不带spring.profile配�
 jar包内部的application.properties或application.yml(不带spring.profile配置文件
 
 
-### 7、什么是 spring 装配
+### [7、什么是 spring 装配](https://github.com/souyunku/DevBooks/blob/master/docs/Spring/Spring最新2021年面试题大汇总，附答案.md#7什么是-spring-装配)  
+
 
 当 bean 在 Spring 容器中组合在一起时，它被称为装配或 bean 装配。Spring 容器需要知道需要什么 bean 以及容器应该如何使用依赖注入来将 bean 绑定在一起，同时装配 bean。
 
 
-### 8、为什么要用SpringBoot
+### [8、为什么要用SpringBoot](https://github.com/souyunku/DevBooks/blob/master/docs/Spring/Spring最新2021年面试题大汇总，附答案.md#8为什么要用springboot)  
+
 
 快速开发，快速整合，配置简化、内嵌服务容器
 
 
-### 9、怎么样把ModelMap里面的数据放入Session里面？
+### [9、怎么样把ModelMap里面的数据放入Session里面？](https://github.com/souyunku/DevBooks/blob/master/docs/Spring/Spring最新2021年面试题大汇总，附答案.md#9怎么样把modelmap里面的数据放入session里面)  
+
 
 
 
 可以在类上面加上@SessionAttributes注解,里面包含的字符串就是要放入session里面的key。
 
 
-### 10、什么是微服务架构中的DRY？
+### [10、什么是微服务架构中的DRY？](https://github.com/souyunku/DevBooks/blob/master/docs/Spring/Spring最新2021年面试题大汇总，附答案.md#10什么是微服务架构中的dry)  
+
 
 DRY代表不要重复自己。它基本上促进了重用代码的概念。这导致开发和共享库，这反过来导致紧密耦合。
 
@@ -113,9 +123,9 @@ DRY代表不要重复自己。它基本上促进了重用代码的概念。这�
 
 
 
-## 全部答案，整理好了，直接下载吧
+## [全部答案，整理好了，直接下载吧](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
-### 下载链接：[全部答案，整理好了](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
+### 下载链接：[全部答案，整理好了](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
 
 

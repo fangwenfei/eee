@@ -6,14 +6,16 @@
 
 
 
-### 1、NOW（）和CURRENT_DATE（）有什么区别？
+### [1、NOW（）和CURRENT_DATE（）有什么区别？](https://github.com/souyunku/DevBooks/blob/master/docs/MySQL/MySQL最新基础面试题及答案整理.md#1now和current_date有什么区别)  
+
 
 NOW（）命令用于显示当前年份，月份，日期，小时，分钟和秒。
 
 CURRENT_DATE（）仅显示当前年份，月份和日期。
 
 
-### 2、CHAR和VARCHAR的区别？
+### [2、CHAR和VARCHAR的区别？](https://github.com/souyunku/DevBooks/blob/master/docs/MySQL/MySQL最新基础面试题及答案整理.md#2char和varchar的区别)  
+
 
 1.CHAR和VARCHAR类型在存储和检索方面有所不同
 
@@ -22,7 +24,8 @@ CURRENT_DATE（）仅显示当前年份，月份和日期。
 当CHAR值被存储时，它们被用空格填充到特定长度，检索CHAR值时需删除尾随空格。
 
 
-### 3、主键索引与唯一索引的区别
+### [3、主键索引与唯一索引的区别](https://github.com/souyunku/DevBooks/blob/master/docs/MySQL/MySQL最新基础面试题及答案整理.md#3主键索引与唯一索引的区别)  
+
 
 **1、** 主键是一种约束，唯一索引是一种索引，两者在本质上是不同的。
 
@@ -39,7 +42,8 @@ CURRENT_DATE（）仅显示当前年份，月份和日期。
 **7、** 主键可以被其他表引用为外键，而唯一索引不能。 ？
 
 
-### 4、MySQL中有哪些不同的表格？
+### [4、MySQL中有哪些不同的表格？](https://github.com/souyunku/DevBooks/blob/master/docs/MySQL/MySQL最新基础面试题及答案整理.md#4mysql中有哪些不同的表格)  
+
 
 **共有5种类型的表格：**
 
@@ -54,7 +58,8 @@ CURRENT_DATE（）仅显示当前年份，月份和日期。
 **5、** ISAM
 
 
-### 5、SQL的生命周期？
+### [5、SQL的生命周期？](https://github.com/souyunku/DevBooks/blob/master/docs/MySQL/MySQL最新基础面试题及答案整理.md#5sql的生命周期)  
+
 
 **1、** 应用服务器与数据库服务器建立一个连接
 
@@ -71,14 +76,16 @@ CURRENT_DATE（）仅显示当前年份，月份和日期。
 ![](https://gitee.com/souyunkutech/souyunku-home/raw/master/images/souyunku-web/2020/5/2/049/50/99_8.png#alt=99%5C_8.png)
 
 
-### 6、你怎么看到为表格定义的所有索引？
+### [6、你怎么看到为表格定义的所有索引？](https://github.com/souyunku/DevBooks/blob/master/docs/MySQL/MySQL最新基础面试题及答案整理.md#6你怎么看到为表格定义的所有索引)  
+
 
 索引是通过以下方式为表格定义的：
 
 `SHOW INDEX FROM <tablename>;`
 
 
-### 7、数据库为什么使用B+树而不是B树
+### [7、数据库为什么使用B+树而不是B树](https://github.com/souyunku/DevBooks/blob/master/docs/MySQL/MySQL最新基础面试题及答案整理.md#7数据库为什么使用b+树而不是b树)  
+
 
 **1、** B树只适合随机检索，而B+树同时支持随机检索和顺序检索；
 
@@ -91,7 +98,8 @@ CURRENT_DATE（）仅显示当前年份，月份和日期。
 **5、** 增删文件（节点）时，效率更高。因为B+树的叶子节点包含所有关键字，并以有序的链表结构存储，这样可很好提高增删效率。
 
 
-### 8、数据库三大范式是什么
+### [8、数据库三大范式是什么](https://github.com/souyunku/DevBooks/blob/master/docs/MySQL/MySQL最新基础面试题及答案整理.md#8数据库三大范式是什么)  
+
 
 第一范式：每个列都不可以再拆分。
 
@@ -102,7 +110,8 @@ CURRENT_DATE（）仅显示当前年份，月份和日期。
 在设计数据库结构的时候，要尽量遵守三范式，如果不遵守，必须有足够的理由。比如性能。事实上我们经常会为了性能而妥协数据库的设计。
 
 
-### 9、怎么优化SQL查询语句吗
+### [9、怎么优化SQL查询语句吗](https://github.com/souyunku/DevBooks/blob/master/docs/MySQL/MySQL最新基础面试题及答案整理.md#9怎么优化sql查询语句吗)  
+
 
 **1、** 对查询进行优化，应尽量避免全表扫描，首先应考虑在 where 及 order by 涉及的列上建立索引
 
@@ -117,7 +126,8 @@ CURRENT_DATE（）仅显示当前年份，月份和日期。
 **6、** in 和 not in 也要慎用，否则会导致全表扫描
 
 
-### 10、覆盖索引、回表等这些，了解过吗？
+### [10、覆盖索引、回表等这些，了解过吗？](https://github.com/souyunku/DevBooks/blob/master/docs/MySQL/MySQL最新基础面试题及答案整理.md#10覆盖索引回表等这些了解过吗)  
+
 
 **1、** 覆盖索引： 查询列要被所建的索引覆盖，不必从数据表中读取，换句话说查询列要被所使用的索引覆盖。
 
@@ -151,9 +161,9 @@ CURRENT_DATE（）仅显示当前年份，月份和日期。
 
 
 
-## 全部答案，整理好了，直接下载吧
+## [全部答案，整理好了，直接下载吧](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
-### 下载链接：[全部答案，整理好了](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
+### 下载链接：[全部答案，整理好了](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
 
 

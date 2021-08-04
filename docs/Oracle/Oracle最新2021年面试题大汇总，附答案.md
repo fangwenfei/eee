@@ -6,24 +6,28 @@
 
 
 
-### 1、FACT Table上需要建立何种索引?
+### [1、FACT Table上需要建立何种索引?](https://github.com/souyunku/DevBooks/blob/master/docs/Oracle/Oracle最新2021年面试题大汇总，附答案.md#1fact-table上需要建立何种索引)  
+
 
 位图索引 (bitmap index)
 
 
-### 2、给出两种相关约束?
+### [2、给出两种相关约束?](https://github.com/souyunku/DevBooks/blob/master/docs/Oracle/Oracle最新2021年面试题大汇总，附答案.md#2给出两种相关约束)  
+
 
 主键和外键
 
 
-### 3、解释归档和非归档模式之间的不同和它们各自的优缺点
+### [3、解释归档和非归档模式之间的不同和它们各自的优缺点](https://github.com/souyunku/DevBooks/blob/master/docs/Oracle/Oracle最新2021年面试题大汇总，附答案.md#3解释归档和非归档模式之间的不同和它们各自的优缺点)  
+
 
 归档模式是指你可以备份所有的数据库 transactions并恢复到任意一个时间点。非归档模式则相反，不能恢复到任意一个时间点。
 
 但是非归档模式可以带来数据库性能上的少许提高
 
 
-### 4、delete 与Truncate区别？
+### [4、delete 与Truncate区别？](https://github.com/souyunku/DevBooks/blob/master/docs/Oracle/Oracle最新2021年面试题大汇总，附答案.md#4delete-与truncate区别)  
+
 
 **1、** Truncate 是DDL 语句，DELETE 是DML语句。
 
@@ -40,12 +44,14 @@
 **4、** Truncate 操作会重置表的高水位线（High Water Mark）,而delete 不会。
 
 
-### 5、哪个后台进程刷新materialized views?
+### [5、哪个后台进程刷新materialized views?](https://github.com/souyunku/DevBooks/blob/master/docs/Oracle/Oracle最新2021年面试题大汇总，附答案.md#5哪个后台进程刷新materialized-views)  
+
 
 The Job Queue Processes.
 
 
-### 6、MySQL数据库与Oracle 数据库有什么区别？
+### [6、MySQL数据库与Oracle 数据库有什么区别？](https://github.com/souyunku/DevBooks/blob/master/docs/Oracle/Oracle最新2021年面试题大汇总，附答案.md#6mysql数据库与oracle-数据库有什么区别)  
+
 
 **1、** 应用方面，MySQL 是中小型应用的数据库。一般用于个人和中小型企业。Oracle 属于大型数据库，一般用于具有相当规模的企业应用。
 
@@ -56,14 +62,16 @@ The Job Queue Processes.
 **4、** 引导方面： MySQL中可以用单引号、双引号包起字符串，Oracle 中只可以用单引号包起字符串
 
 
-### 7、Oracle 分区在什么情况下使用
+### [7、Oracle 分区在什么情况下使用](https://github.com/souyunku/DevBooks/blob/master/docs/Oracle/Oracle最新2021年面试题大汇总，附答案.md#7oracle-分区在什么情况下使用)  
+
 
 当一张表的数据量到达上亿行的时候，表的性能会严重降低，这个时候就需要用到分区了，通过划分成多个小表，并在每个小表上建立本地索引可以大大缩小索引数据文件的大小，从而更快的定位到目标数据来提升访问性能。
 
 分区除了可以用来提升访问性能外，还因为可以指定分区所使用的表空间，因此也用来做数据的生命周期管理。当前需要频繁使用的活跃数据可以放到访问速度更快但价格也更贵的存储设备上，而2、3年前的历史数据，或者叫冷数据可以放到更廉价、速度更低的设备上。从而降低存储费用。
 
 
-### 8、oracle中存储过程，游标和函数的区别
+### [8、oracle中存储过程，游标和函数的区别](https://github.com/souyunku/DevBooks/blob/master/docs/Oracle/Oracle最新2021年面试题大汇总，附答案.md#8oracle中存储过程游标和函数的区别)  
+
 
 **1、** 游标类似指针，游标可以执行多个不相关的操作.如果希望当产生了结果集后,对结果集中的数据进行多 种不相关的数据操作
 
@@ -72,14 +80,16 @@ The Job Queue Processes.
 **3、** 参数则建议使用存储过程；在sql数据操纵语句中只能调用函数而不能调用存储过程
 
 
-### 9、如何增加buffer cache的命中率？
+### [9、如何增加buffer cache的命中率？](https://github.com/souyunku/DevBooks/blob/master/docs/Oracle/Oracle最新2021年面试题大汇总，附答案.md#9如何增加buffer-cache的命中率)  
+
 
 在数据库较繁忙时，适用buffer cache advisory 工具，查询v$db_cache_advice . 如果有必要更改，可以使用 alter system set
 
 db_cache_size 命令
 
 
-### 10、使用索引的理由
+### [10、使用索引的理由](https://github.com/souyunku/DevBooks/blob/master/docs/Oracle/Oracle最新2021年面试题大汇总，附答案.md#10使用索引的理由)  
+
 
 快速访问表中的data block
 
@@ -105,9 +115,9 @@ db_cache_size 命令
 
 
 
-## 全部答案，整理好了，直接下载吧
+## [全部答案，整理好了，直接下载吧](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
-### 下载链接：[全部答案，整理好了](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
+### 下载链接：[全部答案，整理好了](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
 
 

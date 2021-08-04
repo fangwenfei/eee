@@ -6,7 +6,8 @@
 
 
 
-### 1、设计微服务的最佳实践是什么？
+### [1、设计微服务的最佳实践是什么？](https://github.com/souyunku/DevBooks/blob/master/docs/SpringCloud/SpringCloud最新2021年面试题大汇总，附答案.md#1设计微服务的最佳实践是什么)  
+
 
 以下是设计微服务的最佳实践：
 
@@ -15,14 +16,16 @@
 图4：设计微服务的最佳实践 – 微服务访谈问题
 
 
-### 2、什么是REST / RESTful以及它的用途是什么？
+### [2、什么是REST / RESTful以及它的用途是什么？](https://github.com/souyunku/DevBooks/blob/master/docs/SpringCloud/SpringCloud最新2021年面试题大汇总，附答案.md#2什么是rest-/-restful以及它的用途是什么)  
+
 
 Representational State Transfer（REST）/ RESTful Web服务是一种帮助计算机系统通过Internet进行通信的架构风格。这使得微服务更容易理解和实现。
 
 微服务可以使用或不使用RESTful API实现，但使用RESTful API构建松散耦合的微服务总是更容易。
 
 
-### 3、什么是feigin？它的优点是什么？
+### [3、什么是feigin？它的优点是什么？](https://github.com/souyunku/DevBooks/blob/master/docs/SpringCloud/SpringCloud最新2021年面试题大汇总，附答案.md#3什么是feigin它的优点是什么)  
+
 
 **1、** feign采用的是基于接口的注解
 
@@ -39,12 +42,14 @@ Representational State Transfer（REST）/ RESTful Web服务是一种帮助计�
 **3、** 定义一个接口@FeignClient(name=“xxx”)指定调用哪个服务
 
 
-### 4、负载平衡的意义什么？
+### [4、负载平衡的意义什么？](https://github.com/souyunku/DevBooks/blob/master/docs/SpringCloud/SpringCloud最新2021年面试题大汇总，附答案.md#4负载平衡的意义什么)  
+
 
 在计算中，负载平衡可以改善跨计算机，计算机集群，网络链接，中央处理单元或磁盘驱动器等多种计算资源的工作负载分布。负载平衡旨在优化资源使用，最大化吞吐量，最小化响应时间并避免任何单一资源的过载。使用多个组件进行负载平衡而不是单个组件可能会通过冗余来提高可靠性和可用性。负载平衡通常涉及专用软件或硬件，例如多层交换机或域名系统服务器进程。
 
 
-### 5、服务网关的作用
+### [5、服务网关的作用](https://github.com/souyunku/DevBooks/blob/master/docs/SpringCloud/SpringCloud最新2021年面试题大汇总，附答案.md#5服务网关的作用)  
+
 
 **1、** 简化客户端调用复杂度，统一处理外部请求。
 
@@ -57,22 +62,26 @@ Representational State Transfer（REST）/ RESTful Web服务是一种帮助计�
 **5、** 统一处理调用过程中的安全、权限问题。
 
 
-### 6、服务降级底层是如何实现的？
+### [6、服务降级底层是如何实现的？](https://github.com/souyunku/DevBooks/blob/master/docs/SpringCloud/SpringCloud最新2021年面试题大汇总，附答案.md#6服务降级底层是如何实现的)  
+
 
 Hystrix实现服务降级的功能是通过重写HystrixCommand中的getFallback()方法，当Hystrix的run方法或construct执行发生错误时转而执行getFallback()方法。
 
 
-### 7、微服务的端到端测试意味着什么？
+### [7、微服务的端到端测试意味着什么？](https://github.com/souyunku/DevBooks/blob/master/docs/SpringCloud/SpringCloud最新2021年面试题大汇总，附答案.md#7微服务的端到端测试意味着什么)  
+
 
 端到端测试 验证工作流中的所有流程，以检查一切是否按预期工作。它还确保系统以统一的方式工作，从而满足业务需求。
 
 
-### 8、spring cloud 断路器的作用是什么？
+### [8、spring cloud 断路器的作用是什么？](https://github.com/souyunku/DevBooks/blob/master/docs/SpringCloud/SpringCloud最新2021年面试题大汇总，附答案.md#8spring-cloud-断路器的作用是什么)  
+
 
 在分布式架构中，断路器模式的作用也是类似的，当某个服务单元发生故障（类似用电器发生短路）之后，通过断路器的故障监控（类似熔断保险丝），向调用方返回一个错误响应，而不是长时间的等待。这样就不会使得线程因调用故障服务被长时间占用不释放，避免了故障在分布式系统中的蔓延。
 
 
-### 9、什么是端到端微服务测试？
+### [9、什么是端到端微服务测试？](https://github.com/souyunku/DevBooks/blob/master/docs/SpringCloud/SpringCloud最新2021年面试题大汇总，附答案.md#9什么是端到端微服务测试)  
+
 
 端到端测试验证了工作流中的每个流程都正常运行。这可确保系统作为一个整体协同工作并满足所有要求。
 
@@ -83,7 +92,8 @@ Hystrix实现服务降级的功能是通过重写HystrixCommand中的getFallback
 图14：测试层次 – 微服务面试问题
 
 
-### 10、Spring Cloud Security
+### [10、Spring Cloud Security](https://github.com/souyunku/DevBooks/blob/master/docs/SpringCloud/SpringCloud最新2021年面试题大汇总，附答案.md#10spring-cloud-security)  
+
 
 安全工具包，对Zuul代理中的负载均衡OAuth2客户端及登录认证进行支持。
 
@@ -112,9 +122,9 @@ Hystrix实现服务降级的功能是通过重写HystrixCommand中的getFallback
 
 
 
-## 全部答案，整理好了，直接下载吧
+## [全部答案，整理好了，直接下载吧](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
-### 下载链接：[全部答案，整理好了](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
+### 下载链接：[全部答案，整理好了](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
 
 

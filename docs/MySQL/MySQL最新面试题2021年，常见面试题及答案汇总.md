@@ -6,14 +6,16 @@
 
 
 
-### 1、对MySQL的锁了解吗
+### [1、对MySQL的锁了解吗](https://github.com/souyunku/DevBooks/blob/master/docs/MySQL/MySQL最新面试题2021年，常见面试题及答案汇总.md#1对mysql的锁了解吗)  
+
 
 当数据库有并发事务的时候，可能会产生数据的不一致，这时候需要一些机制来保证访问的次序，锁机制就是这样的一个机制。
 
 就像酒店的房间，如果大家随意进出，就会出现多人抢夺同一个房间的情况，而在房间上装上锁，申请到钥匙的人才可以入住并且将房间锁起来，其他人只有等他使用完毕才可以再次使用。
 
 
-### 2、MySQL中有哪几种锁？
+### [2、MySQL中有哪几种锁？](https://github.com/souyunku/DevBooks/blob/master/docs/MySQL/MySQL最新面试题2021年，常见面试题及答案汇总.md#2mysql中有哪几种锁)  
+
 
 1.表级锁：开销小，加锁快；不会出现死锁；锁定粒度大，发生锁冲突的概率最高，并发度最低。
 
@@ -22,7 +24,8 @@
 3\、页面锁：开销和加锁时间界于表锁和行锁之间；会出现死锁；锁定粒度界于表锁和行锁之间，并发度一般。
 
 
-### 3、MySQL一条SQL加锁分析
+### [3、MySQL一条SQL加锁分析](https://github.com/souyunku/DevBooks/blob/master/docs/MySQL/MySQL最新面试题2021年，常见面试题及答案汇总.md#3mysql一条sql加锁分析)  
+
 
 一条SQL加锁，可以分9种情况进行：
 
@@ -44,12 +47,14 @@
 
 **9、** 组合九：Serializable隔离级别
 
-### 4、索引能干什么?
+### [4、索引能干什么?](https://github.com/souyunku/DevBooks/blob/master/docs/MySQL/MySQL最新面试题2021年，常见面试题及答案汇总.md#4索引能干什么)  
+
 
 索引非常关键，尤其是当表中的数据量越来越大时，索引对于性能的影响愈发重要。 索引能够轻易将查询性能提高好几个数量级，总的来说就是可以明显的提高查询效率。
 
 
-### 5、创建索引的三种方式
+### [5、创建索引的三种方式](https://github.com/souyunku/DevBooks/blob/master/docs/MySQL/MySQL最新面试题2021年，常见面试题及答案汇总.md#5创建索引的三种方式)  
+
 
 在执行CREATE TABLE时创建索引
 
@@ -78,7 +83,8 @@ CREATE INDEX index_name ON table_name (column);
 ```
 
 
-### 6、varchar与char的区别
+### [6、varchar与char的区别](https://github.com/souyunku/DevBooks/blob/master/docs/MySQL/MySQL最新面试题2021年，常见面试题及答案汇总.md#6varchar与char的区别)  
+
 
 **char的特点**
 
@@ -105,7 +111,8 @@ CREATE INDEX index_name ON table_name (column);
 结合性能角度（char更快）和节省磁盘空间角度（varchar更小），具体情况还需具体来设计数据库才是妥当的做法
 
 
-### 7、读写分离有哪些解决方案？
+### [7、读写分离有哪些解决方案？](https://github.com/souyunku/DevBooks/blob/master/docs/MySQL/MySQL最新面试题2021年，常见面试题及答案汇总.md#7读写分离有哪些解决方案)  
+
 
 读写分离是依赖于主从复制，而主从复制又是为读写分离服务的。因为主从复制要求`slave`不能写只能读（如果对`slave`执行写操作，那么`show slave status`将会呈现`Slave_SQL_Running=NO`，此时你需要按照前面提到的手动同步一下`slave`）。
 
@@ -134,7 +141,8 @@ CREATE INDEX index_name ON table_name (column);
 **2、** 缺点：类内部方法通过this.xx()方式相互调用时，aop不会进行拦截，需进行特殊处理。
 
 
-### 8、什么是幻读，脏读，不可重复读呢？
+### [8、什么是幻读，脏读，不可重复读呢？](https://github.com/souyunku/DevBooks/blob/master/docs/MySQL/MySQL最新面试题2021年，常见面试题及答案汇总.md#8什么是幻读脏读不可重复读呢)  
+
 
 **1、** 事务A、B交替执行，事务A被事务B干扰到了，因为事务A读取到事务B未提交的数据,这就是**脏读**
 
@@ -143,12 +151,14 @@ CREATE INDEX index_name ON table_name (column);
 **3、** 事务A查询一个范围的结果集，另一个并发事务B往这个范围中插入/删除了数据，并静悄悄地提交，然后事务A再次查询相同的范围，两次读取得到的结果集不一样了，这就是**幻读**。
 
 
-### 9、如果一个表有一列定义为TIMESTAMP，将发生什么？
+### [9、如果一个表有一列定义为TIMESTAMP，将发生什么？](https://github.com/souyunku/DevBooks/blob/master/docs/MySQL/MySQL最新面试题2021年，常见面试题及答案汇总.md#9如果一个表有一列定义为timestamp将发生什么)  
+
 
 每当行被更改时，时间戳字段将获取当前时间戳。
 
 
-### 10、SQL优化的一般步骤是什么，怎么看执行计划（explain），如何理解其中各个字段的含义。
+### [10、SQL优化的一般步骤是什么，怎么看执行计划（explain），如何理解其中各个字段的含义。](https://github.com/souyunku/DevBooks/blob/master/docs/MySQL/MySQL最新面试题2021年，常见面试题及答案汇总.md#10sql优化的一般步骤是什么怎么看执行计划explain如何理解其中各个字段的含义。)  
+
 
 **1、** show status 命令了解各种 sql 的执行频率
 
@@ -181,9 +191,9 @@ CREATE INDEX index_name ON table_name (column);
 
 
 
-## 全部答案，整理好了，直接下载吧
+## [全部答案，整理好了，直接下载吧](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
-### 下载链接：[全部答案，整理好了](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
+### 下载链接：[全部答案，整理好了](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
 
 

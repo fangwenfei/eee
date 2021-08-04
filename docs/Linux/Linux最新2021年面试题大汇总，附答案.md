@@ -6,7 +6,8 @@
 
 
 
-### 1、cp（copy单词缩写，复制功能）
+### [1、cp（copy单词缩写，复制功能）](https://github.com/souyunku/DevBooks/blob/master/docs/Linux/Linux最新2021年面试题大汇总，附答案.md#1cpcopy单词缩写复制功能)  
+
 
 ```
 cp /opt/java/java.log /opt/logs/ ;把java.log 复制到/opt/logs/下
@@ -15,7 +16,8 @@ cp -r /opt/java /opt/logs ;把文件夹及内容复制到logs文件中
 ```
 
 
-### 2、创建文件？创建目录？批量创建?
+### [2、创建文件？创建目录？批量创建?](https://github.com/souyunku/DevBooks/blob/master/docs/Linux/Linux最新2021年面试题大汇总，附答案.md#2创建文件创建目录批量创建)  
+
 
 创建文件:touch 文件名
 
@@ -44,7 +46,8 @@ a   aa/ b   bb/ c   cc/
 ```
 
 
-### 3、通过什么命令指定命令提示符?
+### [3、通过什么命令指定命令提示符?](https://github.com/souyunku/DevBooks/blob/master/docs/Linux/Linux最新2021年面试题大汇总，附答案.md#3通过什么命令指定命令提示符)  
+
 
 **答案：**
 
@@ -73,7 +76,8 @@ a   aa/ b   bb/ c   cc/
 **12、** \v：BASH的版本信息 如export PS1=’[\u@\h\w#]$‘
 
 
-### 4、简述raid0 raid1 raid5 三种工作模式的工作原理及特点
+### [4、简述raid0 raid1 raid5 三种工作模式的工作原理及特点](https://github.com/souyunku/DevBooks/blob/master/docs/Linux/Linux最新2021年面试题大汇总，附答案.md#4简述raid0-raid1-raid5-三种工作模式的工作原理及特点)  
+
 
 RAID，可以把硬盘整合成一个大磁盘，还可以在大磁盘上再分区，放数据
 
@@ -112,7 +116,8 @@ WEB服务器，如果没有太多的数据的话，RAID5,RAID0（单盘）
 我们会根据数据的存储和访问的需求，去匹配对应的RAID级别
 
 
-### 5、Linux 中进程有哪几种状态？在 ps 显示出来的信息中，分别用什么符号表示的？
+### [5、Linux 中进程有哪几种状态？在 ps 显示出来的信息中，分别用什么符号表示的？](https://github.com/souyunku/DevBooks/blob/master/docs/Linux/Linux最新2021年面试题大汇总，附答案.md#5linux-中进程有哪几种状态在-ps-显示出来的信息中分别用什么符号表示的)  
+
 
 **答案：**
 
@@ -148,12 +153,14 @@ X 死掉的进程
 
 
 
-### 6、Shell 脚本是什么？
+### [6、Shell 脚本是什么？](https://github.com/souyunku/DevBooks/blob/master/docs/Linux/Linux最新2021年面试题大汇总，附答案.md#6shell-脚本是什么)  
+
 
 一个 Shell 脚本是一个文本文件，包含一个或多个命令。作为系统管理员，我们经常需要使用多个命令来完成一项任务，我们可以添加这些所有命令在一个文本文件(Shell 脚本)来完成这些日常工作任务。
 
 
-### 7、什么是 Linux 内核？
+### [7、什么是 Linux 内核？](https://github.com/souyunku/DevBooks/blob/master/docs/Linux/Linux最新2021年面试题大汇总，附答案.md#7什么是-linux-内核)  
+
 
 Linux 系统的核心是内核。内核控制着计算机系统上的所有硬件和软件，在必要时分配硬件，并根据需要执行软件。
 
@@ -166,17 +173,20 @@ Linux 系统的核心是内核。内核控制着计算机系统上的所有硬�
 **4、** 文件系统管理
 
 
-### 8、什么是LILO？
+### [8、什么是LILO？](https://github.com/souyunku/DevBooks/blob/master/docs/Linux/Linux最新2021年面试题大汇总，附答案.md#8什么是lilo)  
+
 
 LILO是Linux的引导加载程序。它主要用于将Linux操作系统加载到主内存中，以便它可以开始运行。
 
 
-### 9、实时抓取并显示当前系统中tcp 80端口的网络数据信息，请写出完整操作命令
+### [9、实时抓取并显示当前系统中tcp 80端口的网络数据信息，请写出完整操作命令](https://github.com/souyunku/DevBooks/blob/master/docs/Linux/Linux最新2021年面试题大汇总，附答案.md#9实时抓取并显示当前系统中tcp-80端口的网络数据信息请写出完整操作命令)  
+
 
 tcpdump -nn tcp port 80
 
 
-### 10、什么是GUI？
+### [10、什么是GUI？](https://github.com/souyunku/DevBooks/blob/master/docs/Linux/Linux最新2021年面试题大汇总，附答案.md#10什么是gui)  
+
 
 图形用户界面（Graphical User Interface，简称 GUI，又称图形用户接口）是指采用图形方式显示的计算机操作用户界面。
 
@@ -206,9 +216,9 @@ tcpdump -nn tcp port 80
 
 
 
-## 全部答案，整理好了，直接下载吧
+## [全部答案，整理好了，直接下载吧](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
-### 下载链接：[全部答案，整理好了](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
+### 下载链接：[全部答案，整理好了](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
 
 

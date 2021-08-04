@@ -6,14 +6,16 @@
 
 
 
-### 1、int(20)中20的涵义
+### [1、int(20)中20的涵义](https://github.com/souyunku/DevBooks/blob/master/docs/MySQL/MySQL高级面试题，中级面试题，大汇总.md#1int20中20的涵义)  
+
 
 **1、** 是指显示字符的长度。20表示最大显示宽度为20，但仍占4字节存储，存储范围不变；
 
 **2、** 不影响内部存储，只是影响带 zerofill 定义的 int 时，前面补多少个 0，易于报表展示
 
 
-### 2、为什么索引结构默认使用B+Tree，而不是Hash，二叉树，红黑树？
+### [2、为什么索引结构默认使用B+Tree，而不是Hash，二叉树，红黑树？](https://github.com/souyunku/DevBooks/blob/master/docs/MySQL/MySQL高级面试题，中级面试题，大汇总.md#2为什么索引结构默认使用b+tree而不是hash二叉树红黑树)  
+
 
 B+tree：因为B树不管叶子节点还是非叶子节点，都会保存数据，这样导致在非叶子节点中能保存的指针数量变少（有些资料也称为扇出），指针少的情况下要保存大量数据，只能增加树的高度，导致IO操作变多，查询性能变低；
 
@@ -24,7 +26,8 @@ Hash：虽然可以快速定位，但是没有顺序，IO复杂度高。
 红黑树：树的高度随着数据量增加而增加，IO代价高。
 
 
-### 3、MySQL里记录货币用什么字段类型好
+### [3、MySQL里记录货币用什么字段类型好](https://github.com/souyunku/DevBooks/blob/master/docs/MySQL/MySQL高级面试题，中级面试题，大汇总.md#3mysql里记录货币用什么字段类型好)  
+
 
 NUMERIC和DECIMAL类型被MySQL实现为同样的类型，这在SQL92标准允许。他们被用于保存值，该值的准确精度是极其重要的值，例如与金钱有关的数据。当声明一个类是这些类型之一时，精度和规模的能被(并且通常是)指定。
 
@@ -37,7 +40,8 @@ salary DECIMAL(9,2)
 因此，在这种情况下，能被存储在salary列中的值的范围是从-9999999.99到9999999.99。
 
 
-### 4、数据库自增主键可能遇到什么问题。
+### [4、数据库自增主键可能遇到什么问题。](https://github.com/souyunku/DevBooks/blob/master/docs/MySQL/MySQL高级面试题，中级面试题，大汇总.md#4数据库自增主键可能遇到什么问题。)  
+
 
 使用自增主键对数据库做分库分表，可能出现诸如主键重复等的问题。解决方案的话，简单点的话可以考虑使用UUID哈
 
@@ -46,7 +50,8 @@ salary DECIMAL(9,2)
 自增主键可能用完问题。
 
 
-### 5、从锁的类别角度讲，MySQL都有哪些锁呢？
+### [5、从锁的类别角度讲，MySQL都有哪些锁呢？](https://github.com/souyunku/DevBooks/blob/master/docs/MySQL/MySQL高级面试题，中级面试题，大汇总.md#5从锁的类别角度讲mysql都有哪些锁呢)  
+
 
 从锁的类别上来讲，有共享锁和排他锁。
 
@@ -55,7 +60,8 @@ salary DECIMAL(9,2)
 排他锁: 又叫做写锁。当用户要进行数据的写入时，对数据加上排他锁。排他锁只可以加一个，他和其他的排他锁，共享锁都相斥。
 
 
-### 6、索引失效情况？ ==校验SQL语句是否使用了索引方式为：
+### [6、索引失效情况？ ==校验SQL语句是否使用了索引方式为：](https://github.com/souyunku/DevBooks/blob/master/docs/MySQL/MySQL高级面试题，中级面试题，大汇总.md#6索引失效情况-校验sql语句是否使用了索引方式为：)  
+
 
 **在SQL语句前面使用explain关键字==**
 
@@ -76,7 +82,8 @@ salary DECIMAL(9,2)
 **8、** 当全表扫描速度比索引速度快的时候不会使用索引。
 
 
-### 7、优化特定类型的查询语句
+### [7、优化特定类型的查询语句](https://github.com/souyunku/DevBooks/blob/master/docs/MySQL/MySQL高级面试题，中级面试题，大汇总.md#7优化特定类型的查询语句)  
+
 
 **平时积累吧：**
 
@@ -89,7 +96,8 @@ salary DECIMAL(9,2)
 **4、** explain 分析你的SQL
 
 
-### 8、MySQL数据库作发布系统的存储，一天五万条以上的增量，预计运维三年,怎么优化？
+### [8、MySQL数据库作发布系统的存储，一天五万条以上的增量，预计运维三年,怎么优化？](https://github.com/souyunku/DevBooks/blob/master/docs/MySQL/MySQL高级面试题，中级面试题，大汇总.md#8mysql数据库作发布系统的存储一天五万条以上的增量预计运维三年,怎么优化)  
+
 
 a、设计良好的数据库结构，允许部分数据冗余，尽量避免join查询，提高效率。
 
@@ -106,7 +114,8 @@ f、不经常改动的页面，生成静态页面。
 g、书写高效率的SQL。比如 SELECT * FROM TABEL 改为 SELECT field_1, field_2, field_3 FROM TABLE.
 
 
-### 9、MyISAM表格将在哪里存储，并且还提供其存储格式？
+### [9、MyISAM表格将在哪里存储，并且还提供其存储格式？](https://github.com/souyunku/DevBooks/blob/master/docs/MySQL/MySQL高级面试题，中级面试题，大汇总.md#9myisam表格将在哪里存储并且还提供其存储格式)  
+
 
 每个MyISAM表格以三种格式存储在磁盘上：
 
@@ -117,7 +126,8 @@ g、书写高效率的SQL。比如 SELECT * FROM TABEL 改为 SELECT field_1, fi
 索引文件具有“.MYI”（MYIndex）扩展名
 
 
-### 10、为什么要优化
+### [10、为什么要优化](https://github.com/souyunku/DevBooks/blob/master/docs/MySQL/MySQL高级面试题，中级面试题，大汇总.md#10为什么要优化)  
+
 
 **1、** 系统的吞吐量瓶颈往往出现在数据库的访问速度上
 
@@ -151,9 +161,9 @@ g、书写高效率的SQL。比如 SELECT * FROM TABEL 改为 SELECT field_1, fi
 
 
 
-## 全部答案，整理好了，直接下载吧
+## [全部答案，整理好了，直接下载吧](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
-### 下载链接：[全部答案，整理好了](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
+### 下载链接：[全部答案，整理好了](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
 
 

@@ -6,7 +6,8 @@
 
 
 
-### 1、模块化开发怎么做？
+### [1、模块化开发怎么做？](https://github.com/souyunku/DevBooks/blob/master/docs/JavaScript/JavaScript最新面试题及答案附答案汇总.md#1模块化开发怎么做)  
+
 
 立即执行函数,不暴露私有成员
 
@@ -27,7 +28,8 @@ var module1 = (function(){
 ```
 
 
-### 2、vue、react、angular
+### [2、vue、react、angular](https://github.com/souyunku/DevBooks/blob/master/docs/JavaScript/JavaScript最新面试题及答案附答案汇总.md#2vuereactangular)  
+
 
 **`Vue.js`**
 
@@ -42,7 +44,8 @@ var module1 = (function(){
 `React` 仅仅是 `VIEW` 层是`facebook`公司。推出的一个用于构建`UI`的一个库，能够实现服务器端的渲染。用了`virtual dom`，所以性能很好。
 
 
-### 3、什么是 `async/await` 及其如何工作？
+### [3、什么是 `async/await` 及其如何工作？](https://github.com/souyunku/DevBooks/blob/master/docs/JavaScript/JavaScript最新面试题及答案附答案汇总.md#3什么是-async/await-及其如何工作)  
+
 
 `async/await`是 JS 中编写异步或非阻塞代码的新方法。它建立在**Promises**之上，让异步代码的可读性和简洁度都更高。
 
@@ -118,7 +121,8 @@ await getTwo(); // 2
 ```
 
 
-### 4、实现异步的方式有哪些？
+### [4、实现异步的方式有哪些？](https://github.com/souyunku/DevBooks/blob/master/docs/JavaScript/JavaScript最新面试题及答案附答案汇总.md#4实现异步的方式有哪些)  
+
 
 **1、** 回调函数模式：将需要异步执行的函数作为回调函数执行，其缺点在于处理复杂逻辑异步逻辑时，会造成回调地狱(回调嵌套层数太多，代码结构混乱)；
 
@@ -131,7 +135,8 @@ await getTwo(); // 2
 **5、** async/await(ES7)：基于`Promise`实现的异步函数； （6）利用生成器实现。
 
 
-### 5、JavaScript有几种类型的值？，你能画一下他们的内存图吗？
+### [5、JavaScript有几种类型的值？，你能画一下他们的内存图吗？](https://github.com/souyunku/DevBooks/blob/master/docs/JavaScript/JavaScript最新面试题及答案附答案汇总.md#5javascript有几种类型的值你能画一下他们的内存图吗)  
+
 
 **1、** 栈：原始数据类型（`Undefined`，`Null`，`Boolean`，`Numbe`r、`String`）
 
@@ -148,12 +153,14 @@ await getTwo(); // 2
 ![33_1.png][33_1.png]
 
 
-### 6、介绍js的基本数据类型
+### [6、介绍js的基本数据类型](https://github.com/souyunku/DevBooks/blob/master/docs/JavaScript/JavaScript最新面试题及答案附答案汇总.md#6介绍js的基本数据类型)  
+
 
 `Undefined`、`Null`、`Boolean`、`Number`、`String`
 
 
-### 7、eval是做什么的？
+### [7、eval是做什么的？](https://github.com/souyunku/DevBooks/blob/master/docs/JavaScript/JavaScript最新面试题及答案附答案汇总.md#7eval是做什么的)  
+
 
 **1、** 它的功能是把对应的字符串解析成`JS`代码并运行
 
@@ -162,7 +169,8 @@ await getTwo(); // 2
 **3、** 由`JSON`字符串转换为JSON对象的时候可以用`eval，var obj =eval('('+ str +')')`
 
 
-### 8、undefined 和 null 有什么区别？
+### [8、undefined 和 null 有什么区别？](https://github.com/souyunku/DevBooks/blob/master/docs/JavaScript/JavaScript最新面试题及答案附答案汇总.md#8undefined-和-null-有什么区别)  
+
 
 在理解 `undefined` 和 `null` 的差异之前，我们先来看看它们的相似点。
 
@@ -220,14 +228,16 @@ console.log(null === undefined); // false
 ```
 
 
-### 9、事件委托？有什么好处?
+### [9、事件委托？有什么好处?](https://github.com/souyunku/DevBooks/blob/master/docs/JavaScript/JavaScript最新面试题及答案附答案汇总.md#9事件委托有什么好处)  
+
 
 利用冒泡的原理，把事件加到父级上，触发执行效果
 
 好处：新添加的元素还会有之前的事件；提高性能。
 
 
-### 10、什么是AJAX？如何实现？
+### [10、什么是AJAX？如何实现？](https://github.com/souyunku/DevBooks/blob/master/docs/JavaScript/JavaScript最新面试题及答案附答案汇总.md#10什么是ajax如何实现)  
+
 
 `ajax`是一种能够实现局部网页刷新的技术，可以使网页异步刷新。
 
@@ -289,9 +299,9 @@ xhttp.onreadystatechange = function() {
 
 
 
-## 全部答案，整理好了，直接下载吧
+## [全部答案，整理好了，直接下载吧](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
-### 下载链接：[全部答案，整理好了](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
+### 下载链接：[全部答案，整理好了](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
 
 

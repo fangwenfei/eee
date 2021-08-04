@@ -6,19 +6,22 @@
 
 
 
-### 1、给出在STAR SCHEMA中的两种表及它们分别含有的数据
+### [1、给出在STAR SCHEMA中的两种表及它们分别含有的数据](https://github.com/souyunku/DevBooks/blob/master/docs/Oracle/Oracle最新2021年面试题附答案解析，大汇总.md#1给出在star-schema中的两种表及它们分别含有的数据)  
+
 
 Fact tables 和dimension tables. fact table包含大量的主要的信息而dimension tables 存放对fact table 某些属性描述的信息
 
 
-### 2、如何生成explain plan?
+### [2、如何生成explain plan?](https://github.com/souyunku/DevBooks/blob/master/docs/Oracle/Oracle最新2021年面试题附答案解析，大汇总.md#2如何生成explain-plan)  
+
 
 运行utlxplan.sql. 建立plan 表
 
 针对特定SQL语句，使用 explain plan set statement_id = 'tst1' into plan_table运行utlxplp.sql 或 utlxpls.sql察看explain plan
 
 
-### 3、Oracle中function和procedure的区别？
+### [3、Oracle中function和procedure的区别？](https://github.com/souyunku/DevBooks/blob/master/docs/Oracle/Oracle最新2021年面试题附答案解析，大汇总.md#3oracle中function和procedure的区别)  
+
 
 **1、** 可以理解函数是存储过程的一种
 
@@ -29,7 +32,8 @@ Fact tables 和dimension tables. fact table包含大量的主要的信息而dime
 **4、** 在sql数据操纵语句中只能调用函数而不能调用存储过程
 
 
-### 4、如何使用Oracle的游标？
+### [4、如何使用Oracle的游标？](https://github.com/souyunku/DevBooks/blob/master/docs/Oracle/Oracle最新2021年面试题附答案解析，大汇总.md#4如何使用oracle的游标)  
+
 
 **1、** oracle中的游标分为显示游标和隐式游标
 
@@ -38,12 +42,14 @@ Fact tables 和dimension tables. fact table包含大量的主要的信息而dime
 **3、** 显式游标的操作：打开游标、操作游标、关闭游标；PL/SQL隐式地打开SQL游标，并在它内部处理SQL语句，然后关闭它
 
 
-### 5、解释什么是Oracle Forms?
+### [5、解释什么是Oracle Forms?](https://github.com/souyunku/DevBooks/blob/master/docs/Oracle/Oracle最新2021年面试题附答案解析，大汇总.md#5解释什么是oracle-forms)  
+
 
 Oracle Forms是用于创建与Oracle数据库交互的软件产品。它有一个IDE，包括一个属性表，对象导航器和使用PL/SQL的代码编辑器。
 
 
-### 6、集合操作符
+### [6、集合操作符](https://github.com/souyunku/DevBooks/blob/master/docs/Oracle/Oracle最新2021年面试题附答案解析，大汇总.md#6集合操作符)  
+
 
 **1、** Union ： 不包含重复值，默认按第一个查询的第一列升序排列。
 
@@ -52,7 +58,8 @@ Oracle Forms是用于创建与Oracle数据库交互的软件产品。它有一�
 **3、** Minus 不包含重复值，不排序。
 
 
-### 7、说下 oracle的锁又几种,定义分别是什么;
+### [7、说下 oracle的锁又几种,定义分别是什么;](https://github.com/souyunku/DevBooks/blob/master/docs/Oracle/Oracle最新2021年面试题附答案解析，大汇总.md#7说下-oracle的锁又几种,定义分别是什么;)  
+
 
 **1、** 行共享锁 (ROW SHARE)
 
@@ -65,17 +72,20 @@ Oracle Forms是用于创建与Oracle数据库交互的软件产品。它有一�
 **5、** 排他锁(EXCLUSIVE)
 
 
-### 8、提到一个项目的“验证LOV”属性?提到lov和list项目有什么区别?
+### [8、提到一个项目的“验证LOV”属性?提到lov和list项目有什么区别?](https://github.com/souyunku/DevBooks/blob/master/docs/Oracle/Oracle最新2021年面试题附答案解析，大汇总.md#8提到一个项目的“验证lov属性提到lov和list项目有什么区别)  
+
 
 当验证的LOV设置为True时，Oracle Forms将文本项的当前值与LOV中显示的第一列中的值进行比较。LOV是列表项的属性。列表项只能有一列，而lov可以有一个或多个列。
 
 
-### 9、FACT Table上需要建立何种索引？
+### [9、FACT Table上需要建立何种索引？](https://github.com/souyunku/DevBooks/blob/master/docs/Oracle/Oracle最新2021年面试题附答案解析，大汇总.md#9fact-table上需要建立何种索引)  
+
 
 位图索引（bitmap index）
 
 
-### 10、pctused and pctfree 表示什么含义有什么作用？
+### [10、pctused and pctfree 表示什么含义有什么作用？](https://github.com/souyunku/DevBooks/blob/master/docs/Oracle/Oracle最新2021年面试题附答案解析，大汇总.md#10pctused-and-pctfree-表示什么含义有什么作用)  
+
 
 pctused与pctfree控制数据块是否出现在freelist中,pctfree控制数据块中保留用于update的空间,当数据块中的free space小于pctfree设置的空间时，该数据块从freelist中去掉,当块由于dml操作free space大于pct_used设置的空间时,该数据库块将被添加在freelist链表中。
 
@@ -101,9 +111,9 @@ pctused与pctfree控制数据块是否出现在freelist中,pctfree控制数据�
 
 
 
-## 全部答案，整理好了，直接下载吧
+## [全部答案，整理好了，直接下载吧](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
-### 下载链接：[全部答案，整理好了](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
+### 下载链接：[全部答案，整理好了](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
 
 

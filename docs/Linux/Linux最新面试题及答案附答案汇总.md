@@ -6,7 +6,8 @@
 
 
 
-### 1、Unix和Linux有什么区别？
+### [1、Unix和Linux有什么区别？](https://github.com/souyunku/DevBooks/blob/master/docs/Linux/Linux最新面试题及答案附答案汇总.md#1unix和linux有什么区别)  
+
 
 Linux和Unix都是功能强大的操作系统，都是应用广泛的服务器操作系统，有很多相似之处，甚至有一部分人错误地认为Unix和Linux操作系统是一样的，然而，事实并非如此，以下是两者的区别。
 
@@ -33,7 +34,8 @@ Linux的用户群体很广泛，个人和企业均可使用；Unix的用户群�
 相比于Unix操作系统，Linux操作系统更受广大计算机爱好者的喜爱，主要原因是Linux操作系统具有Unix操作系统的全部功能，并且能够在普通PC计算机上实现全部的Unix特性，开源免费的特性，更容易普及使用！
 
 
-### 2、如何用awk查看第2行倒数第3个字段?
+### [2、如何用awk查看第2行倒数第3个字段?](https://github.com/souyunku/DevBooks/blob/master/docs/Linux/Linux最新面试题及答案附答案汇总.md#2如何用awk查看第2行倒数第3个字段)  
+
 
 ```
 ?  apache awk 'NR==3{print $(NF-2)}' story
@@ -44,7 +46,8 @@ They sprang upon it at the same time.
 The lion said to the bear, “I caught this kid first, and so this is mine.”
 ```
 
-### 3、哪一个bash内置命令能够进行数学运算。
+### [3、哪一个bash内置命令能够进行数学运算。](https://github.com/souyunku/DevBooks/blob/master/docs/Linux/Linux最新面试题及答案附答案汇总.md#3哪一个bash内置命令能够进行数学运算。)  
+
 
 **答案：**
 
@@ -60,7 +63,8 @@ let c=a+b
 ```
 
 
-### 4、less （lese：较少的意思）分页查看文件命令（可以快速定位到最后一页）
+### [4、less （lese：较少的意思）分页查看文件命令（可以快速定位到最后一页）](https://github.com/souyunku/DevBooks/blob/master/docs/Linux/Linux最新面试题及答案附答案汇总.md#4less-lese：较少的意思分页查看文件命令可以快速定位到最后一页)  
+
 
 ```
 less -m 显示类似于more命令的百分比。
@@ -76,7 +80,8 @@ u：后退半页
 ```
 
 
-### 5、Linux 性能调优都有哪几种方法？
+### [5、Linux 性能调优都有哪几种方法？](https://github.com/souyunku/DevBooks/blob/master/docs/Linux/Linux最新面试题及答案附答案汇总.md#5linux-性能调优都有哪几种方法)  
+
 
 **1、** Disabling daemons (关闭 daemons)。
 
@@ -95,7 +100,8 @@ u：后退半页
 **8、** Tuning the network subsystem（网络子系统调优)。
 
 
-### 6、如何规划一台 Linux 主机，步骤是怎样？
+### [6、如何规划一台 Linux 主机，步骤是怎样？](https://github.com/souyunku/DevBooks/blob/master/docs/Linux/Linux最新面试题及答案附答案汇总.md#6如何规划一台-linux-主机步骤是怎样)  
+
 
 确定机器是做什么用的，比如是做 WEB 、DB、还是游戏服务器。
 
@@ -107,7 +113,8 @@ u：后退半页
 **2、** 需要优化系统的哪些参数，需要创建哪些用户等等的。
 
 
-### 7、复制文件
+### [7、复制文件](https://github.com/souyunku/DevBooks/blob/master/docs/Linux/Linux最新面试题及答案附答案汇总.md#7复制文件)  
+
 
 语法: cp source target
 
@@ -122,7 +129,8 @@ a c
 ```
 
 
-### 8、什么是网站数据库注入？
+### [8、什么是网站数据库注入？](https://github.com/souyunku/DevBooks/blob/master/docs/Linux/Linux最新面试题及答案附答案汇总.md#8什么是网站数据库注入)  
+
 
 **1、** 由于程序员的水平及经验参差不齐，大部分程序员在编写代码的时候，没有对用户输入数据的合法性进行判断。
 
@@ -135,7 +143,8 @@ a c
 数据库网页端注入这种，可以考虑使用 nginx_waf 做过滤与预防。
 
 
-### 9、实时监测进程
+### [9、实时监测进程](https://github.com/souyunku/DevBooks/blob/master/docs/Linux/Linux最新面试题及答案附答案汇总.md#9实时监测进程)  
+
 
 与ps相比，top可以实时监控进程信息。
 
@@ -144,7 +153,8 @@ a c
 平均负载有3个值:最近1分钟的、最近5分钟的和最近15分钟的平均负载。值越大说明系统 的负载越高。由于进程短期的突发性活动，出现最近1分钟的高负载值也很常见，但如果近15分 钟内的平均负载都很高，就说明系统可能有问题。
 
 
-### 10、查看文件类型?字符编码？
+### [10、查看文件类型?字符编码？](https://github.com/souyunku/DevBooks/blob/master/docs/Linux/Linux最新面试题及答案附答案汇总.md#10查看文件类型字符编码)  
+
 
 语法: file destination
 
@@ -179,9 +189,9 @@ tomcat: ASCII text
 
 
 
-## 全部答案，整理好了，直接下载吧
+## [全部答案，整理好了，直接下载吧](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
-### 下载链接：[全部答案，整理好了](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
+### 下载链接：[全部答案，整理好了](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
 
 

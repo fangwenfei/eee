@@ -6,7 +6,8 @@
 
 
 
-### 1、说说核心的配置有哪些？
+### [1、说说核心的配置有哪些？](https://github.com/souyunku/DevBooks/blob/master/docs/Dubbo/Dubbo最新2021年面试题大汇总，附答案.md#1说说核心的配置有哪些)  
+
 | 标签 | 用途 | 解释 |
 | --- | --- | --- |
 | [dubbo:service/]() | 服务配置 | 用于暴露一个服务，定义服务的元信息，一个服务可以用多个协议暴露，一个服务也可以注册到多个注册中心 |
@@ -25,7 +26,8 @@
 `如果是SpringBoot项目就只需要注解，或者开Application配置文件！！！`
 
 
-### 2、Dubbo 支持哪些协议，每种协议的应用场景，优缺点？
+### [2、Dubbo 支持哪些协议，每种协议的应用场景，优缺点？](https://github.com/souyunku/DevBooks/blob/master/docs/Dubbo/Dubbo最新2021年面试题大汇总，附答案.md#2dubbo-支持哪些协议每种协议的应用场景优缺点)  
+
 
 **1、** dubbo：单一长连接和 NIO 异步通讯，适合大并发小数据量的服务调用，以及消费者远大于提供者。传输协议 TCP，异步， Hessian 序列化；
 
@@ -40,12 +42,14 @@
 **6、** Redis：基于 Redis 实现的 RPC 协议
 
 
-### 3、服务提供者能实现失效踢出是什么原理？
+### [3、服务提供者能实现失效踢出是什么原理？](https://github.com/souyunku/DevBooks/blob/master/docs/Dubbo/Dubbo最新2021年面试题大汇总，附答案.md#3服务提供者能实现失效踢出是什么原理)  
+
 
 服务失效踢出基于zookeeper的临时节点原理。
 
 
-### 4、PRC架构组件
+### [4、PRC架构组件](https://github.com/souyunku/DevBooks/blob/master/docs/Dubbo/Dubbo最新2021年面试题大汇总，附答案.md#4prc架构组件)  
+
 
 一个基本的RPC架构里面应该至少包含以下4个组件：
 
@@ -80,12 +84,14 @@
 `而RPC框架的实现目标则是将上面的第2-10步完好地封装起来，也就是把调用、编码/解码的过程给封装起来，让用户感觉上像调用本地服务一样的调用远程服务。`
 
 
-### 5、服务调用是阻塞的吗？
+### [5、服务调用是阻塞的吗？](https://github.com/souyunku/DevBooks/blob/master/docs/Dubbo/Dubbo最新2021年面试题大汇总，附答案.md#5服务调用是阻塞的吗)  
+
 
 默认是阻塞的，可以异步调用，没有返回值的可以这么做。
 
 
-### 6、dubbo 服务集群配置（集群容错模式）
+### [6、dubbo 服务集群配置（集群容错模式）](https://github.com/souyunku/DevBooks/blob/master/docs/Dubbo/Dubbo最新2021年面试题大汇总，附答案.md#6dubbo-服务集群配置集群容错模式)  
+
 
 在集群调用失败时， Dubbo 提供了多种容错方案，缺省为 failover 重试。可以自行扩展集群容错策略
 
@@ -158,7 +164,8 @@ Forking Cluster并行调用多个服务器，只要一个成功即返回。通�
 ```
 
 
-### 7、Dubbo 核心功能有哪些？
+### [7、Dubbo 核心功能有哪些？](https://github.com/souyunku/DevBooks/blob/master/docs/Dubbo/Dubbo最新2021年面试题大汇总，附答案.md#7dubbo-核心功能有哪些)  
+
 
 **1、** Remoting：网络通信框架，提供对多种NIO框架抽象封装，包括“同步转异步”和“请求-响应”模式的信息交换方式。
 
@@ -167,7 +174,8 @@ Forking Cluster并行调用多个服务器，只要一个成功即返回。通�
 **3、** Registry：服务注册，基于注册中心目录服务，使服务消费方能动态的查找服务提供方，使地址透明，使服务提供方可以平滑增加或减少机器。
 
 
-### 8、为什么要用Dubbo？
+### [8、为什么要用Dubbo？](https://github.com/souyunku/DevBooks/blob/master/docs/Dubbo/Dubbo最新2021年面试题大汇总，附答案.md#8为什么要用dubbo)  
+
 
 随着服务化的进一步发展，服务越来越多，服务之间的调用和依赖关系也越来越复杂，诞生了面向服务的架构体系(SOA)，
 
@@ -176,7 +184,8 @@ Forking Cluster并行调用多个服务器，只要一个成功即返回。通�
 就这样为分布式系统的服务治理框架就出现了，Dubbo也就这样产生了。
 
 
-### 9、服务调用超时问题怎么解决
+### [9、服务调用超时问题怎么解决](https://github.com/souyunku/DevBooks/blob/master/docs/Dubbo/Dubbo最新2021年面试题大汇总，附答案.md#9服务调用超时问题怎么解决)  
+
 
 dubbo在调用服务不成功时，默认是会重试两次的。这样在服务端的处理时间超过了设定的超时时间时，就会有重复请求，比如在发邮件时，可能就会发出多份重复邮件，执行注册请求时，就会插入多条重复的注册数据，那么怎么解决超时问题呢？如下
 
@@ -187,7 +196,8 @@ dubbo在调用服务不成功时，默认是会重试两次的。这样在服务
 当然Dubbo的重试机制其实是非常好的QOS保证，它的路由机制，是会帮你把超时的请求路由到其他机器上，而不是本机尝试，所以 dubbo的重试机器也能一定程度的保证服务的质量。但是请一定要综合线上的访问情况，给出综合的评估。
 
 
-### 10、dubbo 通信协议 dubbo 协议为什么要消费者比提供者个数多？
+### [10、dubbo 通信协议 dubbo 协议为什么要消费者比提供者个数多？](https://github.com/souyunku/DevBooks/blob/master/docs/Dubbo/Dubbo最新2021年面试题大汇总，附答案.md#10dubbo-通信协议-dubbo-协议为什么要消费者比提供者个数多)  
+
 
 因 dubbo 协议采用单一长连接，假设网络为千兆网卡(1024Mbit=128MByte)，根据测试经验数据每条连接最多只能压满 7MByte(不同的环境可能不一样，供参考)，理论上 1 个服务提供者需要 20个服务消费者才能压满网卡。
 
@@ -216,9 +226,9 @@ dubbo在调用服务不成功时，默认是会重试两次的。这样在服务
 
 
 
-## 全部答案，整理好了，直接下载吧
+## [全部答案，整理好了，直接下载吧](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
-### 下载链接：[全部答案，整理好了](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
+### 下载链接：[全部答案，整理好了](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
 
 

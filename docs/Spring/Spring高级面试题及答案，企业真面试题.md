@@ -6,12 +6,14 @@
 
 
 
-### 1、如何在 spring 中启动注解装配？
+### [1、如何在 spring 中启动注解装配？](https://github.com/souyunku/DevBooks/blob/master/docs/Spring/Spring高级面试题及答案，企业真面试题.md#1如何在-spring-中启动注解装配)  
+
 
 默认情况下，Spring 容器中未打开注解装配。因此，要使用基于注解装配，我们必须通过配置 `<context：annotation-config/>` 元素在 Spring 配置文件中启用它。
 
 
-### 2、dubbo服务注册与发现原理
+### [2、dubbo服务注册与发现原理](https://github.com/souyunku/DevBooks/blob/master/docs/Spring/Spring高级面试题及答案，企业真面试题.md#2dubbo服务注册与发现原理)  
+
 
 ![](https://gitee.com/souyunkutech/souyunku-home/raw/master/images/souyunku-web/2020/5/2/01/44/45_5.png#alt=45%5C_5.png)
 
@@ -32,7 +34,8 @@
 **6、** 服务消费者和提供者,在内存中累计调⽤次数和调⽤时间,定时每分钟发送⼀次统计数据到监控中⼼。
 
 
-### 3、列举 spring 支持的事务管理类型
+### [3、列举 spring 支持的事务管理类型](https://github.com/souyunku/DevBooks/blob/master/docs/Spring/Spring高级面试题及答案，企业真面试题.md#3列举-spring-支持的事务管理类型)  
+
 
 Spring 支持两种类型的事务管理：
 
@@ -41,7 +44,8 @@ Spring 支持两种类型的事务管理：
 **2、** 声明式事务管理：在此，事务管理与业务代码分离。仅使用注解或基于 XML 的配置来管理事务。
 
 
-### 4、如何解决POST请求中文乱码问题，GET的又如何处理呢？
+### [4、如何解决POST请求中文乱码问题，GET的又如何处理呢？](https://github.com/souyunku/DevBooks/blob/master/docs/Spring/Spring高级面试题及答案，企业真面试题.md#4如何解决post请求中文乱码问题get的又如何处理呢)  
+
 
 **解决post请求乱码问题：**
 
@@ -77,24 +81,28 @@ String userName = new String(request.getParamter(“userName”).getBytes(“ISO
 ISO8859-1是tomcat默认编码，需要将tomcat编码后的内容按utf-8编码。
 
 
-### 5、@PathVariable和@RequestParam的区别
+### [5、@PathVariable和@RequestParam的区别](https://github.com/souyunku/DevBooks/blob/master/docs/Spring/Spring高级面试题及答案，企业真面试题.md#5@pathvariable和@requestparam的区别)  
+
 
 请求路径上有个id的变量值，可以通过@PathVariable来获取 [@RequestMapping(value ](/RequestMapping(value ) = “/page/{id}”, method = RequestMethod.GET)
 
 @RequestParam用来获得静态的URL请求入参 spring注解时action里用到。
 
 
-### 6、SpringBoot多数据源拆分的思路
+### [6、SpringBoot多数据源拆分的思路](https://github.com/souyunku/DevBooks/blob/master/docs/Spring/Spring高级面试题及答案，企业真面试题.md#6springboot多数据源拆分的思路)  
+
 
 先在properties配置文件中配置两个数据源，创建分包mapper，使用@ConfigurationProperties读取properties中的配置，使用@MapperScan注册到对应的mapper包中
 
 
-### 7、分布式配置中心有那些框架？
+### [7、分布式配置中心有那些框架？](https://github.com/souyunku/DevBooks/blob/master/docs/Spring/Spring高级面试题及答案，企业真面试题.md#7分布式配置中心有那些框架)  
+
 
 Apollo、zookeeper、springcloud config。
 
 
-### 8、Spring支持的事务管理类型
+### [8、Spring支持的事务管理类型](https://github.com/souyunku/DevBooks/blob/master/docs/Spring/Spring高级面试题及答案，企业真面试题.md#8spring支持的事务管理类型)  
+
 
 Spring支持两种类型的事务管理：
 
@@ -103,7 +111,8 @@ Spring支持两种类型的事务管理：
 **2、** 声明式事务管理：这意味着你可以将业务代码和事务管理分离，你只需用注解和XML配置来管理事务。
 
 
-### 9、为什么我们需要 spring-boot-maven-plugin?
+### [9、为什么我们需要 spring-boot-maven-plugin?](https://github.com/souyunku/DevBooks/blob/master/docs/Spring/Spring高级面试题及答案，企业真面试题.md#9为什么我们需要-spring-boot-maven-plugin)  
+
 
 spring-boot-maven-plugin 提供了一些像 jar 一样打包或者运行应用程序的命令。
 
@@ -116,7 +125,8 @@ spring-boot：start 和 spring-boot：stop 管理 SpringBoot 应用程序的生�
 spring-boot:build-info 生成执行器可以使用的构造信息。
 
 
-### 10、常用网关框架有那些？
+### [10、常用网关框架有那些？](https://github.com/souyunku/DevBooks/blob/master/docs/Spring/Spring高级面试题及答案，企业真面试题.md#10常用网关框架有那些)  
+
 
 Nginx、Zuul、Gateway
 
@@ -146,9 +156,9 @@ Nginx、Zuul、Gateway
 
 
 
-## 全部答案，整理好了，直接下载吧
+## [全部答案，整理好了，直接下载吧](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
-### 下载链接：[全部答案，整理好了](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
+### 下载链接：[全部答案，整理好了](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
 
 

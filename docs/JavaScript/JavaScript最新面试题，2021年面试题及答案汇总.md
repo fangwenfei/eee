@@ -6,7 +6,8 @@
 
 
 
-### 1、什么是作用域？
+### [1、什么是作用域？](https://github.com/souyunku/DevBooks/blob/master/docs/JavaScript/JavaScript最新面试题，2021年面试题及答案汇总.md#1什么是作用域)  
+
 
 JavaScript 中的作用域是我们可以有效访问变量或函数的区域。JS 有三种类型的作用域：**全局作用域**、**函数作用域**和**块作用域(ES6)**。
 
@@ -79,7 +80,8 @@ outer(); // Hello World
 ```
 
 
-### 2、ajax 和 jsonp ？
+### [2、ajax 和 jsonp ？](https://github.com/souyunku/DevBooks/blob/master/docs/JavaScript/JavaScript最新面试题，2021年面试题及答案汇总.md#2ajax-和-jsonp-)  
+
 
 **ajax和jsonp的区别：**
 
@@ -91,12 +93,14 @@ jsonp的核心则是动态添加
 
 
 
-### 3、js延迟加载的方式有哪些？
+### [3、js延迟加载的方式有哪些？](https://github.com/souyunku/DevBooks/blob/master/docs/JavaScript/JavaScript最新面试题，2021年面试题及答案汇总.md#3js延迟加载的方式有哪些)  
+
 
 `defer`和`async`、动态创建`DOM`方式（用得最多）、按需异步载入`js`
 
 
-### 4、Object.seal 和 Object.freeze 方法之间有什么区别？
+### [4、Object.seal 和 Object.freeze 方法之间有什么区别？](https://github.com/souyunku/DevBooks/blob/master/docs/JavaScript/JavaScript最新面试题，2021年面试题及答案汇总.md#4objectseal-和-objectfreeze-方法之间有什么区别)  
+
 
 **Object.freeze()**
 
@@ -123,7 +127,8 @@ Object.seal()方法封闭一个对象，阻止添加新属性并将所有现有�
 - `Object.seal`方法生成的密封对象，如果属性是可写的，那么可以修改属性值。`* Object.freeze`方法生成的冻结对象，属性都是不可写的，也就是属性值无法更改。
 
 
-### 5、Jq中如何实现多库并存?
+### [5、Jq中如何实现多库并存?](https://github.com/souyunku/DevBooks/blob/master/docs/JavaScript/JavaScript最新面试题，2021年面试题及答案汇总.md#5jq中如何实现多库并存)  
+
 
 Noconfict 多库共存就是“$ ”符号的冲突。
 
@@ -146,7 +151,8 @@ $j('\#id').hide();
 通过传递一个函数作为jQuery的参数，因此把这个函数声明为就绪函数。 我们声明$为就绪函数的参数，因为jQuery总是吧jQuery对象的引用作为第一个参数传递，所以就保证了函数的执行。
 
 
-### 6、怎么理解Promise对象？
+### [6、怎么理解Promise对象？](https://github.com/souyunku/DevBooks/blob/master/docs/JavaScript/JavaScript最新面试题，2021年面试题及答案汇总.md#6怎么理解promise对象)  
+
 
 **`Promise`对象有如下两个特点：**
 
@@ -169,7 +175,8 @@ $j('\#id').hide();
 **2、** `Promise.prototype.catch()`：`.then(null, rejection)`或`.then(undefined, rejection)`的别名，用于指定发生错误时的回调函数。
 
 
-### 7、`in` 运算符和 `Object.hasOwnProperty` 方法有什么区别？
+### [7、`in` 运算符和 `Object.hasOwnProperty` 方法有什么区别？](https://github.com/souyunku/DevBooks/blob/master/docs/JavaScript/JavaScript最新面试题，2021年面试题及答案汇总.md#7in-运算符和-objecthasownproperty-方法有什么区别)  
+
 
 **hasOwnPropert方法**
 
@@ -201,14 +208,16 @@ console.log(obj.hasOwnProperty('name')) // true
 可以看到`in`运算符会检查它或者其原型链是否包含具有指定名称的属性。
 
 
-### 8、同步和异步的区别?
+### [8、同步和异步的区别?](https://github.com/souyunku/DevBooks/blob/master/docs/JavaScript/JavaScript最新面试题，2021年面试题及答案汇总.md#8同步和异步的区别)  
+
 
 **1、** 同步：浏览器访问服务器请求，用户看得到页面刷新，重新发请求,等请求完，页面刷新，新内容出现，用户看到新内容,进行下一步操作
 
 **2、** 异步：浏览器访问服务器请求，用户正常操作，浏览器后端进行请求。等请求完，页面不刷新，新内容也会出现，用户看到新内容
 
 
-### 9、说说严格模式的限制
+### [9、说说严格模式的限制](https://github.com/souyunku/DevBooks/blob/master/docs/JavaScript/JavaScript最新面试题，2021年面试题及答案汇总.md#9说说严格模式的限制)  
+
 
 **1、** 变量必须声明后再使用
 
@@ -219,7 +228,8 @@ console.log(obj.hasOwnProperty('name')) // true
 **4、** 禁止`this`指向全局对象
 
 
-### 10、常见兼容性问题？
+### [10、常见兼容性问题？](https://github.com/souyunku/DevBooks/blob/master/docs/JavaScript/JavaScript最新面试题，2021年面试题及答案汇总.md#10常见兼容性问题)  
+
 
 **1、** `png24`位的图片在iE6浏览器上出现背景，解决方案是做成`PNG8`
 
@@ -260,9 +270,9 @@ body,ul,li,ol,dl,dt,dd,form,input,h1,h2,h3,h4,h5,h6,p{
 
 
 
-## 全部答案，整理好了，直接下载吧
+## [全部答案，整理好了，直接下载吧](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
-### 下载链接：[全部答案，整理好了](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
+### 下载链接：[全部答案，整理好了](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
 
 

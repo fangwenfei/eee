@@ -6,7 +6,8 @@
 
 
 
-### 1、MySQL数据库cpu飙升的话，要怎么处理呢？
+### [1、MySQL数据库cpu飙升的话，要怎么处理呢？](https://github.com/souyunku/DevBooks/blob/master/docs/MySQL/MySQL最新面试题，2021年面试题及答案汇总.md#1mysql数据库cpu飙升的话要怎么处理呢)  
+
 
 **排查过程：**
 
@@ -29,7 +30,8 @@
 也有可能是每个 sql 消耗资源并不多，但是突然之间，有大量的 session 连进来导致 cpu 飙升，这种情况就需要跟应用一起来分析为何连接数会激增，再做出相应的调整，比如说限制连接数等
 
 
-### 2、说说对SQL语句优化有哪些方法？（选择几条）
+### [2、说说对SQL语句优化有哪些方法？（选择几条）](https://github.com/souyunku/DevBooks/blob/master/docs/MySQL/MySQL最新面试题，2021年面试题及答案汇总.md#2说说对sql语句优化有哪些方法选择几条)  
+
 
 **1、** Where子句中：where表之间的连接必须写在其他Where条件之前，那些可以过滤掉最大数量记录的条件必须写在Where子句的末尾.HAVING最后。
 
@@ -46,7 +48,8 @@
 **7、** 应尽量避免在 where 子句中对字段进行表达式操作，这将导致引擎放弃使用索引而进行全表扫描
 
 
-### 3、Innodb的事务与日志的实现方式
+### [3、Innodb的事务与日志的实现方式](https://github.com/souyunku/DevBooks/blob/master/docs/MySQL/MySQL最新面试题，2021年面试题及答案汇总.md#3innodb的事务与日志的实现方式)  
+
 
 **有多少种日志**
 
@@ -67,14 +70,16 @@ innodb两种日志redo和undo。
 **3、** 如果有 commit 记录，就用 redo 前滚到该事务完成时并提交掉。
 
 
-### 4、非聚簇索引一定会回表查询吗？
+### [4、非聚簇索引一定会回表查询吗？](https://github.com/souyunku/DevBooks/blob/master/docs/MySQL/MySQL最新面试题，2021年面试题及答案汇总.md#4非聚簇索引一定会回表查询吗)  
+
 
 不一定，如果查询语句的字段全部命中了索引，那么就不必再进行回表查询（哈哈，覆盖索引就是这么回事）。
 
 举个简单的例子，假设我们在学生表的上建立了索引，那么当进行select age from student where age < 20的查询时，在索引的叶子节点上，已经包含了age信息，不会再次进行回表查询。
 
 
-### 5、Hash索引和B+树所有有什么区别或者说优劣呢?
+### [5、Hash索引和B+树所有有什么区别或者说优劣呢?](https://github.com/souyunku/DevBooks/blob/master/docs/MySQL/MySQL最新面试题，2021年面试题及答案汇总.md#5hash索引和b+树所有有什么区别或者说优劣呢)  
+
 
 **1、** 首先要知道Hash索引和B+树索引的底层实现原理：
 
@@ -97,7 +102,8 @@ innodb两种日志redo和undo。
 **7、** 因此，在大多数情况下，直接选择B+树索引可以获得稳定且较好的查询速度。而不需要使用hash索引。
 
 
-### 6、select for update有什么含义，会锁表还是锁行还是其他。
+### [6、select for update有什么含义，会锁表还是锁行还是其他。](https://github.com/souyunku/DevBooks/blob/master/docs/MySQL/MySQL最新面试题，2021年面试题及答案汇总.md#6select-for-update有什么含义会锁表还是锁行还是其他。)  
+
 
 **select for update 含义**
 
@@ -133,12 +139,14 @@ id为主键，select for update 1270070这条记录时，再开一个事务对�
 ![](https://user-gold-cdn.xitu.io/2020/5/23/1723f297aeeb95d5?w=1421&h=384&f=png&s=56635#alt=)
 
 
-### 7、你们数据库是否支持emoji表情存储，如果不支持，如何操作？
+### [7、你们数据库是否支持emoji表情存储，如果不支持，如何操作？](https://github.com/souyunku/DevBooks/blob/master/docs/MySQL/MySQL最新面试题，2021年面试题及答案汇总.md#7你们数据库是否支持emoji表情存储如果不支持如何操作)  
+
 
 更换字符集utf8-->utf8mb4
 
 
-### 8、索引的数据结构（b树，hash）
+### [8、索引的数据结构（b树，hash）](https://github.com/souyunku/DevBooks/blob/master/docs/MySQL/MySQL最新面试题，2021年面试题及答案汇总.md#8索引的数据结构b树hash)  
+
 
 索引的数据结构和具体存储引擎的实现有关，在MySQL中使用较多的索引有**Hash索引**，**B+树索引**等，而我们经常使用的InnoDB存储引擎的默认索引实现为：B+树索引。对于哈希索引来说，底层的数据结构就是哈希表，因此在绝大多数需求为单条记录查询的时候，可以选择哈希索引，查询性能最快；其余大部分场景，建议选择BTree索引。
 
@@ -173,12 +181,14 @@ MySQL通过存储引擎取数据，基本上90%的人用的就是InnoDB了，按
 ![99_2.png][99_2.png]
 
 
-### 9、最左匹配原则？
+### [9、最左匹配原则？](https://github.com/souyunku/DevBooks/blob/master/docs/MySQL/MySQL最新面试题，2021年面试题及答案汇总.md#9最左匹配原则)  
+
 
 在创建联合索引时候，一般需要遵循最左匹配原则。即联合索引中的属性识别度最高的放在查询语句的最前面。
 
 
-### 10、对于关系型数据库而言，索引是相当重要的概念，请回答有关索引的几个问题：
+### [10、对于关系型数据库而言，索引是相当重要的概念，请回答有关索引的几个问题：](https://github.com/souyunku/DevBooks/blob/master/docs/MySQL/MySQL最新面试题，2021年面试题及答案汇总.md#10对于关系型数据库而言索引是相当重要的概念请回答有关索引的几个问题：)  
+
 
 1.索引的目的是什么？
 
@@ -233,9 +243,9 @@ MySQL通过存储引擎取数据，基本上90%的人用的就是InnoDB了，按
 
 
 
-## 全部答案，整理好了，直接下载吧
+## [全部答案，整理好了，直接下载吧](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
-### 下载链接：[全部答案，整理好了](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
+### 下载链接：[全部答案，整理好了](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
 
 

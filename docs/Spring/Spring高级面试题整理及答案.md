@@ -6,7 +6,8 @@
 
 
 
-### 1、如何给静态变量赋值？
+### [1、如何给静态变量赋值？](https://github.com/souyunku/DevBooks/blob/master/docs/Spring/Spring高级面试题整理及答案.md#1如何给静态变量赋值)  
+
 
 SpringBoot无法通过@Value给静态变量赋值
 
@@ -14,7 +15,8 @@ SpringBoot无法通过@Value给静态变量赋值
 
 
 
-### 2、如何重新加载 SpringBoot 上的更改，而无需重新启动服务器？SpringBoot项目如何热部署？
+### [2、如何重新加载 SpringBoot 上的更改，而无需重新启动服务器？SpringBoot项目如何热部署？](https://github.com/souyunku/DevBooks/blob/master/docs/Spring/Spring高级面试题整理及答案.md#2如何重新加载-springboot-上的更改而无需重新启动服务器springboot项目如何热部署)  
+
 
 这可以使用 DEV 工具来实现。通过这种依赖关系，您可以节省任何更改，嵌入式tomcat 将重新启动。SpringBoot 有一个开发工具（DevTools）模块，它有助于提高开发人员的生产力。Java 开发人员面临的一个主要挑战是将文件更改自动部署到服务器并自动重启服务器。开发人员可以重新加载 SpringBoot 上的更改，而无需重新启动服务器。这将消除每次手动部署更改的需要。SpringBoot 在发布它的第一个版本时没有这个功能。这是开发人员最需要的功能。DevTools 模块完全满足开发人员的需求。该模块将在生产环境中被禁用。它还提供 H2 数据库控制台以更好地测试应用程序。
 
@@ -26,7 +28,8 @@ SpringBoot无法通过@Value给静态变量赋值
 ```
 
 
-### 3、spring bean 容器的生命周期是什么样的？
+### [3、spring bean 容器的生命周期是什么样的？](https://github.com/souyunku/DevBooks/blob/master/docs/Spring/Spring高级面试题整理及答案.md#3spring-bean-容器的生命周期是什么样的)  
+
 
 **1、** spring bean 容器的生命周期流程如下：
 
@@ -75,7 +78,8 @@ Spring 容器能够自动装配 bean。 也就是说，可以通过检查 BeanFa
 **5、** autodetect - 首先容器尝试通过构造函数使用 autowire 装配，如果不能，则尝试通过 byType 自动装配。
 
 
-### 4、SpringCloud限流：
+### [4、SpringCloud限流：](https://github.com/souyunku/DevBooks/blob/master/docs/Spring/Spring高级面试题整理及答案.md#4springcloud限流：)  
+
 
 **1、** 我们可以通过semaphore.maxConcurrentRequests,coreSize,maxQueueSize和queueSizeRejectionThreshold设置信号量模式下的最⼤并发量、线程池⼤⼩、缓冲区⼤⼩和缓冲区降级阈值。
 
@@ -96,12 +100,14 @@ hystrix.command.userCommandKey.execution.isolation.thread.timeoutInMilliseconds=
 ![](https://gitee.com/souyunkutech/souyunku-home/raw/master/images/souyunku-web/2020/5/2/01/44/45_8.png#alt=45%5C_8.png)
 
 
-### 5、什么是Spring Cloud Config?
+### [5、什么是Spring Cloud Config?](https://github.com/souyunku/DevBooks/blob/master/docs/Spring/Spring高级面试题整理及答案.md#5什么是spring-cloud-config)  
+
 
 Spring Cloud Config为分布式系统中的外部配置提供服务器和客户端支持，可以方便的对微服务各个环境下的配置进行集中式管理。Spring Cloud Config分为Config Server和Config Client两部分。Config Server负责读取配置文件，并且暴露Http API接口，Config Client通过调用Config Server的接口来读取配置文件。
 
 
-### 6、Spring Cloud解决了哪些问题？
+### [6、Spring Cloud解决了哪些问题？](https://github.com/souyunku/DevBooks/blob/master/docs/Spring/Spring高级面试题整理及答案.md#6spring-cloud解决了哪些问题)  
+
 
 在使用SpringBoot开发分布式微服务时，我们面临的问题很少由Spring Cloud解决。
 
@@ -116,7 +122,8 @@ Spring Cloud Config为分布式系统中的外部配置提供服务器和客户�
 减少性能问题 – 减少因各种操作开销导致的性能问题。
 
 
-### 7、springcloud核⼼组件及其作⽤，以及springcloud⼯作原理：
+### [7、springcloud核⼼组件及其作⽤，以及springcloud⼯作原理：](https://github.com/souyunku/DevBooks/blob/master/docs/Spring/Spring高级面试题整理及答案.md#7springcloud核⼼组件及其作⽤以及springcloud⼯作原理：)  
+
 
 ![](https://gitee.com/souyunkutech/souyunku-home/raw/master/images/souyunku-web/2020/5/2/01/44/45_9.png#alt=45%5C_9.png)
 
@@ -133,17 +140,20 @@ Spring Cloud Config为分布式系统中的外部配置提供服务器和客户�
 **5、** Zuul：如果前端、移动端要调⽤后端系统，统⼀从Zuul⽹关进⼊，由Zuul⽹关转发请求给对应的服务
 
 
-### 8、什么是依赖注入？
+### [8、什么是依赖注入？](https://github.com/souyunku/DevBooks/blob/master/docs/Spring/Spring高级面试题整理及答案.md#8什么是依赖注入)  
+
 
 在依赖注入中，您不必创建对象，但必须描述如何创建它们。您不是直接在代码中将组件和服务连接在一起，而是描述配置文件中哪些组件需要哪些服务。由 IoC 容器将它们装配在一起。
 
 
-### 9、你能否举一个以 ReadOnly 为事务管理的例子？
+### [9、你能否举一个以 ReadOnly 为事务管理的例子？](https://github.com/souyunku/DevBooks/blob/master/docs/Spring/Spring高级面试题整理及答案.md#9你能否举一个以-readonly-为事务管理的例子)  
+
 
 当你从数据库读取内容的时候，你想把事物中的用户描述或者是其它描述设置为只读模式，以便于 Hebernate 不需要再次检查实体的变化。这是非常高效的。
 
 
-### 10、什么是SpringBoot？
+### [10、什么是SpringBoot？](https://github.com/souyunku/DevBooks/blob/master/docs/Spring/Spring高级面试题整理及答案.md#10什么是springboot)  
+
 
 Spring boot是微服务面试问题的主要话题。 随着新功能的加入，Spring变得越来越复杂。无论何时启动新项目，都必须添加新的构建路径或Maven依赖项。简而言之，你需要从头开始做每件事。SpringBoot是一种帮助您避免所有代码配置的解决方案。
 
@@ -173,9 +183,9 @@ Spring boot是微服务面试问题的主要话题。 随着新功能的加入�
 
 
 
-## 全部答案，整理好了，直接下载吧
+## [全部答案，整理好了，直接下载吧](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
-### 下载链接：[全部答案，整理好了](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
+### 下载链接：[全部答案，整理好了](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
 
 

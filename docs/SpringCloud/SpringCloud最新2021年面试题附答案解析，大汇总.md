@@ -6,7 +6,8 @@
 
 
 
-### 1、什么是 Hystrix 断路器？我们需要它吗？
+### [1、什么是 Hystrix 断路器？我们需要它吗？](https://github.com/souyunku/DevBooks/blob/master/docs/SpringCloud/SpringCloud最新2021年面试题附答案解析，大汇总.md#1什么是-hystrix-断路器我们需要它吗)  
+
 
 由于某些原因，employee-consumer 公开服务会引发异常。在这种情况下使用 Hystrix 我们定义了一个回退方法。如果在公开服务中发生异常，则回退方法返回一些默认值
 
@@ -17,14 +18,16 @@
 ![](https://gitee.com/souyunkutech/souyunku-home/raw/master/images/souyunku-web/2020/5/2/01/44/45_14.png#alt=45%5C_14.png)
 
 
-### 2、springcloud如何实现服务的注册?
+### [2、springcloud如何实现服务的注册?](https://github.com/souyunku/DevBooks/blob/master/docs/SpringCloud/SpringCloud最新2021年面试题附答案解析，大汇总.md#2springcloud如何实现服务的注册)  
+
 
 **1、** 服务发布时，指定对应的服务名,将服务注册到 注册中心(eureka zookeeper)
 
 **2、** 注册中心加@EnableEurekaServer,服务用@EnableDiscoveryClient，然后用ribbon或feign进行服务直接的调用发现。
 
 
-### 3、微服务架构如何运作？
+### [3、微服务架构如何运作？](https://github.com/souyunku/DevBooks/blob/master/docs/SpringCloud/SpringCloud最新2021年面试题附答案解析，大汇总.md#3微服务架构如何运作)  
+
 
 微服务架构具有以下组件：
 
@@ -49,12 +52,14 @@ API网关 – 处理客户端请求。
 远程服务 – 启用驻留在IT设备网络上的远程访问信息。
 
 
-### 4、Web，RESTful API在微服务中的作用是什么？
+### [4、Web，RESTful API在微服务中的作用是什么？](https://github.com/souyunku/DevBooks/blob/master/docs/SpringCloud/SpringCloud最新2021年面试题附答案解析，大汇总.md#4webrestful-api在微服务中的作用是什么)  
+
 
 微服务架构基于一个概念，其中所有服务应该能够彼此交互以构建业务功能。因此，要实现这一点，每个微服务必须具有接口。这使得Web API成为微服务的一个非常重要的推动者。RESTful API基于Web的开放网络原则，为构建微服务架构的各个组件之间的接口提供了最合理的模型。
 
 
-### 5、什么是服务降级
+### [5、什么是服务降级](https://github.com/souyunku/DevBooks/blob/master/docs/SpringCloud/SpringCloud最新2021年面试题附答案解析，大汇总.md#5什么是服务降级)  
+
 
 consumer 端：consumer 如果发现某个provider出现异常情况，⽐如，经常超时(可能是熔断引起的降级)，数据错误，这时，consumer可以采取⼀定的策略，降级provider的逻辑，基本的有直接返回固定的数据。
 
@@ -65,12 +70,14 @@ provider 端：当provider 发现流量激增的时候，为了保护⾃身的�
 **2、** 需要实时写⼊数据库的，先缓存到队列⾥，异步写⼊数据库。
 
 
-### 6、什么是Eureka的自我保护模式，
+### [6、什么是Eureka的自我保护模式，](https://github.com/souyunku/DevBooks/blob/master/docs/SpringCloud/SpringCloud最新2021年面试题附答案解析，大汇总.md#6什么是eureka的自我保护模式)  
+
 
 默认情况下，如果Eureka Service在一定时间内没有接收到某个微服务的心跳，Eureka Service会进入自我保护模式，在该模式下Eureka Service会保护服务注册表中的信息，不在删除注册表中的数据，当网络故障恢复后，Eureka Servic 节点会自动退出自我保护模式
 
 
-### 7、什么是不同类型的双因素身份认证？
+### [7、什么是不同类型的双因素身份认证？](https://github.com/souyunku/DevBooks/blob/master/docs/SpringCloud/SpringCloud最新2021年面试题附答案解析，大汇总.md#7什么是不同类型的双因素身份认证)  
+
 
 执行双因素身份验证需要三种类型的凭据：
 
@@ -81,17 +88,20 @@ provider 端：当provider 发现流量激增的时候，为了保护⾃身的�
 **3、** 您的物理身份–如语音认证或生物特征安全，如指纹或眼睛扫描仪。
 
 
-### 8、Spring Cloud Sleuth
+### [8、Spring Cloud Sleuth](https://github.com/souyunku/DevBooks/blob/master/docs/SpringCloud/SpringCloud最新2021年面试题附答案解析，大汇总.md#8spring-cloud-sleuth)  
+
 
 Spring Cloud应用程序的分布式请求链路跟踪，支持使用Zipkin、HTrace和基于日志（例如ELK）的跟踪。
 
 
-### 9、你所知道微服务的技术栈有哪些？列举一二
+### [9、你所知道微服务的技术栈有哪些？列举一二](https://github.com/souyunku/DevBooks/blob/master/docs/SpringCloud/SpringCloud最新2021年面试题附答案解析，大汇总.md#9你所知道微服务的技术栈有哪些列举一二)  
+
 
 ![](https://gitee.com/souyunkutech/souyunku-home/raw/master/images/souyunku-web/2020/5/2/010/39/49_2.png#alt=49%5C_2.png)
 
 
-### 10、Spring Cloud Bus
+### [10、Spring Cloud Bus](https://github.com/souyunku/DevBooks/blob/master/docs/SpringCloud/SpringCloud最新2021年面试题附答案解析，大汇总.md#10spring-cloud-bus)  
+
 
 用于传播集群状态变化的消息总线，使用轻量级消息代理链接分布式系统中的节点，可以用来动态刷新集群中的服务配置。
 
@@ -120,9 +130,9 @@ Spring Cloud应用程序的分布式请求链路跟踪，支持使用Zipkin、HT
 
 
 
-## 全部答案，整理好了，直接下载吧
+## [全部答案，整理好了，直接下载吧](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
-### 下载链接：[全部答案，整理好了](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
+### 下载链接：[全部答案，整理好了](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
 
 

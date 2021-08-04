@@ -6,7 +6,8 @@
 
 
 
-### 1、Dubbo 集群容错有几种方案？
+### [1、Dubbo 集群容错有几种方案？](https://github.com/souyunku/DevBooks/blob/master/docs/Dubbo/Dubbo最新2021年面试题，高级面试题及附答案解析.md#1dubbo-集群容错有几种方案)  
+
 | 集群容错方案 | 说明 |
 | --- | --- |
 | Failover Cluster | 失败自动切换，自动重试其它服务器（默认） |
@@ -18,17 +19,20 @@
 
 
 
-### 2、Dubbo 的注册中心集群挂掉，发布者和订阅者之间还能通信么？
+### [2、Dubbo 的注册中心集群挂掉，发布者和订阅者之间还能通信么？](https://github.com/souyunku/DevBooks/blob/master/docs/Dubbo/Dubbo最新2021年面试题，高级面试题及附答案解析.md#2dubbo-的注册中心集群挂掉发布者和订阅者之间还能通信么)  
+
 
 可以通讯。启动 Dubbo 时，消费者会从 Zookeeper 拉取注册的生产者的地址接口等数据，缓存在本地。每次调用时，按照本地存储的地址进行调用。
 
 
-### 3、Dubbo 能集成 SpringBoot 吗？
+### [3、Dubbo 能集成 SpringBoot 吗？](https://github.com/souyunku/DevBooks/blob/master/docs/Dubbo/Dubbo最新2021年面试题，高级面试题及附答案解析.md#3dubbo-能集成-springboot-吗)  
+
 
 可以的
 
 
-### 4、Dubbo 支持哪些协议，每种协议的应用场景，优缺点？
+### [4、Dubbo 支持哪些协议，每种协议的应用场景，优缺点？](https://github.com/souyunku/DevBooks/blob/master/docs/Dubbo/Dubbo最新2021年面试题，高级面试题及附答案解析.md#4dubbo-支持哪些协议每种协议的应用场景优缺点)  
+
 
 **1、** dubbo：单一长连接和 NIO 异步通讯，适合大并发小数据量的服务调用，以及消费者远大于提供者。传输协议 TCP，异步， Hessian 序列化；
 
@@ -45,17 +49,20 @@
 **7、** Redis：基于 Redis 实现的 RPC 协议
 
 
-### 5、Dubbo 和 Spring Cloud 的关系？
+### [5、Dubbo 和 Spring Cloud 的关系？](https://github.com/souyunku/DevBooks/blob/master/docs/Dubbo/Dubbo最新2021年面试题，高级面试题及附答案解析.md#5dubbo-和-spring-cloud-的关系)  
+
 
 Dubbo 是 SOA 时代的产物，它的关注点主要在于服务的调用，流量分发、流量监控和熔断。而 Spring Cloud 诞生于微服务架构时代，考虑的是微服务治理的方方面面，另外由于依托了 Spirng、Spirng Boot 的优势之上，两个框架在开始目标就不一致， Dubbo定位服务治理、 Spirng Cloud 是一个生态。
 
 
-### 6、dubbo 推荐用什么协议？
+### [6、dubbo 推荐用什么协议？](https://github.com/souyunku/DevBooks/blob/master/docs/Dubbo/Dubbo最新2021年面试题，高级面试题及附答案解析.md#6dubbo-推荐用什么协议)  
+
 
 默认使用 dubbo 协议。
 
 
-### 7、Dubbo 核心组件有哪些？
+### [7、Dubbo 核心组件有哪些？](https://github.com/souyunku/DevBooks/blob/master/docs/Dubbo/Dubbo最新2021年面试题，高级面试题及附答案解析.md#7dubbo-核心组件有哪些)  
+
 
 ![](https://gitee.com/souyunkutech/souyunku-home/raw/master/images/souyunku-web/2020/5/2/026/54/80_1.png#alt=80%5C_1.png)
 
@@ -70,19 +77,22 @@ Dubbo 是 SOA 时代的产物，它的关注点主要在于服务的调用，流
 **5、** Container：服务运行容器
 
 
-### 8、如何解决服务调用链过长的问题？
+### [8、如何解决服务调用链过长的问题？](https://github.com/souyunku/DevBooks/blob/master/docs/Dubbo/Dubbo最新2021年面试题，高级面试题及附答案解析.md#8如何解决服务调用链过长的问题)  
+
 
 Dubbo 可以使用 Pinpoint 和 Apache Skywalking(Incubator) 实现分布式服务追踪，当然还有其他很多方案。
 
 
-### 9、Dubbo 使用过程中都遇到了些什么问题？
+### [9、Dubbo 使用过程中都遇到了些什么问题？](https://github.com/souyunku/DevBooks/blob/master/docs/Dubbo/Dubbo最新2021年面试题，高级面试题及附答案解析.md#9dubbo-使用过程中都遇到了些什么问题)  
+
 
 在注册中心找不到对应的服务,检查service实现类是否添加了@service注解
 
 无法连接到注册中心,检查配置文件中的对应的测试ip是否正确
 
 
-### 10、同一个服务多个注册的情况下可以直连某一个服务吗？
+### [10、同一个服务多个注册的情况下可以直连某一个服务吗？](https://github.com/souyunku/DevBooks/blob/master/docs/Dubbo/Dubbo最新2021年面试题，高级面试题及附答案解析.md#10同一个服务多个注册的情况下可以直连某一个服务吗)  
+
 
 可以直连，修改配置即可，也可以通过telnet直接某个服务。
 
@@ -112,9 +122,9 @@ Dubbo 可以使用 Pinpoint 和 Apache Skywalking(Incubator) 实现分布式服�
 
 
 
-## 全部答案，整理好了，直接下载吧
+## [全部答案，整理好了，直接下载吧](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
-### 下载链接：[全部答案，整理好了](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
+### 下载链接：[全部答案，整理好了](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
 
 

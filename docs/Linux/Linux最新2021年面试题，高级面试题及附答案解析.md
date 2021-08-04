@@ -6,7 +6,8 @@
 
 
 
-### 1、终止进程用什么命令? 带什么参数?
+### [1、终止进程用什么命令? 带什么参数?](https://github.com/souyunku/DevBooks/blob/master/docs/Linux/Linux最新2021年面试题，高级面试题及附答案解析.md#1终止进程用什么命令-带什么参数)  
+
 
 **答案：**
 
@@ -15,7 +16,8 @@ kill [-s <信息名称或编号>][程序] 或 kill [-l <信息编号>]
 kill-9 pid
 
 
-### 2、8.迷路，我的当前位置在哪？
+### [2、8.迷路，我的当前位置在哪？](https://github.com/souyunku/DevBooks/blob/master/docs/Linux/Linux最新2021年面试题，高级面试题及附答案解析.md#28迷路我的当前位置在哪)  
+
 
 pwd 显示当前目录
 
@@ -25,7 +27,8 @@ pwd 显示当前目录
 ```
 
 
-### 3、利用 ps 怎么显示所有的进程? 怎么利用 ps 查看指定进程的信息？
+### [3、利用 ps 怎么显示所有的进程? 怎么利用 ps 查看指定进程的信息？](https://github.com/souyunku/DevBooks/blob/master/docs/Linux/Linux最新2021年面试题，高级面试题及附答案解析.md#3利用-ps-怎么显示所有的进程-怎么利用-ps-查看指定进程的信息)  
+
 
 **答案：**
 
@@ -38,19 +41,22 @@ ps -ef | grep pid
 ```
 
 
-### 4、复制文件用哪个命令？如果需要连同文件夹一块复制呢？如果需要有提示功能呢？
+### [4、复制文件用哪个命令？如果需要连同文件夹一块复制呢？如果需要有提示功能呢？](https://github.com/souyunku/DevBooks/blob/master/docs/Linux/Linux最新2021年面试题，高级面试题及附答案解析.md#4复制文件用哪个命令如果需要连同文件夹一块复制呢如果需要有提示功能呢)  
+
 
 **答案：**
 
 cp cp -r ?？？？？
 
 
-### 5、统计ip访问情况，要求分析nginx访问日志，找出访问页面数量在前十位的ip
+### [5、统计ip访问情况，要求分析nginx访问日志，找出访问页面数量在前十位的ip](https://github.com/souyunku/DevBooks/blob/master/docs/Linux/Linux最新2021年面试题，高级面试题及附答案解析.md#5统计ip访问情况要求分析nginx访问日志找出访问页面数量在前十位的ip)  
+
 
 cat access.log | awk '{print $1}' | uniq -c | sort -rn | head -10
 
 
-### 6、vim编辑器几种操作模式？基本操作?
+### [6、vim编辑器几种操作模式？基本操作?](https://github.com/souyunku/DevBooks/blob/master/docs/Linux/Linux最新2021年面试题，高级面试题及附答案解析.md#6vim编辑器几种操作模式基本操作)  
+
 
 操作模式:
 
@@ -91,7 +97,8 @@ vim提供了一些能够提高移动速度的命令:
 **4、** wq:将缓冲区数据保存到文件中并退出。
 
 
-### 7、Linux 有哪些系统日志文件？
+### [7、Linux 有哪些系统日志文件？](https://github.com/souyunku/DevBooks/blob/master/docs/Linux/Linux最新2021年面试题，高级面试题及附答案解析.md#7linux-有哪些系统日志文件)  
+
 
 比较重要的是 `/var/log/messages` 日志文件。
 
@@ -101,7 +108,8 @@ vim提供了一些能够提高移动速度的命令:
 
 
 
-### 8、查看整个文件？按照有文本显示行号？无文本显示行号？
+### [8、查看整个文件？按照有文本显示行号？无文本显示行号？](https://github.com/souyunku/DevBooks/blob/master/docs/Linux/Linux最新2021年面试题，高级面试题及附答案解析.md#8查看整个文件按照有文本显示行号无文本显示行号)  
+
 
 语法 : cat destination
 
@@ -131,7 +139,8 @@ vim提供了一些能够提高移动速度的命令:
 
 
 
-### 9、Linux 开机启动过程？
+### [9、Linux 开机启动过程？](https://github.com/souyunku/DevBooks/blob/master/docs/Linux/Linux最新2021年面试题，高级面试题及附答案解析.md#9linux-开机启动过程)  
+
 
 了解即可。
 
@@ -148,7 +157,8 @@ vim提供了一些能够提高移动速度的命令:
 **6、** 运行终端，输入用户名和密码。
 
 
-### 10、你的系统目前有许多正在运行的任务，在不重启机器的条件下，有什么方法可以把所有正在运行的进程移除呢？
+### [10、你的系统目前有许多正在运行的任务，在不重启机器的条件下，有什么方法可以把所有正在运行的进程移除呢？](https://github.com/souyunku/DevBooks/blob/master/docs/Linux/Linux最新2021年面试题，高级面试题及附答案解析.md#10你的系统目前有许多正在运行的任务在不重启机器的条件下有什么方法可以把所有正在运行的进程移除呢)  
+
 
 **答案：**
 
@@ -178,9 +188,9 @@ vim提供了一些能够提高移动速度的命令:
 
 
 
-## 全部答案，整理好了，直接下载吧
+## [全部答案，整理好了，直接下载吧](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
-### 下载链接：[全部答案，整理好了](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
+### 下载链接：[全部答案，整理好了](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
 
 

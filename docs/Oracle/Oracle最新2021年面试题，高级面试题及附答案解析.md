@@ -6,22 +6,26 @@
 
 
 
-### 1、如何重构索引？
+### [1、如何重构索引？](https://github.com/souyunku/DevBooks/blob/master/docs/Oracle/Oracle最新2021年面试题，高级面试题及附答案解析.md#1如何重构索引)  
+
 
 ALTER INDEX <index_name> REBUILD;
 
 
-### 2、说说Oracle中经常使用到的函数
+### [2、说说Oracle中经常使用到的函数](https://github.com/souyunku/DevBooks/blob/master/docs/Oracle/Oracle最新2021年面试题，高级面试题及附答案解析.md#2说说oracle中经常使用到的函数)  
+
 
 length长度、lower小写、upper大写、to_date转化日期、to_char转化字符、to_number转化数字Ltrim去左边空格、rtrim去右边空格、substr截取字符串、add_month增加或减掉月份、
 
 
-### 3、解释data block , extent 和 segment的区别(这里建议用英文术语)
+### [3、解释data block , extent 和 segment的区别(这里建议用英文术语)](https://github.com/souyunku/DevBooks/blob/master/docs/Oracle/Oracle最新2021年面试题，高级面试题及附答案解析.md#3解释data-block-,-extent-和-segment的区别这里建议用英文术语)  
+
 
 data block是数据库中最小的逻辑存储单元。当数据库的对象需要更多的物理存储空间时，连续的data block就组成了extent . 一个数据库对象拥有的所有extents被称为该对象的segment.
 
 
-### 4、给出数据库正常启动所经历的几种状态 ?
+### [4、给出数据库正常启动所经历的几种状态 ?](https://github.com/souyunku/DevBooks/blob/master/docs/Oracle/Oracle最新2021年面试题，高级面试题及附答案解析.md#4给出数据库正常启动所经历的几种状态-)  
+
 
 STARTUP NOMOUNT ?C 数据库实例启动
 
@@ -30,22 +34,26 @@ STARTUP MOUNT - 数据库装载
 STARTUP OPEN ?C 数据库打开
 
 
-### 5、如何转换init.ora到spfile?
+### [5、如何转换init.ora到spfile?](https://github.com/souyunku/DevBooks/blob/master/docs/Oracle/Oracle最新2021年面试题，高级面试题及附答案解析.md#5如何转换initora到spfile)  
+
 
 使用create spfile from pfile 命令.
 
 
-### 6、举出3种可以收集three advisory statistics
+### [6、举出3种可以收集three advisory statistics](https://github.com/souyunku/DevBooks/blob/master/docs/Oracle/Oracle最新2021年面试题，高级面试题及附答案解析.md#6举出3种可以收集three-advisory-statistics)  
+
 
 Buffer Cache Advice, Segment Level Statistics, Timed Statistics
 
 
-### 7、哪个VIEW用来检查数据文件的大小？
+### [7、哪个VIEW用来检查数据文件的大小？](https://github.com/souyunku/DevBooks/blob/master/docs/Oracle/Oracle最新2021年面试题，高级面试题及附答案解析.md#7哪个view用来检查数据文件的大小)  
+
 
 DBA_DATA_FILES
 
 
-### 8、回滚段的作用是什么
+### [8、回滚段的作用是什么](https://github.com/souyunku/DevBooks/blob/master/docs/Oracle/Oracle最新2021年面试题，高级面试题及附答案解析.md#8回滚段的作用是什么)  
+
 
 事务回滚：当事务修改表中数据的时候，该数据修改前的值(即前影像)会存放在回滚段中，当用户回滚事务(ROLLBACK)时，ORACLE将会利用回滚段中的数据前影像来将修改的数据恢复到原来的值。
 
@@ -62,12 +70,14 @@ DBA_DATA_FILES
 **5、** 若其他会话改变了该查询要查询的某个数据块，ORACLE将利用回滚段的数据前影像来构造一个读一致性视图。
 
 
-### 9、你必须利用备份恢复数据库，但是你没有控制文件，该如何解决问题呢？
+### [9、你必须利用备份恢复数据库，但是你没有控制文件，该如何解决问题呢？](https://github.com/souyunku/DevBooks/blob/master/docs/Oracle/Oracle最新2021年面试题，高级面试题及附答案解析.md#9你必须利用备份恢复数据库但是你没有控制文件该如何解决问题呢)  
+
 
 重建控制文件，用带backup control file 子句的recover 命令恢复数据库。
 
 
-### 10、如何变动数据文件的大小？
+### [10、如何变动数据文件的大小？](https://github.com/souyunku/DevBooks/blob/master/docs/Oracle/Oracle最新2021年面试题，高级面试题及附答案解析.md#10如何变动数据文件的大小)  
+
 
 ALTER DATABASE DATAFILE <datafile_name> RESIZE <new_size>;
 
@@ -93,9 +103,9 @@ ALTER DATABASE DATAFILE <datafile_name> RESIZE <new_size>;
 
 
 
-## 全部答案，整理好了，直接下载吧
+## [全部答案，整理好了，直接下载吧](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
-### 下载链接：[全部答案，整理好了](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
+### 下载链接：[全部答案，整理好了](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
 
 

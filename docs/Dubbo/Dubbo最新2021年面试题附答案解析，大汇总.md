@@ -6,12 +6,14 @@
 
 
 
-### 1、Dubbo 是什么？
+### [1、Dubbo 是什么？](https://github.com/souyunku/DevBooks/blob/master/docs/Dubbo/Dubbo最新2021年面试题附答案解析，大汇总.md#1dubbo-是什么)  
+
 
 Dubbo 是一个分布式、高性能、透明化的 RPC 服务框架，提供服务自动注册、自动发现等高效服务治理方案， 可以和Spring 框架无缝集成
 
 
-### 2、Dubbo 核心组件有哪些？
+### [2、Dubbo 核心组件有哪些？](https://github.com/souyunku/DevBooks/blob/master/docs/Dubbo/Dubbo最新2021年面试题附答案解析，大汇总.md#2dubbo-核心组件有哪些)  
+
 
 **1、** Provider：暴露服务的服务提供方
 
@@ -24,7 +26,8 @@ Dubbo 是一个分布式、高性能、透明化的 RPC 服务框架，提供服
 **5、** Container：服务运行容器
 
 
-### 3、说说核心的配置有哪些？
+### [3、说说核心的配置有哪些？](https://github.com/souyunku/DevBooks/blob/master/docs/Dubbo/Dubbo最新2021年面试题附答案解析，大汇总.md#3说说核心的配置有哪些)  
+
 
 核心配置有：
 
@@ -45,7 +48,8 @@ Dubbo 是一个分布式、高性能、透明化的 RPC 服务框架，提供服
 **8、** dubbo:method/
 
 
-### 4、什么是RPC
+### [4、什么是RPC](https://github.com/souyunku/DevBooks/blob/master/docs/Dubbo/Dubbo最新2021年面试题附答案解析，大汇总.md#4什么是rpc)  
+
 
 RPC（Remote Procedure Call Protocol）远程过程调用协议，它是一种通过网络从远程计算机程序上请求服务，而不需要了解底层网络技术的协议。简言之，RPC使得程序能够像访问本地系统资源一样，去访问远端系统资源。比较关键的一些方面包括：通讯协议、序列化、资源（接口）描述、服务框架、性能、语言支持等。
 
@@ -54,34 +58,40 @@ RPC（Remote Procedure Call Protocol）远程过程调用协议，它是一种�
 简单的说，RPC就是从一台机器(客户端)上通过参数传递的方式调用另一台机器(服务器)上的一个函数或方法(可以统称为服务)并得到返回的结果。
 
 
-### 5、RPC使用了哪些关键技术，Thrift
+### [5、RPC使用了哪些关键技术，Thrift](https://github.com/souyunku/DevBooks/blob/master/docs/Dubbo/Dubbo最新2021年面试题附答案解析，大汇总.md#5rpc使用了哪些关键技术thrift)  
+
 
 是一种可伸缩的跨语言服务的软件框架。它拥有功能强大的代码生成引擎，无缝地支持C + +，C#，Java，Python和PHP和Ruby。thrift允许你定义一个描述文件，描述数据类型和服务接口。依据该文件，编译器方便地生成RPC客户端和服务器通信代码。
 
 最初由facebook开发用做系统内个语言之间的RPC通信，2007年由facebook贡献到apache基金 ，现在是apache下的opensource之一 。支持多种语言之间的RPC方式的通信：php语言client可以构造一个对象，调用相应的服务方法来调用java语言的服务，跨越语言的C/S RPC调用。底层通讯基于SOCKET。
 
 
-### 6、服务读写推荐的容错策略是怎样的？
+### [6、服务读写推荐的容错策略是怎样的？](https://github.com/souyunku/DevBooks/blob/master/docs/Dubbo/Dubbo最新2021年面试题附答案解析，大汇总.md#6服务读写推荐的容错策略是怎样的)  
+
 
 读操作建议使用 Failover 失败自动切换，默认重试两次其他服务器。写操作建议使用 Failfast 快速失败，发一次调用失败就立即报错。
 
 
-### 7、Dubbo 的默认集群容错方案？
+### [7、Dubbo 的默认集群容错方案？](https://github.com/souyunku/DevBooks/blob/master/docs/Dubbo/Dubbo最新2021年面试题附答案解析，大汇总.md#7dubbo-的默认集群容错方案)  
+
 
 Failover Cluster
 
 
-### 8、当一个服务接口有多种实现时怎么做？
+### [8、当一个服务接口有多种实现时怎么做？](https://github.com/souyunku/DevBooks/blob/master/docs/Dubbo/Dubbo最新2021年面试题附答案解析，大汇总.md#8当一个服务接口有多种实现时怎么做)  
+
 
 当一个接口有多种实现时，可以用 group 属性来分组，服务提供方和消费方都指定同一个 group 即可。
 
 
-### 9、服务调用超时问题怎么解决？
+### [9、服务调用超时问题怎么解决？](https://github.com/souyunku/DevBooks/blob/master/docs/Dubbo/Dubbo最新2021年面试题附答案解析，大汇总.md#9服务调用超时问题怎么解决)  
+
 
 dubbo 在调用服务不成功时，默认是会重试两次的。
 
 
-### 10、同一个服务多个注册的情况下可以直连某一个服务吗？
+### [10、同一个服务多个注册的情况下可以直连某一个服务吗？](https://github.com/souyunku/DevBooks/blob/master/docs/Dubbo/Dubbo最新2021年面试题附答案解析，大汇总.md#10同一个服务多个注册的情况下可以直连某一个服务吗)  
+
 
 可以点对点直连，修改配置即可，也可以通过 telnet 直接某个服务。
 
@@ -111,9 +121,9 @@ dubbo 在调用服务不成功时，默认是会重试两次的。
 
 
 
-## 全部答案，整理好了，直接下载吧
+## [全部答案，整理好了，直接下载吧](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
-### 下载链接：[全部答案，整理好了](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
+### 下载链接：[全部答案，整理好了](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
 
 

@@ -6,12 +6,14 @@
 
 
 
-### 1、什么是存储过程？用什么来调用？
+### [1、什么是存储过程？用什么来调用？](https://github.com/souyunku/DevBooks/blob/master/docs/MySQL/MySQL最新2021年面试题及答案，汇总版.md#1什么是存储过程用什么来调用)  
+
 
 存储过程是一个预编译的SQL语句，优点是允许模块化的设计，就是说只需创建一次，以后在该程序中就可以调用多次。如果某次操作需要执行多次SQL，使用存储过程比单纯SQL语句执行要快。可以用一个命令对象来调用存储过程。
 
 
-### 2、优化数据库的方法
+### [2、优化数据库的方法](https://github.com/souyunku/DevBooks/blob/master/docs/MySQL/MySQL最新2021年面试题及答案，汇总版.md#2优化数据库的方法)  
+
 
 **1、**  选取最适用的字段属性，尽可能减少定义字段宽度，尽量把字段设置NOTNULL，例如’省份’、’性别’最好适用ENUM
 
@@ -30,7 +32,8 @@
 **8、**  优化查询语句
 
 
-### 3、完整性约束包括哪些？
+### [3、完整性约束包括哪些？](https://github.com/souyunku/DevBooks/blob/master/docs/MySQL/MySQL最新2021年面试题及答案，汇总版.md#3完整性约束包括哪些)  
+
 
 数据完整性(Data Integrity)是指数据的精确(Accuracy)和可靠性(Reliability)。
 
@@ -47,12 +50,14 @@
 与表有关的约束：包括列约束(NOT NULL（非空约束）)和表约束(PRIMARY KEY、foreign key、check、UNIQUE) 。
 
 
-### 4、使用B树的好处
+### [4、使用B树的好处](https://github.com/souyunku/DevBooks/blob/master/docs/MySQL/MySQL最新2021年面试题及答案，汇总版.md#4使用b树的好处)  
+
 
 B树可以在内部节点同时存储键和值，因此，把频繁访问的数据放在靠近根节点的地方将会大大提高热点数据的查询效率。这种特性使得B树在特定数据重复多次查询的场景中更加高效。
 
 
-### 5、视图有哪些特点？哪些使用场景？
+### [5、视图有哪些特点？哪些使用场景？](https://github.com/souyunku/DevBooks/blob/master/docs/MySQL/MySQL最新2021年面试题及答案，汇总版.md#5视图有哪些特点哪些使用场景)  
+
 
 **「视图特点：」**
 
@@ -81,7 +86,8 @@ B树可以在内部节点同时存储键和值，因此，把频繁访问的数�
 **5、** 更改数据格式和表示。视图可返回与底层表的表示和格式不同的数据。
 
 
-### 6、事务是如何通过日志来实现的
+### [6、事务是如何通过日志来实现的](https://github.com/souyunku/DevBooks/blob/master/docs/MySQL/MySQL最新2021年面试题及答案，汇总版.md#6事务是如何通过日志来实现的)  
+
 
 因为事务在修改页时，要先记 undo，在记 undo 之前要记 undo 的 redo， 然后修改数据页，再记数据页修改的 redo。 Redo（里面包括 undo 的修改） 一定要比数据页先持久化到磁盘。
 
@@ -90,7 +96,8 @@ B树可以在内部节点同时存储键和值，因此，把频繁访问的数�
 如果有 commit 记录，就用 redo 前滚到该事务完成时并提交掉。
 
 
-### 7、索引有哪几种类型？
+### [7、索引有哪几种类型？](https://github.com/souyunku/DevBooks/blob/master/docs/MySQL/MySQL最新2021年面试题及答案，汇总版.md#7索引有哪几种类型)  
+
 
 **1、** 主键索引: 数据列不允许重复，不允许为NULL，一个表只能有一个主键。
 
@@ -105,7 +112,8 @@ B树可以在内部节点同时存储键和值，因此，把频繁访问的数�
 **6、** 组合索引：多列值组成一个索引，用于组合搜索，效率大于索引合并
 
 
-### 8、谈谈六种关联查询，使用场景。
+### [8、谈谈六种关联查询，使用场景。](https://github.com/souyunku/DevBooks/blob/master/docs/MySQL/MySQL最新2021年面试题及答案，汇总版.md#8谈谈六种关联查询使用场景。)  
+
 
 **1、** 交叉连接
 
@@ -120,12 +128,14 @@ B树可以在内部节点同时存储键和值，因此，把频繁访问的数�
 **6、** 交叉连接
 
 
-### 9、试述视图的优点？
+### [9、试述视图的优点？](https://github.com/souyunku/DevBooks/blob/master/docs/MySQL/MySQL最新2021年面试题及答案，汇总版.md#9试述视图的优点)  
+
 
 (1) 视图能够简化用户的操作 (2) 视图使用户能以多种角度看待同一数据； (3) 视图为数据库提供了一定程度的逻辑独立性； (4) 视图能够对机密数据提供安全保护。
 
 
-### 10、MySQL自增主键用完了怎么办？
+### [10、MySQL自增主键用完了怎么办？](https://github.com/souyunku/DevBooks/blob/master/docs/MySQL/MySQL最新2021年面试题及答案，汇总版.md#10mysql自增主键用完了怎么办)  
+
 
 自增主键一般用int类型，一般达不到最大值，可以考虑提前分库分表的。
 
@@ -154,9 +164,9 @@ B树可以在内部节点同时存储键和值，因此，把频繁访问的数�
 
 
 
-## 全部答案，整理好了，直接下载吧
+## [全部答案，整理好了，直接下载吧](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
-### 下载链接：[全部答案，整理好了](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
+### 下载链接：[全部答案，整理好了](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
 
 

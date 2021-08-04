@@ -6,7 +6,8 @@
 
 
 
-### 1、什么是Python中的猴子补丁？
+### [1、什么是Python中的猴子补丁？](https://github.com/souyunku/DevBooks/blob/master/docs/Python/Python最新面试题2021年，常见面试题及答案汇总.md#1什么是python中的猴子补丁)  
+
 
 猴子补丁(monkey patching)，是指在运行时动态修改类或模块。
 
@@ -20,7 +21,8 @@ SomeClass.speak = speak
 ```
 
 
-### 2、实现99乘法表（使用两种方法）
+### [2、实现99乘法表（使用两种方法）](https://github.com/souyunku/DevBooks/blob/master/docs/Python/Python最新面试题2021年，常见面试题及答案汇总.md#2实现99乘法表使用两种方法)  
+
 
 ```python
 print('\n'.join(['\t'.join(['{}*{}={}'.format(x,y,x*y) for x in range(1,y+1)]) for y in range(1,10)]))
@@ -35,7 +37,8 @@ print()
 ```
 
 
-### 3、什么是负索引？
+### [3、什么是负索引？](https://github.com/souyunku/DevBooks/blob/master/docs/Python/Python最新面试题2021年，常见面试题及答案汇总.md#3什么是负索引)  
+
 
 我们先创建这样一个列表：
 
@@ -68,7 +71,8 @@ print()
 ```
 
 
-### 4、实现一个装饰器，通过一次调用，使函数重复执行5次
+### [4、实现一个装饰器，通过一次调用，使函数重复执行5次](https://github.com/souyunku/DevBooks/blob/master/docs/Python/Python最新面试题2021年，常见面试题及答案汇总.md#4实现一个装饰器通过一次调用使函数重复执行5次)  
+
 
 ```python
 from functools import wraps
@@ -86,14 +90,16 @@ print(add(1,2))
 ```
 
 
-### 5、如何高效的找到Redis中所有以felix开头的key
+### [5、如何高效的找到Redis中所有以felix开头的key](https://github.com/souyunku/DevBooks/blob/master/docs/Python/Python最新面试题2021年，常见面试题及答案汇总.md#5如何高效的找到redis中所有以felix开头的key)  
+
 
 **1、** scan 0 match felixcount 5
 
 **2、** 表示从游标0开始查询felix开头的key，每次返回5条，但是这个5条不一定
 
 
-### 6、列表中保留顺序和不保留顺序去重
+### [6、列表中保留顺序和不保留顺序去重](https://github.com/souyunku/DevBooks/blob/master/docs/Python/Python最新面试题2021年，常见面试题及答案汇总.md#6列表中保留顺序和不保留顺序去重)  
+
 
 **不保留顺序**
 
@@ -116,12 +122,14 @@ print(T)
 ```
 
 
-### 7、python的底层网络交互模块有哪些
+### [7、python的底层网络交互模块有哪些](https://github.com/souyunku/DevBooks/blob/master/docs/Python/Python最新面试题2021年，常见面试题及答案汇总.md#7python的底层网络交互模块有哪些)  
+
 
 socket，urllib，requests，pycurl
 
 
-### 8、一个大小为100G的文件etl_log.txt，要读取文件的内容，写出具体过程代码
+### [8、一个大小为100G的文件etl_log.txt，要读取文件的内容，写出具体过程代码](https://github.com/souyunku/DevBooks/blob/master/docs/Python/Python最新面试题2021年，常见面试题及答案汇总.md#8一个大小为100g的文件etl_logtxt要读取文件的内容写出具体过程代码)  
+
 
 ```python
 with open("etl_log.txt",'r',encoding='utf8') as f:
@@ -130,7 +138,8 @@ print(line,end='')
 ```
 
 
-### 9、axios的作用
+### [9、axios的作用](https://github.com/souyunku/DevBooks/blob/master/docs/Python/Python最新面试题2021年，常见面试题及答案汇总.md#9axios的作用)  
+
 
 **axios是基于promise的用于浏览器和nodejs的HTTP客户端，本身有以下特征：**
 
@@ -151,7 +160,8 @@ print(line,end='')
 **8、** 客户端支持防止CSRF/XSRF攻击
 
 
-### 10、解释一下Python中的//，%和 ** 运算符
+### [10、解释一下Python中的//，%和 ** 运算符](https://github.com/souyunku/DevBooks/blob/master/docs/Python/Python最新面试题2021年，常见面试题及答案汇总.md#10解释一下python中的//%和-**-运算符)  
+
 
 //运算符执行地板除法（向下取整除），它会返回整除结果的整数部分。
 
@@ -203,9 +213,9 @@ print(line,end='')
 
 
 
-## 全部答案，整理好了，直接下载吧
+## [全部答案，整理好了，直接下载吧](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
-### 下载链接：[全部答案，整理好了](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
+### 下载链接：[全部答案，整理好了](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
 
 

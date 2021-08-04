@@ -6,14 +6,16 @@
 
 
 
-### 1、一个6亿的表a，一个3亿的表b，通过外间tid关联，你如何最快的查询出满足条件的第50000到第50200中的这200条数据记录。
+### [1、一个6亿的表a，一个3亿的表b，通过外间tid关联，你如何最快的查询出满足条件的第50000到第50200中的这200条数据记录。](https://github.com/souyunku/DevBooks/blob/master/docs/MySQL/MySQL最新2021年面试题，高级面试题及附答案解析.md#1一个6亿的表a一个3亿的表b通过外间tid关联你如何最快的查询出满足条件的第50000到第50200中的这200条数据记录。)  
+
 
 **1、** 如果A表TID是自增长,并且是连续的,B表的ID为索引 select * from a,b where a.tid = b.id and a.tid>500000 limit 200;
 
 **2、** 如果A表的TID不是连续的,那么就需要使用覆盖索引.TID要么是主键,要么是辅助索引,B表ID也需要有索引。 select * from b , (select tid from a limit 50000,200) a where b.id = a .tid;
 
 
-### 2、SQL语句优化的一些方法
+### [2、SQL语句优化的一些方法](https://github.com/souyunku/DevBooks/blob/master/docs/MySQL/MySQL最新2021年面试题，高级面试题及附答案解析.md#2sql语句优化的一些方法)  
+
 
 **1、** 对查询进行优化，应尽量避免全表扫描，首先应考虑在 where 及 order by 涉及的列上建立索引。
 
@@ -72,7 +74,8 @@ select id from t where name like ‘abc%’
 **10、** 不要在 where 子句中的“=”左边进行函数、算术运算或其他表达式运算，否则系统将可能无法正确使用索引。
 
 
-### 3、什么是数据库连接池?为什么需要数据库连接池呢?
+### [3、什么是数据库连接池?为什么需要数据库连接池呢?](https://github.com/souyunku/DevBooks/blob/master/docs/MySQL/MySQL最新2021年面试题，高级面试题及附答案解析.md#3什么是数据库连接池为什么需要数据库连接池呢)  
+
 
 「连接池基本原理：」 数据库连接池原理：在内部对象池中，维护一定数量的数据库连接，并对外暴露数据库连接的获取和返回方法。
 
@@ -97,7 +100,8 @@ select id from t where name like ‘abc%’
 **4、** 统一的连接管理，避免数据库连接泄漏
 
 
-### 4、事物的四大特性(ACID)介绍一下?
+### [4、事物的四大特性(ACID)介绍一下?](https://github.com/souyunku/DevBooks/blob/master/docs/MySQL/MySQL最新2021年面试题，高级面试题及附答案解析.md#4事物的四大特性acid介绍一下)  
+
 
 关系性数据库需要遵循ACID规则，具体内容如下：
 
@@ -120,7 +124,8 @@ select id from t where name like ‘abc%’
 一个事务被提交之后。它对数据库中数据的改变是持久的，即使数据库发生故障也不应该对其有任何影响。
 
 
-### 5、索引分类？
+### [5、索引分类？](https://github.com/souyunku/DevBooks/blob/master/docs/MySQL/MySQL最新2021年面试题，高级面试题及附答案解析.md#5索引分类)  
+
 
 **单列索引**
 
@@ -143,7 +148,8 @@ select id from t where name like ‘abc%’
 空间索引是对空间数据类型的字段建立的索引，MySQL中的空间数据类型有四种，GEOMETRY、POINT、LINESTRING、POLYGON。在创建空间索引时，使用SPATIAL关键字。要求，引擎为MyISAM，创建空间索引的列，必须将其声明为NOT NULL。
 
 
-### 6、锁的优化策略
+### [6、锁的优化策略](https://github.com/souyunku/DevBooks/blob/master/docs/MySQL/MySQL最新2021年面试题，高级面试题及附答案解析.md#6锁的优化策略)  
+
 
 1\、读写分离
 
@@ -156,7 +162,8 @@ select id from t where name like ‘abc%’
 不能将锁的粒度过于细化，不然可能会出现线程的加锁和释放次数过多，反而效率不如一次加一把大锁。
 
 
-### 7、limit 1000000 加载很慢的话，你是怎么解决的呢？
+### [7、limit 1000000 加载很慢的话，你是怎么解决的呢？](https://github.com/souyunku/DevBooks/blob/master/docs/MySQL/MySQL最新2021年面试题，高级面试题及附答案解析.md#7limit-1000000-加载很慢的话你是怎么解决的呢)  
+
 
 **方案一：如果id是连续的，可以这样，返回上次查询的最大记录(偏移量)，再往下limit**
 
@@ -181,7 +188,8 @@ SELECT a.* FROM employee a, (select id from employee where 条件 LIMIT 1000000,
 ```
 
 
-### 8、什么是事务的隔离级别？MySQL的默认隔离级别是什么？
+### [8、什么是事务的隔离级别？MySQL的默认隔离级别是什么？](https://github.com/souyunku/DevBooks/blob/master/docs/MySQL/MySQL最新2021年面试题，高级面试题及附答案解析.md#8什么是事务的隔离级别mysql的默认隔离级别是什么)  
+
 
 为了达到事务的四大特性，数据库定义了4种不同的事务隔离级别，由低到高依次为Read uncommitted、Read committed、Repeatable read、Serializable，这四个级别可以逐个解决脏读、不可重复读、幻读这几类问题。
 
@@ -220,7 +228,8 @@ SELECT a.* FROM employee a, (select id from employee where 条件 LIMIT 1000000,
 **4、** InnoDB 存储引擎在 **分布式事务** 的情况下一般会用到**SERIALIZABLE(可串行化)**隔离级别。
 
 
-### 9、视图的使用场景有哪些？
+### [9、视图的使用场景有哪些？](https://github.com/souyunku/DevBooks/blob/master/docs/MySQL/MySQL最新2021年面试题，高级面试题及附答案解析.md#9视图的使用场景有哪些)  
+
 
 视图根本用途：简化sql查询，提高开发效率。如果说还有另外一个用途那就是兼容老的表结构
 
@@ -237,7 +246,8 @@ SELECT a.* FROM employee a, (select id from employee where 条件 LIMIT 1000000,
 **5、** 更改数据格式和表示。视图可返回与底层表的表示和格式不同的数据。
 
 
-### 10、MYSQL数据库服务器性能分析的方法命令有哪些?
+### [10、MYSQL数据库服务器性能分析的方法命令有哪些?](https://github.com/souyunku/DevBooks/blob/master/docs/MySQL/MySQL最新2021年面试题，高级面试题及附答案解析.md#10mysql数据库服务器性能分析的方法命令有哪些)  
+
 
 Show status, 一些值得监控的变量值：
 
@@ -280,9 +290,9 @@ Show profiles 是MySql用来分析当前会话SQL语句执行的资源消耗情�
 
 
 
-## 全部答案，整理好了，直接下载吧
+## [全部答案，整理好了，直接下载吧](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
-### 下载链接：[全部答案，整理好了](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
+### 下载链接：[全部答案，整理好了](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
 
 

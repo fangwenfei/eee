@@ -6,12 +6,14 @@
 
 
 
-### 1、Mybatis 分页查询？
+### [1、Mybatis 分页查询？](https://github.com/souyunku/DevBooks/blob/master/docs/MyBatis/MyBatis最新2021年面试题附答案解析，大汇总.md#1mybatis-分页查询)  
+
 
 Mybatis本身有分页查询，但是并不是正真的分页查询，它是把数据查出来放在内存里面，你想要什么就给你什么。 我们使用Mybatis实现分页查询的时候，是要实现真分页查询，就是要用sql语句来实现分页查询。MySQL和Oracle两种数据库的实现方法是不一样的。 MySQL：select * from table limit N , M; 其中：N表示从第几页开始，M表示每页显示的条数。比如：数据库中有30条数据，要求每页显示10条，显示第2页的所有数据。 SQL语句就可以写成：Limit 10 , 20; Oracle实现分页查询：采用伪列ROWNUM
 
 
-### 2、Mybatis能执行一对多，一对一的联系查询吗，有哪些实现方法
+### [2、Mybatis能执行一对多，一对一的联系查询吗，有哪些实现方法](https://github.com/souyunku/DevBooks/blob/master/docs/MyBatis/MyBatis最新2021年面试题附答案解析，大汇总.md#2mybatis能执行一对多一对一的联系查询吗有哪些实现方法)  
+
 
 能，不止可以一对多，一对一还可以多对多，一对多
 
@@ -24,7 +26,8 @@ Mybatis本身有分页查询，但是并不是正真的分页查询，它是把�
 **3、** 子查询
 
 
-### 3、使用 MyBatis 的 mapper 接口调用时有哪些要求？
+### [3、使用 MyBatis 的 mapper 接口调用时有哪些要求？](https://github.com/souyunku/DevBooks/blob/master/docs/MyBatis/MyBatis最新2021年面试题附答案解析，大汇总.md#3使用-mybatis-的-mapper-接口调用时有哪些要求)  
+
 
 **1、** Mapper 接口方法名和 mapper.xml 中定义的每个 sql 的 id 相同
 
@@ -35,19 +38,22 @@ Mybatis本身有分页查询，但是并不是正真的分页查询，它是把�
 **4、** Mapper.xml 文件中的 namespace 即是 mapper 接口的类路径。
 
 
-### 4、MyBatis是什么？
+### [4、MyBatis是什么？](https://github.com/souyunku/DevBooks/blob/master/docs/MyBatis/MyBatis最新2021年面试题附答案解析，大汇总.md#4mybatis是什么)  
+
 
 Mybatis 是一个半 ORM（对象关系映射）框架，它内部封装了 JDBC，开发时只需要关注 SQL 语句本身，不需要花费精力去处理加载驱动、创建连接、创建statement 等繁杂的过程。程序员直接编写原生态 sql，可以严格控制 sql 执行性能，灵活度高。
 
 MyBatis 可以使用 XML 或注解来配置和映射原生信息，将 POJO 映射成数据库中的记录，避免了几乎所有的 JDBC 代码和手动设置参数以及获取结果集。
 
 
-### 5、#{}和${}的区别是什么？
+### [5、#{}和${}的区别是什么？](https://github.com/souyunku/DevBooks/blob/master/docs/MyBatis/MyBatis最新2021年面试题附答案解析，大汇总.md#5#{}和${}的区别是什么)  
+
 
 Mybatis在处理#{}时，会将sql中的#{}替换为?号，调用Prepared Statement的set方法来赋值；Mybatis在处理$${}时，就是把$${}替换成变量的值；使用#{}可以有效的防止SQL注入，提高系统安全性。
 
 
-### 6、为什么说 Mybatis 是半自动 ORM 映射工具？它与全自动的区别在哪里？
+### [6、为什么说 Mybatis 是半自动 ORM 映射工具？它与全自动的区别在哪里？](https://github.com/souyunku/DevBooks/blob/master/docs/MyBatis/MyBatis最新2021年面试题附答案解析，大汇总.md#6为什么说-mybatis-是半自动-orm-映射工具它与全自动的区别在哪里)  
+
 
 Hibernate 属于全自动 ORM 映射工具，使用 Hibernate 查询关联对象或者关联集合对象
 
@@ -56,21 +62,24 @@ Hibernate 属于全自动 ORM 映射工具，使用 Hibernate 查询关联对象
 关联集合对象时，需要手动编写 sql 来完成，所以，称之为半自动 ORM 映射工具。
 
 
-### 7、为什么说Mybatis是半自动ORM映射工具？它与全自动的区别在哪里？
+### [7、为什么说Mybatis是半自动ORM映射工具？它与全自动的区别在哪里？](https://github.com/souyunku/DevBooks/blob/master/docs/MyBatis/MyBatis最新2021年面试题附答案解析，大汇总.md#7为什么说mybatis是半自动orm映射工具它与全自动的区别在哪里)  
+
 
 Hibernate属于全自动ORM映射工具，使用Hibernate查询关联对象或者关联集合对象时，可以根据对象关系模型直接获取，所以它是全自动的。
 
 而Mybatis在查询关联对象或关联集合对象时，需要手动编写sql来完成，所以，称之为半自动ORM映射工具。
 
 
-### 8、什么情况下用注解绑定,什么情况下用 xml 绑定？
+### [8、什么情况下用注解绑定,什么情况下用 xml 绑定？](https://github.com/souyunku/DevBooks/blob/master/docs/MyBatis/MyBatis最新2021年面试题附答案解析，大汇总.md#8什么情况下用注解绑定,什么情况下用-xml-绑定)  
+
 
 当 Sql 语句比较简单时候,用注解绑定；当 SQL 语句比较复杂时候,用 xml 绑定,一般用
 
 xml 绑定的比较多
 
 
-### 9、Mybais 常用注解 ？
+### [9、Mybais 常用注解 ？](https://github.com/souyunku/DevBooks/blob/master/docs/MyBatis/MyBatis最新2021年面试题附答案解析，大汇总.md#9mybais-常用注解-)  
+
 
 [@Insert ](/Insert ) ： 插入sql , 和xml insert sql语法完全一样
 
@@ -87,7 +96,8 @@ xml 绑定的比较多
 [@Result ](/Result ) ： 结果
 
 
-### 10、MyBatis的框架架构设计是怎么样的
+### [10、MyBatis的框架架构设计是怎么样的](https://github.com/souyunku/DevBooks/blob/master/docs/MyBatis/MyBatis最新2021年面试题附答案解析，大汇总.md#10mybatis的框架架构设计是怎么样的)  
+
 
 ![](https://gitee.com/souyunkutech/souyunku-home/raw/master/images/souyunku-web/2020/5/2/041/14/55_3.png#alt=55%5C_3.png)
 
@@ -121,9 +131,9 @@ xml 绑定的比较多
 
 
 
-## 全部答案，整理好了，直接下载吧
+## [全部答案，整理好了，直接下载吧](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
-### 下载链接：[全部答案，整理好了](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
+### 下载链接：[全部答案，整理好了](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
 
 

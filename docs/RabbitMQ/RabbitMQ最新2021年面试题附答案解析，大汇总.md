@@ -6,7 +6,8 @@
 
 
 
-### 1、RabbitMQ routing路由模式
+### [1、RabbitMQ routing路由模式](https://github.com/souyunku/DevBooks/blob/master/docs/RabbitMQ/RabbitMQ最新2021年面试题附答案解析，大汇总.md#1rabbitmq-routing路由模式)  
+
 
 ![](https://gitee.com/souyunkutech/souyunku-home/raw/master/images/souyunku-web/2020/5/2/030/5/35_7.png#alt=35%5C_7.png)
 
@@ -19,7 +20,8 @@
 **4、** 业务场景:error 通知;EXCEPTION;错误通知的功能;传统意义的错误通知;客户通知;利用key路由,可以将程序中的错误封装成消息传入到消息队列中,开发者可以自定义消费者,实时接收错误;
 
 
-### 2、消息怎么路由？
+### [2、消息怎么路由？](https://github.com/souyunku/DevBooks/blob/master/docs/RabbitMQ/RabbitMQ最新2021年面试题附答案解析，大汇总.md#2消息怎么路由)  
+
 
 消息提供方->路由->一至多个队列消息发布到交换器时，消息将拥有一个路由键（routing key），在消息创建时设定。通过队列路由键，可以把队列绑定到交换器上。消息到达交换器后，RabbitMQ 会将消息的路由键与队列的路由键进行匹配（针对不同的交换器有不同的路由规则）；
 
@@ -32,7 +34,8 @@
 **3、** topic：可以使来自不同源头的消息能够到达同一个队列。 使用 topic 交换器时，可以使用通配符
 
 
-### 3、RabbitMQ publish/subscribe发布订阅(共享资源)
+### [3、RabbitMQ publish/subscribe发布订阅(共享资源)](https://github.com/souyunku/DevBooks/blob/master/docs/RabbitMQ/RabbitMQ最新2021年面试题附答案解析，大汇总.md#3rabbitmq-publish/subscribe发布订阅共享资源)  
+
 
 ![](https://gitee.com/souyunkutech/souyunku-home/raw/master/images/souyunku-web/2020/5/2/030/5/35_6.png#alt=35%5C_6.png)
 
@@ -41,12 +44,14 @@
 **2、** 生产者将消息发给broker，由交换机将消息转发到绑定此交换机的每个队列，每个绑定交换机的队列都将接收到消息。
 
 
-### 4、能够在地理上分开的不同数据中心使用 RabbitMQ cluster 么？
+### [4、能够在地理上分开的不同数据中心使用 RabbitMQ cluster 么？](https://github.com/souyunku/DevBooks/blob/master/docs/RabbitMQ/RabbitMQ最新2021年面试题附答案解析，大汇总.md#4能够在地理上分开的不同数据中心使用-rabbitmq-cluster-么)  
+
 
 不能。第一，你无法控制所创建的 queue 实际分布在 cluster 里的哪个 node 上（一般使用 HAProxy + cluster 模型时都是这样），这可能会导致各种跨地域访问时的常见问题；第二，Erlang 的 OTP 通信框架对延迟的容忍度有限，这可能会触发各种超时，导致业务疲于处理；第三，在广域网上的连接失效问题将导致经典的“脑裂”问题，而RabbitMQ 目前无法处理（该问题主要是说 Mnesia）。
 
 
-### 5、RabbitMQ有那些基本概念？
+### [5、RabbitMQ有那些基本概念？](https://github.com/souyunku/DevBooks/blob/master/docs/RabbitMQ/RabbitMQ最新2021年面试题附答案解析，大汇总.md#5rabbitmq有那些基本概念)  
+
 
 **1、** Broker：简单来说就是消息队列服务器实体
 
@@ -69,26 +74,30 @@
 由`Exchange`、`Queue`、`RoutingKey`三个才能决定一个从Exchange到Queue的唯一的线路。
 
 
-### 6、什么情况下会出现 blackholed 问题？
+### [6、什么情况下会出现 blackholed 问题？](https://github.com/souyunku/DevBooks/blob/master/docs/RabbitMQ/RabbitMQ最新2021年面试题附答案解析，大汇总.md#6什么情况下会出现-blackholed-问题)  
+
 
 blackholed 问题是指，向 exchange 投递了 message ，而由于各种原因导致该message 丢失，但发送者却不知道。可导致 blackholed 的情况：1.向未绑定 queue 的exchange 发送 message；2.exchange 以 binding_key key_A 绑定了 queue queue_A，但向该 exchange 发送 message 使用的 routing_key 却是 key_B。
 
 
-### 7、什么是消费者Consumer?
+### [7、什么是消费者Consumer?](https://github.com/souyunku/DevBooks/blob/master/docs/RabbitMQ/RabbitMQ最新2021年面试题附答案解析，大汇总.md#7什么是消费者consumer)  
+
 
 消费消息，也就是接收消息的一方。
 
 消费者连接到RabbitMQ服务器，并订阅到队列上。消费消息时只消费消息体，丢弃标签。
 
 
-### 8、消息如何分发？
+### [8、消息如何分发？](https://github.com/souyunku/DevBooks/blob/master/docs/RabbitMQ/RabbitMQ最新2021年面试题附答案解析，大汇总.md#8消息如何分发)  
+
 
 **1、** 若该队列至少有一个消费者订阅，消息将以循环（round-robin）的方式发送给消费者。每条消息只会分发给一个订阅的消费者（前提是消费者能够正常处理消息并进行确认）。
 
 **2、** 通过路由可实现多消费的功能
 
 
-### 9、Basic.Reject 的用法是什么？
+### [9、Basic.Reject 的用法是什么？](https://github.com/souyunku/DevBooks/blob/master/docs/RabbitMQ/RabbitMQ最新2021年面试题附答案解析，大汇总.md#9basicreject-的用法是什么)  
+
 
 该信令可用于 consumer 对收到的 message 进行 reject 。若在该信令中设置
 
@@ -98,7 +107,8 @@ requeue=true，则当 RabbitMQ server 收到该拒绝信令后，会将该 messa
 
 
 
-### 10、什么是Binding绑定？
+### [10、什么是Binding绑定？](https://github.com/souyunku/DevBooks/blob/master/docs/RabbitMQ/RabbitMQ最新2021年面试题附答案解析，大汇总.md#10什么是binding绑定)  
+
 
 通过绑定将交换器和队列关联起来，一般会指定一个BindingKey,这样RabbitMq就知道如何正确路由消息到队列了。
 
@@ -125,9 +135,9 @@ requeue=true，则当 RabbitMQ server 收到该拒绝信令后，会将该 messa
 
 
 
-## 全部答案，整理好了，直接下载吧
+## [全部答案，整理好了，直接下载吧](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
-### 下载链接：[全部答案，整理好了](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
+### 下载链接：[全部答案，整理好了](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
 
 

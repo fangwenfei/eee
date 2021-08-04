@@ -6,7 +6,8 @@
 
 
 
-### 1、NIO的组成？
+### [1、NIO的组成？](https://github.com/souyunku/DevBooks/blob/master/docs/Netty/Netty最新2021年面试题附答案解析，大汇总.md#1nio的组成)  
+
 
 Buffer：与Channel进行交互，数据是从Channel读入缓冲区，从缓冲区写入Channel中的
 
@@ -33,7 +34,8 @@ Pipe：两个线程之间的单向数据连接，数据会被写到sink通道，
 NIO的服务端建立过程：Selector.open()：打开一个Selector；ServerSocketChannel.open()：创建服务端的Channel；bind()：绑定到某个端口上。并配置非阻塞模式；register()：注册Channel和关注的事件到Selector上；select()轮询拿到已经就绪的事件
 
 
-### 2、Netty 的线程模型？
+### [2、Netty 的线程模型？](https://github.com/souyunku/DevBooks/blob/master/docs/Netty/Netty最新2021年面试题附答案解析，大汇总.md#2netty-的线程模型)  
+
 
 Netty 通过 Reactor 模型基于多路复用器接收并处理用户请求，内部实现了两个线程池，**boss 线程池和 work 线程池**，其中** boss 线程池**的线程负责处理请求的 accept 事件，当接收到 accept 事件的请求时，把对应的 socket 封装到一个 NioSocketChannel 中，并交给 **work线程池**，其中 work 线程池负责请求的 read 和 write 事件，由对应的 Handler 处理。
 
@@ -44,7 +46,8 @@ Netty 通过 Reactor 模型基于多路复用器接收并处理用户请求，�
 **主从多线程模型：**Acceptor线程用于绑定监听端口，接收客户端连接，将 SocketChannel从主线程池的 Reactor 线程的多路复用器上移除，重新注册到 Sub 线程池的线程上，用于处理 I/O 的读写等操作，从而保证 mainReactor 只负责接入认证、握手等操作；
 
 
-### 3、Netty 核心组件有哪些？分别有什么作用？
+### [3、Netty 核心组件有哪些？分别有什么作用？](https://github.com/souyunku/DevBooks/blob/master/docs/Netty/Netty最新2021年面试题附答案解析，大汇总.md#3netty-核心组件有哪些分别有什么作用)  
+
 
 Netty 核心组件有哪些？分别有什么作用？
 
@@ -114,7 +117,8 @@ ChannelPipeline 为 ChannelHandler 的链，提供了一个容器并定义了用
 我们可以在 ChannelPipeline 上通过 addLast() 方法添加一个或者多个ChannelHandler ，因为一个数据或者事件可能会被多个 Handler 处理。当一个 ChannelHandler 处理完之后就将数据交给下一个 ChannelHandler 。
 
 
-### 4、什么是 TCP 粘包/拆包?有什么解决办法呢？
+### [4、什么是 TCP 粘包/拆包?有什么解决办法呢？](https://github.com/souyunku/DevBooks/blob/master/docs/Netty/Netty最新2021年面试题附答案解析，大汇总.md#4什么是-tcp-粘包/拆包有什么解决办法呢)  
+
 
 什么是 TCP 粘包/拆包?
 
@@ -145,7 +149,8 @@ LengthFieldBasedFrameDecoder：
 跨语言的：Protostuff（基于 protobuf 发展而来），ProtoBuf，Thrift，Avro，MsgPack 等等
 
 
-### 5、Netty 的使用场景
+### [5、Netty 的使用场景](https://github.com/souyunku/DevBooks/blob/master/docs/Netty/Netty最新2021年面试题附答案解析，大汇总.md#5netty-的使用场景)  
+
 
 **1、** 构建高性能、低时延的各种 Java 中间件，Netty 主要作为基础通信框架提供高性能、低时延的通信服务。例如：RocketMQ ，分布式消息队列。Dubbo ，服务调用框架。Spring WebFlux ，基于响应式的 Web 框架。
 
@@ -154,7 +159,8 @@ LengthFieldBasedFrameDecoder：
 **3、** 各领域应用，例如大数据、游戏等，Netty 作为高性能的通信框架用于内部各模块的数据分发、传输和汇总等，实现模块之间高性能通信。
 
 
-### 6、如何选择序列化协议？
+### [6、如何选择序列化协议？](https://github.com/souyunku/DevBooks/blob/master/docs/Netty/Netty最新2021年面试题附答案解析，大汇总.md#6如何选择序列化协议)  
+
 
 具体场景
 
@@ -187,7 +193,8 @@ Netty中的使用：ProtobufVarint32FrameDecoder 是用于处理半包消息的�
 将StringBuilder转换为ByteBuf类型：copiedBuffer()方法
 
 
-### 7、TCP 粘包/拆包的原因及解决方法？
+### [7、TCP 粘包/拆包的原因及解决方法？](https://github.com/souyunku/DevBooks/blob/master/docs/Netty/Netty最新2021年面试题附答案解析，大汇总.md#7tcp-粘包/拆包的原因及解决方法)  
+
 
 TCP 是以流的方式来处理数据，一个完整的包可能会被 TCP 拆分成多个包进行发送，也可能把小的封装成一个大的数据包发送。
 
@@ -206,7 +213,8 @@ TCP 是以流的方式来处理数据，一个完整的包可能会被 TCP 拆�
 **DelimiterBasedFrameDecoder：**将消息分为消息头和消息体：LengthFieldBasedFrameDecoder 类。分为有头部的拆包与粘包、长度字段在前且有头部的拆包与粘包、多扩展头部的拆包与粘包。
 
 
-### 8、Netty 的零拷贝实现？
+### [8、Netty 的零拷贝实现？](https://github.com/souyunku/DevBooks/blob/master/docs/Netty/Netty最新2021年面试题附答案解析，大汇总.md#8netty-的零拷贝实现)  
+
 
 Netty 的接收和发送 ByteBuffer 采用 DIRECT BUFFERS，使用堆外直接内存进行 Socket 读写，不需要进行字节缓冲区的二次拷贝。堆内存多了一次内存拷贝，JVM 会将堆内存Buffer 拷贝一份到直接内存中，然后才写入 Socket 中。ByteBuffer 由 ChannelConfig 分配，而 ChannelConfig 创建 ByteBufAllocator 默认使用 Direct Buffer
 
@@ -221,7 +229,8 @@ Selector  BUG：若 Selector 的轮询结果为空，也没有 wakeup 或新消
 Netty 的解决办法：对 Selector 的 select 操作周期进行统计，每完成一次空的 select 操作进行一次计数，若在某个周期内连续发生 N 次空轮询，则触发了 epoll 死循环 bug。重建Selector，判断是否是其他线程发起的重建请求，若不是则将原 SocketChannel 从旧的Selector 上去除注册，重新注册到新的 Selector 上，并将原来的 Selector 关闭。
 
 
-### 9、Netty的线程模型？
+### [9、Netty的线程模型？](https://github.com/souyunku/DevBooks/blob/master/docs/Netty/Netty最新2021年面试题附答案解析，大汇总.md#9netty的线程模型)  
+
 
 Netty通过Reactor模型基于多路复用器接收并处理用户请求，内部实现了两个线程池，boss线程池和work线程池，其中boss线程池的线程负责处理请求的accept事件，当接收到accept事件的请求时，把对应的socket封装到一个NioSocketChannel中，并交给work线程池，其中work线程池负责请求的read和write事件，由对应的Handler处理。
 
@@ -232,7 +241,8 @@ Netty通过Reactor模型基于多路复用器接收并处理用户请求，内�
 主从多线程模型：Acceptor 线程用于绑定监听端口，接收客户端连接，将SocketChannel 从主线程池的Reactor 线程的多路复用器上移除，重新注册到Sub 线程池的线程上，用于处理I/O 的读写等操作，从而保证mainReactor只负责接入认证、握手等操作；
 
 
-### 10、Netty 空闲检测
+### [10、Netty 空闲检测](https://github.com/souyunku/DevBooks/blob/master/docs/Netty/Netty最新2021年面试题附答案解析，大汇总.md#10netty-空闲检测)  
+
 
 IdleStateHandler ，用于检测连接的读写是否处于空闲状态。如果是，则会触发 IdleStateEvent 。
 
@@ -265,9 +275,9 @@ IdleStateHandler ，用于检测连接的读写是否处于空闲状态。如果
 
 
 
-## 全部答案，整理好了，直接下载吧
+## [全部答案，整理好了，直接下载吧](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
-### 下载链接：[全部答案，整理好了](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
+### 下载链接：[全部答案，整理好了](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
 
 

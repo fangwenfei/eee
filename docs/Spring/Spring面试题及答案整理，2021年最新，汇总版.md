@@ -6,7 +6,8 @@
 
 
 
-### 1、您对微服务有何了解？
+### [1、您对微服务有何了解？](https://github.com/souyunku/DevBooks/blob/master/docs/Spring/Spring面试题及答案整理，2021年最新，汇总版.md#1您对微服务有何了解)  
+
 
 微服务，又称微服务架构，是一种架构风格，它将应用程序构建为以业务领域为模型的小型自治服务集合 。
 
@@ -19,12 +20,14 @@
 请参考上图。这里，每个六边形形状代表单独的服务组件。与蜜蜂的工作类似，每个敏捷团队都使用可用的框架和所选的技术堆栈构建单独的服务组件。就像在蜂箱中一样，每个服务组件形成一个强大的微服务架构，以提供更好的可扩展性。此外，敏捷团队可以单独处理每个服务组件的问题，而对整个应用程序没有影响或影响最小。
 
 
-### 2、SpringBoot微服务中如何实现 session 共享 ?
+### [2、SpringBoot微服务中如何实现 session 共享 ?](https://github.com/souyunku/DevBooks/blob/master/docs/Spring/Spring面试题及答案整理，2021年最新，汇总版.md#2springboot微服务中如何实现-session-共享-)  
+
 
 在微服务中，一个完整的项目被拆分成多个不相同的独立的服务，各个服务独立部署在不同的服务器上，各自的 session 被从物理空间上隔离开了，但是经常，我们需要在不同微服务之间共享 session ，常见的方案就是 Spring Session + Redis 来实现 session 共享。将所有微服务的 session 统一保存在 Redis 上，当各个微服务对 session 有相关的读写操作时，都去操作 Redis 上的 session 。这样就实现了 session 共享，Spring Session 基于 Spring 中的代理过滤器实现，使得 session 的同步操作对开发人员而言是透明的，非常简便。
 
 
-### 3、SpringBoot的自动配置原理是什么
+### [3、SpringBoot的自动配置原理是什么](https://github.com/souyunku/DevBooks/blob/master/docs/Spring/Spring面试题及答案整理，2021年最新，汇总版.md#3springboot的自动配置原理是什么)  
+
 
 主要是SpringBoot的启动类上的核心注解SpringBootApplication注解主配置类，有了这个主配置类启动时就会为SpringBoot开启一个@EnableAutoConfiguration注解自动配置功能。
 
@@ -37,7 +40,8 @@
 **3、**  过滤，将满足条件（@Conditional）的自动配置类返回
 
 
-### 4、在 Spring中如何注入一个java集合？
+### [4、在 Spring中如何注入一个java集合？](https://github.com/souyunku/DevBooks/blob/master/docs/Spring/Spring面试题及答案整理，2021年最新，汇总版.md#4在-spring中如何注入一个java集合)  
+
 
 Spring提供以下几种集合的配置元素：
 
@@ -50,7 +54,8 @@ Spring提供以下几种集合的配置元素：
 **4、** 类型用于注入一组键值对，键和值都只能为String类型。
 
 
-### 5、SpringBoot、Spring MVC 和 Spring 有什么区别？
+### [5、SpringBoot、Spring MVC 和 Spring 有什么区别？](https://github.com/souyunku/DevBooks/blob/master/docs/Spring/Spring面试题及答案整理，2021年最新，汇总版.md#5springbootspring-mvc-和-spring-有什么区别)  
+
 
 **1、** Spring
 
@@ -69,7 +74,8 @@ Spring 和 SpringMVC 的问题在于需要配置大量的参数。
 SpringBoot 通过一个自动配置和启动的项来目解决这个问题。为了更快的构建产品就绪应用程序，SpringBoot 提供了一些非功能性特征。
 
 
-### 6、Spring MVC怎么和AJAX相互调用的？
+### [6、Spring MVC怎么和AJAX相互调用的？](https://github.com/souyunku/DevBooks/blob/master/docs/Spring/Spring面试题及答案整理，2021年最新，汇总版.md#6spring-mvc怎么和ajax相互调用的)  
+
 
 通过Jackson框架就可以把Java里面的对象直接转化成Js可以识别的Json对象。具体步骤如下 ：
 
@@ -80,12 +86,14 @@ SpringBoot 通过一个自动配置和启动的项来目解决这个问题。为
 **3、** 在接受Ajax方法里面可以直接返回Object,List等,但方法前面要加上@ResponseBody注解。
 
 
-### 7、解释AOP模块
+### [7、解释AOP模块](https://github.com/souyunku/DevBooks/blob/master/docs/Spring/Spring面试题及答案整理，2021年最新，汇总版.md#7解释aop模块)  
+
 
 AOP模块用于发给我们的Spring应用做面向切面的开发， 很多支持由AOP联盟提供，这样就确保了Spring和其他AOP框架的共通性。这个模块将元数据编程引入Spring。
 
 
-### 8、如何在自定义端口上运行SpringBoot应用程序？
+### [8、如何在自定义端口上运行SpringBoot应用程序？](https://github.com/souyunku/DevBooks/blob/master/docs/Spring/Spring面试题及答案整理，2021年最新，汇总版.md#8如何在自定义端口上运行springboot应用程序)  
+
 
 为了在自定义端口上运行SpringBoot应用程序，您可以在application.properties中指定端口。
 
@@ -94,12 +102,14 @@ AOP模块用于发给我们的Spring应用做面向切面的开发， 很多支�
 ```
 
 
-### 9、什么是bean装配?
+### [9、什么是bean装配?](https://github.com/souyunku/DevBooks/blob/master/docs/Spring/Spring面试题及答案整理，2021年最新，汇总版.md#9什么是bean装配)  
+
 
 装配，或bean 装配是指在Spring 容器中把bean组装到一起，前提是容器需要知道bean的依赖关系，如何通过依赖注入来把它们装配到一起。
 
 
-### 10、SpringBoot支持哪些嵌入式容器？
+### [10、SpringBoot支持哪些嵌入式容器？](https://github.com/souyunku/DevBooks/blob/master/docs/Spring/Spring面试题及答案整理，2021年最新，汇总版.md#10springboot支持哪些嵌入式容器)  
+
 
 无论何时创建Java应用程序，都可以通过两种方法进行部署： 使用外部的应用程序容器。 将容器嵌入jar文件中。 SpringBoot包含Jetty，Tomcat和Undertow服务器，所有服务器都是嵌入式的。 Jetty - 用于大量项目，Eclipse Jetty可以嵌入到框架，应用程序服务器，工具和集群中。 Tomcat - Apache Tomcat是一个开源JavaServer Pages实现，可以很好地与嵌入式系统配合使用。 Undertow - 一个灵活而突出的Web服务器，它使用小型单一处理程序来开发Web服务器。
 
@@ -128,9 +138,9 @@ AOP模块用于发给我们的Spring应用做面向切面的开发， 很多支�
 
 
 
-## 全部答案，整理好了，直接下载吧
+## [全部答案，整理好了，直接下载吧](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
-### 下载链接：[全部答案，整理好了](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
+### 下载链接：[全部答案，整理好了](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
 
 

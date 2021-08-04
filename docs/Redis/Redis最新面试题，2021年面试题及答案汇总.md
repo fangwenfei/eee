@@ -6,19 +6,22 @@
 
 
 
-### 1、为什么 edis 需要把所有数据放到内存中？
+### [1、为什么 edis 需要把所有数据放到内存中？](https://github.com/souyunku/DevBooks/blob/master/docs/Redis/Redis最新面试题，2021年面试题及答案汇总.md#1为什么-edis-需要把所有数据放到内存中)  
+
 
 Redis 为了达到最快的读写速度将数据都读到内存中，并通过异步的方式将数据写入磁盘。所以 Redis 具有快速和数据持久化的特征。如果不将数据放在内存中， 磁盘 I/O 速度为严重影响 Redis 的性能。在内存越来越便宜的今天， Redis 将会越来越受欢迎。如果设置了最大使用的内存， 则数据已有记录数达到内存限值后不能继续插入新值。
 
 
-### 2、MySQL里有2000w数据，Redis中只存20w的数据
+### [2、MySQL里有2000w数据，Redis中只存20w的数据](https://github.com/souyunku/DevBooks/blob/master/docs/Redis/Redis最新面试题，2021年面试题及答案汇总.md#2mysql里有2000w数据redis中只存20w的数据)  
+
 
 **如何保证Redis中的数据都是热点数据？**
 
 Redis内存数据集大小上升到一定大小的时候，就会施行数据淘汰策略。
 
 其实面试除了考察Redis，不少公司都很重视高并发高可用的技术，特别是一线互联网公司，分布式、JVM、spring源码分析、微服务等知识点已是面试的必考题。我自己整理收集了一套系统的架构技术体系，针对当前互联网公司的技术需求以及结合主流技术，这些东西可能你们平时在工作中接触过，但是缺少的全面系统的学习，加入
-### 3、Reids6种淘汰策略：
+### [3、Reids6种淘汰策略：](https://github.com/souyunku/DevBooks/blob/master/docs/Redis/Redis最新面试题，2021年面试题及答案汇总.md#3reids6种淘汰策略：)  
+
 
 **noeviction**: 不删除策略, 达到最大内存限制时, 如果需要更多内存, 直接返回错误信息。大多数写命令都会导致占用更多的内存(有极少数会例外。
 
@@ -33,39 +36,46 @@ Redis内存数据集大小上升到一定大小的时候，就会施行数据淘
 **volatile-ttl**: 只限于设置了 **expire** 的部分; 优先删除剩余时间(time to live,TTL) 短的key。
 
 
-### 4、Redis还提供的高级工具
+### [4、Redis还提供的高级工具](https://github.com/souyunku/DevBooks/blob/master/docs/Redis/Redis最新面试题，2021年面试题及答案汇总.md#4redis还提供的高级工具)  
+
 
 像慢查询分析、性能测试、Pipeline、事务、Lua自定义命令、Bitmaps、HyperLogLog、/订阅、Geo等个性化功能。
 
 
-### 5、Pipeline 有什么好处，为什么要用pipeline？
+### [5、Pipeline 有什么好处，为什么要用pipeline？](https://github.com/souyunku/DevBooks/blob/master/docs/Redis/Redis最新面试题，2021年面试题及答案汇总.md#5pipeline-有什么好处为什么要用pipeline)  
+
 
 可以将多次 IO 往返的时间缩减为一次，前提是 pipeline 执行的指令之间没有因果相关性。使用 Redis-benchmark 进行压测的时候可以发现影响 Redis 的 QPS 峰值的一个重要因素是 pipeline 批次指令的数目。
 
 
-### 6、Redis 集群方案什么情况下会导致整个集群不可用？
+### [6、Redis 集群方案什么情况下会导致整个集群不可用？](https://github.com/souyunku/DevBooks/blob/master/docs/Redis/Redis最新面试题，2021年面试题及答案汇总.md#6redis-集群方案什么情况下会导致整个集群不可用)  
+
 
 有 A， B， C 三个节点的集群,在没有复制模型的情况下,如果节点 B 失败了， 那么整个集群就会以为缺少 5501-11000 这个范围的槽而不可用。
 
 
-### 7、Redis 的内存用完了会发生什么？
+### [7、Redis 的内存用完了会发生什么？](https://github.com/souyunku/DevBooks/blob/master/docs/Redis/Redis最新面试题，2021年面试题及答案汇总.md#7redis-的内存用完了会发生什么)  
+
 
 如果达到设置的上限，Redis 的写命令会返回错误信息（ 但是读命令还可以正常返回。） 或者你可以将 Redis 当缓存来使用配置淘汰机制， 当 Redis 达到内存上限时会冲刷掉旧的内容。
 
 
-### 8、删除key
+### [8、删除key](https://github.com/souyunku/DevBooks/blob/master/docs/Redis/Redis最新面试题，2021年面试题及答案汇总.md#8删除key)  
+
 
 ```
 del key1 key2 ...
 ```
 
 
-### 9、Redis集群最大节点个数是多少？
+### [9、Redis集群最大节点个数是多少？](https://github.com/souyunku/DevBooks/blob/master/docs/Redis/Redis最新面试题，2021年面试题及答案汇总.md#9redis集群最大节点个数是多少)  
+
 
 16384个。
 
 
-### 10、Redis 到底是怎么实现“附近的人”
+### [10、Redis 到底是怎么实现“附近的人”](https://github.com/souyunku/DevBooks/blob/master/docs/Redis/Redis最新面试题，2021年面试题及答案汇总.md#10redis-到底是怎么实现“附近的人)  
+
 
 ```
 GEOADD key longitude latitude member [longitude latitude member ...]
@@ -106,9 +116,9 @@ GEOADD key longitude latitude member [longitude latitude member ...]
 
 
 
-## 全部答案，整理好了，直接下载吧
+## [全部答案，整理好了，直接下载吧](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
-### 下载链接：[全部答案，整理好了](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
+### 下载链接：[全部答案，整理好了](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
 
 

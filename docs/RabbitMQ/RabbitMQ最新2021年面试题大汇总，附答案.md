@@ -6,7 +6,8 @@
 
 
 
-### 1、如何解决消息队列的延时以及过期失效问题？消息队列满了以后该怎么处理？有几百万消息持续积压几小时，怎么办？
+### [1、如何解决消息队列的延时以及过期失效问题？消息队列满了以后该怎么处理？有几百万消息持续积压几小时，怎么办？](https://github.com/souyunku/DevBooks/blob/master/docs/RabbitMQ/RabbitMQ最新2021年面试题大汇总，附答案.md#1如何解决消息队列的延时以及过期失效问题消息队列满了以后该怎么处理有几百万消息持续积压几小时怎么办)  
+
 
 **消息积压处理办法：临时紧急扩容：**
 
@@ -27,14 +28,16 @@
 如果消息积压在 mq 里，你很长时间都没有处理掉，此时导致 mq 都快写满了，咋办？这个还有别的办法吗？没有，谁让你第一个方案执行的太慢了，你临时写程序，接入数据来消费，消费一个丢弃一个，都不要了，快速消费掉所有的消息。然后走第二个方案，到了晚上再补数据吧。
 
 
-### 2、为什么说保证 message 被可靠持久化的条件是 queue 和 exchange 具有durable 属性，同时 message 具有 persistent 属性才行？
+### [2、为什么说保证 message 被可靠持久化的条件是 queue 和 exchange 具有durable 属性，同时 message 具有 persistent 属性才行？](https://github.com/souyunku/DevBooks/blob/master/docs/RabbitMQ/RabbitMQ最新2021年面试题大汇总，附答案.md#2为什么说保证-message-被可靠持久化的条件是-queue-和-exchange-具有durable-属性同时-message-具有-persistent-属性才行)  
+
 
 binding 关系可以表示为 exchange – binding – queue 。从文档中我们知道，若要求投递的 message 能够不丢失，要求 message 本身设置 persistent 属性，要求 exchange和 queue 都设置 durable 属性。
 
 其实这问题可以这么想，若 exchange 或 queue 未设置durable 属性，则在其 crash 之后就会无法恢复，那么即使 message 设置了 persistent 属性，仍然存在 message 虽然能恢复但却无处容身的问题；同理，若 message 本身未设置persistent 属性，则 message 的持久化更无从谈起。
 
 
-### 3、如何自动删除长时间没有消费的消息？
+### [3、如何自动删除长时间没有消费的消息？](https://github.com/souyunku/DevBooks/blob/master/docs/RabbitMQ/RabbitMQ最新2021年面试题大汇总，附答案.md#3如何自动删除长时间没有消费的消息)  
+
 
 ```
 // 通过队列属性设置消息过期时间
@@ -47,21 +50,24 @@ AMQP.BasicProperties properties = new AMQP.BasicProperties.Builder()
 ```
 
 
-### 4、RabbitMQ 概念里的 channel、exchange 和 queue 这些东东是逻辑概念，还是对应着进程实体？这些东东分别起什么作用？
+### [4、RabbitMQ 概念里的 channel、exchange 和 queue 这些东东是逻辑概念，还是对应着进程实体？这些东东分别起什么作用？](https://github.com/souyunku/DevBooks/blob/master/docs/RabbitMQ/RabbitMQ最新2021年面试题大汇总，附答案.md#4rabbitmq-概念里的-channelexchange-和-queue-这些东东是逻辑概念还是对应着进程实体这些东东分别起什么作用)  
+
 
 queue 具有自己的 erlang 进程；exchange 内部实现为保存 binding 关系的查找表；channel 是实际进行路由工作的实体，即负责按照 routing_key 将 message 投递给queue 。由 AMQP 协议描述可知，channel 是真实 TCP 连接之上的虚拟连接，所有AMQP 命令都是通过 channel 发送的，且每一个 channel 有唯一的 ID。
 
 一个 channel 只能被单独一个操作系统线程使用，故投递到特定 channel 上的 message 是有顺序的。但一个操作系统线程上允许使用多个 channel 。channel 号为 0 的 channel 用于处理所有对于当前 connection 全局有效的帧，而 1-65535 号 channel 用于处理和特定 channel 相关的帧。AMQP 协议给出的 channel ，其中每一个 channel 运行在一个独立的线程上，多线程共享同一个 socket。
 
 
-### 5、消费者获取消息的方式？
+### [5、消费者获取消息的方式？](https://github.com/souyunku/DevBooks/blob/master/docs/RabbitMQ/RabbitMQ最新2021年面试题大汇总，附答案.md#5消费者获取消息的方式)  
+
 
 推
 
 拉
 
 
-### 6、使用RabbitMQ有什么好处？
+### [6、使用RabbitMQ有什么好处？](https://github.com/souyunku/DevBooks/blob/master/docs/RabbitMQ/RabbitMQ最新2021年面试题大汇总，附答案.md#6使用rabbitmq有什么好处)  
+
 
 **1、** 解耦，系统A在代码中直接调用系统B和系统C的代码，如果将来D系统接入，系统A还需要修改代码，过于麻烦！
 
@@ -70,7 +76,8 @@ queue 具有自己的 erlang 进程；exchange 内部实现为保存 binding 关
 **3、** 削峰，并发量大的时候，所有的请求直接怼到数据库，造成数据库连接异常
 
 
-### 7、mq的缺点
+### [7、mq的缺点](https://github.com/souyunku/DevBooks/blob/master/docs/RabbitMQ/RabbitMQ最新2021年面试题大汇总，附答案.md#7mq的缺点)  
+
 
 **系统可用性降低**
 
@@ -87,17 +94,20 @@ queue 具有自己的 erlang 进程；exchange 内部实现为保存 binding 关
 **2、** 所以消息队列实际是一种非常复杂的架构，你引入它有很多好处，但是也得针对它带来的坏处做各种额外的技术方案和架构来规避掉，最好之后，你会发现，妈呀，系统复杂度提升了一个数量级，也许是复杂了10倍。但是关键时刻，用，还是得用的
 
 
-### 8、死信队列？
+### [8、死信队列？](https://github.com/souyunku/DevBooks/blob/master/docs/RabbitMQ/RabbitMQ最新2021年面试题大汇总，附答案.md#8死信队列)  
+
 
 DLX，全称为 Dead-Letter-Exchange，死信交换器，死信邮箱。当消息在一个队列中变成死信 (dead message) 之后，它能被重新被发送到另一个交换器中，这个交换器就是 DLX，绑定 DLX 的队列就称之为死信队列。
 
 
-### 9、Binding绑定？
+### [9、Binding绑定？](https://github.com/souyunku/DevBooks/blob/master/docs/RabbitMQ/RabbitMQ最新2021年面试题大汇总，附答案.md#9binding绑定)  
+
 
 通过绑定将交换器和队列关联起来，一般会指定一个BindingKey,这样RabbitMq就知道如何正确路由消息到队列了。
 
 
-### 10、消息传输保证层级？
+### [10、消息传输保证层级？](https://github.com/souyunku/DevBooks/blob/master/docs/RabbitMQ/RabbitMQ最新2021年面试题大汇总，附答案.md#10消息传输保证层级)  
+
 
 At most once:最多一次。消息可能会丢失，单不会重复传输。
 
@@ -127,9 +137,9 @@ Exactly once: 恰好一次，每条消息肯定仅传输一次。
 
 
 
-## 全部答案，整理好了，直接下载吧
+## [全部答案，整理好了，直接下载吧](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
-### 下载链接：[全部答案，整理好了](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
+### 下载链接：[全部答案，整理好了](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
 
 

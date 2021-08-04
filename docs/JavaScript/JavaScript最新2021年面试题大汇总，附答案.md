@@ -6,7 +6,8 @@
 
 
 
-### 1、为什么在 JS 中比较两个相似的对象时返回 false？
+### [1、为什么在 JS 中比较两个相似的对象时返回 false？](https://github.com/souyunku/DevBooks/blob/master/docs/JavaScript/JavaScript最新2021年面试题大汇总，附答案.md#1为什么在-js-中比较两个相似的对象时返回-false)  
+
 
 先看下面的例子：
 
@@ -21,7 +22,8 @@ console.log(a === c); // true
 JS 以不同的方式比较对象和基本类型。在基本类型中，JS 通过值对它们进行比较，而在对象中，JS 通过引用或存储变量的内存中的地址对它们进行比较。这就是为什么第一个`console.log`语句返回`false`，而第二个`console.log`语句返回`true`。`a`和`c`有相同的引用地址，而`a`和`b`没有。
 
 
-### 2、函数表达式和函数声明之间有什么区别？
+### [2、函数表达式和函数声明之间有什么区别？](https://github.com/souyunku/DevBooks/blob/master/docs/JavaScript/JavaScript最新2021年面试题大汇总，附答案.md#2函数表达式和函数声明之间有什么区别)  
+
 
 看下面的例子：
 
@@ -41,7 +43,8 @@ var notHoistedFunc = function(){
 `notHoistedFunc`调用抛出异常：`Uncaught TypeError: notHoistedFunc is not a function`，而`hoistedFunc`调用不会，因为`hoistedFunc`会被提升到作用域的顶部，而`notHoistedFunc` 不会。
 
 
-### 3、常见web安全及防护原理
+### [3、常见web安全及防护原理](https://github.com/souyunku/DevBooks/blob/master/docs/JavaScript/JavaScript最新2021年面试题大汇总，附答案.md#3常见web安全及防护原理)  
+
 
 **`sql`注入原理**
 
@@ -84,7 +87,8 @@ var notHoistedFunc = function(){
 通过验证码的方法
 
 
-### 4、有哪些数据类型？
+### [4、有哪些数据类型？](https://github.com/souyunku/DevBooks/blob/master/docs/JavaScript/JavaScript最新2021年面试题大汇总，附答案.md#4有哪些数据类型)  
+
 
 根据 JavaScript 中的变量类型传递方式，分为基本数据类型和引用数据类型两大类七种。
 
@@ -104,7 +108,8 @@ null === undefined //返回false。
 ```
 
 
-### 5、简述一下你理解的面向对象？
+### [5、简述一下你理解的面向对象？](https://github.com/souyunku/DevBooks/blob/master/docs/JavaScript/JavaScript最新2021年面试题大汇总，附答案.md#5简述一下你理解的面向对象)  
+
 
 面向对象是基于万物皆对象这个哲学观点、把一个对象抽象成类,具体上就是把一个对象的静态特征和动态特征抽象成属性和方法,也就是把一类事物的算法和数据结构封装在一个类之中,程序就是多个对象和互相之间的通信组成的、
 
@@ -115,21 +120,24 @@ null === undefined //返回false。
 总之,面向对象的特性提高了大型程序的重用性和可维护性.
 
 
-### 6、如何清除一个定时器?
+### [6、如何清除一个定时器?](https://github.com/souyunku/DevBooks/blob/master/docs/JavaScript/JavaScript最新2021年面试题大汇总，附答案.md#6如何清除一个定时器)  
+
 
 window.clearInterval();
 
 window.clearTimeout();
 
 
-### 7、Gc机制是什么？为什么闭包不会被回收变量和函数？
+### [7、Gc机制是什么？为什么闭包不会被回收变量和函数？](https://github.com/souyunku/DevBooks/blob/master/docs/JavaScript/JavaScript最新2021年面试题大汇总，附答案.md#7gc机制是什么为什么闭包不会被回收变量和函数)  
+
 
 **1、** Gc垃圾回收机制;
 
 **2、** 外部变量没释放，所以指向的大函数内的小函数也释放不了
 
 
-### 8、为什么此代码 `obj.someprop.x` 会引发错误?
+### [8、为什么此代码 `obj.someprop.x` 会引发错误?](https://github.com/souyunku/DevBooks/blob/master/docs/JavaScript/JavaScript最新2021年面试题大汇总，附答案.md#8为什么此代码-objsomepropx-会引发错误)  
+
 
 ```
 const obj = {};console.log(obj.someprop.x);
@@ -138,7 +146,8 @@ const obj = {};console.log(obj.someprop.x);
 显然，由于我们尝试访问`someprop`属性中的`x`属性，而 someprop 并没有在对象中，所以值为 `undefined`。记住对象本身不存在的属性，并且其原型的默认值为`undefined`。因为`undefined`没有属性`x`，所以试图访问将会报错。
 
 
-### 9、说几条写JavaScript的基本规范？
+### [9、说几条写JavaScript的基本规范？](https://github.com/souyunku/DevBooks/blob/master/docs/JavaScript/JavaScript最新2021年面试题大汇总，附答案.md#9说几条写javascript的基本规范)  
+
 
 **1、** 不要在同一行声明多个变量
 
@@ -155,7 +164,8 @@ const obj = {};console.log(obj.someprop.x);
 **7、** `for-in`循环中的变量 应该使用`var`关键字明确限定作用域，从而避免作用域污
 
 
-### 10、JavaScript原型，原型链 ? 有什么特点？
+### [10、JavaScript原型，原型链 ? 有什么特点？](https://github.com/souyunku/DevBooks/blob/master/docs/JavaScript/JavaScript最新2021年面试题大汇总，附答案.md#10javascript原型原型链--有什么特点)  
+
 
 在JavaScript中,一共有两种类型的值,原始值和对象值.每个对象都有一个内部属性[[prototype]],我们通常称之为原型.原型的值可以是一个对象,也可以是null.如果它的值是一个对象,则这个对象也一定有自己的原型.这样就形成了一条线性的链,我们称之为原型链、
 
@@ -185,9 +195,9 @@ const obj = {};console.log(obj.someprop.x);
 
 
 
-## 全部答案，整理好了，直接下载吧
+## [全部答案，整理好了，直接下载吧](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
-### 下载链接：[全部答案，整理好了](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
+### 下载链接：[全部答案，整理好了](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
 
 

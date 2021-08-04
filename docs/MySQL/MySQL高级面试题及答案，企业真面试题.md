@@ -6,19 +6,22 @@
 
 
 
-### 1、什么是最左前缀原则？什么是最左匹配原则？
+### [1、什么是最左前缀原则？什么是最左匹配原则？](https://github.com/souyunku/DevBooks/blob/master/docs/MySQL/MySQL高级面试题及答案，企业真面试题.md#1什么是最左前缀原则什么是最左匹配原则)  
+
 
 最左前缀原则，就是最左优先，在创建多列索引时，要根据业务需求，where子句中使用最频繁的一列放在最左边。
 
 当我们创建一个组合索引的时候，如(k1,k2,k3)，相当于创建了（k1）、(k1,k2)和(k1,k2,k3)三个索引，这就是最左匹配原则。。
 
 
-### 2、myisamchk是用来做什么的？
+### [2、myisamchk是用来做什么的？](https://github.com/souyunku/DevBooks/blob/master/docs/MySQL/MySQL高级面试题及答案，企业真面试题.md#2myisamchk是用来做什么的)  
+
 
 它用来压缩MyISAM表，这减少了磁盘或内存使用。
 
 
-### 3、4.说说分库与分表的设计
+### [3、4.说说分库与分表的设计](https://github.com/souyunku/DevBooks/blob/master/docs/MySQL/MySQL高级面试题及答案，企业真面试题.md#34说说分库与分表的设计)  
+
 
 分库分表方案，分库分表中间件，分库分表可能遇到的问题
 
@@ -61,7 +64,8 @@
 **6、** 跨分片的排序分页问题（后台加大pagesize处理？）
 
 
-### 4、什么情况下设置了索引但无法使用
+### [4、什么情况下设置了索引但无法使用](https://github.com/souyunku/DevBooks/blob/master/docs/MySQL/MySQL高级面试题及答案，企业真面试题.md#4什么情况下设置了索引但无法使用)  
+
 
 1.以“%”开头的LIKE语句，模糊匹配
 
@@ -70,7 +74,8 @@
 3\、数据类型出现隐式转化（如varchar不加单引号的话可能会自动转换为int型）
 
 
-### 5、如何删除索引
+### [5、如何删除索引](https://github.com/souyunku/DevBooks/blob/master/docs/MySQL/MySQL高级面试题及答案，企业真面试题.md#5如何删除索引)  
+
 
 根据索引名删除普通索引、唯一索引、全文索引：`alter table 表名 drop KEY 索引名`
 
@@ -96,7 +101,8 @@ drop PRIMARY KEY
 但通常不会删除主键，因为设计主键一定与业务逻辑无关。
 
 
-### 6、什么是数据库连接池?为什么需要数据库连接池呢?
+### [6、什么是数据库连接池?为什么需要数据库连接池呢?](https://github.com/souyunku/DevBooks/blob/master/docs/MySQL/MySQL高级面试题及答案，企业真面试题.md#6什么是数据库连接池为什么需要数据库连接池呢)  
+
 
 **连接池基本原理：**
 
@@ -123,19 +129,22 @@ drop PRIMARY KEY
 **4、** 统一的连接管理，避免数据库连接泄漏
 
 
-### 7、列对比运算符是什么？
+### [7、列对比运算符是什么？](https://github.com/souyunku/DevBooks/blob/master/docs/MySQL/MySQL高级面试题及答案，企业真面试题.md#7列对比运算符是什么)  
+
 
 在SELECT语句的列比较中使用=，<>，<=，<，> =，>，<<，>>，<=>，AND，OR或LIKE运算符。
 
 
-### 8、按照锁的粒度分，数据库锁有哪些呢？锁机制与InnoDB锁算法
+### [8、按照锁的粒度分，数据库锁有哪些呢？锁机制与InnoDB锁算法](https://github.com/souyunku/DevBooks/blob/master/docs/MySQL/MySQL高级面试题及答案，企业真面试题.md#8按照锁的粒度分数据库锁有哪些呢锁机制与innodb锁算法)  
+
 
 按锁粒度分有：表锁，页锁，行锁
 
 按锁机制分有：乐观锁，悲观锁
 
 
-### 9、LIKE声明中的％和_是什么意思？
+### [9、LIKE声明中的％和_是什么意思？](https://github.com/souyunku/DevBooks/blob/master/docs/MySQL/MySQL高级面试题及答案，企业真面试题.md#9like声明中的％和_是什么意思)  
+
 
 ％对应于0个或更多字符，_只是LIKE语句中的一个字符。
 
@@ -146,7 +155,8 @@ UNIX_TIMESTAMP是从MySQL时间戳转换为Unix时间戳的命令
 FROM_UNIXTIME是从Unix时间戳转换为MySQL时间戳的命令
 
 
-### 10、如何定位及优化SQL语句的性能问题？创建的索引有没有被使用到?或者说怎么才可以知道这条语句运行很慢的原因？
+### [10、如何定位及优化SQL语句的性能问题？创建的索引有没有被使用到?或者说怎么才可以知道这条语句运行很慢的原因？](https://github.com/souyunku/DevBooks/blob/master/docs/MySQL/MySQL高级面试题及答案，企业真面试题.md#10如何定位及优化sql语句的性能问题创建的索引有没有被使用到或者说怎么才可以知道这条语句运行很慢的原因)  
+
 
 对于低性能的SQL语句的定位，最重要也是最有效的方法就是使用执行计划，MySQL提供了explain命令来查看语句的执行计划。 我们知道，不管是哪种数据库，或者是哪种数据库引擎，在对一条SQL语句进行执行的过程中都会做很多相关的优化，**对于查询语句，最重要的优化方式就是使用索引**。 而**执行计划，就是显示数据库引擎对于SQL语句的执行的详细情况，其中包含了是否使用索引，使用什么索引，使用的索引的相关信息等**。
 
@@ -265,9 +275,9 @@ explain表的结果，type=index，索引物理文件全扫描，速度非常慢
 
 
 
-## 全部答案，整理好了，直接下载吧
+## [全部答案，整理好了，直接下载吧](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
-### 下载链接：[全部答案，整理好了](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
+### 下载链接：[全部答案，整理好了](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
 
 

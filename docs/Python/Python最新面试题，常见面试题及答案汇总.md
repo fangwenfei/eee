@@ -6,7 +6,8 @@
 
 
 
-### 1、什么是闭包
+### [1、什么是闭包](https://github.com/souyunku/DevBooks/blob/master/docs/Python/Python最新面试题，常见面试题及答案汇总.md#1什么是闭包)  
+
 
 在函数中可以（嵌套）定义另一个函数时，如果内部的函数引用了外部的函数的变量，则可能产生闭包。闭包可以用来在一个函数与一组“私有”变量之间创建关联关系。在给定函数被多次调用的过程中，这些私有变量能够保持其持久性。
 
@@ -21,12 +22,14 @@ print(func1()())
 ```
 
 
-### 2、索引再什么情况下遵循最左前缀的规则？
+### [2、索引再什么情况下遵循最左前缀的规则？](https://github.com/souyunku/DevBooks/blob/master/docs/Python/Python最新面试题，常见面试题及答案汇总.md#2索引再什么情况下遵循最左前缀的规则)  
+
 
 在多字段进行索引的时候，会遵循以上原则
 
 
-### 3、如何实现Redis集群
+### [3、如何实现Redis集群](https://github.com/souyunku/DevBooks/blob/master/docs/Python/Python最新面试题，常见面试题及答案汇总.md#3如何实现redis集群)  
+
 
 **1、** Twitter开发的twemproxy
 
@@ -35,12 +38,14 @@ print(func1()())
 **3、** Redis官方的Redis-cluster
 
 
-### 4、请列举布尔值位False的常见值
+### [4、请列举布尔值位False的常见值](https://github.com/souyunku/DevBooks/blob/master/docs/Python/Python最新面试题，常见面试题及答案汇总.md#4请列举布尔值位false的常见值)  
+
 
 0、''、[]、{}、tuple()、None、set()
 
 
-### 5、什么是rpc
+### [5、什么是rpc](https://github.com/souyunku/DevBooks/blob/master/docs/Python/Python最新面试题，常见面试题及答案汇总.md#5什么是rpc)  
+
 
 远程过程调用 (RPC) 是一种协议，程序可使用这种协议向网络中的另一台计算机上的程序请求服务
 
@@ -53,12 +58,14 @@ print(func1()())
 3.最后，客户端调用进程接收答复信息，获得进程结果，然后调用执行继续进行。
 
 
-### 6、a=range(10),则a[::-3]的值是？
+### [6、a=range(10),则a[::-3]的值是？](https://github.com/souyunku/DevBooks/blob/master/docs/Python/Python最新面试题，常见面试题及答案汇总.md#6a=range10,则a[::-3]的值是)  
+
 
 [9,6,3,0] 或者 range(9,-1,-3)
 
 
-### 7、写出邮箱的正则表达式
+### [7、写出邮箱的正则表达式](https://github.com/souyunku/DevBooks/blob/master/docs/Python/Python最新面试题，常见面试题及答案汇总.md#7写出邮箱的正则表达式)  
+
 
 ```python
 import re
@@ -68,7 +75,8 @@ print('ok')
 ```
 
 
-### 8、在Python中如何使用多进制数字？
+### [8、在Python中如何使用多进制数字？](https://github.com/souyunku/DevBooks/blob/master/docs/Python/Python最新面试题，常见面试题及答案汇总.md#8在python中如何使用多进制数字)  
+
 
 我们在Python中，除十进制外还可以使用二进制、八进制和十六进制。
 
@@ -104,7 +112,8 @@ print('ok')
 ```
 
 
-### 9、编写程序，输出给定序列中的所有质数
+### [9、编写程序，输出给定序列中的所有质数](https://github.com/souyunku/DevBooks/blob/master/docs/Python/Python最新面试题，常见面试题及答案汇总.md#9编写程序输出给定序列中的所有质数)  
+
 
 ```
 lower = int(input("Enter the lower range:"))
@@ -118,7 +127,8 @@ Enter the upper range:50
 ```
 
 
-### 10、如何实现字符串的反转？如：name=felix，反转成name=xilef
+### [10、如何实现字符串的反转？如：name=felix，反转成name=xilef](https://github.com/souyunku/DevBooks/blob/master/docs/Python/Python最新面试题，常见面试题及答案汇总.md#10如何实现字符串的反转如：name=felix反转成name=xilef)  
+
 
 ```python
 name = "felix"
@@ -158,9 +168,9 @@ name=reduce(lambda x, y: y+x, name)
 
 
 
-## 全部答案，整理好了，直接下载吧
+## [全部答案，整理好了，直接下载吧](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
-### 下载链接：[全部答案，整理好了](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
+### 下载链接：[全部答案，整理好了](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
 
 

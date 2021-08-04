@@ -6,12 +6,14 @@
 
 
 
-### 1、什么是Twemproxy
+### [1、什么是Twemproxy](https://github.com/souyunku/DevBooks/blob/master/docs/Python/Python最新2021年面试题，高级面试题及附答案解析.md#1什么是twemproxy)  
+
 
 Twemproxy是一种代理分片机制，由Twitter开源。Twemproxy作为代理，可接受来自多个程序的访问，按照路由规则，转发给后台的各个Redis服务器，再原路返回。该方案很好的解决了单个Redis实例承载能力的问题。当然，Twemproxy本身也是单点，需要用Keepalived做高可用方案。通过Twemproxy可以使用多台服务器来水平扩张Redis服务，可以有效的避免单点故障问题。虽然使用Twemproxy需要更多的硬件资源和在Redis性能有一定的损失（twitter测试约20%），但是能够提高整个系统的HA也是相当划算的。不熟悉twemproxy的同学，如果玩过nginx反向代理或者MySQL proxy，那么你肯定也懂twemproxy了。其实twemproxy不光实现了Redis协议
 
 
-### 2、写出如下代码的输出结果
+### [2、写出如下代码的输出结果](https://github.com/souyunku/DevBooks/blob/master/docs/Python/Python最新2021年面试题，高级面试题及附答案解析.md#2写出如下代码的输出结果)  
+
 
 ```python
 def decorator_a(func):
@@ -55,7 +57,8 @@ Get in f
 
 
 
-### 3、如何使用python删除一个文件或者文件夹？
+### [3、如何使用python删除一个文件或者文件夹？](https://github.com/souyunku/DevBooks/blob/master/docs/Python/Python最新2021年面试题，高级面试题及附答案解析.md#3如何使用python删除一个文件或者文件夹)  
+
 
 ```python
 import os
@@ -66,7 +69,8 @@ shutil.rmtree(path) # 删除文件夹，可以为空也可以不为空
 ```
 
 
-### 4、为什么学python
+### [4、为什么学python](https://github.com/souyunku/DevBooks/blob/master/docs/Python/Python最新2021年面试题，高级面试题及附答案解析.md#4为什么学python)  
+
 
 答题路线：a、python的优点，b、python的应用领域广
 
@@ -97,12 +101,14 @@ shutil.rmtree(path) # 删除文件夹，可以为空也可以不为空
 **5、** 在人工智能，云计算，金融等方面也应用非常广泛。
 
 
-### 5、如何修改本地hosts文件
+### [5、如何修改本地hosts文件](https://github.com/souyunku/DevBooks/blob/master/docs/Python/Python最新2021年面试题，高级面试题及附答案解析.md#5如何修改本地hosts文件)  
+
 
 进入c:\windows\system32\drivers\etc进行修改
 
 
-### 6、编写程序，查找文本文件中最长的单词
+### [6、编写程序，查找文本文件中最长的单词](https://github.com/souyunku/DevBooks/blob/master/docs/Python/Python最新2021年面试题，高级面试题及附答案解析.md#6编写程序查找文本文件中最长的单词)  
+
 
 ```
 def longest_word(filename):
@@ -117,7 +123,8 @@ print(longest_word('test.txt'))
 ```
 
 
-### 7、用一行代码实现数值交换
+### [7、用一行代码实现数值交换](https://github.com/souyunku/DevBooks/blob/master/docs/Python/Python最新2021年面试题，高级面试题及附答案解析.md#7用一行代码实现数值交换)  
+
 
 **1、** a=1
 
@@ -126,7 +133,8 @@ print(longest_word('test.txt'))
 **3、** 答案：a,b=b,a
 
 
-### 8、数据库的导入与导出命令
+### [8、数据库的导入与导出命令](https://github.com/souyunku/DevBooks/blob/master/docs/Python/Python最新2021年面试题，高级面试题及附答案解析.md#8数据库的导入与导出命令)  
+
 
 **1、** 导出(MySQLdump)
 
@@ -143,7 +151,8 @@ print(longest_word('test.txt'))
 **7、** MySQL -u用户名 -p密码 数据库名 < 数据库名.sql
 
 
-### 9、Redis中watch的作用
+### [9、Redis中watch的作用](https://github.com/souyunku/DevBooks/blob/master/docs/Python/Python最新2021年面试题，高级面试题及附答案解析.md#9redis中watch的作用)  
+
 
 **1、** watch 用于在进行事务操作的最后一步也就是在执行exec 之前对某个key进行监视
 
@@ -152,7 +161,8 @@ print(longest_word('test.txt'))
 **3、** 一般在MULTI 命令前就用watch命令对某个key进行监控.如果想让key取消被监控，可以用unwatch命令
 
 
-### 10、MySQL常见数据库引擎及区别
+### [10、MySQL常见数据库引擎及区别](https://github.com/souyunku/DevBooks/blob/master/docs/Python/Python最新2021年面试题，高级面试题及附答案解析.md#10mysql常见数据库引擎及区别)  
+
 
 **1、** InnoDB：用于事务处理应用程序，具有众多特性，包括ACID事务支持。(提供行级锁)
 
@@ -185,9 +195,9 @@ print(longest_word('test.txt'))
 
 
 
-## 全部答案，整理好了，直接下载吧
+## [全部答案，整理好了，直接下载吧](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
-### 下载链接：[全部答案，整理好了](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
+### 下载链接：[全部答案，整理好了](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
 
 

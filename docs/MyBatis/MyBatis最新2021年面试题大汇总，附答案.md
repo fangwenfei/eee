@@ -6,7 +6,8 @@
 
 
 
-### 1、Hibernate 和 MyBatis 的区别
+### [1、Hibernate 和 MyBatis 的区别](https://github.com/souyunku/DevBooks/blob/master/docs/MyBatis/MyBatis最新2021年面试题大汇总，附答案.md#1hibernate-和-mybatis-的区别)  
+
 
 **相同点**
 
@@ -27,7 +28,8 @@ Hibernate 对SQL语句封装，提供了日志、缓存、级联（级联比 MyB
 MyBatis 需要手动编写 SQL，支持动态 SQL、处理列表、动态生成表名、支持存储过程。开发工作量相对大些。直接使用SQL语句操作数据库，不支持数据库无关性，但sql语句优化容易。
 
 
-### 2、Mybatis 是如何将 sql 执行结果封装为目标对象并返回的？都有哪些映射形式？
+### [2、Mybatis 是如何将 sql 执行结果封装为目标对象并返回的？都有哪些映射形式？](https://github.com/souyunku/DevBooks/blob/master/docs/MyBatis/MyBatis最新2021年面试题大汇总，附答案.md#2mybatis-是如何将-sql-执行结果封装为目标对象并返回的都有哪些映射形式)  
+
 
 第一种是使用标签，逐一定义列名和对象属性名之间的映射关系。
 
@@ -44,7 +46,8 @@ MyBatis 需要手动编写 SQL，支持动态 SQL、处理列表、动态生成�
 逐一赋值并返回，那些找不到映射关系的属性，是无法完成赋值的。
 
 
-### 3、Mybatis编程步骤 ？
+### [3、Mybatis编程步骤 ？](https://github.com/souyunku/DevBooks/blob/master/docs/MyBatis/MyBatis最新2021年面试题大汇总，附答案.md#3mybatis编程步骤-)  
+
 
 **1、** 创建SQLSessionFactory
 
@@ -55,7 +58,8 @@ MyBatis 需要手动编写 SQL，支持动态 SQL、处理列表、动态生成�
 **4、** 调用session.commit()提交事物 Step5：调用session.close()关闭会话
 
 
-### 4、Mapper 编写有哪几种方式？
+### [4、Mapper 编写有哪几种方式？](https://github.com/souyunku/DevBooks/blob/master/docs/MyBatis/MyBatis最新2021年面试题大汇总，附答案.md#4mapper-编写有哪几种方式)  
+
 
 **第一种：接口实现类继承 SqlSessionDaoSupport：使用此种方法需要编写mapper 接口，mapper 接口实现类、mapper.xml 文件**
 
@@ -137,7 +141,8 @@ mapper 接口中的方法名和 mapper.xml 中的定义的 statement 的 id 保�
 **4、** 使用扫描器后从 spring 容器中获取 mapper 的实现对象。
 
 
-### 5、Mybatis 是否可以映射 Enum 枚举类？
+### [5、Mybatis 是否可以映射 Enum 枚举类？](https://github.com/souyunku/DevBooks/blob/master/docs/MyBatis/MyBatis最新2021年面试题大汇总，附答案.md#5mybatis-是否可以映射-enum-枚举类)  
+
 
 Mybatis 可以映射枚举类，不单可以映射枚举类，Mybatis 可以映射任何对象到表的一
 
@@ -150,7 +155,8 @@ getResult()接口方法。TypeHandler 有两个作用，一是完成从 javaType
 代表设置 sql 问号占位符参数和获取列查询结果。
 
 
-### 6、Mybatis是如何进行分页的？分页插件的原理是什么？
+### [6、Mybatis是如何进行分页的？分页插件的原理是什么？](https://github.com/souyunku/DevBooks/blob/master/docs/MyBatis/MyBatis最新2021年面试题大汇总，附答案.md#6mybatis是如何进行分页的分页插件的原理是什么)  
+
 
 Mybatis使用RowBounds对象进行分页，它是针对ResultSet结果集执行的内存分页，而非物理分页，可以在sql内直接书写带有物理分页的参数来完成物理分页功能，也可以使用分页插件来完成物理分页。
 
@@ -161,7 +167,8 @@ Mybatis使用RowBounds对象进行分页，它是针对ResultSet结果集执行�
 select * from student，拦截sql后重写为：select t.* from (select * from student) t limit 0, 10
 
 
-### 7、Mybatis 是否支持延迟加载？如果支持，它的实现原理是什么？
+### [7、Mybatis 是否支持延迟加载？如果支持，它的实现原理是什么？](https://github.com/souyunku/DevBooks/blob/master/docs/MyBatis/MyBatis最新2021年面试题大汇总，附答案.md#7mybatis-是否支持延迟加载如果支持它的实现原理是什么)  
+
 
 **1、** Mybatis 仅支持 association 关联对象和 collection 关联集合对象的延迟加载，association
 
@@ -180,7 +187,8 @@ select * from student，拦截sql后重写为：select t.* from (select * from s
 理。
 
 
-### 8、什么是 MyBatis 的接口绑定,有什么好处？
+### [8、什么是 MyBatis 的接口绑定,有什么好处？](https://github.com/souyunku/DevBooks/blob/master/docs/MyBatis/MyBatis最新2021年面试题大汇总，附答案.md#8什么是-mybatis-的接口绑定,有什么好处)  
+
 
 接口映射就是在 MyBatis 中任意定义接口,然后把接口里面的方法和 SQL 语句绑定,我们
 
@@ -189,14 +197,16 @@ select * from student，拦截sql后重写为：select t.* from (select * from s
 择和设置.
 
 
-### 9、Mybatis中如何指定使用哪一种Executor执行器？
+### [9、Mybatis中如何指定使用哪一种Executor执行器？](https://github.com/souyunku/DevBooks/blob/master/docs/MyBatis/MyBatis最新2021年面试题大汇总，附答案.md#9mybatis中如何指定使用哪一种executor执行器)  
+
 
 在Mybatis配置文件中，在设置（settings）可以指定默认的ExecutorType执行器类型，也可以手动给DefaultSqlSessionFactory的创建SqlSession的方法传递ExecutorType类型参数，如SqlSession openSession(ExecutorType execType)。
 
 配置默认的执行器。SIMPLE 就是普通的执行器；REUSE 执行器会重用预处理语句（prepared statements）； BATCH 执行器将重用语句并执行批量更新。
 
 
-### 10、在mapper中如何传递多个参数?
+### [10、在mapper中如何传递多个参数?](https://github.com/souyunku/DevBooks/blob/master/docs/MyBatis/MyBatis最新2021年面试题大汇总，附答案.md#10在mapper中如何传递多个参数)  
+
 
 **1、** 第一种：
 
@@ -271,9 +281,9 @@ try {
 
 
 
-## 全部答案，整理好了，直接下载吧
+## [全部答案，整理好了，直接下载吧](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
-### 下载链接：[全部答案，整理好了](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
+### 下载链接：[全部答案，整理好了](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
 
 

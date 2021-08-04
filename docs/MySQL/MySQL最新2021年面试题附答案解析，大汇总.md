@@ -6,12 +6,14 @@
 
 
 
-### 1、隔离级别与锁的关系
+### [1、隔离级别与锁的关系](https://github.com/souyunku/DevBooks/blob/master/docs/MySQL/MySQL最新2021年面试题附答案解析，大汇总.md#1隔离级别与锁的关系)  
+
 
 回答这个问题，可以先阐述四种隔离级别，再阐述它们的实现原理。隔离级别就是依赖锁和MVCC实现的。
 
 
-### 2、实践中如何优化MySQL
+### [2、实践中如何优化MySQL](https://github.com/souyunku/DevBooks/blob/master/docs/MySQL/MySQL最新2021年面试题附答案解析，大汇总.md#2实践中如何优化mysql)  
+
 
 最好是按照以下顺序优化：
 
@@ -26,7 +28,8 @@
 详细可以查看 [阿里P8架构师谈：MySQL慢查询优化、索引优化、以及表等优化总结](http://youzhixueyuan.com/MySQL-slow-query-optimization-index-optimization.html)
 
 
-### 3、优化子查询
+### [3、优化子查询](https://github.com/souyunku/DevBooks/blob/master/docs/MySQL/MySQL最新2021年面试题附答案解析，大汇总.md#3优化子查询)  
+
 
 **1、** 用关联查询替代
 
@@ -41,7 +44,8 @@
 **6、** WITH ROLLUP超级聚合，可以挪到应用程序处理
 
 
-### 4、前缀索引
+### [4、前缀索引](https://github.com/souyunku/DevBooks/blob/master/docs/MySQL/MySQL最新2021年面试题附答案解析，大汇总.md#4前缀索引)  
+
 
 **1、** 语法：`index(field(10))`，使用字段值的前10个字符建立索引，默认是使用字段的全部内容建立索引。
 
@@ -52,7 +56,8 @@
 **4、** 我们可以利用`select count(*)/count(distinct left(password,prefixLen));`，通过从调整`prefixLen`的值（从1自增）查看不同前缀长度的一个平均匹配度，接近1时就可以了（表示一个密码的前`prefixLen`个字符几乎能确定唯一一条记录）
 
 
-### 5、MySQL5.6和MySQL5.7对索引做了哪些优化？
+### [5、MySQL5.6和MySQL5.7对索引做了哪些优化？](https://github.com/souyunku/DevBooks/blob/master/docs/MySQL/MySQL最新2021年面试题附答案解析，大汇总.md#5mysql56和mysql57对索引做了哪些优化)  
+
 
 **1、** MySQL5.6引入了索引下推优化，默认是开启的。
 
@@ -65,7 +70,8 @@
 **5、** 如果使用了索引下推技术，则MySQL会首先返回返回条件a='23'的数据的索引，然后根据模糊查询的条件来校验索引行数据是否符合条件，如果符合条件，则直接根据索引来定位对应的数据，如果不符合直接reject掉。因此，有了索引下推优化，可以在有like条件的情况下，减少回表的次数。
 
 
-### 6、MySQL有关权限的表有哪几个呢？
+### [6、MySQL有关权限的表有哪几个呢？](https://github.com/souyunku/DevBooks/blob/master/docs/MySQL/MySQL最新2021年面试题附答案解析，大汇总.md#6mysql有关权限的表有哪几个呢)  
+
 
 MySQL服务器通过权限表来控制用户对数据库的访问，权限表存放在MySQL数据库里，由MySQL_install_db脚本初始化。这些权限表分别user，db，table_priv，columns_priv和host。
 
@@ -80,7 +86,8 @@ MySQL服务器通过权限表来控制用户对数据库的访问，权限表存
 **5、** host权限表：配合db权限表对给定主机上数据库级操作权限作更细致的控制。这个权限表不受GRANT和REVOKE语句的影响。
 
 
-### 7、MySQL中都有哪些触发器？
+### [7、MySQL中都有哪些触发器？](https://github.com/souyunku/DevBooks/blob/master/docs/MySQL/MySQL最新2021年面试题附答案解析，大汇总.md#7mysql中都有哪些触发器)  
+
 
 MySQL 数据库中有六种触发器：
 
@@ -97,7 +104,8 @@ MySQL 数据库中有六种触发器：
 **6、** After Delete
 
 
-### 8、大表怎么优化？分库分表了是怎么做的？分表分库了有什么问题？有用到中间件么？他们的原理知道么？
+### [8、大表怎么优化？分库分表了是怎么做的？分表分库了有什么问题？有用到中间件么？他们的原理知道么？](https://github.com/souyunku/DevBooks/blob/master/docs/MySQL/MySQL最新2021年面试题附答案解析，大汇总.md#8大表怎么优化分库分表了是怎么做的分表分库了有什么问题有用到中间件么他们的原理知道么)  
+
 
 当MySQL单表记录数过大时，数据库的CRUD性能会明显下降，一些常见的优化措施如下：
 
@@ -218,7 +226,8 @@ UUID 使用UUID作主键是最简单的方案，但是缺点也是非常明显�
 ![](https://gitee.com/souyunkutech/souyunku-home/raw/master/images/souyunku-web/2020/5/2/049/50/99_13.png#alt=99%5C_13.png)
 
 
-### 9、B+ Tree索引和Hash索引区别？
+### [9、B+ Tree索引和Hash索引区别？](https://github.com/souyunku/DevBooks/blob/master/docs/MySQL/MySQL最新2021年面试题附答案解析，大汇总.md#9b+-tree索引和hash索引区别)  
+
 
 **1、** hash索引适合等值查询，但是无法进行范围查询。
 
@@ -229,7 +238,8 @@ UUID 使用UUID作主键是最简单的方案，但是缺点也是非常明显�
 **4、** 如果有大量重复健值得情况下，hash索引的效率会很低，因为哈希碰撞问题。
 
 
-### 10、数据库索引的原理，为什么要用 B+树，为什么不用二叉树？
+### [10、数据库索引的原理，为什么要用 B+树，为什么不用二叉树？](https://github.com/souyunku/DevBooks/blob/master/docs/MySQL/MySQL最新2021年面试题附答案解析，大汇总.md#10数据库索引的原理为什么要用-b+树为什么不用二叉树)  
+
 
 可以从几个维度去看这个问题，查询是否够快，效率是否稳定，存储数据多少，以及查找磁盘次数，为什么不是二叉树，为什么不是平衡二叉树，为什么不是B树，而偏偏是B+树呢？
 
@@ -272,9 +282,9 @@ UUID 使用UUID作主键是最简单的方案，但是缺点也是非常明显�
 
 
 
-## 全部答案，整理好了，直接下载吧
+## [全部答案，整理好了，直接下载吧](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
-### 下载链接：[全部答案，整理好了](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
+### 下载链接：[全部答案，整理好了](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
 
 

@@ -6,7 +6,8 @@
 
 
 
-### 1、SpringBoot有哪些优点？
+### [1、SpringBoot有哪些优点？](https://github.com/souyunku/DevBooks/blob/master/docs/SpringBoot/SpringBoot最新面试题及答案整理，汇总版.md#1springboot有哪些优点)  
+
 
 **SpringBoot的优点有：**
 
@@ -27,14 +28,16 @@
 **8、** 基于环境的配置 使用这些属性，您可以将您正在使用的环境传递到应用程序：-Dspring.profiles.active = {enviornment}。在加载主应用程序属性文件后，Spring将在（application{environment} .properties）中加载后续的应用程序属性文件。
 
 
-### 2、如何使用SpringBoot实现分页和排序？
+### [2、如何使用SpringBoot实现分页和排序？](https://github.com/souyunku/DevBooks/blob/master/docs/SpringBoot/SpringBoot最新面试题及答案整理，汇总版.md#2如何使用springboot实现分页和排序)  
+
 
 使用SpringBoot实现分页非常简单。使用Spring Data-JPA可以实现将可分页的
 
 传递给存储库方法。
 
 
-### 3、能否举一个例子来解释更多 Staters 的内容？
+### [3、能否举一个例子来解释更多 Staters 的内容？](https://github.com/souyunku/DevBooks/blob/master/docs/SpringBoot/SpringBoot最新面试题及答案整理，汇总版.md#3能否举一个例子来解释更多-staters-的内容)  
+
 
 让我们来思考一个 Stater 的例子 -SpringBoot Stater Web。
 
@@ -59,7 +62,8 @@
 作为一个开发者，我不需要再担心这些依赖项和它们的兼容版本。
 
 
-### 4、如何使用 SpringBoot 自动重装我的应用程序？
+### [4、如何使用 SpringBoot 自动重装我的应用程序？](https://github.com/souyunku/DevBooks/blob/master/docs/SpringBoot/SpringBoot最新面试题及答案整理，汇总版.md#4如何使用-springboot-自动重装我的应用程序)  
+
 
 使用 SpringBoot 开发工具。
 
@@ -78,7 +82,8 @@ http://www.logicbig.com/tutorials/spring-framework/spring-boot/boot-live-reload/
 在我测试的时候，发现了 LiveReload 漏洞，如果你测试时也发现了，请一定要告诉我们。
 
 
-### 5、创建一个 SpringBoot Project 的最简单的方法是什么？
+### [5、创建一个 SpringBoot Project 的最简单的方法是什么？](https://github.com/souyunku/DevBooks/blob/master/docs/SpringBoot/SpringBoot最新面试题及答案整理，汇总版.md#5创建一个-springboot-project-的最简单的方法是什么)  
+
 
 Spring Initializr是启动 SpringBoot Projects 的一个很好的工具。
 
@@ -103,7 +108,8 @@ DevTools
 **6、** 将项目导入 Eclipse。文件 - 导入 - 现有的 Maven 项目
 
 
-### 6、Spring Cache 三种常用的缓存注解和意义？
+### [6、Spring Cache 三种常用的缓存注解和意义？](https://github.com/souyunku/DevBooks/blob/master/docs/SpringBoot/SpringBoot最新面试题及答案整理，汇总版.md#6spring-cache-三种常用的缓存注解和意义)  
+
 
 **1、** [@Cacheable ](/Cacheable ) ，用来声明方法是可缓存，将结果存储到缓存中以便后续使用相同参数调用时不需执行实际的方法，直接从缓存中取值。
 
@@ -112,7 +118,8 @@ DevTools
 **3、** @CacheEvict，是用来标注在需要清除缓存元素的方法或类上的，当标记在一个类上时表示其中所有的方法的执行都会触发缓存的清除操作。
 
 
-### 7、什么是Spring Actuator？它有什么优势？
+### [7、什么是Spring Actuator？它有什么优势？](https://github.com/souyunku/DevBooks/blob/master/docs/SpringBoot/SpringBoot最新面试题及答案整理，汇总版.md#7什么是spring-actuator它有什么优势)  
+
 
 这是SpringBoot中最常见的面试问题之一。根据Spring文件：
 
@@ -123,12 +130,14 @@ DevTools
 它提供了一种非常简单的方法来访问少数生产就绪的REST端点，并从Web获取各种信息。但是通过使用这些端点，你可以做很多事情来查看端点文档。没有必要担心安全问题;如果存在Spring Security，则默认使用Spring Security的内容协商策略保护这些端点。或者，可以在RequestMatcher的帮助下配置自定义安全性。
 
 
-### 8、什么是 Spring Profiles？
+### [8、什么是 Spring Profiles？](https://github.com/souyunku/DevBooks/blob/master/docs/SpringBoot/SpringBoot最新面试题及答案整理，汇总版.md#8什么是-spring-profiles)  
+
 
 Spring Profiles 允许用户根据配置文件（dev，test，prod 等）来注册 bean。因此，当应用程序在开发中运行时，只有某些 bean 可以加载，而在 PRODUCTION中，某些其他 bean 可以加载。假设我们的要求是 Swagger 文档仅适用于 QA 环境，并且禁用所有其他文档。这可以使用配置文件来完成。SpringBoot 使得使用配置文件非常简单。
 
 
-### 9、如何使用 SpringBoot 部署到不同的服务器？
+### [9、如何使用 SpringBoot 部署到不同的服务器？](https://github.com/souyunku/DevBooks/blob/master/docs/SpringBoot/SpringBoot最新面试题及答案整理，汇总版.md#9如何使用-springboot-部署到不同的服务器)  
+
 
 你需要做下面两个步骤：
 
@@ -143,7 +152,8 @@ Spring Profiles 允许用户根据配置文件（dev，test，prod 等）来注�
 **第二步：**取决于你的服务器。
 
 
-### 10、如何重新加载SpringBoot上的更改，而无需重新启动服务器？
+### [10、如何重新加载SpringBoot上的更改，而无需重新启动服务器？](https://github.com/souyunku/DevBooks/blob/master/docs/SpringBoot/SpringBoot最新面试题及答案整理，汇总版.md#10如何重新加载springboot上的更改而无需重新启动服务器)  
+
 
 这可以使用DEV工具来实现。通过这种依赖关系，您可以节省任何更改，嵌入式tomcat将重新启动。
 
@@ -178,9 +188,9 @@ SpringBoot有一个开发工具（DevTools）模块，它有助于提高开发�
 
 
 
-## 全部答案，整理好了，直接下载吧
+## [全部答案，整理好了，直接下载吧](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
-### 下载链接：[全部答案，整理好了](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
+### 下载链接：[全部答案，整理好了](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
 
 

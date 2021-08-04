@@ -6,7 +6,8 @@
 
 
 
-### 1、什么是不同类型的微服务测试？
+### [1、什么是不同类型的微服务测试？](https://github.com/souyunku/DevBooks/blob/master/docs/Spring/Spring最新2021年面试题及答案，汇总版.md#1什么是不同类型的微服务测试)  
+
 
 在使用微服务时，由于有多个微服务协同工作，测试变得非常复杂。因此，测试分为不同的级别。
 
@@ -17,12 +18,14 @@
 在顶层， 我们的 验收测试数量很少。这些验收测试有助于利益相关者理解和验证软件功能。
 
 
-### 2、Nginx与Ribbon的区别
+### [2、Nginx与Ribbon的区别](https://github.com/souyunku/DevBooks/blob/master/docs/Spring/Spring最新2021年面试题及答案，汇总版.md#2nginx与ribbon的区别)  
+
 
 Nginx是反向代理同时可以实现负载均衡，nginx拦截客户端请求采用负载均衡策略根据upstream配置进行转发，相当于请求通过nginx服务器进行转发。Ribbon是客户端负载均衡，从注册中心读取目标服务器信息，然后客户端采用轮询策略对服务直接访问，全程在客户端操作。
 
 
-### 3、什么是 Hystrix 断路器？我们需要它吗？
+### [3、什么是 Hystrix 断路器？我们需要它吗？](https://github.com/souyunku/DevBooks/blob/master/docs/Spring/Spring最新2021年面试题及答案，汇总版.md#3什么是-hystrix-断路器我们需要它吗)  
+
 
 由于某些原因，employee-consumer 公开服务会引发异常。在这种情况下使用 Hystrix 我们定义了一个回退方法。如果在公开服务中发生异常，则回退方法返回一些默认值
 
@@ -33,7 +36,8 @@ Nginx是反向代理同时可以实现负载均衡，nginx拦截客户端请求�
 ![](https://gitee.com/souyunkutech/souyunku-home/raw/master/images/souyunku-web/2020/5/2/01/44/45_14.png#alt=45%5C_14.png)
 
 
-### 4、SpringBoot 的核心注解是哪个？它主要由哪几个注解组成的？
+### [4、SpringBoot 的核心注解是哪个？它主要由哪几个注解组成的？](https://github.com/souyunku/DevBooks/blob/master/docs/Spring/Spring最新2021年面试题及答案，汇总版.md#4springboot-的核心注解是哪个它主要由哪几个注解组成的)  
+
 
 启动类上面的注解是@SpringBootApplication，它也是 SpringBoot 的核心注解，主要组合包含了以下 3 个注解：
 
@@ -44,12 +48,14 @@ Nginx是反向代理同时可以实现负载均衡，nginx拦截客户端请求�
 @ComponentScan：Spring组件扫描。
 
 
-### 5、什么是 AOP什么是目标对象?
+### [5、什么是 AOP什么是目标对象?](https://github.com/souyunku/DevBooks/blob/master/docs/Spring/Spring最新2021年面试题及答案，汇总版.md#5什么是-aop什么是目标对象)  
+
 
 被一个或者多个切面所通知的对象。它通常是一个代理对象。也指被通知（advised）对象。
 
 
-### 6、如何重新加载SpringBoot上的更改，而无需重新启动服务器？
+### [6、如何重新加载SpringBoot上的更改，而无需重新启动服务器？](https://github.com/souyunku/DevBooks/blob/master/docs/Spring/Spring最新2021年面试题及答案，汇总版.md#6如何重新加载springboot上的更改而无需重新启动服务器)  
+
 
 这可以使用DEV工具来实现。通过这种依赖关系，您可以节省任何更改，嵌入式tomcat将重新启动。
 
@@ -60,12 +66,14 @@ SpringBoot有一个开发工具（DevTools）模块，它有助于提高开发�
 这是开发人员最需要的功能。DevTools模块完全满足开发人员的需求。该模块将在生产环境中被禁用。它还提供H2数据库控制台以更好地测试应用程序。
 
 
-### 7、如何在自定义端口上运行 SpringBoot应用程序?
+### [7、如何在自定义端口上运行 SpringBoot应用程序?](https://github.com/souyunku/DevBooks/blob/master/docs/Spring/Spring最新2021年面试题及答案，汇总版.md#7如何在自定义端口上运行-springboot应用程序)  
+
 
 在 `application.properties`中指定端口`serverport=8090`。
 
 
-### 8、SpringBoot 有哪些优点？
+### [8、SpringBoot 有哪些优点？](https://github.com/souyunku/DevBooks/blob/master/docs/Spring/Spring最新2021年面试题及答案，汇总版.md#8springboot-有哪些优点)  
+
 
 **SpringBoot 主要有如下优点：**
 
@@ -78,7 +86,8 @@ SpringBoot有一个开发工具（DevTools）模块，它有助于提高开发�
 **4、**  SpringBoot总结就是使编码变简单、配置变简单、部署变简单、监控变简单等等
 
 
-### 9、SpringBoot常用的starter有哪些？
+### [9、SpringBoot常用的starter有哪些？](https://github.com/souyunku/DevBooks/blob/master/docs/Spring/Spring最新2021年面试题及答案，汇总版.md#9springboot常用的starter有哪些)  
+
 
 **1、** spring-boot-starter-web 嵌入tomcat和web开发需要servlet与jsp支持
 
@@ -91,7 +100,8 @@ SpringBoot有一个开发工具（DevTools）模块，它有助于提高开发�
 **5、** mybatis-spring-boot-starter 第三方的mybatis集成starter
 
 
-### 10、如何实现 SpringBoot 应用程序的安全性？
+### [10、如何实现 SpringBoot 应用程序的安全性？](https://github.com/souyunku/DevBooks/blob/master/docs/Spring/Spring最新2021年面试题及答案，汇总版.md#10如何实现-springboot-应用程序的安全性)  
+
 
 为了实现 SpringBoot 的安全性，我们使用 spring-boot-starter-security 依赖项，并且必须添加安全配置。它只需要很少的代码。配置类将必须扩展WebSecurityConfigurerAdapter 并覆盖其方法。
 
@@ -121,9 +131,9 @@ SpringBoot有一个开发工具（DevTools）模块，它有助于提高开发�
 
 
 
-## 全部答案，整理好了，直接下载吧
+## [全部答案，整理好了，直接下载吧](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
-### 下载链接：[全部答案，整理好了](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
+### 下载链接：[全部答案，整理好了](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
 
 

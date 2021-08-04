@@ -6,12 +6,14 @@
 
 
 
-### 1、如何将SQLite数据库(dictionary.db文件)与apk文件一起发布?
+### [1、如何将SQLite数据库(dictionary.db文件)与apk文件一起发布?](https://github.com/souyunku/DevBooks/blob/master/docs/Android/Android最新2021年面试题大汇总，附答案.md#1如何将sqlite数据库dictionarydb文件与apk文件一起发布)  
+
 
 可以将dictionary.db文件复制到Eclipse Android工程中的res aw目录中。所有在res aw目录中的文件不会被压缩，这样可以直接提取该目录中的文件。可以将dictionary.db文件复制到res aw目录中
 
 
-### 2、谈谈对Android NDK的理解
+### [2、谈谈对Android NDK的理解](https://github.com/souyunku/DevBooks/blob/master/docs/Android/Android最新2021年面试题大汇总，附答案.md#2谈谈对android-ndk的理解)  
+
 
 NDK是一系列工具的集合.NDK提供了一系列的工具,帮助开发者快速开发C或C++的动态库,并能自动将so和java应用一起打包成apk.这些工具对开发者的帮助是巨大的.NDK集成了交叉编译器,并提供了相应的mk文件隔离CPU,平台,ABI等差异,开发人员只需要简单修改 mk文件(指出"哪些文件需要编译","编译特性要求"等),就可以创建出so.
 
@@ -27,7 +29,8 @@ Google明确声明该API是稳定的,在后续所有版本中都稳定支持当�
 **2、** NDK集成了交叉编译器，并提供了相应的mk文件和隔离cpu、平台等的差异，开发人员只需要简单的修改mk文件就可以创建出so文件。
 
 
-### 4、Service和Thread的区别？
+### [4、Service和Thread的区别？](https://github.com/souyunku/DevBooks/blob/master/docs/Android/Android最新2021年面试题大汇总，附答案.md#4service和thread的区别)  
+
 
 servie是系统的组件，它由系统进程托管（servicemanager）；它们之间的通信类似于client和server，是一种轻量级的ipc通信，这种通信的载体是binder，它是在linux层交换信息的一种ipc。而thread是由本应用程序托管。1)、Thread：Thread 是程序执行的最小单元，它是分配CPU的基本单位。可以用 Thread 来执行一些异步的操作。
 
@@ -40,7 +43,8 @@ servie是系统的组件，它由系统进程托管（servicemanager）；它们
 因此你可以把 Service 想象成一种消息服务，而你可以在任何有 Context 的地方调用 Context.startService、Context.stopService、Context.bindService，Context.unbindService，来控制它，你也可以在 Service 里注册 BroadcastReceiver，在其他地方通过发送 broadcast 来控制它，当然这些都是 Thread 做不到的。
 
 
-### 5、如何将打开res aw目录中的数据库文件?
+### [5、如何将打开res aw目录中的数据库文件?](https://github.com/souyunku/DevBooks/blob/master/docs/Android/Android最新2021年面试题大汇总，附答案.md#5如何将打开res-aw目录中的数据库文件)  
+
 
 **1、** 在Android中不能直接打开res aw目录中的数据库文件，而需要在程序第一次启动时将该文件复制到手机内存或SD卡的某个目录中，然后再打开该数据库文件。
 
@@ -49,7 +53,8 @@ servie是系统的组件，它由系统进程托管（servicemanager）；它们
 **3、** 在Android SDK中可以使用SQLiteDatabase.openOrCreateDatabase方法来打开任意目录中的SQLite数据库文件。
 
 
-### 6、请介绍下ContentProvider是如何实现数据共享的。
+### [6、请介绍下ContentProvider是如何实现数据共享的。](https://github.com/souyunku/DevBooks/blob/master/docs/Android/Android最新2021年面试题大汇总，附答案.md#6请介绍下contentprovider是如何实现数据共享的。)  
+
 
 一个程序可以通过实现一个Content provider的抽象接口将自己的数据完全暴露出去，而且Content providers是以类似数据库中表的方式将数据暴露。Content providers存储和检索数据，通过它可以让所有的应用程序访问到，这也是应用程序之间唯一共享数据的方法。
 
@@ -60,7 +65,8 @@ servie是系统的组件，它由系统进程托管（servicemanager）；它们
 Android提供了ContentResolver，外界的程序可以通过ContentResolver接口访问ContentProvider提供的数据。
 
 
-### 7、自定义view的基本流程
+### [7、自定义view的基本流程](https://github.com/souyunku/DevBooks/blob/master/docs/Android/Android最新2021年面试题大汇总，附答案.md#7自定义view的基本流程)  
+
 
 **1、** 自定义View的属性 编写attr.xml文件
 
@@ -73,12 +79,14 @@ Android提供了ContentResolver，外界的程序可以通过ContentResolver接�
 **5、** 重写onDraw
 
 
-### 8、Service 里面可以弹吐司么
+### [8、Service 里面可以弹吐司么](https://github.com/souyunku/DevBooks/blob/master/docs/Android/Android最新2021年面试题大汇总，附答案.md#8service-里面可以弹吐司么)  
+
 
 可以。
 
 
-### 9、AIDL 的全称是什么?如何工作?能处理哪些类型的数据？
+### [9、AIDL 的全称是什么?如何工作?能处理哪些类型的数据？](https://github.com/souyunku/DevBooks/blob/master/docs/Android/Android最新2021年面试题大汇总，附答案.md#9aidl-的全称是什么如何工作能处理哪些类型的数据)  
+
 
 AIDL 全称 Android Interface Definition Language（AndRoid 接口描述语言） 是一种接口描述语言; 编译器可以通过 aidl 文件生成一段代码，通过预先定义的接口达到两个进程内部通信进程跨界对象访问的目的。需要完成两件事情：
 
@@ -89,7 +97,8 @@ AIDL 全称 Android Interface Definition Language（AndRoid 接口描述语言�
 理论上, 参数可以传递基本数据类型和 String, 还有就是 Bundle 的派生类, 不过在 Eclipse 中,目前的 ADT 不支持 Bundle 做为参数。
 
 
-### 10、ListView 可以显示多种类型的条目吗
+### [10、ListView 可以显示多种类型的条目吗](https://github.com/souyunku/DevBooks/blob/master/docs/Android/Android最新2021年面试题大汇总，附答案.md#10listview-可以显示多种类型的条目吗)  
+
 
 这个当然可以的，ListView 显示的每个条目都是通过 baseAdapter 的 getView(int position,View convertView, ViewGroup parent)来展示的，理论上我们完全可以让每个条目都是不同类型的view。
 
@@ -121,9 +130,9 @@ AIDL 全称 Android Interface Definition Language（AndRoid 接口描述语言�
 
 
 
-## 全部答案，整理好了，直接下载吧
+## [全部答案，整理好了，直接下载吧](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
-### 下载链接：[全部答案，整理好了](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
+### 下载链接：[全部答案，整理好了](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
 
 

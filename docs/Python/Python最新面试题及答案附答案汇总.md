@@ -6,7 +6,8 @@
 
 
 
-### 1、解释re模块的split()、sub()、subn()方法？
+### [1、解释re模块的split()、sub()、subn()方法？](https://github.com/souyunku/DevBooks/blob/master/docs/Python/Python最新面试题及答案附答案汇总.md#1解释re模块的splitsubsubn方法)  
+
 
 split()：只要模式匹配，此方法就会拆分字符串。
 
@@ -33,7 +34,8 @@ re.subn("[^A-Za-z]"," ",string)
 ```
 
 
-### 2、简述面向对象的三大特性？
+### [2、简述面向对象的三大特性？](https://github.com/souyunku/DevBooks/blob/master/docs/Python/Python最新面试题及答案附答案汇总.md#2简述面向对象的三大特性)  
+
 
 继承，封装和多态
 
@@ -50,7 +52,8 @@ re.subn("[^A-Za-z]"," ",string)
 多态就是不同的对象可以调用相同的方法然后得到不同的结果，有点类似接口类的感觉，在python中处处体现着多态，比如不管你是列表还是字符串还是数字都可以使用+和*。
 
 
-### 3、是否使用过functools中的函数？他的作用是什么？
+### [3、是否使用过functools中的函数？他的作用是什么？](https://github.com/souyunku/DevBooks/blob/master/docs/Python/Python最新面试题及答案附答案汇总.md#3是否使用过functools中的函数他的作用是什么)  
+
 
 **1、** functools.wraps()
 
@@ -68,7 +71,8 @@ print(a)
 ```
 
 
-### 4、Redis和Memcached的区别
+### [4、Redis和Memcached的区别](https://github.com/souyunku/DevBooks/blob/master/docs/Python/Python最新面试题及答案附答案汇总.md#4redis和memcached的区别)  
+
 
 **1、** 存储方式：
 
@@ -87,7 +91,8 @@ Memcache对数据类型支持相对简单。Redis有复杂的数据类型。
 Redis最大可以达到1GB，而memcache只有1MB
 
 
-### 5、简述进程，线程，协程的区别以及应用场景？
+### [5、简述进程，线程，协程的区别以及应用场景？](https://github.com/souyunku/DevBooks/blob/master/docs/Python/Python最新面试题及答案附答案汇总.md#5简述进程线程协程的区别以及应用场景)  
+
 
 **区别：**
 
@@ -110,14 +115,16 @@ Redis最大可以达到1GB，而memcache只有1MB
 **2、** 计算密集型，用进程。IO密集型，用线程。
 
 
-### 6、_init_在Python中有什么用？
+### [6、_init_在Python中有什么用？](https://github.com/souyunku/DevBooks/blob/master/docs/Python/Python最新面试题及答案附答案汇总.md#6_init_在python中有什么用)  
+
 
 “__init__”是Python类中的保留方法。
 
 它被称为构造函数，每当执行代码时都会自动调用它，它主要用于初始化类的所有变量。
 
 
-### 7、什么是正向代理和反向代理？
+### [7、什么是正向代理和反向代理？](https://github.com/souyunku/DevBooks/blob/master/docs/Python/Python最新面试题及答案附答案汇总.md#7什么是正向代理和反向代理)  
+
 
 **正向代理**
 
@@ -146,7 +153,8 @@ Redis最大可以达到1GB，而memcache只有1MB
 **2、** 负载均衡，通过反向代理服务器来优化网站的负载
 
 
-### 8、怎样声明多个变量并赋值？
+### [8、怎样声明多个变量并赋值？](https://github.com/souyunku/DevBooks/blob/master/docs/Python/Python最新面试题及答案附答案汇总.md#8怎样声明多个变量并赋值)  
+
 
 一共有两种方式：
 
@@ -156,7 +164,8 @@ Redis最大可以达到1GB，而memcache只有1MB
 ```
 
 
-### 9、请列举你所知道的python代码检测工具以及他们之间的区别
+### [9、请列举你所知道的python代码检测工具以及他们之间的区别](https://github.com/souyunku/DevBooks/blob/master/docs/Python/Python最新面试题及答案附答案汇总.md#9请列举你所知道的python代码检测工具以及他们之间的区别)  
+
 
 **1、** pylint --- 源代码分析器，可以分析python代码中的错误
 
@@ -165,7 +174,8 @@ Redis最大可以达到1GB，而memcache只有1MB
 **3、** pep8 --- 检查代码规范的工具
 
 
-### 10、简述Redis的有几种持久化策略以及比较？
+### [10、简述Redis的有几种持久化策略以及比较？](https://github.com/souyunku/DevBooks/blob/master/docs/Python/Python最新面试题及答案附答案汇总.md#10简述redis的有几种持久化策略以及比较)  
+
 
 **1、** RDB 持久化可以在指定的时间间隔内生成数据集的时间点快照。
 
@@ -202,9 +212,9 @@ Redis最大可以达到1GB，而memcache只有1MB
 
 
 
-## 全部答案，整理好了，直接下载吧
+## [全部答案，整理好了，直接下载吧](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
-### 下载链接：[全部答案，整理好了](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
+### 下载链接：[全部答案，整理好了](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
 
 

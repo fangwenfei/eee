@@ -6,22 +6,26 @@
 
 
 
-### 1、是什么确保了Kafka中服务器的负载平衡？
+### [1、是什么确保了Kafka中服务器的负载平衡？](https://github.com/souyunku/DevBooks/blob/master/docs/Kafka/Kafka最新2021年面试题附答案解析，大汇总.md#1是什么确保了kafka中服务器的负载平衡)  
+
 
 由于领导者的主要角色是执行分区的所有读写请求的任务，而追随者被动地复制领导者。因此，在领导者失败时，其中一个追随者接管了领导者的角色。基本上，整个过程可确保服务器的负载平衡。
 
 
-### 2、消费者API的作用是什么？
+### [2、消费者API的作用是什么？](https://github.com/souyunku/DevBooks/blob/master/docs/Kafka/Kafka最新2021年面试题附答案解析，大汇总.md#2消费者api的作用是什么)  
+
 
 允许应用程序订阅一个或多个主题并处理生成给它们的记录流的API，我们称之为消费者API。
 
 
-### 3、解释流API的作用？
+### [3、解释流API的作用？](https://github.com/souyunku/DevBooks/blob/master/docs/Kafka/Kafka最新2021年面试题附答案解析，大汇总.md#3解释流api的作用)  
+
 
 一种允许应用程序充当流处理器的API，它还使用一个或多个主题的输入流，并生成一个输出流到一个或多个输出主题，此外，有效地将输入流转换为输出流，我们称之为流API。
 
 
-### 4、Kafka为什么那么快?
+### [4、Kafka为什么那么快?](https://github.com/souyunku/DevBooks/blob/master/docs/Kafka/Kafka最新2021年面试题附答案解析，大汇总.md#4kafka为什么那么快)  
+
 
 1. Cache Filesystem Cache PageCache缓存
 2. 顺序写 由于现代的操作系统提供了预读和写技术，磁盘的顺序写大多数情况下比随机写内存还要快。
@@ -30,7 +34,8 @@
 5. Pull 拉模式 使用拉模式进行消息的获取消费，与消费端处理能力相符。
 
 
-### 5、Kafka系统工具有哪些类型？
+### [5、Kafka系统工具有哪些类型？](https://github.com/souyunku/DevBooks/blob/master/docs/Kafka/Kafka最新2021年面试题附答案解析，大汇总.md#5kafka系统工具有哪些类型)  
+
 
 **1、** Kafka迁移工具：它有助于将代理从一个版本迁移到另一个版本。
 
@@ -39,7 +44,8 @@
 **3、** 消费者检查:对于指定的主题集和消费者组，它显示主题，分区，所有者。
 
 
-### 6、partition 的数据如何保存到硬盘
+### [6、partition 的数据如何保存到硬盘](https://github.com/souyunku/DevBooks/blob/master/docs/Kafka/Kafka最新2021年面试题附答案解析，大汇总.md#6partition-的数据如何保存到硬盘)  
+
 
 topic 中的多个 partition 以文件夹的形式保存到 broker，每个分区序号从 0 递增，
 
@@ -54,7 +60,8 @@ segment 文件里的 大小和配置文件大小一致可以根据要求修改 �
 量命名
 
 
-### 7、Zookeeper对于Kafka的作用是什么？
+### [7、Zookeeper对于Kafka的作用是什么？](https://github.com/souyunku/DevBooks/blob/master/docs/Kafka/Kafka最新2021年面试题附答案解析，大汇总.md#7zookeeper对于kafka的作用是什么)  
+
 
 **1、** Zookeeper是一个开放源码的、高性能的协调服务，它用于Kafka的分布式应用。
 
@@ -65,17 +72,20 @@ segment 文件里的 大小和配置文件大小一致可以根据要求修改 �
 **4、** 除此之外，它还执行其他活动，如: leader检测、分布式同步、配置管理、识别新节点何时离开或连接、集群、节点实时状态等等。
 
 
-### 8、流API的作用是什么？
+### [8、流API的作用是什么？](https://github.com/souyunku/DevBooks/blob/master/docs/Kafka/Kafka最新2021年面试题附答案解析，大汇总.md#8流api的作用是什么)  
+
 
 一种允许应用程序充当流处理器的API，它还使用一个或多个主题的输入流，并生成一个输出流到一个或多个输出主题，此外，有效地将输入流转换为输出流，我们称之为流API。
 
 
-### 9、Kafka的流处理是什么意思？
+### [9、Kafka的流处理是什么意思？](https://github.com/souyunku/DevBooks/blob/master/docs/Kafka/Kafka最新2021年面试题附答案解析，大汇总.md#9kafka的流处理是什么意思)  
+
 
 连续、实时、并发和以逐记录方式处理数据的类型，我们称之为Kafka流处理。
 
 
-### 10、Kafka集群中保留期的目的是什么？
+### [10、Kafka集群中保留期的目的是什么？](https://github.com/souyunku/DevBooks/blob/master/docs/Kafka/Kafka最新2021年面试题附答案解析，大汇总.md#10kafka集群中保留期的目的是什么)  
+
 
 保留期限保留了Kafka群集中的所有已记录。它不会检查它们是否已被消耗。此外，可以通过使用保留期的配置设置来丢弃记录。而且，它可以释放一些空间。
 
@@ -102,9 +112,9 @@ segment 文件里的 大小和配置文件大小一致可以根据要求修改 �
 
 
 
-## 全部答案，整理好了，直接下载吧
+## [全部答案，整理好了，直接下载吧](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
-### 下载链接：[全部答案，整理好了](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
+### 下载链接：[全部答案，整理好了](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
 
 

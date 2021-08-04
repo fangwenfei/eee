@@ -6,12 +6,14 @@
 
 
 
-### 1、你觉得用 Dubbo 好还是 Spring Cloud 好？
+### [1、你觉得用 Dubbo 好还是 Spring Cloud 好？](https://github.com/souyunku/DevBooks/blob/master/docs/Dubbo/Dubbo最新面试题及答案附答案汇总.md#1你觉得用-dubbo-好还是-spring-cloud-好)  
+
 
 扩展性的问题，没有好坏，只有适合不适合，不过我好像更倾向于使用 Dubbo, Spring Cloud 版本升级太快，组件更新替换太频繁，配置太繁琐，还有很多我觉得是没有 Dubbo 顺手的地方。
 
 
-### 2、Dubbo Monitor 实现原理？
+### [2、Dubbo Monitor 实现原理？](https://github.com/souyunku/DevBooks/blob/master/docs/Dubbo/Dubbo最新面试题及答案附答案汇总.md#2dubbo-monitor-实现原理)  
+
 
 Consumer端在发起调用之前会先走filter链；provider端在接收到请求时也是先走filter链，然后才进行真正的业务逻辑处理。
 
@@ -28,7 +30,8 @@ Consumer端在发起调用之前会先走filter链；provider端在接收到请�
 **5、** SimpleMonitorService还会使用一个含有1个线程（线程名字：DubboMonitorTimer）的线程池每隔5min钟，将文件中的统计数据画成图表
 
 
-### 3、RPC使用了哪些关键技术，从调用者的角度看：
+### [3、RPC使用了哪些关键技术，从调用者的角度看：](https://github.com/souyunku/DevBooks/blob/master/docs/Dubbo/Dubbo最新面试题及答案附答案汇总.md#3rpc使用了哪些关键技术从调用者的角度看：)  
+
 
 服务的调用者启动的时候根据自己订阅的服务向服务注册中心查找服务提供者的地址等信息；
 
@@ -37,14 +40,16 @@ Consumer端在发起调用之前会先走filter链；provider端在接收到请�
 服务调用者下线的时候，则取消订阅。
 
 
-### 4、Dubbo 可以对结果进行缓存吗？
+### [4、Dubbo 可以对结果进行缓存吗？](https://github.com/souyunku/DevBooks/blob/master/docs/Dubbo/Dubbo最新面试题及答案附答案汇总.md#4dubbo-可以对结果进行缓存吗)  
+
 
 为了提高数据访问的速度。Dubbo 提供了声明式缓存，以减少用户加缓存的工作量<dubbo:reference cache=“true” />
 
 其实比普通的配置文件就多了一个标签 cache=“true”
 
 
-### 5、Dubbo 用到哪些设计模式？
+### [5、Dubbo 用到哪些设计模式？](https://github.com/souyunku/DevBooks/blob/master/docs/Dubbo/Dubbo最新面试题及答案附答案汇总.md#5dubbo-用到哪些设计模式)  
+
 
 Dubbo框架在初始化和通信过程中使用了多种设计模式，可灵活控制类加载、权限控制等功能。
 
@@ -77,27 +82,32 @@ Dubbo的Provider启动时，需要与注册中心交互，先注册自己的服�
 Dubbo扩展JDK SPI的类ExtensionLoader的Adaptive实现是典型的动态代理实现。Dubbo需要灵活地控制实现类，即在调用阶段动态地根据参数决定调用哪个实现类，所以采用先生成代理类的方法，能够做到灵活的调用。生成代理类的代码是ExtensionLoader的createAdaptiveExtensionClassCode方法。代理类的主要逻辑是，获取URL参数中指定参数的值作为获取实现类的key。
 
 
-### 6、Dubbo 如何优雅停机？
+### [6、Dubbo 如何优雅停机？](https://github.com/souyunku/DevBooks/blob/master/docs/Dubbo/Dubbo最新面试题及答案附答案汇总.md#6dubbo-如何优雅停机)  
+
 
 Dubbo 是通过 JDK 的 ShutdownHook 来完成优雅停机的，所以如果使用kill -9 PID 等强制关闭指令，是不会执行优雅停机的，只有通过 kill PID 时，才会执行。
 
 
-### 7、RPC使用了哪些关键技术，NIO通信
+### [7、RPC使用了哪些关键技术，NIO通信](https://github.com/souyunku/DevBooks/blob/master/docs/Dubbo/Dubbo最新面试题及答案附答案汇总.md#7rpc使用了哪些关键技术nio通信)  
+
 
 出于并发性能的考虑，传统的阻塞式 IO 显然不太合适，因此我们需要异步的 IO，即 NIO。Java 提供了 NIO 的解决方案，Java 7 也提供了更优秀的 NIO.2 支持。可以选择Netty或者MINA来解决NIO数据传输的问题。
 
 
-### 8、在使用过程中都遇到了些什么问题？
+### [8、在使用过程中都遇到了些什么问题？](https://github.com/souyunku/DevBooks/blob/master/docs/Dubbo/Dubbo最新面试题及答案附答案汇总.md#8在使用过程中都遇到了些什么问题)  
+
 
 如序列化问题。
 
 
-### 9、集群容错怎么做？
+### [9、集群容错怎么做？](https://github.com/souyunku/DevBooks/blob/master/docs/Dubbo/Dubbo最新面试题及答案附答案汇总.md#9集群容错怎么做)  
+
 
 读操作建议使用 Failover 失败自动切换，默认重试两次其他服务器。写操作建议使用 Failfast 快速失败，发一次调用失败就立即报错。
 
 
-### 10、Dubbo 超时时间怎样设置？
+### [10、Dubbo 超时时间怎样设置？](https://github.com/souyunku/DevBooks/blob/master/docs/Dubbo/Dubbo最新面试题及答案附答案汇总.md#10dubbo-超时时间怎样设置)  
+
 
 Dubbo 超时时间设置有两种方式：
 
@@ -130,9 +140,9 @@ Dubbo 超时时间设置有两种方式：
 
 
 
-## 全部答案，整理好了，直接下载吧
+## [全部答案，整理好了，直接下载吧](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
-### 下载链接：[全部答案，整理好了](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
+### 下载链接：[全部答案，整理好了](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
 
 

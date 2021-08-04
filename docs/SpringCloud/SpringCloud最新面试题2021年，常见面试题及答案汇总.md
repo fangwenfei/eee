@@ -6,7 +6,8 @@
 
 
 
-### 1、什么是Hystrix？它如何实现容错？
+### [1、什么是Hystrix？它如何实现容错？](https://github.com/souyunku/DevBooks/blob/master/docs/SpringCloud/SpringCloud最新面试题2021年，常见面试题及答案汇总.md#1什么是hystrix它如何实现容错)  
+
 
 Hystrix是一个延迟和容错库，旨在隔离远程系统，服务和第三方库的访问点，当出现故障是不可避免的故障时，停止级联故障并在复杂的分布式系统中实现弹性。
 
@@ -27,12 +28,14 @@ Hystrix是一个延迟和容错库，旨在隔离远程系统，服务和第三�
 现在假设由于某种原因，employee-producer公开的服务会抛出异常。我们在这种情况下使用Hystrix定义了一个回退方法。这种后备方法应该具有与公开服务相同的返回类型。如果暴露服务中出现异常，则回退方法将返回一些值。
 
 
-### 2、为什么我们需要微服务容器？
+### [2、为什么我们需要微服务容器？](https://github.com/souyunku/DevBooks/blob/master/docs/SpringCloud/SpringCloud最新面试题2021年，常见面试题及答案汇总.md#2为什么我们需要微服务容器)  
+
 
 要管理基于微服务的应用程序，容器是最简单的选择。它帮助用户单独部署和开发。您还可以使用Docker将微服务封装到容器的镜像中。没有任何额外的依赖或工作，微服务可以使用这些元素。
 
 
-### 3、springcloud和dubbo有哪些区别
+### [3、springcloud和dubbo有哪些区别](https://github.com/souyunku/DevBooks/blob/master/docs/SpringCloud/SpringCloud最新面试题2021年，常见面试题及答案汇总.md#3springcloud和dubbo有哪些区别)  
+
 
 **1、** Dubbo具有调度、发现、监控、治理等功能，⽀持相当丰富的服务治理能⼒。Dubbo架构下，注册中⼼对等集群，并会缓存服务列表已被数据库失效时继续提供发现功能，本身的服务发现结构有很强的可⽤性与健壮性，⾜够⽀持⾼访问量的⽹站。
 
@@ -47,29 +50,34 @@ Hystrix是一个延迟和容错库，旨在隔离远程系统，服务和第三�
 ![](https://gitee.com/souyunkutech/souyunku-home/raw/master/images/souyunku-web/2020/5/2/01/44/45_3.png#alt=45%5C_3.png)
 
 
-### 4、SpringCloud Config 可以实现实时刷新吗？
+### [4、SpringCloud Config 可以实现实时刷新吗？](https://github.com/souyunku/DevBooks/blob/master/docs/SpringCloud/SpringCloud最新面试题2021年，常见面试题及答案汇总.md#4springcloud-config-可以实现实时刷新吗)  
+
 
 springcloud config实时刷新采用SpringCloud Bus消息总线。
 
 
-### 5、Zookeeper如何 保证CP
+### [5、Zookeeper如何 保证CP](https://github.com/souyunku/DevBooks/blob/master/docs/SpringCloud/SpringCloud最新面试题2021年，常见面试题及答案汇总.md#5zookeeper如何-保证cp)  
+
 
 当向注册中⼼查询服务列表时，我们可以容忍注册中⼼返回的是⼏分钟以前的注册信息，但不能接受服务直接down掉不可⽤。也就是说，服务注册功能对可⽤性的要求要⾼于⼀致性。但是zk会出现这样⼀种情况，当master节点因为⽹络故障与其他节点失去联系时，剩余节点会重新进⾏leader选举。问题在于，选举leader的时间太⻓，30 ~ 120s, 且选举期间整个zk集群都是不可⽤的，这就导致在选举期间注册服务瘫痪。在云部署的环境下，因⽹络问题使得zk集群失去master节点是较⼤概率会发⽣的事，虽然服务能够最终恢复，但是漫⻓的选举时间导致的注册⻓期不可⽤是不能容忍的。
 
 
-### 6、微服务之间如何独立通讯的?
+### [6、微服务之间如何独立通讯的?](https://github.com/souyunku/DevBooks/blob/master/docs/SpringCloud/SpringCloud最新面试题2021年，常见面试题及答案汇总.md#6微服务之间如何独立通讯的)  
+
 
 同步通信：dobbo通过 RPC 远程过程调用、springcloud通过 REST 接口json调用 等。
 
 异步：消息队列，如：RabbitMq、ActiveM、Kafka 等。
 
 
-### 7、什么是OAuth？
+### [7、什么是OAuth？](https://github.com/souyunku/DevBooks/blob/master/docs/SpringCloud/SpringCloud最新面试题2021年，常见面试题及答案汇总.md#7什么是oauth)  
+
 
 OAuth 代表开放授权协议。这允许通过在HTTP服务上启用客户端应用程序（例如第三方提供商Facebook，GitHub等）来访问资源所有者的资源。因此，您可以在不使用其凭据的情况下与另一个站点共享存储在一个站点上的资源。
 
 
-### 8、eureka服务注册与发现原理
+### [8、eureka服务注册与发现原理](https://github.com/souyunku/DevBooks/blob/master/docs/SpringCloud/SpringCloud最新面试题2021年，常见面试题及答案汇总.md#8eureka服务注册与发现原理)  
+
 
 **1、** 每30s发送⼼跳检测重新进⾏租约，如果客户端不能多次更新租约，它将在90s内从服务器注册中⼼移除。
 
@@ -80,12 +88,14 @@ OAuth 代表开放授权协议。这允许通过在HTTP服务上启用客户端�
 ![](https://gitee.com/souyunkutech/souyunku-home/raw/master/images/souyunku-web/2020/5/2/01/44/45_4.png#alt=45%5C_4.png)
 
 
-### 9、Zuul与Nginx有什么区别？
+### [9、Zuul与Nginx有什么区别？](https://github.com/souyunku/DevBooks/blob/master/docs/SpringCloud/SpringCloud最新面试题2021年，常见面试题及答案汇总.md#9zuul与nginx有什么区别)  
+
 
 Zuul是java语言实现的，主要为java服务提供网关服务，尤其在微服务架构中可以更加灵活的对网关进行操作。Nginx是使用C语言实现，性能高于Zuul，但是实现自定义操作需要熟悉lua语言，对程序员要求较高，可以使用Nginx做Zuul集群。
 
 
-### 10、什么是Spring Cloud？
+### [10、什么是Spring Cloud？](https://github.com/souyunku/DevBooks/blob/master/docs/SpringCloud/SpringCloud最新面试题2021年，常见面试题及答案汇总.md#10什么是spring-cloud)  
+
 
 在微服务中，SpringCloud是一个提供与外部系统集成的系统。它是一个敏捷的框架，可以短平快构建应用程序。与有限数量的数据处理相关联，它在微服务体系结构中起着非常重要的作用。 **以下为 Spring Cloud 的核心特性**：
 
@@ -126,9 +136,9 @@ Zuul是java语言实现的，主要为java服务提供网关服务，尤其在�
 
 
 
-## 全部答案，整理好了，直接下载吧
+## [全部答案，整理好了，直接下载吧](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
-### 下载链接：[全部答案，整理好了](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
+### 下载链接：[全部答案，整理好了](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
 
 

@@ -6,12 +6,14 @@
 
 
 
-### 1、dagger2
+### [1、dagger2](https://github.com/souyunku/DevBooks/blob/master/docs/Android/Android最新面试题2021年，常见面试题及答案汇总.md#1dagger2)  
+
 
 Dagger2是一个主要用于依赖注入的框架，减少初始化对象操作，降低耦合度
 
 
-### 2、Android中touch事件的传递机制是怎样的?
+### [2、Android中touch事件的传递机制是怎样的?](https://github.com/souyunku/DevBooks/blob/master/docs/Android/Android最新面试题2021年，常见面试题及答案汇总.md#2android中touch事件的传递机制是怎样的)  
+
 
 **1、** Touch事件传递的相关API有dispatchTouchEvent、onTouchEvent、onInterceptTouchEvent
 
@@ -28,14 +30,16 @@ Dagger2是一个主要用于依赖注入的框架，减少初始化对象操作�
 **7、** Down事件到来时，如果一个View没有消费该事件，那么后续的MOVE/UP事件都不会再给它
 
 
-### 3、Android中任务栈的分配
+### [3、Android中任务栈的分配](https://github.com/souyunku/DevBooks/blob/master/docs/Android/Android最新面试题2021年，常见面试题及答案汇总.md#3android中任务栈的分配)  
+
 
 Task实际上是一个Activity栈，通常用户感受的一个Application就是一个Task。从这个定义来看，Task跟Service或者其他Components是没有任何联系的，它只是针对Activity而言的。
 
 Activity有不同的启动模式, 可以影响到task的分配
 
 
-### 4、说说mvc模式的原理，它在android中的运用,android的官方建议应用程序的开发采用mvc模式。何谓mvc？
+### [4、说说mvc模式的原理，它在android中的运用,android的官方建议应用程序的开发采用mvc模式。何谓mvc？](https://github.com/souyunku/DevBooks/blob/master/docs/Android/Android最新面试题2021年，常见面试题及答案汇总.md#4说说mvc模式的原理它在android中的运用,android的官方建议应用程序的开发采用mvc模式。何谓mvc)  
+
 
 mvc是model,view,controller的缩写，mvc包含三个部分：
 
@@ -54,7 +58,8 @@ mvc是model,view,controller的缩写，mvc包含三个部分：
 **3、** 模型层（model）：对数据库的操作、对网络等的操作都应该在model里面处理，当然对业务计算等操作也是必须放在的该层的。
 
 
-### 5、内存泄露如何查看和解决
+### [5、内存泄露如何查看和解决](https://github.com/souyunku/DevBooks/blob/master/docs/Android/Android最新面试题2021年，常见面试题及答案汇总.md#5内存泄露如何查看和解决)  
+
 
 概念：有些对象只有有限的生命周期，当他们的任务完成之后，它们将被垃圾回收，如果在对象的生命周期本该结束的时候，这个对象还被一系列的引用，着就会导致内存泄露。
 
@@ -73,17 +78,20 @@ mvc是model,view,controller的缩写，mvc包含三个部分：
 **5、** 资源未关闭造成泄露，例如数据库使用完之后关闭连接
 
 
-### 6、推送到达率如何提高
+### [6、推送到达率如何提高](https://github.com/souyunku/DevBooks/blob/master/docs/Android/Android最新面试题2021年，常见面试题及答案汇总.md#6推送到达率如何提高)  
+
 
 判手机系统，小米使用小米推送，华为使用华为推送，其他手机使用友盟推送
 
 
-### 7、简述JNI
+### [7、简述JNI](https://github.com/souyunku/DevBooks/blob/master/docs/Android/Android最新面试题2021年，常见面试题及答案汇总.md#7简述jni)  
+
 
 是java和c语言之间的桥梁，由于java是一种半解释语言，可以被反编译出来，一种重要涉及安全的代码就使用了C编程，再者很多底层功能调用C语言都实现了Java没必要重复造轮子，所以定义了JNI接口的实现
 
 
-### 8、Fragment中add与replace的区别？
+### [8、Fragment中add与replace的区别？](https://github.com/souyunku/DevBooks/blob/master/docs/Android/Android最新面试题2021年，常见面试题及答案汇总.md#8fragment中add与replace的区别)  
+
 
 add不会重新初始化fragment,replace每次都会；
 
@@ -94,12 +102,14 @@ replace 先 remove 掉相同 id 的所有 fragment，然后在add 当前的这�
 使用 add，如果应用放在后台，或以其他方式被系统销毁，再打开时，hide()中引用的 fragment 会销毁，所以依然会出现布局重叠 bug，可以使用 replace 或使用 add时，添加一个 tag 参数；
 
 
-### 9、Android root机制
+### [9、Android root机制](https://github.com/souyunku/DevBooks/blob/master/docs/Android/Android最新面试题2021年，常见面试题及答案汇总.md#9android-root机制)  
+
 
 root指的是你有权限可以再系统上对所有档案有 "读" "写" "执行"的权力。root机器不是真正能让你的应用程序具有root权限。它原理就跟linux下的像sudo这样的命令。在系统的bin目录下放个su程序并属主是root并有suid权限。则通过su执行的命令都具有Android root权限。当然使用临时用户权限想把su拷贝的/system/bin目录并改属性并不是一件容易的事情。这里用到2个工具跟2个命令。把busybox拷贝到你有权限访问的目录然后给他赋予4755权限，你就可以用它做很多事了。
 
 
-### 10、内存溢出和内存泄漏有什么区别？何时会产生内存泄漏？
+### [10、内存溢出和内存泄漏有什么区别？何时会产生内存泄漏？](https://github.com/souyunku/DevBooks/blob/master/docs/Android/Android最新面试题2021年，常见面试题及答案汇总.md#10内存溢出和内存泄漏有什么区别何时会产生内存泄漏)  
+
 
 内存溢出：当程序运行时所需的内存大于程序允许的最高内存，这时会出现内存溢出；
 
@@ -129,9 +139,9 @@ root指的是你有权限可以再系统上对所有档案有 "读" "写" "执�
 
 
 
-## 全部答案，整理好了，直接下载吧
+## [全部答案，整理好了，直接下载吧](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
-### 下载链接：[全部答案，整理好了](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
+### 下载链接：[全部答案，整理好了](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
 
 

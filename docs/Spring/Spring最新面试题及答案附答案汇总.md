@@ -6,7 +6,8 @@
 
 
 
-### 1、SpringBoot 中如何解决跨域问题 ?
+### [1、SpringBoot 中如何解决跨域问题 ?](https://github.com/souyunku/DevBooks/blob/master/docs/Spring/Spring最新面试题及答案附答案汇总.md#1springboot-中如何解决跨域问题-)  
+
 
 跨域可以在前端通过 JSONP 来解决，但是 JSONP 只可以发送 GET 请求，无法发送其他类型的请求，在 RESTful 风格的应用中，就显得非常鸡肋，因此我们推荐在后端通过 （CORS，Cross-origin resource sharing） 来解决跨域问题。这种解决方案并非 SpringBoot 特有的，在传统的 SSM 框架中，就可以通过 CORS 来解决跨域问题，只不过之前我们是在 XML 文件中配置 CORS ，现在可以通过实现WebMvcConfigurer接口然后重写addCorsMappings方法解决跨域问题。
 
@@ -28,19 +29,22 @@ public void addCorsMappings(CorsRegistry registry) {
 }
 
 
-### 2、服务注册和发现是什么意思？Spring Cloud如何实现？
+### [2、服务注册和发现是什么意思？Spring Cloud如何实现？](https://github.com/souyunku/DevBooks/blob/master/docs/Spring/Spring最新面试题及答案附答案汇总.md#2服务注册和发现是什么意思spring-cloud如何实现)  
+
 
 当我们开始一个项目时，我们通常在属性文件中进行所有的配置。随着越来越多的服务开发和部署，添加和修改这些属性变得更加复杂。有些服务可能会下降，而某些位置可能会发生变化。手动更改属性可能会产生问题。 Eureka服务注册和发现可以在这种情况下提供帮助。由于所有服务都在Eureka服务器上注册并通过调用Eureka服务器完成查找，因此无需处理服务地点的任何更改和处理。
 
 
-### 3、如何集成SpringBoot和ActiveMQ？
+### [3、如何集成SpringBoot和ActiveMQ？](https://github.com/souyunku/DevBooks/blob/master/docs/Spring/Spring最新面试题及答案附答案汇总.md#3如何集成springboot和activemq)  
+
 
 对于集成SpringBoot和ActiveMQ，我们使用
 
 依赖关系。 它只需要很少的配置，并且不需要样板代码。
 
 
-### 4、什么是JavaConfig？
+### [4、什么是JavaConfig？](https://github.com/souyunku/DevBooks/blob/master/docs/Spring/Spring最新面试题及答案附答案汇总.md#4什么是javaconfig)  
+
 
 Spring JavaConfig是Spring社区的产品，它提供了配置Spring IoC容器的纯Java方法。因此它有助于避免使用XML配置。使用JavaConfig的优点在于：
 
@@ -55,7 +59,8 @@ JavaConfig为开发人员提供了一种纯Java方法来配置与XML配置概念
 类型安全和重构友好。JavaConfig提供了一种类型安全的方法来配置Spring容器。由于Java 5.0对泛型的支持，现在可以按类型而不是按名称检索bean，不需要任何强制转换或基于字符串的查找
 
 
-### 5、什么是自动配置？
+### [5、什么是自动配置？](https://github.com/souyunku/DevBooks/blob/master/docs/Spring/Spring最新面试题及答案附答案汇总.md#5什么是自动配置)  
+
 
 Spring 和 SpringMVC 的问题在于需要配置大量的参数。
 
@@ -64,7 +69,8 @@ Spring 和 SpringMVC 的问题在于需要配置大量的参数。
 Spring 查看（CLASSPATH 上可用的框架）已存在的应用程序的配置。在此基础上，SpringBoot 提供了配置应用程序和框架所需要的基本配置。这就是自动配置。
 
 
-### 6、Container在微服务中的用途是什么？
+### [6、Container在微服务中的用途是什么？](https://github.com/souyunku/DevBooks/blob/master/docs/Spring/Spring最新面试题及答案附答案汇总.md#6container在微服务中的用途是什么)  
+
 
 容器是管理基于微服务的应用程序以便单独开发和部署它们的好方法。您可以将微服务封装在容器映像及其依赖项中，然后可以使用它来滚动按需实例的微服务，而无需任何额外的工作。
 
@@ -73,7 +79,8 @@ Spring 查看（CLASSPATH 上可用的框架）已存在的应用程序的配置
 图15： 容器的表示及其在微服务中的使用方式 – 微服务访谈问题
 
 
-### 7、保护 SpringBoot 应用有哪些方法？
+### [7、保护 SpringBoot 应用有哪些方法？](https://github.com/souyunku/DevBooks/blob/master/docs/Spring/Spring最新面试题及答案附答案汇总.md#7保护-springboot-应用有哪些方法)  
+
 
 **1、** 在生产中使用HTTPS
 
@@ -86,7 +93,8 @@ Spring 查看（CLASSPATH 上可用的框架）已存在的应用程序的配置
 **5、** 使用内容安全策略防止XSS攻击
 
 
-### 8、什么是Spring Cloud Bus？我们需要它吗？
+### [8、什么是Spring Cloud Bus？我们需要它吗？](https://github.com/souyunku/DevBooks/blob/master/docs/Spring/Spring最新面试题及答案附答案汇总.md#8什么是spring-cloud-bus我们需要它吗)  
+
 
 考虑以下情况：我们有多个应用程序使用Spring Cloud Config读取属性，而Spring Cloud Config从GIT读取这些属性。
 
@@ -103,12 +111,14 @@ Spring 查看（CLASSPATH 上可用的框架）已存在的应用程序的配置
 Spring Cloud Bus提供了跨多个实例刷新配置的功能。因此，在上面的示例中，如果我们刷新Employee Producer1，则会自动刷新所有其他必需的模块。如果我们有多个微服务启动并运行，这特别有用。这是通过将所有微服务连接到单个消息代理来实现的。无论何时刷新实例，此事件都会订阅到侦听此代理的所有微服务，并且它们也会刷新。可以通过使用端点/总线/刷新来实现对任何单个实例的刷新。
 
 
-### 9、微服务中如何实现 session 共享 ?
+### [9、微服务中如何实现 session 共享 ?](https://github.com/souyunku/DevBooks/blob/master/docs/Spring/Spring最新面试题及答案附答案汇总.md#9微服务中如何实现-session-共享-)  
+
 
 在微服务中，一个完整的项目被拆分成多个不相同的独立的服务，各个服务独立部署在不同的服务器上，各自的 session 被从物理空间上隔离开了，但是经常，我们需要在不同微服务之间共享 session ，常见的方案就是 Spring Session + Redis 来实现 session 共享。将所有微服务的 session 统一保存在 Redis 上，当各个微服务对 session 有相关的读写操作时，都去操作 Redis 上的 session 。这样就实现了 session 共享，Spring Session 基于 Spring 中的代理过滤器实现，使得 session 的同步操作对开发人员而言是透明的，非常简便。
 
 
-### 10、Spring MVC的异常处理？
+### [10、Spring MVC的异常处理？](https://github.com/souyunku/DevBooks/blob/master/docs/Spring/Spring最新面试题及答案附答案汇总.md#10spring-mvc的异常处理)  
+
 
 
 
@@ -140,9 +150,9 @@ Spring Cloud Bus提供了跨多个实例刷新配置的功能。因此，在上�
 
 
 
-## 全部答案，整理好了，直接下载吧
+## [全部答案，整理好了，直接下载吧](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
-### 下载链接：[全部答案，整理好了](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
+### 下载链接：[全部答案，整理好了](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
 
 

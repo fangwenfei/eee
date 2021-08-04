@@ -6,7 +6,8 @@
 
 
 
-### 1、python的垃圾回收机制
+### [1、python的垃圾回收机制](https://github.com/souyunku/DevBooks/blob/master/docs/Python/Python最新面试题及答案整理，汇总版.md#1python的垃圾回收机制)  
+
 
 [python垃圾回收机制详解](https://testerhome.com/topics/16556)
 
@@ -25,7 +26,8 @@
 **7、** 活动对象会被打上标记，会把那些没有被打上标记的非活动对象进行回收。
 
 
-### 2、你对Python类中的self有什么了解？
+### [2、你对Python类中的self有什么了解？](https://github.com/souyunku/DevBooks/blob/master/docs/Python/Python最新面试题及答案整理，汇总版.md#2你对python类中的self有什么了解)  
+
 
 self表示类的实例。
 
@@ -34,7 +36,8 @@ self表示类的实例。
 注意，在类的函数当中，必须使用self，因为类中没有用于声明变量的显式语法。
 
 
-### 3、求出以下代码的输出结果
+### [3、求出以下代码的输出结果](https://github.com/souyunku/DevBooks/blob/master/docs/Python/Python最新面试题及答案整理，汇总版.md#3求出以下代码的输出结果)  
+
 
 ```python
 mydict={'a':1,'b':2}
@@ -53,7 +56,8 @@ print(mydict)
 
 
 
-### 4、解决哈希冲突的算法有哪几种？分别有什么特点？
+### [4、解决哈希冲突的算法有哪几种？分别有什么特点？](https://github.com/souyunku/DevBooks/blob/master/docs/Python/Python最新面试题及答案整理，汇总版.md#4解决哈希冲突的算法有哪几种分别有什么特点)  
+
 
 [哈希冲突参考](https://blog.csdn.net/seulzz/article/details/77163878)
 
@@ -66,7 +70,8 @@ print(mydict)
 **4、** 建立公共溢出区
 
 
-### 5、解释Python中的help()和dir()函数
+### [5、解释Python中的help()和dir()函数](https://github.com/souyunku/DevBooks/blob/master/docs/Python/Python最新面试题及答案整理，汇总版.md#5解释python中的help和dir函数)  
+
 
 Help()函数是一个内置函数，用于查看函数或模块用途的详细说明：
 
@@ -104,7 +109,8 @@ Dir()函数也是Python内置函数，dir() 函数不带参数时，返回当前
 ```
 
 
-### 6、什么是断言(assert)?应用场景？
+### [6、什么是断言(assert)?应用场景？](https://github.com/souyunku/DevBooks/blob/master/docs/Python/Python最新面试题及答案整理，汇总版.md#6什么是断言assert应用场景)  
+
 
 [断言的参考](https://blog.csdn.net/shujuanyaning/article/details/47184541)
 
@@ -123,7 +129,8 @@ assert是用来检查一个条件，如果它为真，就不做任何事。如�
 **5、** 检查文档
 
 
-### 7、python代码如何获取命令行参数
+### [7、python代码如何获取命令行参数](https://github.com/souyunku/DevBooks/blob/master/docs/Python/Python最新面试题及答案整理，汇总版.md#7python代码如何获取命令行参数)  
+
 
 [获取命令行参数的方法参考](https://www.cnblogs.com/ouyangpeng/p/8537616.html)
 
@@ -134,7 +141,8 @@ assert是用来检查一个条件，如果它为真，就不做任何事。如�
 **2、** 使用getopt模块
 
 
-### 8、给定一个非空的字符串，判断它是否可以由它的一个子串重复多次构成。给定的字符串只含有小写英文字母，并且长度不超过10000。例如：'ababab',返回True，'ababa'，返回False
+### [8、给定一个非空的字符串，判断它是否可以由它的一个子串重复多次构成。给定的字符串只含有小写英文字母，并且长度不超过10000。例如：'ababab',返回True，'ababa'，返回False](https://github.com/souyunku/DevBooks/blob/master/docs/Python/Python最新面试题及答案整理，汇总版.md#8给定一个非空的字符串判断它是否可以由它的一个子串重复多次构成。给定的字符串只含有小写英文字母并且长度不超过10000。例如：'ababab',返回true'ababa'返回false)  
+
 
 ```python
 def solution(s):
@@ -152,7 +160,8 @@ print(solution('abababa'))
 ```
 
 
-### 9、写python爬虫分别用到了哪些模块？分别有什么用？
+### [9、写python爬虫分别用到了哪些模块？分别有什么用？](https://github.com/souyunku/DevBooks/blob/master/docs/Python/Python最新面试题及答案整理，汇总版.md#9写python爬虫分别用到了哪些模块分别有什么用)  
+
 
 模块
 
@@ -173,7 +182,8 @@ scrapy，爬虫框架
 selenium，模拟浏览器的爬虫框架
 
 
-### 10、Python有哪些特点和优点？
+### [10、Python有哪些特点和优点？](https://github.com/souyunku/DevBooks/blob/master/docs/Python/Python最新面试题及答案整理，汇总版.md#10python有哪些特点和优点)  
+
 
 作为一门编程入门语言，Python主要有以下特点和优点：
 
@@ -216,9 +226,9 @@ selenium，模拟浏览器的爬虫框架
 
 
 
-## 全部答案，整理好了，直接下载吧
+## [全部答案，整理好了，直接下载吧](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
-### 下载链接：[全部答案，整理好了](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
+### 下载链接：[全部答案，整理好了](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
 
 

@@ -6,14 +6,16 @@
 
 
 
-### 1、JDK 和 JRE 有什么区别？
+### [1、JDK 和 JRE 有什么区别？](https://github.com/souyunku/DevBooks/blob/master/docs/Java/Java高级面试题及答案，企业真面试题.md#1jdk-和-jre-有什么区别)  
+
 
 JDK：Java Development Kit 的简称，java 开发工具包，提供了 java 的开发环境和运行环境。
 
 JRE：Java Runtime Environment 的简称，java 运行环境，为 java 的运行提供了所需环境。 具体来说 JDK 其实包含了 JRE，同时还包含了编译 java 源码的编译器 javac，还包含了很多 java 程序调试和分析的工具。简单来说：如果你需要运行 java 程序，只需安装 JRE 就可以了，如果你需要编写 java 程序，需要安装 JDK。
 
 
-### 2、能否使用任何类作为 Map 的 key？
+### [2、能否使用任何类作为 Map 的 key？](https://github.com/souyunku/DevBooks/blob/master/docs/Java/Java高级面试题及答案，企业真面试题.md#2能否使用任何类作为-map-的-key)  
+
 
 可以使用任何类作为 Map 的 key，然而在使用之前，需要考虑以下几点：
 
@@ -26,21 +28,24 @@ JRE：Java Runtime Environment 的简称，java 运行环境，为 java 的运�
 **4、** 用户自定义 Key 类最佳实践是使之为不可变的，这样 hashCode() 值可以被缓存起来，拥有更好的性能。不可变的类也可以确保 hashCode() 和 equals() 在未来不会改变，这样就会解决与可变相关的问题了。
 
 
-### 3、简述synchronized 和java.util.concurrent.locks.Lock的异同？
+### [3、简述synchronized 和java.util.concurrent.locks.Lock的异同？](https://github.com/souyunku/DevBooks/blob/master/docs/Java/Java高级面试题及答案，企业真面试题.md#3简述synchronized-和javautilconcurrentlockslock的异同)  
+
 
 
 
 Lock是Java 5以后引入的新的API，和关键字synchronized相比主要相同点：Lock 能完成synchronized所实现的所有功能；主要不同点：Lock有比synchronized更精确的线程语义和更好的性能，而且不强制性的要求一定要获得锁。synchronized会自动释放锁，而Lock一定要求程序员手工释放，并且最好在finally 块中释放（这是释放外部资源的最好的地方）。
 
 
-### 4、什么是线程组，为什么在Java中不推荐使用？
+### [4、什么是线程组，为什么在Java中不推荐使用？](https://github.com/souyunku/DevBooks/blob/master/docs/Java/Java高级面试题及答案，企业真面试题.md#4什么是线程组为什么在java中不推荐使用)  
+
 
 ThreadGroup类，可以把线程归属到某一个线程组中，线程组中可以有线程对象，也可以有线程组，组中还可以有线程，这样的组织结构有点类似于树的形式。
 
 为什么不推荐使用？因为使用有很多的安全隐患吧，没有具体追究，如果需要使用，推荐使用线程池。
 
 
-### 5、你所知道的web服务器有哪些？
+### [5、你所知道的web服务器有哪些？](https://github.com/souyunku/DevBooks/blob/master/docs/Java/Java高级面试题及答案，企业真面试题.md#5你所知道的web服务器有哪些)  
+
 
 **1、** Tomcat
 
@@ -51,7 +56,8 @@ ThreadGroup类，可以把线程归属到某一个线程组中，线程组中可
 **4、** Glassfish
 
 
-### 6、Java中如何实现序列化，有什么意义？
+### [6、Java中如何实现序列化，有什么意义？](https://github.com/souyunku/DevBooks/blob/master/docs/Java/Java高级面试题及答案，企业真面试题.md#6java中如何实现序列化有什么意义)  
+
 
 
 
@@ -60,7 +66,8 @@ ThreadGroup类，可以把线程归属到某一个线程组中，线程组中可
 要实现序列化，需要让一个类实现Serializable接口，该接口是一个标识性接口，标注该类对象是可被序列化的，然后使用一个输出流来构造一个对象输出流并通过writeObject(Object)方法就可以将实现对象写出（即保存其状态）；如果需要反序列化则可以用一个输入流建立对象输入流，然后通过readObject方法从流中读取对象。序列化除了能够实现对象的持久化之外，还能够用于对象的深度克隆（可以参考第29题）。
 
 
-### 7、单例模式使用注意事项：
+### [7、单例模式使用注意事项：](https://github.com/souyunku/DevBooks/blob/master/docs/Java/Java高级面试题及答案，企业真面试题.md#7单例模式使用注意事项：)  
+
 
 **1、** 使用时不能用反射模式创建单例，否则会实例化一个新的对象
 
@@ -69,12 +76,14 @@ ThreadGroup类，可以把线程归属到某一个线程组中，线程组中可
 **3、** 饿单例模式和懒单例模式构造方法都是私有的，因而是不能被继承的，有些单例模式可以被继承（如登记式模式）
 
 
-### 8、请解释Tomcat的默认端口是什么?
+### [8、请解释Tomcat的默认端口是什么?](https://github.com/souyunku/DevBooks/blob/master/docs/Java/Java高级面试题及答案，企业真面试题.md#8请解释tomcat的默认端口是什么)  
+
 
 Tomcat的默认端口是8080。在本地机器上初始化Tomcat之后，您可以验证Tomcat是否正在运行URL:[http://localhost:8080](http://localhost:8080)
 
 
-### 9、创建线程的有哪些方式？
+### [9、创建线程的有哪些方式？](https://github.com/souyunku/DevBooks/blob/master/docs/Java/Java高级面试题及答案，企业真面试题.md#9创建线程的有哪些方式)  
+
 
 **1、** 继承Thread类创建线程类
 
@@ -85,7 +94,8 @@ Tomcat的默认端口是8080。在本地机器上初始化Tomcat之后，您可�
 **4、** 通过线程池创建
 
 
-### 10、什么是OOP?
+### [10、什么是OOP?](https://github.com/souyunku/DevBooks/blob/master/docs/Java/Java高级面试题及答案，企业真面试题.md#10什么是oop)  
+
 
 面向对象编程
 
@@ -124,9 +134,9 @@ Tomcat的默认端口是8080。在本地机器上初始化Tomcat之后，您可�
 
 
 
-## 全部答案，整理好了，直接下载吧
+## [全部答案，整理好了，直接下载吧](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
-### 下载链接：[全部答案，整理好了](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
+### 下载链接：[全部答案，整理好了](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
 
 

@@ -6,7 +6,8 @@
 
 
 
-### 1、说一下Java对象的创建过程
+### [1、说一下Java对象的创建过程](https://github.com/souyunku/DevBooks/blob/master/docs/Java/Java面试题大全带答案，持续更新.md#1说一下java对象的创建过程)  
+
 
 **1、** 类加载检查：虚拟机遇到一条 new 指令时，首先将去检查这个指令的参数是否能在常量池中定位到这个类的符号引用，并且检查这个符号引用代表的类是否已被加载过、解析和初始化过。如果没有，那必须先执行相应的类加载过程。2）分配内存：在类加载检查通过后，接下来虚拟机将为新生对象分配内存。对象所需的内存大小在类加载完成后便可确定，为对象分配空间的任务等同于把一块确定大小的内存从 Java 堆中划分出来。分配方式有 “指针碰撞” 和 “空闲列表” 两种，选择那种分配方式由 Java 堆是否规整决定，而Java堆是否规整又由所采用的垃圾收集器是否带有压缩整理功能决定。选择以上2种方式中的哪一种，取决于 Java 堆内存是否规整。而 Java 堆内存是否规整，取决于 GC 收集器的算法是"标记-清除"，还是"标记-整理"（也称作"标记-压缩"），值得注意的是，复制算法内存也是规整的。
 
@@ -19,12 +20,14 @@
 **5、** 执行 init 方法：在上面工作都完成之后，从虚拟机的视角来看，一个新的对象已经产生了，但从 Java 程序的视角来看，对象创建才刚开始，  方法还没有执行，所有的字段都还为零。所以一般来说，执行 new 指令之后会接着执行  方法，把对象按照程序员的意愿进行初始化，这样一个真正可用的对象才算完全产生出来。
 
 
-### 2、Java 中 LinkedHashMap 和 PriorityQueue 的区别是什么？
+### [2、Java 中 LinkedHashMap 和 PriorityQueue 的区别是什么？](https://github.com/souyunku/DevBooks/blob/master/docs/Java/Java面试题大全带答案，持续更新.md#2java-中-linkedhashmap-和-priorityqueue-的区别是什么)  
+
 
 PriorityQueue 保证最高或者最低优先级的的元素总是在队列头部，但是 LinkedHashMap 维持的顺序是元素插入的顺序。当遍历一个 PriorityQueue 时，没有任何顺序保证，但是 LinkedHashMap 课保证遍历顺序是元素插入的顺序。
 
 
-### 3、ThreadPoolExecutor饱和策略有哪些？
+### [3、ThreadPoolExecutor饱和策略有哪些？](https://github.com/souyunku/DevBooks/blob/master/docs/Java/Java面试题大全带答案，持续更新.md#3threadpoolexecutor饱和策略有哪些)  
+
 
 `如果当前同时运行的线程数量达到最大线程数量并且队列也已经被放满了任时，ThreadPoolTaskExecutor 定义一些策略:`
 
@@ -37,12 +40,14 @@ PriorityQueue 保证最高或者最低优先级的的元素总是在队列头部
 **4、** ThreadPoolExecutor.DiscardOldestPolicy： 此策略将丢弃最早的未处理的任务请求。
 
 
-### 4、可达性分析
+### [4、可达性分析](https://github.com/souyunku/DevBooks/blob/master/docs/Java/Java面试题大全带答案，持续更新.md#4可达性分析)  
+
 
 为了解决引用计数法的循环引用问题， Java 使用了可达性分析的方法。通过一系列的“GC roots”对象作为起点搜索。如果在“GC roots”和一个对象之间没有可达路径，则称该对象是不可达的。要注意的是，不可达对象不等价于可回收对象， 不可达对象变为可回收对象至少要经过两次标记过程。两次标记后仍然是可回收对象，则将面临回收。
 
 
-### 5、成员变量与局部变量的区别有那些？
+### [5、成员变量与局部变量的区别有那些？](https://github.com/souyunku/DevBooks/blob/master/docs/Java/Java面试题大全带答案，持续更新.md#5成员变量与局部变量的区别有那些)  
+
 
 **1、** 从语法形式上，看成员变量是属于类的，而局部变量是在方法中定义的变量或是方法的参数；成员变量可以被public,private,static等修饰符所修饰，而局部变量不能被访问控制修饰符及static所修饰；成员变量和局部变量都能被final所修饰；
 
@@ -53,7 +58,8 @@ PriorityQueue 保证最高或者最低优先级的的元素总是在队列头部
 **4、** 成员变量如果没有被赋初值，则会自动以类型的默认值而赋值（一种情况例外被final修饰但没有被static修饰的成员变量必须显示地赋值）；而局部变量则不会自动赋值。
 
 
-### 6、HashMap 的长度为什么是2的幂次方
+### [6、HashMap 的长度为什么是2的幂次方](https://github.com/souyunku/DevBooks/blob/master/docs/Java/Java面试题大全带答案，持续更新.md#6hashmap-的长度为什么是2的幂次方)  
+
 
 为了能让 HashMap 存取高效，尽量较少碰撞，也就是要尽量把数据分配均匀，每个链表/红黑树长度大致相同。这个实现就是把数据存到哪个链表/红黑树中的算法。
 
@@ -66,7 +72,8 @@ PriorityQueue 保证最高或者最低优先级的的元素总是在队列头部
 这样就是加大哈希值低位的随机性，使得分布更均匀，从而提高对应数组存储下标位置的随机性&均匀性，最终减少Hash冲突，两次就够了，已经达到了高位低位同时参与运算的目的；
 
 
-### 7、谈谈JVM中，对类加载器的认识
+### [7、谈谈JVM中，对类加载器的认识](https://github.com/souyunku/DevBooks/blob/master/docs/Java/Java面试题大全带答案，持续更新.md#7谈谈jvm中对类加载器的认识)  
+
 
 类加载器是JVM的组成部分之一。将字节码文件加载进JVM。
 
@@ -83,21 +90,24 @@ PriorityQueue 保证最高或者最低优先级的的元素总是在队列头部
 **5、** Jvm默认采用的是双亲委派类加载机制，即先加载父类在加载子类，对上面四个类加载器采用自顶向下加载
 
 
-### 8、你对线程优先级的理解是什么？
+### [8、你对线程优先级的理解是什么？](https://github.com/souyunku/DevBooks/blob/master/docs/Java/Java面试题大全带答案，持续更新.md#8你对线程优先级的理解是什么)  
+
 
 **1、** 每一个线程都是有优先级的，一般来说，高优先级的线程在运行时会具有优先权，但这依赖于线程调度的实现，这个实现是和操作系统相关的(OS dependent)。我们可以定义线程的优先级，但是这并不能保证高优先级的线程会在低优先级的线程前执行。线程优先级是一个int变量(从1-10)，1代表最低优先级，10代表最高优先级。
 
 **2、** java的线程优先级调度会委托给操作系统去处理，所以与具体的操作系统优先级有关，如非特别需要，一般无需设置线程优先级。
 
 
-### 9、构造器（constructor）是否可被重写（override）？
+### [9、构造器（constructor）是否可被重写（override）？](https://github.com/souyunku/DevBooks/blob/master/docs/Java/Java面试题大全带答案，持续更新.md#9构造器constructor是否可被重写override)  
+
 
 
 
 构造器不能被继承，因此不能被重写，但可以被重载。
 
 
-### 10、JVM 年轻代到年老代的晋升过程的判断条件是什么呢？
+### [10、JVM 年轻代到年老代的晋升过程的判断条件是什么呢？](https://github.com/souyunku/DevBooks/blob/master/docs/Java/Java面试题大全带答案，持续更新.md#10jvm-年轻代到年老代的晋升过程的判断条件是什么呢)  
+
 
 **1、** 部分对象会在From和To区域中复制来复制去,如此交换15次(由JVM参数MaxTenuringThreshold决定,这个参数默认是15),最终如果还是存活,就存入到老年代。
 
@@ -142,9 +152,9 @@ PriorityQueue 保证最高或者最低优先级的的元素总是在队列头部
 
 
 
-## 全部答案，整理好了，直接下载吧
+## [全部答案，整理好了，直接下载吧](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
-### 下载链接：[全部答案，整理好了](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
+### 下载链接：[全部答案，整理好了](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
 
 

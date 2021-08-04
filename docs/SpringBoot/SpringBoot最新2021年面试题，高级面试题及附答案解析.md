@@ -6,29 +6,34 @@
 
 
 
-### 1、spring boot 核心的两个配置文件：
+### [1、spring boot 核心的两个配置文件：](https://github.com/souyunku/DevBooks/blob/master/docs/SpringBoot/SpringBoot最新2021年面试题，高级面试题及附答案解析.md#1spring-boot-核心的两个配置文件：)  
+
 
 **1、** bootstrap (.yml 或.properties)：boostrap 由父 ApplicationContext 加载的，比 applicaton 优先加载，配置在应用程序上下文的引导阶段生效。一般来说我们在 Spring Cloud Config 或者 Nacos 中会用到它。且 boostrap 里面的属性不能被覆盖；
 
 **2、** application (. yml 或者 . properties)：由ApplicatonContext 加载，用于 spring boot 项目的自动化配置。
 
 
-### 2、是否可以在Spring boot中更改嵌入式Tomcat服务器的端口?
+### [2、是否可以在Spring boot中更改嵌入式Tomcat服务器的端口?](https://github.com/souyunku/DevBooks/blob/master/docs/SpringBoot/SpringBoot最新2021年面试题，高级面试题及附答案解析.md#2是否可以在spring-boot中更改嵌入式tomcat服务器的端口)  
+
 
 是的，更改端口是可行的。可以使用application.properties文件更改端口。但需要提到“server.port”（即server.port=8081）。确保项目类路径中有application.properties；后续工作将由REST Spring框架接手。如果提到server.port=0，那么它将自动分配任何可用的端口。
 
 
-### 3、如何在 SpringBoot 启动的时候运行一些特定的代码？
+### [3、如何在 SpringBoot 启动的时候运行一些特定的代码？](https://github.com/souyunku/DevBooks/blob/master/docs/SpringBoot/SpringBoot最新2021年面试题，高级面试题及附答案解析.md#3如何在-springboot-启动的时候运行一些特定的代码)  
+
 
 可以实现接口 ApplicationRunner 或者 CommandLineRunner，这两个接口实现方式一样，它们都只提供了一个 run 方法
 
 
-### 4、什么是 CSRF 攻击？
+### [4、什么是 CSRF 攻击？](https://github.com/souyunku/DevBooks/blob/master/docs/SpringBoot/SpringBoot最新2021年面试题，高级面试题及附答案解析.md#4什么是-csrf-攻击)  
+
 
 CSRF 代表跨站请求伪造。这是一种攻击，迫使最终用户在当前通过身份验证的Web 应用程序上执行不需要的操作。CSRF 攻击专门针对状态改变请求，而不是数据窃取，因为攻击者无法查看对伪造请求的响应。
 
 
-### 5、bootstrap.yml和application.yml有什么区别?
+### [5、bootstrap.yml和application.yml有什么区别?](https://github.com/souyunku/DevBooks/blob/master/docs/SpringBoot/SpringBoot最新2021年面试题，高级面试题及附答案解析.md#5bootstrapyml和applicationyml有什么区别)  
+
 
 **1、** Spring Cloud 构建于 SpringBoot 之上，在 SpringBoot 中有两种上下文，一种是 bootstrap，另外一种是 application。
 
@@ -47,14 +52,16 @@ CSRF 代表跨站请求伪造。这是一种攻击，迫使最终用户在当前
 **8、** boostrap 里面的属性`不能被覆盖`
 
 
-### 6、SpringBoot的缺点
+### [6、SpringBoot的缺点](https://github.com/souyunku/DevBooks/blob/master/docs/SpringBoot/SpringBoot最新2021年面试题，高级面试题及附答案解析.md#6springboot的缺点)  
+
 
 我觉得是为难人，SpringBoot在目前我觉得没有什么缺点，非要找一个出来我觉得就是
 
 由于不用自己做的配置，报错时很难定位。
 
 
-### 7、SpringBoot 的核心注解是哪个？它主要由哪几个注解组成的？
+### [7、SpringBoot 的核心注解是哪个？它主要由哪几个注解组成的？](https://github.com/souyunku/DevBooks/blob/master/docs/SpringBoot/SpringBoot最新2021年面试题，高级面试题及附答案解析.md#7springboot-的核心注解是哪个它主要由哪几个注解组成的)  
+
 
 启动类上面的注解是@SpringBootApplication，它也是 SpringBoot 的核心注解，主要组合包含了以下 3 个注解：
 
@@ -67,7 +74,8 @@ CSRF 代表跨站请求伪造。这是一种攻击，迫使最终用户在当前
 @ComponentScan：Spring组件扫描。
 
 
-### 8、什么是嵌入式服务器？我们为什么要使用嵌入式服务器呢?
+### [8、什么是嵌入式服务器？我们为什么要使用嵌入式服务器呢?](https://github.com/souyunku/DevBooks/blob/master/docs/SpringBoot/SpringBoot最新2021年面试题，高级面试题及附答案解析.md#8什么是嵌入式服务器我们为什么要使用嵌入式服务器呢)  
+
 
 思考一下在你的虚拟机上部署应用程序需要些什么。
 
@@ -94,7 +102,8 @@ CSRF 代表跨站请求伪造。这是一种攻击，迫使最终用户在当前
 嵌入式服务器就是我们的可执行单元包含服务器的二进制文件（例如，tomcat.jar）。
 
 
-### 9、SpringBoot 的自动配置是如何实现的？
+### [9、SpringBoot 的自动配置是如何实现的？](https://github.com/souyunku/DevBooks/blob/master/docs/SpringBoot/SpringBoot最新2021年面试题，高级面试题及附答案解析.md#9springboot-的自动配置是如何实现的)  
+
 
 SpringBoot 项目的启动注解是：@SpringBootApplication，其实它就是由下面三个注解组成的：
 
@@ -107,7 +116,8 @@ SpringBoot 项目的启动注解是：@SpringBootApplication，其实它就是�
 其中 @EnableAutoConfiguration 是实现自动配置的入口，该注解又通过 [@Import ](/Import ) 注解导入了AutoConfigurationImportSelector，在该类中加载 META-INF/spring.factories 的配置信息。然后筛选出以 EnableAutoConfiguration 为 key 的数据，加载到 IOC 容器中，实现自动配置功能！
 
 
-### 10、什么是FreeMarker模板？
+### [10、什么是FreeMarker模板？](https://github.com/souyunku/DevBooks/blob/master/docs/SpringBoot/SpringBoot最新2021年面试题，高级面试题及附答案解析.md#10什么是freemarker模板)  
+
 
 FreeMarker是一个基于Java的模板引擎，最初专注于使用MVC软件架构进行动态网页生成。使用Freemarker的主要优点是表示层和业务层的完全分离。程序员可以处理应用程序代码，而设计人员可以处理html页面设计。最后使用freemarker可以将这些结合起来，给出最终的输出页面。
 
@@ -137,9 +147,9 @@ FreeMarker是一个基于Java的模板引擎，最初专注于使用MVC软件架
 
 
 
-## 全部答案，整理好了，直接下载吧
+## [全部答案，整理好了，直接下载吧](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
-### 下载链接：[全部答案，整理好了](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
+### 下载链接：[全部答案，整理好了](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
 
 

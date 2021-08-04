@@ -6,7 +6,8 @@
 
 
 
-### 1、Nginx 是如何实现高并发的？
+### [1、Nginx 是如何实现高并发的？](https://github.com/souyunku/DevBooks/blob/master/docs/Nginx/Nginx最新2021年面试题大汇总，附答案.md#1nginx-是如何实现高并发的)  
+
 
 如果一个 server 采用一个进程(或者线程)负责一个request的方式，那么进程数就是并发数。那么显而易见的，就是会有很多进程在等待中。等什么？最多的应该是等待网络传输。其缺点胖友应该也感觉到了，此处不述。
 
@@ -33,28 +34,33 @@ Nginx 不这样，每进来一个 request ，会有一个 worker 进程去处理
 也正是 Nginx 之所以然的技术基石。
 
 
-### 2、请解释 Nginx 如何处理 HTTP 请求。
+### [2、请解释 Nginx 如何处理 HTTP 请求。](https://github.com/souyunku/DevBooks/blob/master/docs/Nginx/Nginx最新2021年面试题大汇总，附答案.md#2请解释-nginx-如何处理-http-请求。)  
+
 
 Nginx 使用反应器模式。主事件循环等待操作系统发出准备事件的信号，这样数据就可以从套接字读取，在该实例中读取到缓冲区并进行处理。单个线程可以提供数万个并发连接。
 
 
-### 3、为什么要做动、静分离？
+### [3、为什么要做动、静分离？](https://github.com/souyunku/DevBooks/blob/master/docs/Nginx/Nginx最新2021年面试题大汇总，附答案.md#3为什么要做动静分离)  
+
 
 在我们的软件开发中，有些请求是需要后台处理的（如：.jsp,.do等等），有些请求是不需要经过后台处理的（如：css、html、jpg、js等等），这些不需要经过后台处理的文件称为静态文件，否则动态文件。因此我们后台处理忽略静态文件，但是如果直接忽略静态文件的话，后台的请求次数就明显增多了。在我们对资源的响应速度有要求的时候，应该使用这种动静分离的策略去解决动、静分离将网站静态资源（HTML，JavaScript，CSS等）与后台应用分开部署，提高用户访问静态代码的速度，降低对后台应用访问。这里将静态资源放到nginx中，动态资源转发到[tomcat](https://www.wkcto.com/courses/tomcat.html)服务器中,毕竟Tomcat的优势是处理动态请求。
 
 
 
-### 4、nginx是如何实现高并发的？
+### [4、nginx是如何实现高并发的？](https://github.com/souyunku/DevBooks/blob/master/docs/Nginx/Nginx最新2021年面试题大汇总，附答案.md#4nginx是如何实现高并发的)  
+
 
 一个主进程，多个工作进程，每个工作进程可以处理多个请求，每进来一个request，会有一个worker进程去处理。但不是全程的处理，处理到可能发生阻塞的地方，比如向上游（后端）服务器转发request，并等待请求返回。那么，这个处理的worker继续处理其他请求，而一旦上游服务器返回了，就会触发这个事件，worker才会来接手，这个request才会接着往下走。由于web server的工作性质决定了每个request的大部份生命都是在网络传输中，实际上花费在server机器上的时间片不多。这是几个进程就解决高并发的秘密所在。即@skoo所说的webserver刚好属于网络io密集型应用，不算是计算密集型。
 
 
-### 5、Nginx静态资源?
+### [5、Nginx静态资源?](https://github.com/souyunku/DevBooks/blob/master/docs/Nginx/Nginx最新2021年面试题大汇总，附答案.md#5nginx静态资源)  
+
 
 静态资源访问，就是存放在nginx的html页面，我们可以自己编写
 
 
-### 6、Nginx配置高可用性怎么配置？
+### [6、Nginx配置高可用性怎么配置？](https://github.com/souyunku/DevBooks/blob/master/docs/Nginx/Nginx最新2021年面试题大汇总，附答案.md#6nginx配置高可用性怎么配置)  
+
 
 当上游服务器(真实访问服务器)，一旦出现故障或者是没有及时相应的话，应该直接轮训到下一台服务器，保证服务器的高可用
 
@@ -73,7 +79,8 @@ server {
 ```
 
 
-### 7、502错误可能原因
+### [7、502错误可能原因](https://github.com/souyunku/DevBooks/blob/master/docs/Nginx/Nginx最新2021年面试题大汇总，附答案.md#7502错误可能原因)  
+
 
 **1、** FastCGI进程是否已经启动
 
@@ -108,7 +115,8 @@ server {
 将php-fpm.conf的0s的0s改成一个时间
 
 
-### 8、在 Nginx 中，解释如何在 URL 中保留双斜线?
+### [8、在 Nginx 中，解释如何在 URL 中保留双斜线?](https://github.com/souyunku/DevBooks/blob/master/docs/Nginx/Nginx最新2021年面试题大汇总，附答案.md#8在-nginx-中解释如何在-url-中保留双斜线)  
+
 
 要在 URL 中保留双斜线，就必须使用 merge_slashes_off;
 
@@ -119,12 +127,14 @@ server {
 环境: http，server
 
 
-### 9、Nginx服务器上的Master和Worker进程分别是什么?
+### [9、Nginx服务器上的Master和Worker进程分别是什么?](https://github.com/souyunku/DevBooks/blob/master/docs/Nginx/Nginx最新2021年面试题大汇总，附答案.md#9nginx服务器上的master和worker进程分别是什么)  
+
 
 Master进程：读取及评估配置和维持 ；Worker进程：处理请求。
 
 
-### 10、Nginx的优缺点？
+### [10、Nginx的优缺点？](https://github.com/souyunku/DevBooks/blob/master/docs/Nginx/Nginx最新2021年面试题大汇总，附答案.md#10nginx的优缺点)  
+
 
 **优点：**
 
@@ -165,9 +175,9 @@ Master进程：读取及评估配置和维持 ；Worker进程：处理请求。
 
 
 
-## 全部答案，整理好了，直接下载吧
+## [全部答案，整理好了，直接下载吧](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
-### 下载链接：[全部答案，整理好了](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
+### 下载链接：[全部答案，整理好了](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
 
 

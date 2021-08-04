@@ -6,19 +6,22 @@
 
 
 
-### 1、几种部署方式？
+### [1、几种部署方式？](https://github.com/souyunku/DevBooks/blob/master/docs/ZooKeeper/ZooKeeper最新2021年面试题，高级面试题及附答案解析.md#1几种部署方式)  
+
 
 单机、伪集群、集群
 
 
-### 2、发布订阅的两种设计模式？
+### [2、发布订阅的两种设计模式？](https://github.com/souyunku/DevBooks/blob/master/docs/ZooKeeper/ZooKeeper最新2021年面试题，高级面试题及附答案解析.md#2发布订阅的两种设计模式)  
+
 
 推(Push) :服务端主动推数据给所有定于的客户端。
 
 拉(Pull):客户端主动发请求来获取最新数据。
 
 
-### 3、服务端处理 Watcher 实现
+### [3、服务端处理 Watcher 实现](https://github.com/souyunku/DevBooks/blob/master/docs/ZooKeeper/ZooKeeper最新2021年面试题，高级面试题及附答案解析.md#3服务端处理-watcher-实现)  
+
 
 **1、** 服务端接收 Watcher 并存储 接收到客户端请求，处理请求判断是否需要注册 Watcher，需要的话将数据节点的节点路径和 ServerCnxn（ServerCnxn 代表一个客户端和服务端的连接，实现了 Watcher 的 process 接口，此时可以看成一个 Watcher 对象）存储在WatcherManager 的 WatchTable 和 watch2Paths 中去。
 
@@ -35,7 +38,8 @@
 **3、**  调用 process 方法来触发 Watcher 这里 process 主要就是通过 ServerCnxn 对应的 TCP 连接发送 Watcher 事件通知。
 
 
-### 4、zk节点宕机如何处理？
+### [4、zk节点宕机如何处理？](https://github.com/souyunku/DevBooks/blob/master/docs/ZooKeeper/ZooKeeper最新2021年面试题，高级面试题及附答案解析.md#4zk节点宕机如何处理)  
+
 
 Zookeeper本身也是集群，推荐配置不少于3个服务器。Zookeeper自身也要保证当一个节点宕机时，其他节点会继续提供服务。
 
@@ -52,7 +56,8 @@ ZK集群的机制是只要超过半数的节点正常，集群就能正常提供
 2个节点的cluster就不能挂掉任何1个节点了(leader可以得到1票<=1)
 
 
-### 5、Zookeeper 对节点的 watch 监听通知是永久的吗？为什么不是永久的?
+### [5、Zookeeper 对节点的 watch 监听通知是永久的吗？为什么不是永久的?](https://github.com/souyunku/DevBooks/blob/master/docs/ZooKeeper/ZooKeeper最新2021年面试题，高级面试题及附答案解析.md#5zookeeper-对节点的-watch-监听通知是永久的吗为什么不是永久的)  
+
 
 **1、** 不是。官方声明：一个 Watch 事件是一个一次性的触发器，当被设置了 Watch的数据发生了改变的时候，则服务器将这个改变发送给设置了 Watch 的客户端，以便通知它们。
 
@@ -63,12 +68,14 @@ ZK集群的机制是只要超过半数的节点正常，集群就能正常提供
 **4、** 在实际应用中，很多情况下，我们的客户端不需要知道服务端的每一次变动，我只要最新的数据即可。
 
 
-### 6、Zookeeper 怎么保证主从节点的状态同步？
+### [6、Zookeeper 怎么保证主从节点的状态同步？](https://github.com/souyunku/DevBooks/blob/master/docs/ZooKeeper/ZooKeeper最新2021年面试题，高级面试题及附答案解析.md#6zookeeper-怎么保证主从节点的状态同步)  
+
 
 Zookeeper 的核心是原子广播机制，这个机制保证了各个 server 之间的同步。实现这个机制的协议叫做 Zab 协议。Zab 协议有两种模式，它们分别是恢复模式和广播模式。
 
 
-### 7、数据发布/订阅
+### [7、数据发布/订阅](https://github.com/souyunku/DevBooks/blob/master/docs/ZooKeeper/ZooKeeper最新2021年面试题，高级面试题及附答案解析.md#7数据发布/订阅)  
+
 
 **介绍**
 
@@ -105,19 +112,22 @@ Zookeeper 的核心是原子广播机制，这个机制保证了各个 server �
 **3、** 数据变更：当变更数据时，更新 Zookeeper 对应节点数据，Zookeeper会将数据变更通知发到各客户端，客户端接到通知后重新读取变更后的数据即可。
 
 #
-### 8、同进程组的两个进程消息网络通信有哪两个特性？
+### [8、同进程组的两个进程消息网络通信有哪两个特性？](https://github.com/souyunku/DevBooks/blob/master/docs/ZooKeeper/ZooKeeper最新2021年面试题，高级面试题及附答案解析.md#8同进程组的两个进程消息网络通信有哪两个特性)  
+
 
 完整性： 如果进程a收到进程b的消息msg,那么b一定发送了消息msg。
 
 前置性：如果msg1是msg2的前置消息，那么当前进程务必先接收到msg1,在接受msg2。
 
 
-### 9、zookeeper 是如何保证事务的顺序一致性的？
+### [9、zookeeper 是如何保证事务的顺序一致性的？](https://github.com/souyunku/DevBooks/blob/master/docs/ZooKeeper/ZooKeeper最新2021年面试题，高级面试题及附答案解析.md#9zookeeper-是如何保证事务的顺序一致性的)  
+
 
 zookeeper 采用了全局递增的事务 Id 来标识，所有的 proposal（提议）都在被提出的时候加上了 zxid，zxid 实际上是一个 64 位的数字，高 32 位是 epoch（ 时期; 纪元; 世; 新时代）用来标识 leader 周期，如果有新的 leader 产生出来，epoch会自增，低 32 位用来递增计数。当新产生 proposal 的时候，会依据数据库的两阶段过程，首先会向其他的 server 发出事务执行请求，如果超过半数的机器都能执行并且能够成功，那么就会开始执行。
 
 
-### 10、Chroot特性
+### [10、Chroot特性](https://github.com/souyunku/DevBooks/blob/master/docs/ZooKeeper/ZooKeeper最新2021年面试题，高级面试题及附答案解析.md#10chroot特性)  
+
 
 3.2.0版本后，添加了 Chroot特性，该特性允许每个客户端为自己设置一个命名空间。如果一个客户端设置了Chroot，那么该客户端对服务器的任何操作，都将会被限制在其自己的命名空间下。
 
@@ -149,9 +159,9 @@ zookeeper 采用了全局递增的事务 Id 来标识，所有的 proposal（提
 
 
 
-## 全部答案，整理好了，直接下载吧
+## [全部答案，整理好了，直接下载吧](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
-### 下载链接：[全部答案，整理好了](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
+### 下载链接：[全部答案，整理好了](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
 
 

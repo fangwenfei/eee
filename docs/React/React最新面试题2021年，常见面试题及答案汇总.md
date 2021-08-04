@@ -6,12 +6,14 @@
 
 
 
-### 1、React 中 refs 的作用是什么
+### [1、React 中 refs 的作用是什么](https://github.com/souyunku/DevBooks/blob/master/docs/React/React最新面试题2021年，常见面试题及答案汇总.md#1react-中-refs-的作用是什么)  
+
 
 `Refs` 是 `React` 提供给我们的安全访问 `DOM`元素或者某个组件实例的句柄可以为元素添加ref属性然后在回调函数中接受该元素在 `DOM` 树中的句柄该值会作为回调函数的第一个参数返回
 
 
-### 2、区分状态和 props
+### [2、区分状态和 props](https://github.com/souyunku/DevBooks/blob/master/docs/React/React最新面试题2021年，常见面试题及答案汇总.md#2区分状态和-props)  
+
 | 条件 | State | Props |
 | --- | --- | --- |
 | 1、从父组件中接收初始值 | Yes | Yes |
@@ -23,12 +25,14 @@
 
 
 
-### 3、什么是Redux？
+### [3、什么是Redux？](https://github.com/souyunku/DevBooks/blob/master/docs/React/React最新面试题2021年，常见面试题及答案汇总.md#3什么是redux)  
+
 
 Redux 是当今最热门的前端开发库之一。它是 JavaScript 程序的可预测状态容器，用于整个应用的状态管理。使用 Redux 开发的应用易于测试，可以在不同环境中运行，并显示一致的行为。
 
 
-### 4、React的请求应该放在哪个生命周期中?
+### [4、React的请求应该放在哪个生命周期中?](https://github.com/souyunku/DevBooks/blob/master/docs/React/React最新面试题2021年，常见面试题及答案汇总.md#4react的请求应该放在哪个生命周期中)  
+
 
 React的异步请求到底应该放在哪个生命周期里,有人认为在`componentWillMount`中可以提前进行异步请求,避免白屏,其实这个观点是有问题的.
 
@@ -44,7 +48,8 @@ React的异步请求到底应该放在哪个生命周期里,有人认为在`comp
 
 
 
-### 5、列出 Redux 的组件。
+### [5、列出 Redux 的组件。](https://github.com/souyunku/DevBooks/blob/master/docs/React/React最新面试题2021年，常见面试题及答案汇总.md#5列出-redux-的组件。)  
+
 
 Redux 由以下组件组成：
 
@@ -57,7 +62,8 @@ Redux 由以下组件组成：
 **4、**  View – 只显示 Store 提供的数据。
 
 
-### 6、redux异步中间件之间的优劣?
+### [6、redux异步中间件之间的优劣?](https://github.com/souyunku/DevBooks/blob/master/docs/React/React最新面试题2021年，常见面试题及答案汇总.md#6redux异步中间件之间的优劣)  
+
 
 **redux-thunk优点:**
 
@@ -111,7 +117,8 @@ Redux 由以下组件组成：
 
 
 
-### 7、如何模块化 React 中的代码？
+### [7、如何模块化 React 中的代码？](https://github.com/souyunku/DevBooks/blob/master/docs/React/React最新面试题2021年，常见面试题及答案汇总.md#7如何模块化-react-中的代码)  
+
 
 可以使用 export 和 import 属性来模块化代码。它们有助于在不同的文件中单独编写组件。
 
@@ -141,7 +148,8 @@ class ParentComponent extends React.Component {
 ```
 
 
-### 8、redux中间件有哪些，做什么用？
+### [8、redux中间件有哪些，做什么用？](https://github.com/souyunku/DevBooks/blob/master/docs/React/React最新面试题2021年，常见面试题及答案汇总.md#8redux中间件有哪些做什么用)  
+
 
 中间件提供第三方插件的模式，自定义拦截 action -> reducer 的过程。变为 action -> middlewares -> reducer 。这种机制可以让我们改变数据流，实现如异步 action ，action 过滤，日志输出，异常报告等功能。 常见的中间件：
 
@@ -152,7 +160,8 @@ redux-thunk：处理异步操作
 redux-promise：处理异步操作，actionCreator的返回值是promise
 
 
-### 9、那你知道Vue3.x响应式数据原理吗？
+### [9、那你知道Vue3.x响应式数据原理吗？](https://github.com/souyunku/DevBooks/blob/master/docs/React/React最新面试题2021年，常见面试题及答案汇总.md#9那你知道vue3x响应式数据原理吗)  
+
 
 (还好我有看，这个难不倒我)
 
@@ -171,7 +180,8 @@ Vue3.x改用`Proxy`替代Object.defineProperty。因为Proxy可以直接监听�
 (这小子还行，比上两个强，应该是多多少少看过Vue3的源码了)
 
 
-### 10、你对“单一事实来源”有什么理解？
+### [10、你对“单一事实来源”有什么理解？](https://github.com/souyunku/DevBooks/blob/master/docs/React/React最新面试题2021年，常见面试题及答案汇总.md#10你对“单一事实来源有什么理解)  
+
 
 Redux 使用 “Store” 将程序的整个状态存储在同一个地方。因此所有组件的状态都存储在 Store 中，并且它们从 Store 本身接收更新。单一状态树可以更容易地跟踪随时间的变化，并调试或检查程序。
 
@@ -197,9 +207,9 @@ Redux 使用 “Store” 将程序的整个状态存储在同一个地方。因�
 
 
 
-## 全部答案，整理好了，直接下载吧
+## [全部答案，整理好了，直接下载吧](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
-### 下载链接：[全部答案，整理好了](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
+### 下载链接：[全部答案，整理好了](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
 
 

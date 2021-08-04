@@ -6,7 +6,8 @@
 
 
 
-### 1、为什么我们不建议在实际的应用程序中使用 Spring Data Rest?
+### [1、为什么我们不建议在实际的应用程序中使用 Spring Data Rest?](https://github.com/souyunku/DevBooks/blob/master/docs/Spring/Spring最新基础面试题及答案整理.md#1为什么我们不建议在实际的应用程序中使用-spring-data-rest)  
+
 
 我们认为 Spring Data Rest 很适合快速原型制造！在大型应用程序中使用需要谨慎。
 
@@ -23,14 +24,16 @@
 这就是为什么我们建议使用 Spring Data Rest 在快速原型构造上面，或者作为项目的初始解决方法。对于完整演变项目来说，这并不是一个好的注意。
 
 
-### 2、Ribbon是什么？
+### [2、Ribbon是什么？](https://github.com/souyunku/DevBooks/blob/master/docs/Spring/Spring最新基础面试题及答案整理.md#2ribbon是什么)  
+
 
 **1、** Ribbon是Netflix发布的开源项目，主要功能是提供客户端的软件负载均衡算法
 
 **2、** Ribbon客户端组件提供一系列完善的配置项，如连接超时，重试等。简单的说，就是在配置文件中列出后面所有的机器，Ribbon会自动的帮助你基于某种规则（如简单轮询，随即连接等）去连接这些机器。我们也很容易使用Ribbon实现自定义的负载均衡算法。（有点类似Nginx）
 
 
-### 3、如何禁用特定的自动配置类？
+### [3、如何禁用特定的自动配置类？](https://github.com/souyunku/DevBooks/blob/master/docs/Spring/Spring最新基础面试题及答案整理.md#3如何禁用特定的自动配置类)  
+
 
 若发现任何不愿使用的特定自动配置类，可以使用@EnableAutoConfiguration的排除属性。
 
@@ -51,7 +54,8 @@
 spring.autoconfigure.exclude=org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
 
 
-### 4、自动装配有哪些方式？
+### [4、自动装配有哪些方式？](https://github.com/souyunku/DevBooks/blob/master/docs/Spring/Spring最新基础面试题及答案整理.md#4自动装配有哪些方式)  
+
 
 Spring 容器能够自动装配 bean。也就是说，可以通过检查 BeanFactory 的内容让 Spring 自动解析 bean 的协作者。
 
@@ -68,7 +72,8 @@ Spring 容器能够自动装配 bean。也就是说，可以通过检查 BeanFac
 **5、** 首先容器尝试通过构造函数使用 autowire 装配，如果不能，则尝试通过 byType 自动装配。
 
 
-### 5、spring 支持集中 bean scope？
+### [5、spring 支持集中 bean scope？](https://github.com/souyunku/DevBooks/blob/master/docs/Spring/Spring最新基础面试题及答案整理.md#5spring-支持集中-bean-scope)  
+
 
 **Spring bean 支持 5 种 scope：**
 
@@ -85,7 +90,8 @@ Spring 容器能够自动装配 bean。也就是说，可以通过检查 BeanFac
 **6、** 仅当用户使用支持 Web 的 ApplicationContext 时，最后三个才可用。
 
 
-### 6、SpringBoot 的核心注解是哪个？它主要由哪几个注解组成的？
+### [6、SpringBoot 的核心注解是哪个？它主要由哪几个注解组成的？](https://github.com/souyunku/DevBooks/blob/master/docs/Spring/Spring最新基础面试题及答案整理.md#6springboot-的核心注解是哪个它主要由哪几个注解组成的)  
+
 
 启动类上面的注解是@SpringBootApplication，它也是 SpringBoot 的核心注解，主要组合包含了以下 3 个注解：
 
@@ -96,7 +102,8 @@ Spring 容器能够自动装配 bean。也就是说，可以通过检查 BeanFac
 @ComponentScan：Spring组件扫描。
 
 
-### 7、什么是 Spring Framework？
+### [7、什么是 Spring Framework？](https://github.com/souyunku/DevBooks/blob/master/docs/Spring/Spring最新基础面试题及答案整理.md#7什么是-spring-framework)  
+
 
 **1、** Spring 是一个开源应用框架，旨在降低应用程序开发的复杂度。
 
@@ -107,7 +114,8 @@ Spring 容器能够自动装配 bean。也就是说，可以通过检查 BeanFac
 **4、** 它可以集成其他框架，如 Structs、Hibernate、EJB 等，所以又称为框架的框架。
 
 
-### 8、如何不通过任何配置来选择 Hibernate 作为 JPA 的默认实现？
+### [8、如何不通过任何配置来选择 Hibernate 作为 JPA 的默认实现？](https://github.com/souyunku/DevBooks/blob/master/docs/Spring/Spring最新基础面试题及答案整理.md#8如何不通过任何配置来选择-hibernate-作为-jpa-的默认实现)  
+
 
 因为 SpringBoot 是自动配置的。
 
@@ -118,7 +126,8 @@ spring-boot-stater-data-jpa 对于 Hibernate 和 JPA 有过渡依赖性。
 当 SpringBoot 在类路径中检测到 Hibernate 中，将会自动配置它为默认的 JPA 实现。
 
 
-### 9、Spring由哪些模块组成?
+### [9、Spring由哪些模块组成?](https://github.com/souyunku/DevBooks/blob/master/docs/Spring/Spring最新基础面试题及答案整理.md#9spring由哪些模块组成)  
+
 
 **以下是Spring 框架的基本模块：**
 
@@ -149,7 +158,8 @@ spring-boot-stater-data-jpa 对于 Hibernate 和 JPA 有过渡依赖性。
 **13、** Web-Portlet module
 
 
-### 10、什么是双因素身份验证？
+### [10、什么是双因素身份验证？](https://github.com/souyunku/DevBooks/blob/master/docs/Spring/Spring最新基础面试题及答案整理.md#10什么是双因素身份验证)  
+
 
 双因素身份验证为帐户登录过程启用第二级身份验证。
 
@@ -185,9 +195,9 @@ spring-boot-stater-data-jpa 对于 Hibernate 和 JPA 有过渡依赖性。
 
 
 
-## 全部答案，整理好了，直接下载吧
+## [全部答案，整理好了，直接下载吧](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
-### 下载链接：[全部答案，整理好了](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
+### 下载链接：[全部答案，整理好了](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
 
 

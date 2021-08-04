@@ -6,7 +6,8 @@
 
 
 
-### 1、详细描述一下Elasticsearch搜索的过程？
+### [1、详细描述一下Elasticsearch搜索的过程？](https://github.com/souyunku/DevBooks/blob/master/docs/Elasticsearch/Elasticsearch最新2021年面试题附答案解析，大汇总.md#1详细描述一下elasticsearch搜索的过程)  
+
 
 `面试官`：想了解ES搜索的底层原理，不再只关注业务层面了。
 
@@ -27,21 +28,24 @@
 路由节点获取所有文档，返回给客户端。
 
 
-### 2、Beats 如何与 Elasticsearch 结合使用？
+### [2、Beats 如何与 Elasticsearch 结合使用？](https://github.com/souyunku/DevBooks/blob/master/docs/Elasticsearch/Elasticsearch最新2021年面试题附答案解析，大汇总.md#2beats-如何与-elasticsearch-结合使用)  
+
 
 Beats是一种开源工具，可以将数据直接传输到 Elasticsearch 或通过 logstash，在使用Kibana进行查看之前，可以对数据进行处理或过滤。
 
 传输的数据类型包含：审核数据，日志文件，云数据，网络流量和窗口事件日志等。
 
 
-### 3、解释一下 Elasticsearch 的 分片？
+### [3、解释一下 Elasticsearch 的 分片？](https://github.com/souyunku/DevBooks/blob/master/docs/Elasticsearch/Elasticsearch最新2021年面试题附答案解析，大汇总.md#3解释一下-elasticsearch-的-分片)  
+
 
 当文档数量增加，硬盘容量和处理能力不足时，对客户端请求的响应将延迟。
 
 在这种情况下，将索引数据分成小块的过程称为分片，可改善数据搜索结果的获取。
 
 
-### 4、精准匹配检索和全文检索匹配检索的不同？
+### [4、精准匹配检索和全文检索匹配检索的不同？](https://github.com/souyunku/DevBooks/blob/master/docs/Elasticsearch/Elasticsearch最新2021年面试题附答案解析，大汇总.md#4精准匹配检索和全文检索匹配检索的不同)  
+
 
 **两者的本质区别：**
 
@@ -54,7 +58,8 @@ Beats是一种开源工具，可以将数据直接传输到 Elasticsearch 或通
 举例：类似B站搜索特定关键词如“马保国 视频”往往是模糊匹配，相关的都返回就可以。
 
 
-### 5、您能否说明当前可下载的稳定Elasticsearch版本？
+### [5、您能否说明当前可下载的稳定Elasticsearch版本？](https://github.com/souyunku/DevBooks/blob/master/docs/Elasticsearch/Elasticsearch最新2021年面试题附答案解析，大汇总.md#5您能否说明当前可下载的稳定elasticsearch版本)  
+
 
 Elasticsearch 当前最新版本是7.10（2020年11月21日）。
 
@@ -63,7 +68,8 @@ Elasticsearch 当前最新版本是7.10（2020年11月21日）。
 但，不信你可以问问，很多求职者只知道用了 ES，什么版本一概不知。
 
 
-### 6、您能解释一下 Elasticsearch 中的 Explore API 吗？
+### [6、您能解释一下 Elasticsearch 中的 Explore API 吗？](https://github.com/souyunku/DevBooks/blob/master/docs/Elasticsearch/Elasticsearch最新2021年面试题附答案解析，大汇总.md#6您能解释一下-elasticsearch-中的-explore-api-吗)  
+
 
 没有用过，这是 Graph （收费功能）相关的API。
 
@@ -72,7 +78,8 @@ Elasticsearch 当前最新版本是7.10（2020年11月21日）。
 [https://www.elastic.co/guide/en/elasticsearch/reference/current/graph-explore-api.html](https://www.elastic.co/guide/en/elasticsearch/reference/current/graph-explore-api.html)
 
 
-### 7、elasticsearch了解多少，说说你们公司es的集群架构，索引数据大小，分片有多少，以及一些调优手段 。
+### [7、elasticsearch了解多少，说说你们公司es的集群架构，索引数据大小，分片有多少，以及一些调优手段 。](https://github.com/souyunku/DevBooks/blob/master/docs/Elasticsearch/Elasticsearch最新2021年面试题附答案解析，大汇总.md#7elasticsearch了解多少说说你们公司es的集群架构索引数据大小分片有多少以及一些调优手段-。)  
+
 
 `面试官`：想了解应聘者之前公司接触的ES使用场景、规模，有没有做过比较大规模的索引设计、规划、调优。
 
@@ -131,12 +138,14 @@ Elasticsearch 当前最新版本是7.10（2020年11月21日）。
 上面的提及一部分，面试者就基本对你之前的实践或者运维经验有所评估了。
 
 
-### 8、能列举过你使用的 X-Pack 命令吗?
+### [8、能列举过你使用的 X-Pack 命令吗?](https://github.com/souyunku/DevBooks/blob/master/docs/Elasticsearch/Elasticsearch最新2021年面试题附答案解析，大汇总.md#8能列举过你使用的-x-pack-命令吗)  
+
 
 7.1 安全功能免费后，使用了：setup-passwords 为账号设置密码，确保集群安全。
 
 
-### 9、elasticsearch 全文检索
+### [9、elasticsearch 全文检索](https://github.com/souyunku/DevBooks/blob/master/docs/Elasticsearch/Elasticsearch最新2021年面试题附答案解析，大汇总.md#9elasticsearch-全文检索)  
+
 
 (1) 客户端使用RestFul API向对应的node发送查询请求
 
@@ -147,7 +156,8 @@ Elasticsearch 当前最新版本是7.10（2020年11月21日）。
 (4) 协调节点再根据doc id 把查询请求发送到对应shard的node，返回document
 
 
-### 10、你之前公司的ElasticSearch集群，一个Node一般会分配几个分片？
+### [10、你之前公司的ElasticSearch集群，一个Node一般会分配几个分片？](https://github.com/souyunku/DevBooks/blob/master/docs/Elasticsearch/Elasticsearch最新2021年面试题附答案解析，大汇总.md#10你之前公司的elasticsearch集群一个node一般会分配几个分片)  
+
 
 我们遵循官方建议，一个Node最好不要多于三个shards.
 
@@ -172,9 +182,9 @@ Elasticsearch 当前最新版本是7.10（2020年11月21日）。
 
 
 
-## 全部答案，整理好了，直接下载吧
+## [全部答案，整理好了，直接下载吧](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
-### 下载链接：[全部答案，整理好了](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
+### 下载链接：[全部答案，整理好了](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
 
 

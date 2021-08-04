@@ -6,7 +6,8 @@
 
 
 
-### 1、Redis集群方案应该怎么做？都有哪些方案？
+### [1、Redis集群方案应该怎么做？都有哪些方案？](https://github.com/souyunku/DevBooks/blob/master/docs/Redis/Redis最新2021年面试题，高级面试题及附答案解析.md#1redis集群方案应该怎么做都有哪些方案)  
+
 
 **1、** codis。
 
@@ -18,32 +19,38 @@
 
 
 
-### 2、Reids支持的语言：
+### [2、Reids支持的语言：](https://github.com/souyunku/DevBooks/blob/master/docs/Redis/Redis最新2021年面试题，高级面试题及附答案解析.md#2reids支持的语言：)  
+
 
 java、C、C#、C++、php、Node.js、Go等。
 
 
-### 3、怎么测试Redis的连通性？
+### [3、怎么测试Redis的连通性？](https://github.com/souyunku/DevBooks/blob/master/docs/Redis/Redis最新2021年面试题，高级面试题及附答案解析.md#3怎么测试redis的连通性)  
+
 
 ping
 
 
-### 4、Redis 集群会有写操作丢失吗？为什么？
+### [4、Redis 集群会有写操作丢失吗？为什么？](https://github.com/souyunku/DevBooks/blob/master/docs/Redis/Redis最新2021年面试题，高级面试题及附答案解析.md#4redis-集群会有写操作丢失吗为什么)  
+
 
 Redis 并不能保证数据的强一致性，这意味这在实际中集群在特定的条件下可能会丢失写操作。
 
 
-### 5、Redis回收使用的是什么算法？
+### [5、Redis回收使用的是什么算法？](https://github.com/souyunku/DevBooks/blob/master/docs/Redis/Redis最新2021年面试题，高级面试题及附答案解析.md#5redis回收使用的是什么算法)  
+
 
 LRU算法
 
 
-### 6、Redis的并发竞争问题如何解决?
+### [6、Redis的并发竞争问题如何解决?](https://github.com/souyunku/DevBooks/blob/master/docs/Redis/Redis最新2021年面试题，高级面试题及附答案解析.md#6redis的并发竞争问题如何解决)  
+
 
 单进程单线程模式，采用队列模式将并发访问变为串行访问。Redis本身没有锁的概念，Redis对于多个客户端连接并不存在竞争，利用setnx实现锁。
 
 
-### 7、AOF常用配置总结
+### [7、AOF常用配置总结](https://github.com/souyunku/DevBooks/blob/master/docs/Redis/Redis最新2021年面试题，高级面试题及附答案解析.md#7aof常用配置总结)  
+
 
 下面是AOF常用的配置项，以及默认值；前面介绍过的这里不再详细介绍。
 
@@ -64,13 +71,16 @@ LRU算法
 **8、** aof-load-truncated yes：如果AOF文件结尾损坏，Redis启动时是否仍载入AOF文件
 
 
-### 8、Redis 管道 Pipeline
+### [8、Redis 管道 Pipeline](https://github.com/souyunku/DevBooks/blob/master/docs/Redis/Redis最新2021年面试题，高级面试题及附答案解析.md#8redis-管道-pipeline)  
+
 
 在某些场景下我们在**一次操作中可能需要执行多个命令**，而如果我们只是一个命令一个命令去执行则会浪费很多网络消耗时间，如果将命令一次性传输到 `Redis`中去再执行，则会减少很多开销时间。但是需要注意的是 `pipeline`中的命令并不是原子性执行的，也就是说管道中的命令到达 `Redis`服务器的时候可能会被其他的命令穿插
 
 
-### 9、微信公众号：Java资讯库，回复“架构”
-### 10、Redis集群方案什么情况下会导致整个集群不可用？
+### [9、微信公众号：Java资讯库，回复“架构”](https://github.com/souyunku/DevBooks/blob/master/docs/Redis/Redis最新2021年面试题，高级面试题及附答案解析.md#9微信公众号：java资讯库回复“架构)  
+
+### [10、Redis集群方案什么情况下会导致整个集群不可用？](https://github.com/souyunku/DevBooks/blob/master/docs/Redis/Redis最新2021年面试题，高级面试题及附答案解析.md#10redis集群方案什么情况下会导致整个集群不可用)  
+
 
 有A，B，C三个节点的集群,在没有复制模型的情况下,如果节点B失败了，那么整个集群就会以为缺少5501-11000这个范围的槽而不可用。
 
@@ -99,9 +109,9 @@ LRU算法
 
 
 
-## 全部答案，整理好了，直接下载吧
+## [全部答案，整理好了，直接下载吧](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
-### 下载链接：[全部答案，整理好了](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
+### 下载链接：[全部答案，整理好了](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
 
 

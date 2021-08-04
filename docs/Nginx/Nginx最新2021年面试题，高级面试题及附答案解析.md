@@ -6,7 +6,8 @@
 
 
 
-### 1、请陈述 stub_status 和 sub_filter 指令的作用是什么?
+### [1、请陈述 stub_status 和 sub_filter 指令的作用是什么?](https://github.com/souyunku/DevBooks/blob/master/docs/Nginx/Nginx最新2021年面试题，高级面试题及附答案解析.md#1请陈述-stub_status-和-sub_filter-指令的作用是什么)  
+
 
 Stub_status 指令：该指令用于了解 Nginx 当前状态的当前状态，如当前的活
 
@@ -15,7 +16,8 @@ Stub_status 指令：该指令用于了解 Nginx 当前状态的当前状态，�
 Sub_filter 指令：它用于搜索和替换响应中的内容，并快速修复陈旧的数据
 
 
-### 2、nignx配置
+### [2、nignx配置](https://github.com/souyunku/DevBooks/blob/master/docs/Nginx/Nginx最新2021年面试题，高级面试题及附答案解析.md#2nignx配置)  
+
 
 ```
 worker_processes  8;     工作进程个数
@@ -50,12 +52,14 @@ index  index.php index.html index.htm;  访问根文件
 ```
 
 
-### 3、请列举 Nginx 服务器的最佳用途。Nginx 服务器的最佳用法是在网络上部署动态 HTTP 内容，使用 SCGI、WSGI 应
+### [3、请列举 Nginx 服务器的最佳用途。Nginx 服务器的最佳用法是在网络上部署动态 HTTP 内容，使用 SCGI、WSGI 应](https://github.com/souyunku/DevBooks/blob/master/docs/Nginx/Nginx最新2021年面试题，高级面试题及附答案解析.md#3请列举-nginx-服务器的最佳用途。nginx-服务器的最佳用法是在网络上部署动态-http-内容使用-scgiwsgi-应)  
+
 
 用程序服务器、用于脚本的 FastCGI 处理程序。它还可以作为负载均衡器。
 
 
-### 4、为什么要做动静分离？
+### [4、为什么要做动静分离？](https://github.com/souyunku/DevBooks/blob/master/docs/Nginx/Nginx最新2021年面试题，高级面试题及附答案解析.md#4为什么要做动静分离)  
+
 
 **1、** Nginx是当下最热的Web容器，网站优化的重要点在于静态化网站，网站静态化的关键点则是是动静分离，动静分离是让动态网站里的动态网页根据一定规则把不变的资源和经常变的资源区分开来，动静资源做好了拆分以后，我们则根据静态资源的特点将其做缓存操作。
 
@@ -68,7 +72,8 @@ index  index.php index.html index.htm;  访问根文件
 **5、** 若用户请求的动态文件，比如servlet,jsp则转发给Tomcat服务器处理，从而实现动静分离。这也是反向代理服务器的一个重要的作用。
 
 
-### 5、Nginx怎么判断别IP不可访问？
+### [5、Nginx怎么判断别IP不可访问？](https://github.com/souyunku/DevBooks/blob/master/docs/Nginx/Nginx最新2021年面试题，高级面试题及附答案解析.md#5nginx怎么判断别ip不可访问)  
+
 
 ```
 # 如果访问的ip地址为192.168.9.115,则返回403
@@ -78,12 +83,14 @@ if  ($remote_addr = 192.168.9.115) {
 ```
 
 
-### 6、nginx状态码
+### [6、nginx状态码](https://github.com/souyunku/DevBooks/blob/master/docs/Nginx/Nginx最新2021年面试题，高级面试题及附答案解析.md#6nginx状态码)  
+
 
 499：服务端处理时间过长，客户端主动关闭了连接。
 
 
-### 7、Location正则案例
+### [7、Location正则案例](https://github.com/souyunku/DevBooks/blob/master/docs/Nginx/Nginx最新2021年面试题，高级面试题及附答案解析.md#7location正则案例)  
+
 
 **示例：**
 
@@ -119,7 +126,8 @@ location / {
 ```
 
 
-### 8、解释 Nginx 是否支持将请求压缩到上游?
+### [8、解释 Nginx 是否支持将请求压缩到上游?](https://github.com/souyunku/DevBooks/blob/master/docs/Nginx/Nginx最新2021年面试题，高级面试题及附答案解析.md#8解释-nginx-是否支持将请求压缩到上游)  
+
 
 您可以使用 Nginx 模块 gunzip 将请求压缩到上游。gunzip 模块是一个过滤
 
@@ -128,12 +136,14 @@ location / {
 码:gzip”来解压缩响应。
 
 
-### 9、使用“反向代理服务器”的优点是什么?
+### [9、使用“反向代理服务器”的优点是什么?](https://github.com/souyunku/DevBooks/blob/master/docs/Nginx/Nginx最新2021年面试题，高级面试题及附答案解析.md#9使用“反向代理服务器的优点是什么)  
+
 
 反向代理服务器可以隐藏源服务器的存在和特征。它充当互联网云和web服务器之间的中间层。这对于安全方面来说是很好的，特别是当您使用web托管服务时。
 
 
-### 10、请解释是否有可能将 Nginx 的错误替换为 502 错误、503?
+### [10、请解释是否有可能将 Nginx 的错误替换为 502 错误、503?](https://github.com/souyunku/DevBooks/blob/master/docs/Nginx/Nginx最新2021年面试题，高级面试题及附答案解析.md#10请解释是否有可能将-nginx-的错误替换为-502-错误503)  
+
 
 502 =错误网关
 
@@ -172,9 +182,9 @@ on;error_page 502 =503/error_page.html;#…}
 
 
 
-## 全部答案，整理好了，直接下载吧
+## [全部答案，整理好了，直接下载吧](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
-### 下载链接：[全部答案，整理好了](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
+### 下载链接：[全部答案，整理好了](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
 
 

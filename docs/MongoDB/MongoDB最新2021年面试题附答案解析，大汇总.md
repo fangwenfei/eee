@@ -6,35 +6,41 @@
 
 
 
-### 1、我怎么查看 Mongo 正在使用的链接？
+### [1、我怎么查看 Mongo 正在使用的链接？](https://github.com/souyunku/DevBooks/blob/master/docs/MongoDB/MongoDB最新2021年面试题附答案解析，大汇总.md#1我怎么查看-mongo-正在使用的链接)  
+
 
 db._adminCommand("connPoolStats");
 
 
-### 2、数据库的整体结构
+### [2、数据库的整体结构](https://github.com/souyunku/DevBooks/blob/master/docs/MongoDB/MongoDB最新2021年面试题附答案解析，大汇总.md#2数据库的整体结构)  
+
 
 键值对–》文档–》集合–》数据库
 
 
 
-### 3、在MongoDB中如何排序
+### [3、在MongoDB中如何排序](https://github.com/souyunku/DevBooks/blob/master/docs/MongoDB/MongoDB最新2021年面试题附答案解析，大汇总.md#3在mongodb中如何排序)  
+
 
 并使用 1 和 -1 来指定排序方式，其中 1 表示升序，而 -1 表示降序。
 
 db.connectionName.find({key:value}).sort({columnName:1})
 
 
-### 4、getLastError的作用
+### [4、getLastError的作用](https://github.com/souyunku/DevBooks/blob/master/docs/MongoDB/MongoDB最新2021年面试题附答案解析，大汇总.md#4getlasterror的作用)  
+
 
 调用getLastError 可以确认当前的写操作是否成功的提交
 
 
-### 5、启用备份故障恢复需要多久?
+### [5、启用备份故障恢复需要多久?](https://github.com/souyunku/DevBooks/blob/master/docs/MongoDB/MongoDB最新2021年面试题附答案解析，大汇总.md#5启用备份故障恢复需要多久)  
+
 
 从备份数据库声明主数据库宕机到选出一个备份数据库作为新的主数据库将花费10到30秒时间.这期间在主数据库上的操作将会失败–包括写入和强一致性读取(strong consistent read)操作.然而,你还能在第二数据库上执行最终一致性查询(eventually consistent query)(在slaveok模式下),即使在这段时间里.
 
 
-### 6、mongodb是否支持事务
+### [6、mongodb是否支持事务](https://github.com/souyunku/DevBooks/blob/master/docs/MongoDB/MongoDB最新2021年面试题附答案解析，大汇总.md#6mongodb是否支持事务)  
+
 
 MongoDB 4.0的新特性——事务（Transactions）：MongoDB 是不支持事务的，因此开发者在需要用到事务的时候，不得不借用其他工具，在业务代码层面去弥补数据库的不足。
 
@@ -42,7 +48,8 @@ MongoDB 4.0的新特性——事务（Transactions）：MongoDB 是不支持事�
 
 
 
-### 7、提及Objecld由什么组成？
+### [7、提及Objecld由什么组成？](https://github.com/souyunku/DevBooks/blob/master/docs/MongoDB/MongoDB最新2021年面试题附答案解析，大汇总.md#7提及objecld由什么组成)  
+
 
 **Objectld由以下组成**
 
@@ -55,14 +62,16 @@ MongoDB 4.0的新特性——事务（Transactions）：MongoDB 是不支持事�
 **4、** 3字节递增计数器
 
 
-### 8、在MongoDB中创建集合并将其删除的语法是什么？
+### [8、在MongoDB中创建集合并将其删除的语法是什么？](https://github.com/souyunku/DevBooks/blob/master/docs/MongoDB/MongoDB最新2021年面试题附答案解析，大汇总.md#8在mongodb中创建集合并将其删除的语法是什么)  
+
 
 **1、** 在MongoDB中创建集合的语法是db.createCollection（name，options）
 
 **2、** 在MongoDB中删除收集的语法是db.collection.drop（）
 
 
-### 9、MongoDB中的命名空间是什么意思?
+### [9、MongoDB中的命名空间是什么意思?](https://github.com/souyunku/DevBooks/blob/master/docs/MongoDB/MongoDB最新2021年面试题附答案解析，大汇总.md#9mongodb中的命名空间是什么意思)  
+
 
 mongodb存储bson对象在丛集(collection)中.数据库名字和丛集名字以句点连结起来叫做名字空间(namespace). 一个集合命名空间又有多个数据域(extent)，集合命名空间里存储着集合的元数据，比如集合名称，集合的
 
@@ -73,7 +82,8 @@ mongodb存储bson对象在丛集(collection)中.数据库名字和丛集名字�
 双向链表连接。 索引的存储数据结构是B树，索引命名空间存储着对B树的根节点的指针。
 
 
-### 10、MongoDB在A:{B,C}上建立索引，查询A:{B,C}和A:{C,B}都会使用索引吗？
+### [10、MongoDB在A:{B,C}上建立索引，查询A:{B,C}和A:{C,B}都会使用索引吗？](https://github.com/souyunku/DevBooks/blob/master/docs/MongoDB/MongoDB最新2021年面试题附答案解析，大汇总.md#10mongodb在a:{b,c}上建立索引查询a:{b,c}和a:{c,b}都会使用索引吗)  
+
 
 不会，只会在A:{B,C}上使用索引。
 
@@ -101,9 +111,9 @@ mongodb存储bson对象在丛集(collection)中.数据库名字和丛集名字�
 
 
 
-## 全部答案，整理好了，直接下载吧
+## [全部答案，整理好了，直接下载吧](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
-### 下载链接：[全部答案，整理好了](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
+### 下载链接：[全部答案，整理好了](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
 
 

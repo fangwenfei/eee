@@ -6,12 +6,14 @@
 
 
 
-### 1、String 属于基础的数据类型吗？
+### [1、String 属于基础的数据类型吗？](https://github.com/souyunku/DevBooks/blob/master/docs/Java/Java最新基础面试题及答案整理.md#1string-属于基础的数据类型吗)  
+
 
 String 不属于基础类型，基础类型有 8 种：byte、boolean、char、short、int、float、long、double，而 String 属于对象。
 
 
-### 2、如何实现对象克隆？
+### [2、如何实现对象克隆？](https://github.com/souyunku/DevBooks/blob/master/docs/Java/Java最新基础面试题及答案整理.md#2如何实现对象克隆)  
+
 
 
 
@@ -169,12 +171,14 @@ class CloneTest {
 
 
 
-### 3、Java最顶级的父类是哪个？
+### [3、Java最顶级的父类是哪个？](https://github.com/souyunku/DevBooks/blob/master/docs/Java/Java最新基础面试题及答案整理.md#3java最顶级的父类是哪个)  
+
 
 Object
 
 
-### 4、如何通过反射创建对象？
+### [4、如何通过反射创建对象？](https://github.com/souyunku/DevBooks/blob/master/docs/Java/Java最新基础面试题及答案整理.md#4如何通过反射创建对象)  
+
 
 
 
@@ -183,12 +187,14 @@ Object
 **2、** 方法2：通过类对象的getConstructor()或getDeclaredConstructor()方法获得构造器（Constructor）对象并调用其newInstance()方法创建对象，例如：String.class.getConstructor(String.class).newInstance(“Hello”);
 
 
-### 5、Java 中堆和栈有什么区别？
+### [5、Java 中堆和栈有什么区别？](https://github.com/souyunku/DevBooks/blob/master/docs/Java/Java最新基础面试题及答案整理.md#5java-中堆和栈有什么区别)  
+
 
 JVM 中堆和栈属于不同的内存区域，使用目的也不同。栈常用于保存方法帧和局部变量，而对象总是在堆上分配。栈通常都比堆小，也不会在多个线程之间共享，而堆被整个 JVM 的所有线程共享。
 
 
-### 6、volatile 能使得一个非原子操作变成原子操作吗？
+### [6、volatile 能使得一个非原子操作变成原子操作吗？](https://github.com/souyunku/DevBooks/blob/master/docs/Java/Java最新基础面试题及答案整理.md#6volatile-能使得一个非原子操作变成原子操作吗)  
+
 
 **1、** 关键字volatile的主要作用是使变量在多个线程间可见，但无法保证原子性，对于多个线程访问同一个实例变量需要加锁进行同步。
 
@@ -207,7 +213,8 @@ JVM 中堆和栈属于不同的内存区域，使用目的也不同。栈常用�
 **5、** 推荐JVM实现为原子操作
 
 
-### 7、为什么选择使用框架而不是原生?
+### [7、为什么选择使用框架而不是原生?](https://github.com/souyunku/DevBooks/blob/master/docs/Java/Java最新基础面试题及答案整理.md#7为什么选择使用框架而不是原生)  
+
 
 框架的好处:
 
@@ -220,7 +227,8 @@ JVM 中堆和栈属于不同的内存区域，使用目的也不同。栈常用�
 **4、** 开发效率: 现代前端框架都默认自动更新DOM,而非我们手动操作,解放了开发者的手动DOM成本,提高开发效率,从根本上解决了UI 与状态同步问题.
 
 
-### 8、你能写出一个正则表达式来判断一个字符串是否是一个数字吗？
+### [8、你能写出一个正则表达式来判断一个字符串是否是一个数字吗？](https://github.com/souyunku/DevBooks/blob/master/docs/Java/Java最新基础面试题及答案整理.md#8你能写出一个正则表达式来判断一个字符串是否是一个数字吗)  
+
 
 一个数字字符串，只能包含数字，如 0 到 9 以及 +、- 开头，通过这个信息，你可以下一个如下的正则表达式来判断给定的字符串是不是数字。
 
@@ -237,7 +245,8 @@ public boolean isNumeric(String str){
 ```
 
 
-### 9、运行时栈帧包含哪些结构？
+### [9、运行时栈帧包含哪些结构？](https://github.com/souyunku/DevBooks/blob/master/docs/Java/Java最新基础面试题及答案整理.md#9运行时栈帧包含哪些结构)  
+
 
 **1、** 局部变量表
 
@@ -250,7 +259,8 @@ public boolean isNumeric(String str){
 **5、** 附加信息
 
 
-### 10、什么是Java程序的主类？应用程序和小程序的主类有何不同？
+### [10、什么是Java程序的主类？应用程序和小程序的主类有何不同？](https://github.com/souyunku/DevBooks/blob/master/docs/Java/Java最新基础面试题及答案整理.md#10什么是java程序的主类应用程序和小程序的主类有何不同)  
+
 
 一个程序中可以有多个类，但只能有一个类是主类。在Java应用程序中，这个主类是指包含main（）方法的类。而在Java小程序中，这个主类是一个继承自系统类JApplet或Applet的子类。应用程序的主类不一定要求是public类，但小程序的主类要求必须是public类。主类是Java程序执行的入口点。
 
@@ -289,9 +299,9 @@ public boolean isNumeric(String str){
 
 
 
-## 全部答案，整理好了，直接下载吧
+## [全部答案，整理好了，直接下载吧](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
-### 下载链接：[全部答案，整理好了](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
+### 下载链接：[全部答案，整理好了](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
 
 

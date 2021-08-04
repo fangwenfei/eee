@@ -6,12 +6,14 @@
 
 
 
-### 1、Netty 是什么？
+### [1、Netty 是什么？](https://github.com/souyunku/DevBooks/blob/master/docs/Netty/Netty最新2021年面试题，高级面试题及附答案解析.md#1netty-是什么)  
+
 
 Netty是 一个异步事件驱动的网络应用程序框架，用于快速开发可维护的高性能协议服务器和客户端。Netty是基于nio的，它封装了jdk的nio，让我们使用起来更加方法灵活。
 
 
-### 2、NIOEventLoopGroup源码？
+### [2、NIOEventLoopGroup源码？](https://github.com/souyunku/DevBooks/blob/master/docs/Netty/Netty最新2021年面试题，高级面试题及附答案解析.md#2nioeventloopgroup源码)  
+
 
 NioEventLoopGroup(其实是MultithreadEventExecutorGroup) 内部维护一个类型为 EventExecutor children [], 默认大小是处理器核数 * 2, 这样就构成了一个线程池，初始化EventExecutor时NioEventLoopGroup重载newChild方法，所以children元素的实际类型为NioEventLoop。
 
@@ -34,14 +36,16 @@ Outbound 事件都是请求事件, 发起者是 Channel，处理者是 unsafe，
 ByteBuf的特点：支持自动扩容（4M），保证put方法不会抛出异常、通过内置的复合缓冲类型，实现零拷贝（zero-copy）；不需要调用flip()来切换读/写模式，读取和写入索引分开；方法链；引用计数基于AtomicIntegerFieldUpdater用于内存回收；PooledByteBuf采用二叉树来实现一个内存池，集中管理内存的分配和释放，不用每次使用都新建一个缓冲区对象。UnpooledHeapByteBuf每次都会新建一个缓冲区对象。
 
 
-### 3、BIO 是什么？
+### [3、BIO 是什么？](https://github.com/souyunku/DevBooks/blob/master/docs/Netty/Netty最新2021年面试题，高级面试题及附答案解析.md#3bio-是什么)  
+
 
 **1、** BIO ，全称 Block-IO ，是一种阻塞 + 同步的通信模式。一种比较传统的通信方式，模式简单，使用方便。但并发处理能力低，通信耗时，依赖网速。
 
 **2、** 原理：服务器通过一个 Acceptor 线程，负责监听客户端请求和为每个客户端创建一个新的线程进行链路处理。典型的一请求一应答模式。若客户端数量增多，频繁地创建和销毁线程会给服务器打开很大的压力。后改良为用线程池的方式代替新增线程，被称为伪异步 IO 。
 
 
-### 4、Netty 服务端和客户端的启动过程了解么？
+### [4、Netty 服务端和客户端的启动过程了解么？](https://github.com/souyunku/DevBooks/blob/master/docs/Netty/Netty最新2021年面试题，高级面试题及附答案解析.md#4netty-服务端和客户端的启动过程了解么)  
+
 
 **服务端**
 
@@ -78,7 +82,8 @@ ByteBuf的特点：支持自动扩容（4M），保证put方法不会抛出异�
 ```
 
 
-### 5、Netty 的高性能表现在哪些方面？
+### [5、Netty 的高性能表现在哪些方面？](https://github.com/souyunku/DevBooks/blob/master/docs/Netty/Netty最新2021年面试题，高级面试题及附答案解析.md#5netty-的高性能表现在哪些方面)  
+
 
 **心跳，对服务端：**会定时清除闲置会话 inactive(netty5)，对客户端:用来检测会话是否断开，是否重来，检测网络延迟，其中 idleStateHandler 类 用来检测会话状态
 
@@ -97,7 +102,8 @@ ByteBuf的特点：支持自动扩容（4M），保证put方法不会抛出异�
 SO_TCPNODELAY：NAGLE 算法通过将缓冲区内的小封包自动相连，组成较大的封包，阻止大量小封包的发送阻塞网络，从而提高网络应用效率。但是对于时延敏感的应用场景需要关闭该优化算法；
 
 
-### 6、Netty 的特点是什么？
+### [6、Netty 的特点是什么？](https://github.com/souyunku/DevBooks/blob/master/docs/Netty/Netty最新2021年面试题，高级面试题及附答案解析.md#6netty-的特点是什么)  
+
 
 **1、** 高并发：Netty 是一款基于 NIO（Nonblocking IO，非阻塞IO）开发的网络通信框架，对比于 BIO（Blocking I/O，阻塞IO），他的并发性能得到了很大提高。
 
@@ -106,14 +112,16 @@ SO_TCPNODELAY：NAGLE 算法通过将缓冲区内的小封包自动相连，组�
 **3、** 封装好：Netty 封装了 NIO 操作的很多细节，提供了易于使用调用接口。
 
 
-### 7、NIO 是什么？
+### [7、NIO 是什么？](https://github.com/souyunku/DevBooks/blob/master/docs/Netty/Netty最新2021年面试题，高级面试题及附答案解析.md#7nio-是什么)  
+
 
 **1、** NIO ，全称 New IO ，也叫 Non-Block IO ，是一种非阻塞 + 同步的通信模式。Java NIO( New IO 或者 Non Blocking IO ) ，从 Java 1.4 版本开始引入的非阻塞 IO ，用于替换标准( 有些文章也称为传统，或者 Blocking IO 。下文统称为 BIO ) Java IO API 的 IO API 。
 
 **2、** NIO 相对于 BIO 来说一大进步。客户端和服务器之间通过 Channel 通信。NIO 可以在 Channel 进行读写操作。这些 Channel 都会被注册在 Selector 多路复用器上。Selector 通过一个线程不停的轮询这些 Channel 。找出已经准备就绪的 Channel 执行 IO 操作。
 
 
-### 8、详细看说下 Netty 中的线程模型吧！
+### [8、详细看说下 Netty 中的线程模型吧！](https://github.com/souyunku/DevBooks/blob/master/docs/Netty/Netty最新2021年面试题，高级面试题及附答案解析.md#8详细看说下-netty-中的线程模型吧)  
+
 
 **单线程模型** ：
 
@@ -171,7 +179,8 @@ try {
 ![](https://p9-tt.byteimg.com/large/pgc-image/9f9eb75c020a4ea8809fbfebef957145#alt=)
 
 
-### 9、TCP 粘包 / 拆包的产生原因，应该这么解决
+### [9、TCP 粘包 / 拆包的产生原因，应该这么解决](https://github.com/souyunku/DevBooks/blob/master/docs/Netty/Netty最新2021年面试题，高级面试题及附答案解析.md#9tcp-粘包-/-拆包的产生原因应该这么解决)  
+
 
 **1、** TCP 是以流的方式来处理数据，所以会导致粘包 / 拆包。
 
@@ -186,7 +195,8 @@ try {
 **6、** LineBasedFrameDecoder 、DelimiterBasedFrameDecoder ，换行是于指定消息边界方式的一种形式，进行消息粘包拆包处理的。
 
 
-### 10、BIO、NIO 和 AIO 的区别？
+### [10、BIO、NIO 和 AIO 的区别？](https://github.com/souyunku/DevBooks/blob/master/docs/Netty/Netty最新2021年面试题，高级面试题及附答案解析.md#10bionio-和-aio-的区别)  
+
 
 **BIO：**一个连接一个线程，客户端有连接请求时服务器端就需要启动一个线程进行处理。线程开销大。
 
@@ -231,9 +241,9 @@ BIO 是面向流的，NIO 是面向缓冲区的；BIO 的各种流是阻塞的�
 
 
 
-## 全部答案，整理好了，直接下载吧
+## [全部答案，整理好了，直接下载吧](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
-### 下载链接：[全部答案，整理好了](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
+### 下载链接：[全部答案，整理好了](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
 
 

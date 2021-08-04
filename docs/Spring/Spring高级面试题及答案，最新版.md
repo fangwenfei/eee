@@ -6,22 +6,26 @@
 
 
 
-### 1、什么是Spring Batch？
+### [1、什么是Spring Batch？](https://github.com/souyunku/DevBooks/blob/master/docs/Spring/Spring高级面试题及答案，最新版.md#1什么是spring-batch)  
+
 
 SpringBoot Batch提供可重用的函数，这些函数在处理大量记录时非常重要，包括日志/跟踪，事务管理，作业处理统计信息，作业重新启动，跳过和资源管理。它还提供了更先进的技术服务和功能，通过优化和分区技术，可以实现极高批量和高性能批处理作业。简单以及复杂的大批量批处理作业可以高度可扩展的方式利用框架处理重要大量的信息。
 
 
-### 2、spring DAO 有什么用？
+### [2、spring DAO 有什么用？](https://github.com/souyunku/DevBooks/blob/master/docs/Spring/Spring高级面试题及答案，最新版.md#2spring-dao-有什么用)  
+
 
 Spring DAO 使得 JDBC，Hibernate 或 JDO 这样的数据访问技术更容易以一种统一的方式工作。 这使得用户容易在持久性技术之间切换。 它还允许您在编写代码时，无需考虑捕获每种技术不同的异常。
 
 
-### 3、什么是 YAML？
+### [3、什么是 YAML？](https://github.com/souyunku/DevBooks/blob/master/docs/Spring/Spring高级面试题及答案，最新版.md#3什么是-yaml)  
+
 
 YAML 是一种人类可读的数据序列化语言。它通常用于配置文件。与属性文件相比，如果我们想要在配置文件中添加复杂的属性，YAML 文件就更加结构化，而且更少混淆。可以看出 YAML 具有分层配置数据。
 
 
-### 4、使⽤中碰到的坑
+### [4、使⽤中碰到的坑](https://github.com/souyunku/DevBooks/blob/master/docs/Spring/Spring高级面试题及答案，最新版.md#4使⽤中碰到的坑)  
+
 
 **1、** 超时：确保Hystrix超时时间配置为⻓于配置的Ribbon超时时间
 
@@ -30,7 +34,8 @@ YAML 是一种人类可读的数据序列化语言。它通常用于配置文件
 **3、** 版本：SpringBoot和springcloud版本要兼容。
 
 
-### 5、什么是 AOP 通知
+### [5、什么是 AOP 通知](https://github.com/souyunku/DevBooks/blob/master/docs/Spring/Spring高级面试题及答案，最新版.md#5什么是-aop-通知)  
+
 
 通知是个在方法执行前或执行后要做的动作，实际上是程序执行时要通过SpringAOP框架触发的代码段。
 
@@ -47,7 +52,8 @@ Spring切面可以应用五种类型的通知：
 **5、** around: 在方法执行之前和之后调用的通知。
 
 
-### 6、列举 IoC 的一些好处
+### [6、列举 IoC 的一些好处](https://github.com/souyunku/DevBooks/blob/master/docs/Spring/Spring高级面试题及答案，最新版.md#6列举-ioc-的一些好处)  
+
 
 **1、** IoC 的一些好处是：
 
@@ -60,17 +66,20 @@ Spring切面可以应用五种类型的通知：
 **5、** 它支持即时的实例化和延迟加载服务。
 
 
-### 7、SpringBoot中的监视器是什么？
+### [7、SpringBoot中的监视器是什么？](https://github.com/souyunku/DevBooks/blob/master/docs/Spring/Spring高级面试题及答案，最新版.md#7springboot中的监视器是什么)  
+
 
 Spring boot actuator是spring启动框架中的重要功能之一。Spring boot监视器可帮助您访问生产环境中正在运行的应用程序的当前状态。有几个指标必须在生产环境中进行检查和监控。即使一些外部应用程序可能正在使用这些服务来向相关人员触发警报消息。监视器模块公开了一组可直接作为HTTP URL访问的REST端点来检查状态。
 
 
-### 8、SpringBoot 中的监视器是什么？
+### [8、SpringBoot 中的监视器是什么？](https://github.com/souyunku/DevBooks/blob/master/docs/Spring/Spring高级面试题及答案，最新版.md#8springboot-中的监视器是什么)  
+
 
 Spring boot actuator 是 spring 启动框架中的重要功能之一。Spring boot 监视器可帮助您访问生产环境中正在运行的应用程序的当前状态。有几个指标必须在生产环境中进行检查和监控。即使一些外部应用程序可能正在使用这些服务来向相关人员触发警报消息。监视器模块公开了一组可直接作为 HTTP URL 访问的REST 端点来检查状态。
 
 
-### 9、Spring MVC里面拦截器是怎么写的
+### [9、Spring MVC里面拦截器是怎么写的](https://github.com/souyunku/DevBooks/blob/master/docs/Spring/Spring高级面试题及答案，最新版.md#9spring-mvc里面拦截器是怎么写的)  
+
 
 有两种写法,一种是实现HandlerInterceptor接口，另外一种是继承适配器类，接着在接口方法当中，实现处理逻辑；然后在Spring MVC的配置文件中配置拦截器即可：
 
@@ -91,7 +100,8 @@ zwp.action.MyHandlerInterceptorAdapter " />
 ```
 
 
-### 10、Spring Cache 三种常用的缓存注解和意义？
+### [10、Spring Cache 三种常用的缓存注解和意义？](https://github.com/souyunku/DevBooks/blob/master/docs/Spring/Spring高级面试题及答案，最新版.md#10spring-cache-三种常用的缓存注解和意义)  
+
 
 **1、** [@Cacheable ](/Cacheable ) ，用来声明方法是可缓存，将结果存储到缓存中以便后续使用相同参数调用时不需执行实际的方法，直接从缓存中取值。
 
@@ -124,9 +134,9 @@ zwp.action.MyHandlerInterceptorAdapter " />
 
 
 
-## 全部答案，整理好了，直接下载吧
+## [全部答案，整理好了，直接下载吧](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
-### 下载链接：[全部答案，整理好了](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
+### 下载链接：[全部答案，整理好了](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
 
 

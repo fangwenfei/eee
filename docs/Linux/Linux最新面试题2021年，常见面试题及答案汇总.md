@@ -6,10 +6,12 @@
 
 
 
-### 1、vi （VIsual：视觉）文本编辑器 类似win的记事本 （操作类似于地下的vim命令，看底下vim 的操作）
+### [1、vi （VIsual：视觉）文本编辑器 类似win的记事本 （操作类似于地下的vim命令，看底下vim 的操作）](https://github.com/souyunku/DevBooks/blob/master/docs/Linux/Linux最新面试题2021年，常见面试题及答案汇总.md#1vi-visual：视觉文本编辑器-类似win的记事本-操作类似于地下的vim命令看底下vim-的操作)  
 
 
-### 2、什么是中间件？什么是jdk？
+
+### [2、什么是中间件？什么是jdk？](https://github.com/souyunku/DevBooks/blob/master/docs/Linux/Linux最新面试题2021年，常见面试题及答案汇总.md#2什么是中间件什么是jdk)  
+
 
 中间件介绍：
 
@@ -28,7 +30,8 @@ jdk：jdk是Java的开发工具包
 它是一种用于构建在 Java 平台上发布的应用程序、applet 和组件的开发环境
 
 
-### 3、Linux 使用的进程间通信方式？
+### [3、Linux 使用的进程间通信方式？](https://github.com/souyunku/DevBooks/blob/master/docs/Linux/Linux最新面试题2021年，常见面试题及答案汇总.md#3linux-使用的进程间通信方式)  
+
 
 > 了解即可，不需要太深入。
 
@@ -46,14 +49,16 @@ jdk：jdk是Java的开发工具包
 **6、** 套接字(socket) 。
 
 
-### 4、使用什么命令查看 ip 地址及接口信息？
+### [4、使用什么命令查看 ip 地址及接口信息？](https://github.com/souyunku/DevBooks/blob/master/docs/Linux/Linux最新面试题2021年，常见面试题及答案汇总.md#4使用什么命令查看-ip-地址及接口信息)  
+
 
 **答案：**
 
 ifconfig
 
 
-### 5、你常用的Nginx模块，用来做什么
+### [5、你常用的Nginx模块，用来做什么](https://github.com/souyunku/DevBooks/blob/master/docs/Linux/Linux最新面试题2021年，常见面试题及答案汇总.md#5你常用的nginx模块用来做什么)  
+
 
 **1、** rewrite模块，实现重写功能
 
@@ -70,7 +75,8 @@ ifconfig
 **7、** ngx_cache_purge实现缓存清除功能
 
 
-### 6、free 命令 （显示系统内存）
+### [6、free 命令 （显示系统内存）](https://github.com/souyunku/DevBooks/blob/master/docs/Linux/Linux最新面试题2021年，常见面试题及答案汇总.md#6free-命令-显示系统内存)  
+
 
 ```
 #显示系统内存使用情况，包括物理内存、交互区内存(swap)和内核缓冲区内存。
@@ -83,14 +89,16 @@ ifconfig
 ```
 
 
-### 7、用什么命令对一个文件的内容进行统计？(行号、单词数、字节数)
+### [7、用什么命令对一个文件的内容进行统计？(行号、单词数、字节数)](https://github.com/souyunku/DevBooks/blob/master/docs/Linux/Linux最新面试题2021年，常见面试题及答案汇总.md#7用什么命令对一个文件的内容进行统计行号单词数字节数)  
+
 
 **答案：**
 
 wc 命令 - c 统计字节数 - l 统计行数 - w 统计字数。
 
 
-### 8、打印文件第一行到第三行?
+### [8、打印文件第一行到第三行?](https://github.com/souyunku/DevBooks/blob/master/docs/Linux/Linux最新面试题2021年，常见面试题及答案汇总.md#8打印文件第一行到第三行)  
+
 
 文件tomcat中内容:
 
@@ -121,7 +129,8 @@ text23
 ```
 
 
-### 9、BASH和DOS之间的基本区别是什么？
+### [9、BASH和DOS之间的基本区别是什么？](https://github.com/souyunku/DevBooks/blob/master/docs/Linux/Linux最新面试题2021年，常见面试题及答案汇总.md#9bash和dos之间的基本区别是什么)  
+
 
 **BASH和DOS控制台之间的主要区别在于3个方面：**
 
@@ -132,7 +141,8 @@ text23
 **3、** DOS遵循命名文件中的约定，即8个字符的文件名后跟一个点，扩展名为3个字符。BASH没有遵循这样的惯例。
 
 
-### 10、如果你的助手想要打印出当前的目录栈，你会建议他怎么做？
+### [10、如果你的助手想要打印出当前的目录栈，你会建议他怎么做？](https://github.com/souyunku/DevBooks/blob/master/docs/Linux/Linux最新面试题2021年，常见面试题及答案汇总.md#10如果你的助手想要打印出当前的目录栈你会建议他怎么做)  
+
 
 **答案：**
 
@@ -169,9 +179,9 @@ text23
 
 
 
-## 全部答案，整理好了，直接下载吧
+## [全部答案，整理好了，直接下载吧](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
-### 下载链接：[全部答案，整理好了](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
+### 下载链接：[全部答案，整理好了](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
 
 

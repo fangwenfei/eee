@@ -6,12 +6,14 @@
 
 
 
-### 1、什么是Web Service（Web服务）
+### [1、什么是Web Service（Web服务）](https://github.com/souyunku/DevBooks/blob/master/docs/Java/Java最新面试题及答案整理，汇总版.md#1什么是web-serviceweb服务)  
+
 
 从表面上看，Web Service就是一个应用程序，它向外界暴露出一个能够通过Web进行调用的API。这就是说，你能够用编程的方法透明的调用这个应用程序，不需要了解它的任何细节，跟你使用的编程语言也没有关系。例如可以创建一个提供天气预报的Web Service，那么无论你用哪种编程语言开发的应用都可以通过调用它的API并传入城市信息来获得该城市的天气预报。之所以称之为Web Service，是因为它基于HTTP协议传输数据，这使得运行在不同机器上的不同应用无须借助附加的、专门的第三方软件或硬件，就可相互交换数据或集成。
 
 
-### 2、内部类与静态内部类的区别？
+### [2、内部类与静态内部类的区别？](https://github.com/souyunku/DevBooks/blob/master/docs/Java/Java最新面试题及答案整理，汇总版.md#2内部类与静态内部类的区别)  
+
 
 静态内部类相对与外部类是独立存在的，在静态内部类中无法直接访问外部类中变量、方法。如果要访问的话，必须要new一个外部类的对象，使用new出来的对象来访问。但是可以直接访问静态的变量、调用静态的方法；
 
@@ -24,19 +26,22 @@
 如果其他的类要访问静态内部类的属性或者调用静态内部类的方法，直接创建一个静态内部类对象即可。
 
 
-### 3、什么是代理模式
+### [3、什么是代理模式](https://github.com/souyunku/DevBooks/blob/master/docs/Java/Java最新面试题及答案整理，汇总版.md#3什么是代理模式)  
+
 
 通过代理控制对象的访问，可以在这个对象调用方法之前、调用方法之后去处理/添加新的功能。(也就是AO的P微实现)
 
 代理在原有代码乃至原业务流程都不修改的情况下，直接在业务流程中切入新代码，增加新功能，这也和Spring的（面向切面编程）很相似
 
 
-### 4、32 位 JVM 和 64 位 JVM 的最大堆内存分别是多数？
+### [4、32 位 JVM 和 64 位 JVM 的最大堆内存分别是多数？](https://github.com/souyunku/DevBooks/blob/master/docs/Java/Java最新面试题及答案整理，汇总版.md#432-位-jvm-和-64-位-jvm-的最大堆内存分别是多数)  
+
 
 理论上说上 32 位的 JVM 堆内存可以到达 2^32，即 4GB，但实际上会比这个小很多。不同操作系统之间不同，如 Windows 系统大约 1.5 GB，Solaris 大约 3GB。64 位 JVM允许指定最大的堆内存，理论上可以达到 2^64，这是一个非常大的数字，实际上你可以指定堆内存大小到 100GB。甚至有的 JVM，如 Azul，堆内存到 1000G 都是可能的。
 
 
-### 5、重排序实际执行的指令步骤
+### [5、重排序实际执行的指令步骤](https://github.com/souyunku/DevBooks/blob/master/docs/Java/Java最新面试题及答案整理，汇总版.md#5重排序实际执行的指令步骤)  
+
 
 ![87_5.png][87_5.png]
 
@@ -49,14 +54,16 @@
 这些重排序对于单线程没问题，但是多线程都可能会导致多线程程序出现内存可见性问题。
 
 
-### 6、invokedynamic指令是干什么的？
+### [6、invokedynamic指令是干什么的？](https://github.com/souyunku/DevBooks/blob/master/docs/Java/Java最新面试题及答案整理，汇总版.md#6invokedynamic指令是干什么的)  
+
 
 属于比较高级的题目。没看过虚拟机的一般是不知道的。所以如果你不太熟悉，不要气馁，加油！（小拳拳锤你胸口）。
 
 `invokedynamic`是`Java7`之后新加入的字节码指令，使用它可以实现一些动态类型语言的功能。我们使用的Lambda表达式，在字节码上就是invokedynamic指令实现的。它的功能有点类似反射，但它是使用方法句柄实现的，执行效率更高。
 
 
-### 7、如何选择单例创建方式
+### [7、如何选择单例创建方式](https://github.com/souyunku/DevBooks/blob/master/docs/Java/Java最新面试题及答案整理，汇总版.md#7如何选择单例创建方式)  
+
 
 如果不需要延迟加载单例，可以使用枚举或者饿汉式，相对来说枚举性好于饿汉式。 如果需要延迟加载，可以使用静态内部类或者懒汉式，相对来说静态内部类好于懒韩式。 最好使用饿汉式
 
@@ -250,7 +257,8 @@ public class Demo5 {
 ```
 
 
-### 8、Java集合的快速失败机制 “fail-fast”？
+### [8、Java集合的快速失败机制 “fail-fast”？](https://github.com/souyunku/DevBooks/blob/master/docs/Java/Java最新面试题及答案整理，汇总版.md#8java集合的快速失败机制-“fail-fast)  
+
 
 是java集合的一种错误检测机制，当多个线程对集合进行结构上的改变的操作时，有可能会产生 fail-fast 机制。
 
@@ -265,7 +273,8 @@ public class Demo5 {
 **2、** 使用CopyOnWriteArrayList来替换ArrayList
 
 
-### 9、如何实现字符串的反转及替换？
+### [9、如何实现字符串的反转及替换？](https://github.com/souyunku/DevBooks/blob/master/docs/Java/Java最新面试题及答案整理，汇总版.md#9如何实现字符串的反转及替换)  
+
 
 
 
@@ -280,7 +289,8 @@ public class Demo5 {
 ```
 
 
-### 10、Spring开发中的工厂设计模式
+### [10、Spring开发中的工厂设计模式](https://github.com/souyunku/DevBooks/blob/master/docs/Java/Java最新面试题及答案整理，汇总版.md#10spring开发中的工厂设计模式)  
+
 
 **Spring IOC**
 
@@ -333,9 +343,9 @@ public class Demo5 {
 
 
 
-## 全部答案，整理好了，直接下载吧
+## [全部答案，整理好了，直接下载吧](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
-### 下载链接：[全部答案，整理好了](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
+### 下载链接：[全部答案，整理好了](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
 
 

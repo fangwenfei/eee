@@ -6,7 +6,8 @@
 
 
 
-### 1、touch （touch：创建文件）创建文件
+### [1、touch （touch：创建文件）创建文件](https://github.com/souyunku/DevBooks/blob/master/docs/Linux/Linux最新2021年面试题附答案解析，大汇总.md#1touch-touch：创建文件创建文件)  
+
 
 ```
 touch test.txt  ;创建test.txt文件
@@ -14,7 +15,8 @@ touch /opt/java/test.java ;在指定目录创建test.java文件
 ```
 
 
-### 2、当你需要给命令绑定一个宏或者按键的时候，应该怎么做呢？
+### [2、当你需要给命令绑定一个宏或者按键的时候，应该怎么做呢？](https://github.com/souyunku/DevBooks/blob/master/docs/Linux/Linux最新2021年面试题附答案解析，大汇总.md#2当你需要给命令绑定一个宏或者按键的时候应该怎么做呢)  
+
 
 **答案：**
 
@@ -35,7 +37,8 @@ touch /opt/java/test.java ;在指定目录创建test.java文件
 【附】也可以使用showkey -a命令查看按键对应的字符序列。
 
 
-### 3、查看各类环境变量用什么命令?
+### [3、查看各类环境变量用什么命令?](https://github.com/souyunku/DevBooks/blob/master/docs/Linux/Linux最新2021年面试题附答案解析，大汇总.md#3查看各类环境变量用什么命令)  
+
 
 **答案：**
 
@@ -44,7 +47,8 @@ touch /opt/java/test.java ;在指定目录创建test.java文件
 **2、** 查看某个，如 home： env $HOME
 
 
-### 4、Linux系统中病毒怎么解决
+### [4、Linux系统中病毒怎么解决](https://github.com/souyunku/DevBooks/blob/master/docs/Linux/Linux最新2021年面试题附答案解析，大汇总.md#4linux系统中病毒怎么解决)  
+
 
 1）最简单有效的方法就是重装系统
 
@@ -65,7 +69,8 @@ rm -f ?命令删除病毒文件
 3）由于即使删除病毒文件不排除有潜伏病毒，所以最好是把机器备份数据之后重装一下
 
 
-### 5、如何把一个进程放到后台运行？
+### [5、如何把一个进程放到后台运行？](https://github.com/souyunku/DevBooks/blob/master/docs/Linux/Linux最新2021年面试题附答案解析，大汇总.md#5如何把一个进程放到后台运行)  
+
 
 ```
 [root@iz2ze76ybn73dvwmdij06zz ~]# ./sleep.sh &
@@ -74,7 +79,8 @@ rm -f ?命令删除病毒文件
 此时，进程并不能被Ctrl + c 中断。
 
 
-### 6、你对现在运维工程师的理解和以及对其工作的认识
+### [6、你对现在运维工程师的理解和以及对其工作的认识](https://github.com/souyunku/DevBooks/blob/master/docs/Linux/Linux最新2021年面试题附答案解析，大汇总.md#6你对现在运维工程师的理解和以及对其工作的认识)  
+
 
 运维工程师在公司当中责任重大，需要保证时刻为公司及客户提供最高、最快、最稳定、最安全的服务
 
@@ -83,7 +89,8 @@ rm -f ?命令删除病毒文件
 因此运维工程师的工作需要严谨及富有创新精神
 
 
-### 7、如何优化 Linux系统（可以不说太具体）？
+### [7、如何优化 Linux系统（可以不说太具体）？](https://github.com/souyunku/DevBooks/blob/master/docs/Linux/Linux最新2021年面试题附答案解析，大汇总.md#7如何优化-linux系统可以不说太具体)  
+
 
 **1、** 不用root，添加普通用户，通过sudo授权管理
 
@@ -108,7 +115,8 @@ rm -f ?命令删除病毒文件
 **11、** 清空/etc/issue，去除系统及内核版本登录前的屏幕显示
 
 
-### 8、Linux 下命令有哪几种可使用的通配符？分别代表什么含义?
+### [8、Linux 下命令有哪几种可使用的通配符？分别代表什么含义?](https://github.com/souyunku/DevBooks/blob/master/docs/Linux/Linux最新2021年面试题附答案解析，大汇总.md#8linux-下命令有哪几种可使用的通配符分别代表什么含义)  
+
 
 **答案：**
 
@@ -119,7 +127,8 @@ rm -f ?命令删除病毒文件
 方括号“[charset]”可替代 charset 集中的任何单个字符，如[a-z]，[abABC]
 
 
-### 9、写一个脚本，实现判断192.168.1.0/24网络里，当前在线的IP有哪些，能ping通则认为在线
+### [9、写一个脚本，实现判断192.168.1.0/24网络里，当前在线的IP有哪些，能ping通则认为在线](https://github.com/souyunku/DevBooks/blob/master/docs/Linux/Linux最新2021年面试题附答案解析，大汇总.md#9写一个脚本实现判断19216810/24网络里当前在线的ip有哪些能ping通则认为在线)  
+
 
 ```
 #!/bin/bash
@@ -138,7 +147,8 @@ wait
 ```
 
 
-### 10、绝对路径用什么符号表示？当前目录、上层目录用什么表示？主目录用什么表示? 切换目录用什么命令？
+### [10、绝对路径用什么符号表示？当前目录、上层目录用什么表示？主目录用什么表示? 切换目录用什么命令？](https://github.com/souyunku/DevBooks/blob/master/docs/Linux/Linux最新2021年面试题附答案解析，大汇总.md#10绝对路径用什么符号表示当前目录上层目录用什么表示主目录用什么表示-切换目录用什么命令)  
+
 
 **答案：**
 
@@ -174,9 +184,9 @@ wait
 
 
 
-## 全部答案，整理好了，直接下载吧
+## [全部答案，整理好了，直接下载吧](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
-### 下载链接：[全部答案，整理好了](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
+### 下载链接：[全部答案，整理好了](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
 
 

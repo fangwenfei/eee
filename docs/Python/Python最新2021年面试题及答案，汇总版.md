@@ -6,21 +6,24 @@
 
 
 
-### 1、Redis中默认有多少个哈希槽
+### [1、Redis中默认有多少个哈希槽](https://github.com/souyunku/DevBooks/blob/master/docs/Python/Python最新2021年面试题及答案，汇总版.md#1redis中默认有多少个哈希槽)  
+
 
 **1、** 2^14个
 
 **2、** Redis 集群没有使用一致性hash, 而是引入了哈希槽的概念。
 
 
-### 2、实例变量和类变量的区别
+### [2、实例变量和类变量的区别](https://github.com/souyunku/DevBooks/blob/master/docs/Python/Python最新2021年面试题及答案，汇总版.md#2实例变量和类变量的区别)  
+
 
 **1、** 实例变量是对于每个实例都独有的数据
 
 **2、** 类变量是该类所有实例共享的属性和方法
 
 
-### 3、解释一下Python中的身份运算符
+### [3、解释一下Python中的身份运算符](https://github.com/souyunku/DevBooks/blob/master/docs/Python/Python最新2021年面试题及答案，汇总版.md#3解释一下python中的身份运算符)  
+
 
 这也是一个在Python面试中常问的问题。
 
@@ -35,7 +38,8 @@ True
 ```
 
 
-### 4、yield from 和 yield 的区别
+### [4、yield from 和 yield 的区别](https://github.com/souyunku/DevBooks/blob/master/docs/Python/Python最新2021年面试题及答案，汇总版.md#4yield-from-和-yield-的区别)  
+
 
 [简述yield和yield from](https://blog.csdn.net/lamusique/article/details/85845225)
 
@@ -59,14 +63,16 @@ yield 返回一个值
 yield from后面接可迭代对象，一个一个返回值。
 
 
-### 5、py2项目如何迁移成py3
+### [5、py2项目如何迁移成py3](https://github.com/souyunku/DevBooks/blob/master/docs/Python/Python最新2021年面试题及答案，汇总版.md#5py2项目如何迁移成py3)  
+
 
 **1、** 先备份原文件，然后使用python3自带工具2to3.py将py2文件转换位py3文件
 
 **2、** 手动将不兼容的代码改写成兼容py3的代码
 
 
-### 6、生产者消费者模型的应用场景
+### [6、生产者消费者模型的应用场景](https://github.com/souyunku/DevBooks/blob/master/docs/Python/Python最新2021年面试题及答案，汇总版.md#6生产者消费者模型的应用场景)  
+
 
 **说明**
 
@@ -75,12 +81,14 @@ yield from后面接可迭代对象，一个一个返回值。
 应用场景：处理数据比较消耗时间，线程独占，生产数据不需要即时的反馈等。比如说写入日志，将多线程产生的日志放在队列中，然后写入。
 
 
-### 7、简述数据库的读写分离
+### [7、简述数据库的读写分离](https://github.com/souyunku/DevBooks/blob/master/docs/Python/Python最新2021年面试题及答案，汇总版.md#7简述数据库的读写分离)  
+
 
 读写分离就是在主服务器上修改，数据会同步到从服务器，从服务器只能提供读取数据，不能写入，实现备份的同时也实现了数据库性能的优化，以及提升了服务器安全。
 
 
-### 8、解释//、％、* *运算符？
+### [8、解释//、％、* *运算符？](https://github.com/souyunku/DevBooks/blob/master/docs/Python/Python最新2021年面试题及答案，汇总版.md#8解释//％*-*运算符)  
+
 
 //(Floor Division)-这是一个除法运算符，它返回除法的整数部分。
 
@@ -95,7 +103,8 @@ yield from后面接可迭代对象，一个一个返回值。
 例如：5 ** 2 = 25、5 ** 3 = 125
 
 
-### 9、什么是轮询和长轮询
+### [9、什么是轮询和长轮询](https://github.com/souyunku/DevBooks/blob/master/docs/Python/Python最新2021年面试题及答案，汇总版.md#9什么是轮询和长轮询)  
+
 
 轮询是在特定的的时间间隔（如每1秒），由浏览器对服务器发出HTTP request，然后由服务器返回最新的数据给客户端的浏览器。这种传统的HTTP request 的模式带来很明显的缺点 – 浏览器需要不断的向服务器发出请求，然而HTTP request 的header是非常长的，里面包含的有用数据可能只是一个很小的值，这样会占用很多的带宽。
 
@@ -122,7 +131,8 @@ function ajax() {
 ```
 
 
-### 10、如果Redis中的某个列表中的数据量非常大，如何实现循环显示每一个值？
+### [10、如果Redis中的某个列表中的数据量非常大，如何实现循环显示每一个值？](https://github.com/souyunku/DevBooks/blob/master/docs/Python/Python最新2021年面试题及答案，汇总版.md#10如果redis中的某个列表中的数据量非常大如何实现循环显示每一个值)  
+
 
 使用生成器一个一个取
 
@@ -151,9 +161,9 @@ function ajax() {
 
 
 
-## 全部答案，整理好了，直接下载吧
+## [全部答案，整理好了，直接下载吧](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
-### 下载链接：[全部答案，整理好了](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
+### 下载链接：[全部答案，整理好了](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
 
 

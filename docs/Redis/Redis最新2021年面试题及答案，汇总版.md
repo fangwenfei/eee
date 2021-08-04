@@ -6,39 +6,46 @@
 
 
 
-### 1、为什么Redis需要把所有数据放到内存中？
+### [1、为什么Redis需要把所有数据放到内存中？](https://github.com/souyunku/DevBooks/blob/master/docs/Redis/Redis最新2021年面试题及答案，汇总版.md#1为什么redis需要把所有数据放到内存中)  
+
 
 Redis为了达到最快的读写速度将数据都读到内存中，并通过异步的方式将数据写入磁盘。所以Redis具有快速和数据持久化的特征。如果不将数据放在内存中，磁盘I/O速度为严重影响Redis的性能。在内存越来越便宜的今天，Redis将会越来越受欢迎。
 
 如果设置了最大使用的内存，则数据已有记录数达到内存限值后不能继续插入新值。
 
 
-### 2、查看Redis使用情况及状态信息用什么命令？
+### [2、查看Redis使用情况及状态信息用什么命令？](https://github.com/souyunku/DevBooks/blob/master/docs/Redis/Redis最新2021年面试题及答案，汇总版.md#2查看redis使用情况及状态信息用什么命令)  
+
 
 info
 
 
-### 3、后端开发群：943918498
-### 4、修改配置不重启Redis会实时生效吗？
+### [3、后端开发群：943918498](https://github.com/souyunku/DevBooks/blob/master/docs/Redis/Redis最新2021年面试题及答案，汇总版.md#3后端开发群：943918498)  
+
+### [4、修改配置不重启Redis会实时生效吗？](https://github.com/souyunku/DevBooks/blob/master/docs/Redis/Redis最新2021年面试题及答案，汇总版.md#4修改配置不重启redis会实时生效吗)  
+
 
 针对运行实例，有许多配置选项可以通过 CONFIG SET 命令进行修改，而无需执行任何形式的重启。 从 Redis 2.2 开始，可以从 AOF 切换到 RDB 的快照持久性或其他方式而不需要重启 Redis。检索 ‘CONFIG GET *’ 命令获取更多信息。
 
 但偶尔重新启动是必须的，如为升级 Redis 程序到新的版本，或者当你需要修改某些目前 CONFIG 命令还不支持的配置参数的时候。
 
 
-### 5、是否使用过 Redis 集群，集群的原理是什么？
+### [5、是否使用过 Redis 集群，集群的原理是什么？](https://github.com/souyunku/DevBooks/blob/master/docs/Redis/Redis最新2021年面试题及答案，汇总版.md#5是否使用过-redis-集群集群的原理是什么)  
+
 
 **1、** Redis Sentinal 着眼于高可用， 在 master 宕机时会自动将 slave 提升为master， 继续提供服务。
 
 **2、** Redis Cluster 着眼于扩展性， 在单个 Redis 内存不足时， 使用 Cluster 进行分片存储。
 
 
-### 6、缓存并发问题
+### [6、缓存并发问题](https://github.com/souyunku/DevBooks/blob/master/docs/Redis/Redis最新2021年面试题及答案，汇总版.md#6缓存并发问题)  
+
 
 这里的并发指的是多个Redis的client同时set key引起的并发问题。比较有效的解决方案就是把Redis.set操作放在队列中使其串行化，必须的一个一个执行，具体的代码就不上了，当然加锁也是可以的，至于为什么不用Redis中的事务，留给各位看官自己思考探究。
 
 
-### 7、使用过Redis分布式锁么，它是什么回事？
+### [7、使用过Redis分布式锁么，它是什么回事？](https://github.com/souyunku/DevBooks/blob/master/docs/Redis/Redis最新2021年面试题及答案，汇总版.md#7使用过redis分布式锁么它是什么回事)  
+
 
 先拿setnx来争抢锁，抢到之后，再用expire给锁加一个过期时间防止锁忘记了释放。
 
@@ -47,12 +54,14 @@ info
 这时候你要给予惊讶的反馈：唉，是喔，这个锁就永远得不到释放了。紧接着你需要抓一抓自己得脑袋，故作思考片刻，好像接下来的结果是你主动思考出来的，然后回我记得set指令有非常复杂的参数，这个应该是可以同时把setnx和expire合成一条指令来用的！对方这时会显露笑容，心里开始默念：摁，这小子还不错。
 
 
-### 8、Reids主从复制
+### [8、Reids主从复制](https://github.com/souyunku/DevBooks/blob/master/docs/Redis/Redis最新2021年面试题及答案，汇总版.md#8reids主从复制)  
+
 
 复制是高可用Redis的基础，哨兵和集群都是在复制基础上实现高可用的。复制主要实现了数据的多机备份，以及对于读操作的负载均衡和简单的故障恢复。缺陷：故障恢复无法自动化；写操作无法负载均衡；存储能力受到单机的限制。
 
 
-### 9、Redis与Memcached相比有哪些优势？
+### [9、Redis与Memcached相比有哪些优势？](https://github.com/souyunku/DevBooks/blob/master/docs/Redis/Redis最新2021年面试题及答案，汇总版.md#9redis与memcached相比有哪些优势)  
+
 
 **1、** Memcached所有的值均是简单的字符串，Redis作为其替代者，支持更为丰富的数据类型
 
@@ -61,7 +70,8 @@ info
 **3、** Redis可以持久化其数据Redis可以持久化其数据
 
 
-### 10、Redis 最适合的场景？
+### [10、Redis 最适合的场景？](https://github.com/souyunku/DevBooks/blob/master/docs/Redis/Redis最新2021年面试题及答案，汇总版.md#10redis-最适合的场景)  
+
 
 **1、** 会话缓存（ Session  Cache）
 
@@ -107,9 +117,9 @@ Redis 在内存中对数字进行递增或递减的操作实现的非常好。�
 
 
 
-## 全部答案，整理好了，直接下载吧
+## [全部答案，整理好了，直接下载吧](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
-### 下载链接：[全部答案，整理好了](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
+### 下载链接：[全部答案，整理好了](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
 
 

@@ -6,7 +6,8 @@
 
 
 
-### 1、Python的局限性？
+### [1、Python的局限性？](https://github.com/souyunku/DevBooks/blob/master/docs/Python/Python最新2021年面试题大汇总，附答案.md#1python的局限性)  
+
 
 **1、**  速度
 
@@ -21,7 +22,8 @@
 **6、**  简单性
 
 
-### 2、区分Python中的remove，del和pop？
+### [2、区分Python中的remove，del和pop？](https://github.com/souyunku/DevBooks/blob/master/docs/Python/Python最新2021年面试题大汇总，附答案.md#2区分python中的removedel和pop)  
+
 
 remove：将删除列表中的第一个匹配值，它以值作为参数。
 
@@ -42,7 +44,8 @@ numbers.pop()
 ```
 
 
-### 3、什么是ajax请求？手写一个ajax请求
+### [3、什么是ajax请求？手写一个ajax请求](https://github.com/souyunku/DevBooks/blob/master/docs/Python/Python最新2021年面试题大汇总，附答案.md#3什么是ajax请求手写一个ajax请求)  
+
 
 ajax（异步JavaScript和XML）是指一种创建交付式网页应用的网页开发技术。可以在不重新加载整个网页的情况下，对网页的某部分进行更新。
 
@@ -71,7 +74,8 @@ $.ajax({
 ```
 
 
-### 4、什么是覆盖索引
+### [4、什么是覆盖索引](https://github.com/souyunku/DevBooks/blob/master/docs/Python/Python最新2021年面试题大汇总，附答案.md#4什么是覆盖索引)  
+
 
 **覆盖索引又可以称为索引覆盖。**
 
@@ -82,14 +86,16 @@ $.ajax({
 **3、** 解释三： 是非聚集组合索引的一种形式，它包括在查询里的Select、Join和Where子句用到的所有列（即建立索引的字段正好是覆盖查询语句[select子句]与查询条件[Where子句]中所涉及的字段，也即，索引包含了查询正在查找的所有数据）。
 
 
-### 5、简述多进程开发中join和deamon的区别
+### [5、简述多进程开发中join和deamon的区别](https://github.com/souyunku/DevBooks/blob/master/docs/Python/Python最新2021年面试题大汇总，附答案.md#5简述多进程开发中join和deamon的区别)  
+
 
 **1、** join：当子线程调用join时，主线程会被阻塞，当子线程结束后，主线程才能继续执行。
 
 **2、** deamon：当子进程被设置为守护进程时，主进程结束，不管子进程是否执行完毕，都会随着主进程的结束而结束。
 
 
-### 6、在Python中有多少种运算符？解释一下算数运算符。
+### [6、在Python中有多少种运算符？解释一下算数运算符。](https://github.com/souyunku/DevBooks/blob/master/docs/Python/Python最新2021年面试题大汇总，附答案.md#6在python中有多少种运算符解释一下算数运算符。)  
+
 
 在Python中，我们有7种运算符：算术运算符、关系运算符、赋值运算符、逻辑运算符、位运算符、成员运算符、身份运算符。
 
@@ -128,17 +134,20 @@ $.ajax({
 **5、** 向下取整除、取模和取幂运算，参见上个问题。
 
 
-### 7、python3和python2中int和long的区别
+### [7、python3和python2中int和long的区别](https://github.com/souyunku/DevBooks/blob/master/docs/Python/Python最新2021年面试题大汇总，附答案.md#7python3和python2中int和long的区别)  
+
 
 python2中有long类型，python3中没有long类型，只有int类型。python3中的int类型包括了long类型。
 
 
-### 8、什么是抽象？
+### [8、什么是抽象？](https://github.com/souyunku/DevBooks/blob/master/docs/Python/Python最新2021年面试题大汇总，附答案.md#8什么是抽象)  
+
 
 抽象(Abstraction)是将一个对象的本质或必要特征向外界展示，并隐藏所有其他无关信息的过程。
 
 
-### 9、将列表alist=[{'name':'a','age':25},{'name':'b','age':30},{'name':'c','age':20}]，按照age的值从大到小排列。
+### [9、将列表alist=[{'name':'a','age':25},{'name':'b','age':30},{'name':'c','age':20}]，按照age的值从大到小排列。](https://github.com/souyunku/DevBooks/blob/master/docs/Python/Python最新2021年面试题大汇总，附答案.md#9将列表alist=[{'name':'a','age':25},{'name':'b','age':30},{'name':'c','age':20}]按照age的值从大到小排列。)  
+
 
 ```python
 alist=[{'name':'a','age':25},{'name':'b','age':30},{'name':'c','age':20}]
@@ -147,7 +156,8 @@ print(blist)
 ```
 
 
-### 10、解释一下Python中的继承
+### [10、解释一下Python中的继承](https://github.com/souyunku/DevBooks/blob/master/docs/Python/Python最新2021年面试题大汇总，附答案.md#10解释一下python中的继承)  
+
 
 当一个类继承自另一个类，它就被称为一个子类/派生类，继承自父类/基类/超类。它会继承/获取所有类成员（属性和方法）。
 
@@ -186,9 +196,9 @@ print(blist)
 
 
 
-## 全部答案，整理好了，直接下载吧
+## [全部答案，整理好了，直接下载吧](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
-### 下载链接：[全部答案，整理好了](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
+### 下载链接：[全部答案，整理好了](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
 
 

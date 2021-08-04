@@ -6,12 +6,14 @@
 
 
 
-### 1、在 service 的生命周期方法 onstartConmand()可不可以执行网络操作？如何在 service 中执行网络操作？
+### [1、在 service 的生命周期方法 onstartConmand()可不可以执行网络操作？如何在 service 中执行网络操作？](https://github.com/souyunku/DevBooks/blob/master/docs/Android/Android最新面试题，2021年面试题及答案汇总.md#1在-service-的生命周期方法-onstartconmand可不可以执行网络操作如何在-service-中执行网络操作)  
+
 
 可以的，就在onstartConmand方法内执行。
 
 
-### 2、简述TCP，UDP，Socket
+### [2、简述TCP，UDP，Socket](https://github.com/souyunku/DevBooks/blob/master/docs/Android/Android最新面试题，2021年面试题及答案汇总.md#2简述tcpudpsocket)  
+
 
 TCP是经过3次握手，4次挥手完成一串数据的传送
 
@@ -20,7 +22,8 @@ UDP是无连接的，知道IP地址和端口号，向其发送数据即可，不
 Socket是一种不同计算机，实时连接，比如说传送文件，即时通讯
 
 
-### 3、Android 中如何捕获未捕获的异常
+### [3、Android 中如何捕获未捕获的异常](https://github.com/souyunku/DevBooks/blob/master/docs/Android/Android最新面试题，2021年面试题及答案汇总.md#3android-中如何捕获未捕获的异常)  
+
 
 **UncaughtExceptionHandler**
 
@@ -43,12 +46,14 @@ Crashlytics 是专门为移动应用开发者提供的保存和分析应用崩�
 **3、** Crashlytics 可以每天和每周将崩溃信息汇总发到你的邮箱，所有信息一目了然。
 
 
-### 4、android中的动画有哪几类，它们的特点和区别是什么
+### [4、android中的动画有哪几类，它们的特点和区别是什么](https://github.com/souyunku/DevBooks/blob/master/docs/Android/Android最新面试题，2021年面试题及答案汇总.md#4android中的动画有哪几类它们的特点和区别是什么)  
+
 
 两种，一种是Tween动画、还有一种是Frame动画。Tween动画，这种实现方式可以使视图组件移动、放大、缩小以及产生透明度的变化;另一种Frame动画，传统的动画方法，通过顺序的播放排列好的图片来实现，类似电影。
 
 
-### 5、Android 中的动画有哪几类，它们的特点和区别是什么
+### [5、Android 中的动画有哪几类，它们的特点和区别是什么](https://github.com/souyunku/DevBooks/blob/master/docs/Android/Android最新面试题，2021年面试题及答案汇总.md#5android-中的动画有哪几类它们的特点和区别是什么)  
+
 
 Frame Animation(帧动画)主要用于播放一帧帧准备好的图片，类似GIF图片，优点是使用简单方便、缺点是需要事先准备好每一帧图片；
 
@@ -57,12 +62,14 @@ Tween Animation(补间动画)仅需定义开始与结束的关键帧，而变化
 Property Animation(属性动画)是3.0后推出的动画，优点是使用简单、降低实现的复杂度、直接更改对象的属性、几乎可适用于任何对象而仅非View类，主要包括ValueAnimator和ObjectAnimator
 
 
-### 6、java中如何引用本地语言
+### [6、java中如何引用本地语言](https://github.com/souyunku/DevBooks/blob/master/docs/Android/Android最新面试题，2021年面试题及答案汇总.md#6java中如何引用本地语言)  
+
 
 可以用JNI（java native interface  java 本地接口）接口 。
 
 
-### 7、请解释下在单线程模型中Message、Handler、Message Queue、Looper之间的关系。
+### [7、请解释下在单线程模型中Message、Handler、Message Queue、Looper之间的关系。](https://github.com/souyunku/DevBooks/blob/master/docs/Android/Android最新面试题，2021年面试题及答案汇总.md#7请解释下在单线程模型中messagehandlermessage-queuelooper之间的关系。)  
+
 
 简单的说，Handler获取当前线程中的looper对象，looper用来从存放Message的MessageQueue中取出Message，再有Handler进行Message的分发和处理.
 
@@ -117,7 +124,8 @@ Looper是每条线程里的Message Queue的管家。Android没有Global的Messag
 2\、Looper.getMainLooper()得到的是主线程的Looper对象，Looper.myLooper()得到的是当前线程的Looper对象。
 
 
-### 8、广播注册
+### [8、广播注册](https://github.com/souyunku/DevBooks/blob/master/docs/Android/Android最新面试题，2021年面试题及答案汇总.md#8广播注册)  
+
 
 首先写一个类要继承BroadCastReceiver
 
@@ -146,7 +154,8 @@ a.第一种是常驻型广播，也就是说当应用程序关闭后，如果有
 b.第二种不是常驻广播，也就是说广播跟随程序的生命周期。
 
 
-### 9、Service生命周期
+### [9、Service生命周期](https://github.com/souyunku/DevBooks/blob/master/docs/Android/Android最新面试题，2021年面试题及答案汇总.md#9service生命周期)  
+
 
 在Service的生命周期里，常用的有：
 
@@ -180,7 +189,8 @@ onUnbind()            解绑服务
 **5、** startService()和stopService()只能开启和关闭Service，无法操作Service，调用者退出后Service仍然存在；bindService()和unbindService()可以操作Service，调用者退出后，Service随着调用者销毁。
 
 
-### 10、请介绍下 AsyncTask 的内部实现和适用的场景
+### [10、请介绍下 AsyncTask 的内部实现和适用的场景](https://github.com/souyunku/DevBooks/blob/master/docs/Android/Android最新面试题，2021年面试题及答案汇总.md#10请介绍下-asynctask-的内部实现和适用的场景)  
+
 
 AsyncTask 内部也是 Handler 机制来完成的，只不过 Android 提供了执行框架来提供线程池来执行相应地任务，因为线程池的大小问题，所以 AsyncTask 只应该用来执行耗时时间较短的任务，比如 HTTP 请求，大规模的下载和数据库的更改不适用于 AsyncTask，因为会导致线程池堵塞，没有线程来执行其他的任务，导致的情形是会发生 AsyncTask 根本执行不了的问题
 
@@ -208,9 +218,9 @@ AsyncTask 内部也是 Handler 机制来完成的，只不过 Android 提供了�
 
 
 
-## 全部答案，整理好了，直接下载吧
+## [全部答案，整理好了，直接下载吧](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
-### 下载链接：[全部答案，整理好了](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
+### 下载链接：[全部答案，整理好了](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
 
 

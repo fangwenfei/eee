@@ -6,17 +6,20 @@
 
 
 
-### 1、解释生产者是什么？
+### [1、解释生产者是什么？](https://github.com/souyunku/DevBooks/blob/master/docs/Kafka/Kafka最新2021年面试题大汇总，附答案.md#1解释生产者是什么)  
+
 
 生产者的主要作用是将数据发布到他们选择的主题上。基本上，它的职责是选择要分配给主题内分区的记录。
 
 
-### 2、什么是多租户？
+### [2、什么是多租户？](https://github.com/souyunku/DevBooks/blob/master/docs/Kafka/Kafka最新2021年面试题大汇总，附答案.md#2什么是多租户)  
+
 
 我们可以轻松地将Kafka部署为多租户解决方案。但是，通过配置主题可以生成或使用数据，可以启用多租户。此外，它还为配额提供操作支持。
 
 
-### 3、Kafka为什么不支持读写分离？
+### [3、Kafka为什么不支持读写分离？](https://github.com/souyunku/DevBooks/blob/master/docs/Kafka/Kafka最新2021年面试题大汇总，附答案.md#3kafka为什么不支持读写分离)  
+
 
 **1、** 这其实是分布式场景下的通用问题，因为我们知道CAP理论下，我们只能保证C（一致性）和A（可用性）取其一，如果支持读写分离，那其实对于一致性的要求可能就会有一定折扣，因为通常的场景下，副本之间都是通过同步来实现副本数据一致的，那同步过程中肯定会有时间的消耗，如果支持了读写分离，就意味着可能的数据不一致，或数据滞后。
 
@@ -25,16 +28,20 @@
 **3、** 不过，自Kafka 2.4之后，Kafka提供了有限度的读写分离，也就是说，Follower副本能够对外提供读服务。
 
 
-### 4、：35, 36, 37
+### [4、：35, 36, 37](https://github.com/souyunku/DevBooks/blob/master/docs/Kafka/Kafka最新2021年面试题大汇总，附答案.md#4：35,-36,-37)  
 
 
-### 5、：11,13,14,16,17,18,19Apache Kafka对于有经验的人的面试
-### 6、Leader和Follower的概念是什么？
+
+### [5、：11,13,14,16,17,18,19Apache Kafka对于有经验的人的面试](https://github.com/souyunku/DevBooks/blob/master/docs/Kafka/Kafka最新2021年面试题大汇总，附答案.md#5：11,13,14,16,17,18,19apache-kafka对于有经验的人的面试)  
+
+### [6、Leader和Follower的概念是什么？](https://github.com/souyunku/DevBooks/blob/master/docs/Kafka/Kafka最新2021年面试题大汇总，附答案.md#6leader和follower的概念是什么)  
+
 
 在Kafka的每个分区中，都有一个服务器充当leader，0到多个服务器充当follower的角色。
 
 
-### 7、Kafka和Flume之间的主要区别是什么？
+### [7、Kafka和Flume之间的主要区别是什么？](https://github.com/souyunku/DevBooks/blob/master/docs/Kafka/Kafka最新2021年面试题大汇总，附答案.md#7kafka和flume之间的主要区别是什么)  
+
 
 **工具类型**
 
@@ -49,12 +56,14 @@ Apache Kafka 可以复制事件；
 Apache Flume 不复制事件。
 
 
-### 8、没有ZooKeeper可以使用Kafka吗？
+### [8、没有ZooKeeper可以使用Kafka吗？](https://github.com/souyunku/DevBooks/blob/master/docs/Kafka/Kafka最新2021年面试题大汇总，附答案.md#8没有zookeeper可以使用kafka吗)  
+
 
 绕过Zookeeper并直接连接到Kafka服务器是不可能的，所以答案是否定的。如果以某种方式，使ZooKeeper关闭，则无法为任何客户端请求提供服务。
 
 
-### 9、为什么需要消息系统，MySQL不能满足需求吗？
+### [9、为什么需要消息系统，MySQL不能满足需求吗？](https://github.com/souyunku/DevBooks/blob/master/docs/Kafka/Kafka最新2021年面试题大汇总，附答案.md#9为什么需要消息系统mysql不能满足需求吗)  
+
 
 **1、** 解耦：
 
@@ -89,7 +98,8 @@ Apache Flume 不复制事件。
 很多时候，用户不想也不需要立即处理消息。消息队列提供了异步处理机制，允许用户把一个消息放入队列，但并不立即处理它。想向队列中放入多少消息就放多少，然后在需要的时候再去处理它们。
 
 
-### 10、为什么要使用 Kafka？为什么要使用消息队列？
+### [10、为什么要使用 Kafka？为什么要使用消息队列？](https://github.com/souyunku/DevBooks/blob/master/docs/Kafka/Kafka最新2021年面试题大汇总，附答案.md#10为什么要使用-kafka为什么要使用消息队列)  
+
 
 1. 缓冲和削峰：上游数据时有突发流量，下游可能扛不住，或者下游没有足够多的机器来保证冗余，Kafka在中间可以起到一个缓冲的作用，把消息暂存在Kafka中，下游服务就可以按照自己的节奏进行慢慢处理。
 2. 解耦和扩展性：项目开始的时候，并不能确定具体需求。消息队列可以作为一个接口层，解耦重要的业务流程。只需要遵守约定，针对数据编程即可获取扩展能力。
@@ -120,9 +130,9 @@ Apache Flume 不复制事件。
 
 
 
-## 全部答案，整理好了，直接下载吧
+## [全部答案，整理好了，直接下载吧](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
-### 下载链接：[全部答案，整理好了](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
+### 下载链接：[全部答案，整理好了](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
 
 

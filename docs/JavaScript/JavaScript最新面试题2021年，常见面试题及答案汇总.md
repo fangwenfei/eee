@@ -6,7 +6,8 @@
 
 
 
-### 1、Node的应用场景
+### [1、Node的应用场景](https://github.com/souyunku/DevBooks/blob/master/docs/JavaScript/JavaScript最新面试题2021年，常见面试题及答案汇总.md#1node的应用场景)  
+
 
 **特点：**
 
@@ -31,7 +32,8 @@
 **2、** 可靠性低，一旦代码某个环节崩溃，整个系统都崩溃
 
 
-### 2、异步编程？
+### [2、异步编程？](https://github.com/souyunku/DevBooks/blob/master/docs/JavaScript/JavaScript最新面试题2021年，常见面试题及答案汇总.md#2异步编程)  
+
 
 **方法1：**
 
@@ -52,19 +54,22 @@
 **2、** 简单说，它的思想是，每一个异步任务返回一个Promise对象，该对象有一个then方法，允许指定回调函数。
 
 
-### 3、event.preventDefault() 和 event.stopPropagation()方法之间有什么区别？
+### [3、event.preventDefault() 和 event.stopPropagation()方法之间有什么区别？](https://github.com/souyunku/DevBooks/blob/master/docs/JavaScript/JavaScript最新面试题2021年，常见面试题及答案汇总.md#3eventpreventdefault-和-eventstoppropagation方法之间有什么区别)  
+
 
 `event.preventDefault()` 方法可防止元素的默认行为。如果在表单元素中使用，它将阻止其提交。如果在锚元素中使用，它将阻止其导航。如果在上下文菜单中使用，它将阻止其显示或显示。`event.stopPropagation()`方法用于阻止捕获和冒泡阶段中当前事件的进一步传播。
 
 
-### 4、作用域和执行上下文的区别是什么？
+### [4、作用域和执行上下文的区别是什么？](https://github.com/souyunku/DevBooks/blob/master/docs/JavaScript/JavaScript最新面试题2021年，常见面试题及答案汇总.md#4作用域和执行上下文的区别是什么)  
+
 
 **1、** 函数的执行上下文只在函数被调用时生成，而其作用域在创建时已经生成；
 
 **2、** 函数的作用域会包含若干个执行上下文(有可能是零个，当函数未被调用时)。
 
 
-### 5、Ajax原理
+### [5、Ajax原理](https://github.com/souyunku/DevBooks/blob/master/docs/JavaScript/JavaScript最新面试题2021年，常见面试题及答案汇总.md#5ajax原理)  
+
 
 **1、** `Ajax`的原理简单来说是在用户和服务器之间加了—个中间层(`AJAX`引擎)，通过`XmlHttpRequest`对象来向服务器发异步请求，从服务器获得数据，然后用`javascrip`t来操作`DOM`而更新页面。使用户操作与服务器响应异步化。这其中最关键的一步就是从服务器获得请求数据
 
@@ -91,14 +96,16 @@
 ```
 
 
-### 6、["1", "2", "3"].map(parseInt) 答案是多少？
+### [6、["1", "2", "3"].map(parseInt) 答案是多少？](https://github.com/souyunku/DevBooks/blob/master/docs/JavaScript/JavaScript最新面试题2021年，常见面试题及答案汇总.md#6["1",-"2",-"3"]mapparseint-答案是多少)  
+
 
 `[1, NaN, NaN]`因为 `parseInt` 需要两个参数 `(val, radix)`，其中`radix` 表示解析时用的基数。
 
 `map`传了 `3`个`(element, index, array)`，对应的 `radix` 不合法导致解析失败。
 
 
-### 7、25.Jq如何判断元素显示隐藏？
+### [7、25.Jq如何判断元素显示隐藏？](https://github.com/souyunku/DevBooks/blob/master/docs/JavaScript/JavaScript最新面试题2021年，常见面试题及答案汇总.md#725jq如何判断元素显示隐藏)  
+
 
 ```
 //第一种：使用CSS属性 
@@ -117,14 +124,16 @@ if(node.is(':hidden')){　　//如果node是隐藏的则显示node元素，否�
 ```
 
 
-### 8、同步异步?
+### [8、同步异步?](https://github.com/souyunku/DevBooks/blob/master/docs/JavaScript/JavaScript最新面试题2021年，常见面试题及答案汇总.md#8同步异步)  
+
 
 **1、** 进程同步：就是在发出一个功能调用时，在没有得到结果之前，该调用就不返回。也就是必须一件一件事做,等前一件做完了才能做下一件事
 
 **2、** 异步的概念和同步相对。当一个异步过程调用发出后，调用者不能立刻得到结果。实际处理这个调用的部件在完成后，通过状态、通知和回调来通知调用者。
 
 
-### 9、你对数据校验是怎么样处理的？jquery.validate？
+### [9、你对数据校验是怎么样处理的？jquery.validate？](https://github.com/souyunku/DevBooks/blob/master/docs/JavaScript/JavaScript最新面试题2021年，常见面试题及答案汇总.md#9你对数据校验是怎么样处理的jqueryvalidate)  
+
 
 通俗的说，就是为保证数据的完整性，用一种指定的算法对原始数据计算出的一个校验值。接收方用同样的算法计算一次校验值，如果和随数据提供的校验值一样，就说明数据是完整的。
 
@@ -133,7 +142,8 @@ if(node.is(':hidden')){　　//如果node是隐藏的则显示node元素，否�
 jquery.validate：为表单验证插件
 
 
-### 10、自执行函数?用于什么场景？好处?
+### [10、自执行函数?用于什么场景？好处?](https://github.com/souyunku/DevBooks/blob/master/docs/JavaScript/JavaScript最新面试题2021年，常见面试题及答案汇总.md#10自执行函数用于什么场景好处)  
+
 
 **自执行函数:**
 
@@ -173,9 +183,9 @@ jquery.validate：为表单验证插件
 
 
 
-## 全部答案，整理好了，直接下载吧
+## [全部答案，整理好了，直接下载吧](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
-### 下载链接：[全部答案，整理好了](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
+### 下载链接：[全部答案，整理好了](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
 
 

@@ -6,7 +6,8 @@
 
 
 
-### 1、线程和进程区别
+### [1、线程和进程区别](https://github.com/souyunku/DevBooks/blob/master/docs/Java/Java高级面试题，中级面试题，大汇总.md#1线程和进程区别)  
+
 
 什么是线程和进程?
 
@@ -35,7 +36,8 @@
 **6、** 执行过程：每个独立的进程有程序运行的入口、顺序执行序列和程序出口。但是线程不能独立执行，必须依存在应用程序中，由应用程序提供多个线程执行控制，两者均可并发执行
 
 
-### 2、老年代与标记复制算法
+### [2、老年代与标记复制算法](https://github.com/souyunku/DevBooks/blob/master/docs/Java/Java高级面试题，中级面试题，大汇总.md#2老年代与标记复制算法)  
+
 
 **而老年代因为每次只回收少量对象，因而采用 Mark-Compact 算法。**
 
@@ -52,7 +54,8 @@
 **6、** 当对象在 Survivor 去躲过一次 GC 后，其年龄就会+1。默认情况下年龄到达 15 的对象会被移到老生代中。
 
 
-### 3、什么是TreeMap
+### [3、什么是TreeMap](https://github.com/souyunku/DevBooks/blob/master/docs/Java/Java高级面试题，中级面试题，大汇总.md#3什么是treemap)  
+
 
 **1、** TreeMap 是一个**有序的key-value集合**，它是通过红黑树实现的。
 
@@ -61,7 +64,8 @@
 **3、** TreeMap是线程**非同步**的。
 
 
-### 4、如何停止一个正在运行的线程？
+### [4、如何停止一个正在运行的线程？](https://github.com/souyunku/DevBooks/blob/master/docs/Java/Java高级面试题，中级面试题，大汇总.md#4如何停止一个正在运行的线程)  
+
 
 在java中有以下3种方法可以终止正在运行的线程：
 
@@ -72,7 +76,8 @@
 **3、** 使用interrupt方法中断线程。
 
 
-### 5、Java 中，编写多线程程序的时候你会遵循哪些最佳实践？
+### [5、Java 中，编写多线程程序的时候你会遵循哪些最佳实践？](https://github.com/souyunku/DevBooks/blob/master/docs/Java/Java高级面试题，中级面试题，大汇总.md#5java-中编写多线程程序的时候你会遵循哪些最佳实践)  
+
 
 这是我在写Java 并发程序的时候遵循的一些最佳实践：
 
@@ -87,19 +92,22 @@
 **5、** 优先使用并发集合，而不是对集合进行同步。并发集合提供更好的可扩展性。
 
 
-### 6、Java语言采用何种编码方案？有何特点？
+### [6、Java语言采用何种编码方案？有何特点？](https://github.com/souyunku/DevBooks/blob/master/docs/Java/Java高级面试题，中级面试题，大汇总.md#6java语言采用何种编码方案有何特点)  
+
 
 Java语言采用Unicode编码标准，Unicode（标准码），它为每个字符制订了一个唯一的数值，因此在任何的语言，平台，程序都可以放心的使用。
 
 
-### 7、Java 中你怎样唤醒一个阻塞的线程？
+### [7、Java 中你怎样唤醒一个阻塞的线程？](https://github.com/souyunku/DevBooks/blob/master/docs/Java/Java高级面试题，中级面试题，大汇总.md#7java-中你怎样唤醒一个阻塞的线程)  
+
 
 首先 ，wait()、notify() 方法是针对对象的，调用任意对象的 wait()方法都将导致线程阻塞，阻塞的同时也将释放该对象的锁，相应地，调用任意对象的 notify()方法则将随机解除该对象阻塞的线程，但它需要重新获取该对象的锁，直到获取成功才能往下执行；
 
 其次，wait、notify 方法必须在 synchronized 块或方法中被调用，并且要保证同步块或方法的锁对象与调用 wait、notify 方法的对象是同一个，如此一来在调用 wait 之前当前线程就已经成功获取某对象的锁，执行 wait 阻塞后当前线程就将之前获取的对象锁释放。
 
 
-### 8、解释内存中的栈(stack)、堆(heap)和方法区(method area)的用法。
+### [8、解释内存中的栈(stack)、堆(heap)和方法区(method area)的用法。](https://github.com/souyunku/DevBooks/blob/master/docs/Java/Java高级面试题，中级面试题，大汇总.md#8解释内存中的栈stack堆heap和方法区method-area的用法。)  
+
 
 
 
@@ -131,12 +139,14 @@ System.out.println(s2.intern() == s2);
 ```
 
 
-### 9、多线程同步有哪几种方法？
+### [9、多线程同步有哪几种方法？](https://github.com/souyunku/DevBooks/blob/master/docs/Java/Java高级面试题，中级面试题，大汇总.md#9多线程同步有哪几种方法)  
+
 
 Synchronized关键字，Lock锁实现，分布式锁等。
 
 
-### 10、什么是自旋
+### [10、什么是自旋](https://github.com/souyunku/DevBooks/blob/master/docs/Java/Java高级面试题，中级面试题，大汇总.md#10什么是自旋)  
+
 
 很多 synchronized 里面的代码只是一些很简单的代码，执行时间非常快，此时等待的线程都加锁可能是一种不太值得的操作，因为线程阻塞涉及到用户态和内核态切换的问题。既然 synchronized 里面的代码执行得非常快，不妨让等待锁的线程不要被阻塞，而是在 synchronized 的边界做忙循环，这就是自旋。如果做了多次循环发现还没有获得锁，再阻塞，这样可能是一种更好的策略。
 
@@ -177,9 +187,9 @@ Synchronized关键字，Lock锁实现，分布式锁等。
 
 
 
-## 全部答案，整理好了，直接下载吧
+## [全部答案，整理好了，直接下载吧](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
-### 下载链接：[全部答案，整理好了](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
+### 下载链接：[全部答案，整理好了](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
 
 

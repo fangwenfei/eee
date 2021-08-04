@@ -6,7 +6,8 @@
 
 
 
-### 1、elasticsearch的倒排索引是什么
+### [1、elasticsearch的倒排索引是什么](https://github.com/souyunku/DevBooks/blob/master/docs/Elasticsearch/Elasticsearch最新2021年面试题，高级面试题及附答案解析.md#1elasticsearch的倒排索引是什么)  
+
 
 `面试官`：想了解你对基础概念的认知。
 
@@ -34,7 +35,8 @@ lucene从4+版本后开始大量使用的数据结构是FST。FST有两个优点
 **2、** 查询速度快。O(len(str))的查询时间复杂度。
 
 
-### 2、Elasticsearch 在部署时，对 Linux 的设置有哪些优化方法
+### [2、Elasticsearch 在部署时，对 Linux 的设置有哪些优化方法](https://github.com/souyunku/DevBooks/blob/master/docs/Elasticsearch/Elasticsearch最新2021年面试题，高级面试题及附答案解析.md#2elasticsearch-在部署时对-linux-的设置有哪些优化方法)  
+
 
 面试官：想了解对 ES 集群的运维能力。
 
@@ -53,7 +55,8 @@ lucene从4+版本后开始大量使用的数据结构是FST。FST有两个优点
 节点存储故障。
 
 
-### 3、详细描述一下Elasticsearch索引文档的过程
+### [3、详细描述一下Elasticsearch索引文档的过程](https://github.com/souyunku/DevBooks/blob/master/docs/Elasticsearch/Elasticsearch最新2021年面试题，高级面试题及附答案解析.md#3详细描述一下elasticsearch索引文档的过程)  
+
 
 `面试官`：想了解ES的底层原理，不再只关注业务层面了。
 
@@ -80,7 +83,8 @@ lucene从4+版本后开始大量使用的数据结构是FST。FST有两个优点
 ```
 
 
-### 4、在并发情况下，Elasticsearch 如果保证读写一致？
+### [4、在并发情况下，Elasticsearch 如果保证读写一致？](https://github.com/souyunku/DevBooks/blob/master/docs/Elasticsearch/Elasticsearch最新2021年面试题，高级面试题及附答案解析.md#4在并发情况下elasticsearch-如果保证读写一致)  
+
 
 **1、** 可以通过版本号使用乐观并发控制，以确保新版本不会被旧版本覆盖，**由应用**
 
@@ -93,26 +97,30 @@ lucene从4+版本后开始大量使用的数据结构是FST。FST有两个优点
 **3、** 对于读操作，可以设置 replication 为 sync(默认)，这使得操作在主分片和副本分片都完成后才会返回；如果设置 replication 为 async 时，也可以通过设置搜索请求参数_preference 为 primary 来查询主分片，确保文档是最新版本。
 
 
-### 5、请解释在 Elasticsearch 集群中添加或创建索引的过程？
+### [5、请解释在 Elasticsearch 集群中添加或创建索引的过程？](https://github.com/souyunku/DevBooks/blob/master/docs/Elasticsearch/Elasticsearch最新2021年面试题，高级面试题及附答案解析.md#5请解释在-elasticsearch-集群中添加或创建索引的过程)  
+
 
 要添加新索引，应使用创建索引 API 选项。创建索引所需的参数是索引的配置Settings，索引中的字段 Mapping 以及索引别名 Alias。
 
 也可以通过模板 Template 创建索引。
 
 
-### 6、安装 Elasticsearch 需要依赖什么组件吗？
+### [6、安装 Elasticsearch 需要依赖什么组件吗？](https://github.com/souyunku/DevBooks/blob/master/docs/Elasticsearch/Elasticsearch最新2021年面试题，高级面试题及附答案解析.md#6安装-elasticsearch-需要依赖什么组件吗)  
+
 
 ES 早期版本需要JDK，在7.X版本后已经集成了 JDK，已无需第三方依赖。
 
 
-### 7、如何使用 Elastic Reporting ？
+### [7、如何使用 Elastic Reporting ？](https://github.com/souyunku/DevBooks/blob/master/docs/Elasticsearch/Elasticsearch最新2021年面试题，高级面试题及附答案解析.md#7如何使用-elastic-reporting-)  
+
 
 收费功能，只是了解，点到为止。
 
 Reporting API有助于将检索结果生成 PD F格式，图像 PNG 格式以及电子表格 CSV 格式的数据，并可根据需要进行共享或保存。
 
 
-### 8、elasticsearch 是如何实现 master 选举的
+### [8、elasticsearch 是如何实现 master 选举的](https://github.com/souyunku/DevBooks/blob/master/docs/Elasticsearch/Elasticsearch最新2021年面试题，高级面试题及附答案解析.md#8elasticsearch-是如何实现-master-选举的)  
+
 
 面试官：想了解 ES 集群的底层原理，不再只关注业务层面了。
 
@@ -150,7 +158,8 @@ name
 ```
 
 
-### 9、在并发情况下，Elasticsearch如果保证读写一致？
+### [9、在并发情况下，Elasticsearch如果保证读写一致？](https://github.com/souyunku/DevBooks/blob/master/docs/Elasticsearch/Elasticsearch最新2021年面试题，高级面试题及附答案解析.md#9在并发情况下elasticsearch如果保证读写一致)  
+
 
 **1、** 可以通过版本号使用乐观并发控制，以确保新版本不会被旧版本覆盖，由应用层来处理具体的冲突；
 
@@ -159,7 +168,8 @@ name
 **3、** 对于读操作，可以设置replication为sync(默认)，这使得操作在主分片和副本分片都完成后才会返回；如果设置replication为async时，也可以通过设置搜索请求参数_preference为primary来查询主分片，确保文档是最新版本。
 
 
-### 10、详细描述一下Elasticsearch更新和删除文档的过程。
+### [10、详细描述一下Elasticsearch更新和删除文档的过程。](https://github.com/souyunku/DevBooks/blob/master/docs/Elasticsearch/Elasticsearch最新2021年面试题，高级面试题及附答案解析.md#10详细描述一下elasticsearch更新和删除文档的过程。)  
+
 
 **1、** 删除和更新也都是写操作，但是Elasticsearch中的文档是不可变的，因此不能被删除或者改动以展示其变更；
 
@@ -188,9 +198,9 @@ name
 
 
 
-## 全部答案，整理好了，直接下载吧
+## [全部答案，整理好了，直接下载吧](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
-### 下载链接：[全部答案，整理好了](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
+### 下载链接：[全部答案，整理好了](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
 
 

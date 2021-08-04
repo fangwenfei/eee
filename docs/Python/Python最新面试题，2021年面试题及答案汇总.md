@@ -6,7 +6,8 @@
 
 
 
-### 1、为什么Python执行速度慢，我们如何改进它？
+### [1、为什么Python执行速度慢，我们如何改进它？](https://github.com/souyunku/DevBooks/blob/master/docs/Python/Python最新面试题，2021年面试题及答案汇总.md#1为什么python执行速度慢我们如何改进它)  
+
 
 Python代码执行缓慢的原因，是因为它是一种解释型语言。它的代码在运行时进行解释，而不是编译为本地语言。
 
@@ -23,7 +24,8 @@ Python代码执行缓慢的原因，是因为它是一种解释型语言。它�
 **5、**  避免不必要的循环
 
 
-### 2、解释Python中的join()和split()函数
+### [2、解释Python中的join()和split()函数](https://github.com/souyunku/DevBooks/blob/master/docs/Python/Python最新面试题，2021年面试题及答案汇总.md#2解释python中的join和split函数)  
+
 
 Join()能让我们将指定字符添加至字符串中。
 
@@ -50,7 +52,8 @@ Split()能让我们用指定字符分割字符串。
 ```
 
 
-### 3、如何判断一个值是方法还是函数？
+### [3、如何判断一个值是方法还是函数？](https://github.com/souyunku/DevBooks/blob/master/docs/Python/Python最新面试题，2021年面试题及答案汇总.md#3如何判断一个值是方法还是函数)  
+
 
 **1、** 使用type()来判断，如果是method为方法，如果是function则是函数。
 
@@ -59,7 +62,8 @@ Split()能让我们用指定字符分割字符串。
 **3、** 与类和实例有绑定关系的function都属于方法
 
 
-### 4、写个函数接收一个文件夹名称作为参数，显示文件夹中文件的路径，以及其中包含的文件夹中文件的如今
+### [4、写个函数接收一个文件夹名称作为参数，显示文件夹中文件的路径，以及其中包含的文件夹中文件的如今](https://github.com/souyunku/DevBooks/blob/master/docs/Python/Python最新面试题，2021年面试题及答案汇总.md#4写个函数接收一个文件夹名称作为参数显示文件夹中文件的路径以及其中包含的文件夹中文件的如今)  
+
 
 ```python
 # 方法一
@@ -86,7 +90,8 @@ Test2(r'C:\Users\felix\Desktop\aaa')
 ```
 
 
-### 5、使用yield实现一个协程
+### [5、使用yield实现一个协程](https://github.com/souyunku/DevBooks/blob/master/docs/Python/Python最新面试题，2021年面试题及答案汇总.md#5使用yield实现一个协程)  
+
 
 ```python
 def consumer():
@@ -113,7 +118,8 @@ produce(c)
 ```
 
 
-### 6、把a='aaabbcccdddde'这种形式的字符串，压缩成a3b2c3d4e1这种形式。
+### [6、把a='aaabbcccdddde'这种形式的字符串，压缩成a3b2c3d4e1这种形式。](https://github.com/souyunku/DevBooks/blob/master/docs/Python/Python最新面试题，2021年面试题及答案汇总.md#6把a='aaabbcccdddde'这种形式的字符串压缩成a3b2c3d4e1这种形式。)  
+
 
 ```python
 a='aaabbcccdddde'
@@ -124,7 +130,8 @@ print(aa)
 ```
 
 
-### 7、什么是反射，以及应用场景
+### [7、什么是反射，以及应用场景](https://github.com/souyunku/DevBooks/blob/master/docs/Python/Python最新面试题，2021年面试题及答案汇总.md#7什么是反射以及应用场景)  
+
 
 [什么是反射的解释](https://www.cnblogs.com/IT-Scavenger/p/9394306.html)
 
@@ -135,14 +142,16 @@ print(aa)
 **3、** 通过hasattr，getattr，delattr，setattr等四个函数来操作
 
 
-### 8、文件操作时，xreadlines和readlines的区别
+### [8、文件操作时，xreadlines和readlines的区别](https://github.com/souyunku/DevBooks/blob/master/docs/Python/Python最新面试题，2021年面试题及答案汇总.md#8文件操作时xreadlines和readlines的区别)  
+
 
 **1、** xreadlines返回的是一个生成器
 
 **2、** readlines返回的是一个列表
 
 
-### 9、Python中append，insert和extend的区别?
+### [9、Python中append，insert和extend的区别?](https://github.com/souyunku/DevBooks/blob/master/docs/Python/Python最新面试题，2021年面试题及答案汇总.md#9python中appendinsert和extend的区别)  
+
 
 append：在列表末尾添加新元素。
 
@@ -170,7 +179,8 @@ numbers.append([4,5])
 ```
 
 
-### 10、简述事务及其特性
+### [10、简述事务及其特性](https://github.com/souyunku/DevBooks/blob/master/docs/Python/Python最新面试题，2021年面试题及答案汇总.md#10简述事务及其特性)  
+
 
 事务是用户定义的一个数据库操作序列，这些操作要么全做要么全不做，是一个不可分割的工作单位
 
@@ -209,9 +219,9 @@ numbers.append([4,5])
 
 
 
-## 全部答案，整理好了，直接下载吧
+## [全部答案，整理好了，直接下载吧](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
-### 下载链接：[全部答案，整理好了](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
+### 下载链接：[全部答案，整理好了](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
 
 

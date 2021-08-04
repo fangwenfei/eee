@@ -6,17 +6,20 @@
 
 
 
-### 1、SQLMapConfig.xml中配置有哪些内容？
+### [1、SQLMapConfig.xml中配置有哪些内容？](https://github.com/souyunku/DevBooks/blob/master/docs/MyBatis/MyBatis最新面试题2021年，常见面试题及答案汇总.md#1sqlmapconfigxml中配置有哪些内容)  
+
 
 properties（属性） settings（配置） typeAliases（类型别名） typeHandlers（类型处理器） objectFactory（对象工厂） plugins（插件） environments（环境集合属性对象） environment（环境子属性对象） transactionManager（事务管理） dataSource（数据源） mappers（映射器）
 
 
-### 2、为什么说Mybatis是半自动ORM映射工具？它与全自动的区别在哪里？
+### [2、为什么说Mybatis是半自动ORM映射工具？它与全自动的区别在哪里？](https://github.com/souyunku/DevBooks/blob/master/docs/MyBatis/MyBatis最新面试题2021年，常见面试题及答案汇总.md#2为什么说mybatis是半自动orm映射工具它与全自动的区别在哪里)  
+
 
 Hibernate属于全自动ORM映射工具，使用Hibernate查询关联对象或者关联集合对象时，可以根据对象关系模型直接获取，所以它是全自动的。而Mybatis在查询关联对象或关联集合对象时，需要手动编写sql来完成，所以，称之为半自动ORM映射工具。
 
 
-### 3、通常一个Xml映射文件，都会写一个Dao接口与之对应
+### [3、通常一个Xml映射文件，都会写一个Dao接口与之对应](https://github.com/souyunku/DevBooks/blob/master/docs/MyBatis/MyBatis最新面试题2021年，常见面试题及答案汇总.md#3通常一个xml映射文件都会写一个dao接口与之对应)  
+
 
 **请问，这个Dao接口的工作原理是什么？Dao接口里的方法，参数不同时，方法能重载吗？**
 
@@ -31,7 +34,8 @@ Mapper接口是没有实现类的，当调用接口方法时，接口全限名+�
 Mapper接口里的方法，是不能重载的，因为是使用 全限名+方法名 的保存和寻找策略。Mapper 接口的工作原理是JDK动态代理，Mybatis运行时会使用JDK动态代理为Mapper接口生成代理对象proxy，代理对象会拦截接口方法，转而执行MapperStatement所代表的sql，然后将sql执行结果返回。
 
 
-### 4、Mybatis 映射文件中，如果 A 标签通过 include 引用了 B 标签的内容，请问，B 标签能
+### [4、Mybatis 映射文件中，如果 A 标签通过 include 引用了 B 标签的内容，请问，B 标签能](https://github.com/souyunku/DevBooks/blob/master/docs/MyBatis/MyBatis最新面试题2021年，常见面试题及答案汇总.md#4mybatis-映射文件中如果-a-标签通过-include-引用了-b-标签的内容请问b-标签能)  
+
 
 否定义在 A 标签的后面，还是说必须定义在 A 标签的前面？
 
@@ -48,14 +52,16 @@ Mapper接口里的方法，是不能重载的，因为是使用 全限名+方法
 以正常解析完成了。
 
 
-### 5、Mybatis的Xml映射文件中，不同的Xml映射文件，id是否可以重复？
+### [5、Mybatis的Xml映射文件中，不同的Xml映射文件，id是否可以重复？](https://github.com/souyunku/DevBooks/blob/master/docs/MyBatis/MyBatis最新面试题2021年，常见面试题及答案汇总.md#5mybatis的xml映射文件中不同的xml映射文件id是否可以重复)  
+
 
 不同的Xml映射文件，如果配置了namespace，那么id可以重复；如果没有配置namespace，那么id不能重复；毕竟namespace不是必须的，只是最佳实践而已。
 
 原因就是namespace+id是作为Map<String, MappedStatement>的key使用的，如果没有namespace，就剩下id，那么，id重复会导致数据互相覆盖。有了namespace，自然id就可以重复，namespace不同，namespace+id自然也就不同。
 
 
-### 6、请说说MyBatis的工作原理
+### [6、请说说MyBatis的工作原理](https://github.com/souyunku/DevBooks/blob/master/docs/MyBatis/MyBatis最新面试题2021年，常见面试题及答案汇总.md#6请说说mybatis的工作原理)  
+
 
 在学习 MyBatis 程序之前，需要了解一下 MyBatis 工作原理，以便于理解程序。MyBatis 的工作原理如下图 ![](https://gitee.com/souyunkutech/souyunku-home/raw/master/images/souyunku-web/2020/5/2/041/14/55_1.png#alt=55%5C_1.png)
 
@@ -76,7 +82,8 @@ Mapper接口里的方法，是不能重载的，因为是使用 全限名+方法
 **8、** 输出结果映射：输出结果类型可以是 Map、 List 等集合类型，也可以是基本数据类型和 POJO 类型。输出结果映射过程类似于 JDBC 对结果集的解析过程。
 
 
-### 7、Mybatis都有哪些Executor执行器？它们之间的区别是什么？
+### [7、Mybatis都有哪些Executor执行器？它们之间的区别是什么？](https://github.com/souyunku/DevBooks/blob/master/docs/MyBatis/MyBatis最新面试题2021年，常见面试题及答案汇总.md#7mybatis都有哪些executor执行器它们之间的区别是什么)  
+
 
 Mybatis有三种基本的Executor执行器，SimpleExecutor、ReuseExecutor、BatchExecutor。
 
@@ -95,7 +102,8 @@ Mybatis有三种基本的Executor执行器，SimpleExecutor、ReuseExecutor、Ba
 作用范围：Executor的这些特点，都严格限制在SqlSession生命周期范围内。
 
 
-### 8、简述 Mybatis 的 Xml 映射文件和 Mybatis 内部数据结构之间的映射关系？
+### [8、简述 Mybatis 的 Xml 映射文件和 Mybatis 内部数据结构之间的映射关系？](https://github.com/souyunku/DevBooks/blob/master/docs/MyBatis/MyBatis最新面试题2021年，常见面试题及答案汇总.md#8简述-mybatis-的-xml-映射文件和-mybatis-内部数据结构之间的映射关系)  
+
 
 Mybatis 将所有 Xml 配置信息都封装到 All-In-One 重量级对象 Configuration 内部。在
 
@@ -108,7 +116,8 @@ Xml 映射文件中，标签会被解析为 ParameterMap 对象，其每个子�
 均会被解析为 MappedStatement 对象，标签内的 sql 会被解析为 BoundSql 对象。
 
 
-### 9、Mybatis动态sql是做什么的？都有哪些动态sql？
+### [9、Mybatis动态sql是做什么的？都有哪些动态sql？](https://github.com/souyunku/DevBooks/blob/master/docs/MyBatis/MyBatis最新面试题2021年，常见面试题及答案汇总.md#9mybatis动态sql是做什么的都有哪些动态sql)  
+
 
 **能简述一下动态sql的执行原理吗？**
 
@@ -117,7 +126,8 @@ Mybatis动态sql可以让我们在Xml映射文件内，以标签的形式编写�
 其执行原理为，使用OGNL从sql参数对象中计算表达式的值，根据表达式的值动态拼接sql，以此来完成动态sql的功能。
 
 
-### 10、MyBatis与hibernate有哪些不同？
+### [10、MyBatis与hibernate有哪些不同？](https://github.com/souyunku/DevBooks/blob/master/docs/MyBatis/MyBatis最新面试题2021年，常见面试题及答案汇总.md#10mybatis与hibernate有哪些不同)  
+
 
 **1、** Mybatis MyBatis 是支持定制化 SQL、存储过程以及高级映射的一种持久层框架。MyBatis 避免了几乎所有的 JDBC 代码和手动设置参数以及获取结果集。Mybatis它不完全是一个ORM(对象关系映射)框架；它需要程序员自己编写部分SQL语句。 mybatis可以通过xml或者注解的方式灵活的配置要运行的SQL语句，并将java对象和SQL语句映射生成最终的执行的SQL，最后将SQL执行的结果在映射生成java对象。 Mybatis程序员可以直接的编写原生态的SQL语句，可以控制SQL执行性能，灵活度高，适合软件需求变换频繁的企业。 缺点：Mybatis无法做到数据库无关性，如果需要实现支持多种数据库的软件，则需要自定义多套SQL映射文件，工作量大。
 
@@ -142,9 +152,9 @@ Mybatis动态sql可以让我们在Xml映射文件内，以标签的形式编写�
 
 
 
-## 全部答案，整理好了，直接下载吧
+## [全部答案，整理好了，直接下载吧](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
-### 下载链接：[全部答案，整理好了](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
+### 下载链接：[全部答案，整理好了](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
 
 

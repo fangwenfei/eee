@@ -6,7 +6,8 @@
 
 
 
-### 1、MySQL中DATETIME和TIMESTAMP的区别
+### [1、MySQL中DATETIME和TIMESTAMP的区别](https://github.com/souyunku/DevBooks/blob/master/docs/MySQL/MySQL最新面试题及答案整理，汇总版.md#1mysql中datetime和timestamp的区别)  
+
 
 存储精度都为秒
 
@@ -21,7 +22,8 @@
 **4、** DATETIME 的默认值为 null；TIMESTAMP 的字段默认不为空(not null)，默认值为当前时间(CURRENT_TIMESTAMP)
 
 
-### 2、简单描述MySQL中，索引，主键，唯一索引，联合索引的区别，对数据库的性能有什么影响（从读写两方面）
+### [2、简单描述MySQL中，索引，主键，唯一索引，联合索引的区别，对数据库的性能有什么影响（从读写两方面）](https://github.com/souyunku/DevBooks/blob/master/docs/MySQL/MySQL最新面试题及答案整理，汇总版.md#2简单描述mysql中索引主键唯一索引联合索引的区别对数据库的性能有什么影响从读写两方面)  
+
 
 索引是一种特殊的文件(InnoDB数据表上的索引是表空间的一个组成部分)，它们包含着对数据表里所有记录的引用指针。
 
@@ -36,7 +38,8 @@
 索引可以极大的提高数据的查询速度，但是会降低插入、删除、更新表的速度，因为在执行这些写操作时，还要操作索引文件。
 
 
-### 3、什么是SQL？
+### [3、什么是SQL？](https://github.com/souyunku/DevBooks/blob/master/docs/MySQL/MySQL最新面试题及答案整理，汇总版.md#3什么是sql)  
+
 
 结构化查询语言(Structured Query Language)简称SQL，是一种数据库查询语言。
 
@@ -45,7 +48,8 @@
 用于存取数据、查询、更新和管理关系数据库系统。
 
 
-### 4、MyISAM表格将在哪里存储，并且还提供其存储格式？
+### [4、MyISAM表格将在哪里存储，并且还提供其存储格式？](https://github.com/souyunku/DevBooks/blob/master/docs/MySQL/MySQL最新面试题及答案整理，汇总版.md#4myisam表格将在哪里存储并且还提供其存储格式)  
+
 
 **每个MyISAM表格以三种格式存储在磁盘上：**
 
@@ -56,7 +60,8 @@
 **3、** 索引文件具有“.MYI”（MYIndex）扩展名
 
 
-### 5、MySQL支持事务吗？
+### [5、MySQL支持事务吗？](https://github.com/souyunku/DevBooks/blob/master/docs/MySQL/MySQL最新面试题及答案整理，汇总版.md#5mysql支持事务吗)  
+
 
 在缺省模式下，MySQL是autocommit模式的，所有的数据库更新操作都会即时提交，所以在缺省情况下，MySQL是不支持事务的。
 
@@ -65,7 +70,8 @@
 AUTOCOMMIT=0就可以使MySQL允许在非autocommit模式，在非autocommit模式下，你必须使用COMMIT来提交你的更改，或者用ROLLBACK来回滚你的更改。
 
 
-### 6、从锁的类别角度讲，MySQL都有哪些锁呢？
+### [6、从锁的类别角度讲，MySQL都有哪些锁呢？](https://github.com/souyunku/DevBooks/blob/master/docs/MySQL/MySQL最新面试题及答案整理，汇总版.md#6从锁的类别角度讲mysql都有哪些锁呢)  
+
 
 **从锁的类别上来讲，有共享锁和排他锁**
 
@@ -78,7 +84,8 @@ AUTOCOMMIT=0就可以使MySQL允许在非autocommit模式，在非autocommit模�
 ![](https://user-gold-cdn.xitu.io/2020/5/23/172412db1d202759?w=1045&h=229&f=png&s=68561#alt=)
 
 
-### 7、MVCC熟悉吗，它的底层原理？
+### [7、MVCC熟悉吗，它的底层原理？](https://github.com/souyunku/DevBooks/blob/master/docs/MySQL/MySQL最新面试题及答案整理，汇总版.md#7mvcc熟悉吗它的底层原理)  
+
 
 MVCC,多版本并发控制,它是通过读取历史版本的数据，来降低并发事务冲突，从而提高并发性能的一种机制。
 
@@ -93,7 +100,8 @@ MVCC,多版本并发控制,它是通过读取历史版本的数据，来降低�
 **4、** read view
 
 
-### 8、存储时期
+### [8、存储时期](https://github.com/souyunku/DevBooks/blob/master/docs/MySQL/MySQL最新面试题及答案整理，汇总版.md#8存储时期)  
+
 
 **1、** `Datatime:以 YYYY-MM-DD HH:MM:SS` 格式存储时期时间，精确到秒，占用8个字节得存储空间，datatime类型与时区无关
 
@@ -108,12 +116,14 @@ MVCC,多版本并发控制,它是通过读取历史版本的数据，来降低�
 **6、** 使用int存储日期时间不如使用timestamp类型
 
 
-### 9、什么是MySQL?
+### [9、什么是MySQL?](https://github.com/souyunku/DevBooks/blob/master/docs/MySQL/MySQL最新面试题及答案整理，汇总版.md#9什么是mysql)  
+
 
 MySQL是一个关系型数据库管理系统，由瑞典MySQL AB 公司开发，属于 Oracle 旗下产品。MySQL 是最流行的关系型数据库管理系统之一，在 WEB 应用方面，MySQL是最好的 RDBMS (Relational Database Management System，关系数据库管理系统) 应用软件之一。在Java企业级开发中非常常用，因为 MySQL 是开源免费的，并且方便扩展。
 
 
-### 10、MySQL的复制原理以及流程
+### [10、MySQL的复制原理以及流程](https://github.com/souyunku/DevBooks/blob/master/docs/MySQL/MySQL最新面试题及答案整理，汇总版.md#10mysql的复制原理以及流程)  
+
 
 「主从复制原理，简言之，就三步曲，如下：」
 
@@ -160,9 +170,9 @@ MySQL是一个关系型数据库管理系统，由瑞典MySQL AB 公司开发，
 
 
 
-## 全部答案，整理好了，直接下载吧
+## [全部答案，整理好了，直接下载吧](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
-### 下载链接：[全部答案，整理好了](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
+### 下载链接：[全部答案，整理好了](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
 
 

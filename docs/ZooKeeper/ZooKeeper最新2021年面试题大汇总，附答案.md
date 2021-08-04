@@ -6,7 +6,8 @@
 
 
 
-### 1、Stat记录了哪些版本相关数据？
+### [1、Stat记录了哪些版本相关数据？](https://github.com/souyunku/DevBooks/blob/master/docs/ZooKeeper/ZooKeeper最新2021年面试题大汇总，附答案.md#1stat记录了哪些版本相关数据)  
+
 
 version:当前ZNode版本
 
@@ -15,7 +16,8 @@ cversion:当前ZNode子节点版本
 aversion:当前ZNode的ACL版本
 
 
-### 2、BASE理论？
+### [2、BASE理论？](https://github.com/souyunku/DevBooks/blob/master/docs/ZooKeeper/ZooKeeper最新2021年面试题大汇总，附答案.md#2base理论)  
+
 
 **1、** Basically Available(基本可用)、Soft state(软状态) 和 Eventuanlly consistent （最终一致性）3个短语的简写。
 
@@ -26,7 +28,8 @@ aversion:当前ZNode的ACL版本
 **4、** 最终一致性：系统中所有数据副本，在一段时间的同步后，最终数据能够到一致性的状态。
 
 
-### 3、Zookeeper Watcher 机制 – 数据变更通知
+### [3、Zookeeper Watcher 机制 – 数据变更通知](https://github.com/souyunku/DevBooks/blob/master/docs/ZooKeeper/ZooKeeper最新2021年面试题大汇总，附答案.md#3zookeeper-watcher-机制-–-数据变更通知)  
+
 
 Zookeeper 允许客户端向服务端的某个 Znode 注册一个 Watcher 监听，当服务端的一些指定事件触发了这个 Watcher，服务端会向指定客户端发送一个事件通知来实现分布式的通知功能，然后客户端根据 Watcher 通知状态和事件类型做出业务上的改变。
 
@@ -39,17 +42,20 @@ Zookeeper 允许客户端向服务端的某个 Znode 注册一个 Watcher 监听
 **3、** 客户端回调 watcher
 
 
-### 4、如何识别请求的先后顺序？
+### [4、如何识别请求的先后顺序？](https://github.com/souyunku/DevBooks/blob/master/docs/ZooKeeper/ZooKeeper最新2021年面试题大汇总，附答案.md#4如何识别请求的先后顺序)  
+
 
 ZooKeeper会给每个更新请求，分配一个全局唯一的递增编号（zxid)，编号的大小体现事务操作的先后顺序。
 
 
-### 5、zk的命名服务（文件系统）
+### [5、zk的命名服务（文件系统）](https://github.com/souyunku/DevBooks/blob/master/docs/ZooKeeper/ZooKeeper最新2021年面试题大汇总，附答案.md#5zk的命名服务文件系统)  
+
 
 命名服务是指通过指定的名字来获取资源或者服务的地址，利用zk创建一个全局的路径，即是唯一的路径，这个路径就可以作为一个名字，指向集群中的集群，提供的服务的地址，或者一个远程的对象等等。
 
 
-### 6、如何查看子节点？
+### [6、如何查看子节点？](https://github.com/souyunku/DevBooks/blob/master/docs/ZooKeeper/ZooKeeper最新2021年面试题大汇总，附答案.md#6如何查看子节点)  
+
 
 ls path [watch]
 
@@ -60,12 +66,14 @@ path : 节点路径
 [book]
 
 
-### 7、chubby是什么，和zookeeper比你怎么看？
+### [7、chubby是什么，和zookeeper比你怎么看？](https://github.com/souyunku/DevBooks/blob/master/docs/ZooKeeper/ZooKeeper最新2021年面试题大汇总，附答案.md#7chubby是什么和zookeeper比你怎么看)  
+
 
 chubby是google的，完全实现paxos算法，不开源。zookeeper是chubby的开源实现，使用zab协议，paxos算法的变种。
 
 
-### 8、ZooKeeper 面试题？
+### [8、ZooKeeper 面试题？](https://github.com/souyunku/DevBooks/blob/master/docs/ZooKeeper/ZooKeeper最新2021年面试题大汇总，附答案.md#8zookeeper-面试题)  
+
 
 ZooKeeper是一个开放源码的分布式协调服务，它是集群的管理者，监视着集群中各个节点的状态根据节点提交的反馈进行下一步合理操作。最终，将简单易用的接口和性能高效、功能稳定的系统提供给用户。
 
@@ -88,7 +96,8 @@ ZooKeeper是一个开放源码的分布式协调服务，它是集群的管理�
 有序性是zookeeper中非常重要的一个特性，所有的更新都是全局有序的，每个更新都有一个唯一的时间戳，这个时间戳称为zxid（Zookeeper Transaction Id）。而读请求只会相对于更新有序，也就是读请求的返回结果中会带有这个zookeeper最新的zxid。
 
 
-### 9、Zookeeper 有哪几种几种部署模式？
+### [9、Zookeeper 有哪几种几种部署模式？](https://github.com/souyunku/DevBooks/blob/master/docs/ZooKeeper/ZooKeeper最新2021年面试题大汇总，附答案.md#9zookeeper-有哪几种几种部署模式)  
+
 
 **Zookeeper 有三种部署模式**：
 
@@ -99,7 +108,8 @@ ZooKeeper是一个开放源码的分布式协调服务，它是集群的管理�
 **3、** 伪集群部署：一台集群启动多个 Zookeeper 实例运行。
 
 
-### 10、服务端处理Watcher实现
+### [10、服务端处理Watcher实现](https://github.com/souyunku/DevBooks/blob/master/docs/ZooKeeper/ZooKeeper最新2021年面试题大汇总，附答案.md#10服务端处理watcher实现)  
+
 
 **1、** 服务端接收Watcher并存储
 
@@ -150,9 +160,9 @@ ZooKeeper是一个开放源码的分布式协调服务，它是集群的管理�
 
 
 
-## 全部答案，整理好了，直接下载吧
+## [全部答案，整理好了，直接下载吧](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
-### 下载链接：[全部答案，整理好了](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
+### 下载链接：[全部答案，整理好了](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
 
 

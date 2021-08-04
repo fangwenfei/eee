@@ -6,7 +6,8 @@
 
 
 
-### 1、Zookeeper 下 Server工作状态
+### [1、Zookeeper 下 Server工作状态](https://github.com/souyunku/DevBooks/blob/master/docs/ZooKeeper/ZooKeeper最新面试题2021年，常见面试题及答案汇总.md#1zookeeper-下-server工作状态)  
+
 
 每个Server在工作过程中有三种状态：
 
@@ -17,7 +18,8 @@ LEADING：当前Server即为选举出来的leader
 FOLLOWING：leader已经选举出来，当前Server与之同步
 
 
-### 2、ZooKeeper定义了几种权限？
+### [2、ZooKeeper定义了几种权限？](https://github.com/souyunku/DevBooks/blob/master/docs/ZooKeeper/ZooKeeper最新面试题2021年，常见面试题及答案汇总.md#2zookeeper定义了几种权限)  
+
 
 **1、** CREATE
 
@@ -30,16 +32,19 @@ FOLLOWING：leader已经选举出来，当前Server与之同步
 **5、** ADMIN
 
 
-### 3、ZooKeeper用推/拉模式？
+### [3、ZooKeeper用推/拉模式？](https://github.com/souyunku/DevBooks/blob/master/docs/ZooKeeper/ZooKeeper最新面试题2021年，常见面试题及答案汇总.md#3zookeeper用推/拉模式)  
+
 
 推拉结合
 
 
-### 4、客户端如何获取配置信息？
+### [4、客户端如何获取配置信息？](https://github.com/souyunku/DevBooks/blob/master/docs/ZooKeeper/ZooKeeper最新面试题2021年，常见面试题及答案汇总.md#4客户端如何获取配置信息)  
+
 
 启动时主动到服务端拉取信息，同时，在制定节点注册Watcher监听。一旦有配置变化，服务端就会实时通知订阅它的所有客户端。
 
-### 5、会话管理
+### [5、会话管理](https://github.com/souyunku/DevBooks/blob/master/docs/ZooKeeper/ZooKeeper最新面试题2021年，常见面试题及答案汇总.md#5会话管理)  
+
 
 分桶策略：将类似的会话放在同一区块中进行管理，以便于 Zookeeper 对会话进行不同区块的隔离处理以及同一区块的统一处理。
 
@@ -56,7 +61,8 @@ ExpirationInterval , ExpirationInterval 是指 Zookeeper 会话超时检查时�
 ```
 
 
-### 6、四种类型的数据节点 Znode
+### [6、四种类型的数据节点 Znode](https://github.com/souyunku/DevBooks/blob/master/docs/ZooKeeper/ZooKeeper最新面试题2021年，常见面试题及答案汇总.md#6四种类型的数据节点-znode)  
+
 
 **1、** PERSISTENT-持久节点 除非手动删除，否则节点一直存在于 Zookeeper 上
 
@@ -67,7 +73,8 @@ ExpirationInterval , ExpirationInterval 是指 Zookeeper 会话超时检查时�
 **4、** EPHEMERAL_SEQUENTIAL-临时顺序节点 基本特性同临时节点，增加了顺序属性，节点名后边会追加一个由父节点维护的自增整型数字。
 
 
-### 7、zookeeper是如何保证事务的顺序一致性的？
+### [7、zookeeper是如何保证事务的顺序一致性的？](https://github.com/souyunku/DevBooks/blob/master/docs/ZooKeeper/ZooKeeper最新面试题2021年，常见面试题及答案汇总.md#7zookeeper是如何保证事务的顺序一致性的)  
+
 
 zookeeper采用了递增的事务Id来标识，所有的proposal（提议）都在被提出的时候加上了zxid，zxid实际上是一个64位的数字，高32位是epoch（时期; 纪元; 世; 新时代）用来标识leader是否发生改变，如果有新的leader产生出来，epoch会自增，低32位用来递增计数。当新产生proposal的时候，会依据数据库的两阶段过程，首先会向其他的server发出事务执行请求，如果超过半数的机器都能执行并且能够成功，那么就会开始执行。
 
@@ -83,7 +90,8 @@ tips: e' = Max((CEPOCH(F.p)) + 1
 Follower收到消息后，如果自己值小于e',则同步e'的值，同时向Leader发Ack消息。
 
 
-### 9、客户端注册Watcher实现
+### [9、客户端注册Watcher实现](https://github.com/souyunku/DevBooks/blob/master/docs/ZooKeeper/ZooKeeper最新面试题2021年，常见面试题及答案汇总.md#9客户端注册watcher实现)  
+
 
 **1、** 调用getData()/getChildren()/exist()三个API，传入Watcher对象
 
@@ -96,7 +104,8 @@ Follower收到消息后，如果自己值小于e',则同步e'的值，同时向L
 **5、** 请求返回，完成注册。
 
 
-### 10、Zookeeper文件系统
+### [10、Zookeeper文件系统](https://github.com/souyunku/DevBooks/blob/master/docs/ZooKeeper/ZooKeeper最新面试题2021年，常见面试题及答案汇总.md#10zookeeper文件系统)  
+
 
 Zookeeper提供一个多层级的节点命名空间（节点称为znode）。与文件系统不同的是，这些节点都可以设置关联的数据，而文件系统中只有文件节点可以存放数据而目录节点不行。Zookeeper为了保证高吞吐和低延迟，在内存中维护了这个树状的目录结构，这种特性使得Zookeeper不能用于存放大量的数据，每个节点的存放数据上限为1M。
 
@@ -125,9 +134,9 @@ Zookeeper提供一个多层级的节点命名空间（节点称为znode）。与
 
 
 
-## 全部答案，整理好了，直接下载吧
+## [全部答案，整理好了，直接下载吧](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
-### 下载链接：[全部答案，整理好了](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
+### 下载链接：[全部答案，整理好了](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
 
 

@@ -6,14 +6,16 @@
 
 
 
-### 1、Spring Cloud 是什么
+### [1、Spring Cloud 是什么](https://github.com/souyunku/DevBooks/blob/master/docs/Spring/Spring最新面试题2021年，常见面试题及答案汇总.md#1spring-cloud-是什么)  
+
 
 **1、** Spring Cloud是一系列框架的有序集合。它利用SpringBoot的开发便利性巧妙地简化了分布式系统基础设施的开发，如服务发现注册、配置中心、智能路由、消息总线、负载均衡、断路器、数据监控等，都可以用SpringBoot的开发风格做到一键启动和部署。
 
 **2、** Spring Cloud并没有重复制造轮子，它只是将各家公司开发的比较成熟、经得起实际考验的服务框架组合起来，通过SpringBoot风格进行再封装屏蔽掉了复杂的配置和实现原理，最终给开发者留出了一套简单易懂、易部署和易维护的分布式系统开发工具包。
 
 
-### 2、微服务限流 http限流：我们使⽤nginx的limitzone来完成：
+### [2、微服务限流 http限流：我们使⽤nginx的limitzone来完成：](https://github.com/souyunku/DevBooks/blob/master/docs/Spring/Spring最新面试题2021年，常见面试题及答案汇总.md#2微服务限流-http限流：我们使⽤nginx的limitzone来完成：)  
+
 
 ```
 //这个表示使⽤ip进⾏限流 zone名称为req_one 分配了10m 空间使⽤漏桶算法 每秒钟允许1个请求
@@ -22,7 +24,8 @@ limit_req zone=req_three burst=20;
 ```
 
 
-### 3、微服务架构如何运作？
+### [3、微服务架构如何运作？](https://github.com/souyunku/DevBooks/blob/master/docs/Spring/Spring最新面试题2021年，常见面试题及答案汇总.md#3微服务架构如何运作)  
+
 
 微服务架构具有以下组件：
 
@@ -47,19 +50,22 @@ API网关 – 处理客户端请求。
 远程服务 – 启用驻留在IT设备网络上的远程访问信息。
 
 
-### 4、REST 和RPC对比
+### [4、REST 和RPC对比](https://github.com/souyunku/DevBooks/blob/master/docs/Spring/Spring最新面试题2021年，常见面试题及答案汇总.md#4rest-和rpc对比)  
+
 
 **1、** RPC主要的缺陷是服务提供方和调用方式之间的依赖太强，需要对每一个微服务进行接口的定义，并通过持续继承发布，严格版本控制才不会出现冲突。
 
 **2、** REST是轻量级的接口，服务的提供和调用不存在代码之间的耦合，只需要一个约定进行规范。
 
 
-### 5、解释基于XML Schema方式的切面实现。
+### [5、解释基于XML Schema方式的切面实现。](https://github.com/souyunku/DevBooks/blob/master/docs/Spring/Spring最新面试题2021年，常见面试题及答案汇总.md#5解释基于xml-schema方式的切面实现。)  
+
 
 在这种情况下，切面由常规类以及基于XML的配置实现。
 
 
-### 6、区分构造函数注入和 setter 注入。
+### [6、区分构造函数注入和 setter 注入。](https://github.com/souyunku/DevBooks/blob/master/docs/Spring/Spring最新面试题2021年，常见面试题及答案汇总.md#6区分构造函数注入和-setter-注入。)  
+
 | 构造函数注入 | setter 注入 |
 | --- | --- |
 | 没有部分注入 | 有部分注入 |
@@ -69,7 +75,8 @@ API网关 – 处理客户端请求。
 
 
 
-### 7、SpringBoot 实现热部署有哪几种方式？
+### [7、SpringBoot 实现热部署有哪几种方式？](https://github.com/souyunku/DevBooks/blob/master/docs/Spring/Spring最新面试题2021年，常见面试题及答案汇总.md#7springboot-实现热部署有哪几种方式)  
+
 
 主要有两种方式：
 
@@ -78,17 +85,20 @@ API网关 – 处理客户端请求。
 **2、** Spring-boot-devtools
 
 
-### 8、什么是代理?
+### [8、什么是代理?](https://github.com/souyunku/DevBooks/blob/master/docs/Spring/Spring最新面试题2021年，常见面试题及答案汇总.md#8什么是代理)  
+
 
 代理是通知目标对象后创建的对象。从客户端的角度看，代理对象和目标对象是一样的。
 
 
-### 9、SpringBoot支持什么前端模板，
+### [9、SpringBoot支持什么前端模板，](https://github.com/souyunku/DevBooks/blob/master/docs/Spring/Spring最新面试题2021年，常见面试题及答案汇总.md#9springboot支持什么前端模板)  
+
 
 thymeleaf，freemarker，jsp，官方不推荐JSP会有限制
 
 
-### 10、什么是客户证书？
+### [10、什么是客户证书？](https://github.com/souyunku/DevBooks/blob/master/docs/Spring/Spring最新面试题2021年，常见面试题及答案汇总.md#10什么是客户证书)  
+
 
 客户端系统用于向远程服务器发出经过身份验证的请求的一种数字证书称为客户端证书。客户端证书在许多相互认证设计中起着非常重要的作用，为请求者的身份提供了强有力的保证。
 
@@ -118,9 +128,9 @@ thymeleaf，freemarker，jsp，官方不推荐JSP会有限制
 
 
 
-## 全部答案，整理好了，直接下载吧
+## [全部答案，整理好了，直接下载吧](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
-### 下载链接：[全部答案，整理好了](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
+### 下载链接：[全部答案，整理好了](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
 
 

@@ -6,14 +6,16 @@
 
 
 
-### 1、漏桶流算法和令牌桶算法知道，漏桶算法#
+### [1、漏桶流算法和令牌桶算法知道，漏桶算法#](https://github.com/souyunku/DevBooks/blob/master/docs/Nginx/Nginx最新2021年面试题附答案解析，大汇总.md#1漏桶流算法和令牌桶算法知道漏桶算法#)  
+
 
 漏桶算法是网络世界中流量整形或速率限制时经常使用的一种算法，它的主要目的是控制数据注入到网络的速率，平滑网络上的突发流量。漏桶算法提供了一种机制，通过它，突发流量可以被整形以便为网络提供一个稳定的流量。也就是我们刚才所讲的情况。漏桶算法提供的机制实际上就是刚才的案例：**突发流量会进入到一个漏桶，漏桶会按照我们定义的速率依次处理请求，如果水流过大也就是突发流量过大就会直接溢出，则多余的请求会被拒绝。所以漏桶算法能控制数据的传输速率。**
 
 ![56_1.png][56_1.png]
 
 
-### 2、限制并发连接数
+### [2、限制并发连接数](https://github.com/souyunku/DevBooks/blob/master/docs/Nginx/Nginx最新2021年面试题附答案解析，大汇总.md#2限制并发连接数)  
+
 
 Nginx中的ngx_http_limit_conn_module模块提供了限制并发连接数的功能，可以使用limit_conn_zone指令以及limit_conn执行进行配置。接下来我们可以通过一个简单的例子来看下：
 
@@ -38,7 +40,8 @@ Nginx中的ngx_http_limit_conn_module模块提供了限制并发连接数的功�
 上面配置了单个IP同时并发连接数最多只能10个连接，并且设置了整个虚拟服务器同时最大并发数最多只能100个链接。当然，只有当请求的header被服务器处理后，虚拟服务器的连接数才会计数。刚才有提到过Nginx是基于漏桶算法原理实现的，实际上限流一般都是基于漏桶算法和令牌桶算法实现的。接下来我们来看看两个算法的介绍：
 
 
-### 3、fastcgi 与 cgi 的区别？
+### [3、fastcgi 与 cgi 的区别？](https://github.com/souyunku/DevBooks/blob/master/docs/Nginx/Nginx最新2021年面试题附答案解析，大汇总.md#3fastcgi-与-cgi-的区别)  
+
 
 **cgi**
 
@@ -53,14 +56,16 @@ web 服务器收到一个请求时，他不会重新 fork 一个进程（因为�
 综上，差别在于是否重复 fork 进程，处理请求。
 
 
-### 4、请解释一下什么是 Nginx?
+### [4、请解释一下什么是 Nginx?](https://github.com/souyunku/DevBooks/blob/master/docs/Nginx/Nginx最新2021年面试题附答案解析，大汇总.md#4请解释一下什么是-nginx)  
+
 
 Nginx 是一个 web 服务器和反向代理服务器，用于 HTTP、HTTPS、SMTP、POP3
 
 和 IMAP 协议。
 
 
-### 5、Nginx目录结构有哪些？
+### [5、Nginx目录结构有哪些？](https://github.com/souyunku/DevBooks/blob/master/docs/Nginx/Nginx最新2021年面试题附答案解析，大汇总.md#5nginx目录结构有哪些)  
+
 
 ```
 [root@localhost ~]# tree /usr/local/nginx
@@ -98,7 +103,8 @@ Nginx 是一个 web 服务器和反向代理服务器，用于 HTTP、HTTPS、SM
 ```
 
 
-### 6、请解释你如何通过不同于 80 的端口开启 Nginx?
+### [6、请解释你如何通过不同于 80 的端口开启 Nginx?](https://github.com/souyunku/DevBooks/blob/master/docs/Nginx/Nginx最新2021年面试题附答案解析，大汇总.md#6请解释你如何通过不同于-80-的端口开启-nginx)  
+
 
 为了通过一个不同的端口开启 Nginx，你必须进入/etc/Nginx/sites
 
@@ -109,7 +115,8 @@ enabled/，如果这是默认文件，那么你必须打开名为“default”�
 Like server { listen 81; }
 
 
-### 7、解释如何在 Nginx 中获得当前的时间?
+### [7、解释如何在 Nginx 中获得当前的时间?](https://github.com/souyunku/DevBooks/blob/master/docs/Nginx/Nginx最新2021年面试题附答案解析，大汇总.md#7解释如何在-nginx-中获得当前的时间)  
+
 
 要获得 Nginx 的当前时间，必须使用 SSI 模块、$$date_gmt 和$$date_local 的变
 
@@ -118,12 +125,14 @@ Like server { listen 81; }
 Proxy_set_header THE-TIME $date_gmt;
 
 
-### 8、使用“反向代理服务器的优点是什么?
+### [8、使用“反向代理服务器的优点是什么?](https://github.com/souyunku/DevBooks/blob/master/docs/Nginx/Nginx最新2021年面试题附答案解析，大汇总.md#8使用“反向代理服务器的优点是什么)  
+
 
 反向代理服务器可以隐藏源服务器的存在和特征。它充当互联网云和web服务器之间的中间层。这对于安全方面来说是很好的，特别是当您使用web托管服务时。
 
 
-### 9、请解释 Nginx 如何处理 HTTP 请求？
+### [9、请解释 Nginx 如何处理 HTTP 请求？](https://github.com/souyunku/DevBooks/blob/master/docs/Nginx/Nginx最新2021年面试题附答案解析，大汇总.md#9请解释-nginx-如何处理-http-请求)  
+
 
 **1、** 首先，Nginx 在启动时，会解析配置文件，得到需要监听的端口与 IP 地址，然后在 Nginx 的 Master 进程里面先初始化好这个监控的Socket(创建 S ocket，设置 addr、reuse 等选项，绑定到指定的 ip 地址端口，再 listen 监听)。
 
@@ -134,7 +143,8 @@ Proxy_set_header THE-TIME $date_gmt;
 **4、** 接着，设置读写事件处理函数，并添加读写事件来与客户端进行数据的交换。
 
 
-### 10、fair(第三方插件)
+### [10、fair(第三方插件)](https://github.com/souyunku/DevBooks/blob/master/docs/Nginx/Nginx最新2021年面试题附答案解析，大汇总.md#10fair第三方插件)  
+
 
 必须安装upstream_fair模块。
 
@@ -175,9 +185,9 @@ upstream backserver {
 
 
 
-## 全部答案，整理好了，直接下载吧
+## [全部答案，整理好了，直接下载吧](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
-### 下载链接：[全部答案，整理好了](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
+### 下载链接：[全部答案，整理好了](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
 
 

@@ -6,7 +6,8 @@
 
 
 
-### 1、elasticsearch 读取数据
+### [1、elasticsearch 读取数据](https://github.com/souyunku/DevBooks/blob/master/docs/Elasticsearch/Elasticsearch最新2021年面试题大汇总，附答案.md#1elasticsearch-读取数据)  
+
 
 使用RestFul API向对应的node发送查询请求，根据did来判断在哪个shard上，返回的是primary和replica的node节点集合
 
@@ -15,26 +16,30 @@
 ![](https://image-static.segmentfault.com/277/237/2772379432-5e5b563f9a221_articlex#alt=3cI6RP.png)
 
 
-### 2、您能解释一下X-Pack for Elasticsearch的功能和重要性吗？
+### [2、您能解释一下X-Pack for Elasticsearch的功能和重要性吗？](https://github.com/souyunku/DevBooks/blob/master/docs/Elasticsearch/Elasticsearch最新2021年面试题大汇总，附答案.md#2您能解释一下x-pack-for-elasticsearch的功能和重要性吗)  
+
 
 X-Pack 是与Elasticsearch一起安装的扩展程序。
 
 X-Pack的各种功能包括安全性（基于角色的访问，特权/权限，角色和用户安全性），监视，报告，警报等。
 
 
-### 3、Elasticsearch 中的节点（比如共 20 个），其中的 10 个选了一个master，另外 10 个选了另一个 master，怎么办？
+### [3、Elasticsearch 中的节点（比如共 20 个），其中的 10 个选了一个master，另外 10 个选了另一个 master，怎么办？](https://github.com/souyunku/DevBooks/blob/master/docs/Elasticsearch/Elasticsearch最新2021年面试题大汇总，附答案.md#3elasticsearch-中的节点比如共-20-个其中的-10-个选了一个master另外-10-个选了另一个-master怎么办)  
+
 
 **1、** 当集群 master 候选数量不小于 3 个时，可以通过设置最少投票通过数量（discovery.zen.minimum_master_nodes）超过所有候选节点一半以上来解决脑裂问题；
 
 **2、** 当候选数量为两个时，只能修改为唯一的一个 master 候选，其他作为 data节点，避免脑裂问题。
 
 
-### 4、解释一下 Elasticsearch集群中的 索引的概念 ？
+### [4、解释一下 Elasticsearch集群中的 索引的概念 ？](https://github.com/souyunku/DevBooks/blob/master/docs/Elasticsearch/Elasticsearch最新2021年面试题大汇总，附答案.md#4解释一下-elasticsearch集群中的-索引的概念-)  
+
 
 Elasticsearch 集群可以包含多个索引，与关系数据库相比，它们相当于数据库表
 
 
-### 5、你可以列出 Elasticsearch 各种类型的分析器吗？
+### [5、你可以列出 Elasticsearch 各种类型的分析器吗？](https://github.com/souyunku/DevBooks/blob/master/docs/Elasticsearch/Elasticsearch最新2021年面试题大汇总，附答案.md#5你可以列出-elasticsearch-各种类型的分析器吗)  
+
 
 Elasticsearch Analyzer 的类型为内置分析器和自定义分析器。
 
@@ -85,7 +90,8 @@ PUT my_custom_index
 “analyzer”:{}——对应分词器组成部分，其中会包含：1. 2. 3。
 
 
-### 6、解释一下 Elasticsearch Node？
+### [6、解释一下 Elasticsearch Node？](https://github.com/souyunku/DevBooks/blob/master/docs/Elasticsearch/Elasticsearch最新2021年面试题大汇总，附答案.md#6解释一下-elasticsearch-node)  
+
 
 节点是 Elasticsearch 的实例。实际业务中，我们会说：ES集群包含3个节点、7个节点。
 
@@ -108,14 +114,16 @@ PUT my_custom_index
 用于在索引之前对文档进行预处理。
 
 
-### 7、在安装Elasticsearch时，请说明不同的软件包及其重要性？
+### [7、在安装Elasticsearch时，请说明不同的软件包及其重要性？](https://github.com/souyunku/DevBooks/blob/master/docs/Elasticsearch/Elasticsearch最新2021年面试题大汇总，附答案.md#7在安装elasticsearch时请说明不同的软件包及其重要性)  
+
 
 这个貌似没什么好说的，去官方文档下载对应操作系统安装包即可。
 
 部分功能是收费的，如机器学习、高级别 kerberos 认证安全等选型要知悉。
 
 
-### 8、Elasticsearch在部署时，对Linux的设置有哪些优化方法
+### [8、Elasticsearch在部署时，对Linux的设置有哪些优化方法](https://github.com/souyunku/DevBooks/blob/master/docs/Elasticsearch/Elasticsearch最新2021年面试题大汇总，附答案.md#8elasticsearch在部署时对linux的设置有哪些优化方法)  
+
 
 `面试官`：想了解对ES集群的运维能力。
 
@@ -130,7 +138,8 @@ PUT my_custom_index
 **5、** 磁盘存储raid方式——存储有条件使用RAID10，增加单节点性能以及避免单节点存储故障。
 
 
-### 9、请解释有关 Elasticsearch的 NRT？
+### [9、请解释有关 Elasticsearch的 NRT？](https://github.com/souyunku/DevBooks/blob/master/docs/Elasticsearch/Elasticsearch最新2021年面试题大汇总，附答案.md#9请解释有关-elasticsearch的-nrt)  
+
 
 从文档索引（写入）到可搜索到之间的延迟默认一秒钟，因此Elasticsearch是近实时（NRT）搜索平台。
 
@@ -139,7 +148,8 @@ PUT my_custom_index
 写入调优的时候，我们通常会动态调整：refresh_interval = 30s 或者更达值，以使得写入数据更晚一点时间被搜索到。
 
 
-### 10、elasticsearch 的 document设计
+### [10、elasticsearch 的 document设计](https://github.com/souyunku/DevBooks/blob/master/docs/Elasticsearch/Elasticsearch最新2021年面试题大汇总，附答案.md#10elasticsearch-的-document设计)  
+
 
 在使用es时 避免使用复杂的查询语句（Join 、聚合），就是在建立索引时，
 
@@ -166,9 +176,9 @@ PUT my_custom_index
 
 
 
-## 全部答案，整理好了，直接下载吧
+## [全部答案，整理好了，直接下载吧](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
-### 下载链接：[全部答案，整理好了](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
+### 下载链接：[全部答案，整理好了](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
 
 

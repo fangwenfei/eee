@@ -6,7 +6,8 @@
 
 
 
-### 1、我们可以在 Elasticsearch 中执行搜索的各种可能方式有哪些？
+### [1、我们可以在 Elasticsearch 中执行搜索的各种可能方式有哪些？](https://github.com/souyunku/DevBooks/blob/master/docs/Elasticsearch/Elasticsearch最新面试题2021年，常见面试题及答案汇总.md#1我们可以在-elasticsearch-中执行搜索的各种可能方式有哪些)  
+
 
 核心方式如下：
 
@@ -44,7 +45,8 @@ POST /_sql?format=txt
 功能还不完备，不推荐使用。
 
 
-### 2、ElasticSearch对于大数据量（上亿量级）的聚合如何实现？
+### [2、ElasticSearch对于大数据量（上亿量级）的聚合如何实现？](https://github.com/souyunku/DevBooks/blob/master/docs/Elasticsearch/Elasticsearch最新面试题2021年，常见面试题及答案汇总.md#2elasticsearch对于大数据量上亿量级的聚合如何实现)  
+
 
 ElasticSearch提供的首个近似聚合是cardinality度量。它提供一个字段的基数，即该字段的distinct或者unique值的数目。它是基于HLL算法的。HLL会先对我们的输入做哈希运算，然后根据哈希运算结果中的bits做概率估算从而得到基数。其特点是：
 
@@ -53,7 +55,8 @@ ElasticSearch提供的首个近似聚合是cardinality度量。它提供一个�
 图片
 
 
-### 3、详细描述一下 Elasticsearch 索引文档的过程
+### [3、详细描述一下 Elasticsearch 索引文档的过程](https://github.com/souyunku/DevBooks/blob/master/docs/Elasticsearch/Elasticsearch最新面试题2021年，常见面试题及答案汇总.md#3详细描述一下-elasticsearch-索引文档的过程)  
+
 
 面试官：想了解 ES 的底层原理，不再只关注业务层面了。
 
@@ -78,19 +81,22 @@ ElasticSearch提供的首个近似聚合是cardinality度量。它提供一个�
 ```
 
 
-### 4、elasticsearch 数据预热
+### [4、elasticsearch 数据预热](https://github.com/souyunku/DevBooks/blob/master/docs/Elasticsearch/Elasticsearch最新面试题2021年，常见面试题及答案汇总.md#4elasticsearch-数据预热)  
+
 
 数据预热是指，每隔一段时间，将热数据
 
 手动在后台查询一遍，将热数据刷新到fileSystem cache上
 
 
-### 5、如何使用 Elasticsearch Tokenizer？
+### [5、如何使用 Elasticsearch Tokenizer？](https://github.com/souyunku/DevBooks/blob/master/docs/Elasticsearch/Elasticsearch最新面试题2021年，常见面试题及答案汇总.md#5如何使用-elasticsearch-tokenizer)  
+
 
 Tokenizer 接收字符流（如果包含了字符过滤，则接收过滤后的字符流；否则，接收原始字符流），将其分词。同时记录分词后的顺序或位置(position)，以及开始值（start_offset）和偏移值(end_offset-start_offset)。
 
 
-### 6、elasticsearch 数据的写入原理
+### [6、elasticsearch 数据的写入原理](https://github.com/souyunku/DevBooks/blob/master/docs/Elasticsearch/Elasticsearch最新面试题2021年，常见面试题及答案汇总.md#6elasticsearch-数据的写入原理)  
+
 
 es数据写入原理主要可以分为4个操作：
 
@@ -118,7 +124,8 @@ es数据写入原理主要可以分为4个操作：
 ![](https://image-static.segmentfault.com/284/854/2848546943-5e5b563ad0f06_articlex#alt=3chLse.png)
 
 
-### 7、你是如何做 ElasticSearch 写入调优的？
+### [7、你是如何做 ElasticSearch 写入调优的？](https://github.com/souyunku/DevBooks/blob/master/docs/Elasticsearch/Elasticsearch最新面试题2021年，常见面试题及答案汇总.md#7你是如何做-elasticsearch-写入调优的)  
+
 
 1）写入前副本数设置为0；
 
@@ -131,7 +138,8 @@ es数据写入原理主要可以分为4个操作：
 5） 尽量使用自动生成的id。
 
 
-### 8、Elasticsearch是如何实现Master选举的？
+### [8、Elasticsearch是如何实现Master选举的？](https://github.com/souyunku/DevBooks/blob/master/docs/Elasticsearch/Elasticsearch最新面试题2021年，常见面试题及答案汇总.md#8elasticsearch是如何实现master选举的)  
+
 
 **1、** Elasticsearch的选主是ZenDiscovery模块负责的，主要包含Ping（节点之间通过这个RPC来发现彼此）和Unicast（单播模块包含一个主机列表以控制哪些节点需要ping通）这两部分；
 
@@ -142,12 +150,14 @@ es数据写入原理主要可以分为4个操作：
 **4、** 补充：master节点的职责主要包括集群、节点和索引的管理，不负责文档级别的管理；data节点可以关闭http功能*。
 
 
-### 9、ElasticSearch主分片数量可以在后期更改吗？为什么？
+### [9、ElasticSearch主分片数量可以在后期更改吗？为什么？](https://github.com/souyunku/DevBooks/blob/master/docs/Elasticsearch/Elasticsearch最新面试题2021年，常见面试题及答案汇总.md#9elasticsearch主分片数量可以在后期更改吗为什么)  
+
 
 不可以，因为根据路由算法shard = hash(document_id) % (num_of_primary_shards)，当主分片数量变化时会影响数据被路由到哪个分片上。
 
 
-### 10、如何监控 Elasticsearch 集群状态？
+### [10、如何监控 Elasticsearch 集群状态？](https://github.com/souyunku/DevBooks/blob/master/docs/Elasticsearch/Elasticsearch最新面试题2021年，常见面试题及答案汇总.md#10如何监控-elasticsearch-集群状态)  
+
 
 Marvel 让你可以很简单的通过 Kibana 监控 Elasticsearch。你可以实时查看你的集群健康状态和性能，也可以分析过去的集群、索引和节点指标。
 
@@ -171,9 +181,9 @@ Marvel 让你可以很简单的通过 Kibana 监控 Elasticsearch。你可以实
 
 
 
-## 全部答案，整理好了，直接下载吧
+## [全部答案，整理好了，直接下载吧](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
-### 下载链接：[全部答案，整理好了](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
+### 下载链接：[全部答案，整理好了](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
 
 

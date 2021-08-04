@@ -6,7 +6,8 @@
 
 
 
-### 1、并行和并发有什么区别？
+### [1、并行和并发有什么区别？](https://github.com/souyunku/DevBooks/blob/master/docs/Java/Java高级面试题整理及答案.md#1并行和并发有什么区别)  
+
 
 **1、** 并发：多个任务在同一个 CPU 核上，按细分的时间片轮流(交替)执行，从逻辑上来看那些任务是同时执行。
 
@@ -23,19 +24,22 @@
 **3、** 串行 = 俩个人排队使用一台电脑。
 
 
-### 2、Hibernate中SessionFactory是线程安全的吗？Session是线程安全的吗（两个线程能够共享同一个Session吗）？
+### [2、Hibernate中SessionFactory是线程安全的吗？Session是线程安全的吗（两个线程能够共享同一个Session吗）？](https://github.com/souyunku/DevBooks/blob/master/docs/Java/Java高级面试题整理及答案.md#2hibernate中sessionfactory是线程安全的吗session是线程安全的吗两个线程能够共享同一个session吗)  
+
 
 SessionFactory对应Hibernate的一个数据存储的概念，它是线程安全的，可以被多个线程并发访问。SessionFactory一般只会在启动的时候构建。对于应用程序，最好将SessionFactory通过单例模式进行封装以便于访问。Session是一个轻量级非线程安全的对象（线程间不能共享session），它表示与数据库进行交互的一个工作单元。Session是由SessionFactory创建的，在任务完成之后它会被关闭。Session是持久层服务对外提供的主要接口。Session会延迟获取数据库连接（也就是在需要的时候才会获取）。为了避免创建太多的session，可以使用ThreadLocal将session和当前线程绑定在一起，这样可以让同一个线程获得的总是同一个session。Hibernate 3中SessionFactory的getCurrentSession()方法就可以做到。
 
 
-### 3、Java会存在内存泄漏吗？请简单描述。
+### [3、Java会存在内存泄漏吗？请简单描述。](https://github.com/souyunku/DevBooks/blob/master/docs/Java/Java高级面试题整理及答案.md#3java会存在内存泄漏吗请简单描述。)  
+
 
 内存泄漏是指不再被使用的对象或者变量一直被占据在内存中。理论上来说，Java是有GC垃圾回收机制的，也就是说，不再被使用的对象，会被GC自动回收掉，自动从内存中清除
 
 但是，即使这样，Java也还是存在着内存泄漏的情况，java导致内存泄露的原因很明确：长生命周期的对象持有短生命周期对象的引用就很可能发生内存泄露，尽管短生命周期对象已经不再需要，但是因为长生命周期对象持有它的引用而导致不能被回收，这就是java中内存泄露的发生场景。
 
 
-### 4、生产环境服务器变慢，如何诊断处理？
+### [4、生产环境服务器变慢，如何诊断处理？](https://github.com/souyunku/DevBooks/blob/master/docs/Java/Java高级面试题整理及答案.md#4生产环境服务器变慢如何诊断处理)  
+
 
 **1、** 使用 top 指令，服务器中 CPU 和 内存的使用情况，-H 可以按 CPU 使用率降序，-M 内存使用率降序。排除其他进程占用过高的硬件资源，对 Java 服务造成影响。
 
@@ -46,7 +50,8 @@ SessionFactory对应Hibernate的一个数据存储的概念，它是线程安全
 **4、** 如果 CPU 和 内存使用率都很正常，那就需要进一步开启 GC 日志，分析用户线程暂停的时间、各部分内存区域 GC 次数和时间等指标，可以借助 jstat 或可视化工具 GCeasy 等，如果问题出在 GC 上面的话，考虑是否是内存不够、根据垃圾对象的特点进行参数调优、使用更适合的垃圾收集器；分析 jstack 出来的各个线程状态。如果问题实在比较隐蔽，考虑是否可以开启 jmx，使用 visualmv 等可视化工具远程监控与分析。
 
 
-### 5、你是如何理解fiber的?
+### [5、你是如何理解fiber的?](https://github.com/souyunku/DevBooks/blob/master/docs/Java/Java高级面试题整理及答案.md#5你是如何理解fiber的)  
+
 
 React Fiber 是一种基于浏览器的**单线程调度算法**.
 
@@ -58,7 +63,8 @@ React 16之前 ，`reconcilation` 算法实际上是递归，想要中断递归�
 
 
 
-### 6、HashMap的扩容操作是怎么实现的？
+### [6、HashMap的扩容操作是怎么实现的？](https://github.com/souyunku/DevBooks/blob/master/docs/Java/Java高级面试题整理及答案.md#6hashmap的扩容操作是怎么实现的)  
+
 
 **1、** 在jdk1.8中，resize方法是在hashmap中的键值对大于阀值时或者初始化时，就调用resize方法进行扩容；
 
@@ -167,12 +173,14 @@ final Node < K, V > [] resize() {
 ```
 
 
-### 7、解释如何使用WAR文件部署web应用程序?
+### [7、解释如何使用WAR文件部署web应用程序?](https://github.com/souyunku/DevBooks/blob/master/docs/Java/Java高级面试题整理及答案.md#7解释如何使用war文件部署web应用程序)  
+
 
 在Tomcat的web应用程序目录下，jsp、servlet和它们的支持文件被放置在适当的子目录中。你可以将web应用程序目录下的所有文件压缩到一个压缩文件中，以.war文件扩展名结束。你可以通过在webapps目录中放置WAR文件来执行web应用程序。当一个web服务器开始执行时，它会将WAR文件的内容提取到适当的webapps子目录中。
 
 
-### 8、常用的并发工具类有哪些？
+### [8、常用的并发工具类有哪些？](https://github.com/souyunku/DevBooks/blob/master/docs/Java/Java高级面试题整理及答案.md#8常用的并发工具类有哪些)  
+
 
 **1、** CountDownLatch
 
@@ -183,12 +191,14 @@ final Node < K, V > [] resize() {
 **4、** Exchanger
 
 
-### 9、你能保证 GC 执行吗？
+### [9、你能保证 GC 执行吗？](https://github.com/souyunku/DevBooks/blob/master/docs/Java/Java高级面试题整理及答案.md#9你能保证-gc-执行吗)  
+
 
 不能，虽然你可以调用 System.gc() 或者 Runtime.gc()，但是没有办法保证 GC 的执行。
 
 
-### 10、哪些集合类是线程安全的？
+### [10、哪些集合类是线程安全的？](https://github.com/souyunku/DevBooks/blob/master/docs/Java/Java高级面试题整理及答案.md#10哪些集合类是线程安全的)  
+
 
 **1、** Vector：就比Arraylist多了个 synchronized （线程安全），因为效率较低，现在已经不太建议使用。
 
@@ -231,9 +241,9 @@ final Node < K, V > [] resize() {
 
 
 
-## 全部答案，整理好了，直接下载吧
+## [全部答案，整理好了，直接下载吧](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
-### 下载链接：[全部答案，整理好了](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
+### 下载链接：[全部答案，整理好了](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
 
 

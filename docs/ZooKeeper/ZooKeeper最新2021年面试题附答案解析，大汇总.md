@@ -6,7 +6,8 @@
 
 
 
-### 1、ZAB和Paxos算法的联系与区别？
+### [1、ZAB和Paxos算法的联系与区别？](https://github.com/souyunku/DevBooks/blob/master/docs/ZooKeeper/ZooKeeper最新2021年面试题附答案解析，大汇总.md#1zab和paxos算法的联系与区别)  
+
 
 **相同点：**
 
@@ -21,27 +22,32 @@
 ZAB用来构建高可用的分布式数据主备系统（Zookeeper），Paxos是用来构建分布式一致性状态机系统。
 
 
-### 2、什么是ZooKeeper?
+### [2、什么是ZooKeeper?](https://github.com/souyunku/DevBooks/blob/master/docs/ZooKeeper/ZooKeeper最新2021年面试题附答案解析，大汇总.md#2什么是zookeeper)  
+
 
 ZooKeeper是一个开源分布式协同服务系统，Zookeeper的设计目标是将那些复杂容易出错的分布式一致性服务封装起来，构成一个高效可用的原语集，并提供一系列简单接口给用户使用。
 
 
-### 3、ZooKeeper的数据模型？
+### [3、ZooKeeper的数据模型？](https://github.com/souyunku/DevBooks/blob/master/docs/ZooKeeper/ZooKeeper最新2021年面试题附答案解析，大汇总.md#3zookeeper的数据模型)  
+
 
 共享的、树形结构，由一系列的 ZNode数据节点组成，类似文件系统(目录不能存数据）。ZNode存有数据信息，如版本号等等。ZNode之间的层级关系，像文件系统中的目录结构一样。并且它是将数据存在内存中，这样可以提高吞吐、减少延迟。
 
 
-### 4、集群最少要几台机器，集群规则是怎样的？集群中有 3 台服务器，其中一个节点宕机，这个时候 Zookeeper 还可以使用吗？
+### [4、集群最少要几台机器，集群规则是怎样的？集群中有 3 台服务器，其中一个节点宕机，这个时候 Zookeeper 还可以使用吗？](https://github.com/souyunku/DevBooks/blob/master/docs/ZooKeeper/ZooKeeper最新2021年面试题附答案解析，大汇总.md#4集群最少要几台机器集群规则是怎样的集群中有-3-台服务器其中一个节点宕机这个时候-zookeeper-还可以使用吗)  
+
 
 集群规则为 2N+1 台，N>0，即 3 台。可以继续使用，单数服务器只要没超过一半的服务器宕机就可以继续使用。
 
 
-### 5、数据发布/订阅？
+### [5、数据发布/订阅？](https://github.com/souyunku/DevBooks/blob/master/docs/ZooKeeper/ZooKeeper最新2021年面试题附答案解析，大汇总.md#5数据发布/订阅)  
+
 
 发布者将数据发布到ZooKeeper上一个或多个节点上，订阅者从中订阅数据，从而动态获取数据的目的，实现配置信息的集中式管理和数据动态更新。
 
 
-### 6、ACL权限控制机制
+### [6、ACL权限控制机制](https://github.com/souyunku/DevBooks/blob/master/docs/ZooKeeper/ZooKeeper最新2021年面试题附答案解析，大汇总.md#6acl权限控制机制)  
+
 
 UGO（User/Group/Others）
 
@@ -78,12 +84,14 @@ ACL（Access Control List）访问控制列表
 **5、** ADMIN：数据节点管理权限，允许授权对象对该数据节点进行ACL相关设置操作
 
 
-### 7、说几个zookeeper常用的命令。
+### [7、说几个zookeeper常用的命令。](https://github.com/souyunku/DevBooks/blob/master/docs/ZooKeeper/ZooKeeper最新2021年面试题附答案解析，大汇总.md#7说几个zookeeper常用的命令。)  
+
 
 常用命令：ls get set create delete等。
 
 
-### 8、ZAB 和 Paxos 算法的联系与区别？
+### [8、ZAB 和 Paxos 算法的联系与区别？](https://github.com/souyunku/DevBooks/blob/master/docs/ZooKeeper/ZooKeeper最新2021年面试题附答案解析，大汇总.md#8zab-和-paxos-算法的联系与区别)  
+
 
 **相同点：**
 
@@ -98,7 +106,8 @@ ACL（Access Control List）访问控制列表
 ZAB 用来构建高可用的分布式数据主备系统（Zookeeper），Paxos 是用来构建分布式一致性状态机系统。
 
 
-### 9、ZooKeeper 是什么？
+### [9、ZooKeeper 是什么？](https://github.com/souyunku/DevBooks/blob/master/docs/ZooKeeper/ZooKeeper最新2021年面试题附答案解析，大汇总.md#9zookeeper-是什么)  
+
 
 **1、** ZooKeeper 是一个开源的分布式协调服务。它是一个为分布式应用提供一致性服务的软件，分布式应用程序可以基于 Zookeeper 实现诸如数据发布/订阅、负载均衡、命名服务、分布式协调/通知、集群管理、Master 选举、分布式锁和分布式队列等功能。
 
@@ -121,7 +130,8 @@ ZAB 用来构建高可用的分布式数据主备系统（Zookeeper），Paxos �
 有序性是 zookeeper 中非常重要的一个特性，所有的更新都是全局有序的，每个更新都有一个唯一的时间戳，这个时间戳称为 zxid（Zookeeper Transaction Id）。而读请求只会相对于更新有序，也就是读请求的返回结果中会带有这个zookeeper 最新的 zxid。
 
 
-### 10、集群支持动态添加机器吗？
+### [10、集群支持动态添加机器吗？](https://github.com/souyunku/DevBooks/blob/master/docs/ZooKeeper/ZooKeeper最新2021年面试题附答案解析，大汇总.md#10集群支持动态添加机器吗)  
+
 
 其实就是水平扩容了，Zookeeper在这方面不太好。两种方式：
 
@@ -156,9 +166,9 @@ ZAB 用来构建高可用的分布式数据主备系统（Zookeeper），Paxos �
 
 
 
-## 全部答案，整理好了，直接下载吧
+## [全部答案，整理好了，直接下载吧](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
-### 下载链接：[全部答案，整理好了](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
+### 下载链接：[全部答案，整理好了](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
 
 

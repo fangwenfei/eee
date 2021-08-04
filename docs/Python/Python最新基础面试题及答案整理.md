@@ -6,7 +6,8 @@
 
 
 
-### 1、使用python将数据库的student表中的数据写入db.txt
+### [1、使用python将数据库的student表中的数据写入db.txt](https://github.com/souyunku/DevBooks/blob/master/docs/Python/Python最新基础面试题及答案整理.md#1使用python将数据库的student表中的数据写入dbtxt)  
+
 
 ```python
 import pyMySQL
@@ -33,7 +34,8 @@ connect.close()
 ```
 
 
-### 2、了解过Hbase，DB2，SQLServer，Access吗
+### [2、了解过Hbase，DB2，SQLServer，Access吗](https://github.com/souyunku/DevBooks/blob/master/docs/Python/Python最新基础面试题及答案整理.md#2了解过hbasedb2sqlserveraccess吗)  
+
 
 **1、** Hbase：HBase是一个分布式的、面向列的开源数据库
 
@@ -44,14 +46,16 @@ connect.close()
 **4、** Sccess：Access是由微软发布的关系数据库管理系统。
 
 
-### 3、解释一下Python中的继承？
+### [3、解释一下Python中的继承？](https://github.com/souyunku/DevBooks/blob/master/docs/Python/Python最新基础面试题及答案整理.md#3解释一下python中的继承)  
+
 
 继承(inheritance)允许一个类获取另一个类的所有成员和属性。继承提供代码可重用性，可以更轻松地创建和维护应用程序。
 
 被继承的类称为超类，而继承的类称为派生类/子类。
 
 
-### 4、什么是并发和并行
+### [4、什么是并发和并行](https://github.com/souyunku/DevBooks/blob/master/docs/Python/Python最新基础面试题及答案整理.md#4什么是并发和并行)  
+
 
 **1、** 并发:指应用能够交替执行不同的任务,其实并发有点类似于多线程的原理,多线程并非是同时执行多个任务,如果你开两个线程执行,就是在你几乎不可能察觉到的速度不断去切换这两个任务,已达到"同时执行效果",其实并不是的,只是计算机的速度太快,我们无法察觉到而已.
 
@@ -60,7 +64,8 @@ connect.close()
 **3、** 并发是多个事件在同一时间段执行，并行是多个事件在统一时间点执行。
 
 
-### 5、json序列化时可以处理的数据类型有哪些？如何定制支持datetime类型？序列化时，遇到中文转成unicode，如何保持中文形式？
+### [5、json序列化时可以处理的数据类型有哪些？如何定制支持datetime类型？序列化时，遇到中文转成unicode，如何保持中文形式？](https://github.com/souyunku/DevBooks/blob/master/docs/Python/Python最新基础面试题及答案整理.md#5json序列化时可以处理的数据类型有哪些如何定制支持datetime类型序列化时遇到中文转成unicode如何保持中文形式)  
+
 
 **1、** 可以处理的数据类型是 string、int、list、tuple、dict、bool、null
 
@@ -84,12 +89,14 @@ print(json.dumps(d,cls=ComplexEncoder))
 **3、** 使用ensure_ascii=False参数
 
 
-### 6、二叉树是非线性结构，栈和队列以及线性表都是线性结构，对吗？
+### [6、二叉树是非线性结构，栈和队列以及线性表都是线性结构，对吗？](https://github.com/souyunku/DevBooks/blob/master/docs/Python/Python最新基础面试题及答案整理.md#6二叉树是非线性结构栈和队列以及线性表都是线性结构对吗)  
+
 
 对的
 
 
-### 7、如何以就地操作方式打乱一个列表的元素？
+### [7、如何以就地操作方式打乱一个列表的元素？](https://github.com/souyunku/DevBooks/blob/master/docs/Python/Python最新基础面试题及答案整理.md#7如何以就地操作方式打乱一个列表的元素)  
+
 
 为了达到这个目的，我们从random模块中导入shuffle()函数。
 
@@ -106,7 +113,8 @@ print(json.dumps(d,cls=ComplexEncoder))
 ```
 
 
-### 8、对列表[3,1,-4,-2]按照绝对值排序
+### [8、对列表[3,1,-4,-2]按照绝对值排序](https://github.com/souyunku/DevBooks/blob/master/docs/Python/Python最新基础面试题及答案整理.md#8对列表[3,1,-4,-2]按照绝对值排序)  
+
 
 ```python
 lis=[3,1,-4,-2]
@@ -115,7 +123,8 @@ print(lis)
 ```
 
 
-### 9、Python中的字典是什么？
+### [9、Python中的字典是什么？](https://github.com/souyunku/DevBooks/blob/master/docs/Python/Python最新基础面试题及答案整理.md#9python中的字典是什么)  
+
 
 字典是C++和Java等编程语言中所没有的东西，它具有键值对。
 
@@ -146,7 +155,8 @@ print(lis)
 ```
 
 
-### 10、类和对象有什么区别？
+### [10、类和对象有什么区别？](https://github.com/souyunku/DevBooks/blob/master/docs/Python/Python最新基础面试题及答案整理.md#10类和对象有什么区别)  
+
 
 类(Class)被视为对象的蓝图。类中的第一行字符串称为doc字符串，包含该类的简短描述。
 
@@ -198,9 +208,9 @@ Hello
 
 
 
-## 全部答案，整理好了，直接下载吧
+## [全部答案，整理好了，直接下载吧](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
-### 下载链接：[全部答案，整理好了](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
+### 下载链接：[全部答案，整理好了](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
 
 

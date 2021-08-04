@@ -6,7 +6,8 @@
 
 
 
-### 1、break、continue、pass是什么？
+### [1、break、continue、pass是什么？](https://github.com/souyunku/DevBooks/blob/master/docs/Python/Python最新2021年面试题附答案解析，大汇总.md#1breakcontinuepass是什么)  
+
 
 break：在满足条件时，它将导致程序退出循环。
 
@@ -15,7 +16,8 @@ continue：将返回到循环的开头，它使程序在当前循环迭代中的
 pass：使程序传递所有剩余语句而不执行。
 
 
-### 2、ascii、Unicode、utf-8、gbk的区别
+### [2、ascii、Unicode、utf-8、gbk的区别](https://github.com/souyunku/DevBooks/blob/master/docs/Python/Python最新2021年面试题附答案解析，大汇总.md#2asciiunicodeutf-8gbk的区别)  
+
 
 **1、** ascii 是最早美国用的标准信息交换码，把所有的字母的大小写，各种符号用 二进制来表示，共有256中，加入些拉丁文等字符，1bytes代表一个字符
 
@@ -26,7 +28,8 @@ pass：使程序传递所有剩余语句而不执行。
 **4、** gbk  是中文的字符编码，用2个字节代表一个字符
 
 
-### 3、如何在Python中管理内存？
+### [3、如何在Python中管理内存？](https://github.com/souyunku/DevBooks/blob/master/docs/Python/Python最新2021年面试题附答案解析，大汇总.md#3如何在python中管理内存)  
+
 
 Python内存由Python的私有headspace管理。
 
@@ -35,12 +38,14 @@ Python内存由Python的私有headspace管理。
 Python还内置了一个的垃圾收集器，可以回收未使用的内存并释放内存，使其可用于headspace。
 
 
-### 4、Python中的Map Function是什么？
+### [4、Python中的Map Function是什么？](https://github.com/souyunku/DevBooks/blob/master/docs/Python/Python最新2021年面试题附答案解析，大汇总.md#4python中的map-function是什么)  
+
 
 map函数在对可迭代对象的每一项应用特定函数后，会返回map对象。
 
 
-### 5、如何保证Redis中的数据都是热点数据
+### [5、如何保证Redis中的数据都是热点数据](https://github.com/souyunku/DevBooks/blob/master/docs/Python/Python最新2021年面试题附答案解析，大汇总.md#5如何保证redis中的数据都是热点数据)  
+
 
 **1、** Redis 内存数据集大小上升到一定大小的时候，就会施行数据淘汰策略。Redis 提供 6种数据淘汰策略：
 
@@ -57,14 +62,16 @@ map函数在对可迭代对象的每一项应用特定函数后，会返回map�
 **7、** no-enviction（驱逐）：禁止驱逐数据
 
 
-### 6、当退出Python时，是否释放全部内存？
+### [6、当退出Python时，是否释放全部内存？](https://github.com/souyunku/DevBooks/blob/master/docs/Python/Python最新2021年面试题附答案解析，大汇总.md#6当退出python时是否释放全部内存)  
+
 
 答案是No。循环引用其它对象或引用自全局命名空间的对象的模块，在Python退出时并非完全释放。
 
 另外，也不会释放C库保留的内存部分。
 
 
-### 7、select、poll、epoll模型的区别
+### [7、select、poll、epoll模型的区别](https://github.com/souyunku/DevBooks/blob/master/docs/Python/Python最新2021年面试题附答案解析，大汇总.md#7selectpollepoll模型的区别)  
+
 
 **1、** 支持一个进程所能打开的最大连接数
 
@@ -87,14 +94,16 @@ select和poll内核需要将消息传递到用户空间，都需要内核拷贝�
 epoll通过内核和用户空间共享一块内存来实现
 
 
-### 8、什么是C/S和B/S架构
+### [8、什么是C/S和B/S架构](https://github.com/souyunku/DevBooks/blob/master/docs/Python/Python最新2021年面试题附答案解析，大汇总.md#8什么是c/s和b/s架构)  
+
 
 **1、** C/S 架构是一种典型的两层架构，其全称是Client/Server，即客户端服务器端架构，其客户端包含一个或多个在用户的电脑上运行的程序，而服务器端有两种，一种是数据库服务器端，客户端通过数据库连接访问服务器端的数据；另一种是Socket服务器端，服务器端的程序通过Socket与客户端的程序通信。
 
 **2、** B/S架构的全称为Browser/Server，即浏览器/服务器结构。Browser指的是Web浏览器，极少数事务逻辑在前端实现，但主要事务逻辑在服务器端实现，Browser客户端，WebApp服务器端和DB端构成所谓的三层架构。B/S架构的系统无须特别安装，只有Web浏览器即可。
 
 
-### 9、列举Redis支持的过期策略
+### [9、列举Redis支持的过期策略](https://github.com/souyunku/DevBooks/blob/master/docs/Python/Python最新2021年面试题附答案解析，大汇总.md#9列举redis支持的过期策略)  
+
 
 **定时删除**
 
@@ -109,7 +118,8 @@ key过期的时候不删除，每次从数据库获取key的时候去检查是�
 每隔一段时间执行一次删除(在Redis.conf配置文件设置hz，1s刷新的频率)过期key操作
 
 
-### 10、输入某年某月某日，判断这是这一年的第几天？
+### [10、输入某年某月某日，判断这是这一年的第几天？](https://github.com/souyunku/DevBooks/blob/master/docs/Python/Python最新2021年面试题附答案解析，大汇总.md#10输入某年某月某日判断这是这一年的第几天)  
+
 
 ```python
 date=input('请输入某年某月某日，格式：xxxx.xx.xx')
@@ -150,9 +160,9 @@ print(get_day(date))
 
 
 
-## 全部答案，整理好了，直接下载吧
+## [全部答案，整理好了，直接下载吧](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
-### 下载链接：[全部答案，整理好了](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
+### 下载链接：[全部答案，整理好了](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
 
 

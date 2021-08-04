@@ -6,7 +6,8 @@
 
 
 
-### 1、文件描述符?每个描述符的含义?
+### [1、文件描述符?每个描述符的含义?](https://github.com/souyunku/DevBooks/blob/master/docs/Linux/Linux最新2021年面试题及答案，汇总版.md#1文件描述符每个描述符的含义)  
+
 
 ```
 [root@iz2ze76ybn73dvwmdij06zz xiaoka]# ls -l
@@ -51,7 +52,8 @@
 **3、** 系统其他用户
 
 
-### 2、什么是环境变量？
+### [2、什么是环境变量？](https://github.com/souyunku/DevBooks/blob/master/docs/Linux/Linux最新2021年面试题及答案，汇总版.md#2什么是环境变量)  
+
 
 bash shell用一个叫作环境变量(environment variable)的特性来存储有关shell会话和工作环境的信息。这项特性允许你在内存中存储数据，以便程序或shell中运行的脚本能够轻松访问到它们。这也是存储持久数据的一种简便方法。
 
@@ -60,7 +62,8 @@ bash shell用一个叫作环境变量(environment variable)的特性来存储有
 全局变量：对于 shell会话和所有生成的子shell都是可见的。 局部变量： 只对创建他们的shell可见。
 
 
-### 3、账户默认信息？添加账户？删除用户？
+### [3、账户默认信息？添加账户？删除用户？](https://github.com/souyunku/DevBooks/blob/master/docs/Linux/Linux最新2021年面试题及答案，汇总版.md#3账户默认信息添加账户删除用户)  
+
 
 ```
 [root@iz2ze76ybn73dvwmdij06zz ~]# useradd -D//查看系统默认创建用户信息
@@ -76,7 +79,8 @@ CREATE_MAIL_SPOOL=yes
 ```
 
 
-### 4、lvs/nginx/haproxy优缺点
+### [4、lvs/nginx/haproxy优缺点](https://github.com/souyunku/DevBooks/blob/master/docs/Linux/Linux最新2021年面试题及答案，汇总版.md#4lvs/nginx/haproxy优缺点)  
+
 
 **Nginx的优点是：**
 
@@ -183,7 +187,8 @@ LVS的缺点是：
 **9、** rdp-cookie(name)，表示根据据cookie(name)来锁定并哈希每一次TCP请求。
 
 
-### 5、Windows和Linux的区别
+### [5、Windows和Linux的区别](https://github.com/souyunku/DevBooks/blob/master/docs/Linux/Linux最新2021年面试题及答案，汇总版.md#5windows和linux的区别)  
+
 
 **1、** Windows是微软开发的操作系统，民用操作系统，可用于娱乐、影音、上网。 Windows操作系统具有强大的日志记录系统和强大的桌面应用。好处是它可以帮我们实现非常多绚丽多彩的效果，可以非常方便去进行娱乐、影音、上网。
 
@@ -192,12 +197,14 @@ LVS的缺点是：
 **3、** 简单来说Windows适合普通用户进行娱乐办公使用，Linux适合软件开发部署
 
 
-### 6、启动shell
+### [6、启动shell](https://github.com/souyunku/DevBooks/blob/master/docs/Linux/Linux最新2021年面试题及答案，汇总版.md#6启动shell)  
+
 
 GNU bash shell能提供对linux 系统的交互式访问。作为普通程序运行，通常在用户登陆终端时启动。登录时系统启动的shell依赖与用户账户的配置。
 
 
-### 7、netstat 命令
+### [7、netstat 命令](https://github.com/souyunku/DevBooks/blob/master/docs/Linux/Linux最新2021年面试题及答案，汇总版.md#7netstat-命令)  
+
 
 ```
 #Linux netstat命令用于显示网络状态。
@@ -207,7 +214,8 @@ netstat [-acCeFghilMnNoprstuvVwx][-A<网络类型>][--ip]
 ```
 
 
-### 8、修改权限?
+### [8、修改权限?](https://github.com/souyunku/DevBooks/blob/master/docs/Linux/Linux最新2021年面试题及答案，汇总版.md#8修改权限)  
+
 
 chmod options mode file
 
@@ -218,7 +226,8 @@ chmod options mode file
 ```
 
 
-### 9、LVS、Nginx、HAproxy有什么区别？工作中你怎么选择？
+### [9、LVS、Nginx、HAproxy有什么区别？工作中你怎么选择？](https://github.com/souyunku/DevBooks/blob/master/docs/Linux/Linux最新2021年面试题及答案，汇总版.md#9lvsnginxhaproxy有什么区别工作中你怎么选择)  
+
 
 LVS：是基于四层的转发
 
@@ -241,7 +250,8 @@ HAproxy和Nginx由于可以做七层的转发，所以URL和目录的转发都�
 配置简单，所以中小型企业推荐使用HAproxy
 
 
-### 10、如何切换目录？
+### [10、如何切换目录？](https://github.com/souyunku/DevBooks/blob/master/docs/Linux/Linux最新2021年面试题及答案，汇总版.md#10如何切换目录)  
+
 
 语法: cd destination
 
@@ -273,9 +283,9 @@ destination : 相对文件路径或绝对文件路径
 
 
 
-## 全部答案，整理好了，直接下载吧
+## [全部答案，整理好了，直接下载吧](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
-### 下载链接：[全部答案，整理好了](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
+### 下载链接：[全部答案，整理好了](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
 
 

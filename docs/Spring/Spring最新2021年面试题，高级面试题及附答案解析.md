@@ -6,21 +6,24 @@
 
 
 
-### 1、什么是REST / RESTful以及它的用途是什么？
+### [1、什么是REST / RESTful以及它的用途是什么？](https://github.com/souyunku/DevBooks/blob/master/docs/Spring/Spring最新2021年面试题，高级面试题及附答案解析.md#1什么是rest-/-restful以及它的用途是什么)  
+
 
 Representational State Transfer（REST）/ RESTful Web服务是一种帮助计算机系统通过Internet进行通信的架构风格。这使得微服务更容易理解和实现。
 
 微服务可以使用或不使用RESTful API实现，但使用RESTful API构建松散耦合的微服务总是更容易。
 
 
-### 2、如何在SpringBoot中禁用Actuator端点安全性？
+### [2、如何在SpringBoot中禁用Actuator端点安全性？](https://github.com/souyunku/DevBooks/blob/master/docs/Spring/Spring最新2021年面试题，高级面试题及附答案解析.md#2如何在springboot中禁用actuator端点安全性)  
+
 
 默认情况下，所有敏感的HTTP端点都是安全的，只有具有ACTUATOR角色的用户才能访问它们。安全性是使用标准的HttpServletRequest.isUserInRole方法实施的。 我们可以使用
 
 来禁用安全性。只有在执行机构端点在防火墙后访问时，才建议禁用安全性。
 
 
-### 3、您使用了哪些 starter maven 依赖项？
+### [3、您使用了哪些 starter maven 依赖项？](https://github.com/souyunku/DevBooks/blob/master/docs/Spring/Spring最新2021年面试题，高级面试题及附答案解析.md#3您使用了哪些-starter-maven-依赖项)  
+
 
 使用了下面的一些依赖项：
 
@@ -31,17 +34,20 @@ spring-boot-starter-security
 这有助于增加更少的依赖关系，并减少版本的冲突。
 
 
-### 4、什么是 AOP 引入?
+### [4、什么是 AOP 引入?](https://github.com/souyunku/DevBooks/blob/master/docs/Spring/Spring最新2021年面试题，高级面试题及附答案解析.md#4什么是-aop-引入)  
+
 
 引入允许我们在已存在的类中增加新的方法和属性。
 
 
-### 5、我们如何监视所有 SpringBoot 微服务？
+### [5、我们如何监视所有 SpringBoot 微服务？](https://github.com/souyunku/DevBooks/blob/master/docs/Spring/Spring最新2021年面试题，高级面试题及附答案解析.md#5我们如何监视所有-springboot-微服务)  
+
 
 SpringBoot 提供监视器端点以监控各个微服务的度量。这些端点对于获取有关应用程序的信息（如它们是否已启动）以及它们的组件（如数据库等）是否正常运行很有帮助。但是，使用监视器的一个主要缺点或困难是，我们必须单独打开应用程序的知识点以了解其状态或健康状况。想象一下涉及 50 个应用程序的微服务，管理员将不得不击中所有 50 个应用程序的执行终端。
 
 
-### 6、如何使用 SpringBoot 部署到不同的服务器？
+### [6、如何使用 SpringBoot 部署到不同的服务器？](https://github.com/souyunku/DevBooks/blob/master/docs/Spring/Spring最新2021年面试题，高级面试题及附答案解析.md#6如何使用-springboot-部署到不同的服务器)  
+
 
 你需要做下面两个步骤：
 
@@ -56,7 +62,8 @@ SpringBoot 提供监视器端点以监控各个微服务的度量。这些端点
 **第二步：**取决于你的服务器。
 
 
-### 7、SpringBoot 自动配置原理是什么？
+### [7、SpringBoot 自动配置原理是什么？](https://github.com/souyunku/DevBooks/blob/master/docs/Spring/Spring最新2021年面试题，高级面试题及附答案解析.md#7springboot-自动配置原理是什么)  
+
 
 注解 @EnableAutoConfiguration, @Configuration, [@ConditionalOnClass ](/ConditionalOnClass ) 就是自动配置的核心，
 
@@ -67,7 +74,8 @@ SpringBoot 提供监视器端点以监控各个微服务的度量。这些端点
 每一个自动配置类结合对应的 xxxProperties.java 读取配置文件进行自动配置功能
 
 
-### 8、SpringBoot 的配置文件有哪几种格式？它们有什么区别？
+### [8、SpringBoot 的配置文件有哪几种格式？它们有什么区别？](https://github.com/souyunku/DevBooks/blob/master/docs/Spring/Spring最新2021年面试题，高级面试题及附答案解析.md#8springboot-的配置文件有哪几种格式它们有什么区别)  
+
 
 .properties 和 .yml，它们的区别主要是书写格式不同。
 
@@ -86,12 +94,14 @@ app:
 ```
 
 
-### 9、Zookeeper如何 保证CP
+### [9、Zookeeper如何 保证CP](https://github.com/souyunku/DevBooks/blob/master/docs/Spring/Spring最新2021年面试题，高级面试题及附答案解析.md#9zookeeper如何-保证cp)  
+
 
 当向注册中⼼查询服务列表时，我们可以容忍注册中⼼返回的是⼏分钟以前的注册信息，但不能接受服务直接down掉不可⽤。也就是说，服务注册功能对可⽤性的要求要⾼于⼀致性。但是zk会出现这样⼀种情况，当master节点因为⽹络故障与其他节点失去联系时，剩余节点会重新进⾏leader选举。问题在于，选举leader的时间太⻓，30 ~ 120s, 且选举期间整个zk集群都是不可⽤的，这就导致在选举期间注册服务瘫痪。在云部署的环境下，因⽹络问题使得zk集群失去master节点是较⼤概率会发⽣的事，虽然服务能够最终恢复，但是漫⻓的选举时间导致的注册⻓期不可⽤是不能容忍的。
 
 
-### 10、SpringCloud主要项目
+### [10、SpringCloud主要项目](https://github.com/souyunku/DevBooks/blob/master/docs/Spring/Spring最新2021年面试题，高级面试题及附答案解析.md#10springcloud主要项目)  
+
 
 Spring Cloud的子项目，大致可分成两类，一类是对现有成熟框架"SpringBoot化"的封装和抽象，也是数量最多的项目；第二类是开发了一部分分布式系统的基础设施的实现，如Spring Cloud Stream扮演的就是Kafka, ActiveMQ这样的角色。
 
@@ -121,9 +131,9 @@ Spring Cloud的子项目，大致可分成两类，一类是对现有成熟框�
 
 
 
-## 全部答案，整理好了，直接下载吧
+## [全部答案，整理好了，直接下载吧](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
-### 下载链接：[全部答案，整理好了](https://www.souyunku.com/wp-content/uploads/weixin/githup-weixin-2.png)
+### 下载链接：[全部答案，整理好了](https://gitee.com/souyunku/DevBooks/blob/master/docs/daan.md)
 
 
 
