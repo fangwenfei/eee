@@ -20,6 +20,8 @@
 
 ## 新增：[高清172份，累计 7701 页大厂面试题 PDF](https://github.com/souyunku/DevBooks/blob/master/docs/index.md)
 ## 新增：[高清172份，累计 7701 页大厂面试题 PDF](https://github.com/souyunku/DevBooks/blob/master/docs/index.md)
+## 新增：[最新 1500 多本计算机电子书免费下载](https://github.com/itdevbooks/pdf)
+
 
 
 ### Java
