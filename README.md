@@ -22,10 +22,9 @@
 |  [JavaScript](https://github.com/souyunku/DevBooks#javascript) |  [HTML](https://github.com/souyunku/DevBooks#html)   |  [Memcached](https://github.com/souyunku/DevBooks#memcached)   |  []()   |  []()    |
 
 ## 新增：[高清172份，累计 7701 页大厂面试题 PDF](https://github.com/souyunku/DevBooks/blob/master/docs/index.md)
-## 新增：[高清172份，累计 7701 页大厂面试题 PDF](https://github.com/souyunku/DevBooks/blob/master/docs/index.md)
 ## 新增：[最新 1500 多本计算机电子书免费下载](https://github.com/itdevbooks/pdf)
 
-
+<a href="https://www.souyunku.com/?p=397" target="_blank"  ><img src="https://www.souyunku.com/wp-content/uploads/idea/zhengban.png" ></a>
 
 ### Java
 
